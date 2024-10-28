@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import SwiftUI
 
 class EndOfYear2023StoriesModel: StoryModel {
     static let year = 2023
@@ -119,6 +120,22 @@ class EndOfYear2023StoriesModel: StoryModel {
     var numberOfStories: Int {
         stories.count
     }
+
+    func overlaidShareView() -> AnyView? {
+        AnyView(shareButton())
+    }
+
+    @ViewBuilder func shareButton() -> some View {
+        Button(L10n.eoyShare) {
+            StoriesController.shared.share()
+        }
+        .buttonStyle(ShareButtonStyle())
+        .padding([.leading, .trailing], 20)
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
+    }
 }
 
 /// An entity that holds data to present EoY 2023 stories
@@ -140,4 +157,27 @@ class EndOfYear2023StoriesData {
     var yearOverYearListeningTime: YearOverYearListeningTime!
 
     var episodesStartedAndCompleted: EpisodesStartedAndCompleted!
+}
+
+fileprivate struct ShareButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            Spacer()
+            Image("share")
+            configuration.label
+            Spacer()
+        }
+        .font(.custom("DM Sans", size: 14, relativeTo: .body).bold())
+        .foregroundColor(Constants.shareButtonColor)
+
+        .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
+
+        .applyButtonEffect(isPressed: configuration.isPressed)
+        .contentShape(Rectangle())
+    }
+
+    private struct Constants {
+        static let shareButtonColor = Color.white
+        static let shareButtonVerticalPadding: CGFloat = 13
+    }
 }

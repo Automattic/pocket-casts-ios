@@ -36,9 +36,6 @@ struct ReferralsClaimBannerView: View {
             .padding(.top, 4)
             .padding(.trailing, 4)
         }
-        .onLongPressGesture {
-            viewModel.onCloseTap?()
-        }
         .frame(minHeight: Constants.minHeight)
     }
 

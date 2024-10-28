@@ -1493,7 +1493,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有 Podcast</string>
     <key>playback_effect_this_podcast</key>
-    <string>此 Podcast</string>
+    <string>這個 Podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>最大限度</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1994,7 +1994,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>領取你的 %1$@訪客體驗券</string>
     <key>referrals_claim_need_to_be_loggedin</key>
-    <string>請登入或註冊，即可領取你的訪客體驗券。</string>
+    <string>若想領取訪客體驗券，請登入或註冊。</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@訪客體驗券</string>
     <key>referrals_not_available_to_send</key>

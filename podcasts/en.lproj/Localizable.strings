@@ -3554,6 +3554,9 @@
 /* Label of the Playback 2024 call to action buton */
 "playback_2024_view_year" = "View My Playback 2024";
 
+/* A description used to indicate the number of days and hours spent listening to podcasts in the last year */
+"playback_2024_listening_time_description" = "%1$@ total listening to podcasts";
+
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
@@ -3724,6 +3727,12 @@
 
 /* Title of an alert displayed to the user asking if they want to share the current story */
 "eoy_share_this_story_title" = "Share this story?";
+
+/* Title shown on the final End of Year story for 2024 */
+"eoy_2024_epilogue_title" = "Thank you for listening with us this year.\nSee you in 2025!";
+
+/* Description shown on the final End of Year story for 2024 */
+"eoy_2024_epilogue_description" = "Don’t forget to share with friends and give a shout out to your favourite podcasts and creators";
 
 /* Message of an alert displayed to the user asking if they want to share the current story */
 "eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";

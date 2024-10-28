@@ -177,6 +177,14 @@ class MockStoriesDataSource: StoriesDataSource {
     func refresh() async -> Bool {
         true
     }
+
+    func overlaidShareView() -> AnyView? {
+        nil
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
+    }
 }
 
 class MockStoriesWithPlusDataSource: StoriesDataSource {
@@ -211,6 +219,14 @@ class MockStoriesWithPlusDataSource: StoriesDataSource {
 
     func refresh() async -> Bool {
         true
+    }
+
+    func overlaidShareView() -> AnyView? {
+        nil
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
     }
 }
 

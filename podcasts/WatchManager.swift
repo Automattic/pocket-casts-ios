@@ -354,46 +354,61 @@ class WatchManager: NSObject, WCSessionDelegate {
     // MARK: - App Notifications
 
     @objc private func updateWatchData() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func podcastsDidRefresh() {
         // only send the data if the user is not signed in, if they are, then wait for a sync complete
         if !SyncManager.isUserLoggedIn() {
-            sendStateToWatch()
+            sendStateToWatchInBackground()
         }
     }
 
     @objc private func syncCompleted() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func upNextChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func playbackStateChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func episodeStarredChanged(_ notification: Notification) {
         guard let uuid = notification.object as? String, PlaybackManager.shared.queue.contains(episodeUuid: uuid) else { return }
 
         // currently the watch only needs to know if the starred status of something in Up Next changes
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func autoDownloadChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
+    }
+
+    private func sendStateToWatchInBackground() {
+        guard Thread.isMainThread else {
+            sendStateToWatch()
+            return
+        }
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.sendStateToWatch()
+        }
     }
 
     private func sendStateToWatch() {
-        if !WCSession.isSupported() { return }
+        guard WCSession.isSupported() else { return }
 
         let session = WCSession.default
 
         // only send data when we have a valid connection
-        if session.activationState != .activated || session.isPaired == false || session.isWatchAppInstalled == false { return }
+        guard session.activationState == .activated,
+              session.isPaired,
+              session.isWatchAppInstalled
+        else {
+            return
+        }
 
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion

@@ -6,6 +6,7 @@ class StoriesController {
 
     enum Notifications: String, CaseIterable {
         case replay
+        case share
     }
 
     private init() { }
@@ -13,5 +14,9 @@ class StoriesController {
     /// Start the stories from the beginning
     func replay() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.replay.rawValue), object: nil)
+    }
+
+    func share() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.share.rawValue), object: nil)
     }
 }

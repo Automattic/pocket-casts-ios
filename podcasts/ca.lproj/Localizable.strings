@@ -1346,7 +1346,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>multi_select_shortcut_in_action_bar</key>
     <string>ACCESSOS DIRECTES A LA BARRA D'ACCIONS</string>
     <key>multi_select_star</key>
-    <string>Destacar episodis</string>
+    <string>Destacar els episodis</string>
     <key>multi_select_starring_episodes_plural_format</key>
     <string>Destacant  %1$@ episodis.</string>
     <key>multi_select_starring_episodes_singular</key>
@@ -2491,19 +2491,19 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>settings_title</key>
     <string>Configuració del pòdcast</string>
     <key>settings_trim_level</key>
-    <string>Ajustar nivell</string>
+    <string>Nivell de retall de silencis</string>
     <key>settings_trim_silence</key>
     <string>Retallar silencis</string>
     <key>settings_up_next_dark_mode_footer</key>
     <string>Quan està activat, 'Tot seguit' sempre utilitzarà el tema fosc, o coincidirà amb el tema actual quan estigui desactivat.</string>
     <key>settings_up_next_dark_mode_title</key>
-    <string>Emprar el tema fosc a la llista 'Tot seguit'</string>
+    <string>Empra el tema fosc a la llista 'Tot seguit'</string>
     <key>settings_up_next_limit</key>
     <string>Afegeix automàticament nous episodis a la llista 'Tot seguit'. Quan s'arribi a %1$@, es deixaran d'afegir episodis nous.</string>
     <key>settings_up_next_limit_add_to_top</key>
     <string>Afegeix automàticament nous episodis a la llista 'Tot seguit'. Quan s'arribi a %1$@, els nous episodis que s'afegeixin automàticament es col·locaran al principi i s'eliminaran els darrers de la cua.</string>
     <key>settings_volume_boost</key>
-    <string>Pujar volum</string>
+    <string>Apujar volum</string>
     <key>settings_watch_auto_download</key>
     <string>Descàrrega automàtica de la llista 'Tot seguit'</string>
     <key>settings_watch_auto_download_off_subtitle</key>
@@ -2692,7 +2692,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>speed</key>
     <string>Velocitat</string>
     <key>star_episode</key>
-    <string>Destacar episodi</string>
+    <string>Destacar l'episodi</string>
     <key>star_episode_short</key>
     <string>Destacar</string>
     <key>start_free_trial</key>

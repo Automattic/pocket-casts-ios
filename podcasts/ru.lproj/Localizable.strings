@@ -361,6 +361,8 @@
     <string>Должно быть не менее 6 символов</string>
     <key>chapters</key>
     <string>Главы</string>
+    <key>check_internet_connection</key>
+    <string>Проверьте подключение к Интернету</string>
     <key>chosen_podcasts_plural_format</key>
     <string>Выбрано подкастов: %1$@</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@
     <string>РЕКЛАМА</string>
     <key>discover_trending</key>
     <string>Популярные</string>
+    <key>discover_unable_to_load</key>
+    <string>Не удалось загрузить Discover</string>
     <key>done</key>
     <string>Готово</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@
     <string>Воспроизвести последний</string>
     <key>play_next</key>
     <string>Воспроизвести следующий</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Все подкасты</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Этот подкаст</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Сильное</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1985,6 +1993,8 @@
     <string>Это предложение действительно только для новых участников. По истечении бесплатного периода будет автоматически списан ежегодный членский взнос в размере %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Получите бесплатный гостевой пропуск на %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Войдите или зарегистрируйтесь, чтобы предъявить ваш гостевой пропуск.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Гостевой пропуск на %1$@</string>
     <key>referrals_not_available_to_send</key>

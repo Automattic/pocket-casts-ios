@@ -361,6 +361,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Måste innehålla minst 6 tecken</string>
     <key>chapters</key>
     <string>Kapitel</string>
+    <key>check_internet_connection</key>
+    <string>Kontrollera din internetanslutning</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts valda</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>SPONSRAD</string>
     <key>discover_trending</key>
     <string>Trendande</string>
+    <key>discover_unable_to_load</key>
+    <string>Det gick inte att läsa in Upptäck</string>
     <key>done</key>
     <string>Klart</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ UPPDATERINGAR</string>
     <string>Spela sista</string>
     <key>play_next</key>
     <string>Spela nästa</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Alla podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Den här podcasten</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Mad Max</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1985,6 +1993,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Detta erbjudande gäller endast nya medlemmar. Medlemskapet förnyas automatiskt som ett årligt betalmedlemskap för %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Gör anspråk på ditt %1$@ gästpass</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Logga in eller registrera dig för att göra anspråk på ditt gästpass.</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@ gästpass</string>
     <key>referrals_not_available_to_send</key>

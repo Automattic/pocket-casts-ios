@@ -234,6 +234,14 @@ class StoriesModel: ObservableObject {
     func shouldShowUpsell() -> Bool {
         currentStoryIsPlus && activeTier() == .none
     }
+
+    func overlaidShareView() -> AnyView? {
+        dataSource.overlaidShareView()
+    }
+
+    func footerShareView() -> AnyView? {
+        dataSource.footerShareView()
+    }
 }
 
 private extension StoriesModel {
@@ -243,6 +251,10 @@ private extension StoriesModel {
             case .replay:
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
                     self?.replay()
+                }
+            case .share:
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
+                    self?.share()
                 }
             }
         }

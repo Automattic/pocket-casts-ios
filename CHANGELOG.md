@@ -2,6 +2,9 @@
 -----
 - Implements a new stream and download mechanism to address playback skipping issues [#2247](https://github.com/Automattic/pocket-casts-ios/pull/2247)
 - Implement limits for auto-downloads of new episodes. [#2318](https://github.com/Automattic/pocket-casts-ios/pull/2318)
+- Implement shuffle button in Up Next view [#1179](https://github.com/orgs/Automattic/projects/1179/views/1)
+- Adds limits configuration for auto-downloads of new episodes. [#2318](https://github.com/Automattic/pocket-casts-ios/pull/2318)
+- Fix crashing issues when syncing with an Apple Watch. [#2242](https://github.com/Automattic/pocket-casts-ios/issues/2242)
 
 7.75
 -----
@@ -52,7 +55,7 @@
 - Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
 - Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
-- Fix profile header view when using iPad multitask modes [#2074](https://github.com/Automattic/pocket-casts-ios/pull/2074) 
+- Fix profile header view when using iPad multitask modes [#2074](https://github.com/Automattic/pocket-casts-ios/pull/2074)
 - Subscription cancellation redirects now to a correct page. [#2070](https://github.com/Automattic/pocket-casts-ios/pull/2070)
 - watchOS 11: add double-tap gesture to play/pause. [#2054](https://github.com/Automattic/pocket-casts-ios/pull/2054)
 - Build the app using Xcode 16. If you face any crashes or issues please let us know. [#2078](https://github.com/Automattic/pocket-casts-ios/pull/2078)

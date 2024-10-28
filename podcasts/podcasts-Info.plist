@@ -1043,6 +1043,7 @@
 	<array>
 		<string>DMSans.ttf</string>
 		<string>Humane-Medium.otf</string>
+		<string>Humane-Bold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

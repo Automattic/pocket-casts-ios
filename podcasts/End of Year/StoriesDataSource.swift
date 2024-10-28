@@ -29,6 +29,11 @@ protocol StoriesDataSource {
     /// Once you finished all refreshes and the data source is ready
     /// return `true`.
     func refresh() async -> Bool
+
+    /// Overlaid on top of the story
+    func overlaidShareView() -> AnyView?
+    /// Shown at the bottom of the story as an additional safe area
+    func footerShareView() -> AnyView?
 }
 
 extension StoriesDataSource {

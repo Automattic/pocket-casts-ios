@@ -39,6 +39,14 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
 
         return await isReady()
     }
+
+    func overlaidShareView() -> AnyView? {
+        model.overlaidShareView()
+    }
+
+    func footerShareView() -> AnyView? {
+        model.footerShareView()
+    }
 }
 
 extension Array where Element: CaseIterable & Equatable {

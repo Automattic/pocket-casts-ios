@@ -138,7 +138,9 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     @IBOutlet weak var playbackSettingsSegmentedControl: UISegmentedControl! {
         didSet {
-            playbackSettingsSegmentedControl.isHidden = !FeatureFlag.customPlaybackSettings.enabled
+            let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
+            let shouldDisplaySegmentedControl = FeatureFlag.customPlaybackSettings.enabled && !isUserEpisode
+            playbackSettingsSegmentedControl.isHidden = !shouldDisplaySegmentedControl
 
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectThisPodcast, forSegmentAt: 1)
@@ -152,7 +154,8 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     @IBOutlet weak var speedControlTopConstraint: NSLayoutConstraint! {
         didSet {
-            speedControlTopConstraint.isActive = FeatureFlag.customPlaybackSettings.enabled
+            let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
+            speedControlTopConstraint.isActive = FeatureFlag.customPlaybackSettings.enabled && !isUserEpisode
         }
     }
 
