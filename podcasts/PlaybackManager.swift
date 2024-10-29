@@ -791,6 +791,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         return currentEffects!
     }
 
+    func effectsFor(podcast: Podcast) -> PlaybackEffects {
+        return PlaybackEffects.effectsFor(podcast: podcast)
+    }
+
     func applyCurrentEffect() {
         guard let currentEffects else { return }
         changeEffects(currentEffects)
@@ -814,19 +818,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
             }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
-            if FeatureFlag.newSettingsStorage.enabled {
-                podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
-                podcast.settings.playbackSpeed = effects.playbackSpeed
-                podcast.settings.boostVolume = effects.volumeBoost
-                podcast.syncStatus = SyncStatus.notSynced.rawValue
-            }
-            podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
-            podcast.playbackSpeed = effects.playbackSpeed
-            podcast.boostVolume = effects.volumeBoost
-
-            if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore {
-                podcast.usedCustomEffectsBefore = true
-            }
+            changeLocalEffects(effects, for: podcast)
 
             DataManager.sharedManager.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
@@ -834,6 +826,22 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         currentEffects = effects
         handlePlaybackEffectsChanged(effects: effects)
+    }
+    
+    func changeLocalEffects(_ effects: PlaybackEffects, for podcast: Podcast) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
+            podcast.settings.playbackSpeed = effects.playbackSpeed
+            podcast.settings.boostVolume = effects.volumeBoost
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
+        podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
+        podcast.playbackSpeed = effects.playbackSpeed
+        podcast.boostVolume = effects.volumeBoost
+
+        if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+        }
     }
 
     func decreasePlaybackSpeed() {
