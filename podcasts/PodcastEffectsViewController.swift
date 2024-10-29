@@ -22,6 +22,18 @@ class PodcastLocalEffectsProvider {
     func applyLocalEffets(for podcast: Podcast) {
         PlaybackManager.shared.changeLocalEffects(effects, for: podcast)
     }
+
+    func applyLocalEffetsAndSave(for podcast: Podcast) {
+        applyLocalEffets(for: podcast)
+
+        DataManager.sharedManager.save(podcast: podcast)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+
+        // if we're actively playing this episode, let the player know
+        if let episode = PlaybackManager.shared.currentEpisode() as? Episode, podcast.uuid == episode.parentIdentifier() {
+            PlaybackManager.shared.effectsChangedExternally()
+        }
+    }
 }
 
 class PodcastEffectsViewController: PCViewController {
@@ -67,6 +79,15 @@ class PodcastEffectsViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(podcastUpdated(_:)))
         addCustomObserver(Constants.Notifications.podcastUpdated, selector: #selector(podcastUpdated(_:)))
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            localEffectsProvider?.applyLocalEffetsAndSave(for: podcast)
+            return
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
