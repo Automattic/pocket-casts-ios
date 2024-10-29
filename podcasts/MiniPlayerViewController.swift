@@ -257,8 +257,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             return
         }
 
-        PlaybackManager.shared.updatePodcastUsedCustomEffectsBeforeIfNecessary()
-
         setupForEpisode(episodePlaying)
         showMiniPlayer()
         playbackProgressDidChange()

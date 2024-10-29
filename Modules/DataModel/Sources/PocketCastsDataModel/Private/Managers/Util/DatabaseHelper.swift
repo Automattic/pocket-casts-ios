@@ -785,6 +785,18 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 54 {
+            do {
+                // In case the column doesn't exist due to the previous migration
+                try? db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN usedCustomEffectsBefore INTEGER NOT NULL DEFAULT 0;", values: nil)
+                try db.executeUpdate("UPDATE SJPodcast SET usedCustomEffectsBefore = CASE WHEN overrideGlobalEffects = 1 OR playbackSpeed != 1.0 OR trimSilenceAmount != 0 OR boostVolume != 0 THEN 1 ELSE 0 END;", values: nil)
+                schemaVersion = 54
+            } catch {
+                failedAt(54)
+                return
+            }
+        }
+
         db.commit()
     }
 }
