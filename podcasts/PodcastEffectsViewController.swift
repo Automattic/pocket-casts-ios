@@ -15,7 +15,7 @@ class PodcastLocalEffectsProvider {
         self.effects = playbackManager.effectsFor(podcast: podcast)
     }
 
-    func update(podcast: Podcast) {
+    func updateEffects(for podcast: Podcast) {
         effects = playbackManager.effectsFor(podcast: podcast)
     }
 
@@ -25,7 +25,15 @@ class PodcastLocalEffectsProvider {
 
     func applyLocalEffetsAndSave(for podcast: Podcast) {
         applyLocalEffets(for: podcast)
+        save(podcast: podcast)
+    }
 
+    func overrideEffectsToggled(applyLocalSettings: Bool, for podcast: Podcast) {
+        podcast.isEffectsOverridden = applyLocalSettings
+        save(podcast: podcast)
+    }
+
+    private func save(podcast: Podcast) {
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
 
@@ -79,6 +87,9 @@ class PodcastEffectsViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(podcastUpdated(_:)))
         addCustomObserver(Constants.Notifications.podcastUpdated, selector: #selector(podcastUpdated(_:)))
+        if FeatureFlag.customPlaybackSettings.enabled {
+            addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(effectsUpdated))
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -106,11 +117,16 @@ class PodcastEffectsViewController: PCViewController {
         if podcast.uuid == uuidLoaded {
             if let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid) {
                 podcast = updatedPodcast
-                localEffectsProvider?.update(podcast: updatedPodcast)
+                localEffectsProvider?.updateEffects(for: updatedPodcast)
                 updateColors()
                 effectsTable.reloadData()
             }
         }
+    }
+
+    @objc private func effectsUpdated() {
+        localEffectsProvider?.updateEffects(for: podcast)
+        effectsTable.reloadData()
     }
 
     private func updateColors() {

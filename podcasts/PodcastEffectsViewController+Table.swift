@@ -250,7 +250,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
         if FeatureFlag.customPlaybackSettings.enabled {
-            PlaybackManager.shared.overrideEffectsToggled(applyLocalSettings: sender.isOn, for: podcast)
+            localEffectsProvider?.overrideEffectsToggled(applyLocalSettings: sender.isOn, for: podcast)
             effectsTable.reloadData()
         } else {
             podcast.isEffectsOverridden = sender.isOn
