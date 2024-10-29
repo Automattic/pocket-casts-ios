@@ -189,8 +189,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         updateControls()
 
         if FeatureFlag.customPlaybackSettings.enabled {
-            PlaybackManager.shared.updateIfPodcastUsedCustomEffectsBefore()
-            PlaybackManager.shared.effectsChangedExternally()
             playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal() ? 0 : 1
         }
         if let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() {

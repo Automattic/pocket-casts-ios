@@ -827,7 +827,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         currentEffects = effects
         handlePlaybackEffectsChanged(effects: effects)
     }
-    
+
     func changeLocalEffects(_ effects: PlaybackEffects, for podcast: Podcast) {
         if FeatureFlag.newSettingsStorage.enabled {
             podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
@@ -888,16 +888,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
 
         effectsChangedExternally()
-    }
-
-    func updateIfPodcastUsedCustomEffectsBefore() {
-        if let episode = currentEpisode() as? Episode,
-           let podcast = episode.parentPodcast(),
-           podcast.overrideGlobalEffects,
-           !podcast.usedCustomEffectsBefore {
-            podcast.usedCustomEffectsBefore = true
-            DataManager.sharedManager.save(podcast: podcast)
-        }
     }
 
     func isCurrentEffectGlobal() -> Bool {
@@ -1344,6 +1334,15 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func loadEffects() -> PlaybackEffects {
         guard let episode = queue.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else {
             return PlaybackEffects.globalEffects()
+        }
+
+        // Apply old local settings if needed when the effect is loaded.
+        // This will update when the player starts
+        if FeatureFlag.customPlaybackSettings.enabled,
+           podcast.overrideGlobalEffects,
+           !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+            DataManager.sharedManager.save(podcast: podcast)
         }
 
         return PlaybackEffects.effectsFor(podcast: podcast)
