@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import UIKit
 import PocketCastsUtils
 
-class PodcastEffectsViewModel {
+class PodcastLocalEffectsProvider {
     private(set) var effects: PlaybackEffects
 
     private let playbackManager: PlaybackManager = .shared
@@ -34,7 +34,7 @@ class PodcastEffectsViewController: PCViewController {
     var playbackSpeedDebouncer: Debounce = .init(delay: 1)
 
     var podcast: Podcast
-    var viewModel: PodcastEffectsViewModel?
+    var localEffectsProvider: PodcastLocalEffectsProvider?
 
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -52,7 +52,7 @@ class PodcastEffectsViewController: PCViewController {
         title = PlayerAction.effects.title()
 
         if FeatureFlag.customPlaybackSettings.enabled {
-            viewModel = PodcastEffectsViewModel(podcast: podcast)
+            localEffectsProvider = PodcastLocalEffectsProvider(podcast: podcast)
         }
     }
 
@@ -85,7 +85,7 @@ class PodcastEffectsViewController: PCViewController {
         if podcast.uuid == uuidLoaded {
             if let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid) {
                 podcast = updatedPodcast
-                viewModel?.update(podcast: updatedPodcast)
+                localEffectsProvider?.update(podcast: updatedPodcast)
                 updateColors()
                 effectsTable.reloadData()
             }
