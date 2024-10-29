@@ -890,6 +890,20 @@ class PlaybackManager: ServerPlaybackDelegate {
         effectsChangedExternally()
     }
 
+    func updatePodcastUsedCustomEffectsBeforeIfNecessary() {
+        guard FeatureFlag.customPlaybackSettings.enabled,
+              let episode = queue.currentEpisode() as? Episode,
+              let podcast = episode.parentPodcast() else {
+            return
+        }
+        // Apply old local settings if needed when the effect is loaded.
+        // This will update when the player starts
+        if podcast.overrideGlobalEffects, !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+            DataManager.sharedManager.save(podcast: podcast)
+        }
+    }
+
     func isCurrentEffectGlobal() -> Bool {
         return effects().isGlobal
     }
@@ -1335,16 +1349,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episode = queue.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else {
             return PlaybackEffects.globalEffects()
         }
-
-        // Apply old local settings if needed when the effect is loaded.
-        // This will update when the player starts
-        if FeatureFlag.customPlaybackSettings.enabled,
-           podcast.overrideGlobalEffects,
-           !podcast.usedCustomEffectsBefore {
-            podcast.usedCustomEffectsBefore = true
-            DataManager.sharedManager.save(podcast: podcast)
-        }
-
         return PlaybackEffects.effectsFor(podcast: podcast)
     }
 
