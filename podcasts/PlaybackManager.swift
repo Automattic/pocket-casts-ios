@@ -891,11 +891,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func updateIfPodcastUsedCustomEffectsBefore() {
-        if let episode = currentEpisode() as? Episode, let podcast = episode.parentPodcast() {
-            if podcast.overrideGlobalEffects, !podcast.usedCustomEffectsBefore {
-                podcast.usedCustomEffectsBefore = true
-                DataManager.sharedManager.save(podcast: podcast)
-            }
+        if let episode = currentEpisode() as? Episode,
+           let podcast = episode.parentPodcast(),
+           podcast.overrideGlobalEffects,
+           !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+            DataManager.sharedManager.save(podcast: podcast)
         }
     }
 
