@@ -1,5 +1,28 @@
 import PocketCastsDataModel
 import UIKit
+import PocketCastsUtils
+
+class PodcastEffectsViewModel {
+    private(set) var effects: PlaybackEffects
+
+    private let playbackManager: PlaybackManager = .shared
+
+    init(podcast: Podcast) {
+        if podcast.overrideGlobalEffects, !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+            DataManager.sharedManager.save(podcast: podcast)
+        }
+        self.effects = playbackManager.effectsFor(podcast: podcast)
+    }
+
+    func update(podcast: Podcast) {
+        effects = playbackManager.effectsFor(podcast: podcast)
+    }
+
+    func applyLocalEffets(for podcast: Podcast) {
+        PlaybackManager.shared.changeLocalEffects(effects, for: podcast)
+    }
+}
 
 class PodcastEffectsViewController: PCViewController {
     @IBOutlet var effectsTable: UITableView! {
@@ -11,6 +34,7 @@ class PodcastEffectsViewController: PCViewController {
     var playbackSpeedDebouncer: Debounce = .init(delay: 1)
 
     var podcast: Podcast
+    var viewModel: PodcastEffectsViewModel?
 
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -26,6 +50,10 @@ class PodcastEffectsViewController: PCViewController {
         super.viewDidLoad()
 
         title = PlayerAction.effects.title()
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            viewModel = PodcastEffectsViewModel(podcast: podcast)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +85,7 @@ class PodcastEffectsViewController: PCViewController {
         if podcast.uuid == uuidLoaded {
             if let updatedPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid) {
                 podcast = updatedPodcast
+                viewModel?.update(podcast: updatedPodcast)
                 updateColors()
                 effectsTable.reloadData()
             }

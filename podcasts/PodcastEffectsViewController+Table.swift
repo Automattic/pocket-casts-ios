@@ -46,9 +46,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
             cell.cellLabel?.text = L10n.settingsPlaySpeed
             if FeatureFlag.customPlaybackSettings.enabled,
-               !podcast.usedCustomEffectsBefore {
-                let effect = PlaybackManager.shared.effects()
-                cell.cellSecondaryLabel.text = L10n.playbackSpeed(effect.playbackSpeed.localized())
+               let effects = viewModel?.effects {
+                cell.cellSecondaryLabel.text = L10n.playbackSpeed(effects.playbackSpeed.localized())
             } else if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSecondaryLabel.text = L10n.playbackSpeed(podcast.settings.playbackSpeed.localized())
             } else {
@@ -63,9 +62,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.timeStepper.smallIncrementThreshold = TimeInterval.greatestFiniteMagnitude
 
             if FeatureFlag.customPlaybackSettings.enabled,
-               !podcast.usedCustomEffectsBefore {
-                let effect = PlaybackManager.shared.effects()
-                cell.timeStepper.currentValue = effect.playbackSpeed
+               let effects = viewModel?.effects {
+                cell.timeStepper.currentValue = effects.playbackSpeed
             } else if FeatureFlag.newSettingsStorage.enabled {
                 cell.timeStepper.currentValue = podcast.settings.playbackSpeed
             } else {
@@ -83,9 +81,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_trim")
             if FeatureFlag.customPlaybackSettings.enabled,
-               !podcast.usedCustomEffectsBefore {
-                let effect = PlaybackManager.shared.effects()
-                cell.cellSwitch.isOn = effect.trimSilence != .off
+               let effects = viewModel?.effects {
+                cell.cellSwitch.isOn = effects.trimSilence != .off
             } else if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = podcast.settings.trimSilence != .off
             } else {
@@ -104,9 +101,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             let trimAmount: TrimSilenceAmount
 
             if FeatureFlag.customPlaybackSettings.enabled,
-               !podcast.usedCustomEffectsBefore {
-                let effect = PlaybackManager.shared.effects()
-                trimAmount = effect.trimSilence
+               let effects = viewModel?.effects {
+                trimAmount = effects.trimSilence
             } else if FeatureFlag.newSettingsStorage.enabled {
                 trimAmount = podcast.settings.trimSilence.amount
             } else {
@@ -121,9 +117,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_volumeboost")
             if FeatureFlag.customPlaybackSettings.enabled,
-               !podcast.usedCustomEffectsBefore {
-                let effect = PlaybackManager.shared.effects()
-                cell.cellSwitch.isOn = effect.volumeBoost
+               let effects = viewModel?.effects {
+                cell.cellSwitch.isOn = effects.volumeBoost
             } else if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = podcast.settings.boostVolume
             } else {
@@ -196,9 +191,13 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             podcast.settings.playbackSpeed = roundedSpeed
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
-        podcast.playbackSpeed = roundedSpeed
+        if FeatureFlag.customPlaybackSettings.enabled {
+            viewModel?.effects.playbackSpeed = roundedSpeed
+            viewModel?.applyLocalEffets(for: podcast)
+        } else {
+            podcast.playbackSpeed = roundedSpeed
+        }
         saveUpdates()
-
         playbackSpeedDebouncer.call {
             AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
             if FeatureFlag.customPlaybackSettings.enabled {
@@ -215,7 +214,13 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             podcast.settings.trimSilence = TrimSilence(amount: sender.isOn ? (defaultAmount ?? .off) : .off)
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
-        podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
+        if FeatureFlag.customPlaybackSettings.enabled {
+            let amount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
+            viewModel?.effects.trimSilence = TrimSilenceAmount(rawValue: amount) ?? .off
+            viewModel?.applyLocalEffets(for: podcast)
+        } else {
+            podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
+        }
         saveUpdates()
         if FeatureFlag.customPlaybackSettings.enabled {
             AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn, currentSettings: "local")
@@ -229,7 +234,12 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             podcast.settings.boostVolume = sender.isOn
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
-        podcast.boostVolume = sender.isOn
+        if FeatureFlag.customPlaybackSettings.enabled {
+            viewModel?.effects.volumeBoost = sender.isOn
+            viewModel?.applyLocalEffets(for: podcast)
+        } else {
+            podcast.boostVolume = sender.isOn
+        }
         saveUpdates()
         if FeatureFlag.customPlaybackSettings.enabled {
             AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn, currentSettings: "local")
@@ -254,9 +264,8 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     private func tableData() -> [[TableRow]] {
         let hasTrimSilence: Bool
         if FeatureFlag.customPlaybackSettings.enabled,
-           !podcast.usedCustomEffectsBefore {
-            let effect = PlaybackManager.shared.effects()
-            hasTrimSilence = effect.trimSilence != .off
+           let effects = viewModel?.effects {
+            hasTrimSilence = effects.trimSilence != .off
         } else {
             hasTrimSilence = FeatureFlag.newSettingsStorage.enabled ? podcast.settings.trimSilence != .off : podcast.trimSilenceAmount > 0
         }
