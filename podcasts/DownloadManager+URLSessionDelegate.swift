@@ -18,6 +18,8 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             task.setTaskCompletedWithSnapshot(true)
         }
+#elseif APPCLIP
+        //TODO: Check this and see whether anything should be done
 #else
         DispatchQueue.main.async { [weak self] in
             guard let self, let appDelegate = appDelegate(), let backgroundHandler = appDelegate.backgroundSessionCompletionHandler else { return }

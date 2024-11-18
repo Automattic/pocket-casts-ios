@@ -1,6 +1,7 @@
 import Foundation
 import CoreMotion
 import PocketCastsUtils
+import AVKit
 
 class SleepTimerManager {
     private var restartSleepTimerIfPlayingAgainWithin: TimeInterval = 5.minutes
@@ -127,7 +128,7 @@ class BackgroundShakeObserver {
     var whenShook: (() -> Void)?
 
     init() {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sleepTimerChanged), name: Constants.Notifications.sleepTimerChanged, object: nil)

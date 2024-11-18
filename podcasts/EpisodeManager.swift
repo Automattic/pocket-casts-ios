@@ -16,6 +16,7 @@ class EpisodeManager: NSObject {
 
         DataManager.sharedManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
+        #if !APPCLIP
         if shouldArchiveOnCompletion(episode: episode) {
             if let episode = episode as? Episode {
                 archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
@@ -28,6 +29,7 @@ class EpisodeManager: NSObject {
                 }
             }
         }
+        #endif
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
@@ -81,6 +83,7 @@ class EpisodeManager: NSObject {
         if userEpisodeToMarkAsPlayed.count > 0 {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
 
+            #if !APPCLIP
             userEpisodeToMarkAsPlayed.forEach { userEpisode in
                 // Do this last as it may delete the episode from the database
                 if Settings.userEpisodeRemoveFileAfterPlaying() {
@@ -90,6 +93,7 @@ class EpisodeManager: NSObject {
                     UserEpisodeManager.deleteFromCloud(episode: userEpisode, removeFromPlaybackQueue: false)
                 }
             }
+            #endif
         }
         if let currentEpisode = currentEpisodeToMarkAsPlayed {
             markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
@@ -383,6 +387,7 @@ class EpisodeManager: NSObject {
     }
 
     class func shouldArchiveOnCompletion(episode: BaseEpisode) -> Bool {
+        #if !APPCLIP
         if let episode = episode as? Episode {
             if let podcast = episode.parentPodcast(), podcast.isAutoArchiveOverridden {
                 return podcast.autoArchivePlayedAfterTime == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
@@ -392,6 +397,7 @@ class EpisodeManager: NSObject {
         } else if let _ = episode as? UserEpisode {
             return Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
         }
+        #endif
 
         return false
     }

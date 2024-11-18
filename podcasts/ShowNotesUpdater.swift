@@ -8,7 +8,7 @@ class ShowNotesUpdater {
             // Load the show notes and any available chapters
             _ = try? await ShowInfoCoordinator.shared.loadChapters(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
-            #if !os(watchOS)
+            #if !os(watchOS) && !APPCLIP
             let transcriptManager = TranscriptManager(episodeUUID: episodeUuid, podcastUUID: podcastUuid)
             _ = try? await transcriptManager.loadTranscript()
             #endif

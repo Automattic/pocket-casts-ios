@@ -1,4 +1,5 @@
 import Foundation
+import UniformTypeIdentifiers
 
 class FileTypeUtil {
     public class func fileExtension(forType type: String?) -> String {

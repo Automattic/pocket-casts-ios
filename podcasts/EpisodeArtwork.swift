@@ -2,6 +2,7 @@ import Foundation
 import Kingfisher
 import PocketCastsServer
 import PocketCastsUtils
+import AVFoundation
 
 /// Extracts artwork from a streaming episode (if there's any)
 class EpisodeArtwork {
