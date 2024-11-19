@@ -1,18 +1,17 @@
-//
-//  Pocket_Casts_App_ClipApp.swift
-//  Pocket Casts App Clip
-//
-//  Created by Brandon Titus on 11/18/24.
-//  Copyright © 2024 Shifty Jelly. All rights reserved.
-//
-
 import SwiftUI
+import PocketCastsServer
 
 @main
 struct Pocket_Casts_App_ClipApp: App {
+    init() {
+        ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+
     }
 }

@@ -2,10 +2,11 @@ import SwiftUI
 
 struct NowPlayingPlayerItemViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> NowPlayingPlayerItemViewController {
-        return NowPlayingPlayerItemViewController()
+        let vc = NowPlayingPlayerItemViewController()
+        return vc
     }
 
     func updateUIViewController(_ uiViewController: NowPlayingPlayerItemViewController, context: Context) {
-        // Update the controller if needed
+        uiViewController.willBeAddedToPlayer()
     }
 }
