@@ -1686,6 +1686,17 @@
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
 		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
 		F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */; };
+		F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D22123EAD600BFBB03 /* EffectsButton.swift */; };
+		F553A1602CECF95B006581A1 /* SleepTimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D42123F0AF00BFBB03 /* SleepTimerButton.swift */; };
+		F553A1612CECF979006581A1 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
+		F553A1622CECF985006581A1 /* SleepTimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4022A4BF236BA15800900734 /* SleepTimerViewController.xib */; };
+		F553A1632CECF98F006581A1 /* SleepTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4022A4BE236BA15800900734 /* SleepTimerViewController.swift */; };
+		F553A1642CECF997006581A1 /* EffectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE292E223680D6100A4EEAE /* EffectsViewController.swift */; };
+		F553A1652CECF99D006581A1 /* EffectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDE292E323680D6100A4EEAE /* EffectsViewController.xib */; };
+		F553A1662CECF9D0006581A1 /* CustomTimeStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCCBC8724BC444F009B4D1D /* CustomTimeStepper.swift */; };
+		F553A1672CECF9E1006581A1 /* CustomStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4C6FE42BD6EC2E00D0BB9D /* CustomStepper.swift */; };
+		F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
+		F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF72122A2DA00649F81 /* sleep_button.json */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
@@ -1704,6 +1715,7 @@
 		F57ABBFE2CECEC8700CC50AF /* SharedItemImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD585C222047B9A400AC842C /* SharedItemImporter.swift */; };
 		F57ABBFF2CECEE2600CC50AF /* ServerSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4047E1772419B2F800B79177 /* ServerSyncManager.swift */; };
 		F57ABC002CECEE6000CC50AF /* PodcastManager+Cleanup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5E8D3C2061E0FB00C84B43 /* PodcastManager+Cleanup.swift */; };
+		F57ABC242CECF8AC00CC50AF /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C3EFE2378EC5900C01403 /* NowPlayingPlayerItemViewController+Shelf.swift */; };
 		F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CD7D82C2624AD0035269A /* MediaTrimView.swift */; };
@@ -9481,6 +9493,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F553A1622CECF985006581A1 /* SleepTimerViewController.xib in Resources */,
+				F553A1652CECF99D006581A1 /* EffectsViewController.xib in Resources */,
 				F5F5097B2CEBFDDA007D6E39 /* effects_button.json in Resources */,
 				F5F5097E2CEBFDE6007D6E39 /* skip.json in Resources */,
 				F5D5F7B82CEBE7CE001F492D /* Preview Assets.xcassets in Resources */,
@@ -9488,6 +9502,7 @@
 				F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */,
 				F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */,
 				F5F5097C2CEBFDDE007D6E39 /* player_play_button.json in Resources */,
+				F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */,
 				F5F509782CEBFA71007D6E39 /* NowPlayingPlayerItemViewController.xib in Resources */,
 				F5F509412CEBF280007D6E39 /* PlayerContainerViewController.xib in Resources */,
 			);
@@ -11058,6 +11073,7 @@
 				F5F5092D2CEBEF46007D6E39 /* EpisodeArtwork.swift in Sources */,
 				F5F509312CEBEF9C007D6E39 /* DownloadManager+Logging.swift in Sources */,
 				F5F509352CEBF1D0007D6E39 /* TimeSliderDelegate.swift in Sources */,
+				F553A1672CECF9E1006581A1 /* CustomStepper.swift in Sources */,
 				F5F508F22CEBE966007D6E39 /* PlaybackManager.swift in Sources */,
 				F5F509582CEBF64D007D6E39 /* ShiftyRoundButton.swift in Sources */,
 				F5F509372CEBF1EC007D6E39 /* SkipButton.swift in Sources */,
@@ -11066,6 +11082,7 @@
 				F5F5090D2CEBEB9A007D6E39 /* PlayerColorHelper.swift in Sources */,
 				F5F509362CEBF1DE007D6E39 /* VideoViewController.swift in Sources */,
 				F5F509162CEBEC0A007D6E39 /* AnalyticsCoordinator.swift in Sources */,
+				F553A1662CECF9D0006581A1 /* CustomTimeStepper.swift in Sources */,
 				F5F509422CEBF28F007D6E39 /* SJUIUtils.swift in Sources */,
 				F5F509282CEBEF01007D6E39 /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				F5F5090C2CEBEB6B007D6E39 /* PlayerContainerViewController+Update.swift in Sources */,
@@ -11088,12 +11105,14 @@
 				F5D5F7C72CEBE85D001F492D /* SimpleNotificationsViewController.swift in Sources */,
 				F5F5092B2CEBEF2C007D6E39 /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				F5F5092C2CEBEF34007D6E39 /* StorageManager.swift in Sources */,
+				F553A1612CECF979006581A1 /* UIScreen+Sizes.swift in Sources */,
 				F5F5090E2CEBEBAA007D6E39 /* PlaybackQueue.swift in Sources */,
 				F5F509672CEBF7AF007D6E39 /* UserEpisode+Formatting.swift in Sources */,
 				F5F509172CEBEC14007D6E39 /* Debounce.swift in Sources */,
 				F5F509272CEBEEF6007D6E39 /* ShowInfoCoordinating.swift in Sources */,
 				F5F5097A2CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift in Sources */,
 				F5F508F02CEBE94F007D6E39 /* Strings+Generated.swift in Sources */,
+				F57ABC242CECF8AC00CC50AF /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
 				F5F509052CEBEA80007D6E39 /* Theme.swift in Sources */,
 				F5F509202CEBEDF4007D6E39 /* Strings+L10n.swift in Sources */,
 				F5F509472CEBF318007D6E39 /* SharedConstants.swift in Sources */,
@@ -11141,6 +11160,7 @@
 				F5F5091D2CEBECB2007D6E39 /* EpisodeManager.swift in Sources */,
 				F5F5091C2CEBEC99007D6E39 /* DefaultPlayer.swift in Sources */,
 				F5F509392CEBF206007D6E39 /* ProgressCircleView.swift in Sources */,
+				F553A1642CECF997006581A1 /* EffectsViewController.swift in Sources */,
 				F5F509572CEBF638007D6E39 /* MediaFileHandle.swift in Sources */,
 				F5F509442CEBF2D6007D6E39 /* NowPlayingPlayerItemViewController+Update.swift in Sources */,
 				F5F509662CEBF788007D6E39 /* PaidFeature.swift in Sources */,
@@ -11150,6 +11170,7 @@
 				F5D5F7BC2CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift in Sources */,
 				F5D5F7C92CEBE86C001F492D /* PlayerItemViewController.swift in Sources */,
 				F5F5091F2CEBEDE9007D6E39 /* ColorManager.swift in Sources */,
+				F553A1632CECF98F006581A1 /* SleepTimerViewController.swift in Sources */,
 				F5F509482CEBF34D007D6E39 /* PCRoutePickerView.swift in Sources */,
 				F5F5095C2CEBF680007D6E39 /* AudioPlayTask.swift in Sources */,
 				F5F5093B2CEBF232007D6E39 /* VideoViewController+Controls.swift in Sources */,
@@ -11159,14 +11180,17 @@
 				F5F509252CEBEEE4007D6E39 /* PodcastChapterParser.swift in Sources */,
 				F5F509622CEBF6DC007D6E39 /* ArrayExtension.swift in Sources */,
 				F5F5092A2CEBEF1E007D6E39 /* DownloadProgressManager.swift in Sources */,
+				F553A1602CECF95B006581A1 /* SleepTimerButton.swift in Sources */,
 				F5F509322CEBEFA4007D6E39 /* MediaExporterResourceLoaderDelegate.swift in Sources */,
 				F5F5091E2CEBED5C007D6E39 /* EffectsPlayer.swift in Sources */,
 				F5F509062CEBEA93007D6E39 /* ThemeColor.swift in Sources */,
 				F5F5095A2CEBF674007D6E39 /* PlayBufferManager.swift in Sources */,
+				F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */,
 				F5F508FC2CEBE9D8007D6E39 /* AnalyticsEvent.swift in Sources */,
 				F5F508FE2CEBE9F8007D6E39 /* TimeSlider.swift in Sources */,
 				F5F509132CEBEBEC007D6E39 /* Notifications.swift in Sources */,
 				F5F5094C2CEBF412007D6E39 /* VideoViewController+Seek.swift in Sources */,
+				F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */,
 				F5F509762CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift in Sources */,
 				F5D5F7CB2CEBE87F001F492D /* Constants.swift in Sources */,
 				F57ABC002CECEE6000CC50AF /* PodcastManager+Cleanup.swift in Sources */,

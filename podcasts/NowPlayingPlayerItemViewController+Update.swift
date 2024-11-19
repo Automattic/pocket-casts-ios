@@ -58,9 +58,7 @@ extension NowPlayingPlayerItemViewController {
 
         updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
-        #if !APPCLIP
         reloadShelfActions()
-        #endif
         updateChaptersControls()
         updateChapterInfo()
         updateChapterProgress()
