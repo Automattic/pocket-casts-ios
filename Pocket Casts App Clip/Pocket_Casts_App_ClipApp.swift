@@ -7,6 +7,10 @@ struct Pocket_Casts_App_ClipApp: App {
     init() {
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+
+        ServerSettings.setSkipBackTime(10, syncChange: false)
+        ServerSettings.setSkipForwardTime(45, syncChange: false)
+
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter()])
     }
 
