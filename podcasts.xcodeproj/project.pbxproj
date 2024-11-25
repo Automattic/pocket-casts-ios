@@ -1731,6 +1731,14 @@
 		F5954D5E2C3F284D004A8C04 /* TrimSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5954D5D2C3F284D004A8C04 /* TrimSelectionView.swift */; };
 		F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5954D5F2C3F2864004A8C04 /* TrimHandle.swift */; };
 		F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */; };
+		F5ADE2F42CF52AF100F2CEA7 /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
+		F5ADE2F52CF52AFA00F2CEA7 /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
+		F5ADE2F72CF52B4800F2CEA7 /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */; };
+		F5ADE2F82CF52B5D00F2CEA7 /* TracksSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAED28AB0BF200CFC8CF /* TracksSubscriptionData.swift */; };
+		F5ADE2F92CF52B6C00F2CEA7 /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
+		F5ADE2FA2CF52B7700F2CEA7 /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
+		F5ADE2FB2CF52B8300F2CEA7 /* ABTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9322C5A8D1300957D0A /* ABTest.swift */; };
+		F5ADE2FC2CF52BB400F2CEA7 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
 		F5B6FDAD2CADFEFB00356909 /* ContentUnavailableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */; };
@@ -4133,6 +4141,7 @@
 				F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */,
 				76FED4C8D52316B36C004526 /* libPods-Pocket Casts App Clip.a in Frameworks */,
 				F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */,
+				F5ADE2F72CF52B4800F2CEA7 /* AutomatticTracks in Frameworks */,
 				F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */,
 				F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */,
 				F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -11082,6 +11091,7 @@
 				F5F5090D2CEBEB9A007D6E39 /* PlayerColorHelper.swift in Sources */,
 				F5F509362CEBF1DE007D6E39 /* VideoViewController.swift in Sources */,
 				F5F509162CEBEC0A007D6E39 /* AnalyticsCoordinator.swift in Sources */,
+				F5ADE2FC2CF52BB400F2CEA7 /* AnalyticsDescribable+Modules.swift in Sources */,
 				F553A1662CECF9D0006581A1 /* CustomTimeStepper.swift in Sources */,
 				F5F509422CEBF28F007D6E39 /* SJUIUtils.swift in Sources */,
 				F5F509282CEBEF01007D6E39 /* PodcastIndexChapterDataRetriever.swift in Sources */,
@@ -11100,6 +11110,7 @@
 				F5F508FB2CEBE9CB007D6E39 /* Analytics.swift in Sources */,
 				F5F509182CEBEC1F007D6E39 /* AnalyticsEpisodeHelper.swift in Sources */,
 				F5D5F7C52CEBE84A001F492D /* NowPlayingPlayerItemViewController.swift in Sources */,
+				F5ADE2FA2CF52B7700F2CEA7 /* ABTestProviding.swift in Sources */,
 				F5F5090F2CEBEBB1007D6E39 /* ChapterManager.swift in Sources */,
 				F5F5091B2CEBEC6F007D6E39 /* DownloadManager.swift in Sources */,
 				F5D5F7C72CEBE85D001F492D /* SimpleNotificationsViewController.swift in Sources */,
@@ -11111,6 +11122,7 @@
 				F5F509172CEBEC14007D6E39 /* Debounce.swift in Sources */,
 				F5F509272CEBEEF6007D6E39 /* ShowInfoCoordinating.swift in Sources */,
 				F5F5097A2CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift in Sources */,
+				F5ADE2FB2CF52B8300F2CEA7 /* ABTest.swift in Sources */,
 				F5F508F02CEBE94F007D6E39 /* Strings+Generated.swift in Sources */,
 				F57ABC242CECF8AC00CC50AF /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
 				F5F509052CEBEA80007D6E39 /* Theme.swift in Sources */,
@@ -11126,6 +11138,7 @@
 				F5F509592CEBF65E007D6E39 /* PlaybackItem.swift in Sources */,
 				F5F5095F2CEBF6AC007D6E39 /* SynchronizedAudioStack.swift in Sources */,
 				F5D5F7C62CEBE853001F492D /* PlayerContainerViewController.swift in Sources */,
+				F5ADE2F92CF52B6C00F2CEA7 /* ABTestProvider.swift in Sources */,
 				F57ABBFD2CECEC6600CC50AF /* IncomingShareItem.swift in Sources */,
 				F5F5093C2CEBF240007D6E39 /* OptionsPicker.swift in Sources */,
 				F57ABBFF2CECEE2600CC50AF /* ServerSyncManager.swift in Sources */,
@@ -11150,6 +11163,7 @@
 				F5F509382CEBF1FE007D6E39 /* ThemeableLabel.swift in Sources */,
 				F5F509562CEBF62D007D6E39 /* DownloadProgress.swift in Sources */,
 				F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */,
+				F5ADE2F52CF52AFA00F2CEA7 /* TracksAdapter.swift in Sources */,
 				F5D5F7BB2CEBE7CE001F492D /* ContentView.swift in Sources */,
 				F57ABBFE2CECEC8700CC50AF /* SharedItemImporter.swift in Sources */,
 				F5F5090A2CEBEB0C007D6E39 /* UIColor+SwiftUI.swift in Sources */,
@@ -11183,6 +11197,7 @@
 				F553A1602CECF95B006581A1 /* SleepTimerButton.swift in Sources */,
 				F5F509322CEBEFA4007D6E39 /* MediaExporterResourceLoaderDelegate.swift in Sources */,
 				F5F5091E2CEBED5C007D6E39 /* EffectsPlayer.swift in Sources */,
+				F5ADE2F42CF52AF100F2CEA7 /* AnalyticsLoggingAdapter.swift in Sources */,
 				F5F509062CEBEA93007D6E39 /* ThemeColor.swift in Sources */,
 				F5F5095A2CEBF674007D6E39 /* PlayBufferManager.swift in Sources */,
 				F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */,
@@ -11197,6 +11212,7 @@
 				F5F5094A2CEBF3E5007D6E39 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
 				F5F508FA2CEBE9C1007D6E39 /* ThemeableUIButton.swift in Sources */,
 				F5F509492CEBF3A0007D6E39 /* OptionsPickerRootController.swift in Sources */,
+				F5ADE2F82CF52B5D00F2CEA7 /* TracksSubscriptionData.swift in Sources */,
 				F5F509092CEBEAFB007D6E39 /* FadeOutManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -14122,6 +14138,11 @@
 		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
+		};
+		F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
+			productName = AutomatticTracks;
 		};
 		F5F508F32CEBE985007D6E39 /* PocketCastsUtils */ = {
 			isa = XCSwiftPackageProductDependency;

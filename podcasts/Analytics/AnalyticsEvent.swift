@@ -8,6 +8,8 @@ enum AnalyticsEvent: String {
     case applicationUpdated
     case applicationClosed
 
+    case appClipOpened
+
     // MARK: - User Lifecycle
 
     case userSignedIn
