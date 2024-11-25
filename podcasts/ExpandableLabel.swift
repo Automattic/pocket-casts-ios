@@ -39,7 +39,8 @@ class ExpandableLabel: ThemeableLabel {
             <head>
             <style>
             body {
-                font-family: -apple-system; font-size: 16px;
+                font-family: -apple-system;
+                font-size: 10pt;
             }
             </style>
             </head>
