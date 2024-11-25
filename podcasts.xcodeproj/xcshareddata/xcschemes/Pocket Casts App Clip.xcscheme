@@ -56,6 +56,7 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
+      appClipInvocationURLString = "https://pca.st/c2r28q2u"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -74,16 +75,10 @@
             ReferencedContainer = "container:podcasts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "_XCAppClipURL"
-            value = "https://pca.st/c2r28q2u"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
+      appClipInvocationURLString = "https://pca.st/c2r28q2u"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
