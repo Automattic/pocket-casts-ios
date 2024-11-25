@@ -33,6 +33,7 @@ class PodcastDataManager {
         "trimSilenceAmount",
         "podcastCategory",
         "podcastDescription",
+        "podcastHTMLDescription",
         "sortOrder",
         "startFrom",
         "skipLast",
@@ -650,6 +651,7 @@ class PodcastDataManager {
         values.append(podcast.trimSilenceAmount)
         values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
         values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
+        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
         values.append(podcast.sortOrder)
         values.append(podcast.startFrom)
         values.append(podcast.skipLast)
