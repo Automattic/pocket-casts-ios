@@ -32,6 +32,30 @@ class ExpandableLabel: ThemeableLabel {
         collapsed = linesRequired() > maxLines
     }
 
+    func setRichText(html: String) {
+        Task {
+            let styledHTML: String = """
+            <html>
+            <head>
+            <style>
+            body {
+                font-family: -apple-system; font-size: 16px;
+            }
+            </style>
+            </head>
+            <body>
+            \(html)
+            </body>
+            </html>
+            """
+            let result = try await NSAttributedString.fromHTML(styledHTML)
+            await MainActor.run {
+                attributedText = result.0
+                collapsed = linesRequired() > maxLines
+            }
+        }
+    }
+
     @objc private func labelTapped() {
         if collapsed {
             delegate?.willExpandLabel(self)
