@@ -33,28 +33,28 @@ class ExpandableLabel: ThemeableLabel {
     }
 
     func setRichText(html: String) {
-        Task {
-            let styledHTML: String = """
-            <html>
-            <head>
-            <style>
-            body {
-                font-family: -apple-system;
-                font-size: 10pt;
-            }
-            </style>
-            </head>
-            <body>
-            \(html)
-            </body>
-            </html>
-            """
-            let result = try await NSAttributedString.fromHTML(styledHTML)
-            await MainActor.run {
-                attributedText = result.0
-                collapsed = linesRequired() > maxLines
-            }
+        let fontSize = font.pointSize
+        let styledHTML: String = """
+        <html>
+        <head>
+        <style>
+        body {
+            font-family: -apple-system;
+            font-size: \(fontSize)px;
         }
+        </style>
+        </head>
+        <body>
+        \(html)
+        </body>
+        </html>
+        """
+        guard let data = styledHTML.data(using: .utf8) else {
+            return
+        }
+        let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+        attributedText = result
+        collapsed = linesRequired() > maxLines
     }
 
     @objc private func labelTapped() {
@@ -71,24 +71,32 @@ class ExpandableLabel: ThemeableLabel {
         if collapsed {
             numberOfLines = maxLines
             lineBreakMode = .byTruncatingTail
-
+            setNeedsLayout()
             sizeToFit()
         } else {
             lineBreakMode = .byWordWrapping
             numberOfLines = 0
+            setNeedsLayout()
             sizeToFit()
         }
     }
 
     private func linesRequired() -> Int {
-        guard let text = text else { return 1 }
+        if let attributedText {
+            layoutIfNeeded()
+            let labelSize = attributedText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), context: nil)
 
-        layoutIfNeeded()
+            return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
+        } else {
+            guard let text = text else { return 1 }
 
-        let alteredText = "\(text)..."
-        let attributes = [NSAttributedString.Key.font: font as UIFont]
-        let labelSize = alteredText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
+            layoutIfNeeded()
 
-        return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
+            let alteredText = "\(text)..."
+            let attributes = [NSAttributedString.Key.font: font as UIFont]
+            let labelSize = alteredText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
+
+            return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
+        }
     }
 }
