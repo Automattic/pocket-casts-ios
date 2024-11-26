@@ -50,7 +50,7 @@ extension ServerPodcastManager {
             podcast.podcastDescription = description
         }
 
-        if let description = podcastJson["htmlDescription"] as? String {
+        if let description = podcastJson["descriptionHtml"] as? String {
             podcast.podcastHTMLDescription = description
         }
 
