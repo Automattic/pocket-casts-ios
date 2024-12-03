@@ -174,3 +174,18 @@ extension SocialAuthProvider: AnalyticsDescribable {
         }
     }
 }
+
+extension DownloadsSort: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .newestToOldest:
+            return "newest_to_oldest"
+        case .oldestToNewest:
+            return "oldest_to_newest"
+        case .largestToSmallest:
+            return "largest_to_smallest"
+        case .smallestToLargest:
+            return "smallest_to_largest"
+        }
+    }
+}
