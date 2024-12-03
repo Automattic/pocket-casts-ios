@@ -53,6 +53,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         if let episode = episodeAtIndexPath(indexPath) {
             cell.populateFrom(episode: episode, tintColor: ThemeColor.primaryIcon01())
             cell.shouldShowSelect = isMultiSelectEnabled
+            cell.showsFileSize = true
             if isMultiSelectEnabled {
                 cell.showTick = selectedEpisodesContains(uuid: episode.uuid)
             }

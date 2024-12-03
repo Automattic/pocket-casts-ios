@@ -79,6 +79,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     var hidesArtwork = false
+    var showsFileSize = false
 
     var playlist: AutoplayHelper.Playlist?
 
@@ -258,9 +259,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
-            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download || showsFileSize)
         } else {
-            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download || showsFileSize)
         }
 
         if episode.downloading(), !downloadingIndicator.isAnimating {
