@@ -67,6 +67,10 @@ public enum PlaylistSort: Int32 {
     case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3
 }
 
+public enum DownloadsSort: Int32 {
+    case newestToOldest = 0, oldestToNewest = 1, largestToSmallest = 2, smallestToLargest = 3
+}
+
 public struct EpisodeBasicData {
     public init() {}
 

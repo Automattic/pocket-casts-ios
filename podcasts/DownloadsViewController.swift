@@ -207,7 +207,7 @@ class DownloadsViewController: PCViewController {
         operationQueue.addOperation { [weak self] in
             guard let self else { return }
 
-            let newData = self.episodesDataManager.downloadedEpisodes()
+            let newData = self.episodesDataManager.downloadedEpisodes(sort: sort)
 
             DispatchQueue.main.sync {
                 self.downloadsTable.isHidden = (newData.count == 0)
@@ -230,10 +230,38 @@ class DownloadsViewController: PCViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    func showSortByPicker() {
+        let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+
+        addSortAction(to: optionsPicker, sortOrder: .newestToOldest)
+        addSortAction(to: optionsPicker, sortOrder: .oldestToNewest)
+        addSortAction(to: optionsPicker, sortOrder: .largestToSmallest)
+        addSortAction(to: optionsPicker, sortOrder: .smallestToLargest)
+
+        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private var sort: DownloadsSort = .newestToOldest
+
+    private func addSortAction(to optionPicker: OptionsPicker, sortOrder: DownloadsSort) {
+        let action = OptionAction(label: sortOrder.description, selected: sort == sortOrder) {
+            Analytics.track(.downloadsSortByChanged, properties: ["sort_order": sortOrder])
+            self.sort = sortOrder
+            self.reloadEpisodes()
+        }
+        optionPicker.addAction(action: action)
+    }
+
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         Analytics.track(.downloadsOptionsButtonTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
+
+        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sort.description, icon: "podcastlist_sort") { [weak self] in
+            Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "sort_by"])
+            self?.showSortByPicker()
+        }
+        optionsPicker.addAction(action: sortAction)
 
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "select_episodes"])
@@ -334,5 +362,20 @@ class DownloadsViewController: PCViewController {
 extension DownloadsViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .downloads
+    }
+}
+
+public extension DownloadsSort {
+    var description: String {
+        switch self {
+        case .newestToOldest:
+            return "Newest to Oldest"
+        case .oldestToNewest:
+            return "Oldest to Newest"
+        case .largestToSmallest:
+            return "Largest to Smallest"
+        case .smallestToLargest:
+            return "Smallest to Largest"
+        }
     }
 }

@@ -17,7 +17,7 @@ class EpisodesDataManager {
                 return episodes(for: filter).map { $0.episode }
             }
         case .downloads:
-            return downloadedEpisodes().flatMap { $0.elements.map { $0.episode } }
+            return downloadedEpisodes(sort: .newestToOldest).flatMap { $0.elements.map { $0.episode } }
         case .files:
             return uploadedEpisodes()
         case .starred:
@@ -131,8 +131,27 @@ class EpisodesDataManager {
 
     // MARK: - Downloads
 
-    func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
-        let query = "( ((downloadTaskId IS NOT NULL AND autoDownloadStatus <> \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) ) OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
+    func downloadedEpisodes(sort: DownloadsSort) -> [ArraySection<String, ListEpisode>] {
+        let orderByColumn: String
+        let orderByOrder: String
+
+        switch sort {
+        case .newestToOldest:
+            orderByColumn = "lastDownloadAttemptDate"
+            orderByOrder = "DESC"
+        case .oldestToNewest:
+            orderByColumn = "lastDownloadAttemptDate"
+            orderByOrder = "ASC"
+        case .largestToSmallest:
+            orderByColumn = "sizeInBytes"
+            orderByOrder = "DESC"
+        case .smallestToLargest:
+            orderByColumn = "sizeInBytes"
+            orderByOrder = "ASC"
+        }
+
+        let query = "( ((downloadTaskId IS NOT NULL AND autoDownloadStatus <> \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) ) OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY \(orderByColumn) \(orderByOrder) LIMIT 1000"
+
         let arguments = [Date().weeksAgo(1)] as [Any]
 
         let newData = EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: arguments, episodeShortKey: { episode -> String in

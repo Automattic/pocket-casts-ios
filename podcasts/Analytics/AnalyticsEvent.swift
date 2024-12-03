@@ -170,6 +170,7 @@ enum AnalyticsEvent: String {
     case downloadsMultiSelectEntered
     case downloadsSelectAllButtonTapped
     case downloadsMultiSelectExited
+    case downloadsSortByChanged
 
     // MARK: - Downloads Clean Up View
 
