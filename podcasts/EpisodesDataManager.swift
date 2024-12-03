@@ -155,10 +155,42 @@ class EpisodesDataManager {
         let arguments = [Date().weeksAgo(1)] as [Any]
 
         let newData = EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: arguments, episodeShortKey: { episode -> String in
-            episode.shortLastDownloadAttemptDate()
+            switch sort {
+            case .newestToOldest, .oldestToNewest:
+                episode.shortLastDownloadAttemptDate()
+            case .smallestToLargest, .largestToSmallest:
+                categorizeFileSize(sizeInBytes: episode.sizeInBytes)
+            }
         })
 
         return newData
+    }
+
+    private func categorizeFileSize(sizeInBytes: Int64) -> String {
+        switch sizeInBytes {
+        case 0..<1_000_000: // Less than 1MB
+            return "< \(formattedFileSize(sizeInBytes: 1_000_000))"
+        case 1_000_000..<10_000_000: // 1MB to < 10MB
+            return "\(formattedFileSize(sizeInBytes: 1_000_000))-\(formattedFileSize(sizeInBytes: 10_000_000))"
+        case 10_000_000..<50_000_000: // 10MB to < 50MB
+            return "\(formattedFileSize(sizeInBytes: 10_000_000))-\(formattedFileSize(sizeInBytes: 50_000_000))"
+        case 50_000_000...100_000_000: // 50MB-100MB
+            return "\(formattedFileSize(sizeInBytes: 50_000_000))-\(formattedFileSize(sizeInBytes: 100_000_000))"
+        case 100_000_000...: // Greater than or equal to 100MB
+            return "> \(formattedFileSize(sizeInBytes: 100_000_000))"
+        default:
+            return ""
+        }
+    }
+
+    func formattedFileSize(sizeInBytes: Int) -> String {
+        let sizeInMB = Measurement(value: Double(sizeInBytes), unit: UnitInformationStorage.bytes).converted(to: .megabytes)
+
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.numberFormatter.maximumFractionDigits = 2
+
+        return formatter.string(from: sizeInMB)
     }
 
     // MARK: - Listening History
