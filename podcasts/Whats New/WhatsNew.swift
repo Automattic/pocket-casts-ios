@@ -53,13 +53,15 @@ class WhatsNew {
         guard let announcement = visibleAnnouncement else {
             return nil
         }
+        return viewControllerToShow(for: announcement)
+    }
 
+    func viewControllerToShow(for announcement: Announcement) -> UIViewController? {
         guard !announcement.fullModal else {
             let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
                 .onAppear {
                     Settings.lastWhatsNewShown = announcement.version
                 })
-
             return whatsNewViewController.usingSheetPresentationController()
         }
 
@@ -67,7 +69,6 @@ class WhatsNew {
         whatsNewViewController.modalPresentationStyle = .overCurrentContext
         whatsNewViewController.modalTransitionStyle = .crossDissolve
         whatsNewViewController.view.backgroundColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
-
         return whatsNewViewController
     }
 
@@ -118,6 +119,11 @@ extension UIViewController {
 extension WhatsNew {
     static var slumberAnnouncement: Announcement? {
         WhatsNew().announcements.first(where: { $0.version == "7.57" })
+    }
+
+    static var currentAnnouncement: Announcement? {
+        let whatsNew = WhatsNew()
+        return whatsNew.announcements.first { $0.version == whatsNew.currentVersion }
     }
 }
 
