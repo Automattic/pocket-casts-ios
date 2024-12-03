@@ -54,6 +54,7 @@ class ExpandableLabel: ThemeableLabel {
         }
         let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
         attributedText = result
+        textColor = AppTheme.colorForStyle(style)
         collapsed = linesRequired() > maxLines
     }
 
