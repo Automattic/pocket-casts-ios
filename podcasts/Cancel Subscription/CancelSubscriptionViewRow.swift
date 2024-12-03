@@ -45,7 +45,7 @@ struct CancelSubscriptionViewRow: View {
     var chevron: some View {
         HStack {
             Spacer()
-            Image("chevron-small-right")
+            Image("cs-chevron")
                 .renderingMode(.template)
                 .foregroundStyle(theme.primaryIcon02)
                 .frame(width: 24, height: 24)

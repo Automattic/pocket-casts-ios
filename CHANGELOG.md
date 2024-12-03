@@ -1,9 +1,22 @@
+7.80
+-----
+
+7.77.1
+-----
+- Fix sharing Playback stories to Instagram [#2482](https://github.com/Automattic/pocket-casts-ios/pull/2482)
+
+7.79
+-----
+
+
 7.78
 -----
 - Fix background sync when more than 2000 episodes are changed [#2448](https://github.com/Automattic/pocket-casts-ios/pull/2448)
 - File downloads use switch instead of check box for include starred [#2455](https://github.com/Automattic/pocket-casts-ios/pull/2455)
 - Show download management banner and modal when running low in disk space [#2430](https://github.com/Automattic/pocket-casts-ios/pull/2430)
 - Referrals: update share message and add image [#2468](https://github.com/Automattic/pocket-casts-ios/pull/2468)
+- Fix refresh of the navigation bar buttons when switchin tabs [#2294](https://github.com/Automattic/pocket-casts-ios/issues/2294)
+- Fix sharing of Referrals, Episodes and EOY when using the radioactivity theme [#2485](https://github.com/Automattic/pocket-casts-ios/pull/2485)
 
 7.77
 -----

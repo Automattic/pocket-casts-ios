@@ -1537,6 +1537,8 @@ AGGIORNAMENTI</string>
     <string>Riproduci ultimo</string>
     <key>play_next</key>
     <string>Riproduci successivo</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Dei %1$@ episodi iniziati, ne hai ascoltati integralmente un totale pari a %2$@.</string>
     <key>playback_2024_completion_rate_title</key>
     <string>Il tuo tasso di completamento quest'anno è stato: %1$@</string>
     <key>playback_2024_description</key>

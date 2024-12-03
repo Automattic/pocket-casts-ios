@@ -4,6 +4,8 @@ import PocketCastsUtils
 import SwiftProtobuf
 
 class SubscriptionStatusTask: ApiBaseTask {
+    var completion: ((Bool) -> Void)?
+
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "subscription/status"
         do {
@@ -11,6 +13,7 @@ class SubscriptionStatusTask: ApiBaseTask {
 
             guard let responseData = response, httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
                 FileLog.shared.addMessage("Subscription status failed \(httpStatus?.statusCode ?? -1)")
+                completion?(false)
                 return
             }
             do {
@@ -35,9 +38,11 @@ class SubscriptionStatusTask: ApiBaseTask {
                 if originalSubscriptionStatus, !SubscriptionHelper.hasActiveSubscription() {
                     ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
                 }
+                completion?(true)
             }
         } catch {
             FileLog.shared.addMessage("SubscriptionStatusTask: Protobuf Encoding failed \(error.localizedDescription)")
+            completion?(false)
         }
     }
 

@@ -3468,6 +3468,12 @@ internal enum L10n {
   internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }
   /// A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.
   internal static var upNextHistoryExplanation: String { return L10n.tr("Localizable", "up_next_history_explanation") }
+  /// Got it
+  internal static var upNextShuffleAnnouncementButton: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_button") }
+  /// Easily play a random episode without changing the order of your queue.
+  internal static var upNextShuffleAnnouncementText: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_text") }
+  /// Introducing Shuffle
+  internal static var upNextShuffleAnnouncementTitle: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_title") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Save 50%% off your first year

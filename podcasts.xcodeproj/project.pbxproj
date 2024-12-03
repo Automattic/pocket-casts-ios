@@ -671,6 +671,7 @@
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory2023.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
+		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -2641,6 +2642,7 @@
 		8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearStory2023.swift; sourceTree = "<group>"; };
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
 		91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravatarSafariViewController.swift; sourceTree = "<group>"; };
+		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
@@ -6958,6 +6960,7 @@
 			children = (
 				401EBA6B23725C6F00899F93 /* Cells */,
 				BDFB53C92362B9080001806E /* UpNextViewController.swift */,
+				9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */,
 				407B9B6123875AA1008E7CA8 /* UpNextViewController+Table.swift */,
 				403086CF2378EB1F009EF821 /* UpNextViewController+UserEpisode.swift */,
 				407B9B71238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift */,
@@ -9817,6 +9820,7 @@
 				FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */,
 				4047E1782419B2F800B79177 /* ServerSyncManager.swift in Sources */,
 				BD9FF6241B8EF81A009F075E /* CategoryCell.swift in Sources */,
+				9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */,
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
 				40542E2D2265604700046330 /* AccountViewController.swift in Sources */,
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,

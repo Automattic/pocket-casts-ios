@@ -249,6 +249,17 @@ public extension ApiServerHandler {
         apiQueue.addOperation(subscriptionStatusTask)
     }
 
+    @discardableResult
+    func retrieveSubscriptionStatus() async -> Bool {
+        return await withCheckedContinuation { continuation in
+            let operation = SubscriptionStatusTask()
+            operation.completion = { success in
+                continuation.resume(returning: success)
+            }
+            apiQueue.addOperation(operation)
+        }
+    }
+
     // MARK: - Subscription Promotion Codes
 
     func redeemPromoCode(promoCode: String, completion: @escaping (Int, String?, APIError?) -> Void) {

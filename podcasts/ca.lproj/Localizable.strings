@@ -337,6 +337,26 @@
     <string>No es pot cancel·lar</string>
     <key>cancel_subscription</key>
     <string>Cancel·lar subscripció</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Reclama l'oferta</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Continua amb la cancel·lació</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>S'ha produït un error. Torneu-ho a provar.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Tenim problemes amb alguna funcionalitat o  dificultats.</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Necessites ajuda amb Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Troba el pla que s'adequa per a tu.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Busques un pla diferent?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Estalvia %@ amb el teu pròxim mes a càrrec nostre.</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Obtén el teu pròxim mes gratis</string>
+    <key>cancel_subscription_title</key>
+    <string>Abans de cancel·lar, mira aquestes ofertes</string>
     <key>canceling</key>
     <string>Cancel·lant...</string>
     <key>carplay_chapter_count</key>
@@ -1311,6 +1331,12 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Crea un compte per a sincronitzar la vostra experiència auditiva en tots els teus dispositius.</string>
     <key>login_title</key>
     <string>Descobreix el teu pròxim pòdcast favorit</string>
+    <key>manage_downloads_action</key>
+    <string>Gestionar les descàrregues</string>
+    <key>manage_downloads_detail</key>
+    <string>Estalvia %1$@ eliminant episodis reproduïts.</string>
+    <key>manage_downloads_title</key>
+    <string>Necessites alliberar espai?</string>
     <key>mark_played</key>
     <string>Marcar com a reproduït</string>
     <key>mark_played_short</key>
@@ -2118,6 +2144,11 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Gràcies per a compartir Pocket Casts! Et farem saber quan tinguis més invitacions per a donar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartit totes les teves invitacions!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hola!
+
+Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor de pòdcasts favorit. Està ple de funcions úniques com ara marcadors, carpetes i més que no trobaràs enlloc més. Crec que també t'encantarà!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Ei! Utilitza l'enllaç a continuació per a reclamar la teva %1$@ invitació per a Pocket Casts Plus i gaudeix de pòdcasts a tots els teus dispositius!</string>
     <key>referrals_share_pass_subject</key>

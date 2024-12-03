@@ -43,6 +43,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
             }
             let viewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
             viewController.completionWithItemsHandler = { _, completed, _, _ in
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
                 if completed {
                     originalOnShareGuestPassTap?()
                 }
@@ -52,6 +53,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 popoverVC.sourceView = self.view
                 popoverVC.sourceRect = centerBottomSourceRect
             }
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true)
         }
         view.backgroundColor = .clear

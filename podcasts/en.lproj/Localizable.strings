@@ -4645,6 +4645,15 @@
 /* Paywall header for when the view is presented from the files source */
 "paywall_dynamic_headline_files" = "Upload your files with Pocket Casts Plus, and more";
 
+/* Up Next Shuffle Announcement sheet title*/
+"up_next_shuffle_announcement_title" = "Introducing Shuffle";
+
+/* Up Next Shuffle Announcement sheet text*/
+"up_next_shuffle_announcement_text" = "Easily play a random episode without changing the order of your queue.";
+
+/* Up Next Shuffle Announcement sheet dismiss button title*/
+"up_next_shuffle_announcement_button" = "Got it";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 

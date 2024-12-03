@@ -12,6 +12,8 @@ class StoryShareableProvider: UIActivityItemProvider {
 
     var generatedItem: Any?
 
+    var generatedItemURL: Any?
+
     var view: AnyView?
 
     static func new(_ view: AnyView) -> StoryShareableProvider {
@@ -26,7 +28,11 @@ class StoryShareableProvider: UIActivityItemProvider {
 
     override var item: Any {
         get {
-            generatedItem ?? UIImage()
+            if activityType?.rawValue.contains("instagram") == true {
+                generatedItemURL ?? NSURL()
+            } else {
+                generatedItem ?? UIImage()
+            }
         }
     }
 
@@ -44,8 +50,26 @@ class StoryShareableProvider: UIActivityItemProvider {
         .frame(width: 370, height: 800)
         .snapshot()
 
+        let snapshotURL = save(snapshot: snapshot)
+        generatedItemURL = snapshotURL
         generatedItem = snapshot
         self.view = nil
+    }
+
+    private func save(snapshot: UIImage) -> URL? {
+        guard let imageData = snapshot.pngData() else { return nil }
+
+        let tempDir = FileManager.default.temporaryDirectory
+        let uuid = UUID().uuidString
+        let url = tempDir.appendingPathComponent("pocket-casts-share-image-\(uuid).png")
+
+        do {
+           try imageData.write(to: url)
+        } catch {
+            return nil
+        }
+
+        return url
     }
 }
 

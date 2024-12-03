@@ -25,7 +25,23 @@ class CancelConfirmationViewModel: OnboardingModel {
         Analytics.track(.cancelConfirmationCancelButtonTapped)
 
         if FeatureFlag.winback.enabled {
-            //TODO: Add Apple API
+            Task {
+                guard let windowScene = await navigationController.view.window?.windowScene else {
+                    FileLog.shared.console("[CancelConfirmationViewModel] No window scene available")
+                    return
+                }
+                do {
+                    try await IAPHelper.shared.showManageSubscriptions(in: windowScene)
+
+                    await ApiServerHandler.shared.retrieveSubscriptionStatus()
+
+                    await MainActor.run {
+                        navigationController.dismiss(animated: true)
+                    }
+                } catch {
+                    FileLog.shared.console("[StoreKit] Error showing manage subscriptions: \(error.localizedDescription)")
+                }
+            }
         } else {
             let controller = CancelInfoViewController()
             navigationController.pushViewController(controller, animated: true)

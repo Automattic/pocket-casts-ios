@@ -24,7 +24,7 @@ class IAPHelper: NSObject {
     private var isRequestingProducts = false
 
     /// Whether purchasing is allowed in the current environment or not
-    private (set) var canMakePurchases = true
+    private(set) var canMakePurchases = true
 
     private var settings: IAPHelperSettings
     private var networking: IAPHelperNetworking
@@ -82,6 +82,41 @@ class IAPHelper: NSObject {
             }
         }
         return nil
+    }
+
+    func findLastSubscriptionPurchased() async -> [StoreKit.Transaction] {
+        var transactions: [StoreKit.Transaction] = []
+        for await result in Transaction.currentEntitlements {
+            guard case .verified(let transaction) = result else {
+                continue
+            }
+            if transaction.revocationDate == nil {
+                transactions.append(transaction)
+            }
+        }
+        return transactions
+    }
+
+    func findLastSubscriptionPurchasedGroupID() async -> String? {
+        return await findLastSubscriptionPurchased()
+            .filter { $0.expirationDate != nil }
+            .sorted {
+                if let t0 = $0.expirationDate, let t1 = $1.expirationDate {
+                    return t0 > t1
+                }
+                return false
+            }
+            .first?.subscriptionGroupID
+    }
+
+    func showManageSubscriptions(in windowScene: UIWindowScene) async throws {
+        if let groupID = await findLastSubscriptionPurchasedGroupID(), #available(iOS 17.0, *) {
+            FileLog.shared.console("[CancelConfirmationViewModel] Last subscription purchased group ID: \(groupID)")
+
+            try await StoreKit.AppStore.showManageSubscriptions(in: windowScene, subscriptionGroupID: groupID)
+        } else {
+            try await StoreKit.AppStore.showManageSubscriptions(in: windowScene)
+        }
     }
 
     /// Whether the products have been loaded from StoreKit

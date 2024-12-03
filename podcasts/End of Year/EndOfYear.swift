@@ -169,6 +169,7 @@ struct EndOfYear {
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
         activityViewController.completionWithItemsHandler = { activity, success, _, _ in
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
             if !success && activity == nil {
                 fakeViewController.dismiss(animated: false)
             }
@@ -182,6 +183,7 @@ struct EndOfYear {
         // Present the fake view controller first to avoid issues with stories being dismissed
         presenter?.present(fakeViewController, animated: false) { [weak fakeViewController] in
             // Present the share sheet
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             fakeViewController?.present(activityViewController, animated: true) {
                 // After the share sheet is presented we take the snapshot
                 // This action needs to happen on the main thread because

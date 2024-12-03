@@ -4649,6 +4649,58 @@
 /* Paywall header for when the view is presented from the files source */
 "paywall_dynamic_headline_files" = "Upload your files with Pocket Casts Plus, and more";
 
+/* Up Next Shuffle Announcement sheet title*/
+"up_next_shuffle_announcement_title" = "Introducing Shuffle";
+
+/* Up Next Shuffle Announcement sheet text*/
+"up_next_shuffle_announcement_text" = "Easily play a random episode without changing the order of your queue.";
+
+/* Up Next Shuffle Announcement sheet dismiss button title*/
+"up_next_shuffle_announcement_button" = "Got it";
+
+/* Title for manage downloads file space usage banner and modal */
+"manage_downloads_title" = "Need to free up space?";
+
+/* Detail for manage downloads file space usage banner and modal. %1$@ is the disk space in Mb/GB that the episodes take */
+"manage_downloads_detail" = "Save %1$@ by removing played episodes.";
+
+/* Button title for manage downloads file space usage banner and modal. */
+"manage_downloads_action" = "Manage downloads";
+
+/* Title of the cancel subscription view */
+"cancel_subscription_title" = "Before you cancel, check out these offers";
+
+/* Title for the continue button */
+"cancel_subscription_continue_button" = "Continue to Cancellation";
+
+/* Generic error if the product loading fails */
+"cancel_subscription_generic_error" = "An error occurred. Please try again later.";
+
+/* Cancel subscription: title for the promotion row */
+"cancel_subscription_promotion_title" = "Get your next month free";
+
+/* Cancel subscription: description for the promotion row */
+"cancel_subscription_promotion_description" = "Save %@ with your next month on us.";
+
+/* Cancel subscription: title for the new plan row */
+"cancel_subscription_new_plan_title" = "Looking for a different plan?";
+
+/* Cancel subscription: description for the new plan row */
+"cancel_subscription_new_plan_description" = "Find the plan that’s right for you.";
+
+/* Cancel subscription: title for the help row */
+"cancel_subscription_help_title" = "Need help with Pocket Casts?";
+
+/* Cancel subscription: description for the help row */
+"cancel_subscription_help_description" = "Struggling with any features or having issues.";
+
+/* Title for the claim offer button */
+"cancel_subscription_claim_offer_button" = "Claim offer";
+
+/* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
+
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */

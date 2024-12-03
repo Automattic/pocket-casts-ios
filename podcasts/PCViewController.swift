@@ -62,12 +62,11 @@ class PCViewController: SimpleNotificationsViewController {
         if let title = title, title.count > 0 {
             setupNavBar(animated: animated)
         }
+        refreshRightButtons()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        refreshRightButtons()
 
         if supportsGoogleCast {
             NotificationCenter.default.addObserver(self, selector: #selector(refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
