@@ -40,7 +40,7 @@ class ExpandableLabel: ThemeableLabel {
         <style>
         body {
             font-family: -apple-system;
-            font-size: \(fontSize)pt;
+            font-size: 1.5em;
         }
         </style>
         </head>
