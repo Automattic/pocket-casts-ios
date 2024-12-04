@@ -100,6 +100,8 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
             return L10n.podcastsEpisodeSortShortestToLongest
         case .longestToShortest:
             return L10n.podcastsEpisodeSortLongestToShortest
+        case .serial:
+            return L10n.podcastsEpisodeSortSerial
         }
     }
 
@@ -117,6 +119,8 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
             return "shortest_to_longest"
         case .longestToShortest:
             return "longest_to_shortest"
+        case .serial:
+            return "serial"
         }
     }
 }

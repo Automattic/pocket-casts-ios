@@ -1852,7 +1852,7 @@
 "podcast_no_date" = "Date Not Set";
 
 /* Label used to indicate that the podcast episode isn't grouped into a season. */
-"podcast_no_season" = "No Season";
+"podcast_no_season" = "Extras";
 
 /* Accessibility label to prompt to pause an active download. */
 "podcast_pause_download" = "Pause download";
@@ -4695,4 +4695,11 @@
 
 /* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
 "referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
+
+/* Episodes will be displayed in based on season and episode numbers*/
+"podcasts_episode_sort_serial" = "Serial";
+
+/* Name for group of episodes that don't have a season defined when sorting in serial mode*/
+"podcast_extras" = "Extras";
+
 

@@ -2236,6 +2236,8 @@ internal enum L10n {
   internal static var podcastErrorMessage: String { return L10n.tr("Localizable", "podcast_error_message") }
   /// Literally Can't Even
   internal static var podcastErrorTitle: String { return L10n.tr("Localizable", "podcast_error_title") }
+  /// Extras
+  internal static var podcastExtras: String { return L10n.tr("Localizable", "podcast_extras") }
   /// Episode download failed.
   internal static var podcastFailedDownload: String { return L10n.tr("Localizable", "podcast_failed_download") }
   /// Failed to upload
@@ -2263,7 +2265,7 @@ internal enum L10n {
   internal static var podcastLoading: String { return L10n.tr("Localizable", "podcast_loading") }
   /// Date Not Set
   internal static var podcastNoDate: String { return L10n.tr("Localizable", "podcast_no_date") }
-  /// No Season
+  /// Extras
   internal static var podcastNoSeason: String { return L10n.tr("Localizable", "podcast_no_season") }
   /// Pause download
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download") }
@@ -2351,6 +2353,8 @@ internal enum L10n {
   internal static var podcastsEpisodeSortNewestToOldest: String { return L10n.tr("Localizable", "podcasts_episode_sort_newest_to_oldest") }
   /// Oldest to newest
   internal static var podcastsEpisodeSortOldestToNewest: String { return L10n.tr("Localizable", "podcasts_episode_sort_oldest_to_newest") }
+  /// Serial
+  internal static var podcastsEpisodeSortSerial: String { return L10n.tr("Localizable", "podcasts_episode_sort_serial") }
   /// Shortest to Longest
   internal static var podcastsEpisodeSortShortestToLongest: String { return L10n.tr("Localizable", "podcasts_episode_sort_shortest_to_longest") }
   /// Title (A-Z)
