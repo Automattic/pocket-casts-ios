@@ -23,7 +23,8 @@ struct Announcements {
 
                 NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             },
-            isEnabled: true
+            isEnabled: true,
+            presentationStyle: .alert
         ),
 
         // Slumber Studios partnership
@@ -35,7 +36,7 @@ struct Announcements {
             buttonTitle: "",
             action: {},
             isEnabled: FeatureFlag.slumber.enabled,
-            fullModal: true,
+            presentationStyle: .fullModal,
             customBody: AnyView(SlumberCustomBody())
         ),
 
@@ -50,7 +51,7 @@ struct Announcements {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
             isEnabled: chaptersViewModel.isPatronAnnouncementEnabled,
-            fullModal: true
+            presentationStyle: .fullModal
         ),
 
         // Deselect Chapters (Plus on TestFlight announcement)
@@ -64,7 +65,7 @@ struct Announcements {
                 chaptersViewModel.buttonAction()
             },
             isEnabled: chaptersViewModel.isPlusAnnouncementEnabled,
-            fullModal: true
+            presentationStyle: .fullModal
         ),
 
         // Deselect Chapters (Non-Patron general public announcement)
@@ -78,7 +79,7 @@ struct Announcements {
                 chaptersViewModel.buttonAction()
             },
             isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
-            fullModal: true
+            presentationStyle: .fullModal
         ),
 
         // Give Ratings
@@ -92,7 +93,7 @@ struct Announcements {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
             isEnabled: FeatureFlag.giveRatings.enabled,
-            fullModal: true
+            presentationStyle: .fullModal
         ),
         .init(
             version: "7.72",
@@ -104,7 +105,7 @@ struct Announcements {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
             isEnabled: FeatureFlag.newSharing.enabled,
-            fullModal: true
+            presentationStyle: .fullModal
         ),
         .init(
             version: "7.77",
@@ -116,7 +117,7 @@ struct Announcements {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
             isEnabled: FeatureFlag.upNextShuffle.enabled,
-            fullModal: true
+            presentationStyle: .fullModal
         )
     ]
 }

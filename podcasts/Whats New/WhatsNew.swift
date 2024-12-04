@@ -4,6 +4,13 @@ import SwiftUI
 
 class WhatsNew {
     struct Announcement {
+        enum PresentationStyle {
+            case fullModal
+            case mediumModal
+            case customModal(height: Double)
+            case alert
+        }
+
         let version: String
         let header: () -> AnyView
         let title: String
@@ -12,7 +19,7 @@ class WhatsNew {
         let action: () -> Void
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
-        let fullModal: Bool
+        let presentationStyle: PresentationStyle
         let customBody: () -> AnyView?
 
         init(version: String,
@@ -23,6 +30,7 @@ class WhatsNew {
              displayTier: SubscriptionTier = .none,
              isEnabled: @autoclosure @escaping () -> Bool,
              fullModal: Bool = false,
+             presentationStyle: PresentationStyle,
              customBody: @autoclosure @escaping () -> AnyView? = nil) {
             self.version = version
             self.header = header
@@ -32,7 +40,7 @@ class WhatsNew {
             self.action = action
             self.displayTier = displayTier
             self.isEnabled = isEnabled
-            self.fullModal = fullModal
+            self.presentationStyle = presentationStyle
             self.customBody = customBody
         }
     }
@@ -57,19 +65,18 @@ class WhatsNew {
     }
 
     func viewControllerToShow(for announcement: Announcement) -> UIViewController? {
-        guard !announcement.fullModal else {
-            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
-                .onAppear {
-                    Settings.lastWhatsNewShown = announcement.version
-                })
-            return whatsNewViewController.usingSheetPresentationController()
+        if case .alert = announcement.presentationStyle {
+            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
+            whatsNewViewController.modalPresentationStyle = .overCurrentContext
+            whatsNewViewController.modalTransitionStyle = .crossDissolve
+            whatsNewViewController.view.backgroundColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
+            return whatsNewViewController
         }
-
-        let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
-        whatsNewViewController.modalPresentationStyle = .overCurrentContext
-        whatsNewViewController.modalTransitionStyle = .crossDissolve
-        whatsNewViewController.view.backgroundColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
-        return whatsNewViewController
+        let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
+            .onAppear {
+                Settings.lastWhatsNewShown = announcement.version
+            })
+        return whatsNewViewController.usingSheetPresentationController(detents: announcement.presentationStyle)
     }
 
     /// Returns the announcement to be displayed if one is available
@@ -102,16 +109,31 @@ class WhatsNew {
 }
 
 extension UIViewController {
-    func usingSheetPresentationController() -> Self {
+    func usingSheetPresentationController(detents: WhatsNew.Announcement.PresentationStyle) -> Self {
         if let sheet = sheetPresentationController {
-            sheet.detents = [.large()]
             sheet.largestUndimmedDetentIdentifier = .medium
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersEdgeAttachedInCompactHeight = true
             sheet.prefersGrabberVisible = true
             sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-        }
 
+            switch detents {
+            case .fullModal:
+                sheet.detents = [.large()]
+            case .mediumModal:
+                    sheet.detents = [.medium()]
+            case .customModal(let height):
+                if #available(iOS 16.0, *) {
+                    sheet.detents = [.custom { _ in
+                        return height
+                    }]
+                } else {
+                    sheet.detents = [.large()]
+                }
+            default:
+                break
+            }
+        }
         return self
     }
 }
