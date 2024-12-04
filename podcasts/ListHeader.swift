@@ -3,11 +3,12 @@ import Foundation
 class ListHeader: ListItem {
     let headerTitle: String
     let isSectionHeader: Bool
+    let sectionNumber: Int
 
-    init(headerTitle: String, isSectionHeader: Bool) {
+    init(headerTitle: String, isSectionHeader: Bool, sectionNumber: Int) {
         self.headerTitle = headerTitle
         self.isSectionHeader = isSectionHeader
-
+        self.sectionNumber = sectionNumber
         super.init()
     }
 

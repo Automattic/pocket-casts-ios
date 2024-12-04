@@ -812,6 +812,31 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
+    func downloadSeasonTapped(season: Int) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self,
+                  let allObjects = self.episodeInfo[safe: 1]?.elements,
+                  allObjects.count > 0
+            else {
+                return
+            }
+
+            let seasonObjects = allObjects.filter {
+                guard let listEpisode = $0 as? ListEpisode else {
+                    return false
+                }
+                return listEpisode.episode.seasonNumber == season
+            }
+
+            let episodes = seasonObjects.compactMap { ($0 as? ListEpisode)?.episode }.filter { $0.seasonNumber == season }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+
+            self.downloadItems(allObjects: seasonObjects)
+        }
+    }
+
     func downloadItems(allObjects: [ListItem]) {
         var queuedEpisodes = 0
         for object in allObjects {

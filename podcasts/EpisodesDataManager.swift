@@ -33,7 +33,7 @@ class EpisodesDataManager {
     /// Use `uuidsToFilter` to filter the episode UUIDs to only those in the array
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
         // the podcast page has a header, for simplicity in table animations, we add it here
-        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
+        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
         var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
 
         let episodeSortOrder = podcast.podcastSortOrder

@@ -97,6 +97,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         } else if let heading = itemAtRow as? ListHeader {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
             cell.heading.text = heading.headerTitle
+            if heading.sectionNumber > 0 {
+                cell.button.isHidden = false
+                cell.action = { [weak self] in
+                    self?.downloadSeasonTapped(season: heading.sectionNumber)
+                }
+            } else {
+                cell.button.isHidden = true
+                cell.action = nil
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
