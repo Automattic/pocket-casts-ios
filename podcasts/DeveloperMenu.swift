@@ -292,6 +292,12 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                WhatsNewAnnouncementMenuButton()
+            } header: {
+                Text("What's new announcement")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")

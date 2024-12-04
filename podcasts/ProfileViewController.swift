@@ -425,12 +425,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.kidsProfile, at: 0)
         }
 
-        if FeatureFlag.whatsNew.enabled, WhatsNew.currentAnnouncement != nil, let index = data[0].firstIndex(of: .allStats) {
-            data[0].insert(.whatsNew, at: 0)
-        }
-
         if ReferralsCoordinator.shared.isReferralAvailableToClaim {
             data[0].insert(.referralsClaim, at: 0)
+        }
+
+        if FeatureFlag.whatsNew.enabled, WhatsNew.currentAnnouncement != nil, let index = data[0].firstIndex(of: .allStats) {
+            data[0].insert(.whatsNew, at: index)
         }
 
         tableData = data
