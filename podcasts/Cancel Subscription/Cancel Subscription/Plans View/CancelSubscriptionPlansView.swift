@@ -78,7 +78,7 @@ struct CancelSubscriptionPlansView: View {
             ZStack {
                 theme.primaryUi05Selected
                     .edgesIgnoringSafeArea(.all)
-                    .opacity(0.7)
+                    .opacity(0.4)
                 ProgressView()
                     .tint(theme.primaryText01)
             }
