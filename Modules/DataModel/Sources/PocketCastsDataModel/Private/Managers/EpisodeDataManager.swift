@@ -642,7 +642,7 @@ class EpisodeDataManager {
     func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
-        episode.autoDownloadStatus = autoDownloadStatus.rawValue
+        episode.autoDownloadStatus = autoDownloadStatus
 
         let fields = ["episodeStatus", "lastDownloadAttemptDate", "autoDownloadStatus"]
         let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.lastDownloadAttemptDate), episode.autoDownloadStatus, episode.id] as [Any]
@@ -651,7 +651,7 @@ class EpisodeDataManager {
     }
 
     func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue) {
-        episode.autoDownloadStatus = autoDownloadStatus.rawValue
+        episode.autoDownloadStatus = autoDownloadStatus
         save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
     }
 

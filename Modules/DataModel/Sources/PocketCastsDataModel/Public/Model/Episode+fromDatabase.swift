@@ -19,7 +19,7 @@ extension Episode {
         episode.playedUpTo = rs.double(forColumn: "playedUpTo")
         episode.duration = rs.double(forColumn: "duration")
         episode.playingStatus = rs.int(forColumn: "playingStatus")
-        episode.autoDownloadStatus = rs.int(forColumn: "autoDownloadStatus")
+        episode.autoDownloadStatus = AutoDownloadStatus(rawValue: rs.int(forColumn: "autoDownloadStatus")) ?? .notSpecified
         episode.publishedDate = DBUtils.convertDate(value: rs.double(forColumn: "publishedDate"))
         episode.sizeInBytes = rs.longLongInt(forColumn: "sizeInBytes")
         episode.playingStatusModified = rs.longLongInt(forColumn: "playingStatusModified")

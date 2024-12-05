@@ -21,7 +21,7 @@ extension WatchSyncManager {
 
         let downloadedEpisodes = DataManager.sharedManager.findDownloadedEpisodes()
 
-        let deleteCandidates = downloadedEpisodes.filter { $0.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue }
+        let deleteCandidates = downloadedEpisodes.filter { $0.autoDownloadStatus == .autoDownloaded }
 
         for delete in deleteCandidates {
             if let upNextPosition = allQueued.firstIndex(where: { $0.uuid == delete.uuid }), upNextPosition < WatchDataManager.upNextAutoDeleteCount() {

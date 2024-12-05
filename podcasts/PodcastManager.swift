@@ -101,7 +101,7 @@ class PodcastManager: NSObject {
         if NetworkUtils.shared.isConnectedToWifi() {
             let queuedEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.waitingForWifi.rawValue])
             for episode in queuedEpisodes {
-                downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
+                downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: episode.autoDownloadStatus)
             }
         }
 
@@ -110,12 +110,12 @@ class PodcastManager: NSObject {
         for episode in stuckDownloadingEpisodes {
             if !downloadManager.isEpisodeDownloading(episode) {
                 if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
-                    downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
+                    downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: episode.autoDownloadStatus)
                 }
                 else {
                     // If we're not downloading over cellular, clear task id so its not removed by the "stuck download" cleaner, and queue it for later
                     dataManager.clearDownloadTaskId(episode: episode)
-                    downloadManager.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
+                    downloadManager.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: episode.autoDownloadStatus)
                 }
             }
         }

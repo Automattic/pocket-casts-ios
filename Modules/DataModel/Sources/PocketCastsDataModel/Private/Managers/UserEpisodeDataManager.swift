@@ -280,7 +280,7 @@ class UserEpisodeDataManager {
     }
 
     func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
-        episode.autoDownloadStatus = autoDownloadStatus.rawValue
+        episode.autoDownloadStatus = autoDownloadStatus
         save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
     }
 
@@ -346,7 +346,7 @@ class UserEpisodeDataManager {
     func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
-        episode.autoDownloadStatus = autoDownloadStatus.rawValue
+        episode.autoDownloadStatus = autoDownloadStatus
 
         let fields = ["episodeStatus", "lastDownloadAttemptDate", "autoDownloadStatus"]
         let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.lastDownloadAttemptDate), episode.autoDownloadStatus, episode.id] as [Any]
@@ -571,7 +571,7 @@ class UserEpisodeDataManager {
         episode.duration = rs.double(forColumn: "duration")
         episode.durationModified = rs.longLongInt(forColumn: "durationModified")
         episode.playingStatus = rs.int(forColumn: "playingStatus")
-        episode.autoDownloadStatus = rs.int(forColumn: "autoDownloadStatus")
+        episode.autoDownloadStatus = AutoDownloadStatus(rawValue: rs.int(forColumn: "autoDownloadStatus")) ?? .notSpecified
         episode.publishedDate = DBUtils.convertDate(value: rs.double(forColumn: "publishedDate"))
         episode.sizeInBytes = rs.longLongInt(forColumn: "sizeInBytes")
         episode.playingStatusModified = rs.longLongInt(forColumn: "playingStatusModified")

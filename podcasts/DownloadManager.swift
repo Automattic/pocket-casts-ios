@@ -174,7 +174,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return }
 
-        let downloadingToStream = autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming
+        let downloadingToStream = autoDownloadStatus == .playerDownloadedForStreaming
 
         // we already have a downloaded copy of this
         if !downloadingToStream, episode.downloaded(pathFinder: self) { return }
@@ -191,14 +191,14 @@ class DownloadManager: NSObject, FilePathProtocol {
         #endif
 
         // download requested for something we already have buferred, just move it
-        if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
+        if episode.bufferedForStreaming(), autoDownloadStatus != .playerDownloadedForStreaming {
             moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
             return
         }
 
         let previousDownloadFailed = episode.episodeStatus == DownloadStatus.downloadFailed.rawValue
         if !downloadingToStream { episode.episodeStatus = DownloadStatus.queued.rawValue }
-        episode.autoDownloadStatus = autoDownloadStatus.rawValue
+        episode.autoDownloadStatus = autoDownloadStatus
         episode.downloadErrorDetails = nil
         episode.playbackErrorDetails = nil
         markUnplayedAndUnarchiveIfRequired(episode: episode, saveChanges: false)
@@ -266,7 +266,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         var newItem: AVPlayerItem = playbackItem
         #if !os(watchOS)
-        if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue,
+        if (episode.autoDownloadStatus == .playerDownloadedForStreaming) || (episode.autoDownloadStatus == .autoDownloaded),
            let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
             // We are already downloading this episode for streaming
             FileLog.shared.addMessage("DownloadManager stream and download: skipping because we are already exporting: \(episode.uuid)")
@@ -284,7 +284,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
             episode.autoDownloadStatus = previousStatus
         } else {
-            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? .autoDownloaded : .playerDownloadedForStreaming
         }
 
         let downloadTaskUUID = episode.uuid
@@ -476,13 +476,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         if userInitiated {
-            episode.autoDownloadStatus = AutoDownloadStatus.userCancelledDownload.rawValue
+            episode.autoDownloadStatus = .userCancelledDownload
             saveRequired = true
         }
 
         if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
             episode.downloadTaskId = episode.uuid
-            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            episode.autoDownloadStatus = .playerDownloadedForStreaming
             saveRequired = true
         }
 
@@ -500,10 +500,10 @@ class DownloadManager: NSObject, FilePathProtocol {
         guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return false }
 
         if let taskId = episode.downloadTaskId,
-            episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
+            episode.autoDownloadStatus == .playerDownloadedForStreaming,
             autoDownloadStatus != .playerDownloadedForStreaming {
             // if the player was downloading an episode for streaming purposes, and now the user (or the app via auto download) is downloading it, change the status
-            episode.autoDownloadStatus = autoDownloadStatus.rawValue
+            episode.autoDownloadStatus = autoDownloadStatus
             episode.episodeStatus = DownloadStatus.downloading.rawValue
             dataManager.save(episode: episode)
             downloadingEpisodesCache[taskId] = episode

@@ -1,13 +1,13 @@
 import Foundation
 
-@objc public protocol BaseEpisode: AnyObject {
+public protocol BaseEpisode: AnyObject {
     // MARK: - Properties
 
     var uuid: String { get set }
     var addedDate: Date? { get set }
     var publishedDate: Date? { get set }
     var cachedFrameCount: Int64 { get set }
-    var autoDownloadStatus: Int32 { get set }
+    var autoDownloadStatus: AutoDownloadStatus { get set }
     var downloadUrl: String? { get set }
     var fileType: String? { get set }
     var contentType: String? { get set }

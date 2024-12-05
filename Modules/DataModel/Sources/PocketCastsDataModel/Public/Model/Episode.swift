@@ -20,7 +20,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
     @objc public var playingStatus = 0 as Int32
-    @objc public var autoDownloadStatus = 0 as Int32
+    public var autoDownloadStatus: AutoDownloadStatus = AutoDownloadStatus.notSpecified
     @objc public var publishedDate: Date?
     @objc public var sizeInBytes = 0 as Int64
     @objc public var playingStatusModified = 0 as Int64
@@ -131,7 +131,7 @@ public class Episode: NSObject, BaseEpisode {
     }
 
     public func exemptFromAutoDownload() -> Bool {
-        autoDownloadStatus == AutoDownloadStatus.userDeletedFile.rawValue || autoDownloadStatus == AutoDownloadStatus.userCancelledDownload.rawValue
+        (autoDownloadStatus == .userDeletedFile) || (autoDownloadStatus == .userCancelledDownload)
     }
 
     public func playbackError() -> Bool {

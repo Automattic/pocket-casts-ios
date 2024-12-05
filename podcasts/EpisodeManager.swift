@@ -104,7 +104,7 @@ class EpisodeManager: NSObject {
 
         if episode.episodeStatus != DownloadStatus.notDownloaded.rawValue {
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
-            episode.autoDownloadStatus = AutoDownloadStatus.userDeletedFile.rawValue
+            episode.autoDownloadStatus = .userDeletedFile
             episode.cachedFrameCount = 0
             DataManager.sharedManager.save(episode: episode)
         }

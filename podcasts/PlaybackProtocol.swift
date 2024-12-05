@@ -1,7 +1,7 @@
 import AVFoundation
 import PocketCastsDataModel
 
-@objc protocol PlaybackProtocol: AnyObject {
+protocol PlaybackProtocol: AnyObject {
     func loadEpisode(_ episode: BaseEpisode)
     func playing() -> Bool
     func buffering() -> Bool

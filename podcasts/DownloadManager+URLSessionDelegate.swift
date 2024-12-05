@@ -31,7 +31,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         guard let downloadingEpisode = episodeForTask(downloadTask, forceReload: false) else { return }
 
-        let downloadingToStream = downloadingEpisode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+        let downloadingToStream = downloadingEpisode.autoDownloadStatus == .playerDownloadedForStreaming
         if !downloadingToStream {
             progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
         }
@@ -59,7 +59,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let downloadingToStream = downloadingEpisode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+        let downloadingToStream = downloadingEpisode.autoDownloadStatus == .playerDownloadedForStreaming
         guard !downloadingToStream else {
             return
         }
@@ -157,7 +157,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 return
             }
 
-            let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
+            let autoDownloadStatus = episode.autoDownloadStatus
             let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
             let destinationUrl = URL(fileURLWithPath: destinationPath)
 
