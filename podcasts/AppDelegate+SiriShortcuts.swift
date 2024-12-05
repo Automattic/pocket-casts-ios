@@ -29,9 +29,8 @@ extension AppDelegate {
             else { return }
 
             if path.startsWith(string: "/redeem") {
-//                handleReferralsDeepLink(url: incomingURL)
-                // For now, we use the "/redeem" Universal Link path for Gravatar OAuth, since it's already set up.
-                // On a final implementation, we replace this path with a specific one for Gravatar OAuth.
+                handleReferralsDeepLink(url: incomingURL)
+            } else if path.startsWith(string: "/gravatar") {
                 Task {
                     await GravatarUI.OAuthSession.handleCallback(incomingURL)
                 }
