@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 import UIKit
 
 class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -144,18 +145,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.style = .primaryText02
         remainingLabel.themeOverride = themeOverride
 
-        if FeatureFlag.upNextShuffle.enabled {
-            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
-            themeDidChange()
-            shuffleButton.isSelected = Settings.upNextShuffleEnabled()
-            shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
-        } else {
-            clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
-            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
-            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
-            clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-            clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
-        }
+        setupActionButtonsIfNecessary()
 
         contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
 
@@ -165,6 +155,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavBarButtons()
+        setupActionButtonsIfNecessary()
+        if FeatureFlag.upNextShuffle.enabled {
+            themeDidChange()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -213,6 +207,18 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func shuffleButtonTapped() {
+        if !SubscriptionHelper.hasActiveSubscription() {
+            // Edge case where the UpNext is presented by the player container with a free user.
+            // In this case we need to dismiss the UpNext to present the paywall
+            if let mainTabBar = presentingViewController?.presentingViewController, presentingViewController is PlayerContainerViewController {
+                dismiss(animated: true) {
+                    NavigationManager.sharedManager.showUpsellView(from: mainTabBar, source: .upNextShuffle)
+                }
+            } else {
+                NavigationManager.sharedManager.showUpsellView(from: self, source: .upNextShuffle)
+            }
+            return
+        }
         Settings.upNextShuffleToggle()
         if !showingInTab {
             updateShuffleButtonState()
@@ -221,10 +227,48 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func themeDidChange() {
-        let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
-        let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
-        shuffleButton.setImage(unselected, for: .normal)
-        shuffleButton.setImage(selected, for: .selected)
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+            shuffleButton.setImage(UIImage(named: "shuffle-plus"), for: .normal)
+            shuffleButton.isSelected = false
+        } else {
+            let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+            let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+            shuffleButton.setImage(unselected, for: .normal)
+            shuffleButton.setImage(selected, for: .selected)
+        }
+    }
+
+    @objc private func subscriptionStatusDidChange() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if FeatureFlag.upNextShuffle.enabled {
+                // Update UI
+                setupActionButtonsIfNecessary()
+                themeDidChange()
+                updateNavBarButtons()
+                reloadTable()
+            }
+        }
+    }
+
+    private func setupActionButtonsIfNecessary() {
+        if FeatureFlag.upNextShuffle.enabled {
+            guard shuffleButton.allTargets.isEmpty else { return }
+            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+            themeDidChange()
+            if SubscriptionHelper.hasActiveSubscription() {
+                shuffleButton.isSelected = Settings.upNextShuffleEnabled()
+            }
+            shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
+        } else {
+            guard clearQueueButton.allTargets.isEmpty else { return }
+            clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
+            clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+            clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+        }
     }
 
     @objc private func updateShuffleButtonState() {
@@ -318,9 +362,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
             if showingInTab {
-                if FeatureFlag.upNextShuffle.enabled {
+                if FeatureFlag.upNextShuffle.enabled, PlaybackManager.shared.queue.upNextCount() > 0 {
                     navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
-                    navigationItem.leftBarButtonItem?.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
                 } else {
                     navigationItem.leftBarButtonItem = nil
                 }

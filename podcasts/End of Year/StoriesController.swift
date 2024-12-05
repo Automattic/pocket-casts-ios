@@ -1,6 +1,6 @@
 import Foundation
 
-/// Control the presentation of the stories
+/// Control the presentation of the storieis
 class StoriesController {
     static var shared = StoriesController()
 

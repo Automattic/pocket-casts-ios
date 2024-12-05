@@ -69,7 +69,7 @@ class StoriesModel: ObservableObject {
 
     func start() {
         cancellable = publisher.autoconnect().sink(receiveValue: { _ in
-            guard self.numberOfStories > 0 else {
+            guard self.currentStory != nil, self.numberOfStories > 0 else {
                 return
             }
 
@@ -221,7 +221,7 @@ class StoriesModel: ObservableObject {
         guard let assets = sharingAssets() else { return }
 
         pause()
-        EndOfYear.share(assets: assets, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+        EndOfYear.share(assets: assets, model: self, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
             self?.start()
         })
     }
@@ -235,12 +235,28 @@ class StoriesModel: ObservableObject {
         currentStoryIsPlus && activeTier() == .none
     }
 
+    func paywallView() -> some View {
+        dataSource.paywallView()
+    }
+
     func overlaidShareView() -> AnyView? {
         dataSource.overlaidShareView()
     }
 
     func footerShareView() -> AnyView? {
         dataSource.footerShareView()
+    }
+
+    var indicatorColor: Color {
+        dataSource.indicatorColor
+    }
+
+    var primaryBackgroundColor: Color {
+        dataSource.primaryBackgroundColor
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        dataSource.sharingSnapshotModifier(view)
     }
 }
 

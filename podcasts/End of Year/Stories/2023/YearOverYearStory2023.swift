@@ -216,7 +216,7 @@ struct YearOverYearStory2023: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyYearOverShareText)
+            StoryShareableText(L10n.eoyYearOverShareText("2023", "2022"), year: .y2023)
         ]
     }
 }

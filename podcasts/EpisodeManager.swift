@@ -369,6 +369,8 @@ class EpisodeManager: NSObject {
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if episode.downloaded(pathFinder: DownloadManager.shared), !streamingOnly {
             return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+        } else if let episode  = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) {
+            return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
         } else if let episode = episode as? Episode, let url = episode.downloadUrl {
             return URL(string: url)
         } else if let episode = episode as? UserEpisode {
@@ -412,6 +414,12 @@ class EpisodeManager: NSObject {
         for episode in episodes {
             deleteDownloadedFiles(episode: episode)
         }
+    }
+
+    class func hasDownloadedEpisodes() -> Bool {
+        let query = "episodeStatus == \(DownloadStatus.downloaded.rawValue) LIMIT 1"
+        let list = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        return !list.isEmpty
     }
 
     private class func allDownloadedEpisodes() -> [Episode] {

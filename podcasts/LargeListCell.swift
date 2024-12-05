@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class LargeListCell: ThemeableCollectionCell {
@@ -18,8 +19,8 @@ class LargeListCell: ThemeableCollectionCell {
             subscribeButton.tintColor = ThemeColor.contrast01()
             subscribeButton.backgroundColor = ThemeColor.veil()
 
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
         }
     }
 

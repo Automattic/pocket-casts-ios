@@ -257,6 +257,18 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Aggiungi solo all'inizio</string>
     <key>auto_download_first</key>
     <string>Download automatico primi</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>Limita i download automatici</string>
+    <key>auto_download_limit_downloads</key>
+    <string>Limita i download</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>%1$@ episodi</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>%1$@ ultimi episodi dello show</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>ultimo episodio</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>Ultimo episodio dello show</string>
     <key>auto_download_off_subtitle</key>
     <string>Abilita il download automatico degli episodi in questo filtro</string>
     <key>auto_download_on_plural_format</key>
@@ -713,6 +725,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Vui eliminare questi file scaricati?</string>
     <key>downloaded_files_conf_message</key>
     <string>L'annullamento dell'abbonamento eliminerà tutti i file scaricati in questo podcast, sei sicuro?</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>Se smetti di seguire, tutti i file scaricati in questo podcast saranno eliminati. Vuoi procedere?</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>%1$@ file scaricati</string>
     <key>downloaded_files_conf_singular</key>
@@ -735,6 +749,11 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Modifica clip</string>
     <key>enable_it_now</key>
     <string>Attiva ora</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>Non dimenticare di condividere con i tuoi amici e ringrazia i tuoi podcast e creatori preferiti</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>Ti ringraziamo per averci ascoltato quest'anno.
+Ti aspettiamo nel 2025!</string>
     <key>eoy_card_description</key>
     <string>Visualizza le statistiche di ascolto, i podcast migliori e molto altro ancora.</string>
     <key>eoy_create_account_to_see</key>
@@ -843,13 +862,13 @@ che hai ascoltato è stato
     <key>eoy_year_completion_rate</key>
     <string>tasso di completamento</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>Il mio tasso di completamento del 2023</string>
+    <string>Il mio tasso di completamento del %1$@</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>Degli episodi iniziati (%1$@), ne hai ascoltati integralmente un totale pari a: %2$@</string>
     <key>eoy_year_completion_rate_title</key>
     <string>Il tuo tasso di completamento quest'anno è stato: %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>Il mio tempo di ascolto nel 2023 rispetto al 2022</string>
+    <string>Il mio tempo di ascolto nel %1$@ rispetto al %2$@</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>Dicono che la costanza sia la chiave per il successo. O qualcosa del genere.</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -864,6 +883,8 @@ che hai ascoltato è stato
     <string>Rispetto al 2022, il tuo tempo di ascolto è leggermente diminuito</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>Rispetto al 2022, il tuo tempo di ascolto è aumentato notevolmente (%1$@%)</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Ho valutato %1$@ podcast diversi nel %2$@ e la votazione che ho assegnato con maggiore frequenza è stata %3$@</string>
     <key>episode</key>
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
@@ -953,6 +974,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Ordina i file</string>
     <key>filter_auto_add_subtitle</key>
     <string>I nuovi podcast a cui ti abboni verranno aggiunti automaticamente</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>I nuovi podcast che segui verranno aggiunti automaticamente</string>
     <key>filter_chips_all_podcasts</key>
     <string>Tutti i podcast</string>
     <key>filter_chips_duration</key>
@@ -969,6 +992,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Nessun episodio corrispondente</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>I criteri che hai selezionato non corrispondono ad alcun episodio attuale presente nei tuoi abbonamenti.</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>I criteri che hai selezionato non corrispondono ad alcun episodio attuale presente nei tuoi podcast</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Scegli criteri diversi o salva questo filtro se pensi che ci saranno corrispondenze di episodi in futuro.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -995,6 +1020,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Più lungo di</string>
     <key>filter_manual_add_subtitle</key>
     <string>I nuovi podcast a cui ti abboni non verranno aggiunti automaticamente</string>
+    <key>filter_manual_add_subtitle_new</key>
+    <string>I nuovi podcast che segui non verranno aggiunti automaticamente</string>
     <key>filter_media_type</key>
     <string>Tipo di elemento multimediale</string>
     <key>filter_media_type_audio</key>
@@ -1093,6 +1120,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Cronologia delle cartelle</string>
     <key>folders_history_explanation</key>
     <string>Un elenco dei podcast rimossi dalle cartelle a seguito di una sincronizzazione.</string>
+    <key>follow</key>
+    <string>Segui</string>
     <key>free_trial_detail_label</key>
     <string>Nessun pagamento ora. Cancellazione in qualsiasi momento</string>
     <key>free_trial_duration_free</key>
@@ -1224,6 +1253,10 @@ Nota: se in precedenza hai eliminato l'app Scorciatoie, ti verrà chiesto di rei
     <string>Puoi importare i tuoi abbonamenti ai podcast in Pocket Casts utilizzando il formato OPML ampiamente supportato. Esporta il file da un'altra app e scegli Apri in Pocket Casts.
 
 Nota: potresti dover inviare a te stesso il file OPML tramite e-mail, premere a lungo sull'allegato e selezionare Pocket Casts.</string>
+    <key>import_podcasts_description_new</key>
+    <string>Puoi importare i tuoi podcast in Pocket Casts utilizzando il formato OPML ampiamente supportato. Esporta il file da un'altra app e scegli Apri in Pocket Casts.
+
+Nota: potresti dover inviare a te stesso il file OPML tramite e-mail, premere a lungo sull'allegato e selezionare Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>IMPORTAZIONE IN POCKET CASTS</string>
     <key>import_subtitle</key>
@@ -1267,6 +1300,8 @@ pocast con te</string>
     <string>Riceverai una notifica tramite l'app quando il profilo Bambini sarà pronto! Vuoi dirci cosa vorresti vedere?</string>
     <key>kids_profile_thankyou_title</key>
     <string>Grazie per il tuo interesse</string>
+    <key>learn_about_ratings</key>
+    <string>Scopri di più sulle valutazioni</string>
     <key>learn_more</key>
     <string>Scopri di più</string>
     <key>listening_history</key>
@@ -1480,6 +1515,18 @@ AGGIORNAMENTI</string>
     <string>Sblocco</string>
     <key>pause</key>
     <string>Pausa</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>Carica i tuoi file con Pocket Casts Plus e molto altro ancora</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>Organizza i tuoi podcast con Pocket Casts Plus e molto altro ancora</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>Ottieni icone di app esclusive con Pocket Casts Plus e molto altro ancora</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Ottieni temi esclusivi con Pocket Casts Plus e molto altro ancora</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>Riproduci casualmente gli episodi con Pocket Casts Plus e molto altro ancora</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>Ascolta dal tuo orologio con Pocket Casts Plus e molto altro ancora</string>
     <key>phone</key>
     <string>Telefono</string>
     <key>play</key>
@@ -1490,6 +1537,66 @@ AGGIORNAMENTI</string>
     <string>Riproduci ultimo</string>
     <key>play_next</key>
     <string>Riproduci successivo</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Dei %1$@ episodi iniziati, ne hai ascoltati integralmente un totale pari a %2$@.</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>Il tuo tasso di completamento quest'anno è stato: %1$@</string>
+    <key>playback_2024_description</key>
+    <string>Visualizza i tuoi podcast principali, le categorie, le statistiche di ascolto e molto altro ancora. Condividi con gli amici e ringrazia pubblicamente i tuoi creatori preferiti.</string>
+    <key>playback_2024_feature_description</key>
+    <string>Visualizza le statistiche di ascolto, i migliori podcast e molto altro ancora.</string>
+    <key>playback_2024_feature_title</key>
+    <string>Ecco Le mie riproduzioni 2024.</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>%1$@ di ascolto di podcast totale</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>Era "%1$@" di "%2$@"</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>L'episodio più lungo che hai ascoltato è stato %1$@</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>Scopri Pocket Casts Plus</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>Supporta Pocket Casts abbonandoti a Plus per ottenere più statistiche, oltre a funzionalità premium come segnalibri, cartelle e la possibilità di preselezionare i capitoli.</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>Ma c'è di più!</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>Grazie per aver condiviso il tuo feedback con la community di creator</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>Wow, quante valutazioni da %1$@ stelle! Grazie per aver espresso il tuo supporto per i tuoi creator preferiti.</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>Sapevi che ora puoi aggiungere una valutazione ai podcast? Esprimi il tuo supporto per i tuoi creator preferiti e aiutali a farsi notare.</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>Ops. Ancora nessuna valutazione da mostrare per i podcast</string>
+    <key>playback_2024_ratings_title</key>
+    <string>Vediamo le tue valutazioni.</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>Hai ascoltato %1$@ episodi per un totale di %2$@ su "%3$@"</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>Questo è stato il podcast migliore nel 2024</string>
+    <key>playback_2024_view_year</key>
+    <string>Visualizza Le mie riproduzioni 2024</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>Ma hai ancora tutta la vita davanti, giusto?</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>Dicono che la costanza sia la chiave per il successo. O qualcosa del genere.</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>Vuoi superarlo nel 2025?</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è leggermente diminuito</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è diminuito notevolmente (%1$@%)</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è diminuito di più del %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è rimasto abbastanza costante</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è aumentato di più del %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è leggermente aumentato</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è aumentato notevolmente (%1$@%)</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>Rispetto al 2023, il tuo tempo di ascolto è aumentato di più del %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tutti i podcast</string>
     <key>playback_effect_this_podcast</key>
@@ -1536,6 +1643,12 @@ AGGIORNAMENTI</string>
     <string>Riduce la durata di un episodio tagliando il silenzio durante le conversazioni.</string>
     <key>player_effects_trim_silence_progress</key>
     <string>In totale hai risparmiato %1$@ utilizzando questa funzionalità.</string>
+    <key>player_episode_download_cancelled</key>
+    <string>Download dell'episodio cancellato</string>
+    <key>player_episode_queued_for_download</key>
+    <string>Episodio in coda per il download</string>
+    <key>player_episode_was_removed</key>
+    <string>Episodio rimosso</string>
     <key>player_error_corrupted_file</key>
     <string>L'episodio potrebbe essere danneggiato, ma puoi provare a riprodurlo di nuovo.</string>
     <key>player_error_internet_connection</key>
@@ -1947,6 +2060,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Continuando, accetti %1$@l'Informativa sulla privacy%2$@ e i %3$@Termini di servizio%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Cancella %1$@ episodi </string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>Cancella 1 episodio</string>
     <key>queue_clear_queue</key>
     <string>CANCELLA CODA</string>
     <key>queue_for_later</key>
@@ -2226,7 +2341,7 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Scarica i primi episodi in un filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Scarica nuovi episodi quando vengono rilasciati.</string>
+    <string>Scarica automaticamente i nuovi episodi appena escono e gestisci l'archivio impostando un limite sugli episodi salvati.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Scarica gli episodi aggiunti a Successivo.</string>
     <key>settings_badge_filter_header</key>
@@ -2847,6 +2962,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Prova ora</string>
     <key>unarchive</key>
     <string>Annulla archiviazione</string>
+    <key>unfollow</key>
+    <string>Smetti di seguire</string>
     <key>unknown_duration</key>
     <string>? m</string>
     <key>unstar</key>

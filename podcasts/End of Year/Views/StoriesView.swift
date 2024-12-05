@@ -17,6 +17,8 @@ struct StoriesView: View {
         self.syncProgressModel = syncProgressModel
     }
 
+    @StateObject private var pauseState = PauseState()
+
     @ViewBuilder
     var body: some View {
         if model.isReady {
@@ -41,11 +43,16 @@ struct StoriesView: View {
                 // Manually set the zIndex order to ensure we can change the order when needed
                 model.story(index: model.currentStoryIndex)
                     .zIndex(3)
-                    .ignoresSafeArea(edges: .bottom)
+                    .modify {
+                        if model.overlaidShareView() != nil {
+                            $0.ignoresSafeArea(edges: .bottom)
+                        }
+                    }
                     .environment(\.animated, true)
+                    .environment(\.pauseState, pauseState)
 
                 if model.shouldShowUpsell() {
-                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
+                    model.paywallView().zIndex(6).onAppear {
                         model.pause()
                     }
                 }
@@ -58,6 +65,7 @@ struct StoriesView: View {
             }
 
             header
+                .foregroundStyle(model.indicatorColor)
 
             // Hide the share button if needed
             if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let shareView = model.overlaidShareView() {
@@ -84,6 +92,13 @@ struct StoriesView: View {
         } message: {
             Text(L10n.eoyShareThisStoryMessage)
         }
+        .onChange(of: pauseState.isPaused) { isPaused in
+            if isPaused {
+                model.pause()
+            } else {
+                model.start()
+            }
+        }
     }
 
     // View shown while data source is preparing
@@ -93,16 +108,17 @@ struct StoriesView: View {
 
             VStack(spacing: 15) {
                 let progress = syncProgressModel.progress
-                CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
+                CircularProgressView(value: progress, stroke: model.indicatorColor, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
-                    .foregroundColor(.white)
+                    .foregroundColor(model.indicatorColor)
                     .font(style: .body)
             }
 
             storySwitcher
             header
         }
+        .background(model.primaryBackgroundColor)
     }
 
     var failed: some View {
@@ -110,11 +126,12 @@ struct StoriesView: View {
             Spacer()
 
             Text(L10n.eoyStoriesFailed)
-                .foregroundColor(.white)
+                .foregroundColor(model.indicatorColor)
 
             storySwitcher
             header
         }
+        .background(model.primaryBackgroundColor)
         .onAppear {
             Analytics.track(.endOfYearStoriesFailedToLoad)
         }
@@ -137,6 +154,7 @@ struct StoriesView: View {
             .padding(.trailing, Constants.storyIndicatorVerticalPadding)
 
             closeButton
+                .foregroundColor(model.indicatorColor)
         }
         .padding(.top, Constants.headerTopPadding)
     }
@@ -252,8 +270,8 @@ private struct CloseButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         Image("eoy-close")
+            .renderingMode(.template)
             .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
-            .foregroundColor(.white)
             .padding(Constants.closeButtonPadding)
             .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
             .cornerRadius(Constants.closeButtonRadius)
@@ -264,20 +282,6 @@ private struct CloseButtonStyle: ButtonStyle {
     private enum Constants {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonRadius: CGFloat = 5
-    }
-}
-
-struct StoryViewContainer<Content: View>: View {
-    private var content: () -> Content
-
-    init(@ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-    }
-    var body: some View {
-        ZStack {
-            content()
-            StoryLogoView().zIndex(4)
-        }
     }
 }
 

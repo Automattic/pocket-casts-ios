@@ -123,10 +123,6 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
     }
 }
 
-extension EndOfYear {
-    static var defaultDuration = 7.seconds
-}
-
 struct IntroStory2023_Previews: PreviewProvider {
     static var previews: some View {
         IntroStory2023()

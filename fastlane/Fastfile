@@ -26,6 +26,12 @@ USER_ENV_FILE_PATH = File.join(Dir.home, '.a8c-apps', ENV_FILE_NAME)
 TEAM_ID_APP_STORE = 'PZYM8XX95Q'
 TEAM_ID_ENTERPRISE = '99KV9Z6BKV'
 
+APP_STORE_CONNECT_BUILD_OUTPUT_NAME = 'pocket-casts'
+APP_STORE_CONNECT_XCARCHIVE_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.xcarchive")
+APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.xcarchive.zip")
+APP_STORE_CONNECT_BUILD_IPA_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.ipa")
+APP_STORE_CONNECT_BUILD_DSYMS_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.app.dSYM.zip")
+
 CODE_SIGNING_STORAGE_OPTIONS = {
   storage_mode: 's3',
   s3_bucket: 'a8c-fastlane-match',
@@ -531,54 +537,16 @@ platform :ios do
 
     build_app_store_connect
 
-    testflight(
-      skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID_APP_STORE,
-      api_key: app_store_connect_api_key
-    )
+    upload_app_store_connect_build_to_testflight
 
     symbols_upload
 
-    next unless create_release
-
-    archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
-    zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
-
-    app_version = release_version_current
-    build_version = build_code_current
-    version = beta_release ? build_version : app_version
-
-    UI.message("Creating #{version} release on GitHub...")
-    set_github_release(
-      repository_name: GHHELPER_REPO,
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      name: version,
-      tag_name: version,
-      description: begin
-        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
-      rescue StandardError
-        'No changelog provided'
-      end,
-      commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
-      upload_assets: [archive_zip_path.to_s],
-      is_draft: !beta_release,
-      is_prerelease: beta_release
-    )
-
-    UI.message('Sending message to Slack...')
-    slack(
-      pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
-      default_payloads: [],
-      slack_url: get_required_env!('SLACK_WEBHOOK'),
-      fail_on_error: false
-    )
-
-    FileUtils.rm_rf(archive_zip_path)
+    create_release_on_github(beta_release: beta_release) if create_release
   end
 
   desc 'Builds for distribution to App Store Connect'
-  lane :build_app_store_connect do
-    configure_code_signing_app_store
+  lane :build_app_store_connect do |fetch_code_signing: true|
+    configure_code_signing_app_store if fetch_code_signing
 
     build_app(
       scheme: SCHEME,
@@ -588,8 +556,22 @@ platform :ios do
       export_options: {
         method: 'app-store',
         manageAppVersionAndBuildNumber: false
-      }
+      },
+      # The options below might seem redundant but are currently all necessary to have predictable artifact paths to use in other lanes.
+      #
+      # - archive_path sets the full path for the xcarchive.
+      # - output_directory and output_name set the path and basename for the ipa and dSYM.
+      #
+      # We could have used 'build_path: OUTPUT_DIRECTORY_PATH' for the xcarchive...
+      # ...but doing so would append a timestamp and unnecessarily complicate other logic to get the path
+      archive_path: APP_STORE_CONNECT_XCARCHIVE_PATH,
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: APP_STORE_CONNECT_BUILD_OUTPUT_NAME
     )
+
+    # It's convenient to have a ZIP available here for later steps.
+    UI.message("Zipping #{APP_STORE_CONNECT_XCARCHIVE_PATH} to #{APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH}...")
+    zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
@@ -640,16 +622,60 @@ platform :ios do
     annotate_buildkite_with_appcenter_link
   end
 
+  lane :upload_app_store_connect_build_to_testflight do |ipa_path: APP_STORE_CONNECT_BUILD_IPA_PATH|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    upload_to_testflight(
+      ipa: ipa_path,
+      skip_waiting_for_build_processing: true,
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key
+    )
+  end
+
   desc 'Uploads DSYM Symbols'
-  lane :symbols_upload do |dsym_path: nil|
+  lane :symbols_upload do |dsym_path: APP_STORE_CONNECT_BUILD_DSYMS_PATH|
     require_env_vars!('SENTRY_AUTH_TOKEN')
 
     symbols_path = dsym_path || lane_context[SharedValues::DSYM_OUTPUT_PATH]
-    sentry_upload_dsym(
+    sentry_debug_files_upload(
       auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
       project_slug: SENTRY_PROJECT_SLUG,
-      dsym_path: symbols_path
+      path: symbols_path
+    )
+  end
+
+  lane :create_release_on_github do |beta_release: true, archive_zip_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH|
+    require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
+
+    app_version = release_version_current
+    build_version = build_code_current
+    version = beta_release ? build_version : app_version
+
+    UI.message("Creating #{version} release on GitHub...")
+    set_github_release(
+      repository_name: GHHELPER_REPO,
+      api_token: get_required_env!('GITHUB_TOKEN'),
+      name: version,
+      tag_name: version,
+      description: begin
+        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
+      rescue StandardError
+        'No changelog provided.'
+      end,
+      commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
+      upload_assets: [archive_zip_path.to_s],
+      is_draft: !beta_release,
+      is_prerelease: beta_release
+    )
+
+    UI.message('Sending message to Slack...')
+    slack(
+      pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
+      default_payloads: [],
+      slack_url: get_required_env!('SLACK_WEBHOOK'),
+      fail_on_error: false
     )
   end
 

@@ -132,8 +132,13 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
             return
         }
 
-        if bufferData.count > 0 {
-            fileHandle.append(data: bufferData)
+        if !bufferData.isEmpty {
+            do {
+                try fileHandle.append(data: bufferData)
+            } catch {
+                downloadFailed(with: error)
+                return
+            }
         }
 
         let error = verifyResponse()
@@ -227,8 +232,12 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
 
         guard bufferData.count >= downloadBufferLimit else { return }
 
-        fileHandle.append(data: bufferData)
-        bufferData = Data()
+        do {
+            try fileHandle.append(data: bufferData)
+            bufferData = Data()
+        } catch {
+            invalidateAndCancelSession()
+        }
     }
 
     private func downloadComplete() {

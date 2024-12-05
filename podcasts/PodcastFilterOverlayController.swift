@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
@@ -144,9 +145,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func setSwitchSubtitle() {
         let allSelected = selectedUuids.count == allPodcasts.count
         if allSelected {
-            headerView.subtitleLabel.text = L10n.filterAutoAddSubtitle
+            headerView.subtitleLabel.text = FeatureFlag.useFollowNaming.enabled ? L10n.filterAutoAddSubtitleNew : L10n.filterAutoAddSubtitle
         } else {
-            headerView.subtitleLabel.text = L10n.filterManualAddSubtitle
+            headerView.subtitleLabel.text = FeatureFlag.useFollowNaming.enabled ? L10n.filterManualAddSubtitleNew : L10n.filterManualAddSubtitle
         }
     }
 

@@ -257,6 +257,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>只新增至頂端</string>
     <key>auto_download_first</key>
     <string>自動下載前面單集</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>限制自動下載</string>
+    <key>auto_download_limit_downloads</key>
+    <string>限制下載</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>%1$@ 集</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>每個節目 %1$@ 個最新單集</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>最新單集</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>每個節目的最新單集</string>
     <key>auto_download_off_subtitle</key>
     <string>啟用即可自動下載此篩選器中的單集</string>
     <key>auto_download_on_plural_format</key>
@@ -713,6 +725,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>確定要刪除這些已下載的檔案嗎？</string>
     <key>downloaded_files_conf_message</key>
     <string>取消訂閱將刪除此 Podcast 節目中包含的所有已下載檔案，你確定嗎？</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>若你取消追蹤，系統會將此 Podcast 節目包含的所有已下載檔案刪除，你確定要繼續嗎？</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>%1$@ 個已下載的檔案</string>
     <key>downloaded_files_conf_singular</key>
@@ -735,6 +749,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>編輯片段</string>
     <key>enable_it_now</key>
     <string>立即啟用</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>別忘了與朋友分享，並向你最喜愛的 Podcast 和創作者致意</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>謝謝你今年與我們一同收聽。
+2025 年再見！</string>
     <key>eoy_card_description</key>
     <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
     <key>eoy_create_account_to_see</key>
@@ -843,13 +862,13 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_year_completion_rate</key>
     <string>完成率</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>我的 2023 年完成率</string>
+    <string>我的 %1$@ 年完成率</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>從你開始收聽的 %1$@ 集起，你完整收聽了 %2$@ 集</string>
     <key>eoy_year_completion_rate_title</key>
     <string>你今年的完成率為 %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>我在 2023 年與 2022 年的收聽時間比較</string>
+    <string>我在 %1$@ 年與 %2$@ 年的收聽時間比較</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>大家都說，成功的關鍵在於持之以恆...大概是這樣吧！</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -864,6 +883,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>比起 2022 年，你的收聽時間稍微下降了</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>比起 2022 年，你的收聽時間大幅上升了 %1$@%</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>我在 %2$@ 年為 %1$@ 個不同的 Podcast 評分，而「%3$@」是我最常用的評分</string>
     <key>episode</key>
     <string>單集</string>
     <key>episode_count_plural_format</key>
@@ -953,6 +974,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>為檔案排序</string>
     <key>filter_auto_add_subtitle</key>
     <string>系統會自動新增你新訂閱的 Podcast 節目</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>系統會自動新增你追蹤的新 Podcast 節目</string>
     <key>filter_chips_all_podcasts</key>
     <string>你的所有 Podcast 節目</string>
     <key>filter_chips_duration</key>
@@ -969,6 +992,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>沒有相符的單集</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>你選取的條件不符合訂閱中的任何現有單集。</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>你選取的條件不符合 Podcast 中的任何現有單集</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>請選擇其他條件，若你認為此篩選條件可符合之後的單集，則請儲存此篩選條件。</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -995,6 +1020,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>長於</string>
     <key>filter_manual_add_subtitle</key>
     <string>系統不會自動新增你新訂閱的 Podcast 節目</string>
+    <key>filter_manual_add_subtitle_new</key>
+    <string>系統不會自動新增你追蹤的新 Podcast 節目</string>
     <key>filter_media_type</key>
     <string>媒體類型</string>
     <key>filter_media_type_audio</key>
@@ -1093,6 +1120,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>資料夾紀錄</string>
     <key>folders_history_explanation</key>
     <string>因同步處理而自資料夾移除的 Podcast 清單。</string>
+    <key>follow</key>
+    <string>追蹤</string>
     <key>free_trial_detail_label</key>
     <string>現在無需付費，可隨時取消</string>
     <key>free_trial_duration_free</key>
@@ -1224,6 +1253,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你可使用廣受支援的 OPML 格式將 Podcast 訂閱項目匯入 Pocket Casts。從其他應用程式匯出檔案，並選擇在 Pocket Casts 中開啟。
 
 注意：你可能需將 OPML 檔案以電子郵件傳送給自己 (長按附件並選取 Pocket Casts)。</string>
+    <key>import_podcasts_description_new</key>
+    <string>你可以使用獲得廣泛支援的 OPML 格式，將你的 Podcast 匯入 Pocket Casts。 從另一個應用程式匯出檔案，並選擇在 Pocket Casts 開啟。
+
+注意：請透過電子郵件將 OPML 檔案寄給自己，然後長按附件並選取 Pocket Casts。</string>
     <key>import_podcasts_title</key>
     <string>匯入 POCKET CASTS</string>
     <key>import_subtitle</key>
@@ -1267,6 +1300,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>待新的兒童個人檔案準備就緒後，你就會透過應用程式收到通知！ 想讓我們了解你想看的內容嗎？</string>
     <key>kids_profile_thankyou_title</key>
     <string>感謝你對本產品的青睞。</string>
+    <key>learn_about_ratings</key>
+    <string>了解評分</string>
     <key>learn_more</key>
     <string>了解詳情</string>
     <key>listening_history</key>
@@ -1480,6 +1515,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>正在解鎖</string>
     <key>pause</key>
     <string>暫停</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>運用 Pocket Casts Plus 上傳檔案並享有更多功能</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>透過 Pocket Casts Plus 打理 Podcast 並享有更多功能</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>透過 Pocket Casts Plus 獲得專屬應用程式圖示並享有更多功能</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Pocket Casts Plus 提供專屬佈景主題並享有更多功能</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>透過 Pocket Casts Plus 隨機播放單集並享有更多功能</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>運用 Pocket Casts Plus 直接從手錶聆聽並享有更多功能</string>
     <key>phone</key>
     <string>手機</string>
     <key>play</key>
@@ -1490,6 +1537,66 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>播放上一集</string>
     <key>play_next</key>
     <string>播放下一集</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>從你開始收聽的 %1$@ 集起，你完整收聽了 %2$@ 集</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>你今年的完成率為 %1$@</string>
+    <key>playback_2024_description</key>
+    <string>查看你最熱播的 Podcast、分類、收聽統計等資料。 與朋友分享，並向你最喜愛的創作者表達敬意！</string>
+    <key>playback_2024_feature_description</key>
+    <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
+    <key>playback_2024_feature_title</key>
+    <string>2024 年度播放回顧粉墨登場！</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>收聽 Podcast 的總時間為 %1$@</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>這是《%2$@》的〈%1$@〉</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>你收聽時間最長的一集為〈%1$@〉</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>訂閱 Pocket Casts Plus</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>若想支持 Pocket Casts，不妨訂閱 Plus 方案，不僅能取得更多統計資料，還可獲得書籤、資料夾或預先選取的章節等進階版功能！</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>不僅如此，還有更多！</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>謝謝你與創作者社群分享意見回饋</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>哇！好多 %1$@ 星級評分！ 謝謝你與最愛創作者分享支持心意。</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>你知道現在可以為節目評分嗎？ 分享你對最愛創作者的支持心意，並協助他們獲得矚目！</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>糟糕！ 目前沒有可顯示的 Podcast 評分</string>
+    <key>playback_2024_ratings_title</key>
+    <string>讓我們看看你的評分！</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>你收聽了 %1$@ 集的《%3$@》，總共 %2$@</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>你在 2024 年最常聽的 Podcast</string>
+    <key>playback_2024_view_year</key>
+    <string>檢視我的 2024 年度播放回顧</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>啊啊啊...人就是要享受生活，對吧？</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>大家都說，成功的關鍵在於持之以恆...大概是這樣吧！</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>想要在 2025 年更進一步嗎？</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>比起 2023 年，你的收聽時間稍微下降了</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>比起 2023 年，你的收聽時間大幅下降了 %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>比起 2023 年，你的收聽時間下降了 %1$@ 以上</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>比起 2023 年，你的收聽時間大致保持不變</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>比起 2023 年，你的聆聽時間增加了 %1$@ 以上</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>比起 2023 年，你的收聽時間稍微上升了</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>比起 2023 年，你的收聽時間大幅上升了 %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>比起 2023 年，你的聆聽時間增加了 %1$@ 以上</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有 Podcast</string>
     <key>playback_effect_this_podcast</key>
@@ -1536,6 +1643,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>透過剪輯對話中無聲的部分，減少單集的長度。</string>
     <key>player_effects_trim_silence_progress</key>
     <string>你已使用此功能共省下 %1$@ 的時間。</string>
+    <key>player_episode_download_cancelled</key>
+    <string>單集下載已取消</string>
+    <key>player_episode_queued_for_download</key>
+    <string>單集已排入下載佇列</string>
+    <key>player_episode_was_removed</key>
+    <string>單集已移除</string>
     <key>player_error_corrupted_file</key>
     <string>本集可能已損壞，但你可以嘗試重新播放。</string>
     <key>player_error_internet_connection</key>
@@ -1947,6 +2060,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>繼續即表示你同意我們的%1$@隱私權政策%2$@和%3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>清除 1 集</string>
     <key>queue_clear_queue</key>
     <string>清除佇列</string>
     <key>queue_for_later</key>
@@ -2226,7 +2341,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>下載篩選器中最上方的單集。</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>在新單集發佈時下載內容。</string>
+    <string>在新單集發佈時自動下載，並藉由設定單集的儲存數量上限，嚴加管理你的儲存空間。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下載新增到「接下來播放」的單集。</string>
     <key>settings_badge_filter_header</key>
@@ -2847,6 +2962,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>立即試試</string>
     <key>unarchive</key>
     <string>取消封存</string>
+    <key>unfollow</key>
+    <string>停止追蹤</string>
     <key>unknown_duration</key>
     <string>未知時長</string>
     <key>unstar</key>

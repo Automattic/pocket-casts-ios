@@ -299,9 +299,10 @@ public enum PlayerAction: String, Codable, Equatable {
     case archive = "archive"
     case addBookmark = "bookmark"
     case transcript = "transcript"
+    case download = "download"
 }
 
-extension Array: RawRepresentable where Element: RawRepresentable<String> {
+extension Array: @retroactive RawRepresentable where Element: RawRepresentable<String> {
     public typealias RawValue = String
 
     public init?(rawValue: String) {

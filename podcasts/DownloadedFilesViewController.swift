@@ -43,18 +43,20 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     // MARK: - UITableView Methods
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        3
+        4
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 4 : 1
+        section == 0 ? 3 : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: checkboxCellId, for: indexPath) as! CheckboxSubtitleCell
 
-            if indexPath.row == 0 {
+            switch indexPath.row {
+            case 0:
                 cell.titleLabel.text = L10n.statusUnplayed
                 cell.setSelectedState(deleteUnplayed)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.unplayedToggled(_:)), for: .touchUpInside)
@@ -62,7 +64,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            } else if indexPath.row == 1 {
+            case 1:
                 cell.titleLabel.text = L10n.inProgress
                 cell.setSelectedState(deleteInProgress)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
@@ -70,7 +72,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            } else if indexPath.row == 2 {
+            case 2:
                 cell.titleLabel.text = L10n.statusPlayed
                 cell.setSelectedState(deletePlayed)
                 cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
@@ -78,15 +80,18 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
                 cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-            } else if indexPath.row == 3 {
-                cell.titleLabel.text = L10n.settingsStorageDownloadsStarred
-                cell.setSelectedState(includeStarred)
-                cell.selectButton.removeTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
-                cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
+            default:
+                break
             }
-
             return cell
-        } else if indexPath.section == 1 {
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = L10n.settingsStorageDownloadsStarred
+            cell.cellSwitch.isOn = includeStarred
+            cell.cellSwitch.removeTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
+            cell.cellSwitch.addTarget(self, action: #selector(DownloadedFilesViewController.starredToggled(_:)), for: .touchUpInside)
+            return cell
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
 
             cell.statName.text = L10n.statsTotal
@@ -95,21 +100,22 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             let total = totalDeleteSize()
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(total))
             cell.statValue.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
-
             return cell
-        } else {
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! DestructiveButtonCell
             cell.buttonTitle.text = L10n.cleanUp
             cell.buttonTitle.textColor = canDeleteAnything() ? UIColor(hex: "#FC0000") : UIColor(hex: "#C8C8C8")
 
             return cell
+        default:
+            return UITableViewCell()
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if indexPath.section == 2, canDeleteAnything() {
+        if indexPath.section == 3, canDeleteAnything() {
             confirmCleanup()
         }
     }

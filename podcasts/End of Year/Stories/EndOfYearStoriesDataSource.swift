@@ -40,12 +40,28 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         return await isReady()
     }
 
+    func paywallView() -> AnyView {
+        model.paywallView()
+    }
+
     func overlaidShareView() -> AnyView? {
         model.overlaidShareView()
     }
 
     func footerShareView() -> AnyView? {
         model.footerShareView()
+    }
+
+    var indicatorColor: Color {
+        model.indicatorColor
+    }
+
+    var primaryBackgroundColor: Color {
+        model.primaryBackgroundColor
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        model.sharingSnapshotModifier(view)
     }
 }
 

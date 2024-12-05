@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
@@ -23,8 +24,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
 
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
         }
     }
 

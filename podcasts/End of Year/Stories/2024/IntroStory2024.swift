@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct IntroStory2024: StoryView {
-    let identifier: String = "intro"
+    let identifier: String = "cover"
 
     let backgroundColor = Color(hex: "EE661C")
     let backgroundTextColor = Color(hex: "EEB1F4")

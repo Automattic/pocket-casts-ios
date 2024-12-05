@@ -11,6 +11,7 @@ extension AppDelegate {
         performUpdateIfRequired(updateKey: "v5Run") {
             // these are considered defaults for a new app install
             SyncManager.clearTokensFromKeyChain()
+            FileLog.shared.addMessage("AppDelegate.checkDefaults v5Run clearTokensFromKeyChain")
             ServerSettings.setSkipBackTime(10, syncChange: false)
             ServerSettings.setSkipForwardTime(45, syncChange: false)
 

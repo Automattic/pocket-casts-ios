@@ -1,5 +1,7 @@
 import Foundation
 import LinkPresentation
+import SwiftUI
+import PocketCastsServer
 
 class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 
@@ -36,8 +38,12 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
             if let url = viewModel.referralURL {
                 items.append(url)
             }
+            if let imageSource = ImageShareSource(image: snapshot(), title: viewModel.shareSubject) {
+                items.append(imageSource)
+            }
             let viewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
             viewController.completionWithItemsHandler = { _, completed, _, _ in
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
                 if completed {
                     originalOnShareGuestPassTap?()
                 }
@@ -47,6 +53,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 popoverVC.sourceView = self.view
                 popoverVC.sourceRect = centerBottomSourceRect
             }
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true)
         }
         view.backgroundColor = .clear
@@ -59,6 +66,12 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         popoverVC?.sourceRect = centerBottomSourceRect
+    }
+
+    func snapshot() -> UIImage {
+        return ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
+            .frame(width: ReferralCardView.Constants.defaultCardSize.width, height: ReferralCardView.Constants.defaultCardSize.height)
+            .snapshot(scale: 2)
     }
 }
 
@@ -92,5 +105,59 @@ extension TextAndURLShareSource {
     @MainActor
     static func makeFrom(viewModel: ReferralSendPassModel) -> TextAndURLShareSource {
         return TextAndURLShareSource(url: viewModel.referralURL, text: viewModel.shareText, subject: viewModel.shareSubject)
+    }
+}
+
+class ImageShareSource: NSObject, UIActivityItemSource {
+    private let image: UIImage
+    private let url: URL?
+    private let title: String
+
+    init?(image: UIImage, title: String) {
+        self.title = title
+        self.image = image
+        if let data = image.pngData(),
+           let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(UUID().uuidString + ".png") {
+            do {
+                try data.write(to: url)
+                self.url = url
+            }
+            catch {
+                self.url = nil
+            }
+        } else {
+            self.url = nil
+        }
+    }
+
+    func activityViewControllerPlaceholderItem(_: UIActivityViewController) -> Any {
+        return image
+    }
+
+    func activityViewController(_: UIActivityViewController, itemForActivityType type: UIActivity.ActivityType?) -> Any? {
+        // Instagram and twitter don't like to have an URL and image at the same time, so we are ignoring the image for those.
+        if type?.rawValue == "com.burbn.instagram.shareextension" || type == .postToTwitter {
+            return nil
+        }
+        return url
+    }
+
+    func activityViewController(_: UIActivityViewController, dataTypeIdentifierForActivityType _: UIActivity.ActivityType?) -> String {
+        return UTType.image.identifier
+    }
+
+    func activityViewController(_: UIActivityViewController, thumbnailImageForActivityType _: UIActivity.ActivityType?, suggestedSize size: CGSize) -> UIImage? {
+        image.resized(to: size)
+    }
+
+    func activityViewControllerLinkMetadata(_: UIActivityViewController) -> LPLinkMetadata? {
+        let metadata = LPLinkMetadata()
+
+        metadata.originalURL = URL(string: ServerConstants.Urls.pocketcastsDotCom)
+        metadata.url = URL(string: ServerConstants.Urls.pocketcastsDotCom)
+        metadata.title = title
+        metadata.imageProvider = NSItemProvider.init(contentsOf: url)
+
+        return metadata
     }
 }

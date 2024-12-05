@@ -105,6 +105,18 @@ struct Announcements {
             },
             isEnabled: FeatureFlag.newSharing.enabled,
             fullModal: true
+        ),
+        .init(
+            version: "7.77",
+            header: AnyView(UpNextAnnouncementView().setupDefaultEnvironment()),
+            title: L10n.upNextShuffleAnnouncementTitle,
+            message: L10n.upNextShuffleAnnouncementText,
+            buttonTitle: L10n.upNextShuffleAnnouncementButton,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.upNextShuffle.enabled,
+            fullModal: true
         )
     ]
 }

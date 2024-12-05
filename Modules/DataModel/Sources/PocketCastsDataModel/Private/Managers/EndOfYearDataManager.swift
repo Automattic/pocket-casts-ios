@@ -376,6 +376,17 @@ class EndOfYearDataManager {
 
         return EpisodesStartedAndCompleted(started: started, completed: completed)
     }
+
+    func summarizedRatings(in year: Int) -> [UInt32: Int]? {
+        let calendar = Calendar.current
+        let ratings = DataManager.sharedManager.ratings.ratings?.filter { rating in
+            calendar.component(.year, from: rating.modifiedAt) == year
+        }
+        let groupedRatings = ratings?.reduce(into: [:]) { counts, rating in
+            counts[rating.podcastRating, default: 0] += 1
+        }
+        return groupedRatings
+    }
 }
 
 public struct ListenedCategory {

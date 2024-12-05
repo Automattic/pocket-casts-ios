@@ -14,7 +14,6 @@ struct ReferralCardView: View {
             .overlay {
                 ReferralCardAnimatedGradientView()
             }
-            .cornerRadius(Constants.cardRadius)
             .overlay(alignment: .bottomLeading) {
                 Text(L10n.referralsGuestPassOffer(offerDuration))
                     .font(size: 12, style: .body, weight: .semibold)
@@ -32,9 +31,9 @@ struct ReferralCardView: View {
             }
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cardRadius)
-                    .inset(by: -0.5)
-                    .stroke(Constants.cardStrokeColor, lineWidth: 1)
+                    .stroke(Constants.cardStrokeColor)
             )
+            .cornerRadius(Constants.cardRadius)
     }
 
     enum Constants {
@@ -46,6 +45,9 @@ struct ReferralCardView: View {
 }
 
 #Preview {
-    ReferralCardView(offerDuration: "2-Month")
-        .frame(width: 315, height: 200)
+    HStack {
+        ReferralCardView(offerDuration: "2-Month")
+            .frame(width: 315, height: 200)
+    }
+    .background(.white)
 }

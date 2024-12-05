@@ -30,10 +30,22 @@ protocol StoriesDataSource {
     /// return `true`.
     func refresh() async -> Bool
 
+    /// A view to show when paywall should be presented
+    func paywallView() -> AnyView
+
     /// Overlaid on top of the story
     func overlaidShareView() -> AnyView?
     /// Shown at the bottom of the story as an additional safe area
     func footerShareView() -> AnyView?
+
+    /// Color of the top Story progress indicator
+    var indicatorColor: Color { get }
+
+    /// Color of the primary background
+    var primaryBackgroundColor: Color { get }
+
+	/// Modifier applied to the sharing button
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView
 }
 
 extension StoriesDataSource {
@@ -103,6 +115,25 @@ extension EnvironmentValues {
 
     private struct AnimatedKey: EnvironmentKey {
         static let defaultValue: Bool = false
+    }
+}
+
+class PauseState: ObservableObject {
+    @Published private(set) var isPaused: Bool = false
+
+    func togglePause() {
+        isPaused.toggle()
+    }
+}
+
+struct PauseStateKey: EnvironmentKey {
+    static let defaultValue: PauseState = PauseState()
+}
+
+extension EnvironmentValues {
+    var pauseState: PauseState {
+        get { self[PauseStateKey.self] }
+        set { self[PauseStateKey.self] = newValue }
     }
 }
 

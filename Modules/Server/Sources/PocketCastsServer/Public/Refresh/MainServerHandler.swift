@@ -201,6 +201,7 @@ public class MainServerHandler {
     }
 
     public func refresh(podcasts: [Podcast], completion: @escaping (PodcastRefreshResponse?) -> Void) {
+        FileLog.shared.addMessage("Refresh - Started)")
         guard let request = createRefreshRequest(podcasts: podcasts) else {
             completion(PodcastRefreshResponse.failedResponse())
             return
@@ -218,7 +219,7 @@ public class MainServerHandler {
                 completion(PodcastRefreshResponse.failedResponse())
                 return
             }
-
+            FileLog.shared.addMessage("Decoding Refresh Response)")
             let refreshResponse = ServerHelper.decodeRefreshResponse(from: data)
             completion(refreshResponse)
         }

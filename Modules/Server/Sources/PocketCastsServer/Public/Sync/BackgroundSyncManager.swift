@@ -12,11 +12,11 @@ public class BackgroundSyncManager: NSObject {
     public static let shared = BackgroundSyncManager()
 
     #if os(watchOS)
-        var pendingWatchBackgroundTask: WKURLSessionRefreshBackgroundTask?
-        public func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask, identifier: String) {
-            pendingWatchBackgroundTask = task
-            _ = createUrlSession(identifier: identifier)
-        }
+    var pendingWatchBackgroundTasks: [String: WKURLSessionRefreshBackgroundTask] = [:]
+    public func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask, identifier: String) {
+        pendingWatchBackgroundTasks[identifier] = task
+        _ = createUrlSession(identifier: identifier)
+    }
     #endif
 
     let refreshTaskId = "refresh"

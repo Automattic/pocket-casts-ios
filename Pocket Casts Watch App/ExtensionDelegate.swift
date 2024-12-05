@@ -35,10 +35,12 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         // Sent when the system needs to launch the application in the background to process tasks. Tasks arrive in a set, so loop through and process each one.
+        FileLog.shared.addMessage("Watch Extension Delegate start handle background task")
         for task in backgroundTasks {
             switch task {
             case let refreshTask as WKApplicationRefreshBackgroundTask:
                 if WatchSyncManager.shared.isPlusUser() {
+                    FileLog.shared.addMessage("Watch Extension Delegate start application refresh background task")
                     beginRefreshTask()
                     scheduleNextRefresh()
                 }
@@ -48,10 +50,13 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
             case let connectivityTask as WKWatchConnectivityRefreshBackgroundTask:
                 connectivityTask.setTaskCompletedWithSnapshot(true)
             case let urlSessionTask as WKURLSessionRefreshBackgroundTask:
+                FileLog.shared.addMessage("Watch Extension Delegate start url session refresh background task")
                 let identifier = urlSessionTask.sessionIdentifier
                 if identifier == DownloadManager.cellBackgroundSessionId {
+                    FileLog.shared.addMessage("Watch Extension Delegate start url session download refresh background task")
                     DownloadManager.shared.processBackgroundTaskCallback(task: urlSessionTask)
                 } else if identifier.startsWith(string: BackgroundSyncManager.sessionIdPrefix) {
+                    FileLog.shared.addMessage("Watch Extension Delegate start url session upnext refresh background task")
                     BackgroundSyncManager.shared.processBackgroundTaskCallback(task: urlSessionTask, identifier: identifier)
                 } else {
                     urlSessionTask.setTaskCompletedWithSnapshot(true)

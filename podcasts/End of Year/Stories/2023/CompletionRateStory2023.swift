@@ -101,7 +101,7 @@ struct CompletionRateStory2023: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyYearCompletionRateShareText)
+            StoryShareableText(L10n.eoyYearCompletionRateShareText("2023"), year: .y2023)
         ]
     }
 }

@@ -16,7 +16,6 @@ struct PodcastCover: View {
     /// If the artwork needs a bigger image with higher quality
     var higherQuality: Bool = false
 
-    @State private var image: UIImage?
     @Environment(\.renderForSharing) var renderForSharing: Bool
 
     private var rectangleColor: Color? {
@@ -40,36 +39,10 @@ struct PodcastCover: View {
                         .modifier(NormalCoverShadow())
                 }
             }
-            .opacity(image != nil ? 1 : 0.2)
             .blendMode(.multiply)
 
-            ImageView(image: image)
+            PodcastImage(uuid: podcastUuid, size: .page)
                 .cornerRadius(big ? 8 : 4)
-
-                .onAppear {
-                    if renderForSharing {
-                        loadImage()
-                    }
-                }
-
-            Action {
-                if !renderForSharing {
-                    loadImage()
-                }
-            }
-        }
-    }
-
-    private func loadImage() {
-        image = nil
-        let size = higherQuality ? 680 : 280
-        KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: size)) { result in
-            switch result {
-            case .success(let result):
-                image = result.image
-            default:
-                break
-            }
         }
     }
 }

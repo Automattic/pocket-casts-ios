@@ -199,6 +199,11 @@ struct Constants {
             static let showTip = "referrals.showtip"
             static let claimURL = "referrals.claimURL"
         }
+
+        enum manageDownloads {
+            static let lastCheckDate = "manageDownloadsLastCheckDate"
+        }
+
     }
 
     enum Values {
@@ -374,6 +379,8 @@ enum PlusUpgradeViewSource: String {
     case endOfYear
     case promoCode
     case promotionFinished
+    case upNextShuffle
+    case onboarding
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
@@ -392,6 +399,39 @@ enum PlusUpgradeViewSource: String {
         default:
             return "Upgrade to Plus for \(rawValue)"
         }
+    }
+
+    func isEligibleForExperiment() -> Bool {
+        switch self {
+        case .profile, .onboarding:
+            return true
+        default:
+            return false
+        }
+    }
+
+    func paywallHeadline() -> String {
+        switch self {
+        case .folders:
+            return L10n.paywallDynamicHeadlineFolder
+        case .upNextShuffle:
+            return L10n.paywallDynamicHeadlineUpNextShuffle
+        case .themes:
+            return L10n.paywallDynamicHeadlineThemes
+        case .watch:
+            return L10n.paywallDynamicHeadlineWatch
+        case .icons:
+            return L10n.paywallDynamicHeadlineIcons
+        case .files:
+            return L10n.paywallDynamicHeadlineFiles
+        default:
+            return L10n.plusMarketingTitle
+        }
+    }
+
+    static func from(string: String?) -> PlusUpgradeViewSource {
+        guard let string else { return .unknown }
+        return PlusUpgradeViewSource(rawValue: string) ?? .unknown
     }
 }
 

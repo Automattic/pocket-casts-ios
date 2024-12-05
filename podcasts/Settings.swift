@@ -321,7 +321,9 @@ class Settings: NSObject {
     }
 
     class func upNextShuffleEnabled() -> Bool {
-        guard FeatureFlag.upNextShuffle.enabled else { return false }
+        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() {
+            return false
+        }
         return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
     }
 
@@ -1325,6 +1327,18 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.claimURL)
+        }
+    }
+
+    // MARK: - Manage Downloads
+
+    class var manageDownloadsLastCheckDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.manageDownloads.lastCheckDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.manageDownloads.lastCheckDate) as? Date
         }
     }
 

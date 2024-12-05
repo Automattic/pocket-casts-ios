@@ -377,6 +377,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let navController = SJUIUtils.navController(for: OnlineSupportController())
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
+            dismiss(animated: true)
             Analytics.track(.endOfYearProfileCardTapped)
             if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
                 endOfYear.showStories(in: self, from: .profile)

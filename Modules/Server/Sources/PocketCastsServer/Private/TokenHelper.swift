@@ -47,6 +47,7 @@ class TokenHelper {
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 if SyncManager.isUserLoggedIn(), retryOnUnauthorized {
                     KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
+                    FileLog.shared.addMessage("TokenHelper: Removed syncingV2TokenKey due to 401 unauthorized retrying url: \(request.url?.absoluteString ?? "unknown")")
                     self?.performCallSecureUrl(request: request, retryOnUnauthorized: false, completion: completion)
                 } else {
                     completion(httpResponse, nil, error)

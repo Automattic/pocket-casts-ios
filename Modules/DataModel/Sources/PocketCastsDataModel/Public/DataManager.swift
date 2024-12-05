@@ -24,6 +24,7 @@ public class DataManager {
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
+    public let ratings: RatingsDataManager
 
     private let dbQueue: FMDatabaseQueue
 
@@ -60,6 +61,7 @@ public class DataManager {
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
+        ratings = RatingsDataManager()
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
@@ -768,6 +770,10 @@ public class DataManager {
         episodeManager.markAllSynced(episodes: episodes, dbQueue: dbQueue)
     }
 
+    public func markAllSynced(episodeIDs: [String]) {
+        episodeManager.markAllSynced(episodeIDs: episodeIDs, dbQueue: dbQueue)
+    }
+
     public func allEpisodesForPodcast(id: Int64) -> [Episode] {
         episodeManager.allEpisodesForPodcast(id: id, dbQueue: dbQueue)
     }
@@ -1133,5 +1139,10 @@ public extension DataManager {
 
     func episodesStartedAndCompleted(in year: Int) -> EpisodesStartedAndCompleted {
         endOfYearManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
+
+    }
+
+    func summarizedRatings(in year: Int) -> [UInt32: Int]? {
+        endOfYearManager.summarizedRatings(in: year)
     }
 }

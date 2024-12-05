@@ -50,8 +50,10 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             FileLog.shared.addMessage("Processing queue complete, firing sync completed and completing task")
             ServerNotificationsHelper.shared.fireSyncCompleted()
             #if os(watchOS)
-                self.pendingWatchBackgroundTask?.setTaskCompletedWithSnapshot(true)
-                self.pendingWatchBackgroundTask = nil
+            if  let identifier = session.configuration.identifier, let pendingWatchBackgroundTask = self.pendingWatchBackgroundTasks[identifier] {
+                pendingWatchBackgroundTask.setTaskCompletedWithSnapshot(true)
+                self.pendingWatchBackgroundTasks[identifier] = nil
+            }
             #endif
 
             session.invalidateAndCancel()
@@ -102,7 +104,12 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             let syncTask = SyncTask()
             // this is slightly problematic because this might not return the list that was originally synced, but also we can't store that in memory because the app can be killed between start and finish
             // if this turns out to be an issue we could perhaps persist the UUIDs to UserDefaults, or come up with some other solution to this
-            let episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+            let episodesSynced: [Episode]
+            if FeatureFlag.useSyncResponseEpisodeIDs.enabled {
+                episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
+            } else {
+                episodesSynced = []
+            }
             _ = syncTask.processSyncData(data, httpStatus: httpCode, episodesToSync: episodesSynced)
         }
     }

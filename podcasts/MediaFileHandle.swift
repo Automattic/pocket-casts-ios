@@ -50,14 +50,14 @@ extension MediaFileHandle {
         return readHandle?.readData(ofLength: length)
     }
 
-    func append(data: Data) {
+    func append(data: Data) throws {
         lock.lock()
         defer { lock.unlock() }
 
         guard let writeHandle = writeHandle else { return }
 
         writeHandle.seekToEndOfFile()
-        writeHandle.write(data)
+        try writeHandle.write(contentsOf: data)
     }
 
     func synchronize() {

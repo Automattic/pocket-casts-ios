@@ -24,7 +24,9 @@ struct EndOfYearModal: View {
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-
+                    .buttonize {
+                        NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
+                    }
                 Text(model.description)
                     .font(style: .callout, weight: .medium, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)

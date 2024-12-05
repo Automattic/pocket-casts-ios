@@ -257,6 +257,18 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Nur am Anfang hinzufügen</string>
     <key>auto_download_first</key>
     <string>Automatischer Download zuerst</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>Anzahl automatischer Downloads begrenzen</string>
+    <key>auto_download_limit_downloads</key>
+    <string>Anzahl an Downloads begrenzen</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>%1$@ Folgen</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>%1$@ neuesten Folgen pro Podcast</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>Neueste Folge</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>Neueste Folge pro Podcast</string>
     <key>auto_download_off_subtitle</key>
     <string>Aktiviere diese Option, um Folgen in diesem Filter automatisch herunterzuladen</string>
     <key>auto_download_on_plural_format</key>
@@ -713,6 +725,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Bist du sicher, dass du diese heruntergeladenen Dateien löschen möchtest?</string>
     <key>downloaded_files_conf_message</key>
     <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>Wenn du den Podcast nicht mehr abonnierst, werden alle dazugehörigen heruntergeladenen Dateien entfernt. Bist du dir sicher?</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>%1$@ Dateien heruntergeladen</string>
     <key>downloaded_files_conf_singular</key>
@@ -735,6 +749,11 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Clip bearbeiten</string>
     <key>enable_it_now</key>
     <string>Jetzt aktivieren</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>Vergiss nicht, sie mit deinen Freunden zu teilen und deine bevorzugten Podcasts und Ersteller dankend zu erwähnen</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>Vielen Dank, dass du dieses Jahr dein Audioerlebnis mit uns genossen hast.
+Wir hören uns 2025!</string>
     <key>eoy_card_description</key>
     <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
     <key>eoy_create_account_to_see</key>
@@ -843,13 +862,13 @@ Folge dauerte
     <key>eoy_year_completion_rate</key>
     <string>Abschlussquote</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>Meine Abschlussquote 2023</string>
+    <string>Meine Abschlussquote %1$@</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>Von deinen %1$@ angefangenen Episoden hast du insgesamt %2$@ vollständig angehört</string>
     <key>eoy_year_completion_rate_title</key>
     <string>Deine Abschlussquote lag dieses Jahr bei %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>Meine Audiozeit in 2023 im Vergleich zu 2022</string>
+    <string>Meine Audiozeit %1$@ im Vergleich zu %2$@</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>Man sagt, Beständigkeit ist der Schlüssel zum Erfolg … oder so ähnlich!</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -953,6 +972,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Dateien sortieren</string>
     <key>filter_auto_add_subtitle</key>
     <string>Neu abonnierte Podcasts werden automatisch hinzugefügt</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>Neu abonnierte Podcasts werden automatisch hinzugefügt</string>
     <key>filter_chips_all_podcasts</key>
     <string>Alle deine Podcasts</string>
     <key>filter_chips_duration</key>
@@ -969,6 +990,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Keine passenden Folgen</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>Die von dir ausgewählten Kriterien decken sich nicht mit den aktuellen Folgen in deinen Abonnements.</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>Die von dir ausgewählten Kriterien decken sich nicht mit den aktuellen Folgen in deinen Podcasts</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Wähle andere Kriterien aus oder speichere diesen Filter, wenn du denkst, dass du damit in Zukunft Folgen findest.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -994,6 +1017,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <key>filter_longer_than_label</key>
     <string>Länger als</string>
     <key>filter_manual_add_subtitle</key>
+    <string>Neu abonnierte Podcasts werden nicht automatisch hinzugefügt</string>
+    <key>filter_manual_add_subtitle_new</key>
     <string>Neu abonnierte Podcasts werden nicht automatisch hinzugefügt</string>
     <key>filter_media_type</key>
     <string>Medientyp</string>
@@ -1093,6 +1118,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Ordnerverlauf</string>
     <key>folders_history_explanation</key>
     <string>Eine Liste von Podcasts, die aufgrund einer Synchronisierung aus Ordnern entfernt wurden.</string>
+    <key>follow</key>
+    <string>Folgen</string>
     <key>free_trial_detail_label</key>
     <string>Jetzt keine Zahlung – jederzeit kündbar</string>
     <key>free_trial_duration_free</key>
@@ -1224,6 +1251,10 @@ Hinweis: Solltest du die App „Kurzbefehle“ kürzlich gelöscht haben, wirst 
     <string>Du kannst das von vielen Apps unterstützte OPML-Format nutzen, um deine Podcast-Abonnements in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
 
 Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drücke länger auf den Anhang und wähle „Pocket Casts“ aus.</string>
+    <key>import_podcasts_description_new</key>
+    <string>Du kannst das weit verbreitete OPML-Format nutzen, um deine Podcasts in Pocket Casts zu importieren. Exportiere die Datei aus einer anderen App und wähle die Option zum Öffnen in Pocket Casts aus.
+
+Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drücke länger auf den Anhang und wähle „Pocket Casts“ aus.</string>
     <key>import_podcasts_title</key>
     <string>IN POCKET CASTS IMPORTIEREN</string>
     <key>import_subtitle</key>
@@ -1267,6 +1298,8 @@ Podcasts mit</string>
     <string>Du wirst über die App benachrichtigt, sobald das neue Kinderprofil fertig ist! Möchtest du uns mitteilen, welche Inhalte du sehen möchtest?</string>
     <key>kids_profile_thankyou_title</key>
     <string>Danke für dein Interesse</string>
+    <key>learn_about_ratings</key>
+    <string>Mehr über Bewertungen</string>
     <key>learn_more</key>
     <string>Weitere Informationen</string>
     <key>listening_history</key>
@@ -1480,6 +1513,18 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wird freigeschaltet</string>
     <key>pause</key>
     <string>Pause</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>Lade deine Dateien mit Pocket Casts Plus hoch und vieles mehr</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>Organisiere deine Podcasts mit Pocket Casts Plus und vieles mehr</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>Hol dir exklusive App-Icons mit Pocket Casts Plus und vieles mehr</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Hol dir exklusive Themes mit Pocket Casts Plus und vieles mehr</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>Höre mit Pocket Casts Plus deine Folgen in einer zufälligen Reihenfolge und vieles mehr</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>Höre dir mit Pocket Casts Plus Inhalte über deine Uhr an und vieles mehr</string>
     <key>phone</key>
     <string>Telefon</string>
     <key>play</key>
@@ -1490,6 +1535,66 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Als letzten Titel abspielen</string>
     <key>play_next</key>
     <string>Als nächsten Titel abspielen</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Von deinen %1$@ angefangenen Episoden hast du insgesamt %2$@ vollständig angehört</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>Deine Abschlussquote lag dieses Jahr bei %1$@</string>
+    <key>playback_2024_description</key>
+    <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an. Teile sie mit Freunden und danke deinen bevorzugten Erstellern!</string>
+    <key>playback_2024_feature_description</key>
+    <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
+    <key>playback_2024_feature_title</key>
+    <string>Deine Wiedergabeliste 2024 ist endlich verfügbar!</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>%1$@ gehörte Podcasts gesamt</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>Es war „%1$@“ von „%2$@“</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>Die längste von dir angehörte Folge dauerte %1$@</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>Pocket Casts Plus ansehen</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>Unterstütze Pocket Casts mit einem Plus-Abonnement und profitiere von mehr Statistiken sowie Premium-Funktionen wie Lesezeichen, Ordnern oder der Möglichkeit, Kapitel vorauszuwählen!</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>Und es gibt noch viel mehr!</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>Vielen Dank, dass du dein Feedback mit unserer Ersteller-Community geteilt hast</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>Wow, so viele %1$@-Sterne-Bewertungen! Vielen Dank, dass du deine Lieblingsersteller unterstützt.</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>Wusstest du schon, dass du Shows jetzt auch bewerten kannst? Erzähle anderen von deinen Lieblingserstellern und hilf dabei, diese noch bekannter zu machen!</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>Tut uns leid! Hier gibt es noch keine Podcast-Bewertungen</string>
+    <key>playback_2024_ratings_title</key>
+    <string>Sehen wir uns deine Bewertungen an!</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>Du hast dir insgesamt %2$@ von „%3$@“ (Gesamtdauer) dieser %1$@ Folgen angehört</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>Dies war 2024 dein Top-Podcast</string>
+    <key>playback_2024_view_year</key>
+    <string>Meine Wiedergabeliste 2024 anzeigen</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>Man muss das Leben genießen, nicht wahr?</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>Man sagt, Beständigkeit ist der Schlüssel zum Erfolg … oder so ähnlich!</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>Bist du bereit, sie 2025 zu überbieten?</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit ein wenig zurückgegangen</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit um ganze %1$@ zurückgegangen</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit um mehr als %1$@ zurückgegangen</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>Im Vergleich zu 2023 hat sich deine Audiozeit kaum verändert</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit um mehr als %1$@ gestiegen</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit ein wenig gestiegen</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit um ganze %1$@ gestiegen</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>Im Vergleich zu 2023 ist deine Audiozeit um mehr als %1$@ gestiegen</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle Podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -1536,6 +1641,12 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Reduziert die Länge einer Folge, indem Stille in Unterhaltungen gekürzt wird.</string>
     <key>player_effects_trim_silence_progress</key>
     <string>Mit diesem Feature hast du insgesamt %1$@ gespart.</string>
+    <key>player_episode_download_cancelled</key>
+    <string>Download der Folge abgebrochen</string>
+    <key>player_episode_queued_for_download</key>
+    <string>Folge in die Download-Warteschlange gestellt</string>
+    <key>player_episode_was_removed</key>
+    <string>Folge wurde entfernt</string>
     <key>player_error_corrupted_file</key>
     <string>Die Folge ist möglicherweise beschädigt, aber du kannst versuchen, sie erneut abzuspielen.</string>
     <key>player_error_internet_connection</key>
@@ -1947,6 +2058,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Indem du fortfährst, erklärst du dich mit unserer %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ Folgen löschen</string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>1 Episode löschen</string>
     <key>queue_clear_queue</key>
     <string>WARTESCHLANGE LÖSCHEN</string>
     <key>queue_for_later</key>
@@ -2226,7 +2339,7 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Die obersten Folgen in einem Filter herunterladen.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Neue Folgen herunterladen, sobald sie erscheinen.</string>
+    <string>Du kannst die neuesten Folgen direkt nach der Veröffentlichung automatisch herunterladen. Zudem kannst du deinen Speicher verwalten, indem du festlegst, wie viele Folgen gespeichert werden sollen.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Zur Warteschlange hinzugefügte Folgen herunterladen.</string>
     <key>settings_badge_filter_header</key>
@@ -2847,6 +2960,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Jetzt ausprobieren</string>
     <key>unarchive</key>
     <string>Wiederherstellen</string>
+    <key>unfollow</key>
+    <string>Nicht mehr folgen</string>
     <key>unknown_duration</key>
     <string>? Min.</string>
     <key>unstar</key>

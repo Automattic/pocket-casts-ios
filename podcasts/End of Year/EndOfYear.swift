@@ -88,6 +88,7 @@ struct EndOfYear {
         storyModelType = Self.currentYear.modelType
     }
 
+
     func showPrompt(in viewController: UIViewController) {
         guard Self.isEligible, let storyModelType, !Settings.hasShownModalForEndOfYear(storyModelType.year) else {
             return
@@ -105,6 +106,7 @@ struct EndOfYear {
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController)
+        Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
     }
 
     func showPromptBasedOnState(in viewController: UIViewController) {
@@ -156,7 +158,7 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
-    static func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
+    static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController
 
         let fakeViewController = FakeViewController()
@@ -167,6 +169,7 @@ struct EndOfYear {
         activityViewController.popoverPresentationController?.sourceView = presenter?.view
 
         activityViewController.completionWithItemsHandler = { activity, success, _, _ in
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
             if !success && activity == nil {
                 fakeViewController.dismiss(animated: false)
             }
@@ -180,11 +183,12 @@ struct EndOfYear {
         // Present the fake view controller first to avoid issues with stories being dismissed
         presenter?.present(fakeViewController, animated: false) { [weak fakeViewController] in
             // Present the share sheet
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             fakeViewController?.present(activityViewController, animated: true) {
                 // After the share sheet is presented we take the snapshot
                 // This action needs to happen on the main thread because
                 // the view needs to be rendered.
-                StoryShareableProvider.shared.snapshot()
+                StoryShareableProvider.shared.snapshot(viewModifier: model.sharingSnapshotModifier)
             }
         }
     }
@@ -206,9 +210,21 @@ struct EndOfYear {
     }
 }
 
+extension EndOfYear {
+    static var defaultDuration: TimeInterval {
+        switch currentYear {
+        case .y2024: return 10.seconds
+        default: return 7.seconds
+        }
+    }
+}
+
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+        switch EndOfYear.currentYear {
+        case .y2024: return .darkContent
+        default: return .lightContent
+        }
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

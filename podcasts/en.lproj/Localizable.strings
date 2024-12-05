@@ -793,6 +793,9 @@
 /* Message for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. */
 "downloaded_files_conf_message" = "Unsubscribing will delete all downloaded files in this Podcast, are you sure?";
 
+/* Message for an unfollow message box that informs the user that unfollowing will remove downloaded files. */
+"downloaded_files_conf_message_new" = "Unfollowing will delete all downloaded files in this Podcast, are you sure?";
+
 /* Title for an unsubscribe message box that informs the user that unsubscribing will remove downloaded files. Informs the user how many files have been downloaded. '%1$@' is a placeholder for the number of downloaded files, will be more than one. */
 "downloaded_files_conf_plural_format" = "%1$@ Downloaded Files";
 
@@ -943,6 +946,9 @@
 /* Subtitle informing the user that new podcasts will be automatically added to this filter. */
 "filter_auto_add_subtitle" = "New podcasts you subscribe to will be automatically added";
 
+/* Subtitle informing the user that new podcasts will be automatically added to this filter. */
+"filter_auto_add_subtitle_new" = "New podcasts you follow to will be automatically added";
+
 /* Title for the filter option that indicates all podcasts will be included. */
 "filter_chips_all_podcasts" = "All Your Podcasts";
 
@@ -966,6 +972,9 @@
 
 /* Used on the screen to create a new filter. The description about why the list of filtered episodes is empty. */
 "filter_create_no_episodes_description_explanation" = "The criteria you selected doesn’t match any current episodes in your subscriptions";
+
+/* Used on the screen to create a new filter. The description about why the list of filtered episodes is empty. */
+"filter_create_no_episodes_description_explanation_new" = "The criteria you selected doesn’t match any current episodes in your podcasts";
 
 /* Used on the screen to create a new filter. The prompt about what they can do in order to make sure their filter returns results. */
 "filter_create_no_episodes_description_prompt" = "Choose different criteria, or save this filter if you think it will match episodes in the future.";
@@ -1002,6 +1011,9 @@
 
 /* Subtitle informing the user that new podcasts will not be automatically added to this filter. */
 "filter_manual_add_subtitle" = "New podcasts you subscribe to will not be automatically added";
+
+/* Subtitle informing the user that new podcasts will not be automatically added to this filter. */
+"filter_manual_add_subtitle_new" = "New podcasts you follow to will not be automatically added";
 
 /* Title for filter options related to media type settings. */
 "filter_media_type" = "Media Type";
@@ -1146,6 +1158,9 @@
 
 /* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
 "import_podcasts_description" = "You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
+
+/* Describes the process about how to import podcasts to Pocket Casts. '\\n\\n' Is a line break format to separate the description from the following note. */
+"import_podcasts_description_new" = "You can import your podcasts to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.\n\nNote: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.";
 
 /* Description for importing opml from URL*/
 "import_opml_from_url" = "Import your podcasts from an OPML file using a URL";
@@ -3010,6 +3025,12 @@
 /* Label indicating that the user is currently subscribed to the selected podcast. */
 "subscribed" = "Subscribed";
 
+/* Prompt to follow to the selected podcast. */
+"follow" = "Follow";
+
+/* Label indicating that the user is currently following to the selected podcast. */
+"unfollow" = "Unfollow";
+
 /* Prompt to subscribe to all of the selected podcast. */
 "subscribe_all" = "Subscribe All";
 
@@ -3557,6 +3578,80 @@
 /* A description used to indicate the number of days and hours spent listening to podcasts in the last year */
 "playback_2024_listening_time_description" = "%1$@ total listening to podcasts";
 
+/* A title shown with the amount of time listened on the Longest Episode screen of Playback 2024 */
+"playback_2024_longest_episode_title" = "The longest episode you listened to was %1$@";
+
+/* A description shown on the Longest Episode screen of Playback 2024 with the episode title and podcast title */
+"playback_2024_longest_episode_description" = "It was \"%1$@\" from \"%2$@\".";
+
+/* A title shown in the button on the upsell screen to check out Pocket Casts Plus */
+"playback_2024_plus_upsell_button_title" = "Check out Pocket Casts Plus";
+
+/* A title shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2024_plus_upsell_title" = "There's more!";
+
+/* A description shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2024_plus_upsell_description" = "Support Pocket Casts subscribing to Plus and get more stats, plus Premium features like bookmarks, folders or preselect chapters!";
+
+/* A title shown in the Completion Rate screen for Playback 2024 */
+"playback_2024_completion_rate_title" = "You completion rate this year was %1$@";
+
+/* A description shown in the Completion Rate screen for Playback 2024 */
+"playback_2024_completion_rate_description" = "From the %1$@ episodes you started you listened fully to a total of %2$@.";
+
+/*A title used for the Playback 2024 Top Podcast screen */
+"playback_2024_top_spot_title" = "This was your top podcast in 2024";
+
+/* A title shown on the Ratings Playback 2024 screen showing a bar chart of your ratings */
+"playback_2024_ratings_title" = "Let’s see your ratings!";
+
+/* A description shown in Playback 2024 when the user has made ratings of 4-5/5 for Podcasts */
+"playback_2024_ratings_description_4_to_5" = "Wow, so many %1$@ star ratings! Thanks for sharing the love with your favorite creators.";
+
+/* A description shown in Playback 2024 when the user has only made ratings of 1-3/5 for Podcasts */
+"playback_2024_ratings_description_1_to_3" = "Thanks for sharing your feedback with the creator community";
+
+"playback_2024_top_spot_description" = "You listened to %1$@ episodes for a total of %2$@ of \"%3$@\".";
+
+/* A title shown on the Year over Year Comparison screen for a small decrease in listening time from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_down_little" = "Compared to 2023, your listening time went down a little";
+
+/* A title shown on the Year over Year Comparison screen for a small increase in listening time from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_up_little" = "Compared to 2023, your listening time went up a little";
+
+/* A title shown on the Year over Year Comparison screen for a large increase in listening time from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_up_lot" = "Compared to 2023, your listening time went up a whopping %1$@";
+
+/* A title shown on the Year over Year Comparison screen for a large decrease in listening time from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_down_lot" = "Compared to 2023, your listening time went down a whopping %1$@";
+
+/* A title shown on the Year over Year Comparison screen for a large increase in listening time from 2023 which exceeds 500% in Playback 2024 */
+"playback_2024_year_over_year_compare_title_up_over_500" = "Compared to 2023, your listening time went up more than %1$@";
+
+/* A title shown on the Year over Year Comparison screen for a large decrease in listening time from 2023 which exceeds 500% in Playback 2024 */
+"playback_2024_year_over_year_compare_title_down_over_500" = "Compared to 2023, your listening time went down more than %1$@";
+
+/* A title shown on the Year over Year Comparison screen for listening time which stayed the same from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_same" = "Compared to 2023, your listening time stayed pretty consistent";
+
+/* A description shown on the Year over Year Comparison screen for listening time which stayed the same from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_description_same" = "And they say consistency is the key to success... or something like that!";
+
+/* A title shown on the Year over Year Comparison screen for listening time which stayed the same from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_description_down" = "Aaaah... there’s a life to be lived, right?";
+
+/* A title shown on the Year over Year Comparison screen for listening time which stayed the same from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_description_up" = "Ready to top it in 2025?";
+
+/* A title shown in Playback 2024 when the user has not made any ratings. */
+"playback_2024_ratings_empty_title" = "Oh-oh! No podcast ratings to show you yet.";
+
+/* A description shown in Playback 2024 to describe the new Podcast Ratings feature */
+"playback_2024_ratings_empty_description" = "Did you know that you can rate shows now? Share the love for your favorite creators and help them get noticed!";
+
+/* A title shown on the Year over Year Comparison screen for a increase more than 500$ in listening time from 2023 in Playback 2024 */
+"playback_2024_year_over_year_compare_title_up_above_maximum" = "Compared to 2023, your listening time went up more than %1$@";
+
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
@@ -3705,16 +3800,19 @@
 "eoy_year_over_year_subtitle_went_down" = "Aaaah... there’s a life to be lived, right?";
 
 /* Text for when a user shares the story comparing the 2022 and 2023 listening time. */
-"eoy_year_over_share_text" = "My 2023 listening time compared to 2022";
+"eoy_year_over_share_text" = "My %1$@ listening time compared to %2$@";
 
 /* Title for the completion rate. %1$@ is the percentage. */
 "eoy_year_completion_rate_title" = "Your completion rate this year was %1$@";
 
 /* Title for when sharing the completion rate story to social media. */
-"eoy_year_completion_rate_share_text" = "My 2023 completion rate";
+"eoy_year_completion_rate_share_text" = "My %1$@ completion rate";
 
 /* Title for the completion rate. %1$@ is the total of episodes listened this year, %2$@ is the total of episodes fully listened to. */
 "eoy_year_completion_rate_subtitle" = "From the %1$@ episodes you started you listened fully to a total of %2$@";
+
+/* Text for when a user shares the Ratings story summarizing their podcast ratings from the last year */
+"eoy_year_ratings_share_text" = "I rated %1$@ different podcasts in %2$@, with %3$@ as my most used rating";
 
 /* Title of the story paywall. Telling the users that there are more stories to check. */
 "eoy_theres_more" = "There’s more!";
@@ -3732,7 +3830,7 @@
 "eoy_2024_epilogue_title" = "Thank you for listening with us this year.\nSee you in 2025!";
 
 /* Description shown on the final End of Year story for 2024 */
-"eoy_2024_epilogue_description" = "Don’t forget to share with friends and give a shout out to your favourite podcasts and creators";
+"eoy_2024_epilogue_description" = "Don’t forget to share with friends and give a shout out to your favourite podcasts and creators.";
 
 /* Message of an alert displayed to the user asking if they want to share the current story */
 "eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";
@@ -4506,10 +4604,10 @@
 "auto_download_limit_auto_downloads" = "Limit auto downloads";
 
 /* Auto Downloads Setting - Limits downloads to a number of episodes. `%1$@' is a placeholder for the number of episodes*/
-"auto_download_limit_number_of_episodes" = "%1$@ episodes";
+"auto_download_limit_number_of_episodes" = "%1$@ Episodes";
 
 /* Auto Downloads Setting - Limits downloads to one episodes. */
-"auto_download_limit_one_episode" = "latest episode";
+"auto_download_limit_one_episode" = "Latest Episode";
 
 /* Auto Downloads Setting - Limits downloads to the latest episode*/
 "auto_download_limit_one_episode_show" = "Latest Episode per Show";
@@ -4517,4 +4615,84 @@
 /* Auto Downloads Setting - Limits downloads to a number of show episodes. `%1$@' is a placeholder for the number of episodes*/
 "auto_download_limit_number_of_episodes_show" = "%1$@ Latest Episodes per Show";
 
+/* Toast message when episode download is removed*/
+"player_episode_was_removed" = "Episode was removed";
+
+/* Toast message when episode is queued for download*/
+"player_episode_queued_for_download" = "Episode queued for download";
+
+/* Toast message when episode download is cancelled*/
+"player_episode_download_cancelled" = "Episode download cancelled";
+
+/* A title shown on a button to open information about the Podcast Ratings feature */
+"learn_about_ratings" = "Learn about ratings";
+
+/* Paywall header for when the view is presented from the folder source */
+"paywall_dynamic_headline_folder" = "Organize your podcasts with Pocket Casts Plus, and more";
+
+/* Paywall header for when the view is presented from the Up Next Shuffle source */
+"paywall_dynamic_headline_up_next_shuffle" = "Shuffle your episodes with Pocket Casts Plus, and more";
+
+/* Paywall header for when the view is presented from the themes source */
+"paywall_dynamic_headline_themes" = "Get exclusive themes with Pocket Casts Plus, and more";
+
+/* Paywall header for when the view is presented from the watch source */
+"paywall_dynamic_headline_watch" = "Listen from your watch with Pocket Casts Plus, and more";
+
+/* Paywall header for when the view is presented from the icons source */
+"paywall_dynamic_headline_icons" = "Get exclusive app icons with Pocket Casts Plus, and more";
+
+/* Paywall header for when the view is presented from the files source */
+"paywall_dynamic_headline_files" = "Upload your files with Pocket Casts Plus, and more";
+
+/* Up Next Shuffle Announcement sheet title*/
+"up_next_shuffle_announcement_title" = "Introducing Shuffle";
+
+/* Up Next Shuffle Announcement sheet text*/
+"up_next_shuffle_announcement_text" = "Easily play a random episode without changing the order of your queue.";
+
+/* Up Next Shuffle Announcement sheet dismiss button title*/
+"up_next_shuffle_announcement_button" = "Got it";
+
+/* Title for manage downloads file space usage banner and modal */
+"manage_downloads_title" = "Need to free up space?";
+
+/* Detail for manage downloads file space usage banner and modal. %1$@ is the disk space in Mb/GB that the episodes take */
+"manage_downloads_detail" = "Save %1$@ by removing played episodes.";
+
+/* Button title for manage downloads file space usage banner and modal. */
+"manage_downloads_action" = "Manage downloads";
+
+/* Title of the cancel subscription view */
+"cancel_subscription_title" = "Before you cancel, check out these offers";
+
+/* Title for the continue button */
+"cancel_subscription_continue_button" = "Continue to Cancellation";
+
+/* Generic error if the product loading fails */
+"cancel_subscription_generic_error" = "An error occurred. Please try again later.";
+
+/* Cancel subscription: title for the promotion row */
+"cancel_subscription_promotion_title" = "Get your next month free";
+
+/* Cancel subscription: description for the promotion row */
+"cancel_subscription_promotion_description" = "Save %@ with your next month on us.";
+
+/* Cancel subscription: title for the new plan row */
+"cancel_subscription_new_plan_title" = "Looking for a different plan?";
+
+/* Cancel subscription: description for the new plan row */
+"cancel_subscription_new_plan_description" = "Find the plan that’s right for you.";
+
+/* Cancel subscription: title for the help row */
+"cancel_subscription_help_title" = "Need help with Pocket Casts?";
+
+/* Cancel subscription: description for the help row */
+"cancel_subscription_help_description" = "Struggling with any features or having issues.";
+
+/* Title for the claim offer button */
+"cancel_subscription_claim_offer_button" = "Claim offer";
+
+/* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
 

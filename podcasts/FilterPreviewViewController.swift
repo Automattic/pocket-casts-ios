@@ -81,7 +81,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     @IBOutlet var noEpisodeCriteriaLabel: ThemeableLabel! {
         didSet {
             noEpisodeCriteriaLabel.style = .primaryText02
-            noEpisodeCriteriaLabel.text = L10n.filterCreateNoEpisodesDescriptionExplanation
+            noEpisodeCriteriaLabel.text = FeatureFlag.useFollowNaming.enabled ? L10n.filterCreateNoEpisodesDescriptionExplanationNew : L10n.filterCreateNoEpisodesDescriptionExplanation
         }
     }
 

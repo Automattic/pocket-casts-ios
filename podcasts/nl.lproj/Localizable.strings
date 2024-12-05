@@ -257,6 +257,18 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alleen bovenaan toevoegen</string>
     <key>auto_download_first</key>
     <string>Automatisch eerste downloaden</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>Limiet automatische downloads</string>
+    <key>auto_download_limit_downloads</key>
+    <string>Limiet downloads</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>%1$@ afleveringen</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>%1$@ Nieuwste aflevering per programma</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>Nieuwste aflevering</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>Nieuwste aflevering per programma</string>
     <key>auto_download_off_subtitle</key>
     <string>Schakel het automatisch downloaden van afleveringen in dit filter in</string>
     <key>auto_download_on_plural_format</key>
@@ -713,6 +725,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Weet je zeker dat je deze gedownloade bestanden wilt verwijderen?</string>
     <key>downloaded_files_conf_message</key>
     <string>Door je uit te schrijven, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>Door te stoppen met volgen, worden alle gedownloade bestanden in deze podcast verwijderd. Weet je het zeker?</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>%1$@ gedownloade bestanden</string>
     <key>downloaded_files_conf_singular</key>
@@ -735,6 +749,11 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Clip bewerken</string>
     <key>enable_it_now</key>
     <string>Nu inschakelen</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>Vergeet niet om te delen met je vrienden en een shoutout te geven aan je favoriete podcasts en makers</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>Bedankt dat je dit jaar met ons geluisterd hebt.
+We zien je graag terug in 2025!</string>
     <key>eoy_card_description</key>
     <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
     <key>eoy_create_account_to_see</key>
@@ -843,13 +862,13 @@ waar je naar hebt geluisterd was
     <key>eoy_year_completion_rate</key>
     <string>afrondingspercentage</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>Mijn afrondingspercentage van 2023</string>
+    <string>Mijn afrondingspercentage van %1$@</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgekeken </string>
     <key>eoy_year_completion_rate_title</key>
     <string>Je afrondingspercentage dit jaar was %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>Mijn luistertijd in 2023, ten opzichte van 2022</string>
+    <string>Mijn luistertijd in %1$@, ten opzichte van %2$@</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>Consistentie is de sleutel tot succes … of zoiets!</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -864,6 +883,8 @@ waar je naar hebt geluisterd was
     <string>Ten opzichte van 2022 is je luistertijd een klein beetje omlaag gegaan</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>Ten opzichte van 2022 is je luistertijd met maar liefst %1$@ gestegen</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Ik heb %1$@ verschillende podcasts beoordeeld in %2$@, met %3$@ als mijn meest gegeven beoordeling</string>
     <key>episode</key>
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
@@ -953,6 +974,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Bestanden sorteren</string>
     <key>filter_auto_add_subtitle</key>
     <string>Nieuwe podcasts waarop je je abonneert, worden automatisch toegevoegd</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd</string>
     <key>filter_chips_all_podcasts</key>
     <string>Al je podcasts</string>
     <key>filter_chips_duration</key>
@@ -969,6 +992,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Geen overeenkomende afleveringen</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>De geselecteerde criteria komen niet overeen met afleveringen in je abonnementen.</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>De geselecteerde criteria komen niet overeen met afleveringen in je podcasts</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Kies andere criteria of sla dit filter op als je denkt dat het overeenkomt met toekomstige afleveringen.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -995,6 +1020,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Langer dan</string>
     <key>filter_manual_add_subtitle</key>
     <string>Nieuwe podcasts waarop je je abonneert, worden niet automatisch toegevoegd</string>
+    <key>filter_manual_add_subtitle_new</key>
+    <string>Nieuwe podcasts die je volgt, worden niet automatisch toegevoegd</string>
     <key>filter_media_type</key>
     <string>Type media</string>
     <key>filter_media_type_audio</key>
@@ -1093,6 +1120,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Mapgeschiedenis</string>
     <key>folders_history_explanation</key>
     <string>Een lijst met podcasts die verwijderd zijn uit een map dankzij synchronisatie.</string>
+    <key>follow</key>
+    <string>Volgen</string>
     <key>free_trial_detail_label</key>
     <string>Nu geen betaling - Annuleer wanneer je wilt</string>
     <key>free_trial_duration_free</key>
@@ -1224,6 +1253,10 @@ Opmerking: Als je de Shortcuts-app hebt verwijderd, wordt je gevraagd deze opnie
     <string>Je kunt je podcast-abonnementen importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
 
 Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk je op de bijlage en selecteer je Pocket Casts.</string>
+    <key>import_podcasts_description_new</key>
+    <string>Je kan je podcasts importeren in Pocket Casts met de veelgebruikte OPML-indeling. Exporteer het bestand uit een andere app en kies Openen in Pocket Casts.
+
+Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk je op de bijlage en selecteer je Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>IMPORTEREN NAAR POCKET CASTS</string>
     <key>import_subtitle</key>
@@ -1267,6 +1300,8 @@ podcasts mee</string>
     <string>Je ontvangt een melding via de app wanneer het nieuwe Kids-profiel klaar is! Wil je ons je wensen vertellen?</string>
     <key>kids_profile_thankyou_title</key>
     <string>Bedankt voor je interesse</string>
+    <key>learn_about_ratings</key>
+    <string>Meer informatie over beoordelingen</string>
     <key>learn_more</key>
     <string>Meer weten</string>
     <key>listening_history</key>
@@ -1480,6 +1515,18 @@ UPDATES</string>
     <string>Ontgrendelen</string>
     <key>pause</key>
     <string>Pauzeren</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>Upload je bestanden met Pocket Casts Plus, en meer</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>Organiseer je podcasts met Pocket Casts Plus, en meer</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>Krijg exclusief toegang tot app-iconen met Pocket Casts Plus, en meer</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Krijg exclusief toegang tot themas met Pocket Casts Plus, en meer</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>Speel afleveringen op willekeurige volgorde af met Pocket Casts Plus en meer</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>Luister vanaf je horloge met Pocket Casts Plus, en meer</string>
     <key>phone</key>
     <string>Telefoon</string>
     <key>play</key>
@@ -1490,6 +1537,66 @@ UPDATES</string>
     <string>Als laatste afspelen</string>
     <key>play_next</key>
     <string>Als eerstvolgende afspelen</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgeluisterd</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>Je afrondingspercentage dit jaar was %1$@</string>
+    <key>playback_2024_description</key>
+    <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en categorieën en meer. Deel met je vrienden en geef een shoutout aan je favoriete makers!</string>
+    <key>playback_2024_feature_description</key>
+    <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
+    <key>playback_2024_feature_title</key>
+    <string>Playback 2024 is gearriveerd!</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>%1$@ totaal geluisterd naar podcasts</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>Het was '%1$@' van '%2$@'</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>De langste aflevering waarnaar je hebt geluisterd was %1$@</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>Bekijk eens Pocket Casts Plus</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>Steun Pocket Casts door je te abonneren op Plus en krijg toegang tot meer statistieken en Premium-functies zoals bladwijzers, mappen en voorselectie van hoofdstukken!</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>Dat is nog niet alles!</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>Bedankt dat je je feedback deelt met de community van makers</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>Wauw, zoveel beoordelingen van %1$@ sterren! Bedankt dat je je liefde voor je favoriete makers toont.</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>Wist je dat je nu shows kan beoordelen? Deel je liefde voor je favoriete makers en breng ze onder de aandacht!</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>Oh oh! Er zijn nog geen podcastbeoordelingen voor je</string>
+    <key>playback_2024_ratings_title</key>
+    <string>Laten we naar je beoordelingen kijken!</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>Je hebt in totaal %2$@ geluisterd naar %1$@ afleveringen van '%3$@'</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>Dit was je favoriete podcast in 2024</string>
+    <key>playback_2024_view_year</key>
+    <string>Mijn Playback van 2024 bekijken</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>Aaaah … er moet worden geleefd, toch?</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>Consistentie is de sleutel tot succes … of zoiets!</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>Klaar om dit te overtreffen in 2025?</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>Ten opzichte van 2023 is je luistertijd een klein beetje omlaag gegaan</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>Ten opzichte van 2023 is je luistertijd met maar liefst %1$@ omlaag gegaan</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>Ten opzichte van 2023 is je luistertijd meer dan %1$@ omlaag gegaan</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>Ten opzichte van 2023 is je luistertijd redelijk hetzelfde gebleven</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>Ten opzichte van 2023 is je luistertijd gestegen met meer dan %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>Ten opzichte van 2023 is je luistertijd een klein beetje gestegen</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>Ten opzichte van 2023 is je luistertijd met maar liefst %1$@ gestegen</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>Ten opzichte van 2023 is je luistertijd gestegen met meer %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -1536,6 +1643,12 @@ UPDATES</string>
     <string>Vermindert de duur van een aflevering door stilte in gesprekken weg te filteren.</string>
     <key>player_effects_trim_silence_progress</key>
     <string>Je hebt in totaal %1$@ bespaard door deze functie te gebruiken.</string>
+    <key>player_episode_download_cancelled</key>
+    <string>Downloaden van aflevering geannuleerd</string>
+    <key>player_episode_queued_for_download</key>
+    <string>Aflevering in de wachtrij om te downloaden</string>
+    <key>player_episode_was_removed</key>
+    <string>Aflevering is verwijderd</string>
     <key>player_error_corrupted_file</key>
     <string>De aflevering is mogelijk beschadigd, maar je kan proberen deze opnieuw af te spelen.</string>
     <key>player_error_internet_connection</key>
@@ -1947,6 +2060,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ afleveringen wissen</string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>1 aflevering verwijderen</string>
     <key>queue_clear_queue</key>
     <string>WACHTRIJ WISSEN</string>
     <key>queue_for_later</key>
@@ -2222,7 +2337,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Download de bovenste afleveringen in een filter.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Download nieuwe afleveringen wanneer ze worden uitgegeven.</string>
+    <string>Download automatisch nieuwe afleveringen en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Download afleveringen die zijn toegevoegd aan Hierna.</string>
     <key>settings_badge_filter_header</key>
@@ -2843,6 +2958,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Probeer het nu</string>
     <key>unarchive</key>
     <string>Dearchiveren</string>
+    <key>unfollow</key>
+    <string>Niet meer volgen</string>
     <key>unknown_duration</key>
     <string>? m</string>
     <key>unstar</key>

@@ -4,16 +4,29 @@
 # Variables used in this pipeline are defined in `shared-pipeline-vars`, which is `source`'d before calling `buidkite-agent pipeline upload`
 # This pipeline is meant to be run via the Buildkite API, and is only used for release builds
 
+agents:
+  queue: mac
+
 env:
   IMAGE_ID: $IMAGE_ID
 
 steps:
 
   - label: "🛠 Release Build (App Store Connect)"
-    command: ".buildkite/commands/release-build.sh $BETA_RELEASE"
+    key: testflight_build
+    command: .buildkite/commands/release-build.sh
     priority: 1
-    agents:
-      queue: mac
+    plugins: [$CI_TOOLKIT]
+    artifact_paths:
+      - artifacts/*.ipa
+      - artifacts/*.zip
+    notify:
+      - slack: "#build-and-ship"
+
+  - label: ":testflight: Release Upload (TestFlight, Sentry, GitHub)"
+    depends_on: testflight_build
+    command: .buildkite/commands/release-upload.sh
+    priority: 1
     plugins: [$CI_TOOLKIT]
     notify:
-    - slack: "#build-and-ship"
+      - slack: "#build-and-ship"

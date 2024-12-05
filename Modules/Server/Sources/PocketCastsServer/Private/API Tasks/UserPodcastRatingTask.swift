@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
+import PocketCastsDataModel
 
 class UserPodcastRatingAddTask: ApiBaseTask {
     var completion: ((Bool) -> Void)?
@@ -87,10 +88,4 @@ class UserPodcastRatingGetTask: ApiBaseTask {
             completion?(false, nil)
         }
     }
-}
-
-public struct UserPodcastRating: Codable {
-    public let podcastRating: UInt32
-    public let podcastUuid: String
-    public let modifiedAt: Date
 }

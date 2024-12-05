@@ -113,6 +113,8 @@ class DownloadsViewController: PCViewController {
 
         title = L10n.downloads
 
+        showManageDownloadsBanner()
+
         Analytics.track(.downloadsShown)
     }
 
@@ -127,7 +129,7 @@ class DownloadsViewController: PCViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        showManageDownloadsBanner()
         addEventObservers()
     }
 
@@ -136,6 +138,33 @@ class DownloadsViewController: PCViewController {
 
         removeAllCustomObservers()
     }
+
+    private func showManageDownloadsBanner() {
+        guard ManageDownloadsCoordinator.shouldShowBanner
+        else {
+            downloadsTable.tableHeaderView = nil
+            return
+        }
+        Analytics.track(.freeUpSpaceBannerShown)
+        downloadsTable.tableHeaderView = bannerView
+    }
+
+    private lazy var bannerView: UIView = {
+        let banner = ManageDownloadsBannerView(dataModel: ManageDownloadsModel(initialSize: "", onManageTap: { [weak self] in
+            Analytics.track(.freeUpSpaceManageDownloadsTapped, properties: ["source": "downloads"])
+            self?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
+        })).themedUIView
+        banner.translatesAutoresizingMaskIntoConstraints = false
+        let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: 132))
+        wrapperView.addSubview(banner)
+        NSLayoutConstraint.activate([
+            banner.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 16),
+            banner.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -16),
+            banner.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 16),
+            banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
+            ])
+        return wrapperView
+    }()
 
     // MARK: - App Backgrounding
 

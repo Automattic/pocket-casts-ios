@@ -22,7 +22,10 @@ struct OnboardingFlow {
         case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = upgradeController(in: navigationController, context: context, customTitle: customTitle)
+            flowController = upgradeController(in: navigationController,
+                                               viewSource: source,
+                                               context: context,
+                                               customTitle: customTitle)
 
         case .plusAccountUpgrade:
             self.source = source ?? "unknown"
@@ -39,6 +42,7 @@ struct OnboardingFlow {
 
             flowController = PlusLandingViewModel.make(in: navigationController,
                                                        from: .upsell,
+                                                       viewSource: PlusUpgradeViewSource.from(string: source),
                                                        config: config,
                                                        customTitle: customTitle)
 
@@ -53,9 +57,13 @@ struct OnboardingFlow {
         return flowController
     }
 
-    private func upgradeController(in controller: UINavigationController?, context: Context?, customTitle: String? = nil) -> UIViewController {
+    private func upgradeController(in controller: UINavigationController?, viewSource: String?, context: Context?, customTitle: String? = nil) -> UIViewController {
         let product = context?["product"] as? ProductInfo
-        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product), customTitle: customTitle)
+        return PlusLandingViewModel.make(in: controller,
+                                         from: .upsell,
+                                         viewSource: PlusUpgradeViewSource.from(string: viewSource),
+                                         config: .init(displayProduct: product),
+                                         customTitle: customTitle)
     }
 
     /// Resets the internal flow state to none and clears any analytics sources

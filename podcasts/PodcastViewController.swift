@@ -426,9 +426,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @objc private func refreshEpisodes() {
         guard let podcast = podcast else { return }
 
-        if episodesTable.numberOfSections > 0 {
-            episodesTable.reloadSections([0], with: .none)
-        }
         loadLocalEpisodes(podcast: podcast, animated: true)
     }
 
@@ -588,12 +585,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
 
         let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
-        let unsubscribeAction = OptionAction(label: L10n.unsubscribe, icon: nil, action: { [weak self] in
+        let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
+        let unsubscribeAction = OptionAction(label: label, icon: nil, action: { [weak self] in
             self?.performUnsubscribe()
         })
         if downloadedCount > 0 {
             unsubscribeAction.destructive = true
-            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: L10n.downloadedFilesConfMessage, icon: "option-alert", actions: [unsubscribeAction])
+            let message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
+            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: message, icon: "option-alert", actions: [unsubscribeAction])
         } else {
             optionPicker.addAction(action: unsubscribeAction)
         }

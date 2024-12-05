@@ -144,6 +144,10 @@ public enum ServerConstants {
 
     public enum Limits {
         static let maxHistoryItems = 100
+#if watchOS
+        static let maxEpisodesToSync = 200
+#else
         static let maxEpisodesToSync = 2000
+#endif
     }
 }

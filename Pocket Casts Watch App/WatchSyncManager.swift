@@ -79,9 +79,12 @@ class WatchSyncManager {
         if updateLoginDetailsIfRequired() {
             return
         } else {
-            if isPlusUser(), WKApplication.shared().applicationState == .background, compareUpNextLists() == .watchNeedsUpdate, !SyncManager.isFirstSyncInProgress() {
-                let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
+            if isPlusUser(),
+               WKApplication.shared().applicationState == .background,
+               compareUpNextLists() == .watchNeedsUpdate,
+               !SyncManager.isFirstSyncInProgress() {
+               let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+               BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
             } else {
                 loginAndRefreshIfRequired()
             }
@@ -208,6 +211,7 @@ class WatchSyncManager {
 
     private func periodicRefresh() {
         if DateUtil.hasEnoughTimePassed(since: ServerSettings.lastRefreshEndTime(), time: WatchSyncManager.watchMinTimeBetweenPeriodicRefreshes) {
+            FileLog.shared.addMessage("Periodic Refresh - Starting")
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: false)
         }
     }

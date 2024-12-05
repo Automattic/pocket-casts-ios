@@ -259,7 +259,8 @@ class DownloadManager: NSObject, FilePathProtocol {
               !episode.videoPodcast(),
               !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
-              !urlAsset.url.isFileURL // only  start download if it's a remote file that we are playing
+              !urlAsset.url.isFileURL, // only  start download if it's a remote file that we are playing
+              (FileManager.deviceRemainingFreeSpaceInBytes ?? 0) > episode.sizeInBytes
         else {
             return playbackItem
         }
@@ -287,9 +288,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         let downloadTaskUUID = episode.uuid
+        if downloadTaskUUID.isEmpty {
+            FileLog.shared.addMessage("DownloadManager stream and download: episode uuid is empty")
+            return playbackItem
+        }
         downloadingEpisodesCache[downloadTaskUUID] = episode
         episode.downloadTaskId = downloadTaskUUID
-
+        episode.lastDownloadAttemptDate = Date.now
         DataManager.sharedManager.save(episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
@@ -299,12 +304,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         var exportCompleted = false
         var downloadError: Error?
         var reportedContentType: String?
+        let originalSizeInBytes = episode.sizeInBytes
         let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, contentType, bytesDownloaded, bytesExpected in
             reportedContentType = contentType
-            let size = max(100, max(bytesExpected, episode.sizeInBytes))
+            let size = max(100, max(bytesExpected, originalSizeInBytes))
             switch status {
             case .downloading:
-                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
+                self.reportProgress(episodeUUID: downloadTaskUUID, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
             case .failed(let error):
                 downloadError = error
                 exportCompleted = true
@@ -325,8 +331,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes[downloadTaskUUID] = nil
-            guard let episode = dataManager.findBaseEpisode(uuid: episode.uuid) else {
+            downloadAndStreamEpisodes.removeValue(forKey: downloadTaskUUID)
+            guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
             }
             if downloadError == nil {

@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
@@ -123,6 +124,10 @@ extension LoginCoordinator {
                     Analytics.track(.userSignedIn, properties: ["source": provider])
                 }
 
+                if FeatureFlag.endOfYear2024.enabled {
+                    NotificationCenter.postOnMainThread(notification: .userSignedIn)
+                }
+
                 listenToSync()
             } catch {
                 progressAlert?.hideAlert(false) {
@@ -208,6 +213,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 
         let controller = PlusLandingViewModel.make(in: navigationController,
                                                    from: source,
+                                                   viewSource: .onboarding,
                                                    config: .init(continuePurchasing: continuePurchasing))
         navigationController?.setViewControllers([controller], animated: true)
     }

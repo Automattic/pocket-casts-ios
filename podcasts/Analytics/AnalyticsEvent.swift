@@ -162,6 +162,10 @@ enum AnalyticsEvent: String {
     case downloadsShown
     case downloadsOptionsButtonTapped
     case downloadsOptionsModalOptionTapped
+    case freeUpSpaceBannerShown
+    case freeUpSpaceManageDownloadsTapped
+    case freeUpSpaceModalShown
+    case freeUpSpaceMaybeLaterTapped
 
     case downloadsMultiSelectEntered
     case downloadsSelectAllButtonTapped
@@ -637,6 +641,7 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
     case endOfYearUpsellShown
+    case endOfYearLearnRatingsShown
 
     // MARK: - Welcome View
 

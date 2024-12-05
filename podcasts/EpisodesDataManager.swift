@@ -132,7 +132,7 @@ class EpisodesDataManager {
     // MARK: - Downloads
 
     func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
-        let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
+        let query = "( ((downloadTaskId IS NOT NULL AND autoDownloadStatus <> \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) ) OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
         let arguments = [Date().weeksAgo(1)] as [Any]
 
         let newData = EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: arguments, episodeShortKey: { episode -> String in

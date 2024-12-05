@@ -572,7 +572,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func observersForEndOfYearStats() {
-        guard FeatureFlag.endOfYear.enabled else {
+        guard FeatureFlag.endOfYear.enabled || FeatureFlag.endOfYear2024.enabled else {
             return
         }
 

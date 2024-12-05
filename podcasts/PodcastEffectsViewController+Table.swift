@@ -57,6 +57,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.timeStepper.maximumValue = 5
             cell.timeStepper.smallIncrements = 0.1
             cell.timeStepper.smallIncrementThreshold = TimeInterval.greatestFiniteMagnitude
+
             if FeatureFlag.newSettingsStorage.enabled {
                 cell.timeStepper.currentValue = podcast.settings.playbackSpeed
             } else {
@@ -220,9 +221,6 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
         podcast.isEffectsOverridden = sender.isOn
         podcast.syncStatus = SyncStatus.notSynced.rawValue
-        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
-            podcast.usedCustomEffectsBefore = true
-        }
         saveUpdates()
 
         Analytics.track(.podcastSettingsCustomPlaybackEffectsToggled, properties: ["enabled": sender.isOn])

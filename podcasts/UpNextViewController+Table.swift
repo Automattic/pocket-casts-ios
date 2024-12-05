@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 
 extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView DataSource
@@ -41,7 +42,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
                 shuffleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
                 shuffleButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
             ])
-            shuffleButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+            shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
         } else {
             headerView.addSubview(clearQueueButton)
             clearQueueButton.translatesAutoresizingMaskIntoConstraints = false

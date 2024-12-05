@@ -40,6 +40,10 @@ actor LogBuffer {
         logBuffer.append(LogEntry(message, timestamp: date))
     }
 
+    func console(_ message: String) {
+        logger?.log("\(message, privacy: .public)")
+    }
+
     private func writeLogBufferToDisk() {
         let newLogChunk = logBuffer.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending }).reduce(into: "") { resultChunk, logEntry in
             resultChunk.append("\(logEntry.formattedForLog)\n")
@@ -128,6 +132,12 @@ public final class FileLog {
         Task {
             await logBuffer.append(message, date: date)
             publisher.send(message)
+        }
+    }
+
+    public func console(_ message: String) {
+        Task {
+            await logBuffer.console(message)
         }
     }
 

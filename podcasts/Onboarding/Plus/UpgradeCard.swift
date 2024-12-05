@@ -79,6 +79,21 @@ extension UpgradeTier {
     static var slumber: TierFeature {
         TierFeature(iconName: "plus-feature-slumber", title: FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl)
     }
+
+    func update(header: String) -> Self {
+        return UpgradeTier(
+            tier: self.tier,
+            iconName: self.iconName,
+            title: self.title,
+            plan: self.plan,
+            header: header,
+            description: self.description,
+            buttonLabel: self.buttonLabel,
+            buttonForegroundColor: self.buttonForegroundColor,
+            monthlyFeatures: self.monthlyFeatures,
+            yearlyFeatures: self.yearlyFeatures,
+            background: self.background)
+    }
 }
 
 // MARK: - Upgrade card

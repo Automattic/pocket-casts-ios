@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 
 public extension ApiServerHandler {
     func addRating(uuid: String, rating: Int) async -> Bool {

@@ -51,6 +51,7 @@ public class RefreshManager {
         if !forceEvenIfRefreshedRecently {
             if let lastRefreshStartTime = ServerSettings.lastRefreshStartTime(), fabs(lastRefreshStartTime.timeIntervalSinceNow) < RefreshManager.minTimeBetweenRefreshes {
                 // if it's been less than minTimeBetweenRefreshes since our last refresh, don't do another one. Effectively throttling user refreshes a little bit
+                FileLog.shared.addMessage("Refresh - Throtled")
                 DispatchQueue.global().async {
                     Thread.sleep(forTimeInterval: 1.second)
                     ServerNotificationsHelper.shared.firePodcastsUpdated()

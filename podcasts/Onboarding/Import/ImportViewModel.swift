@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import PocketCastsUtils
 
 class ImportViewModel: OnboardingModel {
     var navigationController: UINavigationController?
@@ -33,7 +34,7 @@ class ImportViewModel: OnboardingModel {
         .init(id: .castro, displayName: "Castro", steps: L10n.importInstructionsCastro),
         .init(id: .castbox, displayName: "Castbox", steps: L10n.importInstructionsCastbox),
         .init(id: .overcast, displayName: "Overcast", steps: L10n.importInstructionsOvercast),
-        .init(id: .other, displayName: "other apps", steps: L10n.importPodcastsDescription),
+        .init(id: .other, displayName: "other apps", steps: FeatureFlag.useFollowNaming.enabled ? L10n.importPodcastsDescriptionNew : L10n.importPodcastsDescription),
         .init(id: .opmlFromURL, displayName: "URL", steps: L10n.importOpmlFromUrl)
     ]
 

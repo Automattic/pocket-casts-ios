@@ -147,7 +147,7 @@ class EpisodeDataManager {
     }
 
     func unsyncedEpisodes(limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 LIMIT \(limit)", values: nil, dbQueue: dbQueue)
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
 
     func allEpisodesForPodcast(id: Int64, dbQueue: FMDatabaseQueue) -> [Episode] {
@@ -728,16 +728,43 @@ class EpisodeDataManager {
     }
 
     func markAllSynced(episodes: [Episode], dbQueue: FMDatabaseQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty {
+            return
+        }
 
         dbQueue.inDatabase { db in
             do {
                 db.beginTransaction()
-
-                for episode in episodes {
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id = ?", values: [episode.id])
+                if FeatureFlag.markAllSyncedInSingleStatement.enabled {
+                    let ids = episodes.map({"\($0.id)"})
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id IN (\(ids.joined(separator: ",")))", values: nil)
+                } else {
+                    for episode in episodes {
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id = ?", values: [episode.id])
+                    }
                 }
+                db.commit()
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
+            }
+        }
+    }
 
+    func markAllSynced(episodeIDs ids: [String], dbQueue: FMDatabaseQueue) {
+        if ids.isEmpty {
+            return
+        }
+
+        dbQueue.inDatabase { db in
+            do {
+                db.beginTransaction()
+                if FeatureFlag.markAllSyncedInSingleStatement.enabled {
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid IN (\(ids.map { "\"\($0)\""}.joined(separator: ",")))", values: nil)
+                } else {
+                    for episodeId in ids {
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid = ?", values: ["\"\(episodeId)\""])
+                    }
+                }
                 db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")

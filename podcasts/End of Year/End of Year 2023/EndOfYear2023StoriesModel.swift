@@ -7,6 +7,14 @@ class EndOfYear2023StoriesModel: StoryModel {
     var stories = [EndOfYear2023Story]()
     var data = EndOfYear2023StoriesData()
 
+    var indicatorColor: Color {
+        .white
+    }
+
+    var primaryBackgroundColor: Color {
+        .black
+    }
+
     required init() {}
 
     func populate(with dataManager: DataManager) {
@@ -104,6 +112,10 @@ class EndOfYear2023StoriesModel: StoryModel {
         }
     }
 
+    func shouldLoadData(in dataManager: DataManager) -> Bool {
+        false // Default data load of episodes is enough and we don't need to load additional data
+    }
+
     func isReady() -> Bool {
         if !stories.isEmpty {
             stories.append(.intro)
@@ -121,6 +133,10 @@ class EndOfYear2023StoriesModel: StoryModel {
         stories.count
     }
 
+    func paywallView() -> AnyView {
+        AnyView(PaidStoryWallView().ignoresSafeArea(edges: .bottom))
+    }
+
     func overlaidShareView() -> AnyView? {
         AnyView(shareButton())
     }
@@ -135,6 +151,13 @@ class EndOfYear2023StoriesModel: StoryModel {
 
     func footerShareView() -> AnyView? {
         nil
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        AnyView(ZStack {
+            view
+            StoryLogoView().zIndex(4)
+        })
     }
 }
 

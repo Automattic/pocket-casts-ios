@@ -257,6 +257,18 @@
     <string>Добавлять только в начало</string>
     <key>auto_download_first</key>
     <string>Автоматическое скачивание сначала</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>Ограничить автоматические загрузки</string>
+    <key>auto_download_limit_downloads</key>
+    <string>Ограничить загрузки</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>Выпусков: %1$@</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>%1$@ последних выпусков программы</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>последний выпуск</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>Последний выпуск программы</string>
     <key>auto_download_off_subtitle</key>
     <string>Включите для автоматического скачивания выпусков в этом фильтре</string>
     <key>auto_download_on_plural_format</key>
@@ -713,6 +725,8 @@
     <string>Вы уверены, что хотите удалить загруженные файлы?</string>
     <key>downloaded_files_conf_message</key>
     <string>При отмене подписки все скачанные файлы этого подкаста будут удалены, продолжить?</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>При отмене подписки все скачанные файлы этого подкаста будут удалены. Продолжить?</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>Скачано файлов: %1$@</string>
     <key>downloaded_files_conf_singular</key>
@@ -735,6 +749,11 @@
     <string>Редактировать клип</string>
     <key>enable_it_now</key>
     <string>Включить</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>Не забудьте поделиться с друзьями и рассказать о любимых подкастах и подкастерах</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>Благодарим за то, что вы слушали вместе с нами в этом году.
+Увидимся в 2025 году!</string>
     <key>eoy_card_description</key>
     <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
     <key>eoy_create_account_to_see</key>
@@ -843,13 +862,13 @@
     <key>eoy_year_completion_rate</key>
     <string>процент завершения</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>Мои итоги 2023 года</string>
+    <string>Процент завершения %1$@</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>Из %1$@ запущенных выпусков всего вы дослушали до конца %2$@</string>
     <key>eoy_year_completion_rate_title</key>
     <string>Ваш процент завершения в этом году равен %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>Время прослушивания в 2023 году по сравнению с 2022 годом</string>
+    <string>Время прослушивания в %1$@ году по сравнению с %2$@ годом</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>Говорят, постоянство — ключ к успеху… или что-то в этом роде!</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -864,6 +883,8 @@
     <string>По сравнению с 2022 годом вы стали слушать немного меньше.</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>По сравнению с 2022 годом ваше время прослушивания возросло сразу на %1$@%</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Подкасты (%1$@), которые я оценил(а) в %2$@. Самая частая оценка — %3$@.</string>
     <key>episode</key>
     <string>Выпуск</string>
     <key>episode_count_plural_format</key>
@@ -953,6 +974,8 @@
     <string>Упорядочить файлы</string>
     <key>filter_auto_add_subtitle</key>
     <string>Новые подкасты, на которые вы подписаны, будут добавляться автоматически</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>Новые подкасты, на которые вы подписаны, будут добавляться автоматически</string>
     <key>filter_chips_all_podcasts</key>
     <string>Все ваши подкасты</string>
     <key>filter_chips_duration</key>
@@ -969,6 +992,8 @@
     <string>Нет соответствующих выпусков</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>Ни один текущий выпуск в ваших подписках не соответствует заданным условиям.</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>Ни один текущий выпуск в ваших подкастах не соответствует заданным условиям</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Измените условия или сохраните этот фильтр, если вы предполагаете появление соответствующих выпусков в будущем.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -994,6 +1019,8 @@
     <key>filter_longer_than_label</key>
     <string>Длиннее</string>
     <key>filter_manual_add_subtitle</key>
+    <string>Новые подкасты, на которые вы подписаны, не будут добавляться автоматически</string>
+    <key>filter_manual_add_subtitle_new</key>
     <string>Новые подкасты, на которые вы подписаны, не будут добавляться автоматически</string>
     <key>filter_media_type</key>
     <string>Тип медиафайла</string>
@@ -1093,6 +1120,8 @@
     <string>История папок</string>
     <key>folders_history_explanation</key>
     <string>Список подкастов, удалённых из папок в результате синхронизации.</string>
+    <key>follow</key>
+    <string>Подписаться</string>
     <key>free_trial_detail_label</key>
     <string>Пользуйтесь бесплатно или отмените в любой момент</string>
     <key>free_trial_duration_free</key>
@@ -1224,6 +1253,10 @@
     <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
 Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
+    <key>import_podcasts_description_new</key>
+    <string>Вы можете импортировать свои подкасты в Pocket Casts, воспользовавшись распространённым форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
+
+Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение, а затем выберите Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>ИМПОРТ В POCKET CASTS</string>
     <key>import_subtitle</key>
@@ -1267,6 +1300,8 @@
     <string>Когда новый профиль «Дети» будет готов, вы получите уведомление в приложении. Желаете сообщить нам, что вы хотели бы увидеть?</string>
     <key>kids_profile_thankyou_title</key>
     <string>Благодарим за проявленный интерес!</string>
+    <key>learn_about_ratings</key>
+    <string>Подробнее об оценках</string>
     <key>learn_more</key>
     <string>Подробнее</string>
     <key>listening_history</key>
@@ -1480,6 +1515,18 @@
     <string>Разблокировка</string>
     <key>pause</key>
     <string>Пауза</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>Загружайте свои файлы при помощи Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>Упорядочивайте ваши подкасты с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>Получайте эксклюзивные значки приложений с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Получайте эксклюзивные темы с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>При помощи Pocket Casts Plus можно воспроизводить выпуски в случайном порядке и делать ещё много интересного</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>Прослушивайте подкасты через наручные часы при помощи Pocket Casts Plus и многое другое</string>
     <key>phone</key>
     <string>Телефон</string>
     <key>play</key>
@@ -1490,6 +1537,66 @@
     <string>Воспроизвести последний</string>
     <key>play_next</key>
     <string>Воспроизвести следующий</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Из %1$@ запущенных выпусков всего вы дослушали до конца %2$@</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>Ваш процент завершения в этом году равен %1$@</string>
+    <key>playback_2024_description</key>
+    <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели. Поделитесь с друзьями и поблагодарите любимых подкастеров.</string>
+    <key>playback_2024_feature_description</key>
+    <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
+    <key>playback_2024_feature_title</key>
+    <string>Ваша история прослушиваний за 2024 год уже готова!</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>Общее время прослушивания подкастов: %1$@</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>Это был выпуск «%1$@» подкаста «%2$@»</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>Самым длинным выпуском, который вы прослушали, стал %1$@</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>Попробуйте Pocket Casts Plus</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>Поддержите Pocket Casts, подписавшись на Plus, и пользуйтесь развёрнутой статистикой и премиум-функциями, например: закладками, папками и предварительным выбором глав!</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>И это ещё не всё!</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>Благодарим за то, что поделились своим мнением с сообществом авторов</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>Ого, сколько %1$@-звёздных оценок! Благодарим за то, что вы выразили признательность своим любимым авторам.</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>Знаете ли вы, что теперь можно оценивать шоу? Выразите признательность своим любимым авторам и помогите им стать популярнее!</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>Ой! Оценок подкастов ещё нет</string>
+    <key>playback_2024_ratings_title</key>
+    <string>Давайте посмотрим ваши оценки!</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>Вы прослушали %1$@ вып. Прослушано %2$@ из «%3$@»</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>Это ваш любимый подкаст 2024 года</string>
+    <key>playback_2024_view_year</key>
+    <string>Посмотрите свою историю прослушиваний в 2024 году</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>И… как, вам хватает времени на всё остальное?</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>Говорят, постоянство — это ключ к успеху… или что-то в этом роде!</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>Готовы превзойти свой рекорд в 2025 году?</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>По сравнению с 2023 годом вы стали слушать немного меньше</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>По сравнению с 2023 годом ваше время прослушивания снизилось сразу на %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ меньше времени, слушая подкасты.</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>Вы посвятили прослушиванию примерно столько же времени, сколько и в 2023 году.</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ больше времени, слушая подкасты.</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>По сравнению с 2023 годом вы стали слушать немного больше</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>По сравнению с 2023 годом ваше время прослушивания возросло сразу на %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ больше времени, слушая подкасты.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Все подкасты</string>
     <key>playback_effect_this_podcast</key>
@@ -1536,6 +1643,12 @@
     <string>Сокращает длину выпуска, вырезая паузы в разговорах.</string>
     <key>player_effects_trim_silence_progress</key>
     <string>С помощью этой функции вы сэкономили %1$@.</string>
+    <key>player_episode_download_cancelled</key>
+    <string>Скачивание выпуска отменено</string>
+    <key>player_episode_queued_for_download</key>
+    <string>Выпуск в очереди на скачивание</string>
+    <key>player_episode_was_removed</key>
+    <string>Выпуск удалён</string>
     <key>player_error_corrupted_file</key>
     <string>Выпуск может быть поврежден, но вы можете попробовать прослушать его снова.</string>
     <key>player_error_internet_connection</key>
@@ -1947,6 +2060,8 @@
     <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>Удалить 1 выпуск</string>
     <key>queue_clear_queue</key>
     <string>ОЧИСТИТЬ ОЧЕРЕДЬ</string>
     <key>queue_for_later</key>
@@ -2226,7 +2341,7 @@
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Скачивать первые выпуски в фильтре.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Скачивать новые выпуски по мере выхода.</string>
+    <string>Автоматически загружайте новые выпуски по мере выхода и управляйте магазином, устанавливая ограничения на сохранение выпусков.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Скачивать выпуски, добавленные в «Следующие».</string>
     <key>settings_badge_filter_header</key>
@@ -2847,6 +2962,8 @@
     <string>Попробовать</string>
     <key>unarchive</key>
     <string>Из&amp;nbsp;архива</string>
+    <key>unfollow</key>
+    <string>Отменить подписку</string>
     <key>unknown_duration</key>
     <string>? мин</string>
     <key>unstar</key>
