@@ -337,6 +337,26 @@
     <string>キャンセルできません</string>
     <key>cancel_subscription</key>
     <string>サブスクリプションをキャンセル</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>オファーを獲得</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>キャンセルに進む</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>エラーが発生しました。 後でもう一度お試しください。</string>
+    <key>cancel_subscription_help_description</key>
+    <string>機能に不便がある、または問題が発生しています。</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Pocket Casts のサポートが必要ですか ?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>自分にぴったりのプランを見つけましょう。</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>別のプランをお探しですか ?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>来月に%@節約できます。</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>来月分を無料で利用</string>
+    <key>cancel_subscription_title</key>
+    <string>キャンセルする前に、これらのオファーを確認しましょう</string>
     <key>canceling</key>
     <string>キャンセルしています...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントを作成すると、すべての端末で視聴内容を同期させることができます。</string>
     <key>login_title</key>
     <string>次のお気に入りのポッドキャストを見つける</string>
+    <key>manage_downloads_action</key>
+    <string>ダウンロードを管理</string>
+    <key>manage_downloads_detail</key>
+    <string>再生済みのエピソードを削除して、%1$@節約しましょう。</string>
+    <key>manage_downloads_title</key>
+    <string>容量を空ける必要がありますか ?</string>
     <key>mark_played</key>
     <string>再生済みとしてマーク</string>
     <key>mark_played_short</key>
@@ -2124,6 +2150,11 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Pocket Casts を共有いただきありがとうございます。 プレゼントできるパスが増えたらお知らせします。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>ゲストパスをすべて共有しました !</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>こんにちは。
+
+こちらは、私のお気に入りのポッドキャストプレイヤー、Pocket Casts Plus を利用できる%1$@のゲストパスです。 ブックマークやフォルダーなど、他にはないユニークな機能が満載です。 きっと気に入ってもらえると思います。
+</string>
     <key>referrals_share_pass_message</key>
     <string>こんにちは。 以下のリンクを使用して Pocket Casts Plus の%1$@のゲストパスを取得し、お使いの全端末でポッドキャストをお楽しみください !</string>
     <key>referrals_share_pass_subject</key>

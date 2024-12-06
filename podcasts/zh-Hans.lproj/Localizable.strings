@@ -337,6 +337,26 @@
     <string>无法取消</string>
     <key>cancel_subscription</key>
     <string>取消订阅</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>领取优惠</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>继续取消</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>发生错误。 请稍后重试。</string>
+    <key>cancel_subscription_help_description</key>
+    <string>在使用任何功能时感到困难或遇到问题。</string>
+    <key>cancel_subscription_help_title</key>
+    <string>需要有关 Pocket Casts 的帮助？</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>找到适合您的套餐。</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>想换个套餐？</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>使用我们的服务，下个月可节省 %@。</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>下个月免费</string>
+    <key>cancel_subscription_title</key>
+    <string>在取消之前，请查看以下优惠</string>
     <key>canceling</key>
     <string>正在取消...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@
     <string>创建账户，以在您的所有设备上同步收听体验。</string>
     <key>login_title</key>
     <string>发现下一个您喜欢的播客</string>
+    <key>manage_downloads_action</key>
+    <string>管理下载</string>
+    <key>manage_downloads_detail</key>
+    <string>删除已播放的剧集即可释放 %1$@ 存储空间。</string>
+    <key>manage_downloads_title</key>
+    <string>需要释放空间？</string>
     <key>mark_played</key>
     <string>标记为已播放</string>
     <key>mark_played_short</key>
@@ -2124,6 +2150,11 @@
     <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>您已共享您的所有访客通行证！</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>您好！
+
+这是一张 %1$@ 的 Pocket Casts Plus 访客通行证，Pocket Casts Plus 是我最喜欢的播客播放器。 它拥有您在别处享受不到的独特功能，如书签、文件夹等。 我想您也会喜欢！
+</string>
     <key>referrals_share_pass_message</key>
     <string>您好！ 点击下方链接领取 %1$@ 的 Pocket Casts Plus 访客通行证，即可在所有设备上收听播客！</string>
     <key>referrals_share_pass_subject</key>
@@ -3045,7 +3076,7 @@
     <key>wait_for_wifi</key>
     <string>正在等待 WiFi</string>
     <key>watch</key>
-    <string>观看</string>
+    <string>手表</string>
     <key>watch_buffering</key>
     <string>正在缓冲...</string>
     <key>watch_chapter_next</key>

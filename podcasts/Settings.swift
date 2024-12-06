@@ -145,6 +145,21 @@ class Settings: NSObject {
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
 
+    private static let autoDownloadOnFollowKey = "AutoDownloadOnFollow"
+    class func autoDownloadOnFollow() -> Bool {
+        guard UserDefaults.standard.object(forKey: Settings.autoDownloadOnFollowKey) != nil else {
+            return false
+        }
+        return UserDefaults.standard.bool(forKey: Settings.autoDownloadOnFollowKey)
+    }
+
+    class func setAutoDownloadOnFollow(_ allow: Bool, userInitiated: Bool = false) {
+        UserDefaults.standard.set(allow, forKey: Settings.autoDownloadOnFollowKey)
+
+        guard userInitiated else { return }
+        trackValueToggled(.settingsAutoDownloadOnFollowPodcastToggled, enabled: allow)
+    }
+
     private static let autoDownloadLimitKey = "AutoDownloadLimit"
     class func autoDownloadLimits() -> AutoDownloadLimit {
         AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two

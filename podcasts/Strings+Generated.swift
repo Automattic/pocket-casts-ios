@@ -280,7 +280,7 @@ internal enum L10n {
   internal static var autoDownloadFirst: String { return L10n.tr("Localizable", "auto_download_first") }
   /// Limit auto downloads
   internal static var autoDownloadLimitAutoDownloads: String { return L10n.tr("Localizable", "auto_download_limit_auto_downloads") }
-  /// Limit downloads
+  /// Limit Downloads
   internal static var autoDownloadLimitDownloads: String { return L10n.tr("Localizable", "auto_download_limit_downloads") }
   /// %1$@ Episodes
   internal static func autoDownloadLimitNumberOfEpisodes(_ p1: Any) -> String {
@@ -386,6 +386,8 @@ internal enum L10n {
   internal static var cancelFailed: String { return L10n.tr("Localizable", "cancel_failed") }
   /// Cancel Subscription
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
+  /// Available Plans
+  internal static var cancelSubscriptionAvailablePlansTitle: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_title") }
   /// Claim offer
   internal static var cancelSubscriptionClaimOfferButton: String { return L10n.tr("Localizable", "cancel_subscription_claim_offer_button") }
   /// Continue to Cancellation
@@ -2754,6 +2756,8 @@ internal enum L10n {
   internal static var settingsAutoDownloadsNoFiltersSelected: String { return L10n.tr("Localizable", "settings_auto_downloads_no_filters_selected") }
   /// No Podcasts Selected
   internal static var settingsAutoDownloadsNoPodcastsSelected: String { return L10n.tr("Localizable", "settings_auto_downloads_no_podcasts_selected") }
+  /// On Follow
+  internal static var settingsAutoDownloadsOnFollow: String { return L10n.tr("Localizable", "settings_auto_downloads_on_follow") }
   /// %1$@ podcasts selected
   internal static func settingsAutoDownloadsPodcastsSelectedFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "settings_auto_downloads_podcasts_selected_format", String(describing: p1))
@@ -2762,7 +2766,7 @@ internal enum L10n {
   internal static var settingsAutoDownloadsPodcastsSelectedSingular: String { return L10n.tr("Localizable", "settings_auto_downloads_podcasts_selected_singular") }
   /// Download the top episodes in a filter.
   internal static var settingsAutoDownloadsSubtitleFilters: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_filters") }
-  /// Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.
+  /// Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.
   internal static var settingsAutoDownloadsSubtitleNewEpisodes: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_new_episodes") }
   /// Download episodes added to Up Next.
   internal static var settingsAutoDownloadsSubtitleUpNext: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_up_next") }
@@ -3474,6 +3478,8 @@ internal enum L10n {
   internal static var upNextShuffleAnnouncementText: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_text") }
   /// Introducing Shuffle
   internal static var upNextShuffleAnnouncementTitle: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_title") }
+  /// Shuffle is on. Episodes will play in random order.
+  internal static var upNextShuffleToastMessage: String { return L10n.tr("Localizable", "up_next_shuffle_toast_message") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Save 50%% off your first year

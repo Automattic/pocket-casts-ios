@@ -2322,7 +2322,7 @@
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
 
 /* Subtitle explaining the toggle to auto download New Episodes. */
-"settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.";
+"settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.";
 
 /* Subtitle explaining the toggle to auto download items in the Up Next Queue. */
 "settings_auto_downloads_subtitle_up_next" = "Download episodes added to Up Next.";
@@ -4602,7 +4602,7 @@
 "week" = "week";
 
 /* Auto Downloads Setting - Limits downloads row title*/
-"auto_download_limit_downloads" = "Limit downloads";
+"auto_download_limit_downloads" = "Limit Downloads";
 
 /* Auto Downloads Setting - Limits downloads picker title*/
 "auto_download_limit_auto_downloads" = "Limit auto downloads";
@@ -4700,6 +4700,8 @@
 /* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
 "referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
 
+/* Auto Downloads Setting - Auto download on follow of a blog*/
+"settings_auto_downloads_on_follow" = "On Follow";
 
 /* MARK: - InfoPlist.strings */
 

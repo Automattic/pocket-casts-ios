@@ -337,6 +337,26 @@
     <string>Не удается отменить</string>
     <key>cancel_subscription</key>
     <string>Отмена подписки</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Воспользоваться предложением</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Продолжить отмену</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Произошла ошибка. Повторите попытку позже.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Проблемы с определёнными функциями или неполадки.</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Вам требуется помощь в работе с Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Выберите оптимальный тарифный план.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Хотите перейти на другой тарифный план?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Сэкономьте %@: мы оплатим вам следующий месяц.</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Следующий месяц бесплатно</string>
+    <key>cancel_subscription_title</key>
+    <string>Прежде чем окончательно отменить подписку, просмотрите наши предложения</string>
     <key>canceling</key>
     <string>Отмена...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@
     <string>Создайте учётную запись, чтобы синхронизировать и слушать любимый контент на всех устройствах.</string>
     <key>login_title</key>
     <string>Найдите ещё один любимый подкаст</string>
+    <key>manage_downloads_action</key>
+    <string>Управлять скачиваниями</string>
+    <key>manage_downloads_detail</key>
+    <string>Сэкономьте %1$@, удалив прослушанные выпуски.</string>
+    <key>manage_downloads_title</key>
+    <string>Требуется освободить место?</string>
     <key>mark_played</key>
     <string>Отметить как прослушанный</string>
     <key>mark_played_short</key>

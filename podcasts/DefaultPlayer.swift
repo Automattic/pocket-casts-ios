@@ -285,12 +285,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     private static func unretainedDefaultPlayer(for tap: MTAudioProcessingTap) -> DefaultPlayer? {
+        return DefaultPlayer.unretainedDefaultPlayer(for: MTAudioProcessingTapGetStorage(tap))
+    }
+
+    private static func unretainedDefaultPlayer(for pointer: UnsafeMutableRawPointer) -> DefaultPlayer? {
         if FeatureFlag.useDefaultPlayerTapCookie.enabled {
-            let cookie = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap)).takeUnretainedValue()
+            let cookie = Unmanaged<AudioProcessingTapProxy>.fromOpaque(pointer).takeUnretainedValue()
             guard let player = cookie.input else { return nil }
             return player
+        } else if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
+            return Unmanaged<DefaultPlayer>.fromOpaque(pointer).takeUnretainedValue()
         } else {
-            return Unmanaged<DefaultPlayer>.fromOpaque(MTAudioProcessingTapGetStorage(tap)).takeUnretainedValue()
+            return unsafeBitCast(pointer, to: DefaultPlayer.self)
         }
     }
 
@@ -449,18 +455,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
-            if ioData == nil { return -1 }
-            let referenceToSelf: DefaultPlayer
-            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
-                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
-                referenceToSelf = reference.takeUnretainedValue()
-            } else {
-                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            guard
+                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
+                let ioData,
+                let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor
+            else {
+                return -1
             }
-            guard let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor else { return -1 }
-
             // The peak limiter is at the end of the chain so just grab the processed audio
-            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData!, nil, nil, nil)
+            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData, nil, nil, nil)
         }
 
         // MARK: - High Pass Filter
@@ -502,14 +505,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
-            let referenceToSelf: DefaultPlayer
-            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
-                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
-                referenceToSelf = reference.takeUnretainedValue()
-            } else {
-                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            guard
+                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
+                let peakLimiter = referenceToSelf.peakLimiter,
+                let ioData = ioData
+            else {
+                return -1
             }
-            guard let peakLimiter = referenceToSelf.peakLimiter, let ioData = ioData else { return -1 }
 
             var audioTimeStamp = AudioTimeStamp()
             audioTimeStamp.mSampleTime = inTimeStamp.pointee.mSampleTime
