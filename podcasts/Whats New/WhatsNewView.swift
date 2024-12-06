@@ -4,6 +4,12 @@ struct WhatsNewView: View {
     @EnvironmentObject var theme: Theme
 
     let announcement: WhatsNew.Announcement
+    let debug: Bool
+
+    init(announcement: WhatsNew.Announcement, debug: Bool = false) {
+        self.announcement = announcement
+        self.debug = debug
+    }
 
     var body: some View {
         VStack(spacing: 10) {
@@ -56,7 +62,9 @@ struct WhatsNewView: View {
         .padding()
         .onAppear {
             track(.whatsnewShown)
-            Settings.lastWhatsNewShown = announcement.version
+            if !debug {
+                Settings.lastWhatsNewShown = announcement.version
+            }
         }
     }
 

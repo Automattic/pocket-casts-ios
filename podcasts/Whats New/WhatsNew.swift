@@ -3,7 +3,7 @@ import PocketCastsServer
 import SwiftUI
 
 class WhatsNew {
-    struct Announcement {
+    struct Announcement: Identifiable {
         enum PresentationStyle {
             case fullModal
             case mediumModal
@@ -11,6 +11,7 @@ class WhatsNew {
             case alert
         }
 
+        let id = UUID()
         let version: String
         let header: () -> AnyView
         let title: String

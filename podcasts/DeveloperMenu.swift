@@ -292,7 +292,11 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                WhatsNewAnnouncementMenuButton()
+                NavigationLink {
+                    WhatsNewAnnouncementMenuList()
+                } label: {
+                    Text("What's New announcement list")
+                }
             } header: {
                 Text("What's new announcement")
             }
