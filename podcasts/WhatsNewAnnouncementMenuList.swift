@@ -11,7 +11,7 @@ struct WhatsNewAnnouncementMenuList: View {
                 LazyVStack {
                     Button("Reset Last Shown") {
                         guard
-                            let splitVersion = announcements.last?.version.split(separator: "."),
+                            let splitVersion = announcements.first?.version.split(separator: "."),
                             let major = splitVersion[safe: 0],
                             let minorString = splitVersion[safe: 1],
                             let minor = Int(minorString)
