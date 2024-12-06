@@ -1565,7 +1565,7 @@ ACTUALITZACIONS</string>
     <key>playback_2024_description</key>
     <string>Consulta els teus pòdcasts més destacats, categories, estadístiques d'escolta i molt més. Comparteix-ho amb amics i fes que tothom sàpiga quins són els teus creadors preferits!</string>
     <key>playback_2024_feature_description</key>
-    <string>Veure les teves estadístiques d'escolta, els millors podcasts i més.</string>
+    <string>Mira les estadístiques d'escolta, els millors pòdcasts i més.</string>
     <key>playback_2024_feature_title</key>
     <string>El repàs a 2024 ja és aquí!</string>
     <key>playback_2024_listening_time_description</key>
@@ -3006,6 +3006,12 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Historial de 'Tot seguit'</string>
     <key>up_next_history_explanation</key>
     <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per a veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Som-hi</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Reprodueix fàcilment un episodi aleatori sense canviar l'ordre de la cua.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Presentem la reproducció aleatòria</string>
     <key>upgrade_account</key>
     <string>Actualitzar el compte</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

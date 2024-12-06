@@ -82,10 +82,12 @@ struct SearchHistoryCell: View {
                             searchAnalyticsHelper.historyItemDeleted(entry)
                         }
                     }) {
-                        Image("close")
+                        ZStack {
+                            Image("close")
+                        }
+                        .frame(width: 48, height: 48)
                     }
                     .buttonStyle(SecondaryButtonStyle())
-                    .frame(width: 48, height: 48)
                 }
                 ThemedDivider()
                     .frame(height: 1)

@@ -23,7 +23,7 @@ extension AppDelegate {
 
             // Disable dark up next theme for new users
             Settings.darkUpNextTheme = false
-
+            Settings.setAutoDownloadOnFollow(true)
             setWhatsNewAcknowledgeToLatest()
         }
 

@@ -2220,8 +2220,22 @@ extension PlaybackManager {
     /// Plays the given bookmark
     /// - if the episode is not currently playing we'll load it and then play at the bookmark time
     /// - if the episode is playing, we trigger a seek to the bookmark time
-    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) {
+    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource, firstTry: Bool = true) {
         guard bookmarksEnabled else { return }
+
+        let dataManager = DataManager.sharedManager
+
+        // Get the bookmark's BaseEpisode so we can load it
+        guard let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) else {
+            if firstTry, let podcastUuid = bookmark.podcastUuid {
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid) { [weak self] episode in
+                    if episode != nil {
+                        self?.playBookmark(bookmark, source: source, firstTry: false)
+                    }
+                }
+            }
+            return
+        }
 
         Analytics.track(.bookmarkPlayTapped, source: source)
 
@@ -2233,17 +2247,10 @@ extension PlaybackManager {
             return
         }
 
-        let dataManager = DataManager.sharedManager
-
-        // Get the bookmark's BaseEpisode so we can load it
-        guard let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) else {
-            return
-        }
-
         #if !os(watchOS)
         // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
         dataManager.saveEpisode(playedUpTo: bookmark.time, episode: episode, updateSyncFlag: false)
-
+        dataManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: false)
         // Start the play process
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif

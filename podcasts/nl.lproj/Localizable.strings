@@ -337,6 +337,26 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Kan niet annuleren</string>
     <key>cancel_subscription</key>
     <string>Abonnement annuleren</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Aanbieding claimen</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Doorgaan met annuleren</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Er is een fout opgetreden. Probeer het later opnieuw.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Moeite met een van de functies of andere problemen?</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Hulp nodig met Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Vind het abonnement dat bij je past.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Op zoek naar een ander abonnement?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Bespaar %@: je krijgt de volgende maand van ons.</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Krijg je volgende maand gratis</string>
+    <key>cancel_subscription_title</key>
+    <string>Kijk eens naar deze aanbiedingen voordat je annuleert</string>
     <key>canceling</key>
     <string>Annuleren...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@ podcasts mee</string>
     <string>Maak een account aan om je luisterervaring te synchroniseren op al je apparaten.</string>
     <key>login_title</key>
     <string>Ontdek je volgende nieuwe favoriete podcast</string>
+    <key>manage_downloads_action</key>
+    <string>Downloads beheren</string>
+    <key>manage_downloads_detail</key>
+    <string>Bespaar %1$@ door afgespeelde afleveringen te verwijderen.</string>
+    <key>manage_downloads_title</key>
+    <string>Wil je ruimte vrijmaken?</string>
     <key>mark_played</key>
     <string>Markeren als afgespeeld</string>
     <key>mark_played_short</key>
@@ -2122,6 +2148,11 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bedankt dat je Pocket Casts hebt gedeeld! We laten het je weten wanneer je meer passen kan weggeven.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Je hebt al je gastenpassen al uitgedeeld</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hallo!
+
+Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspeler. Deze zit vol met unieke functies die je nergens anders vindt, zoals bladwijzers, mappen en meer. Jij zal er vast ook dol op zijn!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hallo! Gebruik de onderstaande link om je gastenpas van %1$@ voor Pocket Casts Plus te claimen en op al je devices naar podcasts te luisteren!</string>
     <key>referrals_share_pass_subject</key>

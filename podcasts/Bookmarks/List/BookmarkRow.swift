@@ -44,9 +44,15 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         .animation(.linear, value: selected)
     }
 
+    @ViewBuilder
     private var imageView: some View {
-        rowModel.episode.map {
-            EpisodeImage(episode: $0)
+        if let episode = rowModel.episode {
+            EpisodeImage(episode: episode)
+                .frame(width: imageSize, height: imageSize)
+                .cornerRadius(8)
+        } else {
+            Rectangle()
+                .foregroundColor(style.tertiaryText)
                 .frame(width: imageSize, height: imageSize)
                 .cornerRadius(8)
         }

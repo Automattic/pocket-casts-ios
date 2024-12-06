@@ -14,7 +14,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         }
     }
 
-    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, downloadLimits, filterSelection, onlyOnWifi }
+    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, downloadOnFollow, downloadLimits, filterSelection, onlyOnWifi }
     private let podcastDownloadOffData: [[TableRow]] = [[.upNext], [.podcastAutoDownload], [.filterSelection], [.onlyOnWifi]]
     private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection], [.filterSelection], [.onlyOnWifi]]
 
@@ -54,15 +54,16 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let firstRowInSection = tableRows()[section][0]
 
-        if firstRowInSection == .upNext {
+        switch firstRowInSection {
+        case .upNext:
             return L10n.settingsAutoDownloadsSubtitleUpNext
-        } else if firstRowInSection == .podcastAutoDownload {
+        case .podcastAutoDownload:
             return L10n.settingsAutoDownloadsSubtitleNewEpisodes
-        } else if firstRowInSection == .filterSelection {
+        case .filterSelection:
             return L10n.settingsAutoDownloadsSubtitleFilters
+        default:
+            return nil
         }
-
-        return nil
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -103,6 +104,15 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
             cell.cellLabel.text = L10n.selectedPodcastCount(allWithAutoDownloadOn.count)
             cell.cellSecondaryLabel.text = ""
+
+            return cell
+        case .downloadOnFollow:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsAutoDownloadsOnFollow
+            cell.cellSwitch.isOn = Settings.autoDownloadOnFollow()
+            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(automaticDownloadOnFollowToggled(_:)), for: UIControl.Event.valueChanged)
 
             return cell
         case .downloadLimits:
@@ -228,6 +238,11 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         settingsTable.reloadData()
     }
 
+    @objc private func automaticDownloadOnFollowToggled(_ slider: UISwitch) {
+        Settings.setAutoDownloadOnFollow(slider.isOn, userInitiated: true)
+        settingsTable.reloadData()
+    }
+
     @objc private func downloadUpNextToggled(_ slider: UISwitch) {
         Settings.setDownloadUpNextEpisodes(slider.isOn)
 
@@ -243,9 +258,15 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         var data = autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
 
-        if autoDownloadPodcastsEnabled, FeatureFlag.autoDownloadOnSubscribe.enabled {
+        if FeatureFlag.autoDownloadOnSubscribe.enabled {
+            data = podcastDownloadOnData
+            data[1].append(.downloadOnFollow)
             data[1].append(.downloadLimits)
+            if !autoDownloadPodcastsEnabled {
+                data[1].remove(at: 1)
+            }
         }
+
         return data
     }
 }

@@ -337,6 +337,26 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Não é possível cancelar</string>
     <key>cancel_subscription</key>
     <string>Cancelar assinatura</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Resgatar oferta</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Continuar com o cancelamento</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Ocorreu um erro. Tente novamente mais tarde.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Está tendo problemas com uma funcionalidade ou alguma outra coisa?</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Precisa de ajuda com o Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Encontre o plano adequado para você.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Quer um plano diferente?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Economize %@: o próximo mês é por nossa conta.</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Não pague nada no próximo mês</string>
+    <key>cancel_subscription_title</key>
+    <string>Antes de cancelar, confira estas ofertas</string>
     <key>canceling</key>
     <string>Cancelando...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@ podcasts com você</string>
     <string>Crie uma conta para sincronizar sua experiência sonora em todos os seus dispositivos.</string>
     <key>login_title</key>
     <string>Descubra seu próximo podcast favorito</string>
+    <key>manage_downloads_action</key>
+    <string>Gerenciar downloads</string>
+    <key>manage_downloads_detail</key>
+    <string>Remova os episódios reproduzidos para economizar %1$@.</string>
+    <key>manage_downloads_title</key>
+    <string>Precisa liberar espaço?</string>
     <key>mark_played</key>
     <string>Marcar como reproduzido</string>
     <key>mark_played_short</key>
@@ -2124,6 +2150,11 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Agradecemos por compartilhar o Pocket Casts! Avisaremos quando você tiver mais passes para dar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Você já compartilhou todos os seus passes de convidado!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Olá!
+
+Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reprodutor de podcast favorito. Ele tem funcionalidades exclusivas, como favoritos, pastas, entre outras que você não encontra em nenhum outro lugar. Acho que você também vai amar!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Olá! Use o link abaixo para resgatar seu passe de convidado %1$@ para o Pocket Casts Plus e curta podcasts em todos os seus dispositivos.</string>
     <key>referrals_share_pass_subject</key>

@@ -337,6 +337,26 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Beenden nicht möglich</string>
     <key>cancel_subscription</key>
     <string>Abonnement beenden</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Angebot nutzen</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Weiter zur Kündigung</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Kommst du mit bestimmten Funktionen nicht zurecht oder hast du Probleme?</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Brauchst du Hilfe mit Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Finde deinen passenden Tarif.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Du suchst nach einem anderen Tarif?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Spare %@ im nächsten Monat.</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Dein nächster Monat ist kostenlos</string>
+    <key>cancel_subscription_title</key>
+    <string>Schau dir diese Angebote an, bevor du kündigst</string>
     <key>canceling</key>
     <string>Wird abgebrochen ...</string>
     <key>carplay_chapter_count</key>
@@ -1314,6 +1334,12 @@ Podcasts mit</string>
     <string>Erstelle ein Konto, um dein Audioerlebnis auf all deinen Geräten zu synchronisieren.</string>
     <key>login_title</key>
     <string>Entdecke deinen nächsten Lieblings-Podcast</string>
+    <key>manage_downloads_action</key>
+    <string>Downloads verwalten</string>
+    <key>manage_downloads_detail</key>
+    <string>Entferne abgespielte Folgen und gib so %1$@ Speicherplatz frei.</string>
+    <key>manage_downloads_title</key>
+    <string>Du benötigst mehr Speicherplatz?</string>
     <key>mark_played</key>
     <string>Als angehört markieren</string>
     <key>mark_played_short</key>
@@ -2122,6 +2148,11 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Vielen Dank, dass du Pocket Casts teilst! Wir informieren dich, wenn dir weitere Pässe zum Teilen zur Verfügung stehen.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du hast alle deine Gastpässe geteilt!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hallo!
+
+Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Podcast Player. Er bietet eine Vielzahl einzigartiger Funktionen, die du sonst bei keinem anderen Podcast Player finden wirst, wie Lesezeichen, Ordner und vieles mehr. Ich bin mir sicher, er wird dir auch gefallen!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hallo! Über den unten stehenden Link kannst du deinen Gastpass (Zeitraum: %1$@) für Pocket Casts Plus anfordern und dir auf all deinen Geräten Podcasts anhören!</string>
     <key>referrals_share_pass_subject</key>

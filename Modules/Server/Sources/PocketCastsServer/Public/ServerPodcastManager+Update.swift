@@ -215,8 +215,8 @@ extension ServerPodcastManager {
         let autoDownloadCount = DataManager.sharedManager.count(query: autoDownloadQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         let shouldTriggerAutoDownload: Bool
-        if FeatureFlag.autoDownloadOnSubscribe.enabled, autoDownload {
-            shouldTriggerAutoDownload = (AutoDownloadSetting(rawValue: podcast.autoDownloadSetting) ?? .off) != .off
+        if FeatureFlag.autoDownloadOnSubscribe.enabled {
+            shouldTriggerAutoDownload = autoDownload
         } else {
             shouldTriggerAutoDownload = (totalCount > 0) && (autoDownloadCount >= totalCount)
         }
