@@ -2369,8 +2369,6 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>1 podcast seleccionado</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descargar los primeros episodios de un filtro.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Descarga automáticamente nuevos episodios a medida que se publican y gestiona tu almacenamiento estableciendo un límite en el número de episodios guardados.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descargar episodios agregados a A continuación.</string>
     <key>settings_badge_filter_header</key>

@@ -2371,8 +2371,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>1 balado sélectionné</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Téléchargez les épisodes du haut de la liste dans un filtre.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Téléchargez automatiquement les nouveaux épisodes lors de leur sortie et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Téléchargez les épisodes ajoutés aux Prochains épisodes.</string>
     <key>settings_badge_filter_header</key>

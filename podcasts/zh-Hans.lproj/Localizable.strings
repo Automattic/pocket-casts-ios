@@ -2371,8 +2371,6 @@
     <string>已选择 1 个播客</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>下载过滤器中的顶部剧集。</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>即时自动下载新发布的剧集，并通过设置保存剧集的数量限制来管理您的存储空间。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下载已添加到“接下来播放”的剧集。</string>
     <key>settings_badge_filter_header</key>

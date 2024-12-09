@@ -44,7 +44,7 @@ struct PaidStoryWallView2024: View {
                 VStack(alignment: .leading, spacing: 0) {
                     StoryFooter2024(title: L10n.playback2024PlusUpsellTitle, description: L10n.playback2024PlusUpsellDescription, subscriptionTier: .plus)
                     Button(L10n.playback2024PlusUpsellButtonTitle) {
-                        guard let storiesViewController = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController else {
+                        guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
 

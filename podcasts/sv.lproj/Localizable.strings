@@ -337,6 +337,26 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Utnyttja erbjudande</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Fortsätt till annullering</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Ett fel uppstod. Försök igen senare.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Har du stött på problem eller någon funktion som krånglar?</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Behöver du hjälp med Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Hitta rätt paket för dig.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Letar du efter ett annat paket?</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Vi ger dig %@ rabatt på nästa månad</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Få nästa månad gratis</string>
+    <key>cancel_subscription_title</key>
+    <string>Innan du avslutar, kolla in dessa erbjudanden</string>
     <key>canceling</key>
     <string>Avbryter...</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@ podcasts med dig</string>
     <string>Skapa ett konto för att synkronisera din lyssningsupplevelse på alla dina enheter.</string>
     <key>login_title</key>
     <string>Upptäck din nästa favoritpodcast</string>
+    <key>manage_downloads_action</key>
+    <string>Hantera nedladdningar</string>
+    <key>manage_downloads_detail</key>
+    <string>Spara %1$@ genom att ta bort uppspelade avsnitt</string>
+    <key>manage_downloads_title</key>
+    <string>Behöver du frigöra utrymme?</string>
     <key>mark_played</key>
     <string>Markera som spelad</string>
     <key>mark_played_short</key>
@@ -2124,6 +2150,11 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du har delat ut alla dina gästpass.</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hej där!
+
+Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare. Den är fullspäckad med unika funktioner som bokmärken, mappar och annat som du inte hittar någon annanstans. Jag tror att du också kommer att älska den!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hej! Använd länken nedan för att göra anspråk på ditt %1$@ gästpass för Pocket Casts Plus och ta del av podcasts på alla dina enheter.</string>
     <key>referrals_share_pass_subject</key>
@@ -2340,8 +2371,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>1 podcast vald</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Ladda ner de avsnitt som är överst i ett filter</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Ladda automatiskt ner nya avsnitt när de släpps och hantera din lagring genom att sätta en gräns för hur många avsnitt som sparas.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Ladda ner avsnitt tillagda i Nästa.</string>
     <key>settings_badge_filter_header</key>

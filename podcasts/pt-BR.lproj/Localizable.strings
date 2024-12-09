@@ -348,7 +348,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>cancel_subscription_help_title</key>
     <string>Precisa de ajuda com o Pocket Casts?</string>
     <key>cancel_subscription_new_plan_description</key>
-    <string>Encontre o plano adequado para você.</string>
+    <string>Encontre o plano ideal para você.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Quer um plano diferente?</string>
     <key>cancel_subscription_promotion_description</key>
@@ -2371,8 +2371,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>1 podcast selecionado</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Faça download dos primeiros episódios de um filtro.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Faça o download automático de novos episódios assim que eles forem lançados, e gerencie seu armazenamento ao definir um limite de episódios salvos.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Faça download de episódios adicionados aos Próximos.</string>
     <key>settings_badge_filter_header</key>

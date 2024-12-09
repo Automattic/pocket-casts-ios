@@ -344,7 +344,7 @@
     <key>cancel_subscription_generic_error</key>
     <string>Произошла ошибка. Повторите попытку позже.</string>
     <key>cancel_subscription_help_description</key>
-    <string>Проблемы с определёнными функциями или неполадки.</string>
+    <string>Проблемы с определёнными функциями или неполадки?</string>
     <key>cancel_subscription_help_title</key>
     <string>Вам требуется помощь в работе с Pocket Casts?</string>
     <key>cancel_subscription_new_plan_description</key>
@@ -2150,6 +2150,11 @@
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Здравствуйте!
+
+Это %1$@ гостевой пропуск в Pocket Casts Plus — мой любимый плеер подкастов. В нём есть множество уникальных функций, которых больше нет нигде: закладки, папки и многое другое. Надеюсь, вам он тоже понравится!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
     <key>referrals_share_pass_subject</key>
@@ -2366,8 +2371,6 @@
     <string>Выбран 1 подкаст</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Скачивать первые выпуски в фильтре.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Автоматически загружайте новые выпуски по мере выхода и управляйте магазином, устанавливая ограничения на сохранение выпусков.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Скачивать выпуски, добавленные в «Следующие».</string>
     <key>settings_badge_filter_header</key>

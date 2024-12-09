@@ -455,15 +455,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
-            guard
-                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
-                let ioData,
-                let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor
-            else {
-                return -1
+            if ioData == nil { return -1 }
+            let referenceToSelf: DefaultPlayer
+            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
+                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
+                referenceToSelf = reference.takeUnretainedValue()
+            } else {
+                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
             }
+            guard let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor else { return -1 }
+
             // The peak limiter is at the end of the chain so just grab the processed audio
-            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData, nil, nil, nil)
+            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData!, nil, nil, nil)
         }
 
         // MARK: - High Pass Filter
@@ -505,13 +508,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
-            guard
-                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
-                let peakLimiter = referenceToSelf.peakLimiter,
-                let ioData = ioData
-            else {
-                return -1
+            let referenceToSelf: DefaultPlayer
+            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
+                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
+                referenceToSelf = reference.takeUnretainedValue()
+            } else {
+                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
             }
+            guard let peakLimiter = referenceToSelf.peakLimiter, let ioData = ioData else { return -1 }
 
             var audioTimeStamp = AudioTimeStamp()
             audioTimeStamp.mSampleTime = inTimeStamp.pointee.mSampleTime

@@ -23,9 +23,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable chapters to be loaded from the RSS feed
     case rssChapters
 
-    /// Enable a quicker and more responsive player transition
-    case newPlayerTransition
-
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
@@ -52,9 +49,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
-    /// show UpNext tab on the main tab bar
-    case upNextOnTabBar
-
     /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
@@ -75,9 +69,6 @@ public enum FeatureFlag: String, CaseIterable {
     case accelerateEffects
 
     case newSharing
-
-    /// Enable the transcripts feature on podcasts episodes
-    case transcripts
 
     /// Enables the Kids banner
     case kidsProfile
@@ -182,8 +173,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .rssChapters:
             false
-        case .newPlayerTransition:
-            true
         case .errorLogoutHandling:
             false
         case .giveRatings:
@@ -204,8 +193,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .defaultPlayerFilterCallbackFix:
             true
-        case .upNextOnTabBar:
-            true
         case .downloadFixes:
             true
         case .onlyMarkPodcastsUnsyncedForNewUsers:
@@ -215,8 +202,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .accelerateEffects:
             true
         case .newSharing:
-            true
-        case .transcripts:
             true
         case .kidsProfile:
             false
@@ -293,8 +278,6 @@ public enum FeatureFlag: String, CaseIterable {
             "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
-        case .upNextOnTabBar:
-            "up_next_on_tab_bar"
         default:
             rawValue.lowerSnakeCased()
         }

@@ -113,10 +113,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if !FeatureFlag.newPlayerTransition.enabled {
-            Analytics.track(.playerShown)
-        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -124,10 +120,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
         if nowPlayingItem.displayTranscript {
             transcriptsItem.didDisappear()
-        }
-
-        if !FeatureFlag.newPlayerTransition.enabled {
-            Analytics.track(.playerDismissed)
         }
     }
 

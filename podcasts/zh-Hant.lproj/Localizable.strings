@@ -337,6 +337,26 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無法取消</string>
     <key>cancel_subscription</key>
     <string>取消訂閱</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>領取優惠</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>繼續取消</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>發生錯誤， 請稍後再試。</string>
+    <key>cancel_subscription_help_description</key>
+    <string>對功能有疑問或遇到問題。</string>
+    <key>cancel_subscription_help_title</key>
+    <string>需要 Pocket Casts 的相關協助嗎？</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>尋找適合你的方案。</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>正在尋找其他方案？</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>我們幫你下個月節省 %@</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>下個月免費使用</string>
+    <key>cancel_subscription_title</key>
+    <string>取消前，不妨看看以下優惠</string>
     <key>canceling</key>
     <string>正在取消…</string>
     <key>carplay_chapter_count</key>
@@ -1316,6 +1336,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立帳號即可在所有裝置上同步你的收聽體驗。</string>
     <key>login_title</key>
     <string>探索下一個最愛的 Podcast 節目</string>
+    <key>manage_downloads_action</key>
+    <string>管理下載項目</string>
+    <key>manage_downloads_detail</key>
+    <string>移除已播放的節目，即可節省 %1$@</string>
+    <key>manage_downloads_title</key>
+    <string>需要騰出更多空間？</string>
     <key>mark_played</key>
     <string>標記為已播放</string>
     <key>mark_played_short</key>
@@ -2124,6 +2150,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝你不吝分享 Pocket Casts 體驗！ 若有更多體驗券可使用，我們會再另行通知。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>你已分享完所有的訪客體驗券！</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>你好！
+
+在此送上 Pocket Casts Plus 的 %1$@訪客體驗券，這是我最愛的 Podcast 播放器。 Pocket Casts Plus 提供書籤、資料夾等獨特功能，其他播放器找不到。 我相信你也會愛上這項工具！
+</string>
     <key>referrals_share_pass_message</key>
     <string>嗨！ 使用下方連結領取你的 %1$@ Pocket Casts Plus 訪客體驗券，在所有裝置上盡情暢聽 Podcast！</string>
     <key>referrals_share_pass_subject</key>
@@ -2340,8 +2371,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>已選取 1 個 Podcast 節目</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>下載篩選器中最上方的單集。</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>在新單集發佈時自動下載，並藉由設定單集的儲存數量上限，嚴加管理你的儲存空間。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下載新增到「接下來播放」的單集。</string>
     <key>settings_badge_filter_header</key>

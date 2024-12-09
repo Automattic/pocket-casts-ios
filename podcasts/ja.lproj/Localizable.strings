@@ -2371,8 +2371,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>1件のポッドキャストを選択済み</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>フィルターの上位エピソードをダウンロードします。</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>新しいエピソードがリリースされると自動でダウンロードし、保存するエピソード数に制限を設定することでストレージを管理します。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>次のエピソードに追加された項目をダウンロードします。</string>
     <key>settings_badge_filter_header</key>
