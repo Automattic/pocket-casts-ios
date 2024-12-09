@@ -247,7 +247,7 @@ extension PlayerAction: AnalyticsDescribable {
         [
             .effects, .sleepTimer, .routePicker, .transcript, .download,
             .shareEpisode, .goToPodcast, .addBookmark, .markPlayed,
-            .chromecast, .archive
+            .starEpisode, .chromecast, .archive
         ]
     }
 
