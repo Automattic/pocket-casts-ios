@@ -146,6 +146,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the episode IDs from the server's response rather than our local database IDs
     case useSyncResponseEpisodeIDs
 
+    ///Use html description for podcast details
+    case usePodcastHTMLDescription
+
+    /// Disables logout / keychain clearing when errors occur in the background
+    case avoidLogoutInBackground
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -243,6 +249,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .manageDownloadedEpisodes:
 			true
         case .useSyncResponseEpisodeIDs:
+            true
+        case .usePodcastHTMLDescription:
+            false
+        case .avoidLogoutInBackground:
             true
         }
     }
