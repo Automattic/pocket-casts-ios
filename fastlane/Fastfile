@@ -1183,21 +1183,17 @@ inal copy, and try again.")
     message_root = lambda { |tag, display_name|
       ":announcement: <#{GITHUB_URL}/releases/tag/#{tag}|*#{display_name}*>"
     }
-    appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
-    testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
-    appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
-    merge_pr_link = "<#{GITHUB_URL}/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ju|need help?>)"
+        "#{message_root.call(build_number, version)} code freeze is completed."
       else
-        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ku|need help?>)"
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple."
       end
     elsif (build_number_split[2] || '0').to_i.positive?
-      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
+      "#{message_root.call(version, version)} hotfix has been uploaded to Apple."
     else
-      "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
+      "#{message_root.call(version, version)} final build has been uploaded to Apple."
     end
   end
 
