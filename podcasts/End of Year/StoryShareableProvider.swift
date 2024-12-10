@@ -47,7 +47,7 @@ class StoryShareableProvider: UIActivityItemProvider {
         let snapshot = AnyView(view)
         .modify(viewModifier)
         .environment(\.renderForSharing, true)
-        .frame(width: 370, height: 800)
+        .frame(width: 450, height: 800)
         .snapshot()
 
         let snapshotURL = save(snapshot: snapshot)
