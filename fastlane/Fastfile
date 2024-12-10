@@ -306,15 +306,15 @@ platform :ios do
 
     generate_strings_file_for_glotpress
 
-    after_confirming_push do
-      trigger_beta_build(branch_to_build: release_branch_name)
-      create_backmerge_pr
+    push_to_git_remote(tags: false)
 
-      # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
-      # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
-      # This should be changed only when we have PCiOS releases done on CI, when the CI bot is the one running `git push`.
-      set_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
-    end
+    trigger_beta_build(branch_to_build: release_branch_name)
+    create_backmerge_pr
+
+    # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
+    # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
+    # This should be changed only when we have PCiOS releases done on CI, when the CI bot is the one running `git push`.
+    set_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
 
     # Move still-open PRs to next milestone, then add frozen marker to milestone title
     update_milestone
@@ -367,10 +367,10 @@ platform :ios do
     commit_version_bump
     UI.success "Done! New Build Code: #{build_code_current}"
 
-    after_confirming_push do
-      trigger_beta_build(branch_to_build: release_branch_name)
-      create_backmerge_pr
-    end
+    push_to_git_remote(tags: false)
+
+    trigger_beta_build(branch_to_build: release_branch_name)
+    create_backmerge_pr
   end
 
   # Finalizes a release at the end of a sprint to submit to the App Store
@@ -406,19 +406,18 @@ platform :ios do
     UI.message 'Bumping build code...'
     VERSION_FILE.write(version_long: build_code_next)
     commit_version_bump
+    push_to_git_remote(tags: false)
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
     remove_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
     set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current, freeze: false)
-    create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: release_version_current)
 
     # Start the build
-    after_confirming_push do
-      trigger_release_build(branch_to_build: release_branch_name)
-      create_backmerge_pr
-    end
+
+    trigger_release_build(branch_to_build: release_branch_name)
+    create_backmerge_pr
   end
 
   # Sets the stage to start working on a hotfix
@@ -1194,15 +1193,6 @@ inal copy, and try again.")
       "#{message_root.call(version, version)} hotfix has been uploaded to Apple."
     else
       "#{message_root.call(version, version)} final build has been uploaded to Apple."
-    end
-  end
-
-  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
-    if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_to_git_remote(tags: false)
-      yield
-    else
-      UI.message('Aborting push as requested.')
     end
   end
 
