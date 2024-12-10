@@ -248,7 +248,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .useSyncResponseEpisodeIDs:
             true
         case .grdb:
-            false
+            true
         }
     }
 
