@@ -146,6 +146,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the episode IDs from the server's response rather than our local database IDs
     case useSyncResponseEpisodeIDs
 
+    /// Uses the new database toolkit
+    case grdb
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -244,6 +247,8 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .useSyncResponseEpisodeIDs:
             true
+        case .grdb:
+            false
         }
     }
 
