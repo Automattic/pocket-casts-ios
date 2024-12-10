@@ -285,12 +285,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     private static func unretainedDefaultPlayer(for tap: MTAudioProcessingTap) -> DefaultPlayer? {
+        return DefaultPlayer.unretainedDefaultPlayer(for: MTAudioProcessingTapGetStorage(tap))
+    }
+
+    private static func unretainedDefaultPlayer(for pointer: UnsafeMutableRawPointer) -> DefaultPlayer? {
         if FeatureFlag.useDefaultPlayerTapCookie.enabled {
-            let cookie = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap)).takeUnretainedValue()
+            let cookie = Unmanaged<AudioProcessingTapProxy>.fromOpaque(pointer).takeUnretainedValue()
             guard let player = cookie.input else { return nil }
             return player
+        } else if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
+            return Unmanaged<DefaultPlayer>.fromOpaque(pointer).takeUnretainedValue()
         } else {
-            return Unmanaged<DefaultPlayer>.fromOpaque(MTAudioProcessingTapGetStorage(tap)).takeUnretainedValue()
+            return unsafeBitCast(pointer, to: DefaultPlayer.self)
         }
     }
 

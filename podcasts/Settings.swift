@@ -783,7 +783,7 @@ class Settings: NSObject {
         }
 
         // Show transcript as the 4th item if it's not present
-        if FeatureFlag.transcripts.enabled && !playerActions.contains(.transcript) {
+        if !playerActions.contains(.transcript) {
             playerActions.insert(.transcript, safelyAt: 3)
         }
 
@@ -1401,11 +1401,6 @@ class Settings: NSObject {
 
         static var addMissingEpisodes: Bool {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
-            return remote.boolValue
-        }
-
-        static var newPlayerTransition: Bool {
-            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
             return remote.boolValue
         }
 

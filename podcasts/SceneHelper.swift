@@ -24,24 +24,9 @@ class SceneHelper {
     }
 
     class func rootViewController() -> UIViewController? {
-        guard !FeatureFlag.newPlayerTransition.enabled else {
-            let appScene = connectedScene()?.windows.first(where: { $0.rootViewController is MainTabBarController })
-            let rootVC = appScene?.rootViewController
-            return rootVC?.topMostPresentedViewController ?? rootVC
-        }
-
-        if let scene = connectedScene() {
-            for window in scene.windows {
-                if let mainTabController = window.rootViewController as? MainTabBarController {
-                    return mainTabController
-                }
-            }
-        }
-
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return nil
-        }
-        return appDelegate.window?.rootViewController
+        let appScene = connectedScene()?.windows.first(where: { $0.rootViewController is MainTabBarController })
+        let rootVC = appScene?.rootViewController
+        return rootVC?.topMostPresentedViewController ?? rootVC
     }
 
     /// Returns the main window for the app from the AppDelegate

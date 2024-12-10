@@ -10,10 +10,8 @@ class ShowNotesUpdater {
                 _ = try? await ShowInfoCoordinator.shared.loadChapters(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
                 #if !os(watchOS)
-                if FeatureFlag.transcripts.enabled {
-                    let transcriptManager = TranscriptManager(episodeUUID: episodeUuid, podcastUUID: podcastUuid)
-                    _ = try? await transcriptManager.loadTranscript()
-                }
+                let transcriptManager = TranscriptManager(episodeUUID: episodeUuid, podcastUUID: podcastUuid)
+                _ = try? await transcriptManager.loadTranscript()
                 #endif
             }
             return

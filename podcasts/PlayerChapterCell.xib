@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="KGk-i7-Jjw" customClass="PlayerChapterCell" customModule="podcasts" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="38" id="KGk-i7-Jjw" customClass="PlayerChapterCell" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -57,7 +57,7 @@
                         <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
-                        <rect key="frame" x="48" y="10.5" width="10" height="14.5"/>
+                        <rect key="frame" x="48" y="14" width="10" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -70,8 +70,8 @@
                             <constraint firstAttribute="width" constant="24" id="bmE-bK-Elp"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Chapter Name Is Really Really Really long" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTd-fM-Gsz">
-                        <rect key="frame" x="68" y="8.5" width="163" height="33.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Chapter Name Is Really Really Really long" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTd-fM-Gsz">
+                        <rect key="frame" x="68" y="12" width="163" height="26"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -128,6 +128,7 @@
                     <constraint firstItem="cRZ-kP-W2l" firstAttribute="trailing" secondItem="7tO-zw-yY4" secondAttribute="trailing" constant="-10" id="8Us-Sx-oqi"/>
                     <constraint firstItem="Bm9-Ke-jXY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="92a-z4-FGz"/>
                     <constraint firstAttribute="trailing" secondItem="Bm9-Ke-jXY" secondAttribute="trailing" constant="20" id="A0f-dS-oKL"/>
+                    <constraint firstItem="MTd-fM-Gsz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="AIU-CM-1rw"/>
                     <constraint firstAttribute="bottom" secondItem="Gii-fb-Tnl" secondAttribute="bottom" id="FVM-4m-0ce"/>
                     <constraint firstAttribute="trailing" secondItem="MTd-fM-Gsz" secondAttribute="trailing" constant="89" id="JCM-zm-33N"/>
                     <constraint firstItem="Bke-e5-Ifv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JLP-sl-9fr"/>
@@ -138,6 +139,7 @@
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="leading" secondItem="Bke-e5-Ifv" secondAttribute="trailing" constant="5" id="XZf-Fm-XXd"/>
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aa5-sB-1eb"/>
                     <constraint firstItem="MnS-7T-IZe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cYL-kp-IIF"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="MTd-fM-Gsz" secondAttribute="bottom" constant="12" id="cu1-hR-0L3"/>
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="firstBaseline" secondItem="7tO-zw-yY4" secondAttribute="firstBaseline" id="dLa-wd-uSE"/>
                     <constraint firstItem="cRZ-kP-W2l" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iz0-K5-Vuu"/>
                     <constraint firstAttribute="trailing" secondItem="MnS-7T-IZe" secondAttribute="trailing" constant="8" id="jmT-vE-W1y"/>
@@ -160,7 +162,7 @@
                 <outlet property="seperatorView" destination="Bm9-Ke-jXY" id="aaK-b3-02B"/>
                 <outlet property="toggleChapterButton" destination="cRZ-kP-W2l" id="8vL-OD-HLz"/>
             </connections>
-            <point key="canvasLocation" x="-432" y="-254.57271364317842"/>
+            <point key="canvasLocation" x="-432" y="-259.97001499250376"/>
         </tableViewCell>
     </objects>
     <resources>

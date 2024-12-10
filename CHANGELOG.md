@@ -1,13 +1,10 @@
 7.80
 -----
 
-7.77.1
------
-- Fix sharing Playback stories to Instagram [#2482](https://github.com/Automattic/pocket-casts-ios/pull/2482)
 
 7.79
 -----
-
+- Display the whole chapter title, without truncating it [#2499](https://github.com/Automattic/pocket-casts-ios/pull/2499)
 
 7.78
 -----
@@ -21,6 +18,10 @@
 - Increase tap area for button that removes previous searches [#2494](https://github.com/Automattic/pocket-casts-ios/pull/2494)
 - Fix playback of bookmarks that are created on other platforms and never loaded locally [#1667](https://github.com/Automattic/pocket-casts-ios/issues/1667)
 - Add new setting on Auto-Downloads settings to define the on follow behaviour. [#2493](https://github.com/Automattic/pocket-casts-ios/pull/2493)
+
+7.77.1
+-----
+- Fix sharing Playback stories to Instagram [#2482](https://github.com/Automattic/pocket-casts-ios/pull/2482)
 
 7.77
 -----
