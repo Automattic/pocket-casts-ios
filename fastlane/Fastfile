@@ -190,14 +190,19 @@ platform :ios do
   # See https://buildkite.com/automattic/pocket-casts-ios/builds/4875#018b7eea-e8d7-40a1-8ce5-515dd8feafce/666-805
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
-  desc 'Run the unit tests'
+  # Run the unit tests
+  #
   lane :test do
     run_tests(
       scheme: SCHEME
     )
   end
 
-  desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
+  # Download and configure code signing certificates and provisioning profiles for the App Store build.
+  #
+  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
+  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
+  #
   lane :configure_code_signing_app_store do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
@@ -213,7 +218,11 @@ platform :ios do
     )
   end
 
-  desc 'Download and configure code signing certificates and provisioning profiles for the Enterprise build, i.e. Prototype Builds.'
+  # Download and configure code signing certificates and provisioning profiles for the Enterprise build, i.e. Prototype Builds.
+  #
+  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
+  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
+  #
   lane :configure_code_signing_enterprise do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
@@ -260,7 +269,6 @@ platform :ios do
   #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
-  desc 'Executes the initial steps needed during code freeze'
   lane :code_freeze do |skip_confirm: false|
     require_env_vars!('GITHUB_TOKEN')
     # Verify that there's nothing in progress in the working copy
@@ -326,7 +334,6 @@ platform :ios do
   #                              instead of using the current app version. Useful e.g. for triggering betas on hotfixes.
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
-  desc 'Trigger a new beta build on CI'
   lane :new_beta_release do |base_version: nil, skip_confirm: false|
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
@@ -382,7 +389,6 @@ platform :ios do
   #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
-  desc 'Trigger the final release build on CI'
   lane :finalize_release do |skip_confirm: false|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if current_version_hotfix?
 
@@ -428,7 +434,6 @@ platform :ios do
   # @param version [String] (required) The version number to use for the hotfix (`"x.y.z"`)
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
-  desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
   lane :new_hotfix_release do |version:, skip_confirm: false|
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
@@ -477,7 +482,6 @@ platform :ios do
 
   # Finalizes a hotfix, by triggering a release build on CI
   #
-  desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do |skip_confirm: false|
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
     ensure_git_branch(branch: '^release/')
@@ -518,7 +522,6 @@ platform :ios do
   #
   # @called_by CI
   #
-  desc 'Builds and uploads for distribution to App Store Connect'
   lane :build_and_upload_app_store_connect do |beta_release:, skip_prechecks: false, skip_confirm: false, create_release: false|
     require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
 
@@ -543,7 +546,8 @@ platform :ios do
     create_release_on_github(beta_release: beta_release) if create_release
   end
 
-  desc 'Builds for distribution to App Store Connect'
+  # Builds for distribution to App Store Connect
+  #
   lane :build_app_store_connect do |fetch_code_signing: true|
     configure_code_signing_app_store if fetch_code_signing
 
@@ -573,13 +577,15 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
-  desc 'Builds and distributes via Enterprise account (Prototype Build)'
+  # Builds and distributes via Enterprise account (Prototype Build)
+  #
   lane :build_and_upload_enterprise do
     build_enterprise
     upload_enterprise
   end
 
-  desc 'Builds for Enterprise distribution (Prototype Build)'
+  # Builds for Enterprise distribution (Prototype Build)
+  #
   lane :build_enterprise do |skip_code_sign_setup: false|
     if skip_code_sign_setup
       UI.message('Skipping fetch certificates and provisioning profiles as requested.')
@@ -611,7 +617,8 @@ platform :ios do
     )
   end
 
-  desc 'Distributes a local app via Enterprise account (Prototype Build)'
+  # Distributes a local app via Enterprise account (Prototype Build)
+  #
   lane :upload_enterprise do
     upload_pocket_casts_to_appcenter
 
@@ -632,7 +639,8 @@ platform :ios do
     )
   end
 
-  desc 'Uploads DSYM Symbols'
+  # Uploads DSYM Symbols
+  #
   lane :symbols_upload do |dsym_path: APP_STORE_CONNECT_BUILD_DSYMS_PATH|
     require_env_vars!('SENTRY_AUTH_TOKEN')
 
@@ -645,6 +653,12 @@ platform :ios do
     )
   end
 
+  # Create a GitHub Release for a beta or final build
+  #
+  # @param beta_release [Boolean] If true, the GitHub Release is for a beta and will be marked as prerelease and published immediately.
+  #                               If false, the GitHub Release is for a final build and will not be marked as prerelease but will be created as Draft (to be manually published only once approved by Apple)
+  # @param archive_zip_path [String] Path to the `.xcarchive.zip` file to attach as an asset to the created GitHub Release
+  #
   lane :create_release_on_github do |beta_release: true, archive_zip_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH|
     require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
 
@@ -774,13 +788,15 @@ platform :ios do
     typos_count
   end
 
-  desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
+  # Downloads localized strings and App Store Connect metadata from GlotPress
+  #
   lane :download_localized_strings_and_metadata_from_glotpress do
     download_localized_strings_from_glotpress
     download_localized_app_store_metadata_from_glotpress
   end
 
-  desc 'Lint the `.strings` files'
+  # Lint the `.strings` files
+  #
   lane :lint_localizations do
     ios_lint_localizations(
       input_dir: File.join(PROJECT_ROOT_FOLDER, 'podcasts'),
@@ -789,11 +805,8 @@ platform :ios do
     )
   end
 
-  # This lane updates the `AppStoreStrings.po` file for the Pocket Casts app
-  # with the latest content from the `release_notes.txt` file and the other
-  # text sources
+  # Updates the `AppStoreStrings.po` file using the content from the `release_notes.txt` file and other `.txt` sources
   #
-  desc 'Updates the `AppStoreStrings.po` file for the Pocket Casts app with the latest data'
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
     version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
@@ -812,7 +825,8 @@ platform :ios do
     )
   end
 
-  desc 'Downloads localized `.strings` from GlotPress'
+  # Downloads localized `.strings` from GlotPress
+  #
   lane :download_localized_strings_from_glotpress do
     # Use the same name as the frozen strings source to make it explicit these
     # are not to be copied as-is in the `*.lproj/Localizable.strings`
@@ -843,7 +857,8 @@ platform :ios do
     )
   end
 
-  desc 'Downloads localized metadata for App Store Connect from GlotPress'
+  # Downloads localized metadata for App Store Connect from GlotPress
+  #
   lane :download_localized_app_store_metadata_from_glotpress do
     # FIXME: Replace this with a call to the future replacement of
     # `gp_downloadmetadata` once it's implemented in the release-toolkit (see
@@ -872,10 +887,10 @@ platform :ios do
       en_file_path = File.join(APP_STORE_METADATA_FOLDER, 'en-US', file)
       next unless File.exist?(en_file_path)
 
-      UI.user_error!("File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default
-`, but `default/` is the source of truth. " \
-+ "Delete the `#{en_file_path}` file, ensure the `default/` one has the expected orig
-inal copy, and try again.")
+      UI.user_error! <<~ERROR
+        File `#{en_file_path}` would override the same one in `#{APP_STORE_METADATA_FOLDER}/default`, but `default/` is the source of truth.
+        Delete the `#{en_file_path}` file, ensure the `default/` one has the expected original copy, and try again.
+      ERROR
     end
 
     # Ensure even empty locale folders have an empty `.gitkeep` file (in case
@@ -904,7 +919,6 @@ inal copy, and try again.")
   # @param interactive [Boolean] If true, will pause and ask confirmation to continue
   #        if it found any locale translated below the threshold (default: false)
   #
-  desc 'Check translation progress for all GlotPress projects'
   lane :check_all_translations_progress do |interactive: false|
     abort_on_violations = false
     skip_confirm = interactive == false
@@ -930,7 +944,6 @@ inal copy, and try again.")
   #
   # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
-  desc 'Upload the localized metadata to App Store Connect, optionally including screenshots.'
   lane :update_metadata_on_app_store_connect do |with_screenshots: false|
     # Skip screenshots by default. The naming is "with" to make it clear that
     # callers need to opt-in to adding screenshots. The naming of the deliver
@@ -952,7 +965,6 @@ inal copy, and try again.")
 
   # Generates a HTML containing the libraries acknowledgments.
   #
-  desc 'Generates a HTML with the list of used libraries and their licenses'
   lane :acknowledgments do
     require 'commonmarker'
 
@@ -1003,10 +1015,10 @@ inal copy, and try again.")
   #####################################################################################
 
   # Generates localized screenshots for the iPhone, and iPad.
+  #
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
   #
-  desc 'Generates localized screenshots for the AppStore'
   lane :screenshots do
     iphone_devices = ['iPhone 12']
     ipad_devices = ['iPad (9th generation)']
@@ -1057,16 +1069,16 @@ inal copy, and try again.")
   end
 
   # Generates localized screenshots for the Apple Watch.
+  #
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
   # converting to use google-cast-sdk-no-bluetooth-mock
   #
   # Setup:
-  # - Log into an account with Plus. Run the test iPhone_GenerateScreenshots.test_watchSetup
-  # on a device that is connected to the watch mentioned in the test.
-  # - Ensure the data syncs to the simulated watch. Mocking out the ApplicationContext from
-  # the device can help ensure a consistent response.
+  #  - Log into an account with Plus. Run the test iPhone_GenerateScreenshots.test_watchSetup
+  #    on a device that is connected to the watch mentioned in the test.
+  #  - Ensure the data syncs to the simulated watch. Mocking out the ApplicationContext from
+  #    the device can help ensure a consistent response.
   #
-  desc 'Generates localized Watch screenshots for the AppStore'
   lane :watch_screenshots do
     watch_devices = ['Apple Watch Series 7 - 45mm']
 
@@ -1082,6 +1094,7 @@ inal copy, and try again.")
   #####################################################################################
 
   # Name of the `release/` branch for the current version
+  #
   def release_branch_name
     "release/#{release_version_current}"
   end
@@ -1104,9 +1117,13 @@ inal copy, and try again.")
     )
   end
 
-  # - Loop though all PRs which were still open and were assigned the milestones of the code-frozen version,
-  #   and move them to the next milestone + leaving a PR comment about it
+  # Update the milestone of still-open PRs
+  # 
+  # - Update the milestone of all still-open PRs that were assigned the milestone of the version being code-frozen,
+  #   to move them to the next milestone
+  # - Leaving a PR comment on each of the PRs for which we updated the miletsone
   # - Add the ❄️ frozen marker to the milestone being frozen
+  #
   def update_milestone
     require_env_vars!('GITHUB_TOKEN')
 
@@ -1131,7 +1148,16 @@ inal copy, and try again.")
     rescue StandardError => e
       moved_prs = []
 
-      report_milestone_error(error_title: "Error freezing milestone `#{new_version}`: #{e.message}")
+      error_message = <<-MESSAGE
+        Error freezing milestone `#{new_version}`: #{e.message}
+
+        - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+        - Otherwise if this is the first you are running the release task for this version, please investigate the error.
+      MESSAGE
+
+      UI.error(error_message)
+
+      buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
     end
 
     UI.message("Moved the following PRs to milestone #{next_version}: #{moved_prs.join(', ')}")
@@ -1147,18 +1173,8 @@ inal copy, and try again.")
     buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
   end
 
-  def report_milestone_error(error_title:)
-    error_message = <<-MESSAGE
-      #{error_title}
-      - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
-      - Otherwise if this is the first you are running the release task for this version, please investigate the error.
-    MESSAGE
-
-    UI.error(error_message)
-
-    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
-  end
-
+  # Private helper to create backmerge Pull Requests after new betas or final build
+  #
   def create_backmerge_pr
     create_release_backmerge_pull_request(
       repository: GHHELPER_REPO,
@@ -1207,6 +1223,8 @@ inal copy, and try again.")
     UI.message "Checked out branch `#{git_branch}` as requested by user.\n"
   end
 
+  # Create a commit with the typical message to use for a version bump
+  #
   def commit_version_bump
     git_commit(
       path: VERSION_XCCONFIG_PATH,
@@ -1215,6 +1233,10 @@ inal copy, and try again.")
     )
   end
 
+  # Upload a Prototype Build to App Center
+  #
+  # Expects the `.ipa` and `.dSYM` files to be present in `ARTIFACTS_FOLDER/PROTOTYPE_BUILD_NAME.{ipa,app.dSYM.zip}`
+  #
   def upload_pocket_casts_to_appcenter
     require_env_vars!('APPCENTER_API_TOKEN')
 
@@ -1239,6 +1261,8 @@ inal copy, and try again.")
     )
   end
 
+  # Post a comment on the PR with the info + QRCode to the Prototype Build in App Center
+  #
   def annotate_pr_with_appcenter_link
     comment_body = prototype_build_details_comment(
       app_display_name: 'Pocket Casts Prototype Build',
@@ -1254,6 +1278,8 @@ inal copy, and try again.")
     )
   end
 
+  # Annotate a Buildkite CI build with info + links to the Prototype Build in App Center
+  #
   def annotate_buildkite_with_appcenter_link
     appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
     version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
@@ -1263,7 +1289,7 @@ inal copy, and try again.")
     buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}")
   end
 
-  # Generates a build number for Prototype Builds, based on the PR number and short commit SHA1
+  # Generate a build number for Prototype Builds, based on the PR number and short commit SHA1
   #
   # @note This function uses Buildkite-specific ENV vars
   #
@@ -1331,7 +1357,9 @@ inal copy, and try again.")
     BUILD_CODE_FORMATTER.build_code(version: build_code_code_freeze)
   end
 
-  # Returns the build code of the app for the code freeze. It is the hotfix version name plus sets the build number to 0
+  # Returns the build code of the app for a hotfix. It is the hotfix version name plus sets the build number to 0
+  #
+  # @param release_version [String] The `x.y.z` hotfix version we want to get the build code for
   #
   def build_code_hotfix(release_version:)
     version = VERSION_FORMATTER.parse(release_version)
