@@ -85,17 +85,21 @@ class TokenHelper {
             ServerSettings.setRefreshToken(refreshedRefreshToken)
         }
         else {
-            if ServerConfig.avoidLogoutOnError {
-                // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-                switch error as? APIError {
-                case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
-                    tokenCleanUp()
-                default:
-                    // Do nothing so the user is not disrupted in the case of non-auth errors
-                    FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
-                }
+            if UIApplication.shared.applicationState == .background && ServerConfig.avoidLogoutInBackground {
+                FileLog.shared.addMessage("TokenHelper: Skipped logout in background due to error: \(String(describing: error))")
             } else {
-                tokenCleanUp()
+                if ServerConfig.avoidLogoutOnError {
+                    // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+                    switch error as? APIError {
+                    case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                        tokenCleanUp()
+                    default:
+                        // Do nothing so the user is not disrupted in the case of non-auth errors
+                        FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
+                    }
+                } else {
+                    tokenCleanUp()
+                }
             }
 
             return nil

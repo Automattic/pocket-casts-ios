@@ -143,6 +143,9 @@ public enum FeatureFlag: String, CaseIterable {
     ///Use html description for podcast details
     case usePodcastHTMLDescription
 
+    /// Disables logout / keychain clearing when errors occur in the background
+    case avoidLogoutInBackground
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -239,6 +242,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .usePodcastHTMLDescription:
             false
+        case .avoidLogoutInBackground:
+            true
         }
     }
 

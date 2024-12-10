@@ -296,6 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+            ServerConfig.avoidLogoutInBackground = FeatureFlag.avoidLogoutInBackground.enabled
         }
     }
 
