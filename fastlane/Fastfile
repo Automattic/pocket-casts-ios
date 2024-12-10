@@ -1118,7 +1118,7 @@ platform :ios do
   end
 
   # Update the milestone of still-open PRs
-  # 
+  #
   # - Update the milestone of all still-open PRs that were assigned the milestone of the version being code-frozen,
   #   to move them to the next milestone
   # - Leaving a PR comment on each of the PRs for which we updated the miletsone
@@ -1135,9 +1135,7 @@ platform :ios do
         repository: GHHELPER_REPO,
         from_milestone: new_version,
         to_milestone: next_version,
-        comment: <<~COMMENT
-          Version `#{new_version}` has now entered code-freeze, so the milestone of this PR has been updated to `#{next_version}`.
-        COMMENT
+        comment: "Version `#{new_version}` has now entered code-freeze, so the milestone of this PR has been updated to `#{next_version}`."
       )
 
       # Add ❄️ marker to milestone title to indicate we entered code-freeze
@@ -1156,7 +1154,6 @@ platform :ios do
       MESSAGE
 
       UI.error(error_message)
-
       buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
     end
 
@@ -1169,7 +1166,6 @@ platform :ios do
                        "#{moved_prs.count} PRs targeting `#{new_version}` were still open and thus moved to `#{next_version}`:\n" \
                          + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GHHELPER_REPO}/pull/#{pr_num})" }.join(', ')
                      end
-
     buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
   end
 
