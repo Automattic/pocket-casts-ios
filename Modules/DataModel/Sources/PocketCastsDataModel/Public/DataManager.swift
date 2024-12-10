@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 import SQLite3
 
@@ -28,6 +29,8 @@ public class DataManager {
 
     private let dbQueue: FMDatabaseQueue
 
+    private let dbPool: DatabasePool!
+
     public static let sharedManager = DataManager()
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
@@ -44,6 +47,8 @@ public class DataManager {
     /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
     public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
+
+        dbPool = FeatureFlag.grdb.enabled ? try! DatabasePool(path: DataManager.pathToDb()) : nil
 
         dbQueue.inDatabase { db in
             DatabaseHelper.setup(db: db)
