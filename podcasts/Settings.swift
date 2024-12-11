@@ -9,6 +9,15 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+    static var isLockScreenScrubbingDisabled: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+        }
+    }
+
     static var openLinks: Bool {
         set {
             if FeatureFlag.newSettingsStorage.enabled {

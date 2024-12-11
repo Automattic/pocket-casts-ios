@@ -170,6 +170,8 @@ struct Constants {
         static let sleepTimerFinishedDate = "sleepTimerFinishedDate"
         static let sleepTimerSetting = "sleepTimerSetting"
 
+        static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
+
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)
