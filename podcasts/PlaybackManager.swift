@@ -1684,6 +1684,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
+
+            guard Settings.isLockScreenScrubbingDisabled == false else { return .commandFailed } // Only perform the seek if lock screen scrubbing is disabled
+
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
