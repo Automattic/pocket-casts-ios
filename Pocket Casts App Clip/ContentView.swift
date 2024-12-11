@@ -7,6 +7,7 @@ struct ContentView: View {
         VStack {
             NowPlayingPlayerItemViewControllerRepresentable()
         }
+        .background(Color(uiColor: PlayerColorHelper.playerBackgroundColor01()))
         .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
             guard
                 let incomingURL = userActivity.webpageURL,
