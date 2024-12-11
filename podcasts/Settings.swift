@@ -12,6 +12,7 @@ class Settings: NSObject {
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+            NotificationCenter.default.post(name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         }
         get {
             return UserDefaults.standard.bool(forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
