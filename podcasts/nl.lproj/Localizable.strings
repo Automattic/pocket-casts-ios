@@ -2367,8 +2367,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>1 podcast geselecteerd</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Download de bovenste afleveringen in een filter.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Download automatisch nieuwe afleveringen en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Download afleveringen die zijn toegevoegd aan Hierna.</string>
     <key>settings_badge_filter_header</key>

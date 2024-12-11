@@ -2371,8 +2371,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>1 podcast selezionato</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Scarica i primi episodi in un filtro.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Scarica automaticamente i nuovi episodi appena escono e gestisci l'archivio impostando un limite sugli episodi salvati.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Scarica gli episodi aggiunti a Successivo.</string>
     <key>settings_badge_filter_header</key>

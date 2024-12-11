@@ -2369,8 +2369,6 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>1 Podcast ausgewählt</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Die obersten Folgen in einem Filter herunterladen.</string>
-    <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Du kannst die neuesten Folgen direkt nach der Veröffentlichung automatisch herunterladen. Zudem kannst du deinen Speicher verwalten, indem du festlegst, wie viele Folgen gespeichert werden sollen.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Zur Warteschlange hinzugefügte Folgen herunterladen.</string>
     <key>settings_badge_filter_header</key>

@@ -2366,7 +2366,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descarregar els primers episodis d'un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Descarrega automàticament nous episodis a mesura que es publiquin, i gestiona l'emmagatzematge establint un límit del número d'episodis que es guarden.</string>
+    <string>Descarrega automàticament nous episodis, desa episodis de les nous pòdcasts que segueixes i gestiona l'emmagatzematge establint un límit de quants episodis es guarden.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descarrega els episodis afegits a la llista 'Tot seguit'.</string>
     <key>settings_badge_filter_header</key>

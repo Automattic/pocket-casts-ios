@@ -74,6 +74,42 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         controller.present(alert, animated: true)
     }
 
+    func handleNext() {
+        guard let parentController else { return }
+
+        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
+            parentController.dismiss(animated: true)
+            return
+        }
+
+        let navigationController = parentController as? UINavigationController
+
+        let controller: UIViewController
+        if SubscriptionHelper.activeTier == .patron {
+            controller = PatronWelcomeViewModel.make(in: navigationController)
+        } else {
+            controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+        }
+
+        let presentNextBlock: () -> Void = {
+            guard let navigationController else {
+                // Present the welcome flow
+                parentController.present(controller, animated: true)
+                return
+            }
+
+            // Reset the nav flow to only show the welcome controller
+            navigationController.setViewControllers([controller], animated: true)
+        }
+
+        // Dismiss the current flow
+        if parentController.presentedViewController != nil {
+            parentController.dismiss(animated: true, completion: presentNextBlock)
+        } else {
+            presentNextBlock()
+        }
+    }
+
     // Our internal state
     enum PurchaseState {
         case ready
@@ -135,44 +171,6 @@ private extension PlusPurchaseModel {
 
         default:
             state = .ready
-        }
-    }
-}
-
-private extension PlusPurchaseModel {
-    private func handleNext() {
-        guard let parentController else { return }
-
-        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
-            parentController.dismiss(animated: true)
-            return
-        }
-
-        let navigationController = parentController as? UINavigationController
-
-        let controller: UIViewController
-        if SubscriptionHelper.activeTier == .patron {
-            controller = PatronWelcomeViewModel.make(in: navigationController)
-        } else {
-            controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
-        }
-
-        let presentNextBlock: () -> Void = {
-            guard let navigationController else {
-                // Present the welcome flow
-                parentController.present(controller, animated: true)
-                return
-            }
-
-            // Reset the nav flow to only show the welcome controller
-            navigationController.setViewControllers([controller], animated: true)
-        }
-
-        // Dismiss the current flow
-        if parentController.presentedViewController != nil {
-            parentController.dismiss(animated: true, completion: presentNextBlock)
-        } else {
-            presentNextBlock()
         }
     }
 }
