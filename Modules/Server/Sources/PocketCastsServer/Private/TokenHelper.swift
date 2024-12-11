@@ -85,7 +85,7 @@ class TokenHelper {
             ServerSettings.setRefreshToken(refreshedRefreshToken)
         }
         else {
-            if UIApplication.shared.applicationState == .background && ServerConfig.avoidLogoutInBackground {
+            if isApplicationBackgrounded() && ServerConfig.avoidLogoutInBackground {
                 FileLog.shared.addMessage("TokenHelper: Skipped logout in background due to error: \(String(describing: error))")
             } else {
                 if ServerConfig.avoidLogoutOnError {
@@ -106,6 +106,24 @@ class TokenHelper {
         }
 
         return refreshedToken
+    }
+
+    private func isApplicationBackgrounded() -> Bool {
+        let semaphore = DispatchSemaphore(value: 0)
+        var isBackgrounded = false
+
+        DispatchQueue.main.async {
+            #if os(iOS)
+            isBackgrounded = UIApplication.shared.applicationState == .background
+            #elseif os(watchOS)
+            isBackgrounded = WKExtension.shared().applicationState == .background
+            #endif
+
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+        return isBackgrounded
     }
 
     // MARK: - Email / Password Token
