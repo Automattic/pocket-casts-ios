@@ -29,9 +29,9 @@ EXTERNAL_BETA_TESTER_GROUPS = [
   'A8cs',
   'Alpha Slack',
   'Beta Slack',
-  'Stable Slack',
-  'Reddit',
   'Big Databases',
+  'Reddit',
+  'Stable Slack',
   'Trusted Preview Testers'
 ].freeze
 
@@ -560,7 +560,7 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
-  # Uploads the binary to TestFlight and distribute it to testers
+  # Uploads the binary to TestFlight and distributes it to testers
   #
   # Typically called after having built the binary with `build_app_store_connect`
   #
