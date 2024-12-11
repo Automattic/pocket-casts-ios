@@ -1894,7 +1894,6 @@
 		F5F509712CEBF8C1007D6E39 /* SJMediaMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */; };
 		F5F509722CEBF8C8007D6E39 /* MNAVChapterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF0D4B323EBF1190034129E /* MNAVChapterReader.m */; };
 		F5F509742CEBF8E7007D6E39 /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = F5F509732CEBF8E7007D6E39 /* Agrume */; };
-		F5F509762CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F509752CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift */; };
 		F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		F5F509782CEBFA71007D6E39 /* NowPlayingPlayerItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDFB53C62362A2570001806E /* NowPlayingPlayerItemViewController.xib */; };
 		F5F5097A2CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F509792CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift */; };
@@ -3936,7 +3935,6 @@
 		F5F0C9AF2CCEA5B5003D295D /* SubscriptionBadge2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionBadge2024.swift; sourceTree = "<group>"; };
 		F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
 		F5F5092E2CEBEF59007D6E39 /* app-clip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "app-clip-Bridging-Header.h"; sourceTree = "<group>"; };
-		F5F509752CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerContainerViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		F5F509792CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingPlayerItemViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
@@ -8224,7 +8222,6 @@
 				F5D5F7B12CEBE7CE001F492D /* Preview Content */,
 				F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */,
 				F5D5F7B32CEBE7CE001F492D /* ContentView.swift */,
-				F5F509752CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift */,
 				F5F509792CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift */,
 				F5D5F7B42CEBE7CE001F492D /* Info.plist */,
 				F5D5F7B52CEBE7CE001F492D /* Pocket_Casts_App_Clip.entitlements */,
@@ -11206,7 +11203,6 @@
 				F5F509132CEBEBEC007D6E39 /* Notifications.swift in Sources */,
 				F5F5094C2CEBF412007D6E39 /* VideoViewController+Seek.swift in Sources */,
 				F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */,
-				F5F509762CEBF95B007D6E39 /* PlayerContainerViewControllerRepresentable.swift in Sources */,
 				F5D5F7CB2CEBE87F001F492D /* Constants.swift in Sources */,
 				F57ABC002CECEE6000CC50AF /* PodcastManager+Cleanup.swift in Sources */,
 				F5F5094A2CEBF3E5007D6E39 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
