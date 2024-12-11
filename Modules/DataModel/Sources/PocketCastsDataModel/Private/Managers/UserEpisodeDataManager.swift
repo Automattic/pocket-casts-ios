@@ -281,7 +281,7 @@ class UserEpisodeDataManager {
 
     func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
         episode.autoDownloadStatus = autoDownloadStatus
-        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus.rawValue, episodeId: episode.id, dbQueue: dbQueue)
     }
 
     func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
@@ -349,7 +349,7 @@ class UserEpisodeDataManager {
         episode.autoDownloadStatus = autoDownloadStatus
 
         let fields = ["episodeStatus", "lastDownloadAttemptDate", "autoDownloadStatus"]
-        let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.lastDownloadAttemptDate), episode.autoDownloadStatus, episode.id] as [Any]
+        let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.lastDownloadAttemptDate), episode.autoDownloadStatus.rawValue, episode.id] as [Any]
 
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
@@ -604,7 +604,7 @@ class UserEpisodeDataManager {
         values.append(episode.playedUpTo)
         values.append(episode.duration)
         values.append(episode.playingStatus)
-        values.append(episode.autoDownloadStatus)
+        values.append(episode.autoDownloadStatus.rawValue)
         values.append(DBUtils.nullIfNil(value: episode.publishedDate))
         values.append(episode.sizeInBytes)
         values.append(episode.playingStatusModified)
