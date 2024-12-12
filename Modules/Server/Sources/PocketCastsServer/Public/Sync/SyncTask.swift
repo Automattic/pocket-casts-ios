@@ -1,4 +1,5 @@
 import Foundation
+import SwiftProtobuf
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -287,6 +288,7 @@ class SyncTask: ApiBaseTask {
                 syncRequest.country = country
             }
             syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
+            syncRequest.deviceType = Google_Protobuf_Int32Value(ServerConstants.Values.deviceTypeiOS)
 
             return try syncRequest.serializedData()
         } catch {}
