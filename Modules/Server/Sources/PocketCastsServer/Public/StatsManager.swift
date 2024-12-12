@@ -1,9 +1,15 @@
 import Foundation
+import UIKit
 import PocketCastsDataModel
 import PocketCastsUtils
 
 public class StatsManager {
-    public static let shared = StatsManager()
+    private static let privateShared = StatsManager()
+
+    public static var shared: StatsManager {
+        privateShared.repopulateIfNeeded()
+        return privateShared
+    }
 
     private var savedDynamicSpeed = -1 as TimeInterval
     private var savedVariableSpeed = -1 as TimeInterval
@@ -14,7 +20,28 @@ public class StatsManager {
     private var isSynced = true
     private var updateQueue = DispatchQueue(label: "au.com.pocketcasts.StatsManagerQueue")
 
+    /// Whether protected data was available or not in the moment this was initiated
+    /// A false value means we don't have the Stats because UserDefaults was encrypted
+    /// and thus not accessible.
+    public var wasProtectedDataAvailable = false
+
     public init() {
+        commonInit()
+    }
+
+    func repopulateIfNeeded() {
+        guard !wasProtectedDataAvailable else { return }
+
+        commonInit()
+    }
+
+    func commonInit() {
+        #if !os(watchOS)
+        wasProtectedDataAvailable = UIApplication.shared.isProtectedDataAvailable
+        #else
+        wasProtectedDataAvailable = true
+        #endif
+
         if UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.statsStartDate) as? Date == nil {
             UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.statsStartDate)
             UserDefaults.standard.synchronize()
