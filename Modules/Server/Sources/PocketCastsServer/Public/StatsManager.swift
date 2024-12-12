@@ -30,7 +30,7 @@ public class StatsManager {
     }
 
     func updateStatsIfNeeded(savedDynamicSpeed: TimeInterval, savedVariableSpeed: TimeInterval, totalListenedTo: TimeInterval, totalSkipped: TimeInterval, savedAutoSkipping: TimeInterval) {
-        let minimumStatsChangeToUpdate = 100
+        let minimumStatsChangeToUpdate: TimeInterval = 100
 
         updateQueue.sync {
             if savedDynamicSpeed - self.savedDynamicSpeed > minimumStatsChangeToUpdate {
