@@ -13,5 +13,6 @@ then
     exit 1
 fi
 
+brew upgrade protobuf
 protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/api.proto
 protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/files.proto
