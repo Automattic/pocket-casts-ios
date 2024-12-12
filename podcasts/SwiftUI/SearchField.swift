@@ -49,12 +49,12 @@ struct SearchField: View {
         // We use 2 stacks here to have the cancel button appear outside the background
         HStack {
             HStack(spacing: SearchFieldConstants.padding) {
-                Image("custom_search")
+                Image("search")
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: iconSize, height: iconSize)
-                    .foregroundStyle(theme.placeholder)
+                    .foregroundStyle(theme.icon)
 
                 let prompt = Text(placeholder).foregroundColor(theme.placeholder)
 
@@ -64,8 +64,8 @@ struct SearchField: View {
                     .padding(.vertical, SearchFieldConstants.padding)
 
                 if !text.isEmpty {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(theme.placeholder)
+                    Image("search_cancel")
+                        .foregroundStyle(theme.icon)
                         .buttonize {
                             text = ""
                         }
@@ -74,7 +74,7 @@ struct SearchField: View {
             .padding(.horizontal, SearchFieldConstants.padding)
             .background(theme.background)
             .cornerRadius(SearchFieldConstants.cornerRadius)
-            .font(size: 14, style: .subheadline, weight: .medium)
+            .font(size: 15, style: .body)
 
             // Show the cancel button
             if showsCancelButton && isCancelVisible {
@@ -84,7 +84,7 @@ struct SearchField: View {
                         isFocused = false
                     }
                 }
-                .font(size: 14, style: .subheadline)
+                .font(size: 15, style: .body)
                 .foregroundStyle(theme.cancel)
                 .transition(
                     .move(edge: .trailing)
@@ -116,15 +116,19 @@ struct SearchField: View {
         }
 
         var placeholder: Color {
-            theme.primaryField03
+            theme.secondaryText02
         }
 
         var text: Color {
-            theme.primaryText01
+            theme.secondaryText01
         }
 
         var cancel: Color {
-            theme.primaryInteractive01
+            theme.secondaryText01
+        }
+
+        var icon: Color {
+            theme.secondaryIcon02
         }
     }
 }
