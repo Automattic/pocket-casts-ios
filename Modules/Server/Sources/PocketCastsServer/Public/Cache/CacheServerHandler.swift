@@ -8,7 +8,6 @@ public class CacheServerHandler {
 
     public static let noShowNotesMessage = "Unable to find show notes for this episode."
 
-    private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
     private lazy var episodeInfoHandler = ShowInfoDataRetriever()
@@ -16,40 +15,7 @@ public class CacheServerHandler {
     private let tokenHelper = TokenHelper.shared
 
     public init() {
-        showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
-    }
-
-    // MARK: - Show Notes
-
-    public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
-        let request = URLRequest(url: url)
-
-        var cachedNotes = ""
-        var didSendCachedNotes = false
-        if let cachedResponse = showNotesUrlCache.cachedResponse(for: request), let showNotes = topLevelValue(data: cachedResponse.data, name: "show_notes", ofType: String.self) {
-            cachedNotes = showNotes
-            cached?(showNotes)
-            didSendCachedNotes = true
-        }
-
-        tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
-            guard let strongSelf = self else { return }
-
-            if let data = data, let response = response, let showNotes = strongSelf.topLevelValue(data: data, name: "show_notes", ofType: String.self) {
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                strongSelf.showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
-
-                if didSendCachedNotes, showNotes == cachedNotes {
-                    return
-                }
-                completion?(showNotes)
-            } else if !didSendCachedNotes {
-                // if loading failed and we haven't sent the client anything, send it a message it can show the user instead
-                completion?(CacheServerHandler.noShowNotesMessage)
-            }
-        }
     }
 
     // MARK: - Episode Artwork

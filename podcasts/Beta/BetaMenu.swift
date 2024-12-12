@@ -2,13 +2,27 @@ import SwiftUI
 import PocketCastsUtils
 
 struct BetaMenu: View {
+    @State private var searchText = ""
+
     var body: some View {
         List {
-            ForEach(FeatureFlag.allCases, id: \.self) { feature in
+            ForEach(filteredFeatures, id: \.self) { feature in
                 Toggle(String(describing: feature), isOn: feature.isOn)
             }
         }
-        .modifier(MiniPlayerPadding())
+        .listStyle(.plain)
+        .searchable(text: $searchText, prompt: L10n.search)
+        .miniPlayerSafeAreaInset()
+    }
+
+    private var filteredFeatures: [FeatureFlag] {
+        if searchText.isEmpty {
+            FeatureFlag.allCases
+        } else {
+            FeatureFlag.allCases.filter { feature in
+                String(describing: feature).localizedCaseInsensitiveContains(searchText)
+            }
+        }
     }
 }
 

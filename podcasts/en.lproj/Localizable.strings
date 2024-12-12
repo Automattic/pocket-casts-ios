@@ -4704,3 +4704,9 @@
 
 /* Auto Downloads Setting - Auto download on follow of a blog*/
 "settings_auto_downloads_on_follow" = "On Follow";
+
+/* Title of an option to see the users logs */
+"logs" = "Logs";
+
+/* Message when no email account is configured to be able to send the logs*/
+"logs_no_email_account_configured" = "You need to configure an email account on the device in order to send the logs";
