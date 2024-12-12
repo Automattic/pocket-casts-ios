@@ -324,11 +324,6 @@ class PodcastDataManager {
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-
-                    // If changing folder, log it
-                    if podcast.folderUuid != existingPodcast?.folderUuid {
-                        FileLog.shared.foldersIssue("PodcastDataManager: update \(podcast.title ?? "") folder from \(existingPodcast?.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
-                    }
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")

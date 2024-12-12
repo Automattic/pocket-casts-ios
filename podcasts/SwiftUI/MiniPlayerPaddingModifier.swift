@@ -1,12 +1,15 @@
 import SwiftUI
 
 /// Apply a bottom padding whenever the mini player is visible
-public struct MiniPlayerPadding: ViewModifier {
+public struct MiniPlayerSafeAreaInset: ViewModifier {
     @State var isMiniPlayerVisible: Bool = false
 
     public func body(content: Content) -> some View {
         content
-            .padding(.bottom, isMiniPlayerVisible ? Constants.Values.miniPlayerOffset - 2 : 0).onAppear {
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                Color.clear.frame(height: Constants.Values.miniPlayerOffset) // Adjust the bottom inset
+            }
+            .onAppear {
                 isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)
             }
             .ignoresSafeArea(.keyboard)
@@ -16,5 +19,12 @@ public struct MiniPlayerPadding: ViewModifier {
             .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear), perform: { _ in
                 isMiniPlayerVisible = false
             })
+    }
+}
+
+// Create an extension for easier usage
+public extension View {
+    func miniPlayerSafeAreaInset() -> some View {
+        self.modifier(MiniPlayerSafeAreaInset())
     }
 }

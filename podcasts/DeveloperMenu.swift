@@ -297,7 +297,7 @@ struct DeveloperMenu: View {
                 Text("Bundle ID")
             }
         }
-        .modifier(MiniPlayerPadding())
+        .miniPlayerSafeAreaInset()
     }
 }
 

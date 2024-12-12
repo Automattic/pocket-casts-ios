@@ -5,6 +5,7 @@
 7.79
 -----
 - Display the whole chapter title, without truncating it [#2499](https://github.com/Automattic/pocket-casts-ios/pull/2499)
+- Allow sending user logs using email [#2525](https://github.com/Automattic/pocket-casts-ios/pull/2525)
 
 7.78
 -----
