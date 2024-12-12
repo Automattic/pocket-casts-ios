@@ -157,6 +157,12 @@ extension SyncTask {
     }
 
     func changedStats() -> Api_Record? {
+        // If protected data was not available when Stats were generated
+        // we do not return any changed stats.
+        // We rely on UserDefaults for storing Stats, and there are a few cases
+        // it might not be available
+        guard StatsManager.shared.wasProtectedDataAvailable else { return nil }
+
         let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed())
         let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime())
         let totalIntroSkippedTime = convertStat(StatsManager.shared.totalAutoSkippedTime())
