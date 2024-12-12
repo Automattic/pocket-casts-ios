@@ -358,7 +358,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         if episode.played() {
             FileLog.shared.addMessage("Marking episode as unplayed because it's getting added to the download queue: \(episode.displayableTitle())")
-            episode.playingStatus = PlayingStatus.notPlayed.rawValue
+            episode.playingStatus = .notPlayed
             episode.playingStatusModified = TimeFormatter.currentUTCTimeInMillis()
             episode.playedUpTo = 0
             episode.playedUpToModified = TimeFormatter.currentUTCTimeInMillis()

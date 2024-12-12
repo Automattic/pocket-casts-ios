@@ -123,7 +123,7 @@ class RefreshOperation: Operation {
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
                 newEpisode.podcastUuid = podcast.uuid
-                newEpisode.playingStatus = PlayingStatus.notPlayed.rawValue
+                newEpisode.playingStatus = .notPlayed
                 newEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
                 newEpisode.addedDate = Date()
                 newEpisode.populate(fromEpisode: episode)

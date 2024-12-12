@@ -929,7 +929,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return timeToReturn
         }
 
-        if Int(episode.playingStatus) == PlayingStatus.inProgress.rawValue {
+        if episode.playingStatus == .inProgress {
             if episode.playedUpTo > 0 {
                 return catchUpHelper.adjustStartTimeIfNeeded(for: episode)
             }
@@ -1051,7 +1051,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             autoplayIfNeeded()
 
             FileLog.shared.addMessage("Finished playing \(episode.displayableTitle())")
-            episode.playingStatus = PlayingStatus.completed.rawValue
+            episode.playingStatus = .completed
             episode.playedUpTo = episode.duration
 
             if SyncManager.isUserLoggedIn() {

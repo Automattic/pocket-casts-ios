@@ -208,7 +208,7 @@ extension SyncTask {
             }
         }
 
-        if episodeItem.hasPlayingStatus, episode.playingStatus != episodeItem.playingStatus.value {
+        if episodeItem.hasPlayingStatus, episode.playingStatus.rawValue != episodeItem.playingStatus.value {
             if isPlayerPlaying(episode: episode) {
                 // if we're actively playing this episode, mark the status as unsynced because ours is considered more current
                 DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)

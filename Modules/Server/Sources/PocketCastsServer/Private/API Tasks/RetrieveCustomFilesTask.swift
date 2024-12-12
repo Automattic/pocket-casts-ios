@@ -131,7 +131,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
         episode.sizeInBytes = protoEpisode.size
         episode.duration = Double(protoEpisode.duration)
         episode.playedUpTo = Double(protoEpisode.playedUpTo)
-        episode.playingStatus = Int32(protoEpisode.playingStatus)
+        episode.playingStatus = PlayingStatus(rawValue: Int32(protoEpisode.playingStatus)) ?? .notPlayed
         episode.imageUrl = protoEpisode.imageURL
         episode.imageColor = protoEpisode.colour
 

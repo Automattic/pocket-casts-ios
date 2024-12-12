@@ -24,7 +24,7 @@ public protocol BaseEpisode: AnyObject {
     var keepEpisode: Bool { get set }
 
     var episodeStatus: Int32 { get set }
-    var playingStatus: Int32 { get set }
+    var playingStatus: PlayingStatus { get set }
 
     var playedUpTo: Double { get set }
     var duration: Double { get set }

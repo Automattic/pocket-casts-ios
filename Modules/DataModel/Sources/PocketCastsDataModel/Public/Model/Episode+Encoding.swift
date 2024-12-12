@@ -40,7 +40,7 @@ public extension Episode {
         keepEpisode = decodeBoolFromString(value: episodeMap["keepEpisode"])
         playedUpTo = decodeDoubleFromString(value: episodeMap["playedUpTo"])
         duration = decodeDoubleFromString(value: episodeMap["duration"])
-        playingStatus = decodeInt32FromString(value: episodeMap["playingStatus"])
+        playingStatus = PlayingStatus(rawValue: decodeInt32FromString(value: episodeMap["playingStatus"])) ?? .notPlayed
         publishedDate = decodeDateFromString(date: episodeMap["publishedDate"])
         title = episodeMap["title"]
         uuid = episodeMap["uuid"] ?? ""

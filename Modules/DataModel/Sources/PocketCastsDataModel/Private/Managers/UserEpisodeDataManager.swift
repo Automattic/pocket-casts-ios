@@ -243,7 +243,7 @@ class UserEpisodeDataManager {
     }
 
     func saveEpisode(playingStatus: PlayingStatus, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
-        episode.playingStatus = playingStatus.rawValue
+        episode.playingStatus = playingStatus
         var fields = ["playingStatus"]
         var values = [episode.playingStatus] as [Any]
 
@@ -389,7 +389,7 @@ class UserEpisodeDataManager {
                 db.beginTransaction()
 
                 for episode in episodes {
-                    if episode.playingStatus == PlayingStatus.completed.rawValue { continue }
+                    if episode.playingStatus == .completed { continue }
 
                     var fields = [String]()
                     var values = [Any]()
@@ -421,7 +421,7 @@ class UserEpisodeDataManager {
                 db.beginTransaction()
 
                 for episode in episodes {
-                    if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
+                    if episode.playingStatus == .notPlayed { continue }
 
                     var fields = [String]()
                     var values = [Any]()
@@ -570,7 +570,7 @@ class UserEpisodeDataManager {
         episode.playedUpTo = rs.double(forColumn: "playedUpTo")
         episode.duration = rs.double(forColumn: "duration")
         episode.durationModified = rs.longLongInt(forColumn: "durationModified")
-        episode.playingStatus = rs.int(forColumn: "playingStatus")
+        episode.playingStatus = PlayingStatus(rawValue: rs.int(forColumn: "playingStatus")) ?? .notPlayed
         episode.autoDownloadStatus = AutoDownloadStatus(rawValue: rs.int(forColumn: "autoDownloadStatus")) ?? .notSpecified
         episode.publishedDate = DBUtils.convertDate(value: rs.double(forColumn: "publishedDate"))
         episode.sizeInBytes = rs.longLongInt(forColumn: "sizeInBytes")

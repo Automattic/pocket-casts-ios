@@ -24,7 +24,7 @@ class PositionSyncTask: ApiBaseTask {
             updateRequest.podcast = episode.podcastUuid
             let upToAsInt = Int32(upTo)
             updateRequest.position = Google_Protobuf_Int32Value(upToAsInt)
-            updateRequest.status = episode.playingStatus
+            updateRequest.status = episode.playingStatus.rawValue
             updateRequest.duration = Int32(duration)
 
             let data = try updateRequest.serializedData()

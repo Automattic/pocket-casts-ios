@@ -53,7 +53,7 @@ extension SyncTask {
             episodeRecord.uuid = episode.uuid
 
             if episode.playingStatusModified > 0 {
-                episodeRecord.playingStatus.value = episode.playingStatus
+                episodeRecord.playingStatus.value = episode.playingStatus.rawValue
                 episodeRecord.playingStatusModified.value = episode.playingStatusModified
             }
             if episode.keepEpisodeModified > 0 {

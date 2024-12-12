@@ -560,9 +560,9 @@ class EpisodeDataManager {
     }
 
     func saveEpisode(playingStatus: PlayingStatus, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
-        episode.playingStatus = playingStatus.rawValue
+        episode.playingStatus = playingStatus
         var fields = ["playingStatus"]
-        var values = [episode.playingStatus] as [Any]
+        var values = [episode.playingStatus.rawValue] as [Any]
 
         if updateSyncFlag {
             episode.playingStatusModified = DBUtils.currentUTCTimeInMillis()
@@ -784,7 +784,7 @@ class EpisodeDataManager {
                 db.beginTransaction()
 
                 for episode in episodes {
-                    if episode.playingStatus == PlayingStatus.completed.rawValue { continue }
+                    if episode.playingStatus == .completed { continue }
 
                     var fields = [String]()
                     var values = [Any]()
@@ -816,7 +816,7 @@ class EpisodeDataManager {
                 db.beginTransaction()
 
                 for episode in episodes {
-                    if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
+                    if episode.playingStatus == .notPlayed { continue }
 
                     var fields = [String]()
                     var values = [Any]()
@@ -868,7 +868,7 @@ class EpisodeDataManager {
                         fields.append("cachedFrameCount")
                         values.append(0)
                     }
-                    if markAsPlayed, episode.playingStatus != PlayingStatus.completed.rawValue {
+                    if markAsPlayed, episode.playingStatus != .completed {
                         fields.append("playingStatus")
                         values.append(PlayingStatus.completed.rawValue)
 
@@ -1023,7 +1023,7 @@ class EpisodeDataManager {
         values.append(episode.keepEpisode)
         values.append(episode.playedUpTo)
         values.append(episode.duration)
-        values.append(episode.playingStatus)
+        values.append(episode.playingStatus.rawValue)
         values.append(episode.autoDownloadStatus.rawValue)
         values.append(DBUtils.nullIfNil(value: episode.publishedDate))
         values.append(episode.sizeInBytes)

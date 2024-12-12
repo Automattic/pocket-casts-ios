@@ -165,7 +165,7 @@ public class ServerPodcastManager: NSObject {
         let episode = Episode()
         episode.addedDate = Date()
         episode.podcastUuid = podcast.uuid
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.playingStatus = .notPlayed
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
         episode.uuid = upNextItem.episodeUuid
         episode.title = upNextItem.title
@@ -254,7 +254,7 @@ public class ServerPodcastManager: NSObject {
             episode.addedDate = Date()
             episode.podcast_id = podcast.id
             episode.podcastUuid = podcast.uuid
-            episode.playingStatus = PlayingStatus.notPlayed.rawValue
+            episode.playingStatus = .notPlayed
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             if let uuid = episodeJson["uuid"] as? String {
                 episode.uuid = uuid
@@ -314,7 +314,7 @@ public class ServerPodcastManager: NSObject {
         episode.addedDate = Date()
         episode.podcast_id = podcast.id
         episode.podcastUuid = podcast.uuid
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.playingStatus = .notPlayed
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
         episode.uuid = uuid
         if let title = firstEpisode["title"] as? String {

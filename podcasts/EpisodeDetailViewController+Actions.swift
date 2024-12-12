@@ -61,7 +61,7 @@ extension EpisodeDetailViewController {
         } else {
             dismiss(animated: true, completion: nil)
             if let timestamp = timestamp {
-                episode.playingStatus = PlayingStatus.inProgress.rawValue
+                episode.playingStatus = .inProgress
                 episode.playedUpTo = timestamp
                 DataManager.sharedManager.save(episode: episode)
                 updateProgress()

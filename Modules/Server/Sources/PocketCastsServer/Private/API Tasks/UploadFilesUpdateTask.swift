@@ -33,7 +33,7 @@ class UploadFilesUpdateTask: ApiBaseTask {
                 updateFile.playedUpTo = Google_Protobuf_Int32Value(Int32(episode.playedUpTo))
             }
             if episode.playingStatusModified > 0 {
-                updateFile.playingStatus = Google_Protobuf_Int32Value(episode.playingStatus)
+                updateFile.playingStatus = Google_Protobuf_Int32Value(episode.playingStatus.rawValue)
             }
             if episode.durationModified > 0 {
                 updateFile.duration = Google_Protobuf_Int64Value(Int64(episode.duration))

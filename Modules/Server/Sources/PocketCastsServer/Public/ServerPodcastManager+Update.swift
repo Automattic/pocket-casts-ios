@@ -140,7 +140,7 @@ extension ServerPodcastManager {
             episode.addedDate = Date()
             episode.podcast_id = podcast.id
             episode.podcastUuid = podcast.uuid
-            episode.playingStatus = PlayingStatus.notPlayed.rawValue
+            episode.playingStatus = .notPlayed
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             episode.uuid = uuid
             episode.lastArchiveInteractionDate = Date()

@@ -19,7 +19,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var keepEpisode = false
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
-    @objc public var playingStatus = 0 as Int32
+    public var playingStatus: PlayingStatus = PlayingStatus.notPlayed
     public var autoDownloadStatus: AutoDownloadStatus = AutoDownloadStatus.notSpecified
     @objc public var publishedDate: Date?
     @objc public var sizeInBytes = 0 as Int64
@@ -119,15 +119,15 @@ public class Episode: NSObject, BaseEpisode {
     }
 
     public func inProgress() -> Bool {
-        playingStatus == PlayingStatus.inProgress.rawValue
+        playingStatus == PlayingStatus.inProgress
     }
 
     public func played() -> Bool {
-        playingStatus == PlayingStatus.completed.rawValue
+        playingStatus == PlayingStatus.completed
     }
 
     public func unplayed() -> Bool {
-        playingStatus == PlayingStatus.notPlayed.rawValue
+        playingStatus == PlayingStatus.notPlayed
     }
 
     public func exemptFromAutoDownload() -> Bool {
