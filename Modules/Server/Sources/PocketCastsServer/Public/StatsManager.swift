@@ -30,28 +30,30 @@ public class StatsManager {
     }
 
     func updateStatsIfNeeded(savedDynamicSpeed: TimeInterval, savedVariableSpeed: TimeInterval, totalListenedTo: TimeInterval, totalSkipped: TimeInterval, savedAutoSkipping: TimeInterval) {
+        let minimumStatsChangeToUpdate = 100
+
         updateQueue.sync {
-            if savedDynamicSpeed - self.savedDynamicSpeed > 100 {
+            if savedDynamicSpeed - self.savedDynamicSpeed > minimumStatsChangeToUpdate {
                 FileLog.shared.addMessage("[StatsManager] Changing savedDynamicSpeed from \(self.savedDynamicSpeed) to \(savedDynamicSpeed)")
                 self.savedDynamicSpeed = savedDynamicSpeed
             }
 
-            if savedVariableSpeed - self.savedVariableSpeed > 100 {
+            if savedVariableSpeed - self.savedVariableSpeed > minimumStatsChangeToUpdate {
                 FileLog.shared.addMessage("[StatsManager] Changing savedVariableSpeed from \(self.savedVariableSpeed) to \(savedVariableSpeed)")
                 self.savedVariableSpeed = savedVariableSpeed
             }
 
-            if totalListenedTo - self.totalListenedTo > 100 {
+            if totalListenedTo - self.totalListenedTo > minimumStatsChangeToUpdate {
                 FileLog.shared.addMessage("[StatsManager] Changing totalListenedTo from \(self.totalListenedTo) to \(totalListenedTo)")
                 self.totalListenedTo = totalListenedTo
             }
 
-            if totalSkipped - self.totalSkipped > 100 {
+            if totalSkipped - self.totalSkipped > minimumStatsChangeToUpdate {
                 FileLog.shared.addMessage("[StatsManager] Changing totalSkipped from \(self.totalSkipped) to \(totalSkipped)")
                 self.totalSkipped = totalSkipped
             }
 
-            if savedAutoSkipping - self.savedAutoSkipping > 100 {
+            if savedAutoSkipping - self.savedAutoSkipping > minimumStatsChangeToUpdate {
                 FileLog.shared.addMessage("[StatsManager] Changing savedAutoSkipping from \(self.savedAutoSkipping) to \(savedAutoSkipping)")
                 self.savedAutoSkipping = savedAutoSkipping
             }
