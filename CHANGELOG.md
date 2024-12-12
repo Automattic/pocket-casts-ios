@@ -6,6 +6,7 @@
 -----
 - Display the whole chapter title, without truncating it [#2499](https://github.com/Automattic/pocket-casts-ios/pull/2499)
 - Allow sending user logs using email [#2525](https://github.com/Automattic/pocket-casts-ios/pull/2525)
+- Add setting for disabling the lock screen scrubber [#2536](https://github.com/Automattic/pocket-casts-ios/pull/2536)
 
 7.78
 -----
