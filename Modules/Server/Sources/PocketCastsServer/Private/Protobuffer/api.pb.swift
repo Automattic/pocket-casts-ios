@@ -3138,6 +3138,11 @@ struct Api_UserPodcastResponse: @unchecked Sendable {
   /// Clears the value of `settings`. Subsequent reads from it will return its default value.
   mutating func clearSettings() {_uniqueStorage()._settings = nil}
 
+  var descriptionHtml: String {
+    get {return _storage._descriptionHtml}
+    set {_uniqueStorage()._descriptionHtml = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -4948,9 +4953,20 @@ struct Api_SyncUpdateRequest: Sendable {
 
   var records: [Api_Record] = []
 
+  var deviceType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_deviceType = newValue}
+  }
+  /// Returns true if `deviceType` has been explicitly set.
+  var hasDeviceType: Bool {return self._deviceType != nil}
+  /// Clears the value of `deviceType`. Subsequent reads from it will return its default value.
+  mutating func clearDeviceType() {self._deviceType = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _deviceType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
 }
 
 struct Api_SyncUpdateResponse: Sendable {
@@ -10828,6 +10844,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     15: .standard(proto: "sort_position"),
     16: .standard(proto: "date_added"),
     17: .same(proto: "settings"),
+    18: .standard(proto: "description_html"),
   ]
 
   fileprivate class _StorageClass {
@@ -10848,6 +10865,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     var _settings: Api_PodcastSettings? = nil
+    var _descriptionHtml: String = String()
 
     #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
@@ -10879,6 +10897,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       _sortPosition = source._sortPosition
       _dateAdded = source._dateAdded
       _settings = source._settings
+      _descriptionHtml = source._descriptionHtml
     }
   }
 
@@ -10914,6 +10933,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         case 15: try { try decoder.decodeSingularMessageField(value: &_storage._sortPosition) }()
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
         case 17: try { try decoder.decodeSingularMessageField(value: &_storage._settings) }()
+        case 18: try { try decoder.decodeSingularStringField(value: &_storage._descriptionHtml) }()
         default: break
         }
       }
@@ -10977,6 +10997,9 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       try { if let v = _storage._settings {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 17)
       } }()
+      if !_storage._descriptionHtml.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._descriptionHtml, fieldNumber: 18)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11003,6 +11026,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         if _storage._sortPosition != rhs_storage._sortPosition {return false}
         if _storage._dateAdded != rhs_storage._dateAdded {return false}
         if _storage._settings != rhs_storage._settings {return false}
+        if _storage._descriptionHtml != rhs_storage._descriptionHtml {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -14873,6 +14897,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     3: .same(proto: "country"),
     4: .standard(proto: "device_id"),
     5: .same(proto: "records"),
+    6: .standard(proto: "device_type"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -14886,12 +14911,17 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
       case 3: try { try decoder.decodeSingularStringField(value: &self.country) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self.deviceID) }()
       case 5: try { try decoder.decodeRepeatedMessageField(value: &self.records) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._deviceType) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if self.deviceUtcTimeMs != 0 {
       try visitor.visitSingularInt64Field(value: self.deviceUtcTimeMs, fieldNumber: 1)
     }
@@ -14907,6 +14937,9 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if !self.records.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.records, fieldNumber: 5)
     }
+    try { if let v = self._deviceType {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -14916,6 +14949,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if lhs.country != rhs.country {return false}
     if lhs.deviceID != rhs.deviceID {return false}
     if lhs.records != rhs.records {return false}
+    if lhs._deviceType != rhs._deviceType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
