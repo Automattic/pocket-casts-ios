@@ -25,7 +25,13 @@ extension SyncTask {
             case .bookmark:
                 bookmarksToImport.append(item.bookmark)
             case .device:
-                continue // we aren't expecting the server to send us devices
+                StatsManager.shared.updateStatsIfNeeded(
+                    savedDynamicSpeed: TimeInterval(item.device.timeSilenceRemoval.value),
+                    savedVariableSpeed: TimeInterval(item.device.timeVariableSpeed.value),
+                    totalListenedTo: TimeInterval(item.device.timeListened.value),
+                    totalSkipped: TimeInterval(item.device.timeSkipping.value),
+                    savedAutoSkipping: TimeInterval(item.device.timeIntroSkipping.value)
+                )
             }
         }
 
