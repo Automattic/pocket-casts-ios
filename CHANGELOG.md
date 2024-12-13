@@ -1,5 +1,6 @@
 7.80
 -----
+- Display podcast rich text descriptions [#2480](https://github.com/Automattic/pocket-casts-ios/pull/2480)
 
 
 7.79
