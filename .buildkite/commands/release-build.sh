@@ -1,6 +1,5 @@
 #!/bin/bash -eu
 
-"$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
