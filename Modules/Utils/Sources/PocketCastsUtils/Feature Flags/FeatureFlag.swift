@@ -252,7 +252,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newSettingsStorage:
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
-            shouldEnableSyncedSettings ? "settings_sync" : nil         
+            shouldEnableSyncedSettings ? "settings_sync" : nil
         case .categoriesRedesign:
             "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
