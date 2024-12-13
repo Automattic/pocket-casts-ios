@@ -2365,12 +2365,16 @@
     <string>Фильтры не выбраны</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Подкасты не выбраны</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>По подписке</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>Выбрано подкастов: %1$@</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
     <string>Выбран 1 подкаст</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Скачивать первые выпуски в фильтре.</string>
+    <key>settings_auto_downloads_subtitle_new_episodes</key>
+    <string>Автоматически загружайте новые выпуски, сохраняйте выпуски новых шоу, на которые вы подписаны, и управляйте памятью, устанавливая ограничения на количество сохранённых выпусков.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Скачивать выпуски, добавленные в «Следующие».</string>
     <key>settings_badge_filter_header</key>
@@ -3011,6 +3015,12 @@
     <string>История Up Next</string>
     <key>up_next_history_explanation</key>
     <string>Список последних обновлений Up Next, вызванных изменениями на других устройствах. Нажмите любую запись, чтобы просмотреть и при желании восстановить выпуски.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Понятно</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Воспроизводите любой выпуск, не меняя очередности в списке.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Представляем режим случайного воспроизведения</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

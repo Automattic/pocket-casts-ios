@@ -66,9 +66,9 @@ final class SettingsTests: XCTestCase {
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
@@ -89,9 +89,9 @@ final class SettingsTests: XCTestCase {
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 
@@ -118,9 +118,9 @@ final class SettingsTests: XCTestCase {
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 
