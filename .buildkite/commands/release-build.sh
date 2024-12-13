@@ -10,4 +10,4 @@ bundle exec fastlane build_and_upload_app_store_connect \
   skip_confirm:true \
   create_release:true \
   skip_prechecks:true \
-  beta_release:${1:-true} # use first call param, default to true for safety
+  beta_release:true# use first call param, default to true for safety
