@@ -20,7 +20,7 @@ Metrics/BlockLength:
     - scripts/themes/generate_themes.rb
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 50
   Exclude:
     - scripts/themes/generate_themes.rb
 

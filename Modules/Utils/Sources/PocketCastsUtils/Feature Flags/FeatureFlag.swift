@@ -14,9 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Enable retrieving episode artwork from the RSS feed
-    case episodeFeedArtwork
-
     /// Enable chapters to be loaded from the RSS feed
     case rssChapters
 
@@ -143,6 +140,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the episode IDs from the server's response rather than our local database IDs
     case useSyncResponseEpisodeIDs
 
+    ///Use html description for podcast details
+    case usePodcastHTMLDescription
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -160,8 +160,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .networkDebugging:
             false
         case .endOfYear:
-            false
-        case .episodeFeedArtwork:
             false
         case .rssChapters:
             false
@@ -239,6 +237,8 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .useSyncResponseEpisodeIDs:
             true
+        case .usePodcastHTMLDescription:
+            false
         }
     }
 
@@ -258,8 +258,6 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-         case .episodeFeedArtwork:
-             "episode_artwork"
          case .rssChapters:
              "rss_chapters"
         case .categoriesRedesign:

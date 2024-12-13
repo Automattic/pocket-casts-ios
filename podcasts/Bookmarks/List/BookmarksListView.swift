@@ -195,7 +195,7 @@ struct BookmarkListMultiSelectHeaderView<HeaderStyle: BookmarksStyle>: View {
             }
         }
         .font(style: .body)
-        .foregroundStyle(style.primaryText)
+        .foregroundStyle(style.titleText)
         .opacity(viewModel.isMultiSelecting ? 1 : 0)
         .offset(y: viewModel.isMultiSelecting ? 0 : -BookmarkListConstants.headerTransitionOffset)
     }

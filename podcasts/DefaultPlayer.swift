@@ -356,13 +356,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            guard let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: tap), let filter = referenceToSelf.createHighPassFilter(maxFrames: maxFrames, processingFormat: processingFormat.pointee) else {
+            guard let filter = referenceToSelf.createHighPassFilter(maxFrames: maxFrames, processingFormat: processingFormat.pointee, tap: tap) else {
                 referenceToSelf.handlePlaybackError("Setup high pass filter failed")
                 return
             }
             referenceToSelf.highPassFilter = filter
 
-            guard let limiter = referenceToSelf.createPeakLimiter(maxFrames: maxFrames, processingFormat: processingFormat.pointee) else {
+            guard let limiter = referenceToSelf.createPeakLimiter(maxFrames: maxFrames, processingFormat: processingFormat.pointee, tap: tap) else {
                 referenceToSelf.handlePlaybackError("Setup peak limiter failed")
                 return
             }
@@ -417,7 +417,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         // MARK: - Peak Limter
 
-        func createPeakLimiter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription) -> AudioUnit? {
+        func createPeakLimiter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, tap: MTAudioProcessingTap) -> AudioUnit? {
             var componentDescription = AudioComponentDescription(componentType: kAudioUnitType_Effect,
                                                                  componentSubType: kAudioUnitSubType_PeakLimiter,
                                                                  componentManufacturer: kAudioUnitManufacturer_Apple,
@@ -434,7 +434,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, UInt32(MemoryLayout<AudioStreamBasicDescription>.stride)) == noErr else { return nil }
 
             // Set audio unit render callback
-            var renderCallback = AURenderCallbackStruct(inputProc: peakLimiterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
+            var renderCallback: AURenderCallbackStruct
+            if FeatureFlag.useDefaultPlayerTapCookie.enabled {
+                let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
+                renderCallback = AURenderCallbackStruct(inputProc: peakLimiterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
+            } else {
+                renderCallback = AURenderCallbackStruct(inputProc: peakLimiterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
+            }
+
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &renderCallback, UInt32(MemoryLayout<AURenderCallbackStruct>.stride)) == noErr else { return nil }
 
             // Set audio unit maximum frames per slice to max frames
@@ -455,23 +462,21 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
-            if ioData == nil { return -1 }
-            let referenceToSelf: DefaultPlayer
-            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
-                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
-                referenceToSelf = reference.takeUnretainedValue()
-            } else {
-                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            guard
+                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
+                let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor,
+                let ioData = ioData
+            else {
+                return -1
             }
-            guard let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor else { return -1 }
 
             // The peak limiter is at the end of the chain so just grab the processed audio
-            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData!, nil, nil, nil)
+            return MTAudioProcessingTapGetSourceAudio(tap, CMItemCount(inNumberFrames), ioData, nil, nil, nil)
         }
 
         // MARK: - High Pass Filter
 
-        func createHighPassFilter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription) -> AudioUnit? {
+    private func createHighPassFilter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, tap: MTAudioProcessingTap) -> AudioUnit? {
             var componentDescription = AudioComponentDescription(componentType: kAudioUnitType_Effect,
                                                                  componentSubType: kAudioUnitSubType_HighPassFilter,
                                                                  componentManufacturer: kAudioUnitManufacturer_Apple,
@@ -488,7 +493,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, UInt32(MemoryLayout<AudioStreamBasicDescription>.stride)) == noErr else { return nil }
 
             // Set audio unit render callback
-            var renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
+            var renderCallback: AURenderCallbackStruct
+            if FeatureFlag.useDefaultPlayerTapCookie.enabled {
+                let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
+                renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
+            } else {
+                renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
+            }
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &renderCallback, UInt32(MemoryLayout<AURenderCallbackStruct>.stride)) == noErr else { return nil }
 
             // Set audio unit maximum frames per slice to max frames
