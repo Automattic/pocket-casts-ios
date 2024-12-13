@@ -112,7 +112,7 @@ struct SearchField: View {
 
     class SearchTheme: ThemeObserver {
         var background: Color {
-            theme.primaryField01
+            theme.secondaryField01
         }
 
         var placeholder: Color {
