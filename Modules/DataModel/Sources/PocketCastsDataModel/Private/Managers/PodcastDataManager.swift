@@ -33,6 +33,7 @@ class PodcastDataManager {
         "trimSilenceAmount",
         "podcastCategory",
         "podcastDescription",
+        "podcastHTMLDescription",
         "sortOrder",
         "startFrom",
         "skipLast",
@@ -324,11 +325,6 @@ class PodcastDataManager {
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-
-                    // If changing folder, log it
-                    if podcast.folderUuid != existingPodcast?.folderUuid {
-                        FileLog.shared.foldersIssue("PodcastDataManager: update \(podcast.title ?? "") folder from \(existingPodcast?.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
-                    }
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
@@ -650,6 +646,7 @@ class PodcastDataManager {
         values.append(podcast.trimSilenceAmount)
         values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
         values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
+        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
         values.append(podcast.sortOrder)
         values.append(podcast.startFrom)
         values.append(podcast.skipLast)
