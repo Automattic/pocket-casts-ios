@@ -533,11 +533,6 @@ platform :ios do
 
     MESSAGE
 
-    # Check branch
-    unless !options[:base_version].nil? || Fastlane::Helper::GitHelper.checkout_and_pull(release: release_version_current)
-      UI.user_error!("#{message}Release branch for version #{release_version_current} doesn't exist. Abort.")
-    end
-
     # Check user override
     override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
 
