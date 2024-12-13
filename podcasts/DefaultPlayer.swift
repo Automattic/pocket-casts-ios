@@ -519,14 +519,13 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
-            let referenceToSelf: DefaultPlayer
-            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
-                let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
-                referenceToSelf = reference.takeUnretainedValue()
-            } else {
-                referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            guard
+                let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
+                let peakLimiter = referenceToSelf.peakLimiter,
+                let ioData = ioData
+            else {
+                return -1
             }
-            guard let peakLimiter = referenceToSelf.peakLimiter, let ioData = ioData else { return -1 }
 
             var audioTimeStamp = AudioTimeStamp()
             audioTimeStamp.mSampleTime = inTimeStamp.pointee.mSampleTime
