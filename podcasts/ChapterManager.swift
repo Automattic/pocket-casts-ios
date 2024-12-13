@@ -114,7 +114,6 @@ class ChapterManager {
         lastEpisodeUuid = episode.uuid
 
         try? await parseLocalAndRemoteChapters(for: episode, duration: duration)
-            return
     }
 
     private func parseLocalAndRemoteChapters(for episode: BaseEpisode, duration: TimeInterval) async throws {
