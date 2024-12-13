@@ -1,5 +1,10 @@
 import Foundation
 import PocketCastsUtils
+#if os(iOS)
+import UIKit
+#elseif os(watchOS)
+import WatchKit
+#endif
 
 class TokenHelper {
 
