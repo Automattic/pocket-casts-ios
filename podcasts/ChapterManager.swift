@@ -113,24 +113,8 @@ class ChapterManager {
         // store the last episode uuid we were asked to check chapters for, we use that below in case this method is called multiple times to not return old results
         lastEpisodeUuid = episode.uuid
 
-        guard !FeatureFlag.rssChapters.enabled else {
-            try? await parseLocalAndRemoteChapters(for: episode, duration: duration)
+        try? await parseLocalAndRemoteChapters(for: episode, duration: duration)
             return
-        }
-
-        if episode.downloaded(pathFinder: DownloadManager.shared) {
-            chapterParser.parseLocalFile(episode.pathToDownloadedFile(pathFinder: DownloadManager.shared), episodeDuration: duration) { [weak self] parsedChapters in
-                if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters, for: episode)
-                }
-            }
-        } else if let url = EpisodeManager.urlForEpisode(episode) {
-            chapterParser.parseRemoteFile(url.absoluteString, episodeDuration: duration) { [weak self] parsedChapters in
-                if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters, for: episode)
-                }
-            }
-        }
     }
 
     private func parseLocalAndRemoteChapters(for episode: BaseEpisode, duration: TimeInterval) async throws {
