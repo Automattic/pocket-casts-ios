@@ -25,6 +25,15 @@ USER_ENV_FILE_PATH = File.join(Dir.home, '.a8c-apps', ENV_FILE_NAME)
 
 TEAM_ID_APP_STORE = 'PZYM8XX95Q'
 TEAM_ID_ENTERPRISE = '99KV9Z6BKV'
+EXTERNAL_BETA_TESTER_GROUPS = [
+  'A8cs',
+  'Alpha Slack',
+  'Beta Slack',
+  'Big Databases',
+  'Reddit',
+  'Stable Slack',
+  'Trusted Preview Testers'
+].freeze
 
 APP_STORE_CONNECT_BUILD_OUTPUT_NAME = 'pocket-casts'
 APP_STORE_CONNECT_XCARCHIVE_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.xcarchive")
@@ -551,7 +560,7 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
-  # Distributes the binary to TestFlight
+  # Uploads the binary to TestFlight and distributes it to testers
   #
   # Typically called after having built the binary with `build_app_store_connect`
   #
@@ -560,9 +569,19 @@ platform :ios do
   lane :upload_app_store_connect_build_to_testflight do |ipa_path: APP_STORE_CONNECT_BUILD_IPA_PATH|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
+    changelog = extract_release_notes_for_version(
+      version: release_version_current,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
+    changelog = 'Minor changes.' if changelog.empty?
+    changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
+
     upload_to_testflight(
       ipa: ipa_path,
-      skip_waiting_for_build_processing: true,
+      distribute_external: true,
+      groups: EXTERNAL_BETA_TESTER_GROUPS,
+      changelog: changelog,
+      notify_external_testers: true,
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key
     )
@@ -667,17 +686,19 @@ platform :ios do
     build_version = build_code_current
     version = beta_release ? build_version : app_version
 
+    changelog = extract_release_notes_for_version(
+      version: release_version_current,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
+    changelog = '_`CHANGELOG.md` was empty for this version._' if changelog.empty?
+
     UI.message("Creating #{version} release on GitHub...")
     set_github_release(
       repository_name: GHHELPER_REPO,
       api_token: get_required_env!('GITHUB_TOKEN'),
       name: version,
       tag_name: version,
-      description: begin
-        File.read(File.join(RESOURCES_FOLDER, 'release_notes.txt'))
-      rescue StandardError
-        'No changelog provided.'
-      end,
+      description: changelog,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
       upload_assets: [archive_zip_path.to_s],
       is_draft: !beta_release,
