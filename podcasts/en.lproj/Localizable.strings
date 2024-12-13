@@ -2515,6 +2515,9 @@
 /* Subtitle explaining the feature that adjusts the playback position when resuming. */
 "settings_general_smart_playback_subtitle" = "If on, Pocket Casts will go back a little in episodes you resume so you can catch up more comfortably.";
 
+/* Setting toggle to enable the feature that disables the lock screen scrubber. */
+"settings_general_lock_screen_disabled" = "Lock Screen Scrubbing";
+
 /* Setting option to choose how to handle swiping to add something to the queue. */
 "settings_general_up_next_swipe" = "Up Next Swipe";
 
