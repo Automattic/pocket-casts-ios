@@ -200,7 +200,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             deleteAccountTapped()
         case .cancelSubscription:
             let controller: UIViewController
-            if FeatureFlag.winback.enabled {
+            if FeatureFlag.winback.enabled, SubscriptionHelper.subscriptionPlatform() == .iOS {
                 controller = CancelSubscriptionViewModel.make()
             } else {
                 controller = CancelConfirmationViewModel.make()
