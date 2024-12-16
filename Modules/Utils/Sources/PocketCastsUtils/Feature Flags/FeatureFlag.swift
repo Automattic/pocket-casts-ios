@@ -14,9 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Enable chapters to be loaded from the RSS feed
-    case rssChapters
-
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
@@ -161,8 +158,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .endOfYear:
             false
-        case .rssChapters:
-            false
         case .errorLogoutHandling:
             false
         case .giveRatings:
@@ -258,8 +253,6 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-         case .rssChapters:
-             "rss_chapters"
         case .categoriesRedesign:
             "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
