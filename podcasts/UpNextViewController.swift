@@ -225,7 +225,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         let upNextShuffleEnabled = Settings.upNextShuffleEnabled()
         if upNextShuffleEnabled {
-            Toast.show(L10n.upNextShuffleToastMessage)
+            Toast.show(L10n.upNextShuffleToastMessage, aboveMiniPlayer: self.showingInTab ? true : false)
         }
         track(.upNextShuffleEnabled, properties: ["value": upNextShuffleEnabled])
     }
