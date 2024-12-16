@@ -9,6 +9,18 @@ final class SettingsTests: XCTestCase {
     private let userDefaultsSuiteName = "PocketCasts-SettingsTests"
 
     private var overriddenFlags = [FeatureFlag: Bool]()
+    private let defaultPlayerActions: [PlayerAction] = [.addBookmark,
+                                                        .markPlayed,
+                                                        .transcript,
+                                                        .effects,
+                                                        .sleepTimer,
+                                                        .routePicker,
+                                                        .download,
+                                                        .shareEpisode,
+                                                        .goToPodcast,
+                                                        .starEpisode,
+                                                        .chromecast,
+                                                        .archive]
 
     override func setUp() {
         super.setUp()
@@ -59,18 +71,7 @@ final class SettingsTests: XCTestCase {
         SettingsStore.appSettings.playerShelf = [.known(.markPlayed), .unknown(unknownString)]
         Settings.updatePlayerActions([.addBookmark, .markPlayed])
 
-        XCTAssertEqual([.addBookmark,
-                        .markPlayed,
-                        .transcript,
-                        .effects,
-                        .sleepTimer,
-                        .routePicker,
-                        .download,
-                        .shareEpisode,
-                        .goToPodcast,
-                        .starEpisode,
-                        .chromecast,
-                        .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
+        XCTAssertEqual(defaultPlayerActions, Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
 
         try reset(flag: .newSettingsStorage)
@@ -82,18 +83,7 @@ final class SettingsTests: XCTestCase {
         Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
         Settings.updatePlayerActions([.addBookmark, .markPlayed])
 
-        XCTAssertEqual([.addBookmark,
-                        .markPlayed,
-                        .transcript,
-                        .effects,
-                        .sleepTimer,
-                        .routePicker,
-                        .download,
-                        .shareEpisode,
-                        .goToPodcast,
-                        .starEpisode,
-                        .chromecast,
-                        .archive], Settings.playerActions(), "Player actions should include changes from update")
+        XCTAssertEqual(defaultPlayerActions, Settings.playerActions(), "Player actions should include changes from update")
 
         try reset(flag: .newSettingsStorage)
     }
@@ -111,18 +101,7 @@ final class SettingsTests: XCTestCase {
         try setupSettingsStore()
         SettingsStore.appSettings.importUserDefaults()
 
-        XCTAssertEqual([.addBookmark,
-                        .markPlayed,
-                        .transcript,
-                        .effects,
-                        .sleepTimer,
-                        .routePicker,
-                        .download,
-                        .shareEpisode,
-                        .goToPodcast,
-                        .starEpisode,
-                        .chromecast,
-                        .archive], Settings.playerActions(), "Player actions should include changes from update")
+        XCTAssertEqual(defaultPlayerActions, Settings.playerActions(), "Player actions should include changes from update")
 
         try reset(flag: .newSettingsStorage)
     }
