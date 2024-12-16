@@ -3,6 +3,7 @@ import Intents
 import JLRoutes
 import PocketCastsDataModel
 import PocketCastsUtils
+import GravatarUI
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
@@ -29,6 +30,10 @@ extension AppDelegate {
 
             if path.startsWith(string: "/redeem") {
                 handleReferralsDeepLink(url: incomingURL)
+            } else if path.startsWith(string: "/gravatar") {
+                Task {
+                    await GravatarUI.OAuthSession.handleCallback(incomingURL)
+                }
                 return
             }
             // Also pass any query params from the share URL to the server to allow support for episode position handling

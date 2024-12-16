@@ -107,6 +107,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Enables Gravatar native quick editor for Avatar  updates, replacing the web-view Gravatar editor.
+    case gravatarNativeQuickEditor
+
     /// Run a vacuum process on the database in order to optimize data fetch
     case runVacuumOnVersionUpdate
 
@@ -215,6 +218,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .runVacuumOnVersionUpdate:
             true
         case .endOfYear2024:
+            false
+        case .gravatarNativeQuickEditor:
             true
         case .upNextShuffle:
             true
