@@ -220,6 +220,11 @@ public class ServerPodcastManager: NSObject {
         if let description = podcastJson["description"] as? String {
             podcast.podcastDescription = description
         }
+
+        if let description = podcastJson["description_html"] as? String {
+            podcast.podcastHTMLDescription = description
+        }
+
         if let category = podcastJson["category"] as? String {
             podcast.podcastCategory = category
         }

@@ -92,7 +92,6 @@ extension SyncTask {
                 localPodcast.addedDate = addedDate
             }
 
-            FileLog.shared.foldersIssue("SyncTask processPodcast: changing \(localPodcast.title ?? "") folder from \(localPodcast.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
             localPodcast.folderUuid = podcast.folderUuid
 
             if let sortOrder = podcast.sortPosition {

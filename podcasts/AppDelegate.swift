@@ -302,13 +302,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func updateRemoteFeatureFlags() {
         guard BuildEnvironment.current != .debug else { return }
         do {
-            if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
-                // If the player transition changes we dismiss the full screen player
-                // Otherwise this might lead to crashes or weird behavior
-                appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
-                try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
-            }
-
             if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
                 ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)

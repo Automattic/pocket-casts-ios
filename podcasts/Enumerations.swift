@@ -246,8 +246,8 @@ extension PlayerAction: AnalyticsDescribable {
     static var defaultActions: [PlayerAction] {
         [
             .effects, .sleepTimer, .routePicker, .transcript, .download,
-            .starEpisode, .shareEpisode, .goToPodcast, .chromecast,
-            .markPlayed, .addBookmark, .archive
+            .shareEpisode, .goToPodcast, .addBookmark, .markPlayed,
+            .starEpisode, .chromecast, .archive
         ]
     }
 
@@ -436,8 +436,6 @@ extension PlayerAction: AnalyticsDescribable {
         switch self {
         case .starEpisode, .shareEpisode:
             return episode is Episode
-        case .transcript:
-            return FeatureFlag.transcripts.enabled
         default:
             return true
         }
@@ -447,8 +445,6 @@ extension PlayerAction: AnalyticsDescribable {
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
         switch self {
-        case .transcript:
-            return FeatureFlag.transcripts.enabled
         default:
             return true
         }

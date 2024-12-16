@@ -88,6 +88,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidUpdate(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidDownload(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshRemoteCommands), name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
 
@@ -1683,27 +1684,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             return .success
         }
 
-        commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
-            guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
-
-            if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
-                if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
-                    FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
-                } else {
-                    FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
-                    strongSelf.seekTo(time: seekEvent.positionTime)
-                }
-
-                return .success
-            }
-
-            FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand failed")
-
-            return .commandFailed
-        }
-
         commandCenter.changePlaybackRateCommand.supportedPlaybackRates = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
         commandCenter.changePlaybackRateCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
@@ -1724,6 +1704,37 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateCommandCenterSkipTimes(addTarget: true)
 
         updateExtraActions()
+
+        refreshRemoteCommands()
+    }
+
+    @objc private func refreshRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        commandCenter.changePlaybackPositionCommand.removeTarget(nil)
+        if !Settings.isLockScreenScrubbingDisabled { // Only perform the seek if lock screen scrubbing is enabled
+            commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
+
+                guard let self, let _ = currentEpisode() else { return .noActionableNowPlayingItem }
+
+                analyticsPlaybackHelper.currentSource = commandCenterSource
+
+                if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
+                    if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
+                        FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
+                    } else {
+                        FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
+                        seekTo(time: seekEvent.positionTime)
+                    }
+
+                    return .success
+                }
+
+                FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand failed")
+
+                return .commandFailed
+            }
+        }
     }
 
     @objc private func updateExtraActions() {

@@ -13,7 +13,6 @@ final class SettingsTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
-        try? override(flag: .transcripts, value: false)
     }
 
     private func override(flag: FeatureFlag, value: Bool) throws {
@@ -62,13 +61,14 @@ final class SettingsTests: XCTestCase {
 
         XCTAssertEqual([.addBookmark,
                         .markPlayed,
+                        .transcript,
                         .effects,
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
@@ -84,13 +84,14 @@ final class SettingsTests: XCTestCase {
 
         XCTAssertEqual([.addBookmark,
                         .markPlayed,
+                        .transcript,
                         .effects,
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 
@@ -112,13 +113,14 @@ final class SettingsTests: XCTestCase {
 
         XCTAssertEqual([.addBookmark,
                         .markPlayed,
+                        .transcript,
                         .effects,
                         .sleepTimer,
                         .routePicker,
                         .download,
-                        .starEpisode,
                         .shareEpisode,
                         .goToPodcast,
+                        .starEpisode,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 

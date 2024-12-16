@@ -2365,6 +2365,8 @@
     <string>未选择过滤器</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>未选择播客</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>关注时</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>已选择 %1$@ 个播客</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2372,7 +2374,7 @@
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>下载过滤器中的顶部剧集。</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>即时自动下载新发布的剧集，并通过设置保存剧集的数量限制来管理您的存储空间。</string>
+    <string>自动下载新剧集、保存新关注节目的剧集，并通过设置保存剧集的数量限制来管理您的存储空间。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下载已添加到“接下来播放”的剧集。</string>
     <key>settings_badge_filter_header</key>
@@ -3013,6 +3015,12 @@
     <string>“即将播出”历史</string>
     <key>up_next_history_explanation</key>
     <string>由于其他设备上的更改而处于“即将播出”状态的最新更新列表。 要查看剧集并选择恢复，请轻点任意条目。</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>知道了</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>无需更改队列顺序，即可轻松播放随机剧集。</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>推出随机播放功能</string>
     <key>upgrade_account</key>
     <string>升级账户</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

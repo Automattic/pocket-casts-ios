@@ -192,8 +192,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
-        podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
-
+        if FeatureFlag.usePodcastHTMLDescription.enabled, let html = podcast.podcastHTMLDescription {
+            podcastDescription.setRichText(html: html)
+        } else {
+            podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
+        }
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
 

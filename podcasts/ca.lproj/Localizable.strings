@@ -337,6 +337,8 @@
     <string>No es pot cancel·lar</string>
     <key>cancel_subscription</key>
     <string>Cancel·lar subscripció</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Reclama l'oferta</string>
     <key>cancel_subscription_continue_button</key>
@@ -2359,6 +2361,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Cap filtre seleccionat</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Cap pòdcast seleccionat</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>En subscriure's</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ pòdcasts seleccionats</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2366,7 +2370,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descarregar els primers episodis d'un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Descarrega automàticament nous episodis a mesura que es publiquin, i gestiona l'emmagatzematge establint un límit del número d'episodis que es guarden.</string>
+    <string>Descarrega automàticament nous episodis, desa episodis de les nous pòdcasts que segueixes i gestiona l'emmagatzematge establint un límit de quants episodis es guarden.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descarrega els episodis afegits a la llista 'Tot seguit'.</string>
     <key>settings_badge_filter_header</key>
@@ -3012,6 +3016,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Reprodueix fàcilment un episodi aleatori sense canviar l'ordre de la cua.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Presentem la reproducció aleatòria</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Shuffle està activat. Els episodis es reproduiran en ordre aleatori.</string>
     <key>upgrade_account</key>
     <string>Actualitzar el compte</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

@@ -2515,6 +2515,9 @@
 /* Subtitle explaining the feature that adjusts the playback position when resuming. */
 "settings_general_smart_playback_subtitle" = "If on, Pocket Casts will go back a little in episodes you resume so you can catch up more comfortably.";
 
+/* Setting toggle to enable the feature that disables the lock screen scrubber. */
+"settings_general_lock_screen_disabled" = "Lock Screen Scrubbing";
+
 /* Setting option to choose how to handle swiping to add something to the queue. */
 "settings_general_up_next_swipe" = "Up Next Swipe";
 
@@ -4654,6 +4657,9 @@
 /* Up Next Shuffle Announcement sheet dismiss button title*/
 "up_next_shuffle_announcement_button" = "Got it";
 
+/* Toast message displayed when the user enables the Up Next Shuffle option */
+"up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
+
 /* Title for manage downloads file space usage banner and modal */
 "manage_downloads_title" = "Need to free up space?";
 
@@ -4701,3 +4707,9 @@
 
 /* Auto Downloads Setting - Auto download on follow of a blog*/
 "settings_auto_downloads_on_follow" = "On Follow";
+
+/* Title of an option to see the users logs */
+"logs" = "Logs";
+
+/* Message when no email account is configured to be able to send the logs*/
+"logs_no_email_account_configured" = "You need to configure an email account on the device in order to send the logs";

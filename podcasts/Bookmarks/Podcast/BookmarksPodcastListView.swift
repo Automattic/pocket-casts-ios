@@ -23,8 +23,9 @@ struct BookmarksPodcastListView: View {
 
             searchField
         }
-        .padding(.top, Constants.padding)
+        .padding(.vertical, Constants.padding)
         .padding(.horizontal, BookmarkListConstants.padding)
+        .background(style.theme.secondaryUi02)
     }
 
     @ViewBuilder
