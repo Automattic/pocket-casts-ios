@@ -159,7 +159,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
-        
+ 
         do {
             try StorageManager.copyItem(at: location, to: destinationUrl)
 
