@@ -1,11 +1,3 @@
-//
-//  Pocket_Casts_App_ClipUITests.swift
-//  Pocket Casts App ClipUITests
-//
-//  Created by Brandon Titus on 11/18/24.
-//  Copyright © 2024 Shifty Jelly. All rights reserved.
-//
-
 import XCTest
 
 final class Pocket_Casts_App_ClipUITests: XCTestCase {
