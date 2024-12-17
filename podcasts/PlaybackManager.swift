@@ -521,7 +521,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         return currentEpisode.duration
     }
 
-    //MARK: Up Next
+    // MARK: - Up Next
     func inUpNext(episode: BaseEpisode?) -> Bool {
         #if APPCLIP
         return false
