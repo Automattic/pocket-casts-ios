@@ -3,6 +3,9 @@ import UIKit
 protocol ExpandableLabelDelegate: NSObjectProtocol {
     func willExpandLabel(_ label: ExpandableLabel)
     func didExpandLabel(_ label: ExpandableLabel)
+
+    func willCollapseLabel(_ label: ExpandableLabel)
+    func didCollapseLabel(_ label: ExpandableLabel)
 }
 
 class ExpandableLabel: ThemeableLabel {
@@ -65,11 +68,14 @@ class ExpandableLabel: ThemeableLabel {
         }
         if collapsed {
             delegate?.willExpandLabel(self)
-
             collapsed = false
-
             delegate?.didExpandLabel(self)
+        } else {
+            delegate?.willCollapseLabel(self)
+            collapsed = true
+            delegate?.didCollapseLabel(self)
         }
+        update()
     }
 
     private func update() {
