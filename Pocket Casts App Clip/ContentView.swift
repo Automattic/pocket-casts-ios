@@ -1,12 +1,21 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import StoreKit
 
 struct ContentView: View {
+    @State var presentAppStoreOverlay: Bool = false
+
     var body: some View {
         VStack {
             NowPlayingPlayerItemViewControllerRepresentable()
+                .onAppear {
+                    presentAppStoreOverlay = true
+                }
         }
+        .appStoreOverlay(isPresented: $presentAppStoreOverlay, configuration: {
+            SKOverlay.AppClipConfiguration(position: .bottom)
+        })
         .background(Color(uiColor: PlayerColorHelper.playerBackgroundColor01()))
         .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
             handle(userActivity: userActivity)
