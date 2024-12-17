@@ -50,7 +50,7 @@ private extension SyncTaskTests_EpisodeImport {
         episode.addedDate = Date()
         episode.podcast_id = 0
         episode.podcastUuid = podcastUuid
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.playingStatus = PlayingStatus.notPlayed
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
         episode.uuid = episodeUuid
 

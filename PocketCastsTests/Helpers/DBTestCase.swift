@@ -37,7 +37,7 @@ class DBTestCase: XCTestCase {
         episode.podcast_id = podcast.id
         episode.addedDate = podcast.addedDate
         episode.downloadUrl = "http://google.com"
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.playingStatus = PlayingStatus.notPlayed
 
         dataManager.save(episode: episode)
         self.dataManager = dataManager
