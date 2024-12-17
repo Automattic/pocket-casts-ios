@@ -20,9 +20,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the ability to rate podcasts
     case giveRatings
 
-    /// Enable selecting/deselecting episode chapters
-    case deselectChapters
-
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
 
@@ -165,8 +162,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .giveRatings:
             false
-        case .deselectChapters:
-            false
         case .newSettingsStorage:
             shouldEnableSyncedSettings
         case .settingsSync:
@@ -250,8 +245,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This should match a Firebase Remote Config Parameter name (key)
     public var remoteKey: String? {
         switch self {
-        case .deselectChapters:
-            "deselect_chapters_enabled"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
         case .newSettingsStorage:
