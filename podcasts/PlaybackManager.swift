@@ -910,7 +910,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
-        #if !os(watchOS) && !APPCLIP
+        #if APPCLIP
+        if let episode = currentEpisode() {
+            return !episode.videoPodcast()
+        }
+        #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
@@ -920,7 +924,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        #if os(watchOS) || APPCLIP
+        #if APPCLIP
+            return true
+        #elseif os(watchOS)
             return false
         #else
             return !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
