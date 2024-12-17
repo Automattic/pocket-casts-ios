@@ -2363,12 +2363,16 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Ningún filtro seleccionado</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Ningún podcast seleccionado</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Siguiendo</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts seleccionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
     <string>1 podcast seleccionado</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descargar los primeros episodios de un filtro.</string>
+    <key>settings_auto_downloads_subtitle_new_episodes</key>
+    <string>Descarga automáticamente nuevos episodios, guarda episodios de programas que hayas seguido recientemente y gestiona tu almacenamiento estableciendo un límite en el número de episodios guardados.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descargar episodios agregados a A continuación.</string>
     <key>settings_badge_filter_header</key>
@@ -3009,6 +3013,12 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Historial de Próximamente</string>
     <key>up_next_history_explanation</key>
     <string>Una lista de las últimas actualizaciones en Próximamente debido a cambios en otros dispositivos. Para ver los episodios y poder restaurarlos, pulsa en cualquier entrada.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>De acuerdo</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Reproduce un episodio aleatorio fácilmente sin cambiar el orden de la cola.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Te presentamos Shuffle</string>
     <key>upgrade_account</key>
     <string>Mejorar cuenta</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

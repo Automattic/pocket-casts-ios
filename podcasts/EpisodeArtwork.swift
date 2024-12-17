@@ -46,10 +46,6 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        guard FeatureFlag.episodeFeedArtwork.enabled else {
-            return
-        }
-
         Task { [weak self] in
             guard let self else {
                 return
