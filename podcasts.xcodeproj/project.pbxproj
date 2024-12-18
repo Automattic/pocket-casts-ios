@@ -72,6 +72,7 @@
 		32163E602B1EBDB6009BB16B /* DatabaseExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32163E5F2B1EBDB6009BB16B /* DatabaseExport.swift */; };
 		321AC02A2B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */; };
 		3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */; };
+		3C121912E8E06357CD1EE190 /* libPods-Pocket Casts App ClipUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */; };
 		3FB8643028896539003A86BE /* BuildkiteTestCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB8642F28896539003A86BE /* BuildkiteTestCollector */; };
 		4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */; };
 		40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */; };
@@ -672,10 +673,10 @@
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory2023.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
+		93900911C8B112827154EABF /* libPods-Pocket Casts App ClipTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
-		93900911C8B112827154EABF /* libPods-Pocket Casts App ClipTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -1917,7 +1918,6 @@
 		F5FF61252BD0831200190711 /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
 		F5FF612B2BD6EB3B00190711 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF612A2BD6EB3B00190711 /* ModalView.swift */; };
-		FD30EB087DB9DB04D75C290D /* libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F46E601A7AF01B9412659F /* libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a */; };
 		FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */; };
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
@@ -2257,6 +2257,7 @@
 		10DFE9322C5A8D1300957D0A /* ABTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTest.swift; sourceTree = "<group>"; };
 		10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTestProvider.swift; sourceTree = "<group>"; };
 		10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTestProviding.swift; sourceTree = "<group>"; };
+		1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D7FB0FEBAAFA80A10EE05DB /* Pods-Pocket Casts App Clip.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.staging.xcconfig"; sourceTree = "<group>"; };
 		1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.prototype.xcconfig"; sourceTree = "<group>"; };
@@ -2695,10 +2696,13 @@
 		46FBD8CF276A876B00867746 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8D1276A876D00867746 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Intents.strings; sourceTree = "<group>"; };
 		4E8AA1DE24B6209FED97D14F /* Pods-podcasts.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.ad hoc.xcconfig"; sourceTree = "<group>"; };
+		507118378C3F7965BCDDF45E /* Pods-Pocket Casts App ClipUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.release.xcconfig"; sourceTree = "<group>"; };
+		54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; sourceTree = "<group>"; };
 		55E17FC9C126A49E9A5F6E65 /* Pods-Pocket Casts App Clip.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.prototype.xcconfig"; sourceTree = "<group>"; };
+		56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts App ClipUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		678072719F4DCDAD9B2ABD20 /* Pods-Pocket Casts App ClipTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-podcasts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		70F46E601A7AF01B9412659F /* libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7289AC5C473501D96592DF73 /* Pods-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
 		8B087FC829DC976F0027EAE5 /* PodcastImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImage.swift; sourceTree = "<group>"; };
@@ -4161,7 +4165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD30EB087DB9DB04D75C290D /* libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a in Frameworks */,
+				3C121912E8E06357CD1EE190 /* libPods-Pocket Casts App ClipUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4200,6 +4204,10 @@
 				AA688FF113B87D7B363799D5 /* Pods-Pocket Casts App ClipTests.staging.xcconfig */,
 				20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */,
 				F88E534BDAFFD21F2017D2B9 /* Pods-Pocket Casts App ClipTests.release.xcconfig */,
+				1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */,
+				7289AC5C473501D96592DF73 /* Pods-Pocket Casts App ClipUITests.staging.xcconfig */,
+				54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */,
+				507118378C3F7965BCDDF45E /* Pods-Pocket Casts App ClipUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -6724,8 +6732,8 @@
 				C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */,
 				6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */,
 				900BF7A6F6ED0BDDC3006D5E /* libPods-Pocket Casts App Clip.a */,
-				70F46E601A7AF01B9412659F /* libPods-Pocket Casts App Clip-Pocket Casts App ClipUITests.a */,
 				E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */,
+				56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -9691,7 +9699,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Pocket Casts App ClipUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -13569,7 +13577,7 @@
 		};
 		F5D5F7A82CEBE76A001F492D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E3EB0ED66403CF73715D2537 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.debug.xcconfig */;
+			baseConfigurationReference = 1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -13607,7 +13615,7 @@
 		};
 		F5D5F7A92CEBE76A001F492D /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */;
+			baseConfigurationReference = 7289AC5C473501D96592DF73 /* Pods-Pocket Casts App ClipUITests.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -13647,7 +13655,7 @@
 		};
 		F5D5F7AA2CEBE76A001F492D /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 44FE1848197589FE3979D3B5 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.prototype.xcconfig */;
+			baseConfigurationReference = 54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -13687,7 +13695,7 @@
 		};
 		F5D5F7AB2CEBE76A001F492D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC7ED004592D8F6B73D5DCEE /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig */;
+			baseConfigurationReference = 507118378C3F7965BCDDF45E /* Pods-Pocket Casts App ClipUITests.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;

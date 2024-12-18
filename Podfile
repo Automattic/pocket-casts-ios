@@ -40,6 +40,7 @@ target 'Pocket Casts App Clip' do
   end
 
   target 'Pocket Casts App ClipUITests' do
+    inherit! :search_paths
   end
 end
 
