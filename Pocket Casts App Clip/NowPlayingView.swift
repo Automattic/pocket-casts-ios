@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import StoreKit
 
-struct ContentView: View {
+struct NowPlayingView: View {
     @State var presentAppStoreOverlay: Bool = false
 
     var body: some View {
@@ -80,13 +80,12 @@ struct ContentView: View {
         }
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
-            if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+            if success, let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
                 completion()
             } else {
                 DispatchQueue.main.async {
-                    //TODO: Show alert
-//                    self.hideProgressDialog()
-//                    SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: SceneHelper.rootViewController())
+                    let rootViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
+                    SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: rootViewController)
                 }
             }
         })
@@ -94,5 +93,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    NowPlayingView()
 }

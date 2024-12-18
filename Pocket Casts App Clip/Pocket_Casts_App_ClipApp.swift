@@ -17,10 +17,8 @@ struct Pocket_Casts_App_ClipApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                ContentView()
+                NowPlayingView()
                     .background(Color(UIColor.systemBackground))
-
-//                    .padding(.top, 60)
             }
             .onAppear {
                 Analytics.track(.appClipOpened)

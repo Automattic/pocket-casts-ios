@@ -1754,7 +1754,7 @@
 		F5D5F79E2CEBE76A001F492D /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F5D5F7B82CEBE7CE001F492D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B02CEBE7CE001F492D /* Preview Assets.xcassets */; };
 		F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */; };
-		F5D5F7BB2CEBE7CE001F492D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B32CEBE7CE001F492D /* ContentView.swift */; };
+		F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */; };
 		F5D5F7BC2CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B62CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift */; };
 		F5D5F7BF2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7BD2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift */; };
 		F5D5F7C32CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7C02CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift */; };
@@ -3921,7 +3921,7 @@
 		F5D5F7942CEBE76A001F492D /* Pocket Casts App ClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pocket Casts App ClipUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5D5F7B02CEBE7CE001F492D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F5D5F7B32CEBE7CE001F492D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
 		F5D5F7B42CEBE7CE001F492D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F5D5F7B52CEBE7CE001F492D /* Pocket_Casts_App_Clip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pocket_Casts_App_Clip.entitlements; sourceTree = "<group>"; };
 		F5D5F7B62CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pocket_Casts_App_ClipApp.swift; sourceTree = "<group>"; };
@@ -8229,7 +8229,7 @@
 				F5F5092E2CEBEF59007D6E39 /* app-clip-Bridging-Header.h */,
 				F5D5F7B12CEBE7CE001F492D /* Preview Content */,
 				F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */,
-				F5D5F7B32CEBE7CE001F492D /* ContentView.swift */,
+				F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */,
 				F5F509792CEBFCA9007D6E39 /* NowPlayingPlayerItemViewControllerRepresentable.swift */,
 				F5D5F7B42CEBE7CE001F492D /* Info.plist */,
 				F5D5F7B52CEBE7CE001F492D /* Pocket_Casts_App_Clip.entitlements */,
@@ -11169,7 +11169,7 @@
 				F5F509562CEBF62D007D6E39 /* DownloadProgress.swift in Sources */,
 				F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */,
 				F5ADE2F52CF52AFA00F2CEA7 /* TracksAdapter.swift in Sources */,
-				F5D5F7BB2CEBE7CE001F492D /* ContentView.swift in Sources */,
+				F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */,
 				F57ABBFE2CECEC8700CC50AF /* SharedItemImporter.swift in Sources */,
 				F5F5090A2CEBEB0C007D6E39 /* UIColor+SwiftUI.swift in Sources */,
 				F5F509682CEBF7DB007D6E39 /* TimeSliderLayer.swift in Sources */,
