@@ -10,7 +10,9 @@ struct NowPlayingView: View {
         VStack {
             NowPlayingPlayerItemViewControllerRepresentable()
                 .onAppear {
-                    presentAppStoreOverlay = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        presentAppStoreOverlay = true
+                    }
                 }
         }
         .appStoreOverlay(isPresented: $presentAppStoreOverlay, configuration: {
