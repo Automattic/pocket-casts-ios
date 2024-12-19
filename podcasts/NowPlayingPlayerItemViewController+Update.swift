@@ -18,9 +18,9 @@ extension NowPlayingPlayerItemViewController {
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
 
-        #if !APPCLIP
         addCustomObserver(Constants.Notifications.sleepTimerChanged, selector: #selector(sleepTimerUpdated))
         addCustomObserver(Constants.Notifications.playerActionsUpdated, selector: #selector(reloadShelfActions))
+        #if !APPCLIP
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(reloadShelfActions))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(reloadShelfActions))
         #endif
