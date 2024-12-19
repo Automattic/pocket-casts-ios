@@ -16,7 +16,7 @@ struct PaidStoryWallView: View {
                 .padding(.bottom, geometry.size.height * 0.06)
 
                 Button(L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
-                    guard let storiesViewController = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController else {
+                    guard let storiesViewController = SceneHelper.rootViewController() else {
                         return
                     }
 
