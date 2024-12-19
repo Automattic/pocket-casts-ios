@@ -17,9 +17,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
-    /// Enable the ability to rate podcasts
-    case giveRatings
-
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
 
@@ -159,8 +156,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .errorLogoutHandling:
-            false
-        case .giveRatings:
             false
         case .newSettingsStorage:
             shouldEnableSyncedSettings

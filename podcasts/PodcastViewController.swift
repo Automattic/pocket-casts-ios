@@ -250,9 +250,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
 
         listenForBookmarkChanges()
-        if FeatureFlag.giveRatings.enabled {
-            setupLogin()
-        }
+        setupLogin()
     }
 
     private func setupLogin() {
