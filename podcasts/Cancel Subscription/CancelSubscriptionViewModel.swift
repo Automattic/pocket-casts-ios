@@ -90,6 +90,10 @@ extension CancelSubscriptionViewModel {
 
     func claimOffer() {
         //TODO: Apply one month free
+        let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
+        let controller = OnboardingHostingViewController(rootView: view)
+        controller.navBarIsHidden = true
+        navigationController.pushViewController(controller, animated: true)
     }
 }
 
@@ -117,6 +121,11 @@ extension CancelSubscriptionViewModel {
     }
 
     func closePlans() {
+        //TODO: Implement analytics
+        navigationController.dismiss(animated: true)
+    }
+
+    func closeOffer() {
         //TODO: Implement analytics
         navigationController.dismiss(animated: true)
     }
