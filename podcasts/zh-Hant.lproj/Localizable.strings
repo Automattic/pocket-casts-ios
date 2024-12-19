@@ -337,6 +337,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無法取消</string>
     <key>cancel_subscription</key>
     <string>取消訂閱</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>可供取消的方案</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>領取優惠</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>隨機播放節目很簡單，而且不會改變佇列的排序。</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>隆重介紹隨機播放</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>隨機播放已開啟。 系統會隨機播放單集。</string>
     <key>upgrade_account</key>
     <string>升級帳號</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

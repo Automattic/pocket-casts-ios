@@ -337,6 +337,8 @@
     <string>Не удается отменить</string>
     <key>cancel_subscription</key>
     <string>Отмена подписки</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Доступные тарифные планы</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Воспользоваться предложением</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@
     <string>Воспроизводите любой выпуск, не меняя очередности в списке.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Представляем режим случайного воспроизведения</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

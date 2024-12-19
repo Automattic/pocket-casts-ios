@@ -337,6 +337,8 @@
     <string>キャンセルできません</string>
     <key>cancel_subscription</key>
     <string>サブスクリプションをキャンセル</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>利用可能なプラン</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>オファーを獲得</string>
     <key>cancel_subscription_continue_button</key>
@@ -3017,6 +3019,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>キューの順序を変更せずに、ランダムなエピソードを簡単に再生できます。</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>シャッフルの紹介</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>シャッフルはオンです。 エピソードはランダムな順序で再生されます。</string>
     <key>upgrade_account</key>
     <string>アカウントをアップグレード</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

@@ -337,6 +337,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Utnyttja erbjudande</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Spela enkelt upp ett slumpmässigt avsnitt utan att ändra ordningen på din kö.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Vi introducerar slumpmässig uppspelning</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

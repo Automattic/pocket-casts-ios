@@ -337,6 +337,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Impossible d’annuler</string>
     <key>cancel_subscription</key>
     <string>Annuler l’abonnement</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Profiter de l’offre</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Écoutez facilement un épisode aléatoire sans changer l’ordre dans votre file d’attente.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Présentation de la lecture aléatoire</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>La lecture aléatoire est activée. Les épisodes seront lus de manière aléatoire.</string>
     <key>upgrade_account</key>
     <string>Mettre le compte à niveau</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
