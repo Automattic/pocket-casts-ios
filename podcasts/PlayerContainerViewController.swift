@@ -149,7 +149,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBAction func closeTapped(_ sender: Any) {
         #if APPCLIP
-        //TODO: Show install banner
+        // Close doesn't exist in the App Clip
         #else
         appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
         #endif
