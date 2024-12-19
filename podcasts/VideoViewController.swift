@@ -90,9 +90,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     @IBOutlet var pipButton: UIButton!
 
     @IBOutlet var airplayButton: UIButton!
-    #if APPCLIP
-    @IBOutlet var castButton: UIButton!
-    #else
+    #if !APPCLIP
     @IBOutlet var castButton: PCGoogleCastButton!
     #endif
 
