@@ -32,8 +32,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the AVExportSession parallel download of any playing episode
     case streamAndCachePlayingEpisode
 
-    case categoriesRedesign
-
     /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
@@ -167,8 +165,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .streamAndCachePlayingEpisode:
             true
-        case .categoriesRedesign:
-            true
         case .defaultPlayerFilterCallbackFix:
             true
         case .downloadFixes:
@@ -245,9 +241,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newSettingsStorage:
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
-            shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .categoriesRedesign:
-            "categories_redesign"
+            shouldEnableSyncedSettings ? "settings_sync" : nil        
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
         default:
