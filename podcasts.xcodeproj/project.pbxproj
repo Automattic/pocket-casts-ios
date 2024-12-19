@@ -72,7 +72,6 @@
 		32163E602B1EBDB6009BB16B /* DatabaseExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32163E5F2B1EBDB6009BB16B /* DatabaseExport.swift */; };
 		321AC02A2B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */; };
 		3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */; };
-		3C121912E8E06357CD1EE190 /* libPods-Pocket Casts App ClipUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */; };
 		3FB8643028896539003A86BE /* BuildkiteTestCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB8642F28896539003A86BE /* BuildkiteTestCollector */; };
 		4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */; };
 		40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */; };
@@ -673,7 +672,6 @@
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory2023.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
-		93900911C8B112827154EABF /* libPods-Pocket Casts App ClipTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -1757,9 +1755,6 @@
 		F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */; };
 		F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */; };
 		F5D5F7BC2CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B62CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift */; };
-		F5D5F7BF2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7BD2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift */; };
-		F5D5F7C32CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7C02CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift */; };
-		F5D5F7C42CEBE82D001F492D /* Pocket_Casts_App_ClipUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7C12CEBE82D001F492D /* Pocket_Casts_App_ClipUITestsLaunchTests.swift */; };
 		F5D5F7C52CEBE84A001F492D /* NowPlayingPlayerItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB53C52362A2570001806E /* NowPlayingPlayerItemViewController.swift */; };
 		F5D5F7C62CEBE853001F492D /* PlayerContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD92322F23629E1900C1E118 /* PlayerContainerViewController.swift */; };
 		F5D5F7C72CEBE85D001F492D /* SimpleNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD62980200EEA6700168DF7 /* SimpleNotificationsViewController.swift */; };
@@ -2081,20 +2076,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = BDEFBA131E6D3C2300B9024B;
 			remoteInfo = NotificationContent;
-		};
-		F5D5F78B2CEBE76A001F492D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
-			remoteInfo = "Pocket Casts App Clip";
-		};
-		F5D5F7952CEBE76A001F492D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
-			remoteInfo = "Pocket Casts App Clip";
 		};
 		F5D5F79C2CEBE76A001F492D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3918,17 +3899,12 @@
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5D527372CC81AA700682CD5 /* EpilogueStory2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpilogueStory2024.swift; sourceTree = "<group>"; };
 		F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Casts App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5D5F78A2CEBE76A001F492D /* Pocket Casts App ClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pocket Casts App ClipTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5D5F7942CEBE76A001F492D /* Pocket Casts App ClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pocket Casts App ClipUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5D5F7B02CEBE7CE001F492D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
 		F5D5F7B42CEBE7CE001F492D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F5D5F7B52CEBE7CE001F492D /* Pocket_Casts_App_Clip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pocket_Casts_App_Clip.entitlements; sourceTree = "<group>"; };
 		F5D5F7B62CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pocket_Casts_App_ClipApp.swift; sourceTree = "<group>"; };
-		F5D5F7BD2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pocket_Casts_App_ClipTests.swift; sourceTree = "<group>"; };
-		F5D5F7C02CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pocket_Casts_App_ClipUITests.swift; sourceTree = "<group>"; };
-		F5D5F7C12CEBE82D001F492D /* Pocket_Casts_App_ClipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pocket_Casts_App_ClipUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E16FE62CD47DE800C0372F /* SFSafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariView.swift; sourceTree = "<group>"; };
 		F5E3DAA62BDD5567002BD4E4 /* PCBundleDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCBundleDoc.swift; sourceTree = "<group>"; };
@@ -4151,22 +4127,6 @@
 				F5F509742CEBF8E7007D6E39 /* Agrume in Frameworks */,
 				F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */,
 				F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F7872CEBE76A001F492D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				93900911C8B112827154EABF /* libPods-Pocket Casts App ClipTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F7912CEBE76A001F492D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3C121912E8E06357CD1EE190 /* libPods-Pocket Casts App ClipUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6668,8 +6628,6 @@
 				45ECEF7C27E910E300C65030 /* PocketCastsTests */,
 				2F90990C2A4F88B10044FC55 /* Share Extension */,
 				F5D5F7B72CEBE7CE001F492D /* Pocket Casts App Clip */,
-				F5D5F7BE2CEBE82A001F492D /* Pocket Casts App ClipTests */,
-				F5D5F7C22CEBE82D001F492D /* Pocket Casts App ClipUITests */,
 				BDBD53EE17019B2A0048C8C5 /* Frameworks */,
 				BDBD53ED17019B2A0048C8C5 /* Products */,
 				0AEDA899EF3BB3B8C0034C76 /* Pods */,
@@ -6691,8 +6649,6 @@
 				45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */,
 				2F90990B2A4F88B00044FC55 /* Share Extension.appex */,
 				F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */,
-				F5D5F78A2CEBE76A001F492D /* Pocket Casts App ClipTests.xctest */,
-				F5D5F7942CEBE76A001F492D /* Pocket Casts App ClipUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -8239,23 +8195,6 @@
 			path = "Pocket Casts App Clip";
 			sourceTree = "<group>";
 		};
-		F5D5F7BE2CEBE82A001F492D /* Pocket Casts App ClipTests */ = {
-			isa = PBXGroup;
-			children = (
-				F5D5F7BD2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift */,
-			);
-			path = "Pocket Casts App ClipTests";
-			sourceTree = "<group>";
-		};
-		F5D5F7C22CEBE82D001F492D /* Pocket Casts App ClipUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F5D5F7C02CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift */,
-				F5D5F7C12CEBE82D001F492D /* Pocket_Casts_App_ClipUITestsLaunchTests.swift */,
-			);
-			path = "Pocket Casts App ClipUITests";
-			sourceTree = "<group>";
-		};
 		F5EA21F52CC1DC100043C780 /* End of Year 2023 */ = {
 			isa = PBXGroup;
 			children = (
@@ -8714,44 +8653,6 @@
 			productReference = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
-		F5D5F7892CEBE76A001F492D /* Pocket Casts App ClipTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F5D5F7AE2CEBE76A001F492D /* Build configuration list for PBXNativeTarget "Pocket Casts App ClipTests" */;
-			buildPhases = (
-				0133FA2C98B05C158635F1A9 /* [CP] Check Pods Manifest.lock */,
-				F5D5F7862CEBE76A001F492D /* Sources */,
-				F5D5F7872CEBE76A001F492D /* Frameworks */,
-				F5D5F7882CEBE76A001F492D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F5D5F78C2CEBE76A001F492D /* PBXTargetDependency */,
-			);
-			name = "Pocket Casts App ClipTests";
-			productName = "Pocket Casts App ClipTests";
-			productReference = F5D5F78A2CEBE76A001F492D /* Pocket Casts App ClipTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F5D5F7932CEBE76A001F492D /* Pocket Casts App ClipUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F5D5F7AF2CEBE76A001F492D /* Build configuration list for PBXNativeTarget "Pocket Casts App ClipUITests" */;
-			buildPhases = (
-				BA20722A2E385D9477576D1E /* [CP] Check Pods Manifest.lock */,
-				F5D5F7902CEBE76A001F492D /* Sources */,
-				F5D5F7912CEBE76A001F492D /* Frameworks */,
-				F5D5F7922CEBE76A001F492D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F5D5F7962CEBE76A001F492D /* PBXTargetDependency */,
-			);
-			name = "Pocket Casts App ClipUITests";
-			productName = "Pocket Casts App ClipUITests";
-			productReference = F5D5F7942CEBE76A001F492D /* Pocket Casts App ClipUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -8836,14 +8737,6 @@
 					F5D5F7782CEBE769001F492D = {
 						CreatedOnToolsVersion = 16.0;
 					};
-					F5D5F7892CEBE76A001F492D = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = F5D5F7782CEBE769001F492D;
-					};
-					F5D5F7932CEBE76A001F492D = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = F5D5F7782CEBE769001F492D;
-					};
 				};
 			};
 			buildConfigurationList = BDBD53E717019B290048C8C5 /* Build configuration list for PBXProject "podcasts" */;
@@ -8900,8 +8793,6 @@
 				45ECEF7A27E910E300C65030 /* PocketCastsTests */,
 				2F90990A2A4F88B00044FC55 /* Share Extension */,
 				F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */,
-				F5D5F7892CEBE76A001F492D /* Pocket Casts App ClipTests */,
-				F5D5F7932CEBE76A001F492D /* Pocket Casts App ClipUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -9524,45 +9415,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5D5F7882CEBE76A001F492D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F7922CEBE76A001F492D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0133FA2C98B05C158635F1A9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pocket Casts App ClipTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3C5194112B716756006632DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -9680,28 +9535,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PocketCastsTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BA20722A2E385D9477576D1E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pocket Casts App ClipUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -11223,23 +11056,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5D5F7862CEBE76A001F492D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5D5F7BF2CEBE82A001F492D /* Pocket_Casts_App_ClipTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F7902CEBE76A001F492D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5D5F7C32CEBE82D001F492D /* Pocket_Casts_App_ClipUITests.swift in Sources */,
-				F5D5F7C42CEBE82D001F492D /* Pocket_Casts_App_ClipUITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -11307,16 +11123,6 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
-		};
-		F5D5F78C2CEBE76A001F492D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
-			targetProxy = F5D5F78B2CEBE76A001F492D /* PBXContainerItemProxy */;
-		};
-		F5D5F7962CEBE76A001F492D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
-			targetProxy = F5D5F7952CEBE76A001F492D /* PBXContainerItemProxy */;
 		};
 		F5D5F79D2CEBE76A001F492D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -13415,326 +13221,6 @@
 			};
 			name = Release;
 		};
-		F5D5F7A42CEBE76A001F492D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 678072719F4DCDAD9B2ABD20 /* Pods-Pocket Casts App ClipTests.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pocket Casts App Clip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pocket Casts App Clip";
-			};
-			name = Debug;
-		};
-		F5D5F7A52CEBE76A001F492D /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA688FF113B87D7B363799D5 /* Pods-Pocket Casts App ClipTests.staging.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pocket Casts App Clip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pocket Casts App Clip";
-			};
-			name = Staging;
-		};
-		F5D5F7A62CEBE76A001F492D /* Prototype */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pocket Casts App Clip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pocket Casts App Clip";
-			};
-			name = Prototype;
-		};
-		F5D5F7A72CEBE76A001F492D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F88E534BDAFFD21F2017D2B9 /* Pods-Pocket Casts App ClipTests.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pocket Casts App Clip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pocket Casts App Clip";
-			};
-			name = Release;
-		};
-		F5D5F7A82CEBE76A001F492D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Pocket Casts App Clip";
-			};
-			name = Debug;
-		};
-		F5D5F7A92CEBE76A001F492D /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7289AC5C473501D96592DF73 /* Pods-Pocket Casts App ClipUITests.staging.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Pocket Casts App Clip";
-			};
-			name = Staging;
-		};
-		F5D5F7AA2CEBE76A001F492D /* Prototype */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Pocket Casts App Clip";
-			};
-			name = Prototype;
-		};
-		F5D5F7AB2CEBE76A001F492D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 507118378C3F7965BCDDF45E /* Pods-Pocket Casts App ClipUITests.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q5R9EF4JAK;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Pocket-Casts-App-ClipUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Pocket Casts App Clip";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -13888,28 +13374,6 @@
 				F5D5F7A12CEBE76A001F492D /* Staging */,
 				F5D5F7A22CEBE76A001F492D /* Prototype */,
 				F5D5F7A32CEBE76A001F492D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F5D5F7AE2CEBE76A001F492D /* Build configuration list for PBXNativeTarget "Pocket Casts App ClipTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F5D5F7A42CEBE76A001F492D /* Debug */,
-				F5D5F7A52CEBE76A001F492D /* Staging */,
-				F5D5F7A62CEBE76A001F492D /* Prototype */,
-				F5D5F7A72CEBE76A001F492D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F5D5F7AF2CEBE76A001F492D /* Build configuration list for PBXNativeTarget "Pocket Casts App ClipUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F5D5F7A82CEBE76A001F492D /* Debug */,
-				F5D5F7A92CEBE76A001F492D /* Staging */,
-				F5D5F7AA2CEBE76A001F492D /* Prototype */,
-				F5D5F7AB2CEBE76A001F492D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

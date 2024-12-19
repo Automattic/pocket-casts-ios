@@ -34,14 +34,6 @@ end
 
 target 'Pocket Casts App Clip' do
   use_modular_headers!
-
-  target 'Pocket Casts App ClipTests' do
-    inherit! :search_paths
-  end
-
-  target 'Pocket Casts App ClipUITests' do
-    inherit! :search_paths
-  end
 end
 
 abstract_target 'CI' do
