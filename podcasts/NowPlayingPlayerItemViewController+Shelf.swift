@@ -477,7 +477,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         guard let buttonSuperview = source.superview, let podcast = podcast else { return }
 
         Analytics.track(.podcastShared, properties: ["type": "podcast", "source": "player"])
-        SharingModal.show(option: .podcast(podcast), from: analyticsSource, in: self)        
+        SharingModal.show(option: .podcast(podcast), from: analyticsSource, in: self)
     }
 
     // MARK: - Private Helpers
