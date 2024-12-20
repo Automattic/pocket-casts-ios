@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 
 public struct BookmarkDataManager {
@@ -322,6 +323,29 @@ extension BookmarkDataManager {
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_episode ON \(Self.tableName) (\(Column.episode));", values: nil)
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_podcast ON \(Self.tableName) (\(Column.podcast));", values: nil)
         try db.executeUpdate("CREATE INDEX IF NOT EXISTS bookmark_deleted ON \(Self.tableName) (\(Column.deleted));", values: nil)
+    }
+
+    static func createTable(in db: Database) throws {
+        try db.execute(sql: """
+            CREATE TABLE IF NOT EXISTS \(Self.tableName) (
+                \(Column.uuid) varchar(40) NOT NULL,
+                \(Column.title) varchar(100) NOT NULL,
+                \(Column.titleModifiedDate) INTEGER,
+                \(Column.episode) varchar(40) NOT NULL,
+                \(Column.podcast) varchar(40),
+                \(Column.time) real NOT NULL,
+                \(Column.createdDate) INTEGER NOT NULL,
+                \(Column.deleted) int NOT NULL DEFAULT 0,
+                \(Column.deletedModifiedDate) INTEGER,
+                \(Column.syncStatus) int NOT NULL DEFAULT 0,
+                PRIMARY KEY (\(Column.uuid))
+            );
+        """)
+
+        try db.execute(sql: "CREATE INDEX IF NOT EXISTS bookmark_uuid ON \(Self.tableName) (\(Column.uuid));")
+        try db.execute(sql: "CREATE INDEX IF NOT EXISTS bookmark_episode ON \(Self.tableName) (\(Column.episode));")
+        try db.execute(sql: "CREATE INDEX IF NOT EXISTS bookmark_podcast ON \(Self.tableName) (\(Column.podcast));")
+        try db.execute(sql: "CREATE INDEX IF NOT EXISTS bookmark_deleted ON \(Self.tableName) (\(Column.deleted));")
     }
 }
 
