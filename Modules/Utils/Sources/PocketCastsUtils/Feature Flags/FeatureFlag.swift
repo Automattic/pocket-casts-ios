@@ -51,8 +51,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the Accelerate framework to speed up custom effects
     case accelerateEffects
 
-    case newSharing
-
     /// Enables the Kids banner
     case kidsProfile
 
@@ -174,8 +172,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
             true
         case .accelerateEffects:
-            true
-        case .newSharing:
             true
         case .kidsProfile:
             false

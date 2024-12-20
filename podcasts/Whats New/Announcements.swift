@@ -103,7 +103,7 @@ struct Announcements {
             action: {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
-            isEnabled: FeatureFlag.newSharing.enabled,
+            isEnabled: true,
             fullModal: true
         ),
         .init(
