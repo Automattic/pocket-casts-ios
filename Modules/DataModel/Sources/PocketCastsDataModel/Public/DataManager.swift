@@ -52,8 +52,12 @@ public class DataManager {
 
         dbPool = FeatureFlag.grdb.enabled ? try! DatabasePool(path: DataManager.pathToDb()) : nil
 
-        dbQueue.inDatabase { db in
-            DatabaseHelper.setup(db: db)
+        if FeatureFlag.grdb.enabled {
+            DatabaseHelper.setup(dbPool: dbPool)
+        } else {
+            dbQueue.inDatabase { db in
+                DatabaseHelper.setup(db: db)
+            }
         }
 
         if shouldCloseQueueAfterSetup {
