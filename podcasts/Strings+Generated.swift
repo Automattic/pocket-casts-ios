@@ -3134,6 +3134,8 @@ internal enum L10n {
   internal static var shareMoreActions: String { return L10n.tr("Localizable", "share_more_actions") }
   /// Share podcast
   internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
+  /// Sharing is not available for private podcasts
+  internal static var sharePodcastPrivateNotAvailable: String { return L10n.tr("Localizable", "share_podcast_private_not_available") }
   /// Share podcast
   internal static var sharePodcastTitle: String { return L10n.tr("Localizable", "share_podcast_title") }
   /// ALL SELECTED

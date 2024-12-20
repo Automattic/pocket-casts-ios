@@ -101,6 +101,16 @@ enum SharingModal {
     }
 
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
+
+        if FeatureFlag.disablePrivateFeedSharing.enabled {
+            if case let .podcast(podcast) = option {
+                guard !podcast.isPrivate else {
+                    Toast.show(L10n.sharePodcastPrivateNotAvailable)
+                    return
+                }
+            }
+        }
+
         let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLink, .systemSheet(vc: viewController)]
         let sharingView = SharingView(destinations: sharingDestinations, selectedOption: option, source: source)
         let modalView = ModalView {

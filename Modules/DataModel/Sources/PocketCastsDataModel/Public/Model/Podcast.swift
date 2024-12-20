@@ -53,6 +53,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
     @objc public var usedCustomEffectsBefore = false
+    @objc public var isPrivate = false
 
     public var settings: PodcastSettings = PodcastSettings.defaults
 
