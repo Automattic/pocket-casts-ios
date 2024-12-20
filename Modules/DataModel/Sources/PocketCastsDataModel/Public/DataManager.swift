@@ -29,6 +29,8 @@ public class DataManager {
 
     private let dbQueue: FMDatabaseQueue
 
+    // GRDB
+
     private let dbPool: DatabasePool!
 
     public static let sharedManager = DataManager()
