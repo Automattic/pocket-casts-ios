@@ -90,10 +90,8 @@ extension CancelSubscriptionViewModel {
 
     func claimOffer() {
         //TODO: Apply one month free
-        let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
-        let controller = OnboardingHostingViewController(rootView: view)
-        controller.navBarIsHidden = true
-        navigationController.pushViewController(controller, animated: true)
+        //TODO: Purchase the offer and display the success view if succeeded
+        showClaimOfferSuccess()
     }
 }
 
@@ -117,6 +115,13 @@ extension CancelSubscriptionViewModel {
         //TODO: Implement analytics
         let controller = OnlineSupportController()
         navigationController.navigationBar.isHidden = false
+        navigationController.pushViewController(controller, animated: true)
+    }
+
+    func showClaimOfferSuccess() {
+        let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
+        let controller = OnboardingHostingViewController(rootView: view)
+        controller.navBarIsHidden = true
         navigationController.pushViewController(controller, animated: true)
     }
 

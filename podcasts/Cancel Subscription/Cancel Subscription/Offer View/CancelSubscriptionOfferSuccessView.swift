@@ -7,7 +7,7 @@ struct CancelSubscriptionOfferSuccessView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image("cd-sparkle")
+            icon(for: theme.activeTheme)
                 .frame(width: 162, height: 162)
                 .padding(.top, 70)
                 .padding(.bottom, 21)
@@ -34,6 +34,25 @@ struct CancelSubscriptionOfferSuccessView: View {
             AppTheme.color(for: .primaryUi01, theme: theme)
                 .ignoresSafeArea()
         )
+    }
+
+    private func icon(for themeType: Theme.ThemeType) -> Image {
+        let name: String
+        switch themeType {
+        case .classic, .rosé:
+            name = "cs-sparkle-red"
+        case .indigo:
+            name = "cs-sparkle-indigo"
+        case .radioactive:
+            name = "cs-sparkle-green"
+        case .contrastLight:
+            name = "cs-sparkle-black"
+        case .contrastDark:
+            name = "cs-sparkle-gray"
+        default:
+            name = "cs-sparkle-blue"
+        }
+        return Image(name)
     }
 }
 
