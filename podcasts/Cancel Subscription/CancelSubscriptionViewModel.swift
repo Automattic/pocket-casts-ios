@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class CancelSubscriptionViewModel: PlusPurchaseModel {
-    let navigationController: UINavigationController
+    weak var navigationController: UINavigationController?
 
     var isEligibleForOffer: Bool {
         purchaseHandler.isEligibleForOffer
@@ -14,7 +14,7 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
     @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
     @State var currentProductAvailability: CurrentProductAvailability = .idle
 
-    init(purchaseHandler: IAPHelper = .shared, navigationController: UINavigationController) {
+    init(purchaseHandler: IAPHelper = .shared, navigationController: UINavigationController?) {
         self.navigationController = navigationController
 
         super.init(purchaseHandler: purchaseHandler)
@@ -36,9 +36,9 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
     override func handleNext() {
         if SubscriptionHelper.activeTier == .patron {
             let controller = PatronWelcomeViewModel.make(in: navigationController)
-            navigationController.pushViewController(controller, animated: true)
+            navigationController?.pushViewController(controller, animated: true)
         } else {
-            navigationController.dismiss(animated: true)
+            navigationController?.dismiss(animated: true)
         }
     }
 
@@ -100,7 +100,7 @@ extension CancelSubscriptionViewModel {
     func cancelSubscriptionTap() {
         //TODO: Implement analytics
         let viewController = CancelConfirmationViewModel.make(in: navigationController)
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func showPlans() {
@@ -108,31 +108,31 @@ extension CancelSubscriptionViewModel {
         let view = CancelSubscriptionPlansView(viewModel: self).setupDefaultEnvironment()
         let controller = OnboardingHostingViewController(rootView: view)
         controller.navBarIsHidden = true
-        navigationController.pushViewController(controller, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func showHelp() {
         //TODO: Implement analytics
         let controller = OnlineSupportController()
-        navigationController.navigationBar.isHidden = false
-        navigationController.pushViewController(controller, animated: true)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func showClaimOfferSuccess() {
         let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
         let controller = OnboardingHostingViewController(rootView: view)
         controller.navBarIsHidden = true
-        navigationController.pushViewController(controller, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func closePlans() {
         //TODO: Implement analytics
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 
     func closeOffer() {
         //TODO: Implement analytics
-        navigationController.dismiss(animated: true)
+        navigationController?.dismiss(animated: true)
     }
 }
 
