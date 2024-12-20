@@ -1,6 +1,9 @@
 import AVFoundation
 import Foundation
 import PocketCastsUtils
+#if !os(watchOS)
+import UIKit
+#endif
 
 class ChapterInfo: Equatable {
     var title = ""
@@ -20,7 +23,11 @@ class ChapterInfo: Equatable {
     var shouldPlay = true
 
     func isPlayable() -> Bool {
+        #if APPCLIP
+        return false
+        #else
         PaidFeature.deselectChapters.isUnlocked ? shouldPlay : true
+        #endif
     }
 
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
