@@ -66,7 +66,7 @@ public class DataManager {
         }
 
         // closing it above won't affect these calls, since they will re-open it
-        podcastManager.setup(dbQueue: dbQueue)
+        FeatureFlag.grdb.enabled ? podcastManager.setup(dbQueue: dbQueue) : podcastManager.setup(dbPool: dbPool)
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
 
@@ -281,111 +281,192 @@ public class DataManager {
     // MARK: - Podcasts
 
     public func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+        !FeatureFlag.grdb.enabled ?
+            podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+        :
+        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbPool: dbPool)
     }
 
     public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+        :
+        podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbPool: dbPool)
     }
 
     public func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+        :
+        podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbPool: dbPool)
     }
 
     public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+        :
+        podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbPool: dbPool)
     }
 
     public func findPodcast(uuid: String, includeUnsubscribed: Bool = false) -> Podcast? {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.find(uuid: uuid, includeUnsubscribed: includeUnsubscribed, dbQueue: dbQueue)
+        :
+        podcastManager.find(uuid: uuid, includeUnsubscribed: includeUnsubscribed, dbPool: dbPool)
     }
 
     public func allUnsubscribedPodcastUuids() -> [String] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allUnsubscribedPodcastUuids(dbQueue: dbQueue)
+        :
+        podcastManager.allUnsubscribedPodcastUuids(dbPool: dbPool)
     }
 
     public func allUnsubscribedPodcasts() -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allUnsubscribedPodcasts(dbQueue: dbQueue)
+        :
+        podcastManager.allUnsubscribedPodcasts(dbPool: dbPool)
     }
 
     public func allPaidPodcasts() -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allPaidPodcasts(dbQueue: dbQueue)
+        :
+        podcastManager.allPaidPodcasts(dbPool: dbPool)
     }
 
     public func allOverrideGlobalArchivePodcasts() -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allOverrideGlobalArchivePodcasts(dbQueue: dbQueue)
+        :
+        podcastManager.allOverrideGlobalArchivePodcasts(dbPool: dbPool)
     }
 
     public func podcastCount() -> Int {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.count(dbQueue: dbQueue)
+        :
+        podcastManager.count(dbPool: dbPool)
     }
 
     public func podcastUnfinishedCounts() -> [String: Int32] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.unfinishedCounts(dbQueue: dbQueue)
+        :
+        podcastManager.unfinishedCounts(dbPool: dbPool)
     }
 
     public func markAllPodcastsSynced() {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.markAllSynced(dbQueue: dbQueue)
+        :
+        podcastManager.markAllSynced(dbPool: dbPool)
     }
 
     public func markAllPodcastsUnsynced() {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.markAllUnsynced(dbQueue: dbQueue)
+        :
+        podcastManager.markAllUnsynced(dbPool: dbPool)
     }
 
     public func markAllPodcastsUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.markAllUnsyncedWhereLastSyncAtNot(lastSyncAt, dbQueue: dbQueue)
+        :
+        podcastManager.markAllUnsyncedWhereLastSyncAtNot(lastSyncAt, dbPool: dbPool)
     }
 
     public func setPushForAllPodcasts(pushEnabled: Bool) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.setPushForAllPodcasts(pushEnabled: pushEnabled, dbQueue: dbQueue)
+        :
+        podcastManager.setPushForAllPodcasts(pushEnabled: pushEnabled, dbPool: dbPool)
     }
 
     public func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: autoAddToUpNext, dbQueue: dbQueue)
+        :
+        podcastManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: autoAddToUpNext, dbPool: dbPool)
     }
 
     public func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast]) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.updateAutoAddToUpNext(to: value, for: podcasts, in: dbQueue)
+        :
+        podcastManager.updateAutoAddToUpNext(to: value, for: podcasts, in: dbPool)
     }
 
     public func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.setDownloadSettingForAllPodcasts(setting: setting, dbQueue: dbQueue)
+        :
+        podcastManager.setDownloadSettingForAllPodcasts(setting: setting, dbPool: dbPool)
     }
 
     public func allUnsyncedPodcasts() -> [Podcast] {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.allUnsynced(dbQueue: dbQueue)
+        :
+        podcastManager.allUnsynced(dbPool: dbPool)
     }
 
     public func delete(podcast: Podcast) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.delete(podcast: podcast, dbQueue: dbQueue)
+        :
+        podcastManager.delete(podcast: podcast, dbPool: dbPool)
     }
 
     public func save(podcast: Podcast) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.save(podcast: podcast, dbQueue: dbQueue)
+        :
+        podcastManager.save(podcast: podcast, dbPool: dbPool)
     }
 
     public func savePushSetting(podcast: Podcast, pushEnabled: Bool) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.savePushSetting(podcast: podcast, pushEnabled: pushEnabled, dbQueue: dbQueue)
+        :
+        podcastManager.savePushSetting(podcast: podcast, pushEnabled: pushEnabled, dbPool: dbPool)
     }
 
     public func savePushSetting(podcastUuid: String, pushEnabled: Bool) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.savePushSetting(podcastUuid: podcastUuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
+        :
+        podcastManager.savePushSetting(podcastUuid: podcastUuid, pushEnabled: pushEnabled, dbPool: dbPool)
     }
 
     public func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.saveAutoAddToUpNext(podcastUuid: podcastUuid, autoAddToUpNext: autoAddToUpNext, dbQueue: dbQueue)
+        :
+        podcastManager.saveAutoAddToUpNext(podcastUuid: podcastUuid, autoAddToUpNext: autoAddToUpNext, dbPool: dbPool)
     }
 
     public func savePodcastDownloadSetting(_ setting: AutoDownloadSetting, podcastUuid: String) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.savePodcastDownloadSetting(setting, podcastUuid: podcastUuid, dbQueue: dbQueue)
+        :
+        podcastManager.savePodcastDownloadSetting(setting, podcastUuid: podcastUuid, dbPool: dbPool)
     }
 
     public func saveAutoArchiveLimit(podcast: Podcast, limit: Int32) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.saveAutoArchiveLimit(podcast: podcast, limit: limit, dbQueue: dbQueue)
+        :
+        podcastManager.saveAutoArchiveLimit(podcast: podcast, limit: limit, dbPool: dbPool)
     }
 
     public func saveSortOrders(podcasts: [Podcast]) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.saveSortOrders(podcasts: podcasts, dbQueue: dbQueue)
+        :
+        podcastManager.saveSortOrders(podcasts: podcasts, dbPool: dbPool)
     }
 
     public func markAllUnarchivedForPodcast(id: Int64) {
@@ -393,27 +474,45 @@ public class DataManager {
     }
 
     public func updateAllPodcastGrouping(to grouping: PodcastGrouping) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.updateAllPodcastGrouping(to: grouping, dbQueue: dbQueue)
+        :
+        podcastManager.updateAllPodcastGrouping(to: grouping, dbPool: dbPool)
     }
 
     public func updateAllShowArchived(to showArchived: Bool) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.updateAllShowArchived(to: showArchived, dbQueue: dbQueue)
+        :
+        podcastManager.updateAllShowArchived(to: showArchived, dbPool: dbPool)
     }
 
     public func setPodcastImageVersion(podcastUuid: String, version: Int) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.setPodcastImageVersion(podcastUuid: podcastUuid, version: version, dbQueue: dbQueue)
+        :
+        podcastManager.setPodcastImageVersion(podcastUuid: podcastUuid, version: version, dbPool: dbPool)
     }
 
     public func setAllPodcastImageVersions(to version: Int) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.setAllPodcastImageVersions(to: version, dbQueue: dbQueue)
+        :
+        podcastManager.setAllPodcastImageVersions(to: version, dbPool: dbPool)
     }
 
     public func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String]) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.bulkSetFolderUuid(folderUuid: folderUuid, podcastUuids: podcastUuids, dbQueue: dbQueue)
+        :
+        podcastManager.bulkSetFolderUuid(folderUuid: folderUuid, podcastUuids: podcastUuids, dbPool: dbPool)
     }
 
     public func updatePodcastFolder(podcastUuid: String, to folderUuid: String?, sortOrder: Int32) {
+        !FeatureFlag.grdb.enabled ?
         podcastManager.updatePodcastFolder(podcastUuid: podcastUuid, sortOrder: sortOrder, folderUuid: folderUuid, dbQueue: dbQueue)
+        :
+        podcastManager.updatePodcastFolder(podcastUuid: podcastUuid, sortOrder: sortOrder, folderUuid: folderUuid, dbPool: dbPool)
     }
 
     // MARK: - Episodes
