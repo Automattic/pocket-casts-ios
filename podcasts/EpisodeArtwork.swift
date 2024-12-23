@@ -2,6 +2,7 @@ import Foundation
 import Kingfisher
 import PocketCastsServer
 import PocketCastsUtils
+import AVFoundation
 
 /// Extracts artwork from a streaming episode (if there's any)
 class EpisodeArtwork {
@@ -46,10 +47,6 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        guard FeatureFlag.newShowNotesEndpoint.enabled && FeatureFlag.episodeFeedArtwork.enabled else {
-            return
-        }
-
         Task { [weak self] in
             guard let self else {
                 return

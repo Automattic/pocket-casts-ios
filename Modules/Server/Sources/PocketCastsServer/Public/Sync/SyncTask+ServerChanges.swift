@@ -25,7 +25,13 @@ extension SyncTask {
             case .bookmark:
                 bookmarksToImport.append(item.bookmark)
             case .device:
-                continue // we aren't expecting the server to send us devices
+                StatsManager.shared.updateStatsIfNeeded(
+                    savedDynamicSpeed: TimeInterval(item.device.timeSilenceRemoval.value),
+                    savedVariableSpeed: TimeInterval(item.device.timeVariableSpeed.value),
+                    totalListenedTo: TimeInterval(item.device.timeListened.value),
+                    totalSkipped: TimeInterval(item.device.timeSkipping.value),
+                    savedAutoSkipping: TimeInterval(item.device.timeIntroSkipping.value)
+                )
             }
         }
 
@@ -149,7 +155,6 @@ extension SyncTask {
         if podcastItem.hasFolderUuid {
             let folderUuid = podcastItem.folderUuid.value
 
-            FileLog.shared.foldersIssue("SyncTask importItem: \(podcast.title ?? "") changing folder from \(podcast.folderUuid ?? "nil") to \(((folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid) ?? "nil")")
 
             if folderUuid == DataConstants.homeGridFolderUuid, let originalFolderUuid = podcast.folderUuid {
                 FolderHistoryHelper.shared.add(podcastUuid: podcastItem.uuid, folderUuid: originalFolderUuid)
@@ -248,7 +253,6 @@ extension SyncTask {
         // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
         if folderItem.isDeleted {
             DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
-            FileLog.shared.foldersIssue("SyncTask importFolder: delete folder \(folderUuid)")
 
             return
         }

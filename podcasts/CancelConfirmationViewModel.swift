@@ -24,7 +24,7 @@ class CancelConfirmationViewModel: OnboardingModel {
     func cancelTapped() {
         Analytics.track(.cancelConfirmationCancelButtonTapped)
 
-        if FeatureFlag.winback.enabled {
+        if FeatureFlag.winback.enabled, SubscriptionHelper.subscriptionPlatform() == .iOS {
             Task {
                 guard let windowScene = await navigationController.view.window?.windowScene else {
                     FileLog.shared.console("[CancelConfirmationViewModel] No window scene available")

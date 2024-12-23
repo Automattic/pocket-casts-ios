@@ -14,6 +14,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
             addPodcastBtn.buttonTapped = {
+                Analytics.track(.podcastsListDiscoverButtonTapped)
                 NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
             }
         }

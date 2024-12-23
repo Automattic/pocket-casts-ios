@@ -449,29 +449,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - Sharing
 
     @objc private func shareTapped(_ sender: UIButton) {
-        guard FeatureFlag.newSharing.enabled == false else {
-            SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
-            return
-        }
-
-        let shareOptions = OptionsPicker(title: nil)
-
-        let sourceRect = sender.superview!.convert(sender.frame, to: view)
-        let shareLinkAction = OptionAction(label: L10n.podcastShareEpisode, icon: nil) { [weak self] in
-            self?.shareLinkToEpisode(sharePosition: false, sourceRect: sourceRect)
-        }
-        shareOptions.addAction(action: shareLinkAction)
-
-        let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: nil) { [weak self] in
-            self?.shareLinkToEpisode(sharePosition: true, sourceRect: sourceRect)
-        }
-        shareOptions.addAction(action: sharePositionAction)
-
-        if let fileAction = episodeFileAction(from: sourceRect) {
-            shareOptions.addAction(action: fileAction)
-        }
-
-        shareOptions.show(statusBarStyle: preferredStatusBarStyle)
+        SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
     }
 
     @objc private func podcastNameTapped() {

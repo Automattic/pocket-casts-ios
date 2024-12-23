@@ -43,7 +43,10 @@ class OptionsPicker {
 
     func show(statusBarStyle: UIStatusBarStyle) {
         guard let rootController = optionsController else { return }
+        //TODO: Figure this out and fix it
+        #if !APPCLIP
         window = SceneHelper.newMainScreenWindow()
+        #endif
         window?.rootViewController = rootController
         window?.windowLevel = UIWindow.Level.alert
         window?.makeKeyAndVisible()

@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 struct PlayerColorHelper {
     static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
