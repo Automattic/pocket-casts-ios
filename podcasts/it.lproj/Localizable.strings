@@ -337,6 +337,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Impossibile annullare</string>
     <key>cancel_subscription</key>
     <string>Annulla l'abbonamento</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Piani disponibili</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Riscatta l'offerta</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Riproduci facilmente un episodio casuale senza cambiare l'ordine della coda.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Introduzione a Shuffle</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Riproduzione casuale attiva. Riproduce gli episodi in ordine casuale.</string>
     <key>upgrade_account</key>
     <string>Effettua upgrade dell'account</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

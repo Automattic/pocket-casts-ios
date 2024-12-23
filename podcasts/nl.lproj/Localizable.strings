@@ -337,6 +337,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Kan niet annuleren</string>
     <key>cancel_subscription</key>
     <string>Abonnement annuleren</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Beschikbare abonnementen</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Aanbieding claimen</string>
     <key>cancel_subscription_continue_button</key>
@@ -3017,6 +3019,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Speel eenvoudig een willekeurige aflevering af zonder de volgorde van je wachtrij te veranderen.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Maak kennis met shuffle</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
