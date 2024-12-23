@@ -76,7 +76,7 @@ enum SharingModal {
     static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController) {
 
         if FeatureFlag.disablePrivateFeedSharing.enabled {
-            guard !podcast.isPrivate else {
+            if podcast.isPrivate {
                 Toast.show(L10n.sharePodcastPrivateNotAvailable)
                 return
             }
@@ -111,11 +111,9 @@ enum SharingModal {
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
 
         if FeatureFlag.disablePrivateFeedSharing.enabled {
-            if case let .podcast(podcast) = option {
-                guard !podcast.isPrivate else {
-                    Toast.show(L10n.sharePodcastPrivateNotAvailable)
-                    return
-                }
+            if case let .podcast(podcast) = option, podcast.isPrivate {
+                Toast.show(L10n.sharePodcastPrivateNotAvailable)
+                return
             }
         }
 
