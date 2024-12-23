@@ -27,11 +27,7 @@ struct StarRatingView: View {
     }
 
     var body: some View {
-        if FeatureFlag.giveRatings.enabled {
-            starsAndRate
-        } else {
-            onlyStars
-        }
+        starsAndRate
     }
 
     /// A view that returns stars and the "Rate" button
@@ -76,17 +72,6 @@ struct StarRatingView: View {
         }
     }
 
-    // A view that returns only the stars
-    var onlyStars: some View {
-        HStack(alignment: .center) {
-            ratingView(rating: viewModel.rating)
-                .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
-
-            Spacer()
-        }
-        .frame(height: 15)
-    }
-
     @ViewBuilder
     private func ratingView(rating: PodcastRating?) -> some View {
         starsView(rating: rating?.average ?? 0)
@@ -97,21 +82,16 @@ struct StarRatingView: View {
     private func labelView(rating: PodcastRating?) -> some View {
         let defaultColor = AppTheme.color(for: .primaryText01, theme: theme)
         Group {
-            if !FeatureFlag.giveRatings.enabled {
-                Text("(\(rating?.total.abbreviated ?? ""))")
+            if let rating, viewModel.hasRatings {
+                Text("\(rating.average, specifier: "%.1f")")
+                    .font(size: 14, style: .footnote, weight: .semibold)
+                    .padding([.leading], -2)
+                Text("(\(rating.total.abbreviated))")
                     .font(size: 14, style: .footnote)
+                    .padding([.leading], -2)
             } else {
-                if let rating, viewModel.hasRatings {
-                    Text("\(rating.average, specifier: "%.1f")")
-                        .font(size: 14, style: .footnote, weight: .semibold)
-                        .padding([.leading], -2)
-                    Text("(\(rating.total.abbreviated))")
-                        .font(size: 14, style: .footnote)
-                        .padding([.leading], -2)
-                } else {
-                    Text(L10n.ratingNoRatings)
-                        .font(size: 14, style: .footnote)
-                }
+                Text(L10n.ratingNoRatings)
+                    .font(size: 14, style: .footnote)
             }
         }
         .foregroundColor(defaultColor)
@@ -125,7 +105,7 @@ struct StarRatingView: View {
         let stars = Int(rating)
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
-        let themeStyle = FeatureFlag.giveRatings.enabled ? ThemeStyle.primaryUi05Selected : ThemeStyle.filter03
+        let themeStyle = ThemeStyle.primaryUi05Selected
         let color = AppTheme.color(for: themeStyle, theme: theme)
 
         HStack(spacing: 3) {

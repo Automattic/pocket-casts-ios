@@ -1374,6 +1374,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 54 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN podcastHTMLDescription TEXT;", values: nil)
+                schemaVersion = 54
+            } catch {
+                failedAt(54)
+                return
+            }
+        }
+
         db.commit()
     }
 }

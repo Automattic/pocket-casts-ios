@@ -91,7 +91,7 @@ struct Announcements {
             action: {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
-            isEnabled: FeatureFlag.giveRatings.enabled,
+            isEnabled: true,
             fullModal: true
         ),
         .init(

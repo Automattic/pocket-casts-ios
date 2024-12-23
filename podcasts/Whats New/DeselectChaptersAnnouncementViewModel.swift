@@ -4,22 +4,19 @@ import PocketCastsUtils
 
 class DeselectChaptersAnnouncementViewModel {
     var isPatronAnnouncementEnabled: Bool {
-        FeatureFlag.deselectChapters.enabled
-            && PaidFeature.deselectChapters.isUnlocked
+        PaidFeature.deselectChapters.isUnlocked
     }
 
     // Only for TestFlight early access
     var isPlusAnnouncementEnabled: Bool {
-        FeatureFlag.deselectChapters.enabled
-            && PaidFeature.deselectChapters.tier == .plus
-            && SubscriptionHelper.activeTier == .plus
+        PaidFeature.deselectChapters.tier == .plus
+        && SubscriptionHelper.activeTier == .plus
     }
 
     var isPlusFreeAnnouncementEnabled: Bool {
-        FeatureFlag.deselectChapters.enabled
-            && PaidFeature.deselectChapters.tier == .plus
-            && SubscriptionHelper.activeTier < .patron
-            && BuildEnvironment.current == .appStore
+        PaidFeature.deselectChapters.tier == .plus
+        && SubscriptionHelper.activeTier < .patron
+        && BuildEnvironment.current == .appStore
     }
 
     var plusFreeMessage: String {

@@ -2365,12 +2365,16 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Nessun filtro selezionato</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Nessun podcast selezionato</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Seguiti</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcast selezionati</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
     <string>1 podcast selezionato</string>
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Scarica i primi episodi in un filtro.</string>
+    <key>settings_auto_downloads_subtitle_new_episodes</key>
+    <string>Scarica automaticamente i nuovi episodi, salvali in base alle serie che segui e gestisci l'archivio impostando un limite sugli episodi salvati.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Scarica gli episodi aggiunti a Successivo.</string>
     <key>settings_badge_filter_header</key>
@@ -3011,6 +3015,12 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Cronologia Up Next</string>
     <key>up_next_history_explanation</key>
     <string>Un elenco degli aggiornamenti recenti di Up Next a seguito di modifiche su altri dispositivi. Per visualizzare gli episodi e avere la possibilità di ripristinarli, toccare una voce qualsiasi.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Fatto</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Riproduci facilmente un episodio casuale senza cambiare l'ordine della coda.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Introduzione a Shuffle</string>
     <key>upgrade_account</key>
     <string>Effettua upgrade dell'account</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

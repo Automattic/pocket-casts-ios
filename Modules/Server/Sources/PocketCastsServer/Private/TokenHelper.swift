@@ -1,5 +1,10 @@
 import Foundation
 import PocketCastsUtils
+#if os(iOS)
+import UIKit
+#elseif os(watchOS)
+import WatchKit
+#endif
 
 class TokenHelper {
 
@@ -85,23 +90,45 @@ class TokenHelper {
             ServerSettings.setRefreshToken(refreshedRefreshToken)
         }
         else {
-            if ServerConfig.avoidLogoutOnError {
-                // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-                switch error as? APIError {
-                case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
-                    tokenCleanUp()
-                default:
-                    // Do nothing so the user is not disrupted in the case of non-auth errors
-                    FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
-                }
+            if isApplicationBackgrounded() && ServerConfig.avoidLogoutInBackground {
+                FileLog.shared.addMessage("TokenHelper: Skipped logout in background due to error: \(String(describing: error))")
             } else {
-                tokenCleanUp()
+                if ServerConfig.avoidLogoutOnError {
+                    // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+                    switch error as? APIError {
+                    case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                        tokenCleanUp()
+                    default:
+                        // Do nothing so the user is not disrupted in the case of non-auth errors
+                        FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
+                    }
+                } else {
+                    tokenCleanUp()
+                }
             }
 
             return nil
         }
 
         return refreshedToken
+    }
+
+    private func isApplicationBackgrounded() -> Bool {
+        let semaphore = DispatchSemaphore(value: 0)
+        var isBackgrounded = false
+
+        DispatchQueue.main.async {
+            #if os(iOS)
+            isBackgrounded = UIApplication.shared.applicationState == .background
+            #elseif os(watchOS)
+            isBackgrounded = WKExtension.shared().applicationState == .background
+            #endif
+
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+        return isBackgrounded
     }
 
     // MARK: - Email / Password Token
