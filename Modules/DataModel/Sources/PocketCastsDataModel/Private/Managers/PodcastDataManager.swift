@@ -314,9 +314,6 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
-        // Get the existing podcast to compare if folder is being changed
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
-
         dbQueue.inDatabase { db in
             do {
                 if podcast.id == 0 {
