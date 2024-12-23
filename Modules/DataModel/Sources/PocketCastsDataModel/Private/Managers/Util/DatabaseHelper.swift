@@ -604,6 +604,11 @@ class DatabaseHelper {
                     schemaVersion = 53
                 }
 
+                if schemaVersion < 54 {
+                    try db.execute(sql: "ALTER TABLE SJPodcast ADD COLUMN podcastHTMLDescription TEXT;")
+                    schemaVersion = 54
+                }
+
 
                 return .commit
             }
