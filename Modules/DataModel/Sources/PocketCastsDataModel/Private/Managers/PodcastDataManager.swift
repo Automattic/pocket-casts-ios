@@ -61,6 +61,7 @@ class PodcastDataManager {
         "refreshAvailable",
         "folderUuid",
         "usedCustomEffectsBefore",
+        "isPrivate"
     ]
 
     func setup(dbQueue: FMDatabaseQueue) {
@@ -671,6 +672,7 @@ class PodcastDataManager {
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
         values.append(podcast.usedCustomEffectsBefore)
+        values.append(podcast.isPrivate)
 
         if includeIdForWhere {
             values.append(podcast.id)

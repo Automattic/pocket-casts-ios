@@ -2779,6 +2779,9 @@
 /* Message indicating that the process to share a podcast list is in progress. */
 "share_podcasts_sharing" = "Sharing...";
 
+/* A message shown when trying to share a private podcast, which is disabled. */
+"share_podcast_private_not_available" = "Sharing is not available for private podcasts";
+
 /* Error message for when sharing fails. */
 "share_podcasts_sharing_failed_msg" = "Something went wrong creating your share page";
 

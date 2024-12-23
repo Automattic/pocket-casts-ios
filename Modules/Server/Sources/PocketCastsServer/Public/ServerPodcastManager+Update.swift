@@ -75,6 +75,9 @@ extension ServerPodcastManager {
         if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
             podcast.refreshAvailable = refreshAvailable
         }
+        if let isPrivate = podcastJson["is_private"] as? Bool {
+            podcast.isPrivate = isPrivate
+        }
 
         DataManager.sharedManager.save(podcast: podcast)
 
