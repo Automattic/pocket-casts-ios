@@ -58,11 +58,11 @@ public class DataManager {
             dbQueue.inDatabase { db in
                 DatabaseHelper.setup(db: db)
             }
-        }
 
-        if shouldCloseQueueAfterSetup {
-            // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
-            dbQueue.close()
+            if shouldCloseQueueAfterSetup {
+                // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
+                dbQueue.close()
+            }
         }
 
         // closing it above won't affect these calls, since they will re-open it
