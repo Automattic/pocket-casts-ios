@@ -5,6 +5,7 @@
 7.79
 -----
 - Display the whole chapter title, without truncating it [#2499](https://github.com/Automattic/pocket-casts-ios/pull/2499)
+- Remove logout from failed background HTTP requests. [#2586](https://github.com/Automattic/pocket-casts-ios/pull/2586)
 
 7.78
 -----
