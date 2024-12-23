@@ -9,7 +9,7 @@ class PodcastDataManager {
         return queue
     }()
 
-    private let columnNames = [
+    let columnNames = [
         "id",
         "addedDate",
         "autoDownloadSetting",
@@ -621,7 +621,7 @@ class PodcastDataManager {
         Podcast.from(resultSet: rs)
     }
 
-    private func createValuesFrom(podcast: Podcast, includeIdForWhere: Bool = false) -> [Any] {
+    func createValuesFrom(podcast: Podcast, includeIdForWhere: Bool = false) -> [Any] {
         var values = [Any]()
         values.append(podcast.id)
         values.append(DBUtils.nullIfNil(value: podcast.addedDate))
@@ -682,13 +682,13 @@ class PodcastDataManager {
         return values
     }
 
-    private func addedDateSort(p1: Podcast, p2: Podcast) -> Bool {
+    func addedDateSort(p1: Podcast, p2: Podcast) -> Bool {
         guard let date1 = p1.addedDate, let date2 = p2.addedDate else { return false }
 
         return PodcastSorter.dateAddedSort(date1: date1, date2: date2)
     }
 
-    private func titleSort(p1: Podcast, p2: Podcast) -> Bool {
+    func titleSort(p1: Podcast, p2: Podcast) -> Bool {
         guard let title1 = p1.title, let title2 = p2.title else { return false }
 
         return PodcastSorter.titleSort(title1: title1, title2: title2)
