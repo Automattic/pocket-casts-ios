@@ -66,7 +66,7 @@ public class DataManager {
         }
 
         // closing it above won't affect these calls, since they will re-open it
-        FeatureFlag.grdb.enabled ? podcastManager.setup(dbQueue: dbQueue) : podcastManager.setup(dbPool: dbPool)
+        !FeatureFlag.grdb.enabled ? podcastManager.setup(dbQueue: dbQueue) : podcastManager.setup(dbPool: dbPool)
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
 
