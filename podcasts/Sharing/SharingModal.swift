@@ -74,6 +74,14 @@ enum SharingModal {
     }
 
     static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController) {
+
+        if FeatureFlag.disablePrivateFeedSharing.enabled {
+            guard !podcast.isPrivate else {
+                Toast.show(L10n.sharePodcastPrivateNotAvailable)
+                return
+            }
+        }
+
         let colors = OptionsPickerRootController.Colors(title: UIColor.white.withAlphaComponent(0.5), background: PlayerColorHelper.playerBackgroundColor01())
 
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)

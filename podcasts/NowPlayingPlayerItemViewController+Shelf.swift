@@ -456,13 +456,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func shareEpisode(sender: UIView) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        if FeatureFlag.disablePrivateFeedSharing.enabled {
-            guard episode.parentPodcast()?.isPrivate == false else {
-                Toast.show(L10n.sharePodcastPrivateNotAvailable)
-                return
-            }
-        }
-
         guard FeatureFlag.newSharing.enabled == false else {
             SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
             return
