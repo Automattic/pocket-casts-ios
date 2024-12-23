@@ -2,8 +2,8 @@ import FMDB
 import PocketCastsUtils
 
 class PodcastDataManager {
-    private var cachedPodcasts = [String: Podcast]()
-    private lazy var cachedPodcastsQueue: DispatchQueue = {
+    var cachedPodcasts = [String: Podcast]()
+    lazy var cachedPodcastsQueue: DispatchQueue = {
         let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
 
         return queue
