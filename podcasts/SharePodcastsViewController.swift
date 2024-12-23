@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import UIKit
+import PocketCastsUtils
 
 protocol ShareListDelegate: AnyObject {
     func shareUrlAvailable(_ shareUrl: String, listName: String)
@@ -135,6 +136,9 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
     private func loadPodcasts() {
         let loadedPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
         for podcast in loadedPodcasts {
+            if FeatureFlag.disablePrivateFeedSharing.enabled {
+                if podcast.isPrivate { continue } // Hide all private podcasts
+            }
             podcasts.append(podcast)
         }
 
