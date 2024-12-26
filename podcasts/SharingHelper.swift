@@ -68,7 +68,6 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true, fromSource: AnalyticsSource, analyticsType: String = "episode") {
-        Analytics.track(.podcastShared, source: fromSource, properties: ["type": analyticsType])
 
         SharingModal.show(option: .episode(episode), from: fromSource, in: fromController)
     }
