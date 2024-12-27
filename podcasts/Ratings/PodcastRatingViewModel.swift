@@ -69,21 +69,15 @@ class PodcastRatingViewModel: ObservableObject {
 // MARK: - View Interactions
 extension PodcastRatingViewModel {
     func didTapRating(source: RatingSource = .button) {
-        if FeatureFlag.giveRatings.enabled {
-            Analytics.shared.track(.ratingStarsTapped,
-                                   properties: ["uuid": uuid ?? "unknown",
-                                                "source": source.rawValue])
-            if SyncManager.isUserLoggedIn() {
-                presentingGiveRatings = true
-            } else {
-                DispatchQueue.main.async {
-                    self.presentLogin?(self)
-                }
-            }
-        } else {
+        Analytics.shared.track(.ratingStarsTapped,
+                               properties: ["uuid": uuid ?? "unknown",
+                                            "source": source.rawValue])
+        if SyncManager.isUserLoggedIn() {
             presentingGiveRatings = true
-
-            Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
+        } else {
+            DispatchQueue.main.async {
+                self.presentLogin?(self)
+            }
         }
     }
 }

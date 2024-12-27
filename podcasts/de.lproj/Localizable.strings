@@ -337,6 +337,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Beenden nicht möglich</string>
     <key>cancel_subscription</key>
     <string>Abonnement beenden</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Verfügbare Tarife</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Angebot nutzen</string>
     <key>cancel_subscription_continue_button</key>
@@ -3019,6 +3021,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Gib ganz einfach eine zufällige Folge wieder, ohne dabei die Reihenfolge deiner Warteschlange zu ändern.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Jetzt neu: Mischen</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>„Mischen“ ist aktiviert. Folgen werden in zufälliger Reihenfolge wiedergegeben.</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

@@ -402,6 +402,10 @@ internal enum L10n {
   internal static var cancelSubscriptionNewPlanDescription: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_description") }
   /// Looking for a different plan?
   internal static var cancelSubscriptionNewPlanTitle: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_title") }
+  /// Thanks for choosing Pocket Casts. Billing starts after your free month ends.
+  internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
+  /// Enjoy your free month!
+  internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
   /// Save %@ with your next month on us.
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
@@ -3134,6 +3138,8 @@ internal enum L10n {
   internal static var shareMoreActions: String { return L10n.tr("Localizable", "share_more_actions") }
   /// Share podcast
   internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
+  /// Sharing is not available for private podcasts
+  internal static var sharePodcastPrivateNotAvailable: String { return L10n.tr("Localizable", "share_podcast_private_not_available") }
   /// Share podcast
   internal static var sharePodcastTitle: String { return L10n.tr("Localizable", "share_podcast_title") }
   /// ALL SELECTED

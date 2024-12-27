@@ -29,6 +29,39 @@ public class StatsManager {
         }
     }
 
+    func updateStatsIfNeeded(savedDynamicSpeed: TimeInterval, savedVariableSpeed: TimeInterval, totalListenedTo: TimeInterval, totalSkipped: TimeInterval, savedAutoSkipping: TimeInterval) {
+        let minimumStatsChangeToUpdate: TimeInterval = 100
+
+        updateQueue.sync {
+            if savedDynamicSpeed - self.savedDynamicSpeed > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedDynamicSpeed from \(self.savedDynamicSpeed) to \(savedDynamicSpeed)")
+                self.savedDynamicSpeed = savedDynamicSpeed
+            }
+
+            if savedVariableSpeed - self.savedVariableSpeed > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedVariableSpeed from \(self.savedVariableSpeed) to \(savedVariableSpeed)")
+                self.savedVariableSpeed = savedVariableSpeed
+            }
+
+            if totalListenedTo - self.totalListenedTo > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing totalListenedTo from \(self.totalListenedTo) to \(totalListenedTo)")
+                self.totalListenedTo = totalListenedTo
+            }
+
+            if totalSkipped - self.totalSkipped > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing totalSkipped from \(self.totalSkipped) to \(totalSkipped)")
+                self.totalSkipped = totalSkipped
+            }
+
+            if savedAutoSkipping - self.savedAutoSkipping > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedAutoSkipping from \(self.savedAutoSkipping) to \(savedAutoSkipping)")
+                self.savedAutoSkipping = savedAutoSkipping
+            }
+
+            persistTimes()
+        }
+    }
+
     // MARK: - dynamic speed
 
     public func timeSavedDynamicSpeed() -> TimeInterval {
@@ -141,60 +174,6 @@ public class StatsManager {
             UserDefaults.standard.setValue(remoteStats.startedStatsAt, forKey: ServerConstants.UserDefaults.statsStartedDateServer)
 
             completion?(true)
-        }
-    }
-
-    public func updateLocalStatsIfNeeded(completion: ((Bool) -> Void)?) {
-        guard FeatureFlag.syncStats.enabled else {
-            completion?(false)
-            return
-        }
-
-        ApiServerHandler.shared.loadStatsRequest(getFullData: true) { [weak self] remoteStats in
-            guard let self, let remoteStats = remoteStats else { return }
-
-            var didChange = false
-
-            if Int64(timeSavedDynamicSpeedInclusive()) < remoteStats.silenceRemovalTime {
-                didChange = true
-                updateQueue.sync {
-                    self.savedDynamicSpeed = Double(remoteStats.silenceRemovalTime) - self.timeSavedDynamicSpeedInclusive()
-                }
-            }
-
-            if Int64(totalAutoSkippedTimeInclusive()) < remoteStats.autoSkipTime {
-                didChange = true
-                updateQueue.sync {
-                    self.savedAutoSkipping = Double(remoteStats.autoSkipTime) - self.totalAutoSkippedTimeInclusive()
-                }
-            }
-
-            if Int64(totalSkippedTimeInclusive()) < remoteStats.skipTime {
-                didChange = true
-                updateQueue.sync {
-                    self.totalSkipped = Double(remoteStats.skipTime) - self.totalSkippedTimeInclusive()
-                }
-            }
-
-            if Int64(totalListeningTimeInclusive()) < remoteStats.totalListenTime {
-                didChange = true
-                updateQueue.sync {
-                    self.totalListenedTo = Double(remoteStats.totalListenTime) - self.totalListeningTimeInclusive()
-                }
-            }
-
-            if Int64(timeSavedVariableSpeedInclusive()) < remoteStats.variableSpeedTime {
-                didChange = true
-                updateQueue.sync {
-                    self.savedVariableSpeed = Double(remoteStats.variableSpeedTime) - self.timeSavedVariableSpeedInclusive()
-                }
-            }
-
-            if didChange {
-                persistTimes()
-            }
-
-            completion?(didChange)
         }
     }
 

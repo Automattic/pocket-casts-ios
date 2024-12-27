@@ -337,6 +337,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No se puede cancelar</string>
     <key>cancel_subscription</key>
     <string>Cancelar Suscripción</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Planes disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Reclamar oferta</string>
     <key>cancel_subscription_continue_button</key>
@@ -3019,6 +3021,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Reproduce un episodio aleatorio fácilmente sin cambiar el orden de la cola.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Te presentamos Shuffle</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>La reproducción aleatoria está activada. Los episodios se reproducirán en orden aleatorio.</string>
     <key>upgrade_account</key>
     <string>Mejorar cuenta</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

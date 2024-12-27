@@ -52,7 +52,7 @@ extension Analytics {
     }
 
     func optInOfAnalytics() {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             Settings.setAnalytics(optOut: false)
             (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
             Analytics.track(.analyticsOptIn)
@@ -63,7 +63,7 @@ extension Analytics {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
         } else {
-            #if !os(watchOS)
+            #if !os(watchOS) && !APPCLIP
             (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
             #endif
         }

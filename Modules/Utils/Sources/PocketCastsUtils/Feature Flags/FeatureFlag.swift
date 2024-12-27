@@ -17,12 +17,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
-    /// Enable the ability to rate podcasts
-    case giveRatings
-
-    /// Enable selecting/deselecting episode chapters
-    case deselectChapters
-
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
 
@@ -37,8 +31,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable the AVExportSession parallel download of any playing episode
     case streamAndCachePlayingEpisode
-
-    case categoriesRedesign
 
     /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
@@ -58,8 +50,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use the Accelerate framework to speed up custom effects
     case accelerateEffects
-
-    case newSharing
 
     /// Enables the Kids banner
     case kidsProfile
@@ -140,6 +130,11 @@ public enum FeatureFlag: String, CaseIterable {
     ///Use html description for podcast details
     case usePodcastHTMLDescription
 
+    /// Disables logout / keychain clearing when errors occur in the background
+    case avoidLogoutInBackground
+
+    case disablePrivateFeedSharing
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -160,10 +155,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .errorLogoutHandling:
             false
-        case .giveRatings:
-            false
-        case .deselectChapters:
-            false
         case .newSettingsStorage:
             shouldEnableSyncedSettings
         case .settingsSync:
@@ -174,8 +165,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .streamAndCachePlayingEpisode:
             true
-        case .categoriesRedesign:
-            true
         case .defaultPlayerFilterCallbackFix:
             true
         case .downloadFixes:
@@ -185,8 +174,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
             true
         case .accelerateEffects:
-            true
-        case .newSharing:
             true
         case .kidsProfile:
             false
@@ -234,6 +221,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .usePodcastHTMLDescription:
             false
+        case .avoidLogoutInBackground:
+            true
+        case .disablePrivateFeedSharing:
+            true
         }
     }
 
@@ -245,16 +236,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// This should match a Firebase Remote Config Parameter name (key)
     public var remoteKey: String? {
         switch self {
-        case .deselectChapters:
-            "deselect_chapters_enabled"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
         case .newSettingsStorage:
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .categoriesRedesign:
-            "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
         default:

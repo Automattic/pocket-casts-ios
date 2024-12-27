@@ -160,11 +160,9 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self?.requestReviewIfPossible()
             }
 
-            StatsManager.shared.updateLocalStatsIfNeeded { updated in
-                if updated {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.statsTable.reloadData()
-                    }
+            RefreshManager.shared.refreshPodcasts { _ in
+                DispatchQueue.main.async { [weak self] in
+                    self?.statsTable.reloadData()
                 }
             }
         }

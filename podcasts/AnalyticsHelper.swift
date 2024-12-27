@@ -9,7 +9,10 @@ import PocketCastsUtils
 class AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
     static var optedOut: Bool {
+        #if !APPCLIP
         Settings.analyticsOptOut()
+        #endif
+        return true
     }
 
     class func openedCategory(categoryId: Int, region: String) {
@@ -232,7 +235,7 @@ class AnalyticsHelper {
         logEvent("\(tourName)_tour_cancelled_\(step)", parameters: nil)
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !APPCLIP
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
@@ -309,6 +312,7 @@ class AnalyticsHelper {
                               promotionName: source.promotionName())
         }
 
+        #if !APPCLIP
         static func plusAddToCart(identifier: IAPProductID) {
             guard let product = IAPHelper.shared.getProduct(for: identifier) else {
                 return
@@ -342,6 +346,7 @@ class AnalyticsHelper {
 
             logEvent(AnalyticsEventAddToCart, parameters: parameters)
         }
+        #endif
 
         static func plusPlanPurchased() {
             logEvent(AnalyticsEventPurchase)

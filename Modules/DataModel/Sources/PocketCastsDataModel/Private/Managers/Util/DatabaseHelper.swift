@@ -795,6 +795,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 55 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isPrivate INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 55
+            } catch {
+                failedAt(55)
+                return
+            }
+        }
+
         db.commit()
     }
 }

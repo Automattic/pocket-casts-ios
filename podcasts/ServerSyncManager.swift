@@ -67,25 +67,33 @@ class ServerSyncManager: ServerSyncDelegate {
 
     // User Episodes functions
     func deleteFromDevice(userEpisode: UserEpisode) {
+        #if !APPCLIP
         UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
+        #endif
     }
 
     func performActionsAfterSync() {
         PodcastManager.shared.checkForExpiredPodcastsAndCleanup()
-        FilterManager.checkForAutoDownloads()
         PodcastManager.shared.checkForPendingAndAutoDownloads()
+        #if !APPCLIP
+        FilterManager.checkForAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
+        #endif
         DispatchQueue.main.async {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             Theme.sharedTheme.toggleTheme()
+            #if !APPCLIP
             NotificationsHelper.shared.register(checkToken: true)
+            #endif
         }
     }
 
     func cleanupCloudOnlyFiles() {
+        #if !APPCLIP
         UserEpisodeManager.cleanupCloudOnlyFiles()
+        #endif
     }
 
     func autoDownloadUserEpisodes(episodes: [UserEpisode]) {
@@ -108,7 +116,11 @@ class ServerSyncManager: ServerSyncDelegate {
     // MARK: - Settings
 
     func isPushEnabled() -> Bool {
+        #if APPCLIP
+        false
+        #else
         NotificationsHelper.shared.pushEnabled()
+        #endif
     }
 
     func defaultPodcastGrouping() -> Int32 {

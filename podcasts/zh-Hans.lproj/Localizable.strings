@@ -337,6 +337,8 @@
     <string>无法取消</string>
     <key>cancel_subscription</key>
     <string>取消订阅</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>可用套餐</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>领取优惠</string>
     <key>cancel_subscription_continue_button</key>
@@ -3021,6 +3023,8 @@
     <string>无需更改队列顺序，即可轻松播放随机剧集。</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>推出随机播放功能</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>随机播放功能已启用。 剧集将按随机顺序播放。</string>
     <key>upgrade_account</key>
     <string>升级账户</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

@@ -61,6 +61,7 @@ class PodcastDataManager {
         "refreshAvailable",
         "folderUuid",
         "usedCustomEffectsBefore",
+        "isPrivate"
     ]
 
     func setup(dbQueue: FMDatabaseQueue) {
@@ -314,9 +315,6 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
-        // Get the existing podcast to compare if folder is being changed
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
-
         dbQueue.inDatabase { db in
             do {
                 if podcast.id == 0 {
@@ -674,6 +672,7 @@ class PodcastDataManager {
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
         values.append(podcast.usedCustomEffectsBefore)
+        values.append(podcast.isPrivate)
 
         if includeIdForWhere {
             values.append(podcast.id)
