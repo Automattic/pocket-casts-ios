@@ -214,6 +214,7 @@ struct Constants {
         static let sideBarWidthCompact = 88 as CGFloat
         static let sideBarWidthExpanded = 320 as CGFloat
 
+        static let miniPlayerHeight = 70 as CGFloat
         static let miniPlayerOffset = 80 as CGFloat
         static let extraShowNotesVerticalSpacing: CGFloat = 60
         static let defaultFilterDownloadLimit = 10 as Int32

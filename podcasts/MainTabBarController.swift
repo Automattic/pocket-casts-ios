@@ -195,7 +195,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
         ])
 
-        miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+        miniPlayer.changeHeightTo(miniPlayer.desiredHeight)
     }
 
     // MARK: - UITabBarDelegate

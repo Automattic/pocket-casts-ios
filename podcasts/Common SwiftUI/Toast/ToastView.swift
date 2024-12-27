@@ -67,6 +67,7 @@ struct ToastView<Style: ToastTheme>: View {
 
             autoDismiss()
         }
+        .ignoresSafeArea()
     }
 
     // MARK: - Views
@@ -109,8 +110,7 @@ struct ToastView<Style: ToastTheme>: View {
         .shadow(color: .black.opacity(0.3), radius: 10)
 
         // Animates the toast in from the bottom of the screen
-        .miniPlayerSafeAreaInset(multiplier: viewModel.aboveMiniPlayer ? 1.5 : 0)
-        .offset(y: isVisible ? 0 : contentSize.height)
+        .offset(y: -(viewModel.insetAdjuster?.bottomInset ?? 0) + (isVisible ? 0 : contentSize.height))
         .opacity(isVisible ? 1 : 0)
         .animation(ToastConstants.animation, value: isVisible)
         // Calculate the view size and inform the view model

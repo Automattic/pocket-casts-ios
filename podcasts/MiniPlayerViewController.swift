@@ -81,8 +81,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.skipForward()
     }
 
-    func desiredHeight() -> CGFloat {
-        70
+    var desiredHeight: CGFloat {
+        Constants.Values.miniPlayerHeight
     }
 
     func aboutToDisplayFullScreenPlayer() {

@@ -225,7 +225,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         let upNextShuffleEnabled = Settings.upNextShuffleEnabled()
         if upNextShuffleEnabled {
-            Toast.show(L10n.upNextShuffleToastMessage, aboveMiniPlayer: self.showingInTab ? true : false)
+            Toast.show(L10n.upNextShuffleToastMessage, insetAdjuster: self)
         }
         track(.upNextShuffleEnabled, properties: ["value": upNextShuffleEnabled])
     }
@@ -429,4 +429,14 @@ extension UpNextViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .upNext
     }
+}
+
+extension UpNextViewController: ToastInsetAdjuster {
+    var bottomInset: CGFloat {
+        let isMiniPlayerVisible = PlaybackManager.shared.currentEpisode() != nil
+        let value = view.safeAreaInsets.bottom + (isMiniPlayerVisible && showingInTab ? Constants.Values.miniPlayerHeight : 0)
+        return value
+    }
+
+
 }
