@@ -1,5 +1,9 @@
 #!/bin/bash -eu
 
+BETA_RELEASE=${1:-true} # use first call param, default to true for safety
+
+echo "Running $0 with BETA_RELEASE = $BETA_RELEASE..."
+
 echo "--- :arrow_down: Downloading Artifacts"
 ARTIFACTS_DIR='artifacts' # Defined in Fastlane, see ARTIFACTS_FOLDER
 STEP=testflight_build
@@ -27,5 +31,4 @@ if [[ $SENTRY_UPLOAD_STATUS -ne 0 ]]; then
 fi
 
 echo "--- :github: Creating GitHub Release"
-bundle exec fastlane create_release_on_github \
-  beta_release:${1:-true} # use first call param, default to true for safety
+bundle exec fastlane create_release_on_github beta_release:"$BETA_RELEASE"
