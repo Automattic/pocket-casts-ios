@@ -129,10 +129,24 @@ enum SharingModal {
         let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
         viewController.present(hostingController, animated: true)
 
+        Analytics.track(.podcastShared, source: source, properties: ["type": option.analyticsType])
     }
 }
 
 extension SharingModal.Option {
+    fileprivate var analyticsType: String {
+        switch self {
+        case .podcast:
+            "podcast"
+        case .episode:
+            "episode"
+        case .currentPosition:
+            "current_position"
+        case .clip, .clipShare:
+            "clip"
+        }
+    }
+
     private var description: String? {
         switch self {
         case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
