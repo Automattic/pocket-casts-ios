@@ -117,7 +117,10 @@ struct ToastView<Style: ToastTheme>: View {
         .background(GeometryReader(content: { proxy in
             Color.clear.onAppear {
                 contentSize = proxy.size
-                viewModel.updateFrame(proxy.frame(in: .global))
+                var rect = proxy.frame(in: .global)
+                rect.size.height = rect.size.height + (viewModel.insetAdjuster?.bottomInset ?? 0)
+                rect.origin.y = rect.origin.y - (viewModel.insetAdjuster?.bottomInset ?? 0)
+                viewModel.updateFrame(rect)
             }
         }))
 
