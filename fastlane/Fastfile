@@ -68,6 +68,7 @@ APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype
 
 # Keep this in alphabetical case-insensitive order so it's easier to visually compare with the list on the Developers Portal.
 EXTENSIONS = %w[
+  Clip
   NotificationContent
   NotificationExtension
   PodcastsIntents
