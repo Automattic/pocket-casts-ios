@@ -68,6 +68,7 @@ struct NowPlayingView: View {
                 print("Loaded episode: \(episode.title)")
 
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+                Analytics.track(.playbackPlay, source: AnalyticsSource.handleUserActivity, properties: ["url": incomingURL.absoluteString, "podcast": podcastUUID, "episode": episode.uuid])
             }
         }
     }
