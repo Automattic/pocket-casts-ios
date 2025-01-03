@@ -68,6 +68,16 @@ struct ManageDownloadsBannerView: View {
                 .inset(by: 0.25)
                 .stroke(theme.secondaryText02, lineWidth: 0.5)
         )
+        .overlay(alignment: .topTrailing) {
+            Button() {
+                dataModel.onNotNowTap?()
+            } label: {
+                Image("close")
+                    .renderingMode(.template)
+                    .foregroundColor(theme.secondaryText02)
+            }
+            .padding(8)
+        }
     }
 }
 
