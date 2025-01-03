@@ -23,6 +23,10 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
         }
     }
 
+    override func didAppear() {
+        Analytics.track(.cancelSubscriptionAvailablePlansShown)
+    }
+
     override func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }

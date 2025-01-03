@@ -61,7 +61,6 @@ extension CancelSubscriptionViewModel {
 
     func showPlans() {
         Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "plans"])
-        Analytics.track(.cancelSubscriptionAvailablePlansShown)
 
         let viewController = CancelSubscriptionPlansViewModel.make(in: navigationController)
         navigationController?.pushViewController(viewController, animated: true)
