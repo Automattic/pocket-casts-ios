@@ -22,7 +22,7 @@ struct CancelSubscriptionOfferSuccessView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
             Spacer()
-            Button(action: viewModel.closePlans) {
+            Button(action: viewModel.closeOffer) {
                 Text(L10n.done)
             }
             .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
