@@ -33,6 +33,7 @@ target 'PocketCastsTests' do
 end
 
 target 'Pocket Casts App Clip' do
+  platform :ios, app_ios_deployment_target.version
   use_modular_headers!
 end
 
