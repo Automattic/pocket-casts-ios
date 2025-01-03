@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import StoreKit
+import PocketCastsUtils
 
 struct NowPlayingView: View {
     @State var presentAppStoreOverlay: Bool = false
@@ -44,28 +45,28 @@ struct NowPlayingView: View {
 
         PodcastManager.shared.importSharedItemFromUrl(importPath) { shareItem in
             guard let shareItem else {
-                print("Share Item")
+                FileLog.shared.addMessage("App Clip: Missing Share Item")
                 return
             }
 
             guard let episodeUUID = shareItem.episodeHeader?.uuid else {
-                print("No episode found in share item")
+                FileLog.shared.addMessage("App Clip: No episode found in share item")
                 return
             }
 
             guard let podcastUUID = shareItem.podcastHeader?.uuid else {
-                print("No podcast found in share item")
+                FileLog.shared.addMessage("App Clip: No podcast found in share item")
                 return
             }
 
 
             loadEpisode(episodeUuid: episodeUUID, podcastUuid: podcastUUID) {
                 guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUUID) else {
-                    print("Could not find Episode")
+                    FileLog.shared.addMessage("App Clip: Could not find Episode")
                     return
                 }
 
-                print("Loaded episode: \(episode.title)")
+                FileLog.shared.addMessage("App Clip: Loaded episode: \(episode.title ?? "unknown")")
 
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
                 Analytics.track(.playbackPlay, source: AnalyticsSource.handleUserActivity, properties: ["url": incomingURL.absoluteString, "podcast": podcastUUID, "episode": episode.uuid])
