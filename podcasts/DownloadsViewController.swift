@@ -157,6 +157,8 @@ class DownloadsViewController: PCViewController {
         }, onNotNowTap: { [weak self] in
             Analytics.track(.freeUpSpaceMaybeLaterTapped, properties: ["source": "downloads"])
             Settings.manageDownloadsLastCheckDate = Date.now
+            self?.showManageDownloadsBanner()
+            self?.downloadsTable.reloadData()
         })
         let banner = ManageDownloadsBannerView(dataModel: model).themedUIView
         banner.translatesAutoresizingMaskIntoConstraints = false
