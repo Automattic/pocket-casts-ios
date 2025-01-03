@@ -25,7 +25,7 @@ steps:
 
   - label: ":testflight: Release Upload (TestFlight, Sentry, GitHub)"
     depends_on: testflight_build
-    command: .buildkite/commands/release-upload.sh
+    command: .buildkite/commands/release-upload.sh $BETA_RELEASE
     priority: 1
     plugins: [$CI_TOOLKIT]
     notify:
