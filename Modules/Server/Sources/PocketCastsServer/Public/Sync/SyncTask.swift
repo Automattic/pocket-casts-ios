@@ -1,4 +1,5 @@
 import Foundation
+import SwiftProtobuf
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -92,8 +93,6 @@ class SyncTask: ApiBaseTask {
 
                     // If server's folderUuid is `nil` then we don't change
                     if podcast.folderUuid?.isEmpty == false {
-                        FileLog.shared.foldersIssue("SyncTask performHomeGridRefresh: changing \(localPodcast.title ?? "") folder from \(localPodcast.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
-
                         localPodcast.folderUuid = podcast.folderUuid
                     }
 
@@ -246,23 +245,18 @@ class SyncTask: ApiBaseTask {
         var records = [Api_Record]()
         if let podcastChanges = changedPodcasts() {
             records += podcastChanges
-            FileLog.shared.foldersIssue("SyncTask: Number of changed podcasts: \(podcastChanges.count)")
         }
         if let episodeChanges = changedEpisodes(for: episodesToSync) {
             records += episodeChanges
-            FileLog.shared.foldersIssue("SyncTask: Number of changed episodes: \(episodeChanges.count)")
         }
         if let filterChanges = changedFilters() {
             records += filterChanges
-            FileLog.shared.foldersIssue("SyncTask: Number of changed filters: \(filterChanges.count)")
         }
         if let folderChanges = changedFolders() {
             records += folderChanges
-            FileLog.shared.foldersIssue("SyncTask: Number of changed folders: \(folderChanges.count)")
         }
         if let statsChanges = changedStats() {
             records.append(statsChanges)
-            FileLog.shared.foldersIssue("SyncTask: sending stats changes")
         }
 
         if let bookmarks = changedBookmarks() {
@@ -294,6 +288,7 @@ class SyncTask: ApiBaseTask {
                 syncRequest.country = country
             }
             syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
+            syncRequest.deviceType = Google_Protobuf_Int32Value(ServerConstants.Values.deviceTypeiOS)
 
             return try syncRequest.serializedData()
         } catch {}

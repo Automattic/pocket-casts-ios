@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import UIKit
 
 // ************ WARNING AUTO GENERATED, DO NOT EDIT ************
 struct ThemeColor {

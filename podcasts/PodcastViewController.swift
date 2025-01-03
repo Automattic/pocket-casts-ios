@@ -250,9 +250,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
 
         listenForBookmarkChanges()
-        if FeatureFlag.giveRatings.enabled {
-            setupLogin()
-        }
+        setupLogin()
     }
 
     private func setupLogin() {
@@ -439,7 +437,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, sourceRect: sourceRect, sourceView: view)
         Analytics.track(.podcastScreenShareTapped)
-        Analytics.track(.podcastShared, properties: ["type": "podcast", "source": analyticsSource])
     }
 
     private func loadPodcastInfo() {

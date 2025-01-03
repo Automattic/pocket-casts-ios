@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions
@@ -60,7 +61,7 @@ class AnalyticsCoordinator {
         PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !APPCLIP
         var currentAnalyticsSource: AnalyticsSource {
             if let currentSource = currentSource {
                 self.currentSource = nil

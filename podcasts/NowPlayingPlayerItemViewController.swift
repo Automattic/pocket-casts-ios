@@ -152,17 +152,23 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
+    #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
+    #endif
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
+    #if !APPCLIP
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
+    #endif
 
+    #if !APPCLIP
     lazy var upNextViewController: UIViewController = {
         let controller = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         controller.modalPresentationStyle = .pageSheet
 
         return controller
     }()
+    #endif
 
     var lastShelfLoadState = ShelfLoadState()
 
@@ -171,6 +177,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
@@ -180,15 +187,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
+        #endif
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        #if !APPCLIP
         // Show the overflow menu
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
         }
+        #endif
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -199,7 +209,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var displayTranscript = false {
         didSet {
+            #if APPCLIP
+            //TODO: Show install banner
+            #else
             toggleTranscript()
+            #endif
         }
     }
 
@@ -277,11 +291,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let chapters = PlaybackManager.shared.currentChapters()
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
-        if Settings.openLinks {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            present(SFSafariViewController(with: url), animated: true)
-        }
+        #if APPCLIP
+        //TODO: Prompt to install app
+        #else
+            if Settings.openLinks {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                present(SFSafariViewController(with: url), animated: true)
+            }
+        #endif
     }
 
     @objc private func imageTapped() {
@@ -341,6 +359,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
 
+    #if !APPCLIP
     @objc func googleCastTapped() {
         shelfButtonTapped(.chromecast)
 
@@ -412,4 +431,5 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.finishedTransition()
         })
     }
+    #endif
 }

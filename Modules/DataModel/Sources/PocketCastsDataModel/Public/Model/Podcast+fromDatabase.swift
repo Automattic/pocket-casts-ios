@@ -28,6 +28,7 @@ extension Podcast {
         podcast.trimSilenceAmount = rs.int(forColumn: "trimSilenceAmount")
         podcast.podcastCategory = rs.string(forColumn: "podcastCategory")
         podcast.podcastDescription = rs.string(forColumn: "podcastDescription")
+        podcast.podcastHTMLDescription  = rs.string(forColumn: "podcastHTMLDescription")
         podcast.sortOrder = rs.int(forColumn: "sortOrder")
         podcast.startFrom = rs.int(forColumn: "startFrom")
         podcast.skipLast = rs.int(forColumn: "skipLast")
@@ -55,6 +56,7 @@ extension Podcast {
         podcast.refreshAvailable = rs.bool(forColumn: "refreshAvailable")
         podcast.folderUuid = rs.string(forColumn: "folderUuid")
         podcast.usedCustomEffectsBefore = rs.bool(forColumn: "usedCustomEffectsBefore")
+        podcast.isPrivate = rs.bool(forColumn: "isPrivate")
 
         return podcast
     }

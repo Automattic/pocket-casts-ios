@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension PlayerContainerViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -85,7 +85,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     var shouldShowDeselectChaptersHeader: Bool {
-        FeatureFlag.deselectChapters.enabled && (PlaybackManager.shared.currentEpisode()?.isUserEpisode == false)
+        PlaybackManager.shared.currentEpisode()?.isUserEpisode == false
     }
 }
 

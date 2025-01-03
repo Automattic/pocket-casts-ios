@@ -1,4 +1,5 @@
 import UIKit
+import CoreMedia
 
 class Chapters: Equatable {
     private var chapters = [ChapterInfo]()

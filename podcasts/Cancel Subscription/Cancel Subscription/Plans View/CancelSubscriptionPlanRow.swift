@@ -7,11 +7,15 @@ struct CancelSubscriptionPlanRow: View {
     var selected: Bool
     let onTap: (PlusPricingInfoModel.PlusProductPricingInfo) -> Void
 
+    var backgroundColor: Color {
+        theme.activeTheme == .indigo ? .white : theme.primaryUi01
+    }
+
     var body: some View {
         ZStack {
             Rectangle()
                 .foregroundStyle(.clear)
-                .background(theme.primaryUi01)
+                .background(backgroundColor)
                 .cornerRadius(8.0)
                 .frame(height: 64)
             VStack(alignment: .leading, spacing: 0) {

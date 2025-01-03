@@ -79,7 +79,7 @@ class PaidFeature: ObservableObject {
 
 // MARK: - Helpers
 
-#if !os(watchOS)
+#if !os(watchOS) && !APPCLIP
 extension PaidFeature {
     /// Returns the correct upgrade view controller for the feature
     func upgradeController(source: String, customTitle: String? = nil) -> UIViewController {

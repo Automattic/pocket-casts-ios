@@ -51,7 +51,7 @@ struct SearchResultsListView: View {
         .onAppear {
             searchAnalyticsHelper.trackListShown(displayMode)
         }
-        .modifier(MiniPlayerPadding())
+        .miniPlayerSafeAreaInset()
         .applyDefaultThemeOptions()
     }
 }

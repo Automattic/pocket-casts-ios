@@ -78,6 +78,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
             self?.export(sender)
         }))
 
+        controller.addAction(.init(title: L10n.logs, style: .default, handler: { [weak self] _ in
+            self?.viewLogs(sender)
+        }))
+
         controller.addAction(.init(title: L10n.cancel, style: .destructive))
 
         present(controller, animated: true)
@@ -164,5 +168,14 @@ private extension OnlineSupportController {
         shareSheet.popoverPresentationController?.barButtonItem = sender
 
         present(shareSheet, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Logs
+
+private extension OnlineSupportController {
+    func viewLogs(_ sender: UIBarButtonItem) {
+        let vc = LogsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
