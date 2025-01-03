@@ -18,6 +18,11 @@ class CancelConfirmationViewModel: OnboardingModel {
 
     func goBackTapped() {
         Analytics.track(.cancelConfirmationStayButtonTapped)
+        if FeatureFlag.winback.enabled {
+            // To avoid repeating the event tracking,
+            // I forced passing the `swipe` type
+            didDismiss(type: .swipe)
+        }
         navigationController.dismiss(animated: true)
     }
 
@@ -36,6 +41,11 @@ class CancelConfirmationViewModel: OnboardingModel {
                     await ApiServerHandler.shared.retrieveSubscriptionStatus()
 
                     await MainActor.run {
+                        if FeatureFlag.winback.enabled {
+                            // To avoid repeating the event tracking,
+                            // I forced passing the `swipe` type
+                            didDismiss(type: .swipe)
+                        }
                         navigationController.dismiss(animated: true)
                     }
                 } catch {
@@ -59,6 +69,9 @@ class CancelConfirmationViewModel: OnboardingModel {
         guard type == .swipe else { return }
 
         Analytics.track(.cancelConfirmationViewDismissed)
+        if FeatureFlag.winback.enabled {
+            Analytics.track(.cancelSubscriptionDismissed)
+        }
     }
 }
 
