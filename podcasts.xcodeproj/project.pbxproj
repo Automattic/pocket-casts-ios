@@ -1752,7 +1752,6 @@
 		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5D527382CC81AAD00682CD5 /* EpilogueStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D527372CC81AA700682CD5 /* EpilogueStory2024.swift */; };
-		F5D5F79E2CEBE76A001F492D /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F5D5F7B82CEBE7CE001F492D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B02CEBE7CE001F492D /* Preview Assets.xcassets */; };
 		F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */; };
 		F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */; };
@@ -2076,13 +2075,6 @@
 			remoteGlobalIDString = BDEFBA131E6D3C2300B9024B;
 			remoteInfo = NotificationContent;
 		};
-		F5D5F79C2CEBE76A001F492D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
-			remoteInfo = "Pocket Casts App Clip";
-		};
 		FF2CD5792B9F4B2D009B58B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -2168,17 +2160,6 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F79F2CEBE76A001F492D /* Embed App Clips */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
-			dstSubfolderSpec = 16;
-			files = (
-				F5D5F79E2CEBE76A001F492D /* Pocket Casts App Clip.app in Embed App Clips */,
-			);
-			name = "Embed App Clips";
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		F5F508F52CEBE985007D6E39 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -8552,7 +8533,6 @@
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
-				F5D5F79F2CEBE76A001F492D /* Embed App Clips */,
 			);
 			buildRules = (
 			);
@@ -8566,7 +8546,6 @@
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
-				F5D5F79D2CEBE76A001F492D /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -11100,11 +11079,6 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
-		};
-		F5D5F79D2CEBE76A001F492D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
-			targetProxy = F5D5F79C2CEBE76A001F492D /* PBXContainerItemProxy */;
 		};
 		FF2CD57A2B9F4B2D009B58B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
