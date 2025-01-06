@@ -220,7 +220,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .useSyncResponseEpisodeIDs:
             true
         case .usePodcastHTMLDescription:
-            false
+            true
         case .avoidLogoutInBackground:
             true
         case .disablePrivateFeedSharing:
