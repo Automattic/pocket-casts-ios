@@ -2161,16 +2161,6 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5D5F79F2CEBE76A001F492D /* Embed App Clips */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			name = "Embed App Clips";
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		F5F508F52CEBE985007D6E39 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8543,7 +8533,6 @@
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
-				F5D5F79F2CEBE76A001F492D /* Embed App Clips */,
 			);
 			buildRules = (
 			);
