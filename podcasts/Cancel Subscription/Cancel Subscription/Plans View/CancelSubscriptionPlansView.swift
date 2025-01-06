@@ -15,7 +15,6 @@ struct CancelSubscriptionPlansView: View {
             case .loading:
                 showLoading()
             default:
-                closeButton
                 mainView
                 if viewModel.state == .purchasing {
                     showLoading(fullScreen: true)
@@ -28,27 +27,6 @@ struct CancelSubscriptionPlansView: View {
             }
         }
         .background(theme.primaryUi04)
-    }
-
-    var closeButton: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button(action: {
-                    viewModel.closePlans()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 14).weight(.bold))
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(theme.primaryIcon02Active)
-                        .background(theme.primaryUi05)
-                        .clipShape(Circle())
-                }
-            }
-            .padding(.trailing, 16.0)
-            .padding(.top, 16.0)
-            Spacer()
-        }
     }
 
     var mainView: some View {
