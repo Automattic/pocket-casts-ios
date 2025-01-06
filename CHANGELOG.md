@@ -1,3 +1,7 @@
+7.81
+-----
+
+
 7.80
 -----
 - Add setting for disabling the lock screen scrubber [#2536](https://github.com/Automattic/pocket-casts-ios/pull/2536)
