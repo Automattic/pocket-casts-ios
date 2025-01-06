@@ -12,16 +12,16 @@ class ManageDownloadsCoordinator {
         else {
             return false
         }
-        return percentage < 0.1
+        if let lastCheckDate = Settings.manageDownloadsLastCheckDate,
+           fabs(lastCheckDate.timeIntervalSince(Date.now)) < 14.days {
+           return false
+        }
+        return percentage < 1
     }
 
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
         guard Self.shouldShowBanner
         else {
-            return
-        }
-        if let lastCheckDate = Settings.manageDownloadsLastCheckDate,
-           fabs(lastCheckDate.timeIntervalSince(Date.now)) < 7.days {
             return
         }
         Analytics.track(.freeUpSpaceModalShown, properties: ["source": source])
