@@ -569,10 +569,10 @@ platform :ios do
   #  - `symbols_upload` to upload dSYMs to Sentry
   #  - `create_release_on_github(beta_release: …)` to create the GitHub Release
   #
-  # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_app_store_connect do |fetch_code_signing: true|
-    configure_code_signing_app_store if fetch_code_signing
+  lane :build_app_store_connect do |set_up_code_signing: true|
+    configure_code_signing_app_store if set_up_code_signing
 
     build_app(
       scheme: SCHEME,
@@ -633,11 +633,11 @@ platform :ios do
   #
   # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_enterprise do |skip_code_sign_setup: false|
-    if skip_code_sign_setup
-      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
-    else
+  lane :build_enterprise do |set_up_code_signing: true|
+    if set_up_code_signing
       configure_code_signing_enterprise
+    else
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
     end
 
     UI.important('Hacking the project file to remove the App Clip dependency because Enterprise distribution does not support it...')
