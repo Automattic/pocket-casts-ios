@@ -676,6 +676,7 @@
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
+		9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -2054,6 +2055,13 @@
 			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
 			remoteInfo = "Share Extension";
 		};
+		9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
+			remoteInfo = "Pocket Casts App Clip";
+		};
 		BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -2110,6 +2118,17 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AC09DDA2D2D4103003EBA96 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		BD0CFBE12682C4E600765E33 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -8533,6 +8552,7 @@
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
+				9AC09DDA2D2D4103003EBA96 /* Embed App Clips */,
 			);
 			buildRules = (
 			);
@@ -8546,6 +8566,7 @@
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
+				9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -11064,6 +11085,11 @@
 			isa = PBXTargetDependency;
 			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
 			targetProxy = 8B0845942A66C86D00742C2F /* PBXContainerItemProxy */;
+		};
+		9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
+			targetProxy = 9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */;
 		};
 		BD3A21131E6CFC2400F42241 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
