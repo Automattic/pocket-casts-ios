@@ -613,7 +613,7 @@ platform :ios do
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    changelog = 'Minor changes.' if changelog.empty?
+    changelog = +'Minor changes.' if changelog.empty?
     changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
 
     upload_to_testflight(
