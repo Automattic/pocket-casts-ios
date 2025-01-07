@@ -52,9 +52,13 @@ class CarPlayImageHelper {
             image = ImageManager.sharedManager.cachedImageForUserEpisode(episode: userEpisode, size: .list)
         }
 
-        let adjustedImage = adjustImageIfRequired(image: image ?? UIImage(named: "noartwork-list-dark")!, maxSize: maxSize)
-        cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
-        return adjustedImage
+        if let image {
+            let adjustedImage = adjustImageIfRequired(image: image, maxSize: maxSize)
+            cacheImage(adjustedImage, for: cacheKey, maxSize: maxSize)
+            return adjustedImage
+        }
+
+        return adjustImageIfRequired(image: UIImage(named: "noartwork-list-dark")!, maxSize: maxSize)
     }
 
     private class func adjustImageIfRequired(image: UIImage, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {
