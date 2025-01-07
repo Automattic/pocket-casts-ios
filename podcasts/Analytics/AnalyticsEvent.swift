@@ -755,4 +755,16 @@ enum AnalyticsEvent: String {
     case referralPassBannerShown
     case referralPurchaseShown
     case referralPurchaseSuccess
+
+    // MARK: - Winback
+
+    case cancelSubscriptionShown
+    case cancelSubscriptionDismissed
+    case cancelSubscriptionContinueButtonTap
+    case cancelSubscriptionRowTap
+    case cancelSubscriptionClaimOfferSuccessShown
+    case cancelSubscriptionAvailablePlansShown
+    case cancelSubscriptionAvailablePlansDismissed
+    case cancelSubscriptionSelectPlan
+    case cancelSubscriptionNewPlanPurchaseSuccessful
 }

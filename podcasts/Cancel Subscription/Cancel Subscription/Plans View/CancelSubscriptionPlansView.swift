@@ -3,9 +3,9 @@ import SwiftUI
 struct CancelSubscriptionPlansView: View {
     @EnvironmentObject var theme: Theme
 
-    @ObservedObject var viewModel: CancelSubscriptionViewModel
+    @ObservedObject var viewModel: CancelSubscriptionPlansViewModel
 
-    init(viewModel: CancelSubscriptionViewModel) {
+    init(viewModel: CancelSubscriptionPlansViewModel) {
         self.viewModel = viewModel
     }
 
@@ -90,6 +90,6 @@ struct CancelSubscriptionPlansView: View {
 }
 
 #Preview {
-    CancelSubscriptionPlansView(viewModel: CancelSubscriptionViewModel(navigationController: UINavigationController()))
+    CancelSubscriptionPlansView(viewModel: CancelSubscriptionPlansViewModel(navigationController: UINavigationController()))
         .environmentObject(Theme.sharedTheme)
 }

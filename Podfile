@@ -32,10 +32,6 @@ target 'PocketCastsTests' do
   pod 'PulseUI', git: 'https://github.com/kean/Pulse.git', tag: '4.2.4'
 end
 
-target 'Pocket Casts App Clip' do
-  use_modular_headers!
-end
-
 abstract_target 'CI' do
   platform :ios, app_ios_deployment_target.version
 

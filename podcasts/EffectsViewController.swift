@@ -125,7 +125,7 @@ class EffectsViewController: SimpleNotificationsViewController {
             let highAction = SegmentedAction(title: TrimSilenceAmount.high.description)
             trimSilenceAmountControl.setActions([lowAction, mediumAction, highAction])
 
-            if FeatureFlag.customPlaybackSettings.enabled {
+            if isCustomPlaybackSettingsEnabled {
                 trimSilenceAmountControl.backgroundColor = ThemeColor.playerContrast06()
             } else {
                 trimSilenceAmountControl.backgroundColor = .clear
@@ -139,7 +139,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet weak var playbackSettingsSegmentedControl: UISegmentedControl! {
         didSet {
             let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
-            let shouldDisplaySegmentedControl = FeatureFlag.customPlaybackSettings.enabled && !isUserEpisode
+            let shouldDisplaySegmentedControl = isCustomPlaybackSettingsEnabled && !isUserEpisode
             playbackSettingsSegmentedControl.isHidden = !shouldDisplaySegmentedControl
 
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
@@ -155,7 +155,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet weak var speedControlTopConstraint: NSLayoutConstraint! {
         didSet {
             let isUserEpisode = PlaybackManager.shared.currentEpisode()?.isUserEpisode == true
-            speedControlTopConstraint.isActive = FeatureFlag.customPlaybackSettings.enabled && !isUserEpisode
+            speedControlTopConstraint.isActive = isCustomPlaybackSettingsEnabled && !isUserEpisode
         }
     }
 
@@ -181,6 +181,14 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private var playbackSpeedDebouncer: Debounce = .init(delay: 1)
 
+    private var isCustomPlaybackSettingsEnabled: Bool {
+        #if APPCLIP
+        false
+        #else
+        FeatureFlag.customPlaybackSettings.enabled
+        #endif
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -188,7 +196,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         updateColors()
         updateControls()
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal() ? 0 : 1
         }
         if let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() {
@@ -223,7 +231,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(updateControls))
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(updateColors))
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             analyticsPlaybackHelper.currentSource = analyticsSource
             analyticsPlaybackHelper.viewDidAppear(currentSettings: currentPlaybackSettings())
         }
@@ -238,7 +246,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             PlaybackManager.shared.applyCurrentEffect()
             return
         }
@@ -257,7 +265,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.decreasePlaybackSpeed()
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             trackPlaybackSpeedChanged()
         }
     }
@@ -266,7 +274,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.increasePlaybackSpeed()
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             trackPlaybackSpeedChanged()
         }
     }
@@ -282,7 +290,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn, currentSettings: currentPlaybackSettings())
         } else {
             analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
@@ -297,7 +305,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount, currentSettings: currentPlaybackSettings())
         } else {
             analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
@@ -319,7 +327,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn, currentSettings: currentPlaybackSettings())
         } else {
             analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
@@ -357,7 +365,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private func updateClearView() {
         // We don't need a clear view if the FF is enbaled
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             return
         }
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else {
@@ -396,7 +404,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.toggleDefinedPlaybackSpeed()
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             trackPlaybackSpeedChanged()
         }
     }
@@ -417,7 +425,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         volumeBoostSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
         trimSilenceSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
 
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             trimSilenceAmountControl.lineColor = .clear
             trimSilenceAmountControl.unselectedItemColor = ThemeColor.playerContrast02()
             trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()

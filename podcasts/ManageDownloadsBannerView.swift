@@ -49,7 +49,7 @@ struct ManageDownloadsBannerView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 14))
-                    .foregroundColor(theme.secondaryText02)
+                    .foregroundColor(theme.primaryText02)
                 Button() {
                     dataModel.onManageTap?()
                 } label: {
@@ -66,8 +66,18 @@ struct ManageDownloadsBannerView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .inset(by: 0.25)
-                .stroke(theme.secondaryText02, lineWidth: 0.5)
+                .stroke(theme.primaryText02, lineWidth: 0.5)
         )
+        .overlay(alignment: .topTrailing) {
+            Button() {
+                dataModel.onNotNowTap?()
+            } label: {
+                Image("close")
+                    .renderingMode(.template)
+                    .foregroundColor(theme.primaryIcon02)
+            }
+            .padding(8)
+        }
     }
 }
 

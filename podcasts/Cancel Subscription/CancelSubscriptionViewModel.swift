@@ -9,11 +9,6 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
         purchaseHandler.isEligibleForOffer
     }
 
-    private var lastPurchasedProductID: IAPProductID?
-
-    @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
-    @State var currentProductAvailability: CurrentProductAvailability = .idle
-
     init(purchaseHandler: IAPHelper = .shared, navigationController: UINavigationController?) {
         self.navigationController = navigationController
 
@@ -23,30 +18,14 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
     }
 
     override func didAppear() {
-        //TODO: Implement analytics
+        Analytics.track(.cancelSubscriptionShown)
     }
 
     override func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }
 
-        //TODO: Implement analytics
-    }
-
-    override func handleNext() {
-        if SubscriptionHelper.activeTier == .patron {
-            let controller = PatronWelcomeViewModel.make(in: navigationController)
-            navigationController?.pushViewController(controller, animated: true)
-        } else {
-            navigationController?.dismiss(animated: true)
-        }
-    }
-
-    enum CurrentProductAvailability {
-        case idle
-        case loading
-        case available
-        case unavailable
+        Analytics.track(.cancelSubscriptionDismissed)
     }
 }
 
@@ -63,32 +42,8 @@ extension CancelSubscriptionViewModel {
         }
     }
 
-    func loadCurrentProduct() async {
-        if currentProductAvailability == .loading { return }
-
-        currentProductAvailability = .loading
-        if let transaction = await purchaseHandler.findLastSubscriptionPurchased(),
-           let productID = IAPProductID(rawValue: transaction.productID) {
-            await MainActor.run {
-                lastPurchasedProductID = productID
-                currentProductAvailability = .available
-                currentPricingProduct = pricingInfo.products.first { $0.identifier == productID }
-            }
-        } else {
-            currentProductAvailability = .unavailable
-            FileLog.shared.console("[CancelSubscriptionViewModel] Could not find last subscription purchased")
-        }
-    }
-
-    func purchase(product: PlusPricingInfoModel.PlusProductPricingInfo) {
-        currentPricingProduct = product
-
-        if currentPricingProduct?.identifier != lastPurchasedProductID {
-            purchase(product: product.identifier)
-        }
-    }
-
     func claimOffer() {
+        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "claim_offer"])
         //TODO: Apply one month free
         //TODO: Purchase the offer and display the success view if succeeded
         showClaimOfferSuccess()
@@ -98,40 +53,42 @@ extension CancelSubscriptionViewModel {
 // Navigation
 extension CancelSubscriptionViewModel {
     func cancelSubscriptionTap() {
-        //TODO: Implement analytics
+        Analytics.track(.cancelSubscriptionContinueButtonTap)
+
         let viewController = CancelConfirmationViewModel.make(in: navigationController)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     func showPlans() {
-        //TODO: Implement analytics
-        let view = CancelSubscriptionPlansView(viewModel: self).setupDefaultEnvironment()
-        let controller = OnboardingHostingViewController(rootView: view)
-        controller.navBarIsHidden = true
-        navigationController?.pushViewController(controller, animated: true)
+        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "plans"])
+
+        let viewController = CancelSubscriptionPlansViewModel.make(in: navigationController)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func showHelp() {
-        //TODO: Implement analytics
+        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "help"])
+
         let controller = OnlineSupportController()
+        controller.didDismiss = { [weak self] in
+            self?.didDismiss(type: .swipe)
+        }
         navigationController?.navigationBar.isHidden = false
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func showClaimOfferSuccess() {
+        Analytics.track(.cancelSubscriptionClaimOfferSuccessShown)
+
         let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
         let controller = OnboardingHostingViewController(rootView: view)
         controller.navBarIsHidden = true
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func closePlans() {
-        //TODO: Implement analytics
-        navigationController?.dismiss(animated: true)
-    }
-
     func closeOffer() {
-        //TODO: Implement analytics
+        didDismiss(type: .swipe)
+
         navigationController?.dismiss(animated: true)
     }
 }

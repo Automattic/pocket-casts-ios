@@ -470,7 +470,6 @@
 		46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; };
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
-		76FED4C8D52316B36C004526 /* libPods-Pocket Casts App Clip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 900BF7A6F6ED0BDDC3006D5E /* libPods-Pocket Casts App Clip.a */; };
 		8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0125672912A7AB00EC427A /* StoryShareableText.swift */; };
 		8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
@@ -676,6 +675,8 @@
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
+		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
+		9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -1752,7 +1753,6 @@
 		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5D527382CC81AAD00682CD5 /* EpilogueStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D527372CC81AA700682CD5 /* EpilogueStory2024.swift */; };
-		F5D5F79E2CEBE76A001F492D /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F5D5F7B82CEBE7CE001F492D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B02CEBE7CE001F492D /* Preview Assets.xcassets */; };
 		F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5D5F7B22CEBE7CE001F492D /* Assets.xcassets */; };
 		F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D5F7B32CEBE7CE001F492D /* NowPlayingView.swift */; };
@@ -2055,6 +2055,13 @@
 			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
 			remoteInfo = "Share Extension";
 		};
+		9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
+			remoteInfo = "Pocket Casts App Clip";
+		};
 		BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -2075,13 +2082,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = BDEFBA131E6D3C2300B9024B;
 			remoteInfo = NotificationContent;
-		};
-		F5D5F79C2CEBE76A001F492D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
-			remoteInfo = "Pocket Casts App Clip";
 		};
 		FF2CD5792B9F4B2D009B58B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2118,6 +2118,17 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AC09DDA2D2D4103003EBA96 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		BD0CFBE12682C4E600765E33 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -2168,17 +2179,6 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5D5F79F2CEBE76A001F492D /* Embed App Clips */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
-			dstSubfolderSpec = 16;
-			files = (
-				F5D5F79E2CEBE76A001F492D /* Pocket Casts App Clip.app in Embed App Clips */,
-			);
-			name = "Embed App Clips";
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		F5F508F52CEBE985007D6E39 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -2239,7 +2239,6 @@
 		10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTestProvider.swift; sourceTree = "<group>"; };
 		10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTestProviding.swift; sourceTree = "<group>"; };
 		1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		1D7FB0FEBAAFA80A10EE05DB /* Pods-Pocket Casts App Clip.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.staging.xcconfig"; sourceTree = "<group>"; };
 		1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.prototype.xcconfig"; sourceTree = "<group>"; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
@@ -2252,7 +2251,6 @@
 		32163E5F2B1EBDB6009BB16B /* DatabaseExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseExport.swift; sourceTree = "<group>"; };
 		321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+WaitForNotification.swift"; sourceTree = "<group>"; };
 		3A427DC232F89CC0DB362F96 /* Pods-PocketCasts-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3EA150766C43777754FA0729 /* Pods-Pocket Casts App Clip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.debug.xcconfig"; sourceTree = "<group>"; };
 		3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.prototype.xcconfig; sourceTree = "<group>"; };
 		3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.release.xcconfig; sourceTree = "<group>"; };
 		3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.debug.xcconfig; sourceTree = "<group>"; };
@@ -2484,7 +2482,6 @@
 		40A0A91024B5FE5300C29362 /* UITableView+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+MultiSelect.swift"; sourceTree = "<group>"; };
 		40A4FCCE221938A700252170 /* SinglePodcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePodcastViewController.swift; sourceTree = "<group>"; };
 		40A4FCCF221938A700252170 /* SinglePodcastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinglePodcastViewController.xib; sourceTree = "<group>"; };
-		40A63247E88DA343F7E3F18D /* Pods-Pocket Casts App Clip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.release.xcconfig"; sourceTree = "<group>"; };
 		40AA12722488AE1F006B9D48 /* MultiSelectFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectFooterView.swift; sourceTree = "<group>"; };
 		40AA12742488AE3C006B9D48 /* MultiSelectFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultiSelectFooterView.xib; sourceTree = "<group>"; };
 		40AB3D22224C4E1000A4DC13 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
@@ -2679,7 +2676,6 @@
 		4E8AA1DE24B6209FED97D14F /* Pods-podcasts.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		507118378C3F7965BCDDF45E /* Pods-Pocket Casts App ClipUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.release.xcconfig"; sourceTree = "<group>"; };
 		54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; sourceTree = "<group>"; };
-		55E17FC9C126A49E9A5F6E65 /* Pods-Pocket Casts App Clip.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip/Pods-Pocket Casts App Clip.prototype.xcconfig"; sourceTree = "<group>"; };
 		56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts App ClipUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		678072719F4DCDAD9B2ABD20 /* Pods-Pocket Casts App ClipTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-podcasts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2854,13 +2850,13 @@
 		8BF623002C53ED7C00D10F57 /* TranscriptSearchAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSearchAccessoryView.swift; sourceTree = "<group>"; };
 		8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearStory2023.swift; sourceTree = "<group>"; };
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
-		900BF7A6F6ED0BDDC3006D5E /* libPods-Pocket Casts App Clip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts App Clip.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravatarSafariViewController.swift; sourceTree = "<group>"; };
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
+		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
 		AA688FF113B87D7B363799D5 /* Pods-Pocket Casts App ClipTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.staging.xcconfig"; sourceTree = "<group>"; };
@@ -4118,7 +4114,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */,
-				76FED4C8D52316B36C004526 /* libPods-Pocket Casts App Clip.a in Frameworks */,
 				F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */,
 				F5ADE2F72CF52B4800F2CEA7 /* AutomatticTracks in Frameworks */,
 				F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */,
@@ -4153,10 +4148,6 @@
 				E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */,
 				C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */,
 				424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */,
-				3EA150766C43777754FA0729 /* Pods-Pocket Casts App Clip.debug.xcconfig */,
-				1D7FB0FEBAAFA80A10EE05DB /* Pods-Pocket Casts App Clip.staging.xcconfig */,
-				55E17FC9C126A49E9A5F6E65 /* Pods-Pocket Casts App Clip.prototype.xcconfig */,
-				40A63247E88DA343F7E3F18D /* Pods-Pocket Casts App Clip.release.xcconfig */,
 				E3EB0ED66403CF73715D2537 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.debug.xcconfig */,
 				1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */,
 				44FE1848197589FE3979D3B5 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.prototype.xcconfig */,
@@ -5313,6 +5304,7 @@
 		9A156AAF2CF61025007BA8D9 /* Plans View */ = {
 			isa = PBXGroup;
 			children = (
+				9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */,
 				9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */,
 				9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */,
 			);
@@ -6697,7 +6689,6 @@
 				4090974F25235DFA00CED68C /* WidgetKit.framework */,
 				C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */,
 				6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */,
-				900BF7A6F6ED0BDDC3006D5E /* libPods-Pocket Casts App Clip.a */,
 				E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */,
 				56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */,
 			);
@@ -8561,7 +8552,7 @@
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
-				F5D5F79F2CEBE76A001F492D /* Embed App Clips */,
+				9AC09DDA2D2D4103003EBA96 /* Embed App Clips */,
 			);
 			buildRules = (
 			);
@@ -8575,7 +8566,7 @@
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
-				F5D5F79D2CEBE76A001F492D /* PBXTargetDependency */,
+				9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -8647,7 +8638,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F5D5F7AD2CEBE76A001F492D /* Build configuration list for PBXNativeTarget "Pocket Casts App Clip" */;
 			buildPhases = (
-				6EAA30A2642704864F14F0F9 /* [CP] Check Pods Manifest.lock */,
 				F5D5F7752CEBE769001F492D /* Sources */,
 				F5D5F7762CEBE769001F492D /* Frameworks */,
 				F5D5F7772CEBE769001F492D /* Resources */,
@@ -9506,28 +9496,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${SRCROOT}/Pods/SwiftGen/bin/swiftgen\" config run\nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
-		};
-		6EAA30A2642704864F14F0F9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pocket Casts App Clip-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 		923032459824EF8540A85F00 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -10391,6 +10359,7 @@
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
 				C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */,
 				462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */,
+				9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */,
 				403B5B0621812E6000821A54 /* AppDelegate+SiriShortcuts.swift in Sources */,
 				1035FFED2CEE5F4E00C1E80D /* CancelSubscriptionOption.swift in Sources */,
 				BD9086AC204E413800C0C78D /* PodcastSearchCell.swift in Sources */,
@@ -11117,6 +11086,11 @@
 			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
 			targetProxy = 8B0845942A66C86D00742C2F /* PBXContainerItemProxy */;
 		};
+		9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
+			targetProxy = 9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */;
+		};
 		BD3A21131E6CFC2400F42241 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
@@ -11131,11 +11105,6 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
-		};
-		F5D5F79D2CEBE76A001F492D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
-			targetProxy = F5D5F79C2CEBE76A001F492D /* PBXContainerItemProxy */;
 		};
 		FF2CD57A2B9F4B2D009B58B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -12985,7 +12954,6 @@
 		};
 		F5D5F7A02CEBE76A001F492D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EA150766C43777754FA0729 /* Pods-Pocket Casts App Clip.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -13020,7 +12988,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13044,7 +13012,6 @@
 		};
 		F5D5F7A12CEBE76A001F492D /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D7FB0FEBAAFA80A10EE05DB /* Pods-Pocket Casts App Clip.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -13081,7 +13048,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13106,7 +13073,6 @@
 		};
 		F5D5F7A22CEBE76A001F492D /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55E17FC9C126A49E9A5F6E65 /* Pods-Pocket Casts App Clip.prototype.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -13144,7 +13110,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13170,7 +13136,6 @@
 		};
 		F5D5F7A32CEBE76A001F492D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 40A63247E88DA343F7E3F18D /* Pods-Pocket Casts App Clip.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -13206,7 +13171,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
