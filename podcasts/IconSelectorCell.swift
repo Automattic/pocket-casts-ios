@@ -62,7 +62,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
         case .patronDark:
             return L10n.appIconPatronDark
         case .pride2023:
-            return "Pride 2023"
+            return "Pride"
         }
     }
 
