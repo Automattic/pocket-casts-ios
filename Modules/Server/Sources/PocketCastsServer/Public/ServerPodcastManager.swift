@@ -220,6 +220,11 @@ public class ServerPodcastManager: NSObject {
         if let description = podcastJson["description"] as? String {
             podcast.podcastDescription = description
         }
+
+        if let description = podcastJson["description_html"] as? String {
+            podcast.podcastHTMLDescription = description
+        }
+
         if let category = podcastJson["category"] as? String {
             podcast.podcastCategory = category
         }
@@ -240,6 +245,9 @@ public class ServerPodcastManager: NSObject {
         }
         if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
             podcast.refreshAvailable = refreshAvailable
+        }
+        if let isPrivate = podcastJson["is_private"] as? Bool {
+            podcast.isPrivate = isPrivate
         }
 
         // we don't accept podcasts with no episodes

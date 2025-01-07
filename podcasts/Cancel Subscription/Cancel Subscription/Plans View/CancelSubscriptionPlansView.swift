@@ -3,9 +3,9 @@ import SwiftUI
 struct CancelSubscriptionPlansView: View {
     @EnvironmentObject var theme: Theme
 
-    @ObservedObject var viewModel: CancelSubscriptionViewModel
+    @ObservedObject var viewModel: CancelSubscriptionPlansViewModel
 
-    init(viewModel: CancelSubscriptionViewModel) {
+    init(viewModel: CancelSubscriptionPlansViewModel) {
         self.viewModel = viewModel
     }
 
@@ -52,20 +52,21 @@ struct CancelSubscriptionPlansView: View {
     }
 
     var mainView: some View {
-        VStack(spacing: 16.0) {
+        VStack(spacing: 0) {
             Image("cs-app-icon")
-                .frame(width: 100.0, height: 100.0)
+                .frame(width: 80.0, height: 80.0)
                 .padding(.top, 88.0)
-                .padding(.bottom, 20.0)
+                .padding(.bottom, 16.0)
             Text(L10n.cancelSubscriptionAvailablePlansTitle)
                 .font(size: 28.0, style: .body, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
-                .padding(.bottom, 24.0)
+                .padding(.bottom, 28.0)
             ForEach(viewModel.pricingInfo.products, id: \.id) { product in
                 CancelSubscriptionPlanRow(product: product,
                                           selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
                     viewModel.purchase(product: selectedProduct)
                 }
+                                          .padding(.bottom, 16.0)
             }
             Spacer()
         }
@@ -77,7 +78,7 @@ struct CancelSubscriptionPlansView: View {
             ZStack {
                 theme.primaryUi05Selected
                     .edgesIgnoringSafeArea(.all)
-                    .opacity(0.7)
+                    .opacity(0.4)
                 ProgressView()
                     .tint(theme.primaryText01)
             }
@@ -89,6 +90,6 @@ struct CancelSubscriptionPlansView: View {
 }
 
 #Preview {
-    CancelSubscriptionPlansView(viewModel: CancelSubscriptionViewModel(navigationController: UINavigationController()))
+    CancelSubscriptionPlansView(viewModel: CancelSubscriptionPlansViewModel(navigationController: UINavigationController()))
         .environmentObject(Theme.sharedTheme)
 }

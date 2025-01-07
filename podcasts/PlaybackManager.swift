@@ -59,9 +59,11 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
+    #if !APPCLIP
     lazy var bookmarkManager: BookmarkManager = {
         BookmarkManager(playbackManager: self)
     }()
+    #endif
 
     private lazy var sleepTimerManager = SleepTimerManager()
 
@@ -88,6 +90,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidUpdate(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidDownload(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshRemoteCommands), name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
 
@@ -518,14 +521,21 @@ class PlaybackManager: ServerPlaybackDelegate {
         return currentEpisode.duration
     }
 
+    // MARK: - Up Next
     func inUpNext(episode: BaseEpisode?) -> Bool {
+        #if APPCLIP
+        return false
+        #else
         guard let episode = episode else { return false }
 
         return queue.contains(episode: episode)
+        #endif
     }
 
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool, toTop: Bool) {
+        #if !APPCLIP
         addToUpNext(episode: episode, ignoringQueueLimit: ignoringQueueLimit, toTop: toTop, userInitiated: false)
+        #endif
     }
 
     func addToUpNext(episode: BaseEpisode, ignoringQueueLimit: Bool = false, toTop: Bool = false, userInitiated: Bool) {
@@ -900,7 +910,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func silenceRemovalAvailable() -> Bool {
-        #if !os(watchOS)
+        #if APPCLIP
+        if let episode = currentEpisode() {
+            return !episode.videoPodcast()
+        }
+        #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
@@ -910,7 +924,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        #if os(watchOS)
+        #if APPCLIP
+            return true
+        #elseif os(watchOS)
             return false
         #else
             return !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -1076,12 +1092,15 @@ class PlaybackManager: ServerPlaybackDelegate {
                 if let episode = episode as? Episode {
                     EpisodeManager.archiveEpisode(episode: episode, fireNotification: true, removeFromPlayer: false, userInitiated: false)
                 } else if let episode = episode as? UserEpisode {
+                    // No App Clip episodes should be user episodes
+                    #if !APPCLIP
                     if Settings.userEpisodeRemoveFileAfterPlaying() {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
                     }
                     if Settings.userEpisodeRemoveFromCloudAfterPlaying() {
                         UserEpisodeManager.deleteFromCloud(episode: episode, removeFromPlaybackQueue: false)
                     }
+                    #endif
                 }
             } else {
                 EpisodeManager.cleanupUnusedBuffers(episode: episode)
@@ -1204,6 +1223,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if os(watchOS)
             FileLog.shared.addMessage("Using DefaultPlayer")
             player = DefaultPlayer()
+        #elseif APPCLIP
+            if playersSupported.first == EffectsPlayer.self {
+                FileLog.shared.addMessage("Using EffectsPlayer")
+                player = EffectsPlayer()
+            } else {
+                FileLog.shared.addMessage("Using DefaultPlayer")
+                player = DefaultPlayer()
+            }
         #else
             if playersSupported.first == GoogleCastPlayer.self {
                 FileLog.shared.addMessage("Using GoogleCastPlayer")
@@ -1223,7 +1250,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         guard let currEpisode = currentEpisode() else { return possiblePlayers }
 
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if let fallbackToPlayer {
                 return [fallbackToPlayer]
             }
@@ -1279,7 +1306,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func activateAudioSession(completion: ((Bool) -> Void)?) {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
                 completion?(true)
                 return
@@ -1502,7 +1529,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Now Playing Info
 
     @objc private func updateNowPlayingInfo() {
-        #if os(watchOS)
+        #if os(watchOS) || APPCLIP
             let connectedToExternalDevice = false
         #else
             let connectedToExternalDevice = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -1582,7 +1609,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
         Toast.show(L10n.deviceShakeSleepTimer)
         #endif
         sleepTimerManager.restartSleepTimer()
@@ -1683,27 +1710,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             return .success
         }
 
-        commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
-            guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-            strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
-
-            if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
-                if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
-                    FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
-                } else {
-                    FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
-                    strongSelf.seekTo(time: seekEvent.positionTime)
-                }
-
-                return .success
-            }
-
-            FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand failed")
-
-            return .commandFailed
-        }
-
         commandCenter.changePlaybackRateCommand.supportedPlaybackRates = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
         commandCenter.changePlaybackRateCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
@@ -1724,6 +1730,37 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateCommandCenterSkipTimes(addTarget: true)
 
         updateExtraActions()
+
+        refreshRemoteCommands()
+    }
+
+    @objc private func refreshRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        commandCenter.changePlaybackPositionCommand.removeTarget(nil)
+        if !Settings.isLockScreenScrubbingDisabled { // Only perform the seek if lock screen scrubbing is enabled
+            commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
+
+                guard let self, let _ = currentEpisode() else { return .noActionableNowPlayingItem }
+
+                analyticsPlaybackHelper.currentSource = commandCenterSource
+
+                if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
+                    if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
+                        FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
+                    } else {
+                        FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
+                        seekTo(time: seekEvent.positionTime)
+                    }
+
+                    return .success
+                }
+
+                FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand failed")
+
+                return .commandFailed
+            }
+        }
     }
 
     @objc private func updateExtraActions() {
@@ -1733,7 +1770,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let starCommand = MPRemoteCommandCenter.shared().likeCommand
 
         if actionsEnabled {
-            #if !os(watchOS)
+            #if !os(watchOS) && !APPCLIP
                 markPlayedCommand.setTitle(title: L10n.markPlayedShort)
             #endif
             markPlayedCommand.removeTarget(nil)
@@ -1746,7 +1783,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             markPlayedCommand.isEnabled = true
 
-            #if !os(watchOS)
+            #if !os(watchOS) && !APPCLIP
                 starCommand.setTitle(title: L10n.starEpisodeShort)
             #endif
             starCommand.removeTarget(nil)
@@ -1859,7 +1896,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - AVAudioSession Notifications
 
     @objc private func handleRouteChanged(_ notification: Notification) {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
@@ -1876,7 +1913,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleAudioInterruption(_ notification: Notification) {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
@@ -1926,7 +1963,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleSystemAudioReset(_ notification: Notification) {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if GoogleCastManager.sharedManager.connected() { return } // while google casting we don't care about system audio events
         #endif
 
@@ -1962,7 +1999,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func remoteDeviceAutoConnected(_ episodeUuid: String) {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
             if let _ = player as? GoogleCastPlayer {
                 return // we already have a Google Cast player, probably just a background resume rather than a restart
             }
@@ -2023,7 +2060,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
 
-            load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
+            if refreshedEpisode.uuid != currentEpisode()?.uuid {
+                load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
+            }
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }
@@ -2089,7 +2128,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// Autoplay the next episode
     private func autoplayIfNeeded() {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
         // If Autoplay is enabled we check if there's another episode to play
         if Settings.autoplay,
            queue.upNextCount() == 0,
@@ -2149,7 +2188,9 @@ private extension PlaybackManager {
     func handleRemoteAction(_ action: HeadphoneControlAction) {
         switch action {
         case .addBookmark:
+            #if !APPCLIP
             bookmark(source: .headphones)
+            #endif
 
         case .previousChapter:
             guard let chapter = chapterManager.previousVisibleChapter() else { fallthrough }
@@ -2181,7 +2222,17 @@ private extension PlaybackManager {
     }
 }
 
+extension PlaybackManager {
+    // MARK: - Analytics
+
+    private func trackChapterSkipped() {
+        analyticsPlaybackHelper.chapterSkipped()
+    }
+}
+
 // MARK: - Bookmarks
+
+#if !APPCLIP
 
 extension PlaybackManager {
     private var bookmarksEnabled: Bool {
@@ -2255,10 +2306,6 @@ extension PlaybackManager {
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif
     }
-
-    // MARK: - Analytics
-
-    private func trackChapterSkipped() {
-        analyticsPlaybackHelper.chapterSkipped()
-    }
 }
+
+#endif

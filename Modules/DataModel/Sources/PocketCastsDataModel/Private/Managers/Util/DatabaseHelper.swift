@@ -785,6 +785,26 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 54 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN podcastHTMLDescription TEXT;", values: nil)
+                schemaVersion = 54
+            } catch {
+                failedAt(54)
+                return
+            }
+        }
+
+        if schemaVersion < 55 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isPrivate INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 55
+            } catch {
+                failedAt(55)
+                return
+            }
+        }
+
         db.commit()
     }
 }

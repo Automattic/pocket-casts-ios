@@ -49,6 +49,11 @@ extension ServerPodcastManager {
         if let description = podcastJson["description"] as? String {
             podcast.podcastDescription = description
         }
+
+        if let description = podcastJson["description_html"] as? String {
+            podcast.podcastHTMLDescription = description
+        }
+
         if let category = podcastJson["category"] as? String {
             podcast.podcastCategory = category
         }
@@ -69,6 +74,9 @@ extension ServerPodcastManager {
         }
         if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
             podcast.refreshAvailable = refreshAvailable
+        }
+        if let isPrivate = podcastJson["is_private"] as? Bool {
+            podcast.isPrivate = isPrivate
         }
 
         DataManager.sharedManager.save(podcast: podcast)

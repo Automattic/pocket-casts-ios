@@ -33,6 +33,7 @@ class PodcastDataManager {
         "trimSilenceAmount",
         "podcastCategory",
         "podcastDescription",
+        "podcastHTMLDescription",
         "sortOrder",
         "startFrom",
         "skipLast",
@@ -60,6 +61,7 @@ class PodcastDataManager {
         "refreshAvailable",
         "folderUuid",
         "usedCustomEffectsBefore",
+        "isPrivate"
     ]
 
     func setup(dbQueue: FMDatabaseQueue) {
@@ -313,9 +315,6 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
-        // Get the existing podcast to compare if folder is being changed
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
-
         dbQueue.inDatabase { db in
             do {
                 if podcast.id == 0 {
@@ -324,11 +323,6 @@ class PodcastDataManager {
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-
-                    // If changing folder, log it
-                    if podcast.folderUuid != existingPodcast?.folderUuid {
-                        FileLog.shared.foldersIssue("PodcastDataManager: update \(podcast.title ?? "") folder from \(existingPodcast?.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
-                    }
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
@@ -650,6 +644,7 @@ class PodcastDataManager {
         values.append(podcast.trimSilenceAmount)
         values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
         values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
+        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
         values.append(podcast.sortOrder)
         values.append(podcast.startFrom)
         values.append(podcast.skipLast)
@@ -677,6 +672,7 @@ class PodcastDataManager {
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
         values.append(podcast.usedCustomEffectsBefore)
+        values.append(podcast.isPrivate)
 
         if includeIdForWhere {
             values.append(podcast.id)

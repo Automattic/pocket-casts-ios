@@ -1,5 +1,11 @@
+7.81
+-----
+
+
 7.80
 -----
+- Add setting for disabling the lock screen scrubber [#2536](https://github.com/Automattic/pocket-casts-ios/pull/2536)
+- Display podcast rich text descriptions [#2480](https://github.com/Automattic/pocket-casts-ios/pull/2480)
 
 
 7.79

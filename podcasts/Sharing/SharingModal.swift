@@ -74,6 +74,14 @@ enum SharingModal {
     }
 
     static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController) {
+
+        if FeatureFlag.disablePrivateFeedSharing.enabled {
+            if podcast.isPrivate {
+                Toast.show(L10n.sharePodcastPrivateNotAvailable)
+                return
+            }
+        }
+
         let colors = OptionsPickerRootController.Colors(title: UIColor.white.withAlphaComponent(0.5), background: PlayerColorHelper.playerBackgroundColor01())
 
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
@@ -101,6 +109,14 @@ enum SharingModal {
     }
 
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
+
+        if FeatureFlag.disablePrivateFeedSharing.enabled {
+            if option.podcast.isPrivate {
+                Toast.show(L10n.sharePodcastPrivateNotAvailable)
+                return
+            }
+        }
+
         let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLink, .systemSheet(vc: viewController)]
         let sharingView = SharingView(destinations: sharingDestinations, selectedOption: option, source: source)
         let modalView = ModalView {
@@ -113,10 +129,24 @@ enum SharingModal {
         let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
         viewController.present(hostingController, animated: true)
 
+        Analytics.track(.podcastShared, source: source, properties: ["type": option.analyticsType])
     }
 }
 
 extension SharingModal.Option {
+    fileprivate var analyticsType: String {
+        switch self {
+        case .podcast:
+            "podcast"
+        case .episode:
+            "episode"
+        case .currentPosition:
+            "current_position"
+        case .clip, .clipShare:
+            "clip"
+        }
+    }
+
     private var description: String? {
         switch self {
         case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
@@ -148,7 +178,7 @@ extension SharingModal.Option {
         }
     }
 
-    private var podcast: Podcast {
+    fileprivate var podcast: Podcast {
         switch self {
         case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
             return episode.parentPodcast()!
