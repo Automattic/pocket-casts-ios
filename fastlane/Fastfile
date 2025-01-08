@@ -1434,6 +1434,10 @@ platform :ios do
     app_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application' }
     app_clip_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application.on-demand-install-capable' }
 
+    if app_clip_targets.empty?
+      UI.user_error!("No on-demand-install-capable targets found in #{project_path}. Has something changed in the project structure? Aborting App Clips removal.")
+    end
+
     app_targets.each do |app|
       # Delete any dependency of the app target that is an app_clip target
       app.dependencies.delete_if { |dep| app_clip_targets.include?(dep.target) }
