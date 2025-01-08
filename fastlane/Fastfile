@@ -9,6 +9,7 @@ default_platform :ios
 
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+XCODE_PROJECT_PATH = File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcodeproj')
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
@@ -875,7 +876,7 @@ platform :ios do
   #
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
+    version = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'podcasts')
 
     files = {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
@@ -1427,7 +1428,7 @@ platform :ios do
   end
 
   def remove_app_clip_dependency!
-    project_path = '../podcasts.xcodeproj'
+    project_path = XCODE_PROJECT_PATH
     project = Xcodeproj::Project.open(project_path)
 
     native_targets = project.targets.select { |t| t.is_a?(Xcodeproj::Project::Object::PBXNativeTarget) }
