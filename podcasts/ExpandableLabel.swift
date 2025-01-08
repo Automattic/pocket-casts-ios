@@ -61,10 +61,13 @@ class ExpandableLabel: ThemeableLabel {
         guard let data = styledHTML.data(using: .utf8) else {
             return
         }
-        let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSUTF8StringEncoding], documentAttributes: nil)
-        attributedText = result
-        textColor = AppTheme.colorForStyle(style)
-        collapsed = linesRequired() > maxLines
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSUTF8StringEncoding], documentAttributes: nil)
+            attributedText = result
+            textColor = AppTheme.colorForStyle(style)
+            collapsed = linesRequired() > maxLines
+        }
     }
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
