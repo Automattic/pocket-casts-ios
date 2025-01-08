@@ -36,6 +36,12 @@ class ExpandableLabel: ThemeableLabel {
     }
 
     func setRichText(html: String) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.setRichText(html: html)
+            }
+            return
+        }
         let styledHTML: String = """
         <html>
         <head>
