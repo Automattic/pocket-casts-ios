@@ -68,6 +68,7 @@ APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype
 
 # Keep this in alphabetical case-insensitive order so it's easier to visually compare with the list on the Developers Portal.
 EXTENSIONS = %w[
+  Clip
   NotificationContent
   NotificationExtension
   PodcastsIntents
@@ -569,10 +570,10 @@ platform :ios do
   #  - `symbols_upload` to upload dSYMs to Sentry
   #  - `create_release_on_github(beta_release: …)` to create the GitHub Release
   #
-  # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_app_store_connect do |fetch_code_signing: true|
-    configure_code_signing_app_store if fetch_code_signing
+  lane :build_app_store_connect do |set_up_code_signing: true|
+    configure_code_signing_app_store if set_up_code_signing
 
     build_app(
       scheme: SCHEME,
@@ -633,12 +634,16 @@ platform :ios do
   #
   # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_enterprise do |skip_code_sign_setup: false|
-    if skip_code_sign_setup
-      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
-    else
+  lane :build_enterprise do |set_up_code_signing: true|
+    if set_up_code_signing
       configure_code_signing_enterprise
+    else
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
     end
+
+    UI.important('Hacking the project file to remove the App Clip dependency because Enterprise distribution does not support it...')
+    remove_app_clip_dependency!
+    UI.important('Remember not to commit the modified project file! The change is only meant to allow building for Enterprise where App Clips are not supported.')
 
     version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
     build_number = generate_prototype_build_number
@@ -1419,5 +1424,44 @@ platform :ios do
     build_code_next = VERSION_CALCULATOR.next_build_number(version: build_code_current)
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: build_code_next)
+  end
+
+  def remove_app_clip_dependency!
+    project_path = '../podcasts.xcodeproj'
+    project = Xcodeproj::Project.open(project_path)
+
+    app_target_name = 'podcasts'
+    app_target = project.targets.find { |t| t.name == app_target_name }
+    UI.user_error!("Could not find target named #{app_target_name} in #{project_path}") if app_target.nil?
+
+    app_clip_target_name = 'Pocket Casts App Clip'
+    app_clip_target = project.targets.find { |t| t.name == app_clip_target_name }
+    UI.user_error!("Could not find clip_target named #{app_clip_target_name} in #{project_path}") if app_clip_target.nil?
+
+    app_clip_dependency_reference = app_target.dependencies.find { |d| d.target == app_clip_target }
+    UI.user_error!("Target #{app_target.name} does not have #{app_clip_target.name} as a dependency.") if app_clip_dependency_reference.nil?
+
+    UI.message("Removing #{app_clip_dependency_reference.target.name} as a dependency of #{app_target.name}...")
+    UI.verbose("Dependencies count before deletion #{app_target.dependencies.count}.")
+    app_target.dependencies.delete(app_clip_dependency_reference)
+    UI.verbose("Dependencies count after deletion #{app_target.dependencies.count}.")
+
+    embed_app_clips_phase_name = 'Embed App Clips'
+    embed_app_clips_phase = app_target.build_phases.find { |b| b.display_name == 'Embed App Clips' }
+    UI.user_error!("#{app_target.name} has no build phase with display name #{embed_app_clips_phase_name}") if embed_app_clips_phase.nil?
+
+    app_clip_path = 'Pocket Casts App Clip.app'
+    app_clip_file_reference = embed_app_clips_phase.files_references.find { |r| r.path == app_clip_path }
+    UI.user_error!("The #{embed_app_clips_phase.display_name} build phase in #{app_target.name} has no file reference with path #{app_clip_path}") if app_clip_file_reference.nil?
+
+    UI.message("Removing #{app_clip_file_reference.path} from #{embed_app_clips_phase.display_name}...")
+    UI.verbose("Paths to embed count before deletion #{embed_app_clips_phase.files_references.count}.")
+    embed_app_clips_phase.remove_file_reference(app_clip_file_reference)
+    UI.verbose("Paths to embed count after deletion #{embed_app_clips_phase.files_references.count}.")
+
+    UI.message('Saving the project file....')
+    project.save
+
+    UI.success('Dependency successfuly removed.')
   end
 end
