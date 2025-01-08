@@ -42,6 +42,10 @@ class ExpandableLabel: ThemeableLabel {
             }
             return
         }
+        // We detected that some scenarios when this code is run when the app is backgrounded, it crashes even on the main thread.
+        if UIApplication.shared.applicationState == .background {
+            return
+        }
         let styledHTML: String = """
         <html>
         <head>
@@ -61,13 +65,10 @@ class ExpandableLabel: ThemeableLabel {
         guard let data = styledHTML.data(using: .utf8) else {
             return
         }
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSUTF8StringEncoding], documentAttributes: nil)
-            attributedText = result
-            textColor = AppTheme.colorForStyle(style)
-            collapsed = linesRequired() > maxLines
-        }
+        let result = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSUTF8StringEncoding], documentAttributes: nil)
+        attributedText = result
+        textColor = AppTheme.colorForStyle(style)
+        collapsed = linesRequired() > maxLines
     }
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
