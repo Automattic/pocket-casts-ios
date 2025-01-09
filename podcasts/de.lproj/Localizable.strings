@@ -1336,6 +1336,8 @@ Podcasts mit</string>
     <string>Erstelle ein Konto, um dein Audioerlebnis auf all deinen Geräten zu synchronisieren.</string>
     <key>login_title</key>
     <string>Entdecke deinen nächsten Lieblings-Podcast</string>
+    <key>logs</key>
+    <string>Logs</string>
     <key>manage_downloads_action</key>
     <string>Downloads verwalten</string>
     <key>manage_downloads_detail</key>

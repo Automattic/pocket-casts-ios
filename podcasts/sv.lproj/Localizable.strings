@@ -1338,6 +1338,8 @@ podcasts med dig</string>
     <string>Skapa ett konto för att synkronisera din lyssningsupplevelse på alla dina enheter.</string>
     <key>login_title</key>
     <string>Upptäck din nästa favoritpodcast</string>
+    <key>logs</key>
+    <string>Loggar</string>
     <key>manage_downloads_action</key>
     <string>Hantera nedladdningar</string>
     <key>manage_downloads_detail</key>

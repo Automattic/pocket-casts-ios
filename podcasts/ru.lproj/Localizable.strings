@@ -1338,6 +1338,8 @@
     <string>Создайте учётную запись, чтобы синхронизировать и слушать любимый контент на всех устройствах.</string>
     <key>login_title</key>
     <string>Найдите ещё один любимый подкаст</string>
+    <key>logs</key>
+    <string>Журналы</string>
     <key>manage_downloads_action</key>
     <string>Управлять скачиваниями</string>
     <key>manage_downloads_detail</key>

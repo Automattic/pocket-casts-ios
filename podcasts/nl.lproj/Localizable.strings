@@ -1338,6 +1338,8 @@ podcasts mee</string>
     <string>Maak een account aan om je luisterervaring te synchroniseren op al je apparaten.</string>
     <key>login_title</key>
     <string>Ontdek je volgende nieuwe favoriete podcast</string>
+    <key>logs</key>
+    <string>Logs</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
     <key>manage_downloads_detail</key>
