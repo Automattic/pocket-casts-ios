@@ -150,10 +150,17 @@ class DownloadsViewController: PCViewController {
     }
 
     private lazy var bannerView: UIView = {
-        let banner = ManageDownloadsBannerView(dataModel: ManageDownloadsModel(initialSize: "", onManageTap: { [weak self] in
+        let model = ManageDownloadsModel(initialSize: "",
+                                         onManageTap: { [weak self] in
             Analytics.track(.freeUpSpaceManageDownloadsTapped, properties: ["source": "downloads"])
             self?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
-        })).themedUIView
+        }, onNotNowTap: { [weak self] in
+            Analytics.track(.freeUpSpaceMaybeLaterTapped, properties: ["source": "downloads"])
+            Settings.manageDownloadsLastCheckDate = Date.now
+            self?.showManageDownloadsBanner()
+            self?.downloadsTable.reloadData()
+        })
+        let banner = ManageDownloadsBannerView(dataModel: model).themedUIView
         banner.translatesAutoresizingMaskIntoConstraints = false
         let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: 132))
         wrapperView.addSubview(banner)

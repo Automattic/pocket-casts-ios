@@ -1,0 +1,101 @@
+import SwiftUI
+import PocketCastsDataModel
+import PocketCastsServer
+import StoreKit
+import PocketCastsUtils
+
+struct NowPlayingView: View {
+    @State var presentAppStoreOverlay: Bool = false
+
+    var body: some View {
+        VStack {
+            NowPlayingPlayerItemViewControllerRepresentable()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        presentAppStoreOverlay = true
+                    }
+                }
+        }
+        .appStoreOverlay(isPresented: $presentAppStoreOverlay, configuration: {
+            SKOverlay.AppClipConfiguration(position: .bottom)
+        })
+        .background(Color(uiColor: PlayerColorHelper.playerBackgroundColor01()))
+        .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+            handle(userActivity: userActivity)
+        }
+    }
+
+    private func handle(userActivity: NSUserActivity) {
+        guard
+            let incomingURL = userActivity.webpageURL,
+            let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
+            let path = components.path,
+            path != "/get",
+            path != "/get/"
+        else { return }
+
+        // NOTE: This doesn't handle the redeem URL. See `AppDelegate.handleContinue(_ userActivity: NSUserActivity)` for this logic
+
+        // Also pass any query params from the share URL to the server to allow support for episode position handling
+        // Ex: ?t=123
+        let query = components.query.map { "?\($0)" } ?? ""
+        let sharePath = "\(path)\(query)"
+
+        let importPath = "social/share/show\(sharePath)"
+
+        PodcastManager.shared.importSharedItemFromUrl(importPath) { shareItem in
+            guard let shareItem else {
+                FileLog.shared.addMessage("App Clip: Missing Share Item")
+                return
+            }
+
+            guard let episodeUUID = shareItem.episodeHeader?.uuid else {
+                FileLog.shared.addMessage("App Clip: No episode found in share item")
+                return
+            }
+
+            guard let podcastUUID = shareItem.podcastHeader?.uuid else {
+                FileLog.shared.addMessage("App Clip: No podcast found in share item")
+                return
+            }
+
+
+            loadEpisode(episodeUuid: episodeUUID, podcastUuid: podcastUUID) {
+                guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUUID) else {
+                    FileLog.shared.addMessage("App Clip: Could not find Episode")
+                    return
+                }
+
+                FileLog.shared.addMessage("App Clip: Loaded episode: \(episode.title ?? "unknown")")
+
+                PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+                Analytics.track(.playbackPlay, source: AnalyticsSource.handleUserActivity, properties: ["url": incomingURL.absoluteString, "podcast": podcastUUID, "episode": episode.uuid])
+            }
+        }
+    }
+
+    private func loadEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil, completion: @escaping () -> Void) {
+        if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+            ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
+                completion()
+            }
+
+            return
+        }
+
+        ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
+            if success, let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                completion()
+            } else {
+                DispatchQueue.main.async {
+                    let rootViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
+                    SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: rootViewController)
+                }
+            }
+        })
+    }
+}
+
+#Preview {
+    NowPlayingView()
+}

@@ -169,6 +169,14 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
     // MARK: - Settings changes
 
+    private var isCustomPlaybackSettingsEnabled: Bool {
+        #if APPCLIP
+        false
+        #else
+        FeatureFlag.customPlaybackSettings.enabled
+        #endif
+    }
+
     private func playbackSpeedChanged(_ speed: TimeInterval) {
         // round it to the nearest 0.1, so we end up with 1.5 not 1.53667346262
         let roundedSpeed = round(speed * 10.0) / 10.0
@@ -181,7 +189,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
         playbackSpeedDebouncer.call {
             AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
-            if FeatureFlag.customPlaybackSettings.enabled {
+            if self.isCustomPlaybackSettingsEnabled {
                 AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed, currentSettings: "local")
             } else {
                 AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed)
@@ -197,7 +205,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         }
         podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
         saveUpdates()
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn, currentSettings: "local")
         } else {
             AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn)
@@ -211,7 +219,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         }
         podcast.boostVolume = sender.isOn
         saveUpdates()
-        if FeatureFlag.customPlaybackSettings.enabled {
+        if isCustomPlaybackSettingsEnabled {
             AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn, currentSettings: "local")
         } else {
             AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn)

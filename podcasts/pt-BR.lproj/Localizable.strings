@@ -337,6 +337,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Não é possível cancelar</string>
     <key>cancel_subscription</key>
     <string>Cancelar assinatura</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Planos disponíveis</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Resgatar oferta</string>
     <key>cancel_subscription_continue_button</key>
@@ -348,7 +350,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>cancel_subscription_help_title</key>
     <string>Precisa de ajuda com o Pocket Casts?</string>
     <key>cancel_subscription_new_plan_description</key>
-    <string>Encontre o plano adequado para você.</string>
+    <string>Encontre o plano ideal para você.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Quer um plano diferente?</string>
     <key>cancel_subscription_promotion_description</key>
@@ -2365,6 +2367,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Nenhum filtro selecionado</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Nenhum podcast selecionado</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Ao seguir</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts selecionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2372,7 +2376,7 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Faça download dos primeiros episódios de um filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Faça o download automático de novos episódios assim que eles forem lançados, e gerencie seu armazenamento ao definir um limite de episódios salvos.</string>
+    <string>Faça download automático de novos episódios, salve episódios de programas que você acabou de seguir, e gerencie seu armazenamento ao definir um limite de episódios salvos.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Faça download de episódios adicionados aos Próximos.</string>
     <key>settings_badge_filter_header</key>
@@ -3013,6 +3017,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Histórico de Próximos</string>
     <key>up_next_history_explanation</key>
     <string>Uma lista de atualizações recentes na lista de Próximos devido a alterações em outros dispositivos. Para ver os episódios e poder restaurá-los, toque em alguma entrada.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Entendi</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>É fácil reproduzir um episódio aleatório sem mudar a ordem da sua fila.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Apresentamos a ordem aleatória</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>A ordem aleatória está ativada. Os episódios serão reproduzidos aleatoriamente.</string>
     <key>upgrade_account</key>
     <string>Fazer upgrade de conta</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

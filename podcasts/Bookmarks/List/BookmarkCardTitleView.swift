@@ -23,7 +23,7 @@ struct BookmarkCardTitleView<Style: BookmarksStyle>: View {
                     viewModel.dismiss()
                 }
         }
-        .foregroundStyle(style.primaryText)
+        .foregroundStyle(style.titleText)
         .opacity(viewModel.isMultiSelecting ? 0 : 1)
         .offset(y: viewModel.isMultiSelecting ? BookmarkListConstants.headerTransitionOffset : 0)
     }

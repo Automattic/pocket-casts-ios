@@ -337,6 +337,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No se puede cancelar</string>
     <key>cancel_subscription</key>
     <string>Cancelar Suscripción</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Planes disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Reclamar oferta</string>
     <key>cancel_subscription_continue_button</key>
@@ -2363,6 +2365,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>No se ha seleccionado ningún filtro</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>No se ha seleccionado ningún podcast</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Siguiendo</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts seleccionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2370,7 +2374,7 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descarga los mejores episodios en un filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Descarga automáticamente nuevos episodios a medida que se publican y gestiona tu almacenamiento estableciendo un límite en el número de episodios guardados.</string>
+    <string>Descarga automáticamente nuevos episodios, guarda episodios de programas que hayas seguido recientemente y gestiona tu almacenamiento estableciendo un límite en el número de episodios guardados.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descarga los episodios añadidos a la lista de A continuación.</string>
     <key>settings_badge_filter_header</key>
@@ -3011,6 +3015,14 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Historial de Próximamente</string>
     <key>up_next_history_explanation</key>
     <string>Una lista de las últimas actualizaciones en Próximamente debido a cambios en otros dispositivos. Para ver los episodios y poder restaurarlos, pulsa en cualquier entrada.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>De acuerdo</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Reproduce un episodio aleatorio fácilmente sin cambiar el orden de la cola.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Te presentamos Shuffle</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>La reproducción aleatoria está activada. Los episodios se reproducirán en orden aleatorio.</string>
     <key>upgrade_account</key>
     <string>Mejorar cuenta</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

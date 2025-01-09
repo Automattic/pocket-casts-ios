@@ -37,7 +37,7 @@ class PodcastManager: NSObject {
 
     // MARK: - Notifications
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !APPCLIP
         func setNotificationsEnabled(podcast: Podcast, enabled: Bool) {
             if enabled {
                 if !NotificationsHelper.shared.pushEnabled() {
@@ -178,7 +178,9 @@ class PodcastManager: NSObject {
             let importer = SharedItemImporter(strippedUrl: strippedUrl, completion: completion)
             importerQueue.addOperation(importer)
         }
+    #endif
 
+    #if !os(watchOS) && !APPCLIP
         func importPodcastsFromOpml(_ opmlFile: URL, progressWindow: ShiftyLoadingAlert? = nil) {
             importerQueue.cancelAllOperations()
 

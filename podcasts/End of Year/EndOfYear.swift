@@ -159,7 +159,7 @@ struct EndOfYear {
     }
 
     static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
-        let presenter = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController
+        let presenter = SceneHelper.rootViewController()
 
         let fakeViewController = FakeViewController()
         fakeViewController.onDismiss = onDismiss

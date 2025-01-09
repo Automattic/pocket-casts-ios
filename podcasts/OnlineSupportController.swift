@@ -4,7 +4,7 @@ import PocketCastsServer
 import UIKit
 import WebKit
 
-class OnlineSupportController: PCViewController, WKNavigationDelegate {
+class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptivePresentationControllerDelegate {
     @IBOutlet var loadingIndicator: AngularActivityIndicator! {
         didSet {
             loadingIndicator.color = AppTheme.loadingActivityColor()
@@ -15,6 +15,8 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     private var supportWebView: WKWebView!
     private var databaseExport: DatabaseExport? = nil
     private var loadingAlert: ShiftyLoadingAlert?
+
+    var didDismiss: (() -> Void)? = nil
 
     var request: URLRequest
 
@@ -30,6 +32,9 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        presentationController?.delegate = self
+        navigationController?.presentationController?.delegate = self
 
         title = L10n.settingsHelp
         loadingIndicator.startAnimating()
@@ -63,7 +68,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     }
 
     @objc private func doneTapped() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: didDismiss)
     }
 
     @objc private func showOptions(_ sender: UIBarButtonItem) {
@@ -76,6 +81,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
             self?.export(sender)
+        }))
+
+        controller.addAction(.init(title: L10n.logs, style: .default, handler: { [weak self] _ in
+            self?.viewLogs(sender)
         }))
 
         controller.addAction(.init(title: L10n.cancel, style: .destructive))
@@ -126,6 +135,12 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
     }
+
+    // MARK: - UIAdaptivePresentationControllerDelegate
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        didDismiss?()
+    }
 }
 
 // MARK: - Export
@@ -164,5 +179,14 @@ private extension OnlineSupportController {
         shareSheet.popoverPresentationController?.barButtonItem = sender
 
         present(shareSheet, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Logs
+
+private extension OnlineSupportController {
+    func viewLogs(_ sender: UIBarButtonItem) {
+        let vc = LogsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 class PlusPaywallReviewsViewModel: ObservableObject {
-    var appStoreInfo: AppStoreInfo?
+    @Published var appStoreInfo: AppStoreInfo?
 
     func parseAppStoreReview() {
         guard let filepath = Bundle.main.path(forResource: "appStoreInfo", ofType: "json") else {

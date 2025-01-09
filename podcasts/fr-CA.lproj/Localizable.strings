@@ -337,6 +337,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Impossible d’annuler</string>
     <key>cancel_subscription</key>
     <string>Annuler l’abonnement</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Profiter de l’offre</string>
     <key>cancel_subscription_continue_button</key>
@@ -2365,6 +2367,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Aucun filtre sélectionné</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Aucun balado sélectionné</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Lors de l’abonnement</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ balados sélectionnés</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2372,7 +2376,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Téléchargez les épisodes du haut de la liste dans un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Téléchargez automatiquement les nouveaux épisodes lors de leur sortie et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
+    <string>Téléchargez automatiquement les nouveaux épisodes, enregistrez les épisodes des nouvelles émissions auxquelles vous vous abonnez et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Téléchargez les épisodes ajoutés aux Prochains épisodes.</string>
     <key>settings_badge_filter_header</key>
@@ -3013,6 +3017,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Historique de la file d’attente</string>
     <key>up_next_history_explanation</key>
     <string>Liste des mises à jour récentes apportées à la file d’attente à la suite de modifications sur d’autres appareils. Pour afficher les épisodes et avoir la possibilité de les rétablir, appuyez sur n’importe quelle entrée.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>J’ai compris</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Écoutez facilement un épisode aléatoire sans changer l’ordre dans votre file d’attente.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Présentation de la lecture aléatoire</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>La lecture aléatoire est activée. Les épisodes seront lus de manière aléatoire.</string>
     <key>upgrade_account</key>
     <string>Mettre le compte à niveau</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

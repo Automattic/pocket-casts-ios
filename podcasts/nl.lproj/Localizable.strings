@@ -337,6 +337,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Kan niet annuleren</string>
     <key>cancel_subscription</key>
     <string>Abonnement annuleren</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Beschikbare abonnementen</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Aanbieding claimen</string>
     <key>cancel_subscription_continue_button</key>
@@ -2361,6 +2363,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Geen filters geselecteerd</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Geen podcasts geselecteerd</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>Volgend</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts geselecteerd</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2368,7 +2372,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Download de bovenste afleveringen in een filter.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Download automatisch nieuwe afleveringen en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
+    <string>Download automatisch nieuwe afleveringen, sla afleveringen op van nieuwe shows die je volgt en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Download afleveringen die zijn toegevoegd aan Hierna.</string>
     <key>settings_badge_filter_header</key>
@@ -3009,6 +3013,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Geschiedenis van Hierna</string>
     <key>up_next_history_explanation</key>
     <string>Een lijst met recente updates over Hierna dankzij wijzigingen aangebracht aan andere apparaten. Klik op een bericht om de afleveringen te bekijken en ze mogelijk te herstellen.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Duidelijk</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Speel eenvoudig een willekeurige aflevering af zonder de volgorde van je wachtrij te veranderen.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Maak kennis met shuffle</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

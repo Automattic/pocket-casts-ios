@@ -1,6 +1,19 @@
+7.81
+-----
+
+
+7.80
+-----
+- Add setting for disabling the lock screen scrubber [#2536](https://github.com/Automattic/pocket-casts-ios/pull/2536)
+- Display podcast rich text descriptions [#2480](https://github.com/Automattic/pocket-casts-ios/pull/2480)
+
+
 7.79
 -----
 - Display the whole chapter title, without truncating it [#2499](https://github.com/Automattic/pocket-casts-ios/pull/2499)
+- Allow sending user logs using email [#2525](https://github.com/Automattic/pocket-casts-ios/pull/2525)
+- Fix Default Player crash by passing the reference of the proxy if needed [#2522](https://github.com/Automattic/pocket-casts-ios/pull/2522)
+- Remove logout from failed background HTTP requests. [#2586](https://github.com/Automattic/pocket-casts-ios/pull/2586)
 
 7.78
 -----

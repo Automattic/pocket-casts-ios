@@ -9,6 +9,16 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+    static var isLockScreenScrubbingDisabled: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+            NotificationCenter.default.post(name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+        }
+    }
+
     static var openLinks: Bool {
         set {
             if FeatureFlag.newSettingsStorage.enabled {
@@ -783,7 +793,7 @@ class Settings: NSObject {
         }
 
         // Show transcript as the 4th item if it's not present
-        if FeatureFlag.transcripts.enabled && !playerActions.contains(.transcript) {
+        if !playerActions.contains(.transcript) {
             playerActions.insert(.transcript, safelyAt: 3)
         }
 
@@ -1401,11 +1411,6 @@ class Settings: NSObject {
 
         static var addMissingEpisodes: Bool {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
-            return remote.boolValue
-        }
-
-        static var newPlayerTransition: Bool {
-            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
             return remote.boolValue
         }
 

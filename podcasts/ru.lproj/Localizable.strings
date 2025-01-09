@@ -337,6 +337,8 @@
     <string>Не удается отменить</string>
     <key>cancel_subscription</key>
     <string>Отмена подписки</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Доступные тарифные планы</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Воспользоваться предложением</string>
     <key>cancel_subscription_continue_button</key>
@@ -344,7 +346,7 @@
     <key>cancel_subscription_generic_error</key>
     <string>Произошла ошибка. Повторите попытку позже.</string>
     <key>cancel_subscription_help_description</key>
-    <string>Проблемы с определёнными функциями или неполадки.</string>
+    <string>Проблемы с определёнными функциями или неполадки?</string>
     <key>cancel_subscription_help_title</key>
     <string>Вам требуется помощь в работе с Pocket Casts?</string>
     <key>cancel_subscription_new_plan_description</key>
@@ -2150,6 +2152,11 @@
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Здравствуйте!
+
+Это %1$@ гостевой пропуск в Pocket Casts Plus — мой любимый плеер подкастов. В нём есть множество уникальных функций, которых больше нет нигде: закладки, папки и многое другое. Надеюсь, вам он тоже понравится!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
     <key>referrals_share_pass_subject</key>
@@ -2360,6 +2367,8 @@
     <string>Фильтры не выбраны</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Подкасты не выбраны</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>По подписке</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>Выбрано подкастов: %1$@</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2367,7 +2376,7 @@
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Скачивать первые выпуски в фильтре.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Автоматически загружайте новые выпуски по мере выхода и управляйте магазином, устанавливая ограничения на сохранение выпусков.</string>
+    <string>Автоматически загружайте новые выпуски, сохраняйте выпуски новых шоу, на которые вы подписаны, и управляйте памятью, устанавливая ограничения на количество сохранённых выпусков.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Скачивать выпуски, добавленные в «Следующие».</string>
     <key>settings_badge_filter_header</key>
@@ -3008,6 +3017,14 @@
     <string>История Up Next</string>
     <key>up_next_history_explanation</key>
     <string>Список последних обновлений Up Next, вызванных изменениями на других устройствах. Нажмите любую запись, чтобы просмотреть и при желании восстановить выпуски.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Понятно</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Воспроизводите любой выпуск, не меняя очередности в списке.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Представляем режим случайного воспроизведения</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
     <key>upgrade_experiment_discount_yearly_membership</key>

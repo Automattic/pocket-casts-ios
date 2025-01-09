@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions
@@ -47,6 +48,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case interactiveWidget = "interactive_widget"
     case multiSelect = "multi_select"
     case episodeSwipeAction = "episode_swipe_action"
+    case handleUserActivity = "handle_user_activity"
     case unknown
 
     var analyticsDescription: String { rawValue }
@@ -60,7 +62,7 @@ class AnalyticsCoordinator {
         PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !APPCLIP
         var currentAnalyticsSource: AnalyticsSource {
             if let currentSource = currentSource {
                 self.currentSource = nil

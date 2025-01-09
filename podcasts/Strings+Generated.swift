@@ -402,6 +402,10 @@ internal enum L10n {
   internal static var cancelSubscriptionNewPlanDescription: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_description") }
   /// Looking for a different plan?
   internal static var cancelSubscriptionNewPlanTitle: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_title") }
+  /// Thanks for choosing Pocket Casts. Billing starts after your free month ends.
+  internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
+  /// Enjoy your free month!
+  internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
   /// Save %@ with your next month on us.
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
@@ -1523,6 +1527,10 @@ internal enum L10n {
   internal static var loginSubtitle: String { return L10n.tr("Localizable", "login_subtitle") }
   /// Discover your next favorite podcast
   internal static var loginTitle: String { return L10n.tr("Localizable", "login_title") }
+  /// Logs
+  internal static var logs: String { return L10n.tr("Localizable", "logs") }
+  /// You need to configure an email account on the device in order to send the logs
+  internal static var logsNoEmailAccountConfigured: String { return L10n.tr("Localizable", "logs_no_email_account_configured") }
   /// Manage downloads
   internal static var manageDownloadsAction: String { return L10n.tr("Localizable", "manage_downloads_action") }
   /// Save %1$@ by removing played episodes.
@@ -2892,6 +2900,8 @@ internal enum L10n {
   internal static var settingsGeneralLegacyBluetooth: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth") }
   /// If you have a Bluetooth Device or Car Stereo that seems to be pausing Pocket Casts while it's playing, or resetting the playback position to 0, try turning this setting on to fix it.
   internal static var settingsGeneralLegacyBluetoothSubtitle: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth_subtitle") }
+  /// Lock Screen Scrubbing
+  internal static var settingsGeneralLockScreenDisabled: String { return L10n.tr("Localizable", "settings_general_lock_screen_disabled") }
   /// Multi-select Gesture
   internal static var settingsGeneralMultiSelectGesture: String { return L10n.tr("Localizable", "settings_general_multi_select_gesture") }
   /// Multi-select by dragging 2 fingers down on any episode list. Turn this off if you find yourself triggering this accidentally or it interferes with the accessibility features you use.
@@ -3132,6 +3142,8 @@ internal enum L10n {
   internal static var shareMoreActions: String { return L10n.tr("Localizable", "share_more_actions") }
   /// Share podcast
   internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
+  /// Sharing is not available for private podcasts
+  internal static var sharePodcastPrivateNotAvailable: String { return L10n.tr("Localizable", "share_podcast_private_not_available") }
   /// Share podcast
   internal static var sharePodcastTitle: String { return L10n.tr("Localizable", "share_podcast_title") }
   /// ALL SELECTED
@@ -3482,6 +3494,8 @@ internal enum L10n {
   internal static var upNextShuffleAnnouncementText: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_text") }
   /// Introducing Shuffle
   internal static var upNextShuffleAnnouncementTitle: String { return L10n.tr("Localizable", "up_next_shuffle_announcement_title") }
+  /// Shuffle is on. Episodes will play in random order.
+  internal static var upNextShuffleToastMessage: String { return L10n.tr("Localizable", "up_next_shuffle_toast_message") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Save 50%% off your first year

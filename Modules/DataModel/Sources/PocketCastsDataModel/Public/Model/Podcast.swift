@@ -26,6 +26,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var trimSilenceAmount = 0 as Int32
     @objc public var podcastCategory: String?
     @objc public var podcastDescription: String?
+    @objc public var podcastHTMLDescription: String?
     @objc public var sortOrder = 0 as Int32
     @objc public var startFrom = 0 as Int32
     @objc public var skipLast = 0 as Int32
@@ -52,6 +53,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
     @objc public var usedCustomEffectsBefore = false
+    @objc public var isPrivate = false
 
     public var settings: PodcastSettings = PodcastSettings.defaults
 

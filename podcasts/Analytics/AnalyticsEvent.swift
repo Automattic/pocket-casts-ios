@@ -8,6 +8,8 @@ enum AnalyticsEvent: String {
     case applicationUpdated
     case applicationClosed
 
+    case appClipOpened
+
     // MARK: - User Lifecycle
 
     case userSignedIn
@@ -87,6 +89,7 @@ enum AnalyticsEvent: String {
     case podcastsListSortOrderChanged
     case podcastsListLayoutChanged
     case podcastsListBadgesChanged
+    case podcastsListDiscoverButtonTapped
 
     // MARK: - Newsletter Opt In
 
@@ -487,6 +490,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralSkipBackChanged
     case settingsGeneralKeepScreenAwakeToggled
     case settingsGeneralOpenPlayerAutomaticallyToggled
+    case settingsGeneralDisableLockScreenScrubberToggled
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
@@ -751,4 +755,16 @@ enum AnalyticsEvent: String {
     case referralPassBannerShown
     case referralPurchaseShown
     case referralPurchaseSuccess
+
+    // MARK: - Winback
+
+    case cancelSubscriptionShown
+    case cancelSubscriptionDismissed
+    case cancelSubscriptionContinueButtonTap
+    case cancelSubscriptionRowTap
+    case cancelSubscriptionClaimOfferSuccessShown
+    case cancelSubscriptionAvailablePlansShown
+    case cancelSubscriptionAvailablePlansDismissed
+    case cancelSubscriptionSelectPlan
+    case cancelSubscriptionNewPlanPurchaseSuccessful
 }
