@@ -2896,7 +2896,7 @@ internal enum L10n {
   internal static var settingsGeneralLegacyBluetooth: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth") }
   /// If you have a Bluetooth Device or Car Stereo that seems to be pausing Pocket Casts while it's playing, or resetting the playback position to 0, try turning this setting on to fix it.
   internal static var settingsGeneralLegacyBluetoothSubtitle: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth_subtitle") }
-  /// Lock Screen Scrubbing
+  /// Enable Lock Screen Scrubbing
   internal static var settingsGeneralLockScreenDisabled: String { return L10n.tr("Localizable", "settings_general_lock_screen_disabled") }
   /// Multi-select Gesture
   internal static var settingsGeneralMultiSelectGesture: String { return L10n.tr("Localizable", "settings_general_multi_select_gesture") }
