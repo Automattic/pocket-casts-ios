@@ -1338,6 +1338,8 @@ podcasts partout avec</string>
     <string>Créez un compte pour synchroniser votre expérience d’écoute sur tous vos appareils.</string>
     <key>login_title</key>
     <string>Découvrir votre prochain podcast préféré</string>
+    <key>logs</key>
+    <string>Logs</string>
     <key>manage_downloads_action</key>
     <string>Gérer les téléchargements</string>
     <key>manage_downloads_detail</key>

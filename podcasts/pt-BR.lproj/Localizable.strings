@@ -1338,6 +1338,8 @@ podcasts com você</string>
     <string>Crie uma conta para sincronizar sua experiência sonora em todos os seus dispositivos.</string>
     <key>login_title</key>
     <string>Descubra seu próximo podcast favorito</string>
+    <key>logs</key>
+    <string>Logs</string>
     <key>manage_downloads_action</key>
     <string>Gerenciar downloads</string>
     <key>manage_downloads_detail</key>

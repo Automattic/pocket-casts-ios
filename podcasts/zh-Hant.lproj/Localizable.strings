@@ -1338,6 +1338,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立帳號即可在所有裝置上同步你的收聽體驗。</string>
     <key>login_title</key>
     <string>探索下一個最愛的 Podcast 節目</string>
+    <key>logs</key>
+    <string>記錄</string>
     <key>manage_downloads_action</key>
     <string>管理下載項目</string>
     <key>manage_downloads_detail</key>
