@@ -1338,6 +1338,8 @@ pocast con te</string>
     <string>Crea un account per sincronizzare la tua esperienza di ascolto su tutti i tuoi dispositivi.</string>
     <key>login_title</key>
     <string>Scopri il tuo prossimo podcast preferito</string>
+    <key>logs</key>
+    <string>Registri</string>
     <key>manage_downloads_action</key>
     <string>Gestisci i download</string>
     <key>manage_downloads_detail</key>

@@ -36,6 +36,16 @@ class ExpandableLabel: ThemeableLabel {
     }
 
     func setRichText(html: String) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.setRichText(html: html)
+            }
+            return
+        }
+        // We detected that some scenarios when this code is run when the app is backgrounded, it crashes even on the main thread.
+        if UIApplication.shared.applicationState == .background {
+            return
+        }
         let styledHTML: String = """
         <html>
         <head>

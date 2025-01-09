@@ -1338,6 +1338,8 @@
     <string>创建账户，以在您的所有设备上同步收听体验。</string>
     <key>login_title</key>
     <string>发现下一个您喜欢的播客</string>
+    <key>logs</key>
+    <string>日志</string>
     <key>manage_downloads_action</key>
     <string>管理下载</string>
     <key>manage_downloads_detail</key>

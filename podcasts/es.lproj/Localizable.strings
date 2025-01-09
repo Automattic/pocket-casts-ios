@@ -1338,6 +1338,8 @@ pódcast contigo</string>
     <string>Crea una cuenta para sincronizar tu experiencia auditiva en todos tus dispositivos.</string>
     <key>login_title</key>
     <string>Descubre tu próximo pódcast favorito</string>
+    <key>logs</key>
+    <string>Registros</string>
     <key>manage_downloads_action</key>
     <string>Gestionar descargas</string>
     <key>manage_downloads_detail</key>

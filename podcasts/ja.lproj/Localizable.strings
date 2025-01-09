@@ -1338,6 +1338,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントを作成すると、すべての端末で視聴内容を同期させることができます。</string>
     <key>login_title</key>
     <string>次のお気に入りのポッドキャストを見つける</string>
+    <key>logs</key>
+    <string>ログ</string>
     <key>manage_downloads_action</key>
     <string>ダウンロードを管理</string>
     <key>manage_downloads_detail</key>
