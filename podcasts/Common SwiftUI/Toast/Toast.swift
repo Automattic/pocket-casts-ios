@@ -1,9 +1,5 @@
 import Foundation
 
-protocol ToastInsetAdjuster {
-    var bottomInset: CGFloat { get }
-}
-
 /// 🍞 Toast - A lightweight way to display informative overlay messages
 ///
 /// Usage:
@@ -23,18 +19,16 @@ class Toast {
     private var window: UIWindow? = nil
 
     /// Display the toast message with the given title and actions
-    static func show<Style: ToastTheme>(_ title: String, actions: [Action]? = nil, dismissAfter: TimeInterval = 5.0, theme: Style = .defaultTheme, insetAdjuster: ToastInsetAdjuster? = nil) {
+    static func show<Style: ToastTheme>(_ title: String, actions: [Action]? = nil, dismissAfter: TimeInterval = 5.0, theme: Style = .defaultTheme, aboveMiniPlayer: Bool = false) {
         // Hide any active toasts
         shared.toastDismissed()
 
         guard let scene = SceneHelper.connectedScene() else { return }
 
-        let viewModel = ToastViewModel(coordinator: shared, title: title, actions: actions, dismissTime: dismissAfter, insetAdjuster: insetAdjuster)
+        let viewModel = ToastViewModel(coordinator: shared, title: title, actions: actions, dismissTime: dismissAfter, aboveMiniPlayer: aboveMiniPlayer)
         let view = ToastView(viewModel: viewModel, style: theme)
         let controller = ThemedHostingController(rootView: view)
-        if insetAdjuster == nil {
-            viewModel.insetAdjuster = controller
-        }
+
         let window = ToastWindow(windowScene: scene, viewModel: viewModel, controller: controller)
         window.makeKeyAndVisible()
 
@@ -55,12 +49,6 @@ class Toast {
     }
 }
 
-extension ThemedHostingController: ToastInsetAdjuster {
-    var bottomInset: CGFloat {
-        return view.safeAreaInsets.bottom
-    }
-
-}
 // MARK: - ToastCoordinator
 
 extension Toast: ToastDelegate {

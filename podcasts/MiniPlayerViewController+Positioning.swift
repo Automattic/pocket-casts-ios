@@ -26,7 +26,7 @@ extension MiniPlayerViewController {
         // only show if something is playing
         if PlaybackManager.shared.currentEpisode() == nil { return }
 
-        changeHeightTo(desiredHeight)
+        changeHeightTo(desiredHeight())
         moveToHiddenBottomPosition()
         self.view.isHidden = false
         view.superview?.layoutIfNeeded()
@@ -84,7 +84,7 @@ extension MiniPlayerViewController {
     }
 
     private func moveToHiddenBottomPosition() {
-        view.transform = CGAffineTransform(translationX: 0, y: desiredHeight)
+        view.transform = CGAffineTransform(translationX: 0, y: desiredHeight())
         view.superview?.layoutIfNeeded()
     }
 
