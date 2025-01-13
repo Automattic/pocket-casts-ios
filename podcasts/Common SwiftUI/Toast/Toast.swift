@@ -19,13 +19,13 @@ class Toast {
     private var window: UIWindow? = nil
 
     /// Display the toast message with the given title and actions
-    static func show<Style: ToastTheme>(_ title: String, actions: [Action]? = nil, dismissAfter: TimeInterval = 5.0, theme: Style = .defaultTheme) {
+    static func show<Style: ToastTheme>(_ title: String, actions: [Action]? = nil, dismissAfter: TimeInterval = 5.0, theme: Style = .defaultTheme, aboveMiniPlayer: Bool = false) {
         // Hide any active toasts
         shared.toastDismissed()
 
         guard let scene = SceneHelper.connectedScene() else { return }
 
-        let viewModel = ToastViewModel(coordinator: shared, title: title, actions: actions, dismissTime: dismissAfter)
+        let viewModel = ToastViewModel(coordinator: shared, title: title, actions: actions, dismissTime: dismissAfter, aboveMiniPlayer: aboveMiniPlayer)
         let view = ToastView(viewModel: viewModel, style: theme)
         let controller = ThemedHostingController(rootView: view)
 
