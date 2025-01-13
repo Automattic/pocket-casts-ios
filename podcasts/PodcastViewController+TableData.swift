@@ -100,7 +100,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             if heading.sectionNumber > 0 {
                 cell.button.isHidden = false
                 cell.action = { [weak self] in
-                    self?.downloadSeasonTapped(season: heading.sectionNumber)
+                    self?.showOptionsFor(season: heading.sectionNumber)
                 }
             } else {
                 cell.button.isHidden = true

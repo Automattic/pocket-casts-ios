@@ -809,6 +809,24 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
+    func showOptionsFor(season: Int) {
+        let optionPicker = OptionsPicker(title: nil)
+
+        optionPicker.addActions([
+            .init(label: L10n.selectAll, icon: "selectall-down") { [weak self] in
+                
+            },
+            .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
+                self?.downloadSeasonTapped(season: season)
+            },
+            .init(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
+
+            }
+        ])
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
     func downloadSeasonTapped(season: Int) {
         DispatchQueue.global().async { [weak self] in
             guard let self = self,
