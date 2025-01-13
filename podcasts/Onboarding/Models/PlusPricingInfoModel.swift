@@ -11,6 +11,10 @@ class PlusPricingInfoModel: ObservableObject {
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
+    
+    class var availableProductIds: [IAPProductID] {
+        return [.yearly, .monthly, .patronYearly, .patronMonthly]
+    }
 
     init(purchaseHandler: IAPHelper = .shared) {
         self.purchaseHandler = purchaseHandler
@@ -19,11 +23,9 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
-        let products: [IAPProductID] = [.yearly, .monthly, .patronYearly, .patronMonthly]
-
         var pricing: [PlusProductPricingInfo] = []
 
-        for product in products {
+        for product in availableProductIds {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
             var offer: ProductOfferInfo?

@@ -8,6 +8,10 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
     @State var currentProductAvailability: CurrentProductAvailability = .idle
 
+    override class var availableProductIds: [IAPProductID] {
+        return [.yearly, .monthly, .patronYearly, .patronMonthly, .yearlyReferral]
+    }
+
     override func handleNext() {
         if let currentPricingProduct {
             Analytics.track(.cancelSubscriptionNewPlanPurchaseSuccessful, properties: ["product": currentPricingProduct.identifier.rawValue])
