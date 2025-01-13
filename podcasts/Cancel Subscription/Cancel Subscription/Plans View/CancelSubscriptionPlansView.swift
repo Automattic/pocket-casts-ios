@@ -30,23 +30,30 @@ struct CancelSubscriptionPlansView: View {
     }
 
     var mainView: some View {
-        VStack(spacing: 0) {
-            Image("cs-app-icon")
-                .frame(width: 80.0, height: 80.0)
-                .padding(.top, 88.0)
-                .padding(.bottom, 16.0)
-            Text(L10n.cancelSubscriptionAvailablePlansTitle)
-                .font(size: 28.0, style: .body, weight: .bold)
-                .foregroundStyle(theme.primaryText01)
-                .padding(.bottom, 28.0)
-            ForEach(viewModel.pricingInfo.products, id: \.id) { product in
-                CancelSubscriptionPlanRow(product: product,
-                                          selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
-                    viewModel.purchase(product: selectedProduct)
+        ScrollView {
+            VStack(spacing: 0) {
+                Image("cs-app-icon")
+                    .frame(width: 80.0, height: 80.0)
+                    .padding(.top, 88.0)
+                    .padding(.bottom, 16.0)
+                Text(L10n.cancelSubscriptionAvailablePlansTitle)
+                    .font(size: 28.0, style: .body, weight: .bold)
+                    .foregroundStyle(theme.primaryText01)
+                    .padding(.bottom, 28.0)
+                ForEach(viewModel.pricingInfo.products, id: \.id) { product in
+                    CancelSubscriptionPlanRow(product: product,
+                                              selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
+                        viewModel.purchase(product: selectedProduct)
+                    }
+                                              .padding(.bottom, 16.0)
                 }
-                                          .padding(.bottom, 16.0)
+                Text(L10n.cancelSubscriptionAvailablePlansFooter)
+                    .font(size: 14.0, style: .body, weight: .regular)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(theme.primaryText02)
+                    .padding(.horizontal, 56.0)
+                Spacer()
             }
-            Spacer()
         }
     }
 
