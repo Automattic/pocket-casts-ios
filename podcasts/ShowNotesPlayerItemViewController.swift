@@ -214,9 +214,15 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         showNotesWebView.evaluateJavaScript("document.readyState", completionHandler: { [weak self] complete, _ in
-            guard let _ = complete else { return }
-
-            self?.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
+            guard let self = self,
+                  let result = complete as? String,
+                  result == "complete" // ensure that the load of HTML is complete and not in another loading state
+            else {
+                return
+            }
+            // Ensures that the web view as a frame in order to proper calculate the height of the web content
+            showNotesWebView.frame = view.frame
+            self.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
                 guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
 
                 strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
