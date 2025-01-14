@@ -323,7 +323,7 @@ platform :ios do
 
     generate_strings_file_for_glotpress
 
-    push_to_git_remote(tags: false)
+    push_to_git_remote(set_upstream: true, tags: false)
 
     trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
@@ -527,6 +527,7 @@ platform :ios do
     UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
 
     commit_version_bump
+    push_to_git_remote(set_upstream: true, tags: false)
   end
 
   # Finalizes a hotfix, by triggering a release build on CI
