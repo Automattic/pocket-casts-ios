@@ -545,6 +545,11 @@ platform :ios do
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
     create_backmerge_pr
+    begin
+      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    rescue
+      UI.important("Could not find a GitHub milestone for hotfix #{release_version_current} to close.")
+    end
   end
 
   # Triggers a beta build on CI
