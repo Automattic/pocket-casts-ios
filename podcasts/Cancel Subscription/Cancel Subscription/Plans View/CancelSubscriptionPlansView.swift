@@ -47,11 +47,13 @@ struct CancelSubscriptionPlansView: View {
 
     var retryView: some View {
         VStack(spacing: 0) {
-            Image("")
+            Image("cs-yield")
+                .renderingMode(.template)
+                .foregroundStyle(theme.primaryIcon01)
                 .frame(width: 40.0, height: 40.0)
                 .padding(.top, 240.0)
                 .padding(.bottom, 16.0)
-            Text("Sorry, but something went wrong fetching your plans.")
+            Text(L10n.cancelSubscriptionAvailablePlansRetryScreenText)
                 .font(size: 15.0, style: .body, weight: .regular)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText01)
@@ -59,7 +61,7 @@ struct CancelSubscriptionPlansView: View {
             Button(action: loadProducts) {
                 Text(L10n.tryAgain)
                     .font(size: 13.0, style: .body, weight: .medium)
-                    .foregroundStyle(theme.primaryField01)
+                    .foregroundStyle(theme.primaryIcon03)
                     .frame(height: 28.0)
                     .padding(.horizontal, 16.0)
                     .background(

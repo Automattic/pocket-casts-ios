@@ -4708,6 +4708,9 @@
 /* Footer of the Available Plans screen accessible from the Cancel Subscription view */
 "cancel_subscription_available_plans_footer" = "Your new plan will activate at the end of your current billing period.";
 
+/* Text displayed when the retry screen is visible */
+"cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
+
 /* Title of the success screen when the cancel subscription offer is applied */
 "cancel_subscription_offer_success_view_title" = "Enjoy your free month!";
 
