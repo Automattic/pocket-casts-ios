@@ -47,7 +47,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     private func setupWebView() {
-        showNotesWebView = WKWebView()
+        showNotesWebView = WKWebView(frame: showNotesHolderView.bounds)
 
         showNotesWebView.translatesAutoresizingMaskIntoConstraints = false
         showNotesHolderView.addSubview(showNotesWebView)
@@ -57,6 +57,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         showNotesWebView.allowsLinkPreview = true
         showNotesWebView.navigationDelegate = self
         showNotesWebView.scrollView.isDirectionalLockEnabled = true
+        showNotesWebView.scrollView.isScrollEnabled = false
         showNotesWebView.allowsBackForwardNavigationGestures = true
 
         showNotesWebView.isOpaque = false
@@ -220,20 +221,11 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             else {
                 return
             }
-            // Ensures that the web view as a frame in order to proper calculate the height of the web content
-            var frame = view.frame
-            frame.size.height = 1
-            showNotesWebView.frame = frame
             self.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
                 guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
 
                 strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
                 strongSelf.view.layoutIfNeeded()
-
-                if strongSelf.showNotesViewHeight.constant + strongSelf.showNotesHolderView.frame.origin.y < strongSelf.view.frame.height {
-                    // if the show notes aren't long enough, we need to add the pull down gesture
-                    strongSelf.showNotesWebView.scrollView.isScrollEnabled = false
-                }
             })
         })
     }
