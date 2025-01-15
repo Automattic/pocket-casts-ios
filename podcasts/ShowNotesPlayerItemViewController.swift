@@ -220,13 +220,17 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                   result == "complete" // ensure that the load of HTML is complete and not in another loading state
             else {
                 return
-            }
-            self.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
-                guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
+            }            
+            updateScrollSize()
+        })
+    }
 
-                strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
-                strongSelf.view.layoutIfNeeded()
-            })
+    func updateScrollSize() {
+        showNotesWebView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
+            guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
+
+            strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
+            strongSelf.view.layoutIfNeeded()
         })
     }
 
