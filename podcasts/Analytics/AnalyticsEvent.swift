@@ -37,6 +37,8 @@ enum AnalyticsEvent: String {
     case plusPromotionNotNowButtonTapped
     case plusPromotionSubscriptionTierChanged
     case plusPromotionSubscriptionFrequencyChanged
+    case plusPromotionPrivacyPolicyTapped
+    case plusPromotionTermsAndConditionsTapped
 
     // MARK: - Setup Account
 

@@ -20,6 +20,7 @@ struct FeaturesCarousel: View {
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
             UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue), showPurchaseButton: showInlinePurchaseButton)
+                .environmentObject(viewModel)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
