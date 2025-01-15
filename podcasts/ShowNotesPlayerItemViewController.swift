@@ -221,7 +221,9 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 return
             }
             // Ensures that the web view as a frame in order to proper calculate the height of the web content
-            showNotesWebView.frame = view.frame
+            var frame = view.frame
+            frame.size.height = 1
+            showNotesWebView.frame = frame
             self.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
                 guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
 
