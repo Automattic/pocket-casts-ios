@@ -11,7 +11,7 @@ class PlusPricingInfoModel: ObservableObject {
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
-    
+
     class var availableProductIds: [IAPProductID] {
         return [.yearly, .monthly, .patronYearly, .patronMonthly]
     }
