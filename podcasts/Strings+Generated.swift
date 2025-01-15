@@ -386,6 +386,8 @@ internal enum L10n {
   internal static var cancelFailed: String { return L10n.tr("Localizable", "cancel_failed") }
   /// Cancel Subscription
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
+  /// Your new plan will activate at the end of your current billing period.
+  internal static var cancelSubscriptionAvailablePlansFooter: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_footer") }
   /// Available Plans
   internal static var cancelSubscriptionAvailablePlansTitle: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_title") }
   /// Claim offer
@@ -406,7 +408,7 @@ internal enum L10n {
   internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
   /// Enjoy your free month!
   internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
-  /// Save %@ with your next month on us.
+  /// Save %@ at the start of your next billing cycle.
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
   }

@@ -61,8 +61,10 @@ struct CancelSubscriptionPlanRow: View {
 extension PlusPricingInfoModel.PlusProductPricingInfo {
     fileprivate var planTitle: String {
         switch identifier {
-        case .yearly, .yearlyReferral:
+        case .yearly:
             return "Plus \(L10n.yearly.capitalized)"
+        case .yearlyReferral:
+            return "Plus \(L10n.yearly.capitalized) - Referral"
         case .monthly:
             return "Plus \(L10n.monthly.capitalized)"
         case .patronMonthly:
