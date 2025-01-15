@@ -73,6 +73,11 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func changedSubscriptionTier(_ index: Int) {
+        let tier = displayedProducts[index]
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionTierChanged, properties: ["value": tier.title.lowercased()])
+    }
+
     func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
             return nil
