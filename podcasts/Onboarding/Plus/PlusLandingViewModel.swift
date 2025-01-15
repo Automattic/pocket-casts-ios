@@ -58,7 +58,10 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func dismissTapped() {
+    func dismissTapped(buttonTapped: Bool = false) {
+        if buttonTapped {
+            OnboardingFlow.shared.track(.plusPromotionNotNowButtonTapped)
+        }
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
         guard source == .accountCreated else {

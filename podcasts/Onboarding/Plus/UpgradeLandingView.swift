@@ -140,7 +140,7 @@ struct UpgradeLandingView: View {
         HStack(spacing: 0) {
             Spacer()
             Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
-                viewModel.dismissTapped()
+                viewModel.dismissTapped(buttonTapped: true)
             }
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
