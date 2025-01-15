@@ -104,6 +104,9 @@ struct UpgradeLandingView: View {
                         .onChange(of: currentPage) { value in
                             viewModel.changedSubscriptionTier(value)
                         }
+                        .onChange(of: currentSubscriptionPeriod) { value in
+                            viewModel.changedSubscriptionPeriod(value)
+                        }
                     }
                 }
 

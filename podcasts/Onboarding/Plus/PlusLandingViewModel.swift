@@ -78,6 +78,10 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionSubscriptionTierChanged, properties: ["value": tier.title.lowercased()])
     }
 
+    func changedSubscriptionPeriod(_ value: PlanFrequency) {
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
+    }
+
     func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
             return nil
