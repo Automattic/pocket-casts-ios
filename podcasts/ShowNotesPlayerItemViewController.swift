@@ -220,7 +220,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                   result == "complete" // ensure that the load of HTML is complete and not in another loading state
             else {
                 return
-            }            
+            }
             updateScrollSize()
         })
     }
