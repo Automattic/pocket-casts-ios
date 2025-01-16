@@ -208,7 +208,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
-        guard let listEpisode = episodeInfo[indexPath.section].elements[indexPath.row] as? ListEpisode else { return nil }
+        guard let listEpisode = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListEpisode else { return nil }
 
         return listEpisode.episode
     }
