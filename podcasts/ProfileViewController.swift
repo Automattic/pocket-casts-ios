@@ -592,6 +592,7 @@ extension ProfileViewController: PlusLockedInfoDelegate {
         Settings.setPlusInfoDismissedOnProfile(true)
         plusInfoView.isHidden = true
         updateFooterFrame()
+        Analytics.track(.profileRefreshUpgradeBannerDismissed)
     }
 
     var displayingViewController: UIViewController {
