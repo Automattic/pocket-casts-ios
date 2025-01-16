@@ -117,7 +117,9 @@ struct PlusPurchaseModal: View {
         if coordinator.state == .failed {
             return L10n.tryAgain
         }
-
+        if selectedOffer?.type == .freeTrial {
+            return L10n.freeTrialStartButton
+        }
         return coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo
     }
 

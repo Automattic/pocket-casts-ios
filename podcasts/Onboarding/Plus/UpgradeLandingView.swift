@@ -165,7 +165,7 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: currentSubscriptionPeriod))
         }, label: {
             VStack {
-                Text(selectedTier.buttonLabel)
+                Text(purchaseTitle)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -181,6 +181,18 @@ struct UpgradeLandingView: View {
                 }
             )
         }
+    }
+
+    private var purchaseTitle: String {
+        guard let subscriptionInfo = viewModel.pricingInfo(for: selectedTier, frequency: currentSubscriptionPeriod) else {
+            return selectedTier.buttonLabel
+        }
+
+        if subscriptionInfo.offer?.type == .freeTrial {
+            return L10n.freeTrialStartButton
+        }
+
+        return selectedTier.buttonLabel
     }
 
     private var title: String {
