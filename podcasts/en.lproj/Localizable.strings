@@ -4667,7 +4667,7 @@
 "manage_downloads_title" = "Need to free up space?";
 
 /* Detail for manage downloads file space usage banner and modal. %1$@ is the disk space in Mb/GB that the episodes take */
-"manage_downloads_detail" = "Save %1$@ by removing played episodes.";
+"manage_downloads_detail" = "Save %1$@ - by managing downloaded episodes.";
 
 /* Button title for manage downloads file space usage banner and modal. */
 "manage_downloads_action" = "Manage downloads";
