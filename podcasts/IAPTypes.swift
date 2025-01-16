@@ -43,7 +43,7 @@ enum Plan {
     }
 }
 
-enum PlanFrequency {
+enum PlanFrequency: String {
     case yearly, monthly
 
     var description: String {

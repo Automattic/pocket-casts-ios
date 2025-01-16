@@ -58,7 +58,10 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func dismissTapped() {
+    func dismissTapped(buttonTapped: Bool = false) {
+        if buttonTapped {
+            OnboardingFlow.shared.track(.plusPromotionNotNowButtonTapped)
+        }
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
         guard source == .accountCreated else {
@@ -69,6 +72,24 @@ class PlusLandingViewModel: PlusPurchaseModel {
         let controller = WelcomeViewModel.make(in: navigationController, displayType: .newAccount)
         navigationController?.pushViewController(controller, animated: true)
     }
+
+    func changedSubscriptionTier(_ index: Int) {
+        let tier = displayedProducts[index]
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionTierChanged, properties: ["value": tier.title.lowercased()])
+    }
+
+    func changedSubscriptionPeriod(_ value: PlanFrequency) {
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
+    }
+
+    func termsOfUseTapped() {
+        OnboardingFlow.shared.track(.plusPromotionTermsAndConditionsTapped)
+    }
+
+    func privacyPolicyTapped() {
+        OnboardingFlow.shared.track(.plusPromotionPrivacyPolicyTapped)
+    }
+
 
     func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {

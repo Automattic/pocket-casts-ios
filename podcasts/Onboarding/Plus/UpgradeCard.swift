@@ -103,6 +103,8 @@ struct UpgradeCard: View {
 
     @EnvironmentObject var theme: Theme
 
+    @Environment(\.openURL) private var openURL
+
     let tier: UpgradeTier
 
     let currentPrice: Binding<PlanFrequency>
@@ -173,6 +175,17 @@ struct UpgradeCard: View {
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
         .foregroundColor(theme.primaryText01)
+        .environment(\.openURL, OpenURLAction { url in
+            switch url.absoluteString {
+            case privacyPolicy:
+                viewModel.privacyPolicyTapped()
+            case termsOfUse:
+                viewModel.termsOfUseTapped()
+            default:
+                break
+            }
+            return .systemAction
+        })
     }
 
     @ViewBuilder
