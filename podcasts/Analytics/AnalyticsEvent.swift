@@ -220,6 +220,7 @@ enum AnalyticsEvent: String {
     case userFileDetailOptionTapped
     case userFileEditShown
     case userFileEditDismissed
+    case userFileEditSave
     case userFileDeleteShown
     case userFileDeleteDismissed
 

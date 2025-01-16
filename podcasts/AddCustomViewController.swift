@@ -332,6 +332,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func saveTapped() {
+        Analytics.track(.userFileEditSave)
         nameTextfield.resignFirstResponder()
         nameTextfield.isHidden = true
         imageSaveErrorLabel.isHidden = true
