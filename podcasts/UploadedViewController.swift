@@ -318,6 +318,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func showDeleteConfirmation(userEpisode: UserEpisode) {
+        Analytics.track(.userFileDeleteShown)
         UserEpisodeManager.presentDeleteOptions(episode: userEpisode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: nil, dismissCallback: {
             Analytics.track(.userFileDeleteDismissed)
         }) { deletedLocal, deletedRemote in
