@@ -186,7 +186,7 @@ struct UpgradeCard: View {
             viewModel.unlockTapped(.init(plan: tier.plan, frequency: currentPrice.wrappedValue))
         }, label: {
             VStack {
-                Text(tier.buttonLabel)
+                Text(purchaseTitle)
             }
             .transition(.opacity)
             .id("plus_price" + tier.title)
@@ -200,5 +200,17 @@ struct UpgradeCard: View {
                 }
             )
         }
+    }
+
+    private var purchaseTitle: String {
+        guard let subscriptionInfo = viewModel.pricingInfo(for: tier, frequency: currentPrice.wrappedValue) else {
+            return tier.buttonLabel
+        }
+
+        if subscriptionInfo.offer?.type == .freeTrial {
+            return L10n.freeTrialStartButton
+        }
+
+        return tier.buttonLabel
     }
 }
