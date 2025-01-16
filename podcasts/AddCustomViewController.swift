@@ -183,6 +183,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Analytics.track(.userFileEditShown)
         if let mainView = view as? ThemeableView {
             mainView.style = .primaryUi04
         }
@@ -318,6 +319,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     // MARK: Actions
 
     @IBAction func cancelTapped() {
+        Analytics.track(.userFileEditDismissed)
         navigationController?.navigationBar.isHidden = false
         if episodeToEdit == nil {
             if let destinationUrl = destinationUrl {
