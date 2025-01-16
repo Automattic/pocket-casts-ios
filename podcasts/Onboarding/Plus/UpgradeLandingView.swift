@@ -101,6 +101,12 @@ struct UpgradeLandingView: View {
                                 contentIsScrollable = true
                             }
                         }
+                        .onChange(of: currentPage) { value in
+                            viewModel.changedSubscriptionTier(value)
+                        }
+                        .onChange(of: currentSubscriptionPeriod) { value in
+                            viewModel.changedSubscriptionPeriod(value)
+                        }
                     }
                 }
 
@@ -140,7 +146,7 @@ struct UpgradeLandingView: View {
         HStack(spacing: 0) {
             Spacer()
             Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
-                viewModel.dismissTapped()
+                viewModel.dismissTapped(buttonTapped: true)
             }
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
