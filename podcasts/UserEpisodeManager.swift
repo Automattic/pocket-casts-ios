@@ -249,8 +249,12 @@ struct UserEpisodeManager {
     }
 
     #if !os(watchOS)
-        static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, actionCallback: ((Bool, Bool) -> Void)? = nil) {
+    static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, dismissCallback: (() -> ())? = nil, actionCallback: ((Bool, Bool) -> Void)? = nil) {
             let optionPicker = OptionsPicker(title: "", themeOverride: themeOverride)
+
+            if let dismissCallback {
+                optionPicker.setNoActionCallback(dismissCallback)
+            }
 
             let deleteCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil, action: { [] in
                 UserEpisodeManager.deleteFromCloud(episode: episode)
