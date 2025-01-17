@@ -388,6 +388,8 @@ internal enum L10n {
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
   /// Your new plan will activate at the end of your current billing period.
   internal static var cancelSubscriptionAvailablePlansFooter: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_footer") }
+  /// Sorry, but something went wrong fetching your plans.
+  internal static var cancelSubscriptionAvailablePlansRetryScreenText: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_retry_screen_text") }
   /// Available Plans
   internal static var cancelSubscriptionAvailablePlansTitle: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_title") }
   /// Claim offer
@@ -414,7 +416,8 @@ internal enum L10n {
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
-  /// Before you cancel, check out these offers
+  /// Before you cancel,
+  /// check out these offers
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
   /// Canceling...
   internal static var canceling: String { return L10n.tr("Localizable", "canceling") }

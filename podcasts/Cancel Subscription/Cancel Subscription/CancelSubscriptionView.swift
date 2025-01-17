@@ -50,7 +50,8 @@ struct CancelSubscriptionView: View {
                 .padding(.bottom, 58.0)
             case .loading, .unknown:
                 ProgressView()
-                    .foregroundStyle(theme.primaryUi01)
+                    .tint(theme.primaryText01)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .failed:
                 Text(L10n.cancelSubscriptionGenericError)
                     .font(size: 18.0, style: .body, weight: .bold)

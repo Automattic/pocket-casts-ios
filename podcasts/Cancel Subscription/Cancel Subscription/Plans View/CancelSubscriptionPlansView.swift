@@ -10,26 +10,14 @@ struct CancelSubscriptionPlansView: View {
     }
 
     var body: some View {
-        ZStack {
-            switch viewModel.currentProductAvailability {
-            case .loading:
-                showLoading()
-            default:
-                mainView
-                if viewModel.state == .purchasing {
-                    showLoading(fullScreen: true)
-                }
-            }
-        }
+        makeMainView()
         .onAppear {
-            Task {
-                await viewModel.loadCurrentProduct()
-            }
+            loadProducts()
         }
         .background(theme.primaryUi04)
     }
 
-    var mainView: some View {
+    var plansView: some View {
         ScrollView {
             VStack(spacing: 0) {
                 Image("cs-app-icon")
@@ -57,6 +45,55 @@ struct CancelSubscriptionPlansView: View {
         }
     }
 
+    var retryView: some View {
+        VStack(spacing: 0) {
+            Image("cs-yield")
+                .renderingMode(.template)
+                .foregroundStyle(theme.primaryIcon03)
+                .frame(width: 40.0, height: 40.0)
+                .padding(.top, 240.0)
+                .padding(.bottom, 16.0)
+            Text(L10n.cancelSubscriptionAvailablePlansRetryScreenText)
+                .font(size: 15.0, style: .body, weight: .regular)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(theme.primaryText01)
+                .padding(.bottom, 16.0)
+            Button(action: loadProducts) {
+                Text(L10n.tryAgain)
+                    .font(size: 13.0, style: .body, weight: .medium)
+                    .foregroundStyle(theme.primaryText01)
+                    .frame(height: 28.0)
+                    .padding(.horizontal, 16.0)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: 14.0,
+                            style: .continuous
+                        )
+                        .fill(theme.primaryInteractive03)
+                    )
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 46)
+    }
+
+    @ViewBuilder func makeMainView() -> some View {
+        switch viewModel.currentProductAvailability {
+        case .loading, .idle:
+            showLoading()
+        case .unavailable:
+            retryView
+                .frame(maxWidth: .infinity)
+        case .available:
+            ZStack {
+                plansView
+                if viewModel.state == .purchasing {
+                    showLoading(fullScreen: true)
+                }
+            }
+        }
+    }
+
     @ViewBuilder
     func showLoading(fullScreen: Bool = false) -> some View {
         if fullScreen {
@@ -69,7 +106,14 @@ struct CancelSubscriptionPlansView: View {
             }
         } else {
             ProgressView()
-                .tint(theme.primaryUi01)
+                .tint(theme.primaryText01)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    private func loadProducts() {
+        Task {
+            await viewModel.loadCurrentProduct()
         }
     }
 }
