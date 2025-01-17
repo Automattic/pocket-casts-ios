@@ -7,7 +7,8 @@
 - Add setting for disabling the lock screen scrubber [#2536](https://github.com/Automattic/pocket-casts-ios/pull/2536)
 - Display podcast rich text descriptions [#2480](https://github.com/Automattic/pocket-casts-ios/pull/2480)
 - Fix an issue with episode images not appearing in CarPlay [#2610](https://github.com/Automattic/pocket-casts-ios/pull/2610)
-
+- Fix update of download button color when mark as played [#2627](https://github.com/Automattic/pocket-casts-ios/pull/2627)
+- Fix endless episode details scrolling [#2634](https://github.com/Automattic/pocket-casts-ios/pull/2634)
 
 7.79
 -----

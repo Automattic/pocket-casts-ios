@@ -353,6 +353,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Encuentra el plan adecuado para ti.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>¿Necesitas un plan diferente?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Gracias por elegir Pocket Casts. La facturación comienza cuando finalice tu mes gratuito.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>¡Disfruta de tu mes gratuito!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Ahorra %@ en tu próximo mes, corre a nuestro cargo.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1340,6 +1344,8 @@ pódcast contigo</string>
     <string>Descubre tu próximo pódcast favorito</string>
     <key>logs</key>
     <string>Registros</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Tienes que configurar una cuenta de correo electrónico en el dispositivo para enviar los registros</string>
     <key>manage_downloads_action</key>
     <string>Gestionar descargas</string>
     <key>manage_downloads_detail</key>
@@ -2487,6 +2493,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Compatibilidad con la tecnología Bluetooth heredada</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Prueba a activar este ajuste para solucionar problemas con un dispositivo Bluetooth o un equipo de música del coche que pausa Pocket Casts mientras se está reproduciendo o restablece la posición de reproducción a 0.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Habilitar limpiador de la pantalla de bloqueo</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Gestos para selección múltiple de elementos</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2707,6 +2715,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Más</string>
     <key>share_podcast</key>
     <string>Compartir podcast</string>
+    <key>share_podcast_private_not_available</key>
+    <string>Los podcasts privados no se pueden compartir</string>
     <key>share_podcast_title</key>
     <string>Compartir pódcast</string>
     <key>share_podcasts_all_selected</key>

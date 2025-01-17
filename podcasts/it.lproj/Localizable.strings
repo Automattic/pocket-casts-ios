@@ -353,6 +353,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Trova il piano adatto alle tue esigenze.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Stai cercando un piano differente?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Grazie per aver scelto Pocket Casts. La fatturazione inizia dopo la fine del mese gratuito.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>Goditi il tuo mese gratuito!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Risparmia %@ sul prossimo mese. Offriamo noi.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1340,6 +1344,8 @@ pocast con te</string>
     <string>Scopri il tuo prossimo podcast preferito</string>
     <key>logs</key>
     <string>Registri</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Per inviare i log è necessario configurare un account e-mail sul dispositivo.</string>
     <key>manage_downloads_action</key>
     <string>Gestisci i download</string>
     <key>manage_downloads_detail</key>
@@ -2489,6 +2495,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Supporto Bluetooth legacy</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Se hai un dispositivo Bluetooth o un'autoradio che sembra mettere in pausa Pocket Casts durante la riproduzione o ripristinare la posizione di riproduzione su 0, per risolvere il problema prova ad attivare questa impostazione.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Abilita la scansione della schermata di blocco</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Gesto per la selezione multipla</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2709,6 +2717,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Leggi tutto</string>
     <key>share_podcast</key>
     <string>Condividi il podcast</string>
+    <key>share_podcast_private_not_available</key>
+    <string>La condivisione non è disponibile per i podcast privati</string>
     <key>share_podcast_title</key>
     <string>Condividi podcast</string>
     <key>share_podcasts_all_selected</key>
