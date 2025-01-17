@@ -49,7 +49,7 @@ struct CancelSubscriptionPlansView: View {
         VStack(spacing: 0) {
             Image("cs-yield")
                 .renderingMode(.template)
-                .foregroundStyle(theme.primaryIcon01)
+                .foregroundStyle(theme.primaryIcon03)
                 .frame(width: 40.0, height: 40.0)
                 .padding(.top, 240.0)
                 .padding(.bottom, 16.0)
