@@ -8,6 +8,7 @@ protocol AnalyticsSourceProvider {
 
 enum AnalyticsSource: String, AnalyticsDescribable {
     case appIconMenu = "app_icon_menu"
+    case autoDownloadSettings = "auto_download_settings"
     case carPlay = "carplay"
     case chooseFolder = "choose_folder"
     case chromecast
