@@ -4,7 +4,7 @@ class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
 #if !os(watchOS) && !APPCLIP
-    private var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
+    var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
 #endif
 
     // Whether we have adapters registered or not
