@@ -127,6 +127,10 @@ enum AnalyticsEvent: String {
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
 
+    // MARK: - Upgrade banner
+
+    case upgradeBannerDismissed
+
     // MARK: - Stats View
 
     case statsShown
