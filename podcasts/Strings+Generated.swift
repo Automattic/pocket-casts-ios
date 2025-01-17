@@ -1538,7 +1538,7 @@ internal enum L10n {
   internal static var logsNoEmailAccountConfigured: String { return L10n.tr("Localizable", "logs_no_email_account_configured") }
   /// Manage downloads
   internal static var manageDownloadsAction: String { return L10n.tr("Localizable", "manage_downloads_action") }
-  /// Save %1$@ by removing played episodes.
+  /// Save %1$@ - by managing downloaded episodes.
   internal static func manageDownloadsDetail(_ p1: Any) -> String {
     return L10n.tr("Localizable", "manage_downloads_detail", String(describing: p1))
   }
