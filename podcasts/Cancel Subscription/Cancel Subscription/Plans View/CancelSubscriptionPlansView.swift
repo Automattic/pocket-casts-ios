@@ -61,7 +61,7 @@ struct CancelSubscriptionPlansView: View {
             Button(action: loadProducts) {
                 Text(L10n.tryAgain)
                     .font(size: 13.0, style: .body, weight: .medium)
-                    .foregroundStyle(theme.primaryIcon03)
+                    .foregroundStyle(theme.primaryText01)
                     .frame(height: 28.0)
                     .padding(.horizontal, 16.0)
                     .background(
@@ -69,7 +69,7 @@ struct CancelSubscriptionPlansView: View {
                             cornerRadius: 14.0,
                             style: .continuous
                         )
-                        .fill(theme.secondaryText02)
+                        .fill(theme.primaryInteractive03)
                     )
             }
             Spacer()
