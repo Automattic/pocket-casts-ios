@@ -4672,8 +4672,8 @@
 /* Button title for manage downloads file space usage banner and modal. */
 "manage_downloads_action" = "Manage downloads";
 
-/* Title of the cancel subscription view */
-"cancel_subscription_title" = "Before you cancel, check out these offers";
+/* Title of the cancel subscription view, '\n' is a line break format to allow a clean wrapping of text */
+"cancel_subscription_title" = "Before you cancel,\ncheck out these offers";
 
 /* Title for the continue button */
 "cancel_subscription_continue_button" = "Continue to Cancellation";
