@@ -416,7 +416,8 @@ internal enum L10n {
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
-  /// Before you cancel, check out these offers
+  /// Before you cancel,
+  /// check out these offers
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
   /// Canceling...
   internal static var canceling: String { return L10n.tr("Localizable", "canceling") }
