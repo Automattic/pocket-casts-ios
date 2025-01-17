@@ -255,6 +255,8 @@ enum AnalyticsEvent: String {
     case filterListEditButtonToggled
     case filterListReordered
 
+    case filterCreateButtonTapped
+
     case filterDeleted
     case filterUpdated
     case filterCreated
