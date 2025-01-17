@@ -3,6 +3,9 @@ import Foundation
 class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
+#if !os(watchOS) && !APPCLIP
+    private var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
+#endif
 
     // Whether we have adapters registered or not
     var adaptersRegistered: Bool = false
@@ -17,6 +20,11 @@ class Analytics {
         Self.shared.adapters = nil
         shared.adaptersRegistered = false
     }
+#if !os(watchOS) && !APPCLIP
+    static func add(analyticsAppThemeProvider: AnalyticsAppThemeProviding) {
+        Self.shared.analyticsAppThemeProvider = analyticsAppThemeProvider
+    }
+#endif
 
     /// Convenience method to call Analytics.shared.track*
     static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
@@ -24,7 +32,12 @@ class Analytics {
     }
 
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
-        let newProperties = properties?.mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
+        var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
+#if !os(watchOS) && !APPCLIP
+        analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
+            newProperties[key] = value
+        }
+#endif
         adapters?.forEach {
             $0.track(name: event.eventName, properties: newProperties)
         }
