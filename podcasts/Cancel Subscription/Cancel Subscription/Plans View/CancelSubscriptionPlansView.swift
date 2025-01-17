@@ -14,7 +14,7 @@ struct CancelSubscriptionPlansView: View {
         .onAppear {
             loadProducts()
         }
-        .background(theme.primaryUi04)
+        .background(theme.primaryUi01)
     }
 
     var plansView: some View {
