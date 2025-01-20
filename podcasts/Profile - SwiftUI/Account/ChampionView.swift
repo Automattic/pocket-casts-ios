@@ -17,6 +17,7 @@ struct ChampionView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryUi05Selected)
             Button(action: {
+                Analytics.track(.pocketCastsChampionDialogRateButtonTapped)
                 openURL(URL(string: ServerConstants.Urls.appStoreReview)!)
             }, label: {
                 Text(L10n.ratePocketCasts)
@@ -25,6 +26,9 @@ struct ChampionView: View {
         }
         .padding()
         .applyDefaultThemeOptions()
+        .onAppear() {
+            Analytics.track(.pocketCastsChampionDialogShown)
+        }
     }
 }
 
