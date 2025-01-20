@@ -162,12 +162,15 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             "all_podcasts": filterToEdit.filterAllPodcasts,
             "media_type": AudioVideoFilter(rawValue: filterToEdit.filterAudioVideoType) ?? .all,
             "downloaded": filterToEdit.filterDownloaded,
+            "not_downloaded": filterToEdit.filterNotDownloaded,
             "episode_status_played": filterToEdit.filterFinished,
             "episode_status_unplayed": filterToEdit.filterUnplayed,
             "episode_status_in_progress": filterToEdit.filterPartiallyPlayed,
             "release_date": ReleaseDateFilterOption(rawValue: filterToEdit.filterHours) ?? .anytime,
             "starred": filterToEdit.filterStarred,
             "duration": filterToEdit.filterDuration,
+            "duration_longer_than": filterToEdit.longerThan,
+            "duration_shorter_than": filterToEdit.shorterThan,
             "color": filterToEdit.playlistColor().hexString(),
             "icon_name": filterToEdit.iconImageName() ?? "unknown"
         ])

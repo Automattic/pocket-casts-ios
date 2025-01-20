@@ -168,12 +168,14 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 }
                 filterSelectionViewController.selectedFilters = selectedFilters
                 filterSelectionViewController.filterSelected = { filter in
+                    Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
                     filter.autoDownloadEpisodes = true
                     filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
                     DataManager.sharedManager.save(filter: filter)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
                 }
                 filterSelectionViewController.filterUnselected = { filter in
+                    Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
                     filter.autoDownloadEpisodes = false
                     DataManager.sharedManager.save(filter: filter)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)

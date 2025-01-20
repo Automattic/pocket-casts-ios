@@ -110,6 +110,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @IBAction func addNewFilter() {
+        Analytics.track(.filterCreateButtonTapped)
         let createFilterVC = FilterPreviewViewController()
         createFilterVC.delegate = self
         let navVC = SJUIUtils.navController(for: createFilterVC)

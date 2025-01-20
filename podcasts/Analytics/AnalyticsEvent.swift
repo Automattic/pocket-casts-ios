@@ -264,6 +264,8 @@ enum AnalyticsEvent: String {
     case filterListEditButtonToggled
     case filterListReordered
 
+    case filterCreateButtonTapped
+
     case filterDeleted
     case filterUpdated
     case filterCreated
@@ -272,6 +274,8 @@ enum AnalyticsEvent: String {
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
+    case filterSelectAllAbove
+    case filterSelectAllBelow
     case filterMultiSelectExited
 
     case filterOptionsButtonTapped
@@ -282,6 +286,9 @@ enum AnalyticsEvent: String {
     case filterSiriShortcutsShown
     case filterSiriShortcutAdded
     case filterSiriShortcutRemoved
+
+    case filterAutoDownloadUpdated
+    case filterAutoDownloadLimitUpdated
 
     // MARK: - Podcast screen
 
