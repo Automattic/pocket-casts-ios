@@ -133,18 +133,6 @@ enum SharingModal {
 }
 
 extension SharingModal.Option {
-    fileprivate var analyticsType: String {
-        switch self {
-        case .podcast:
-            "podcast"
-        case .episode:
-            "episode"
-        case .currentPosition:
-            "current_position"
-        case .clip, .clipShare:
-            "clip"
-        }
-    }
 
     private var description: String? {
         switch self {
