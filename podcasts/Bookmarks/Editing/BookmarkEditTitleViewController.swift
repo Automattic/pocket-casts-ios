@@ -28,7 +28,13 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        Analytics.track(.bookmarkEditFormShown, properties: ["source": source.rawValue])
         viewModel.viewDidAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Analytics.track(.bookmarkEditFormDismissed, properties: ["source": source.rawValue])
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
@@ -43,6 +49,7 @@ extension BookmarkEditTitleViewController: BookmarkEditRouter {
     }
 
     func titleUpdated(title: String) {
+        Analytics.track(.bookmarkEditFormSubmitted, properties: ["source": source.rawValue])
         dismiss(animated: true)
         onDismiss?(title, false)
     }

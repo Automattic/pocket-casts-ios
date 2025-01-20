@@ -719,6 +719,12 @@ enum AnalyticsEvent: String {
     case bookmarksSortByChanged
     case bookmarkDeleted
     case bookmarkShareTapped
+    case bookmarkEditFormShown
+    case bookmarkEditFormDismissed
+    case bookmarkEditFormSubmitted
+    case bookmarkDeleteFormShown
+    case bookmarkDeleteFormDismissed
+    case bookmarkDeleteFormSubmitted
 
     // MARK: - Headphone Controls
     case settingsHeadphoneControlsShown
