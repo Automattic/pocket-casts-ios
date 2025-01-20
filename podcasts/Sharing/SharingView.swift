@@ -94,7 +94,7 @@ struct SharingView: View {
             case .podcast(let podcast):
                 properties["podcast_uuid"] = podcast.uuid
                 type = "podcast"
-            case .currentPosition(let episode, _):
+            case .currentPosition(let episode, _), .bookmark(let episode, _):
                 properties["episode_uuid"] = episode.uuid
                 type = "episode_timestamp"
             }
