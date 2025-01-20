@@ -102,6 +102,15 @@ struct AboutView: View {
                             }
                         }
                         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
+                        Section {
+                            HStack {
+                                Spacer()
+                                Image("automattic-logo")
+                                    .tint(theme.activeTheme.isDark ? .white : .black)
+                                Spacer()
+                            }
+                        }
+                        .listRowBackground(Color.clear)
                     }
                     .colorScheme(theme.activeTheme.isDark ? .dark : .light)
                 }
