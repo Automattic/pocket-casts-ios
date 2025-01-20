@@ -64,12 +64,13 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, fromSource: AnalyticsSource, barButtonItem: UIBarButtonItem?) {
-        SharingModal.show(option: .episode(episode), from: fromSource, in: fromController)
+        let option: SharingModal.Option = shareTime == 0 ? .episode(episode) : .currentPosition(episode, shareTime)
+        SharingModal.show(option: option, from: fromSource, in: fromController)
     }
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true, fromSource: AnalyticsSource, analyticsType: String = "episode") {
-
-        SharingModal.show(option: .episode(episode), from: fromSource, in: fromController)
+        let option: SharingModal.Option = shareTime == 0 ? .episode(episode) : .currentPosition(episode, shareTime)
+        SharingModal.show(option: option, from: fromSource, in: fromController)
     }
 
     func createActivityController(episode: Episode, shareTime: TimeInterval) -> UIActivityViewController {

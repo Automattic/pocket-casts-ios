@@ -1,6 +1,6 @@
 7.81
 -----
-
+- Use new Share UI for bookmarks sharing [#2656](https://github.com/Automattic/pocket-casts-ios/pull/2656)
 
 7.80
 -----
