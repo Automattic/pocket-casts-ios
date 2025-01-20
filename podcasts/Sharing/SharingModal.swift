@@ -128,8 +128,6 @@ enum SharingModal {
 
         let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
         viewController.present(hostingController, animated: true)
-
-        Analytics.track(.podcastShared, source: source, properties: ["type": option.analyticsType])
     }
 }
 
