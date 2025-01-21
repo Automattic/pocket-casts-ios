@@ -13,7 +13,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     let podcastFilterCellId = "PodcastFilterCell"
     var saveButton: UIButton!
 
-    override func viewDidLoad() {       
+    override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
         podcastTable.delegate = self
