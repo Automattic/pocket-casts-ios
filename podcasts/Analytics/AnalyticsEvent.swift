@@ -747,7 +747,7 @@ enum AnalyticsEvent: String {
     case transcriptShown
     case transcriptError
     case transcriptDismissed
-    case transcriptSearch
+    case transcriptSearchShown
     case transcriptSearchNextResult
     case transcriptSearchPreviousResult
 
