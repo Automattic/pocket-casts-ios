@@ -46,7 +46,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        Analytics.track(.settingsSelectPodcastsDismissed, properties: ["source": analyticsSource])
         if selectedUuidsUpdated {
             selectedUuidsUpdated = false
             loadPodcasts()

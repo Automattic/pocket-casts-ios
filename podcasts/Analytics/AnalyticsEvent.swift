@@ -795,6 +795,7 @@ enum AnalyticsEvent: String {
 
     //MARK: - Select/Choose Podcasts
     case settingsSelectPodcastsShown
+    case settingsSelectPodcastsDismissed
     case settingsSelectPodcastsSelectAllTapped
     case settingsSelectPodcastsSelectNoneTapped
     case settingsSelectPodcastsPodcastToggled
