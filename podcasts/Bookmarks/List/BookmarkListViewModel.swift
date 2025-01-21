@@ -100,7 +100,6 @@ extension BookmarkListViewModel {
 
     func editSelectedBookmarks() {
         guard let bookmark = selectedItems.first else { return }
-
         router?.bookmarkEdit(bookmark)
         toggleMultiSelection()
     }
@@ -171,16 +170,19 @@ extension BookmarkListViewModel {
 private extension BookmarkListViewModel {
     func confirmDeletion(_ delete: @escaping () -> Void) {
         guard let router else { return }
-
+        let source = analyticsSource
         let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
                                       message: L10n.bookmarkDeleteWarningBody,
                                       preferredStyle: .alert)
 
-        alert.addAction(.init(title: L10n.cancel, style: .cancel))
+        alert.addAction(.init(title: L10n.cancel, style: .cancel, handler: { _ in
+            Analytics.track(.bookmarkDeleteFormDismissed, source: source)
+        }))
         alert.addAction(.init(title: L10n.delete, style: .destructive, handler: { _ in
+            Analytics.track(.bookmarkDeleteFormSubmitted, source: source)
             delete()
         }))
-
+        Analytics.track(.bookmarkDeleteFormShown, source: analyticsSource)
         router.presentBookmarkController(alert)
     }
 
