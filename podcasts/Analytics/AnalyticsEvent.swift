@@ -507,6 +507,8 @@ enum AnalyticsEvent: String {
     case settingsGeneralEpisodeGroupingApplyToExisting
     case settingsGeneralEpisodeGroupingDoNotApplyToExisting
     case settingsGeneralArchivedEpisodesChanged
+    case settingsGeneralArchivedEpisodesApplyToExisting
+    case settingsGeneralArchivedEpisodesDoNotApplyToExisting
     case settingsGeneralUpNextSwipeChanged
     case settingsGeneralOpenLinksInBrowserToggled
     case settingsGeneralSkipForwardChanged

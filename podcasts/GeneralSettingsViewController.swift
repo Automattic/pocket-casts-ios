@@ -467,9 +467,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingPrompt = OptionsPicker(title: nil)
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
+            Analytics.track(.settingsGeneralArchivedEpisodesApplyToExisting)
             DataManager.sharedManager.updateAllShowArchived(to: showArchived)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
+            Analytics.track(.settingsGeneralArchivedEpisodesDoNotApplyToExisting)
             // no need to do anything
         }
         noAction.outline = true
