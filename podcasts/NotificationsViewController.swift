@@ -124,8 +124,8 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsNotificationsPodcastsChanged)
+    func didChangePodcasts(numberSelected: Int) {
+        Analytics.track(.settingsNotificationsPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
     @objc private func pushToggled(_ sender: UISwitch) {

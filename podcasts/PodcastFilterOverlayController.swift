@@ -188,7 +188,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         updateRightBarBtn()
     }
 
-    func didChangePodcasts() {}
+    func didChangePodcasts(numberSelected: Int) {}
 
     // MARK: - TableView data source and delegate
 

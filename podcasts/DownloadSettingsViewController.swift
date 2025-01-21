@@ -230,8 +230,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsAutoDownloadPodcastsChanged)
+    func didChangePodcasts(numberSelected: Int) {
+        Analytics.track(.settingsAutoDownloadPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
     // MARK: - Switch Settings

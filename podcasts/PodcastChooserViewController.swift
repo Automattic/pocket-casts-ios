@@ -5,7 +5,7 @@ import UIKit
     func bulkSelectionChange(selected: Bool)
     func podcastSelected(podcast: String)
     func podcastUnselected(podcast: String)
-    func didChangePodcasts()
+    func didChangePodcasts(numberSelected: Int)
 }
 
 class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -57,7 +57,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         super.viewWillDisappear(animated)
 
         if didChange {
-            delegate?.didChangePodcasts()
+            delegate?.didChangePodcasts(numberSelected: selectedUuids.count)
         }
     }
 
