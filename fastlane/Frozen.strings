@@ -2520,7 +2520,7 @@
 "settings_general_smart_playback_subtitle" = "If on, Pocket Casts will go back a little in episodes you resume so you can catch up more comfortably.";
 
 /* Setting toggle to enable the feature that disables the lock screen scrubber. */
-"settings_general_lock_screen_disabled" = "Lock Screen Scrubbing";
+"settings_general_lock_screen_disabled" = "Enable Lock Screen Scrubbing";
 
 /* Setting option to choose how to handle swiping to add something to the queue. */
 "settings_general_up_next_swipe" = "Up Next Swipe";
@@ -4671,13 +4671,13 @@
 "manage_downloads_title" = "Need to free up space?";
 
 /* Detail for manage downloads file space usage banner and modal. %1$@ is the disk space in Mb/GB that the episodes take */
-"manage_downloads_detail" = "Save %1$@ by removing played episodes.";
+"manage_downloads_detail" = "Save %1$@ - by managing downloaded episodes.";
 
 /* Button title for manage downloads file space usage banner and modal. */
 "manage_downloads_action" = "Manage downloads";
 
-/* Title of the cancel subscription view */
-"cancel_subscription_title" = "Before you cancel, check out these offers";
+/* Title of the cancel subscription view, '\n' is a line break format to allow a clean wrapping of text */
+"cancel_subscription_title" = "Before you cancel,\ncheck out these offers";
 
 /* Title for the continue button */
 "cancel_subscription_continue_button" = "Continue to Cancellation";
@@ -4689,7 +4689,7 @@
 "cancel_subscription_promotion_title" = "Get your next month free";
 
 /* Cancel subscription: description for the promotion row */
-"cancel_subscription_promotion_description" = "Save %@ with your next month on us.";
+"cancel_subscription_promotion_description" = "Save %@ at the start of your next billing cycle.";
 
 /* Cancel subscription: title for the new plan row */
 "cancel_subscription_new_plan_title" = "Looking for a different plan?";
@@ -4708,6 +4708,12 @@
 
 /* Title of the Available Plans screen accessible from the Cancel Subscription view */
 "cancel_subscription_available_plans_title" = "Available Plans";
+
+/* Footer of the Available Plans screen accessible from the Cancel Subscription view */
+"cancel_subscription_available_plans_footer" = "Your new plan will activate at the end of your current billing period.";
+
+/* Text displayed when the retry screen is visible */
+"cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
 
 /* Title of the success screen when the cancel subscription offer is applied */
 "cancel_subscription_offer_success_view_title" = "Enjoy your free month!";

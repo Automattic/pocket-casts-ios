@@ -6,7 +6,11 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     private var lastPurchasedProductID: IAPProductID?
 
     @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
-    @State var currentProductAvailability: CurrentProductAvailability = .idle
+    @Published var currentProductAvailability: CurrentProductAvailability = .idle
+
+    override class var availableProductIds: [IAPProductID] {
+        return [.yearly, .monthly, .patronYearly, .patronMonthly, .yearlyReferral]
+    }
 
     override func handleNext() {
         if let currentPricingProduct {
@@ -47,7 +51,9 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
                 currentPricingProduct = pricingInfo.products.first { $0.identifier == productID }
             }
         } else {
-            currentProductAvailability = .unavailable
+            await MainActor.run {
+                currentProductAvailability = .unavailable
+            }
             FileLog.shared.console("[CancelSubscriptionViewModel] Could not find last subscription purchased")
         }
     }

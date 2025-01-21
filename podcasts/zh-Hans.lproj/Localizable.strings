@@ -353,6 +353,10 @@
     <string>找到适合您的套餐。</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>想换个套餐？</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>感谢您选用 Pocket Casts。 免费月结束后开始计费。</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>享受一个月的免费体验！</string>
     <key>cancel_subscription_promotion_description</key>
     <string>使用我们的服务，下个月可节省 %@。</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1338,6 +1342,10 @@
     <string>创建账户，以在您的所有设备上同步收听体验。</string>
     <key>login_title</key>
     <string>发现下一个您喜欢的播客</string>
+    <key>logs</key>
+    <string>日志</string>
+    <key>logs_no_email_account_configured</key>
+    <string>您需要在设备上配置电子邮件账户，以便发送日志</string>
     <key>manage_downloads_action</key>
     <string>管理下载</string>
     <key>manage_downloads_detail</key>
@@ -2487,6 +2495,8 @@
     <string>传统蓝牙支持</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>如果您的蓝牙设备或汽车立体声系统似乎暂停了正在播放的 Pocket Casts，或将播放位置重置为 0，请尝试打开此设置以修复。</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>启用锁定屏幕快捷访问功能</string>
     <key>settings_general_multi_select_gesture</key>
     <string>多选手势</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2707,6 +2717,8 @@
     <string>更多</string>
     <key>share_podcast</key>
     <string>共享播客</string>
+    <key>share_podcast_private_not_available</key>
+    <string>私人播客不可共享</string>
     <key>share_podcast_title</key>
     <string>共享播客</string>
     <key>share_podcasts_all_selected</key>

@@ -10,65 +10,87 @@ struct CancelSubscriptionPlansView: View {
     }
 
     var body: some View {
-        ZStack {
-            switch viewModel.currentProductAvailability {
-            case .loading:
-                showLoading()
-            default:
-                closeButton
-                mainView
+        makeMainView()
+        .onAppear {
+            loadProducts()
+        }
+        .background(theme.primaryUi01)
+    }
+
+    var plansView: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                Image("cs-app-icon")
+                    .frame(width: 80.0, height: 80.0)
+                    .padding(.top, 88.0)
+                    .padding(.bottom, 16.0)
+                Text(L10n.cancelSubscriptionAvailablePlansTitle)
+                    .font(size: 28.0, style: .body, weight: .bold)
+                    .foregroundStyle(theme.primaryText01)
+                    .padding(.bottom, 28.0)
+                ForEach(viewModel.pricingInfo.products, id: \.id) { product in
+                    CancelSubscriptionPlanRow(product: product,
+                                              selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
+                        viewModel.purchase(product: selectedProduct)
+                    }
+                                              .padding(.bottom, 16.0)
+                }
+                Text(L10n.cancelSubscriptionAvailablePlansFooter)
+                    .font(size: 14.0, style: .body, weight: .regular)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(theme.primaryText02)
+                    .padding(.horizontal, 56.0)
+                Spacer()
+            }
+        }
+    }
+
+    var retryView: some View {
+        VStack(spacing: 0) {
+            Image("cs-yield")
+                .renderingMode(.template)
+                .foregroundStyle(theme.primaryIcon03)
+                .frame(width: 40.0, height: 40.0)
+                .padding(.top, 240.0)
+                .padding(.bottom, 16.0)
+            Text(L10n.cancelSubscriptionAvailablePlansRetryScreenText)
+                .font(size: 15.0, style: .body, weight: .regular)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(theme.primaryText01)
+                .padding(.bottom, 16.0)
+            Button(action: loadProducts) {
+                Text(L10n.tryAgain)
+                    .font(size: 13.0, style: .body, weight: .medium)
+                    .foregroundStyle(theme.primaryText01)
+                    .frame(height: 28.0)
+                    .padding(.horizontal, 16.0)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: 14.0,
+                            style: .continuous
+                        )
+                        .fill(theme.primaryInteractive03)
+                    )
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 46)
+    }
+
+    @ViewBuilder func makeMainView() -> some View {
+        switch viewModel.currentProductAvailability {
+        case .loading, .idle:
+            showLoading()
+        case .unavailable:
+            retryView
+                .frame(maxWidth: .infinity)
+        case .available:
+            ZStack {
+                plansView
                 if viewModel.state == .purchasing {
                     showLoading(fullScreen: true)
                 }
             }
-        }
-        .onAppear {
-            Task {
-                await viewModel.loadCurrentProduct()
-            }
-        }
-        .background(theme.primaryUi04)
-    }
-
-    var closeButton: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button(action: {
-                    viewModel.closePlans()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 14).weight(.bold))
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(theme.primaryIcon02Active)
-                        .background(theme.primaryUi05)
-                        .clipShape(Circle())
-                }
-            }
-            .padding(.trailing, 16.0)
-            .padding(.top, 16.0)
-            Spacer()
-        }
-    }
-
-    var mainView: some View {
-        VStack(spacing: 0) {
-            Image("cs-app-icon")
-                .frame(width: 80.0, height: 80.0)
-                .padding(.top, 88.0)
-                .padding(.bottom, 16.0)
-            Text(L10n.cancelSubscriptionAvailablePlansTitle)
-                .font(size: 28.0, style: .body, weight: .bold)
-                .foregroundStyle(theme.primaryText01)
-                .padding(.bottom, 28.0)
-            ForEach(viewModel.pricingInfo.products, id: \.id) { product in
-                CancelSubscriptionPlanRow(product: product,
-                                          selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
-                    viewModel.purchase(product: selectedProduct)
-                }
-                                          .padding(.bottom, 16.0)
-            }
-            Spacer()
         }
     }
 
@@ -84,7 +106,14 @@ struct CancelSubscriptionPlansView: View {
             }
         } else {
             ProgressView()
-                .tint(theme.primaryUi01)
+                .tint(theme.primaryText01)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    private func loadProducts() {
+        Task {
+            await viewModel.loadCurrentProduct()
         }
     }
 }

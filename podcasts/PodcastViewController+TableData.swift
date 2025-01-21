@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
@@ -67,7 +68,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
 
-        let itemAtRow = episodeInfo[indexPath.section].elements[indexPath.row]
+        guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
+            FileLog.shared.addMessage("EpisodeInfo missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+            return UITableViewCell()
+        }
         if let listEpisode = itemAtRow as? ListEpisode {
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.episodeCellId, for: indexPath) as! EpisodeCell
             cell.hidesArtwork = true
@@ -204,7 +208,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
-        guard let listEpisode = episodeInfo[indexPath.section].elements[indexPath.row] as? ListEpisode else { return nil }
+        guard let listEpisode = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListEpisode else { return nil }
 
         return listEpisode.episode
     }

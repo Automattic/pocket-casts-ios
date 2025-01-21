@@ -55,14 +55,12 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
     }
 
     func bookmarkShare(_ bookmark: Bookmark) {
-        guard let episode = bookmark.episode as? Episode else {
+        guard let episode = viewModel.episode as? Episode else {
             return
         }
-        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
+        Analytics.track(.bookmarkShareTapped, source: viewModel.analyticsSource, properties: ["podcast_uuid": episode.podcastUuid, "episode_uuid": bookmark.episodeUuid])
 
-        Analytics.track(.podcastShared, source: "multi_select", properties: ["type": "bookmark_time"])
-
-        present(controller, animated: true)
+        SharingModal.show(option: .bookmark(episode, bookmark.time), from: .episodeDetail, in: self)
     }
 
     func dismissBookmarksList() {

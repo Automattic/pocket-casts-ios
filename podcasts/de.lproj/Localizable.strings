@@ -353,6 +353,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Finde deinen passenden Tarif.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Du suchst nach einem anderen Tarif?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Die Abrechnung beginnt nach dem kostenlosen Monat.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>Genieße deinen kostenlosen Monat!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Spare %@ im nächsten Monat.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1336,6 +1340,10 @@ Podcasts mit</string>
     <string>Erstelle ein Konto, um dein Audioerlebnis auf all deinen Geräten zu synchronisieren.</string>
     <key>login_title</key>
     <string>Entdecke deinen nächsten Lieblings-Podcast</string>
+    <key>logs</key>
+    <string>Logs</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Du musst ein E-Mail-Konto auf dem Gerät konfigurieren, um die Protokolle senden zu können</string>
     <key>manage_downloads_action</key>
     <string>Downloads verwalten</string>
     <key>manage_downloads_detail</key>
@@ -2485,6 +2493,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Unterstützung älterer Bluetooth-Versionen</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Falls möglicherweise durch ein Bluetooth-Gerät oder Autoradio die Wiedergabe von Pocket Casts angehalten oder die Wiedergabeposition auf 0 zurückgesetzt wird, kann es helfen, diese Einstellung zu aktivieren.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Scrubbing im Sperrbildschirm aktivieren</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Geste zur Mehrfachauswahl</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2705,6 +2715,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Mehr</string>
     <key>share_podcast</key>
     <string>Podcast teilen</string>
+    <key>share_podcast_private_not_available</key>
+    <string>Teilen ist für private Podcasts nicht verfügbar</string>
     <key>share_podcast_title</key>
     <string>Podcast teilen</string>
     <key>share_podcasts_all_selected</key>

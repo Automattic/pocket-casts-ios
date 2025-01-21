@@ -353,6 +353,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Trouvez le plan qui vous convient.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>À la recherche d’un plan différent ?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Merci d’avoir choisi Pocket Casts. La facturation commence au terme du mois gratuit.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>Profitez de votre mois gratuit !</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Économisez %@ sur votre prochain mois, c’est pour nous.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1338,6 +1342,10 @@ podcasts partout avec</string>
     <string>Créez un compte pour synchroniser votre expérience d’écoute sur tous vos appareils.</string>
     <key>login_title</key>
     <string>Découvrir votre prochain podcast préféré</string>
+    <key>logs</key>
+    <string>Logs</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Vous devez configurer un compte de messagerie sur l’appareil pour envoyer les journaux</string>
     <key>manage_downloads_action</key>
     <string>Gérer les téléchargements</string>
     <key>manage_downloads_detail</key>
@@ -2487,6 +2495,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Prise en charge de l’ancien protocole Bluetooth</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Si un périphérique Bluetooth ou un autoradio semble mettre Pocket Casts en pause pendant la lecture, ou remettre la position de lecture à 0, essayez d’activer ce paramètre pour résoudre le problème.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Activer la barre de navigation sur l’écran de verrouillage</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Commande tactile pour la multi-sélection</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2707,6 +2717,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Plus</string>
     <key>share_podcast</key>
     <string>Partager le podcast</string>
+    <key>share_podcast_private_not_available</key>
+    <string>Le partage n’est pas disponible pour les podcasts privés</string>
     <key>share_podcast_title</key>
     <string>Partager le podcast</string>
     <key>share_podcasts_all_selected</key>

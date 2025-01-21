@@ -18,7 +18,7 @@ struct SharingFooterView: View {
 
     var body: some View {
         switch option {
-        case .episode, .podcast, .currentPosition:
+        case .episode, .podcast, .currentPosition, .bookmark:
             buttons
         case .clip(let episode, _):
             VStack(spacing: 12) {

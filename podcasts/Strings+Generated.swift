@@ -386,6 +386,10 @@ internal enum L10n {
   internal static var cancelFailed: String { return L10n.tr("Localizable", "cancel_failed") }
   /// Cancel Subscription
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
+  /// Your new plan will activate at the end of your current billing period.
+  internal static var cancelSubscriptionAvailablePlansFooter: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_footer") }
+  /// Sorry, but something went wrong fetching your plans.
+  internal static var cancelSubscriptionAvailablePlansRetryScreenText: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_retry_screen_text") }
   /// Available Plans
   internal static var cancelSubscriptionAvailablePlansTitle: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_title") }
   /// Claim offer
@@ -406,13 +410,14 @@ internal enum L10n {
   internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
   /// Enjoy your free month!
   internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
-  /// Save %@ with your next month on us.
+  /// Save %@ at the start of your next billing cycle.
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
-  /// Before you cancel, check out these offers
+  /// Before you cancel,
+  /// check out these offers
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
   /// Canceling...
   internal static var canceling: String { return L10n.tr("Localizable", "canceling") }
@@ -1533,7 +1538,7 @@ internal enum L10n {
   internal static var logsNoEmailAccountConfigured: String { return L10n.tr("Localizable", "logs_no_email_account_configured") }
   /// Manage downloads
   internal static var manageDownloadsAction: String { return L10n.tr("Localizable", "manage_downloads_action") }
-  /// Save %1$@ by removing played episodes.
+  /// Save %1$@ - by managing downloaded episodes.
   internal static func manageDownloadsDetail(_ p1: Any) -> String {
     return L10n.tr("Localizable", "manage_downloads_detail", String(describing: p1))
   }
@@ -2896,7 +2901,7 @@ internal enum L10n {
   internal static var settingsGeneralLegacyBluetooth: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth") }
   /// If you have a Bluetooth Device or Car Stereo that seems to be pausing Pocket Casts while it's playing, or resetting the playback position to 0, try turning this setting on to fix it.
   internal static var settingsGeneralLegacyBluetoothSubtitle: String { return L10n.tr("Localizable", "settings_general_legacy_bluetooth_subtitle") }
-  /// Lock Screen Scrubbing
+  /// Enable Lock Screen Scrubbing
   internal static var settingsGeneralLockScreenDisabled: String { return L10n.tr("Localizable", "settings_general_lock_screen_disabled") }
   /// Multi-select Gesture
   internal static var settingsGeneralMultiSelectGesture: String { return L10n.tr("Localizable", "settings_general_multi_select_gesture") }

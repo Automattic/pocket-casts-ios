@@ -325,7 +325,7 @@ platform :ios do
 
     generate_strings_file_for_glotpress
 
-    push_to_git_remote(tags: false)
+    push_to_git_remote(set_upstream: true, tags: false)
 
     trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
@@ -529,6 +529,7 @@ platform :ios do
     UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
 
     commit_version_bump
+    push_to_git_remote(set_upstream: true, tags: false)
   end
 
   # Finalizes a hotfix, by triggering a release build on CI
@@ -546,6 +547,11 @@ platform :ios do
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
     create_backmerge_pr
+    begin
+      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    rescue StandardError => e
+      UI.important("Could not find a GitHub milestone for hotfix #{release_version_current} to close: #{e}")
+    end
   end
 
   # Triggers a beta build on CI
@@ -615,7 +621,7 @@ platform :ios do
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    changelog = 'Minor changes.' if changelog.empty?
+    changelog = +'Minor changes.' if changelog.empty?
     changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
 
     upload_to_testflight(

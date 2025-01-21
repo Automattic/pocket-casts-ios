@@ -60,7 +60,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                 if expiringPlus {
                     return L10n.renewSubscription
                 }
-
+                if product.offer?.type == .freeTrial {
+                    return L10n.startFreeTrial
+                }
                 return L10n.plusSubscribeTo
             }()
         }

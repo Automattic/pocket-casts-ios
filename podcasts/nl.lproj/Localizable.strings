@@ -353,6 +353,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Vind het abonnement dat bij je past.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Op zoek naar een ander abonnement?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Bedankt dat je voor Pocket Casts kiest. De facturering begint nadat je gratis maand is afgelopen.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>Geniet van een maand gratis toegang!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Bespaar %@: je krijgt de volgende maand van ons.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -1338,6 +1342,10 @@ podcasts mee</string>
     <string>Maak een account aan om je luisterervaring te synchroniseren op al je apparaten.</string>
     <key>login_title</key>
     <string>Ontdek je volgende nieuwe favoriete podcast</string>
+    <key>logs</key>
+    <string>Logs</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Configureer een e-mailaccount op het apparaat om de logboeken te verzenden</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
     <key>manage_downloads_detail</key>
@@ -2483,6 +2491,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Ondersteuning van legacy-bluetooth</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Als je over een bluetoothapparaat of een autostereo beschikt die Pocket Casts onderbreekt terwijl er wordt afgespeeld of die de afspeelpositie terugzetten op 0, probeer dan deze oplossing om dit te verhelpen.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Vergrendelscherm scrubbing inschakelen</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Gebaar voor multiselect</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2703,6 +2713,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Meer</string>
     <key>share_podcast</key>
     <string>Podcast delen</string>
+    <key>share_podcast_private_not_available</key>
+    <string>Delen is niet beschikbaar voor privépodcasts.</string>
     <key>share_podcast_title</key>
     <string>Podcast delen</string>
     <key>share_podcasts_all_selected</key>

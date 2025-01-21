@@ -380,6 +380,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateButtonStates()
         updateProgress()
         updateMessageView()
+        updateColors()
     }
 
     @objc private func playbackProgressDidChange() {

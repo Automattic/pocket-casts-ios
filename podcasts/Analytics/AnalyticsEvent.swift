@@ -34,6 +34,11 @@ enum AnalyticsEvent: String {
     case plusPromotionShown
     case plusPromotionDismissed
     case plusPromotionUpgradeButtonTapped
+    case plusPromotionNotNowButtonTapped
+    case plusPromotionSubscriptionTierChanged
+    case plusPromotionSubscriptionFrequencyChanged
+    case plusPromotionPrivacyPolicyTapped
+    case plusPromotionTermsAndConditionsTapped
 
     // MARK: - Setup Account
 
@@ -121,6 +126,10 @@ enum AnalyticsEvent: String {
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
     case accountDetailsChangeAvatar
+
+    // MARK: - Upgrade banner
+
+    case upgradeBannerDismissed
 
     // MARK: - Stats View
 
@@ -212,6 +221,11 @@ enum AnalyticsEvent: String {
     case userFileDetailShown
     case userFileDetailDismissed
     case userFileDetailOptionTapped
+    case userFileEditShown
+    case userFileEditDismissed
+    case userFileEditSave
+    case userFileDeleteShown
+    case userFileDeleteDismissed
 
     case userFilePlayPauseButtonTapped
 
@@ -250,6 +264,8 @@ enum AnalyticsEvent: String {
     case filterListEditButtonToggled
     case filterListReordered
 
+    case filterCreateButtonTapped
+
     case filterDeleted
     case filterUpdated
     case filterCreated
@@ -258,6 +274,8 @@ enum AnalyticsEvent: String {
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
+    case filterSelectAllAbove
+    case filterSelectAllBelow
     case filterMultiSelectExited
 
     case filterOptionsButtonTapped
@@ -268,6 +286,9 @@ enum AnalyticsEvent: String {
     case filterSiriShortcutsShown
     case filterSiriShortcutAdded
     case filterSiriShortcutRemoved
+
+    case filterAutoDownloadUpdated
+    case filterAutoDownloadLimitUpdated
 
     // MARK: - Podcast screen
 
@@ -697,6 +718,7 @@ enum AnalyticsEvent: String {
     case bookmarkPlayTapped
     case bookmarksSortByChanged
     case bookmarkDeleted
+    case bookmarkShareTapped
 
     // MARK: - Headphone Controls
     case settingsHeadphoneControlsShown
@@ -767,4 +789,7 @@ enum AnalyticsEvent: String {
     case cancelSubscriptionAvailablePlansDismissed
     case cancelSubscriptionSelectPlan
     case cancelSubscriptionNewPlanPurchaseSuccessful
+
+    case pocketCastsChampionDialogShown
+    case pocketCastsChampionDialogRateButtonTapped
 }
