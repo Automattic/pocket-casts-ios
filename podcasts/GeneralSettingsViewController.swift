@@ -448,9 +448,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingPrompt = OptionsPicker(title: nil)
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
+            Analytics.track(.settingsGeneralEpisodeGroupingApplyToExisting)
             DataManager.sharedManager.updateAllPodcastGrouping(to: grouping)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
+            Analytics.track(.settingsGeneralEpisodeGroupingDoNotApplyToExisting)
             // no need to do anything
         }
         noAction.outline = true
