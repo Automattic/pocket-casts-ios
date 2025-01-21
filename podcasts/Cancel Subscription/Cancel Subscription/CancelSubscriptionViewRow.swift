@@ -112,7 +112,7 @@ struct CancelSubscriptionViewRow_Previews: PreviewProvider {
     static var viewModel = CancelSubscriptionViewModel(navigationController: UINavigationController())
     static var previews: some View {
         VStack(spacing: 0) {
-            CancelSubscriptionViewRow(option: .promotion(price: "$3.99"), viewModel: viewModel)
+            CancelSubscriptionViewRow(option: .promotion(price: "$3.99", frequency: .monthly), viewModel: viewModel)
                 .environmentObject(Theme.sharedTheme)
             CancelSubscriptionViewRow(option: .availablePlans, viewModel: viewModel)
                 .environmentObject(Theme.sharedTheme)

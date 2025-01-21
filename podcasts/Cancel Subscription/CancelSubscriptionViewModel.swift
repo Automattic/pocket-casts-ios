@@ -14,6 +14,7 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
         super.init(purchaseHandler: purchaseHandler)
 
+        //TODO: Need to check the if the promotion can be applied
         self.loadPrices()
     }
 
@@ -42,11 +43,26 @@ extension CancelSubscriptionViewModel {
         }
     }
 
+    func subscriptionFrequency() -> SubscriptionFrequency? {
+        switch SubscriptionHelper.subscriptionFrequencyValue() {
+            case .monthly:
+            return .monthly
+        case .yearly:
+            return .yearly
+        default:
+            return nil
+        }
+    }
+
     func claimOffer() {
         Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "claim_offer"])
         //TODO: Apply one month free
         //TODO: Purchase the offer and display the success view if succeeded
         showClaimOfferSuccess()
+    }
+    
+    func canClaimOffer() -> Bool {
+        return true
     }
 }
 
