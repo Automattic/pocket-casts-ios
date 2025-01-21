@@ -789,4 +789,7 @@ enum AnalyticsEvent: String {
     case cancelSubscriptionAvailablePlansDismissed
     case cancelSubscriptionSelectPlan
     case cancelSubscriptionNewPlanPurchaseSuccessful
+
+    case pocketCastsChampionDialogShown
+    case pocketCastsChampionDialogRateButtonTapped
 }
