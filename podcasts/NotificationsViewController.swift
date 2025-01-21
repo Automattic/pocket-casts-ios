@@ -76,6 +76,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 1 { // choose podcasts for push
             podcastChooserController = PodcastChooserViewController()
+            podcastChooserController?.analyticsSource = .notifications
             if let podcastsController = podcastChooserController {
                 podcastsController.delegate = self
                 let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)

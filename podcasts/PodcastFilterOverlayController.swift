@@ -13,7 +13,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     let podcastFilterCellId = "PodcastFilterCell"
     var saveButton: UIButton!
 
-    override func viewDidLoad() {
+    override func viewDidLoad() {       
         super.viewDidLoad()
         delegate = self
         podcastTable.delegate = self
@@ -132,7 +132,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         dismiss(animated: true, completion: nil)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "filters"])
+            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": analyticsSource])
         }
     }
 
@@ -168,6 +168,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
                 selectedUuids.append(podcast.uuid)
             }
         }
+        Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": selectAllSwitch.isOn, "source": analyticsSource])
         setSwitchSubtitle()
         updateRightBarBtn()
         podcastTable.reloadData()

@@ -8,6 +8,7 @@ protocol AnalyticsSourceProvider {
 
 enum AnalyticsSource: String, AnalyticsDescribable {
     case appIconMenu = "app_icon_menu"
+    case autoAdd = "auto_add"
     case autoDownloadSettings = "auto_download_settings"
     case carPlay = "carplay"
     case chooseFolder = "choose_folder"
@@ -28,6 +29,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case miniplayer
     case noFiles = "no_files"
     case noFilters = "no_filters"
+    case notifications
     case nowPlayingWidget = "now_playing_widget"
     case player
     case playerPlaybackEffects = "player_playback_effects"

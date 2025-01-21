@@ -154,6 +154,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         switch row {
         case .podcastSelection:
             podcastChooserController = PodcastChooserViewController()
+            podcastChooserController?.analyticsSource = .downloads
             if let podcastSelectController = podcastChooserController {
                 podcastSelectController.delegate = self
                 let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
