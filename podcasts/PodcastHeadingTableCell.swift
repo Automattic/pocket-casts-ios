@@ -1,4 +1,5 @@
 import PocketCastsServer
+import WebKit
 import PocketCastsUtils
 import UIKit
 
@@ -33,6 +34,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     @IBOutlet var bottomAuthorSpacer: UIView!
     @IBOutlet var authorView: UIView!
     @IBOutlet var author: UILabel!
+    @IBOutlet weak var webView: WKWebView!
+    
 
     @IBOutlet var linkView: UIView!
     @IBOutlet var link: UILabel! {
@@ -193,6 +196,27 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
         if FeatureFlag.usePodcastHTMLDescription.enabled, let html = podcast.podcastHTMLDescription {
+            let styledHTML: String = """
+            <html>
+            <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
+            <style>
+            body {
+                font-family: -apple-system;
+                font-size: 1em;
+                line-height: 1.4;
+            background-color: #FFF;
+            margin: 0;
+            padding: 0;
+            }
+            </style>
+            </head>
+            <body>
+            \(html)
+            </body>
+            </html>
+            """
+            webView.loadHTMLString(styledHTML, baseURL: nil)
             podcastDescription.setRichText(html: html)
         } else {
             podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)

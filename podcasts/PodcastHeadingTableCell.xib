@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,6 +18,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="394" height="526"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u0m-1c-Uo0">
+                        <rect key="frame" x="16" y="228" width="362" height="3"/>
+                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <wkWebViewConfiguration key="configuration">
+                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                            <wkPreferences key="preferences"/>
+                        </wkWebViewConfiguration>
+                    </wkWebView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sd5-XC-dXM" userLabel="Top Background View">
                         <rect key="frame" x="0.0" y="0.0" width="394" height="137"/>
                         <constraints>
@@ -158,25 +166,25 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="750" text="Name Is really really really really looooong" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="YUN-pu-IO8" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="14" width="362" height="3"/>
+                                <rect key="frame" x="0.0" y="14" width="362" height="0.0"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEi-4K-8eu" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="17" width="362" height="0.0"/>
+                                <rect key="frame" x="0.0" y="14" width="362" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.63921568627450975" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SGH-Lz-9LI" userLabel="Spacer">
-                                <rect key="frame" x="0.0" y="17" width="362" height="11"/>
+                                <rect key="frame" x="0.0" y="14" width="362" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="11" id="fcG-DT-YDl"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgd-qp-dvs" customClass="ExpandableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="362" height="0.0"/>
+                                <rect key="frame" x="0.0" y="25" width="362" height="3"/>
                                 <attributedString key="attributedText">
                                     <fragment content="...">
                                         <attributes>
@@ -401,8 +409,10 @@
                     <constraint firstItem="wsF-Lm-vdp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6vs-0u-f4Y"/>
                     <constraint firstAttribute="trailing" secondItem="6JF-62-6gD" secondAttribute="trailing" id="9Jv-G8-Era"/>
                     <constraint firstAttribute="trailing" secondItem="sd5-XC-dXM" secondAttribute="trailing" id="GUJ-1l-6Uk"/>
+                    <constraint firstItem="u0m-1c-Uo0" firstAttribute="height" secondItem="Vgd-qp-dvs" secondAttribute="height" id="JD4-az-tTs"/>
                     <constraint firstItem="sd5-XC-dXM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="JXu-O9-nZI"/>
                     <constraint firstItem="6JF-62-6gD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="N6U-2i-62N"/>
+                    <constraint firstItem="u0m-1c-Uo0" firstAttribute="centerX" secondItem="Vgd-qp-dvs" secondAttribute="centerX" id="O5i-6X-fLY"/>
                     <constraint firstAttribute="trailing" secondItem="TeM-KI-UI1" secondAttribute="trailing" constant="16" id="QYQ-TG-lc4"/>
                     <constraint firstItem="sd5-XC-dXM" firstAttribute="trailing" secondItem="jf0-QS-TJi" secondAttribute="trailing" id="RPG-6j-MEa"/>
                     <constraint firstAttribute="trailing" secondItem="5S4-8c-Ssa" secondAttribute="trailing" constant="16" id="UiH-wk-RIV"/>
@@ -412,8 +422,10 @@
                     <constraint firstAttribute="bottom" secondItem="xfv-Do-H5F" secondAttribute="bottom" constant="6" id="bBU-Qa-Zaa"/>
                     <constraint firstItem="5S4-8c-Ssa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bhl-hO-mdd"/>
                     <constraint firstAttribute="trailingMargin" secondItem="xfv-Do-H5F" secondAttribute="trailing" id="dQp-hQ-LdM"/>
+                    <constraint firstItem="u0m-1c-Uo0" firstAttribute="width" secondItem="Vgd-qp-dvs" secondAttribute="width" id="eLN-OJ-48o"/>
                     <constraint firstItem="6JF-62-6gD" firstAttribute="bottom" secondItem="sd5-XC-dXM" secondAttribute="bottom" id="jpI-F1-Zhq"/>
                     <constraint firstItem="CHK-bP-kvy" firstAttribute="bottom" secondItem="Ypx-au-SZl" secondAttribute="bottom" constant="-1" id="kd8-Nr-Cur"/>
+                    <constraint firstItem="u0m-1c-Uo0" firstAttribute="centerY" secondItem="Vgd-qp-dvs" secondAttribute="centerY" id="n1K-so-Ie0"/>
                     <constraint firstItem="TeM-KI-UI1" firstAttribute="top" secondItem="5S4-8c-Ssa" secondAttribute="bottom" id="nel-K1-cL3"/>
                     <constraint firstItem="5S4-8c-Ssa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="oFY-jW-FUY"/>
                     <constraint firstItem="TeM-KI-UI1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="r2k-Zf-dVb"/>
@@ -468,6 +480,7 @@
                 <outlet property="topPodcastNameSpacer" destination="TCC-7i-Fyr" id="sZy-Dl-ftq"/>
                 <outlet property="topSectionHeightConstraint" destination="Uzk-YX-q2W" id="wZr-U0-VlD"/>
                 <outlet property="topSectionView" destination="5S4-8c-Ssa" id="pjS-pW-Y38"/>
+                <outlet property="webView" destination="u0m-1c-Uo0" id="Ppy-e6-B7d"/>
             </connections>
             <point key="canvasLocation" x="-3592" y="-1116"/>
         </tableViewCell>
