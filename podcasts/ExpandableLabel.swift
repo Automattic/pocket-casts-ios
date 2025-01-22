@@ -75,7 +75,7 @@ class ExpandableLabel: ThemeableLabel {
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
         if let url = gesture.didTapLinkInLabel(label: self) {
-            UIApplication.shared.open(url)
+            delegate?.linkTapped(url: url)
             return
         }
         if collapsed {
