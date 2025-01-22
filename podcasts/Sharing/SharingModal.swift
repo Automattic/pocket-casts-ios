@@ -123,6 +123,7 @@ enum SharingModal {
         let modalView = ModalView {
             sharingView
         } dismissAction: {
+            Analytics.track(.shareScreenCloseButtonTapped)
             viewController.dismiss(animated: true)
         }
         .background(Color(PlayerColorHelper.playerBackgroundColor01()))
