@@ -64,7 +64,7 @@ extension CancelSubscriptionViewModel {
         //TODO: Purchase the offer and display the success view if succeeded
         showClaimOfferSuccess()
     }
-    
+
     func canClaimOffer() -> Bool {
         return true
     }
