@@ -504,7 +504,11 @@ enum AnalyticsEvent: String {
     case settingsGeneralShown
     case settingsGeneralRowActionChanged
     case settingsGeneralEpisodeGroupingChanged
+    case settingsGeneralEpisodeGroupingApplyToExisting
+    case settingsGeneralEpisodeGroupingDoNotApplyToExisting
     case settingsGeneralArchivedEpisodesChanged
+    case settingsGeneralArchivedEpisodesApplyToExisting
+    case settingsGeneralArchivedEpisodesDoNotApplyToExisting
     case settingsGeneralUpNextSwipeChanged
     case settingsGeneralOpenLinksInBrowserToggled
     case settingsGeneralSkipForwardChanged
