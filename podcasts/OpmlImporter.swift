@@ -78,7 +78,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
                     return
                 }
-                Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount])
+                Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount, "number_parsed": self.initialPodcastCount])
             }
         }
     }
