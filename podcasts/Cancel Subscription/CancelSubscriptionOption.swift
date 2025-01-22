@@ -17,7 +17,7 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
             if frequency == .monthly {
                 return L10n.cancelSubscriptionPromotionTitle
             } else {
-                return "Get your next year half price!"
+                return L10n.cancelSubscriptionYearlyPromotionTitle
             }
         case .availablePlans:
             return L10n.cancelSubscriptionNewPlanTitle
@@ -28,12 +28,8 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
 
     var subtitle: String {
         switch self {
-        case .promotion(let price, let frequency):
-            if frequency == .monthly {
-                return L10n.cancelSubscriptionPromotionDescription(price)
-            } else {
-                return "50% off at the start of your next billing cycle."
-            }
+        case .promotion(let price, _):
+            return L10n.cancelSubscriptionPromotionDescription(price)
         case .availablePlans:
             return L10n.cancelSubscriptionNewPlanDescription
         case .help:
