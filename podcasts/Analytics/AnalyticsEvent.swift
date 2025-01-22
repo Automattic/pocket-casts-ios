@@ -303,6 +303,7 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleArchived
     case podcastScreenShareTapped
     case podcastScreenToggleSummary
+    case podcastScreenPodcastDescriptionTapped
     case podcastsScreenSortOrderChanged
     case podcastsScreenEpisodeGroupingChanged
     case podcastsScreenTabTapped
