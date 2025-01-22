@@ -20,6 +20,7 @@ class RichExpandableLabel: WKWebView {
 
         translatesAutoresizingMaskIntoConstraints = false
         self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
+        heightConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             heightConstraint
         ])
