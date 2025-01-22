@@ -6,6 +6,8 @@ protocol ExpandableLabelDelegate: NSObjectProtocol {
 
     func willCollapseLabel(_ label: UIView)
     func didCollapseLabel(_ label: UIView)
+
+    func linkTapped(url: URL)
 }
 
 class ExpandableLabel: ThemeableLabel {

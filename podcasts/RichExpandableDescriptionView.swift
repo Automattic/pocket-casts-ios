@@ -1,6 +1,5 @@
 import UIKit
 import WebKit
-import SafariServices
 
 class RichExpandableLabel: WKWebView {
 
@@ -142,21 +141,7 @@ extension RichExpandableLabel: WKNavigationDelegate {
             return
         }
 
-        if Settings.openLinks {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            if URLHelper.isValidScheme(url.scheme) {
-                let safariViewController = SFSafariViewController(with: url)
-                safariViewController.delegate = self
-
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-                SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
-
-                //Analytics.track(.playerShowNotesLinkTapped, properties: ["episode_uuid": lastEpisodeUuidRendered])
-            } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
+        delegate?.linkTapped(url: url)
 
         decisionHandler(.cancel)
     }
@@ -166,12 +151,5 @@ extension RichExpandableLabel: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
-    }
-}
-
-extension RichExpandableLabel: SFSafariViewControllerDelegate {
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        controller.delegate = nil
     }
 }
