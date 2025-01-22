@@ -311,6 +311,7 @@ enum AnalyticsEvent: String {
     // MARK: - App Store Review Request
 
     case appStoreReviewRequested
+    case rateUsTapped
 
     // MARK: - Signed out alert
 
@@ -618,6 +619,13 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: About
 
     case settingsAboutShown
+    case settingsAboutShareWithFriendsTapped
+    case settingsAboutWebsiteTapped
+    case settingsAboutInstagramTapped
+    case settingsAboutTwitterTapped
+    case settingsAboutAutomatticFamilyTapped
+    case settingsAboutLegalAndMoreTapped
+    case settingsAboutWorkWithUsTapped
 
     // MARK: - OPML Import
 
