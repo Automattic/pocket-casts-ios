@@ -27,6 +27,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
+    @IBOutlet var richPodcastDescription: RichExpandableLabel! {
+        didSet {
+            richPodcastDescription.delegate = self
+        }
+    }
+
     @IBOutlet var scrollTopBackgroundVIew: UIView!
     @IBOutlet var topPodcastNameSpacer: UIView!
     @IBOutlet var topAuthorSpacer: UIView!
@@ -193,7 +199,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
         if FeatureFlag.usePodcastHTMLDescription.enabled, let html = podcast.podcastHTMLDescription {
-            podcastDescription.setRichText(html: html)
+            richPodcastDescription.setRichText(html: html)
         } else {
             podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
         }
@@ -254,7 +260,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             topSectionHeightConstraint.constant = tableViewWidth < 350 ? 183 : 203
             expandButton.setExpanded(delegate.isSummaryExpanded(), animated: false)
             podcastDescription.collapsed = !delegate.isDescriptionExpanded()
-
+            richPodcastDescription.collapsed = !delegate.isDescriptionExpanded()
             layoutIfNeeded()
         }
 
@@ -292,7 +298,13 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         podcastName.isHidden = !expanded
         podcastCategory.isHidden = !expanded || podcastCategory.text == nil
-        podcastDescription.isHidden = !expanded
+        if FeatureFlag.usePodcastHTMLDescription.enabled {
+            richPodcastDescription.isHidden = !expanded
+            podcastDescription.isHidden = true
+        } else {
+            podcastDescription.isHidden = !expanded
+            richPodcastDescription.isHidden = true
+        }
 
         descriptionInfoSpacer.isHidden = !expanded
         categoryDescriptionSpacer.isHidden = !expanded
@@ -439,20 +451,20 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     // MARK: - ExpandableLabelDelegate
 
-    func willExpandLabel(_ label: ExpandableLabel) {
+    func willExpandLabel(_ label: UIView) {
         delegate?.tableView().beginUpdates()
     }
 
-    func didExpandLabel(_ label: ExpandableLabel) {
+    func didExpandLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: true)
     }
 
-    func willCollapseLabel(_ label: ExpandableLabel) {
+    func willCollapseLabel(_ label: UIView) {
         delegate?.tableView().beginUpdates()
     }
 
-    func didCollapseLabel(_ label: ExpandableLabel) {
+    func didCollapseLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: false)
     }

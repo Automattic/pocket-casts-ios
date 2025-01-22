@@ -1,11 +1,11 @@
 import UIKit
 
 protocol ExpandableLabelDelegate: NSObjectProtocol {
-    func willExpandLabel(_ label: ExpandableLabel)
-    func didExpandLabel(_ label: ExpandableLabel)
+    func willExpandLabel(_ label: UIView)
+    func didExpandLabel(_ label: UIView)
 
-    func willCollapseLabel(_ label: ExpandableLabel)
-    func didCollapseLabel(_ label: ExpandableLabel)
+    func willCollapseLabel(_ label: UIView)
+    func didCollapseLabel(_ label: UIView)
 }
 
 class ExpandableLabel: ThemeableLabel {
