@@ -154,6 +154,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         switch row {
         case .podcastSelection:
             podcastChooserController = PodcastChooserViewController()
+            podcastChooserController?.analyticsSource = .downloads
             if let podcastSelectController = podcastChooserController {
                 podcastSelectController.delegate = self
                 let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
@@ -229,8 +230,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsAutoDownloadPodcastsChanged)
+    func didChangePodcasts(numberSelected: Int) {
+        Analytics.track(.settingsAutoDownloadPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
     // MARK: - Switch Settings

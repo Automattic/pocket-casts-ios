@@ -798,4 +798,12 @@ enum AnalyticsEvent: String {
 
     case pocketCastsChampionDialogShown
     case pocketCastsChampionDialogRateButtonTapped
+
+    // MARK: - Select/Choose Podcasts
+    case settingsSelectPodcastsShown
+    case settingsSelectPodcastsDismissed
+    case settingsSelectPodcastsSelectAllTapped
+    case settingsSelectPodcastsSelectNoneTapped
+    case settingsSelectPodcastsPodcastToggled
+    case settingsSelectPodcastsSelectAllPodcastsToggled
 }
