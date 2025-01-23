@@ -244,6 +244,8 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
+        case .usePodcastHTMLDescription:
+            "use_podcast_html_description"
         default:
             rawValue.lowerSnakeCased()
         }
