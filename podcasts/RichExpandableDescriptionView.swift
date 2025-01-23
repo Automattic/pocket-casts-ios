@@ -50,6 +50,7 @@ class RichExpandableLabel: WKWebView {
         let  backgroundColor: UIColor = ThemeColor.primaryUi02()
         let textColor: UIColor = ThemeColor.primaryText01()
         let linkColor: UIColor = ThemeColor.primaryIcon01()
+        let font = UIFont.preferredFont(forTextStyle: .body)
         let styledHTML: String = """
         <html>
         <head>
@@ -73,7 +74,7 @@ class RichExpandableLabel: WKWebView {
         <style>
         body {
             font-family: -apple-system;
-            font-size: 1em;
+            font-size: \(font.pointSize)px;
             line-height: \(desiredLinedHeightMultiple);
             background-color: \(backgroundColor.hexString());
             color: \(textColor.hexString());
