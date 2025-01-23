@@ -31,20 +31,21 @@ class RichExpandableLabel: WKWebView {
         tapGesture.delegate = self
         scrollView.addGestureRecognizer(tapGesture)
         scrollView.isScrollEnabled = false
+        scrollView.backgroundColor = .clear
+        backgroundColor = .clear
         self.navigationDelegate = self
     }
 
     func setRichText(html: String) {
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async { [weak self] in
-                self?.setRichText(html: html)
-            }
-            return
-        }
-        // We detected that some scenarios when this code is run when the app is backgrounded, it crashes even on the main thread.
-        if UIApplication.shared.applicationState == .background {
-            return
-        }
+        let styledHTML = style(html: html)
+        self.loadHTMLString(styledHTML, baseURL: nil)
+        collapsed = linesRequired() > maxLines
+    }
+
+    private func style(html: String) -> String {
+        let  backgroundColor: UIColor = ThemeColor.primaryUi02()
+        let textColor: UIColor = ThemeColor.primaryText01()
+        let linkColor: UIColor = ThemeColor.primaryIcon01()
         let styledHTML: String = """
         <html>
         <head>
@@ -52,11 +53,15 @@ class RichExpandableLabel: WKWebView {
         <style>
         body {
             font-family: -apple-system;
-            font-size: 1em;
+            font-size: 1.34em;
             line-height: \(desiredLinedHeightMultiple);
-        background-color: #FFF;
-        margin: 0;
-        padding: 0;
+            background-color: \(backgroundColor.hexString());
+            color: \(textColor.hexString());
+            margin: 0;
+            padding: 0;
+        }
+        a { 
+            color:\(linkColor.hexString());
         }
         </style>
         </head>
@@ -65,8 +70,7 @@ class RichExpandableLabel: WKWebView {
         </body>
         </html>
         """
-        self.loadHTMLString(styledHTML, baseURL: nil)
-        collapsed = linesRequired() > maxLines
+        return styledHTML
     }
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
