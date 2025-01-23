@@ -41,7 +41,7 @@ class RichExpandableLabel: WKWebView {
     func setRichText(html: String) {
         let styledHTML = style(html: html)
         self.loadHTMLString(styledHTML, baseURL: nil)
-        collapsed = linesRequired() > maxLines
+        collapsed = false
     }
 
     private func style(html: String) -> String {
@@ -52,6 +52,14 @@ class RichExpandableLabel: WKWebView {
         <html>
         <head>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
+        <script>
+        function countLines() {
+           var el = document.body;
+           var divHeight = el.scrollHeight;
+           var lineHeight = parseInt(window.getComputedStyle(el).lineHeight);
+           return divHeight / lineHeight;
+        }
+        </script>
         <style>
         body {
             font-family: -apple-system;
@@ -61,6 +69,7 @@ class RichExpandableLabel: WKWebView {
             color: \(textColor.hexString());
             margin: 0;
             padding: 0;
+            display: inline;
         }
         a { 
             color:\(linkColor.hexString());
@@ -101,24 +110,13 @@ class RichExpandableLabel: WKWebView {
         sizeToFit()
     }
 
-    private func linesRequired() -> Int {
-//        if let attributedText {
-//            layoutIfNeeded()
-//            let labelSize = attributedText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), context: nil)
-//
-//            return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
-//        } else {
-//            guard let text = text else { return 1 }
-//
-//            layoutIfNeeded()
-//
-//            let alteredText = "\(text)..."
-//            let attributes = [NSAttributedString.Key.font: font as UIFont]
-//            let labelSize = alteredText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
-//
-//            return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
-//        }
-        return 1
+    private func updateLinesRequired() {
+        evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
+            guard let self = self, let linesRequired = lines as? Int else { return }
+
+            print("Lines required: \(linesRequired)")
+            collapsed = linesRequired > self.maxLines
+        })
     }
 }
 
@@ -132,6 +130,7 @@ extension RichExpandableLabel: WKNavigationDelegate {
                 return
             }
             updateScrollSize()
+            updateLinesRequired()
         })
     }
 
