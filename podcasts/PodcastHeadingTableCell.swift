@@ -199,7 +199,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
-        if FeatureFlag.usePodcastHTMLDescription.enabled, let html = podcast.podcastHTMLDescription {
+        if FeatureFlag.usePodcastHTMLDescription.enabled {
+            let html = podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
             richPodcastDescription.setRichText(html: html)
         } else {
             podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
