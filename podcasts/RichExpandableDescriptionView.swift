@@ -139,8 +139,7 @@ class RichExpandableLabel: WKWebView {
     }
 
     private func toggleColapseHTMLContent(on: Bool) {
-        evaluateJavaScript(on ? "toggleClipping(true)" : "toggleClipping(false)", completionHandler: { [weak self] _, error in
-        })
+        evaluateJavaScript(on ? "toggleClipping(true)" : "toggleClipping(false)", completionHandler: nil)
     }
 }
 
