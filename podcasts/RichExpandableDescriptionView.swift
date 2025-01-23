@@ -8,6 +8,8 @@ class RichExpandableLabel: WKWebView {
     var maxLines = 3
     private var heightConstraint: NSLayoutConstraint!
     private var contentHeight: CGFloat = 0
+    private var htmlReady: Bool = false
+
     private lazy var linkTapGesture: UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         tapGesture.numberOfTapsRequired = 1
@@ -58,26 +60,41 @@ class RichExpandableLabel: WKWebView {
            var divHeight = el.scrollHeight;
            var lineHeight = parseInt(window.getComputedStyle(el).lineHeight);
            return divHeight / lineHeight;
-        }
+        };
+        function toggleClipping(on) {
+            var container = document.getElementById("container");
+            if (on) {
+                container.classList.add("clipping");
+            } else {
+                container.classList.remove("clipping");
+            }
+        };
         </script>
         <style>
         body {
             font-family: -apple-system;
-            font-size: 1.34em;
+            font-size: 1em;
             line-height: \(desiredLinedHeightMultiple);
             background-color: \(backgroundColor.hexString());
             color: \(textColor.hexString());
             margin: 0;
             padding: 0;
-            display: inline;
         }
-        a { 
+        .clipping {
+          display: -webkit-box;
+          -webkit-line-clamp: \(maxLines);
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        a {
             color:\(linkColor.hexString());
         }
         </style>
         </head>
         <body>
+        <div id="container">
         \(html)
+        </div>
         </body>
         </html>
         """
@@ -106,6 +123,9 @@ class RichExpandableLabel: WKWebView {
             removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
         }
+        if htmlReady {
+            toggleColapseHTMLContent(on: collapsed)
+        }
         setNeedsLayout()
         sizeToFit()
     }
@@ -113,9 +133,12 @@ class RichExpandableLabel: WKWebView {
     private func updateLinesRequired() {
         evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
             guard let self = self, let linesRequired = lines as? Int else { return }
-
-            print("Lines required: \(linesRequired)")
             collapsed = linesRequired > self.maxLines
+        })
+    }
+
+    private func toggleColapseHTMLContent(on: Bool) {
+        evaluateJavaScript(on ? "toggleClipping(true)" : "toggleClipping(false)", completionHandler: { [weak self] _, error in
         })
     }
 }
@@ -139,6 +162,7 @@ extension RichExpandableLabel: WKNavigationDelegate {
             guard let self = self, let cgHeight = height as? CGFloat else { return }
 
             contentHeight = CGFloat(cgHeight)
+            htmlReady = true
             update()
         })
     }
