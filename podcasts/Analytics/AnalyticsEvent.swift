@@ -419,6 +419,7 @@ enum AnalyticsEvent: String {
 
     case episodeUploadQueued
     case episodeUploadFinished
+    case episodeUploadFailed
     case episodeUploadCancelled
     case episodeDeletedFromCloud
 
