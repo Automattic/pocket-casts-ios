@@ -8,6 +8,13 @@ class RichExpandableLabel: WKWebView {
     var maxLines = 3
     private var heightConstraint: NSLayoutConstraint!
     private var contentHeight: CGFloat = 0
+    private lazy var linkTapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
+        tapGesture.delegate = self
+        return tapGesture
+    }()
 
     var collapsed = false {
         didSet {
@@ -25,15 +32,10 @@ class RichExpandableLabel: WKWebView {
             heightConstraint
         ])
         isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
-        tapGesture.numberOfTapsRequired = 1
-        tapGesture.numberOfTouchesRequired = 1
-        tapGesture.delegate = self
-        scrollView.addGestureRecognizer(tapGesture)
         scrollView.isScrollEnabled = false
         scrollView.backgroundColor = .clear
         backgroundColor = .clear
-        self.navigationDelegate = self
+        navigationDelegate = self
     }
 
     func setRichText(html: String) {
@@ -88,9 +90,11 @@ class RichExpandableLabel: WKWebView {
 
     private func update() {
         if collapsed {
+            addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
             heightConstraint.constant = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
         } else {
+            removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
         }
         setNeedsLayout()
