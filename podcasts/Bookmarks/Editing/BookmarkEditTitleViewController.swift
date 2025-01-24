@@ -4,6 +4,7 @@ import PocketCastsDataModel
 class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitleView> {
     private let viewModel: BookmarkEditViewModel
     let onDismiss: ((String, Bool) -> Void)?
+    var editSaved: Bool = false
 
     var source: BookmarkAnalyticsSource = .unknown {
         didSet {
@@ -28,7 +29,15 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        Analytics.track(.bookmarkEditFormShown, properties: ["source": source.rawValue])
         viewModel.viewDidAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if !editSaved {
+            Analytics.track(.bookmarkEditFormDismissed, properties: ["source": source.rawValue])
+        }
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
@@ -43,6 +52,8 @@ extension BookmarkEditTitleViewController: BookmarkEditRouter {
     }
 
     func titleUpdated(title: String) {
+        editSaved = true
+        Analytics.track(.bookmarkEditFormSubmitted, properties: ["source": source.rawValue])
         dismiss(animated: true)
         onDismiss?(title, false)
     }

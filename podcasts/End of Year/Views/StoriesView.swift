@@ -133,7 +133,7 @@ struct StoriesView: View {
         }
         .background(model.primaryBackgroundColor)
         .onAppear {
-            Analytics.track(.endOfYearStoriesFailedToLoad)
+            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["year": EndOfYear.currentYear.literalValue])
         }
     }
 

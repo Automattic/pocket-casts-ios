@@ -124,6 +124,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         episodeEvent(.episodeUploadFinished, uuid: episodeUUID)
     }
 
+    func episodeUploadFailed(episodeUUID: String) {
+        episodeEvent(.episodeUploadFailed, uuid: episodeUUID)
+    }
+
     // MARK: - Up Next
 
     func episodeAddedToUpNext(episode: BaseEpisode, toTop: Bool) {
@@ -189,14 +193,20 @@ private extension AnalyticsEpisodeHelper {
                 // Verify that the file has finished uploading
                 guard
                     let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
-                    let status = UploadStatus(rawValue: episode.uploadStatus),
-                    status == .uploaded
+                    let status = UploadStatus(rawValue: episode.uploadStatus)
                 else {
                     return
                 }
 
-                self.episodeUploadQueue.remove(uuid)
-                self.episodeUploadFinished(episodeUUID: uuid)
+                switch status {
+                case .uploaded:
+                    self.episodeUploadQueue.remove(uuid)
+                    self.episodeUploadFinished(episodeUUID: uuid)
+                case .uploadFailed:
+                    self.episodeUploadFailed(episodeUUID: uuid)
+                default:
+                    break
+                }
             }
         #endif
     }

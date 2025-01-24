@@ -61,6 +61,10 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             title = item.title?.localized.localizedCapitalized
         }
 
+        if item.source != nil {
+            customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
+        }
+
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
     }
 
@@ -103,5 +107,12 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+
+    @objc func handleShare() {
+        guard let source = item.source, let url = URL(string: source)?.deletingPathExtension() else { return }
+        Analytics.track(.discoverListShareTapped)
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }

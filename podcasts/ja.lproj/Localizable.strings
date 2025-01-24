@@ -357,8 +357,6 @@
     <string>Pocket Casts をお選びいただきありがとうございます。 1か月の無料期間が終わると請求が始まります。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>1か月の無料期間をお楽しみください !</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>来月に%@節約できます。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ログを送信するには、端末にメールアドレスアカウントを設定する必要があります</string>
     <key>manage_downloads_action</key>
     <string>ダウンロードを管理</string>
-    <key>manage_downloads_detail</key>
-    <string>再生済みのエピソードを削除して、%1$@節約しましょう。</string>
     <key>manage_downloads_title</key>
     <string>容量を空ける必要がありますか ?</string>
     <key>mark_played</key>

@@ -674,6 +674,8 @@
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
+		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
+		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -1970,6 +1972,7 @@
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
 		FF9B6B752D0732D40057A504 /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B742D0732CF0057A504 /* LogsViewController.swift */; };
 		FF9B6B772D0733670057A504 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B762D0733650057A504 /* LogsView.swift */; };
+		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
@@ -2835,6 +2838,8 @@
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
+		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
+		9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProviderTests.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
@@ -3959,6 +3964,7 @@
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
 		FF9B6B742D0732CF0057A504 /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
 		FF9B6B762D0733650057A504 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
+		FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichExpandableDescriptionView.swift; sourceTree = "<group>"; };
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
@@ -5660,6 +5666,7 @@
 				BD5DD2E320109D650031B5DC /* FakeNavViewController.swift */,
 				BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */,
 				BD1B32AA204CFA3800F06F67 /* ExpandableLabel.swift */,
+				FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */,
 				40842636213777580076D82E /* RoundedLabel.swift */,
 				BDAE72D72138FB32002810A2 /* ActionIconButton.swift */,
 				BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */,
@@ -7427,6 +7434,7 @@
 				C761300628E4CA060044C6C2 /* Helpers */,
 				C72CED30289DA17F0017883A /* Adapters */,
 				C7AF5790289D87CF0089E435 /* Analytics.swift */,
+				9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */,
 				C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */,
 				C72CED2E289DA1650017883A /* String+Analytics.swift */,
 				C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */,
@@ -7944,6 +7952,7 @@
 			children = (
 				C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */,
 				8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */,
+				9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -9669,6 +9678,7 @@
 				10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */,
+				9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
 				F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */,
 				8B484EFB28D25719001AFA97 /* Double+Ext.swift in Sources */,
@@ -10063,6 +10073,7 @@
 				4053CE022150AC4B001C92B1 /* CheckboxCell.swift in Sources */,
 				BD96575B2469047600873BB5 /* CastToViewController+Table.swift in Sources */,
 				409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */,
+				9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */,
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
 				C7FF7717291D50880082A464 /* Motion.swift in Sources */,
 				BD83DE0C2068B8E000012C06 /* MiniPlayerViewController+Gestures.swift in Sources */,
@@ -10658,6 +10669,7 @@
 				BD3334521FC67FBB0017C3A8 /* PlaylistRefreshOperation.swift in Sources */,
 				BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */,
 				BDD71CF41BA935E8006D2CE3 /* NetworkViewController.swift in Sources */,
+				FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */,
 				8B723755291185B300FA8219 /* Analytics+story.swift in Sources */,
 				FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */,
 				109446762CEB3A8100977161 /* CancelSubscriptionViewModel.swift in Sources */,
