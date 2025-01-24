@@ -141,6 +141,16 @@ class RichExpandableLabel: WKWebView {
         sizeToFit()
     }
 
+    private func updateScrollSize() {
+        evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
+            guard let self = self, let cgHeight = height as? CGFloat else { return }
+
+            contentHeight = CGFloat(cgHeight)
+            htmlReady = true
+            update()
+        })
+    }
+
     private func updateLinesRequired() {
         evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
             guard let self = self, let linesRequired = lines as? Int else { return }
@@ -165,16 +175,6 @@ extension RichExpandableLabel: WKNavigationDelegate {
             updateStyle()
             updateScrollSize()
             updateLinesRequired()
-        })
-    }
-
-    func updateScrollSize() {
-        evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
-            guard let self = self, let cgHeight = height as? CGFloat else { return }
-
-            contentHeight = CGFloat(cgHeight)
-            htmlReady = true
-            update()
         })
     }
 
