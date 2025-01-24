@@ -59,7 +59,7 @@ struct AboutView: View {
                             AboutRow(mainText: L10n.instagram, secondaryText: L10n.socialHandle) {
                                 SocialsHelper.openInstagram()
                             }
-                            AboutRow(mainText: L10n.twitter, secondaryText: L10n.socialHandle) {
+                            AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
                                 SocialsHelper.openTwitter()
                             }
                         }
