@@ -395,6 +395,7 @@ enum AnalyticsEvent: String {
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
     case playerSleepTimerRestarted
+    case playerSleepTimerSettingsTapped
 
     // MARK: - Player: Shelf
 
