@@ -17,19 +17,20 @@ class CancelConfirmationViewModel: OnboardingModel {
     // MARK: - View actions
 
     func goBackTapped() {
-        Analytics.track(.cancelConfirmationStayButtonTapped)
         if FeatureFlag.winback.enabled {
+            Analytics.track(.winbackCancelConfirmationStayButtonTapped)
             // To avoid repeating the event tracking,
             // I forced passing the `swipe` type
             didDismiss(type: .swipe)
+        } else {
+            Analytics.track(.cancelConfirmationStayButtonTapped)
         }
         navigationController.dismiss(animated: true)
     }
 
     func cancelTapped() {
-        Analytics.track(.cancelConfirmationCancelButtonTapped)
-
         if FeatureFlag.winback.enabled, SubscriptionHelper.subscriptionPlatform() == .iOS {
+            Analytics.track(.winbackCancelConfirmationCancelButtonTapped)
             Task {
                 guard let windowScene = await navigationController.view.window?.windowScene else {
                     FileLog.shared.console("[CancelConfirmationViewModel] No window scene available")
@@ -53,6 +54,8 @@ class CancelConfirmationViewModel: OnboardingModel {
                 }
             }
         } else {
+            Analytics.track(.cancelConfirmationCancelButtonTapped)
+
             let controller = CancelInfoViewController()
             navigationController.pushViewController(controller, animated: true)
         }
@@ -61,16 +64,21 @@ class CancelConfirmationViewModel: OnboardingModel {
     // MARK: - Show / Hide
 
     func didAppear() {
-        Analytics.track(.cancelConfirmationViewShown)
+        if FeatureFlag.winback.enabled {
+            Analytics.track(.winbackScreenShown, properties: ["screen": "cancel_confirmation"])
+        } else {
+            Analytics.track(.cancelConfirmationViewShown)
+        }
     }
 
     func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }
 
-        Analytics.track(.cancelConfirmationViewDismissed)
         if FeatureFlag.winback.enabled {
-            Analytics.track(.cancelSubscriptionDismissed)
+            Analytics.track(.winbackScreenDismissed, properties: ["screen": "cancel_confirmation"])
+        } else {
+            Analytics.track(.cancelConfirmationViewDismissed)
         }
     }
 }

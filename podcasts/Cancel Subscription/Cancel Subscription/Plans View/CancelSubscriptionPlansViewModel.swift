@@ -7,16 +7,18 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
 
     @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
     @Published var currentProductAvailability: CurrentProductAvailability = .idle
+    private var previousPricingProductID: String?
 
     override class var availableProductIds: [IAPProductID] {
         return [.yearly, .monthly, .patronYearly, .patronMonthly, .yearlyReferral]
     }
 
     override func handleNext() {
-        if let currentPricingProduct {
-            Analytics.track(.cancelSubscriptionNewPlanPurchaseSuccessful, properties: ["product": currentPricingProduct.identifier.rawValue])
+        if let currentPricingProduct, let previousPricingProductID {
+            Analytics.track(.winbackAvailablePlansNewPlanPurchaseSuccessful, properties: ["current_product": previousPricingProductID, "new_product": currentPricingProduct.identifier.rawValue])
+            self.previousPricingProductID = nil
         } else {
-            Analytics.track(.cancelSubscriptionNewPlanPurchaseSuccessful)
+            Analytics.track(.winbackAvailablePlansNewPlanPurchaseSuccessful)
         }
 
         if SubscriptionHelper.activeTier == .patron {
@@ -28,21 +30,22 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     }
 
     override func didAppear() {
-        Analytics.track(.cancelSubscriptionAvailablePlansShown)
+        Analytics.track(.winbackScreenShown, properties: ["screen": "available_plans"])
     }
 
     override func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }
 
-        Analytics.track(.cancelSubscriptionAvailablePlansDismissed)
-        Analytics.track(.cancelSubscriptionDismissed)
+        Analytics.track(.winbackScreenDismissed, properties: ["screen": "available_plans"])
     }
 
     func loadCurrentProduct() async {
         if currentProductAvailability == .loading { return }
 
-        currentProductAvailability = .loading
+        await MainActor.run {
+            currentProductAvailability = .loading
+        }
         if let transaction = await purchaseHandler.findLastSubscriptionPurchased(),
            let productID = IAPProductID(rawValue: transaction.productID) {
             await MainActor.run {
@@ -59,11 +62,12 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     }
 
     func purchase(product: PlusPricingInfoModel.PlusProductPricingInfo) {
-        Analytics.track(.cancelSubscriptionSelectPlan, properties: ["product": product.identifier.rawValue])
+        Analytics.track(.winbackAvailablePlansSelectPlan, properties: ["product": product.identifier.rawValue])
 
         currentPricingProduct = product
 
         if currentPricingProduct?.identifier != lastPurchasedProductID {
+            previousPricingProductID = lastPurchasedProductID?.rawValue
             purchase(product: product.identifier)
         }
     }
@@ -75,6 +79,8 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     }
 
     func popViewController() {
+        Analytics.track(.winbackAvailablePlansBackButtonTapped)
+        didDismiss(type: .swipe)
         navigationController?.popViewController(animated: true)
     }
 

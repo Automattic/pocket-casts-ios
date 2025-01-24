@@ -47,4 +47,15 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
             return "cs-help"
         }
     }
+
+    var analyticsRow: String {
+        switch self {
+        case .promotion:
+            return "claim_offer"
+        case .availablePlans:
+            return "available_plans"
+        case .help:
+            return "help_and_feedback"
+        }
+    }
 }
