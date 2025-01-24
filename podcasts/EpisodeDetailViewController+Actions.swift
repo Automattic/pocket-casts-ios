@@ -41,7 +41,6 @@ extension EpisodeDetailViewController {
             EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
         } else {
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-            dismiss(animated: true, completion: nil)
         }
     }
 
