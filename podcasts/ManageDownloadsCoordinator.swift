@@ -16,7 +16,7 @@ class ManageDownloadsCoordinator {
            fabs(lastCheckDate.timeIntervalSince(Date.now)) < 14.days {
            return false
         }
-        return percentage < 1
+        return percentage < 0.1
     }
 
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
