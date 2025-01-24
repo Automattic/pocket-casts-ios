@@ -357,8 +357,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Agradecemos por você escolher o Pocket Casts. A cobrança começa após o mês gratuito.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Aproveite seu mês gratuito!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Economize %@: o próximo mês é por nossa conta.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Não pague nada no próximo mês</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@ podcasts com você</string>
     <string>Você precisa configurar uma conta de e-mail no dispositivo para enviar os registros</string>
     <key>manage_downloads_action</key>
     <string>Gerenciar downloads</string>
-    <key>manage_downloads_detail</key>
-    <string>Remova os episódios reproduzidos para economizar %1$@.</string>
     <key>manage_downloads_title</key>
     <string>Precisa liberar espaço?</string>
     <key>mark_played</key>

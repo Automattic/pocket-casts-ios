@@ -357,8 +357,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grazie per aver scelto Pocket Casts. La fatturazione inizia dopo la fine del mese gratuito.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Goditi il tuo mese gratuito!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Risparmia %@ sul prossimo mese. Offriamo noi.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Ottieni il tuo prossimo mese gratuitamente</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@ pocast con te</string>
     <string>Per inviare i log è necessario configurare un account e-mail sul dispositivo.</string>
     <key>manage_downloads_action</key>
     <string>Gestisci i download</string>
-    <key>manage_downloads_detail</key>
-    <string>Risparmia %1$@ rimuovendo gli episodi riprodotti.</string>
     <key>manage_downloads_title</key>
     <string>Hai bisogno di liberare spazio?</string>
     <key>mark_played</key>

@@ -153,7 +153,7 @@ class TranscriptViewController: PlayerItemViewController {
         searchView.textField.becomeFirstResponder()
         searchView.enableUpDownButtons(false)
 
-        track(.transcriptSearch)
+        track(.transcriptSearchShown)
     }
 
     private func dismissSearch() {

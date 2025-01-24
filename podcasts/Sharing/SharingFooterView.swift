@@ -18,7 +18,7 @@ struct SharingFooterView: View {
 
     var body: some View {
         switch option {
-        case .episode, .podcast, .currentPosition:
+        case .episode, .podcast, .currentPosition, .bookmark:
             buttons
         case .clip(let episode, _):
             VStack(spacing: 12) {
@@ -36,6 +36,7 @@ struct SharingFooterView: View {
                 .foregroundStyle(.white.opacity(0.5))
                 .font(.caption.weight(.semibold))
                 Button(L10n.next, action: {
+                    Analytics.track(.shareScreenNavigationButtonTapped)
                     withAnimation {
                         option = .clipShare(episode, clipTime, style)
                     }

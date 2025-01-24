@@ -357,8 +357,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bedankt dat je voor Pocket Casts kiest. De facturering begint nadat je gratis maand is afgelopen.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Geniet van een maand gratis toegang!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Bespaar %@: je krijgt de volgende maand van ons.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@ podcasts mee</string>
     <string>Configureer een e-mailaccount op het apparaat om de logboeken te verzenden</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
-    <key>manage_downloads_detail</key>
-    <string>Bespaar %1$@ door afgespeelde afleveringen te verwijderen.</string>
     <key>manage_downloads_title</key>
     <string>Wil je ruimte vrijmaken?</string>
     <key>mark_played</key>
@@ -2146,6 +2142,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Claim je gastenpas van %1$@ voor Plus</string>
     <key>referrals_claim_need_to_be_loggedin</key>
     <string>Log in of meld je aan om je gastenpas te claimen.</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@ gastenpas</string>
     <key>referrals_not_available_to_send</key>
     <string>Gastenpas is momenteel niet beschikbaar</string>
     <key>referrals_offer_not_available_detail</key>
@@ -2169,6 +2167,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Gastenpas van %1$@ voor Pocket Casts Plus!</string>
     <key>referrals_tip_message</key>
     <string>Geef %1$@ Pocket Casts Plus weg!</string>
+    <key>referrals_tip_title</key>
+    <string>Je hebt %1$@ passen die je kan delen</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NIEUWE PODCASTAFLEVERINGEN ZOEKEN</string>
     <key>refresh_control_pull_to_refresh</key>

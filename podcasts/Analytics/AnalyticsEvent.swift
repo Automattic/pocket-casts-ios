@@ -303,13 +303,16 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleArchived
     case podcastScreenShareTapped
     case podcastScreenToggleSummary
+    case podcastScreenPodcastDescriptionTapped
     case podcastsScreenSortOrderChanged
     case podcastsScreenEpisodeGroupingChanged
     case podcastsScreenTabTapped
+    case podcastScreenPodcastDescriptionLinkTapped
 
     // MARK: - App Store Review Request
 
     case appStoreReviewRequested
+    case rateUsTapped
 
     // MARK: - Signed out alert
 
@@ -334,6 +337,7 @@ enum AnalyticsEvent: String {
     case discoverListEpisodePlay
     case discoverListPodcastTapped
     case discoverListPodcastSubscribed
+    case discoverListShareTapped
 
     case discoverFeaturedPageChanged
     case discoverSmallListPageChanged
@@ -418,6 +422,7 @@ enum AnalyticsEvent: String {
 
     case episodeUploadQueued
     case episodeUploadFinished
+    case episodeUploadFailed
     case episodeUploadCancelled
     case episodeDeletedFromCloud
 
@@ -504,7 +509,11 @@ enum AnalyticsEvent: String {
     case settingsGeneralShown
     case settingsGeneralRowActionChanged
     case settingsGeneralEpisodeGroupingChanged
+    case settingsGeneralEpisodeGroupingApplyToExisting
+    case settingsGeneralEpisodeGroupingDoNotApplyToExisting
     case settingsGeneralArchivedEpisodesChanged
+    case settingsGeneralArchivedEpisodesApplyToExisting
+    case settingsGeneralArchivedEpisodesDoNotApplyToExisting
     case settingsGeneralUpNextSwipeChanged
     case settingsGeneralOpenLinksInBrowserToggled
     case settingsGeneralSkipForwardChanged
@@ -613,6 +622,13 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: About
 
     case settingsAboutShown
+    case settingsAboutShareWithFriendsTapped
+    case settingsAboutWebsiteTapped
+    case settingsAboutInstagramTapped
+    case settingsAboutTwitterTapped
+    case settingsAboutAutomatticFamilyTapped
+    case settingsAboutLegalAndMoreTapped
+    case settingsAboutWorkWithUsTapped
 
     // MARK: - OPML Import
 
@@ -719,6 +735,12 @@ enum AnalyticsEvent: String {
     case bookmarksSortByChanged
     case bookmarkDeleted
     case bookmarkShareTapped
+    case bookmarkEditFormShown
+    case bookmarkEditFormDismissed
+    case bookmarkEditFormSubmitted
+    case bookmarkDeleteFormShown
+    case bookmarkDeleteFormDismissed
+    case bookmarkDeleteFormSubmitted
 
     // MARK: - Headphone Controls
     case settingsHeadphoneControlsShown
@@ -747,7 +769,7 @@ enum AnalyticsEvent: String {
     case transcriptShown
     case transcriptError
     case transcriptDismissed
-    case transcriptSearch
+    case transcriptSearchShown
     case transcriptSearchNextResult
     case transcriptSearchPreviousResult
 
@@ -762,6 +784,9 @@ enum AnalyticsEvent: String {
     case shareScreenPlayTapped
     case shareScreenPauseTapped
     case shareScreenClipShared
+    case shareScreenNavigationButtonTapped
+    case shareScreenEditButtonTapped
+    case shareScreenCloseButtonTapped
 
     // MARK: - Referrals
 
@@ -777,6 +802,7 @@ enum AnalyticsEvent: String {
     case referralPassBannerShown
     case referralPurchaseShown
     case referralPurchaseSuccess
+    case referralPassBannerHideTapped
 
     // MARK: - Winback
 
@@ -789,4 +815,15 @@ enum AnalyticsEvent: String {
     case cancelSubscriptionAvailablePlansDismissed
     case cancelSubscriptionSelectPlan
     case cancelSubscriptionNewPlanPurchaseSuccessful
+
+    case pocketCastsChampionDialogShown
+    case pocketCastsChampionDialogRateButtonTapped
+
+    // MARK: - Select/Choose Podcasts
+    case settingsSelectPodcastsShown
+    case settingsSelectPodcastsDismissed
+    case settingsSelectPodcastsSelectAllTapped
+    case settingsSelectPodcastsSelectNoneTapped
+    case settingsSelectPodcastsPodcastToggled
+    case settingsSelectPodcastsSelectAllPodcastsToggled
 }

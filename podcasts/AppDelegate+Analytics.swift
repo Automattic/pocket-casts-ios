@@ -14,6 +14,7 @@ extension AppDelegate {
         }
 
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
+        Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }
 
     func logActiveDownloadTasks() {
