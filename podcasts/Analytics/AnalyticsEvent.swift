@@ -801,6 +801,7 @@ enum AnalyticsEvent: String {
     case referralPassBannerShown
     case referralPurchaseShown
     case referralPurchaseSuccess
+    case referralPassBannerHideTapped
 
     // MARK: - Winback
 
