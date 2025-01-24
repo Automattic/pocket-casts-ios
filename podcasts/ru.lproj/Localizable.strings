@@ -357,8 +357,6 @@
     <string>Благодарим за то, что вы выбрали Pocket Casts. По истечении месяца бесплатного пользования вы начнёте получать счета на оплату.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Пользуйтесь весь месяц бесплатно!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Сэкономьте %@: мы оплатим вам следующий месяц.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@
     <string>Для отправки журналов необходимо настроить учётную запись электронной почты на устройстве.</string>
     <key>manage_downloads_action</key>
     <string>Управлять скачиваниями</string>
-    <key>manage_downloads_detail</key>
-    <string>Сэкономьте %1$@, удалив прослушанные выпуски.</string>
     <key>manage_downloads_title</key>
     <string>Требуется освободить место?</string>
     <key>mark_played</key>

@@ -114,7 +114,7 @@
     <key>account_select_type</key>
     <string>Triar el tipus de compte</string>
     <key>account_sign_out</key>
-    <string>Surt</string>
+    <string>Sortir</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Quan es tanqui la sessió, s'eliminaran %1$@ pòdcasts compatibles amb aquest dispositiu. Segur que vols continuar?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -337,6 +337,10 @@
     <string>No es pot cancel·lar</string>
     <key>cancel_subscription</key>
     <string>Cancel·lar subscripció</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>El teu nou pla s'activarà al final del teu període de facturació actual.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Ho sento, però hi ha hagut un problema per obtenir els teus plans.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -358,7 +362,7 @@
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Gaudeix del teu mes gratuït!</string>
     <key>cancel_subscription_promotion_description</key>
-    <string>Estalvia %@ amb el teu pròxim mes a càrrec nostre.</string>
+    <string>Estalvia %@ al començament del teu proper cicle de facturació.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtén el teu pròxim mes gratis</string>
     <key>cancel_subscription_title</key>
@@ -2490,7 +2494,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Si teniu un dispositiu amb Bluetooth o un estèreo d'automòbil que posa en pausa Pocket Casts mentre es reprodueix o restableix la posició de reproducció a 0, intenteu activar aquesta configuració per a solucionar-ho.</string>
     <key>settings_general_lock_screen_disabled</key>
-    <string>Desplaçament a la pantalla de bloqueig</string>
+    <string>Impedir moure la barra de reproducció a la pantalla de bloqueig</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Gestos per a selecció múltiple d'elements</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2526,7 +2530,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_general_smart_playback_subtitle</key>
     <string>Si està activat, Pocket Casts retrocedirà una mica els episodis que reprenguis perquè puguis posar-te al dia fàcilment.</string>
     <key>settings_general_up_next_swipe</key>
-    <string>Desplaçar per a incloure a la llista 'Tot seguit'</string>
+    <string>Quan es llisca per a incloure a la llista 'Tot seguit'</string>
     <key>settings_general_up_next_tap</key>
     <string>Reproduir la llista 'Tot seguit' en prémer</string>
     <key>settings_general_up_next_tap_off_subtitle</key>

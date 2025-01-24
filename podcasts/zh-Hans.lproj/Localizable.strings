@@ -357,8 +357,6 @@
     <string>感谢您选用 Pocket Casts。 免费月结束后开始计费。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>享受一个月的免费体验！</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>使用我们的服务，下个月可节省 %@。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_title</key>
@@ -1348,8 +1346,6 @@
     <string>您需要在设备上配置电子邮件账户，以便发送日志</string>
     <key>manage_downloads_action</key>
     <string>管理下载</string>
-    <key>manage_downloads_detail</key>
-    <string>删除已播放的剧集即可释放 %1$@ 存储空间。</string>
     <key>manage_downloads_title</key>
     <string>需要释放空间？</string>
     <key>mark_played</key>
