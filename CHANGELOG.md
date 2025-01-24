@@ -6,6 +6,7 @@
 -----
 - Use new Share UI for bookmarks sharing [#2656](https://github.com/Automattic/pocket-casts-ios/pull/2656)
 - Remove the option to share bookmarks from users file [#2661](https://github.com/Automattic/pocket-casts-ios/pull/2661)
+- Add direct access to sleep timer settings from player [#2698](https://github.com/Automattic/pocket-casts-ios/pull/2698)
 
 7.80
 -----

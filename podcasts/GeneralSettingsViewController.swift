@@ -8,9 +8,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 
+    var scrollToRow: TableRow?
+
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled }
     private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
@@ -29,6 +31,10 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         Analytics.track(.settingsGeneralShown)
+
+        if let scrollToRow {
+            self.scrollToRow(scrollToRow)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +46,14 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             // Finish the Autoplay option flow
             AnnouncementFlow.current = .none
+        }
+    }
+
+    private func scrollToRow(_ row: TableRow) {
+        for (sectionIndex, section) in tableData.enumerated() {
+            if let row = section.firstIndex(of: row) {
+                settingsTable.scrollToRow(at: IndexPath(row: row, section: sectionIndex), at: .middle, animated: true)
+            }
         }
     }
 
