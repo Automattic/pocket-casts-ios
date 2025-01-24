@@ -76,6 +76,7 @@ class ExpandableLabel: ThemeableLabel {
             UIApplication.shared.open(url)
             return
         }
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         if collapsed {
             delegate?.willExpandLabel(self)
             collapsed = false
