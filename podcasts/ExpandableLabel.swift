@@ -77,8 +77,7 @@ class ExpandableLabel: ThemeableLabel {
         if let url = gesture.didTapLinkInLabel(label: self) {
             delegate?.linkTapped(url: url)
             return
-        }
-        Analytics.track(.podcastScreenPodcastDescriptionTapped)
+        }        
         if collapsed {
             delegate?.willExpandLabel(self)
             collapsed = false

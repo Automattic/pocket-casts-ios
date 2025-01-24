@@ -454,6 +454,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     // MARK: - ExpandableLabelDelegate
 
     func willExpandLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         delegate?.tableView().beginUpdates()
     }
 
@@ -463,6 +464,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     }
 
     func willCollapseLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         delegate?.tableView().beginUpdates()
     }
 
