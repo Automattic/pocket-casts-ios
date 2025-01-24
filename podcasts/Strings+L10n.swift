@@ -7,7 +7,7 @@ extension L10n {
     static let appleWatch = "Apple Watch"
     static let pocketCasts = "Pocket Casts"
     static let pocketCastsShort = "Casts"
-    static let twitter = "Twitter"
+    static let xCom = "X"
     static let instagram = "Instagram"
     static let socialHandle = "@pocketcasts"
     static let websiteShort = "pocketcasts.com"

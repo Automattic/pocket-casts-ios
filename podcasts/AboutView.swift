@@ -63,7 +63,7 @@ struct AboutView: View {
                                 model.track(action: .instagram)
                                 SocialsHelper.openInstagram()
                             }
-                            AboutRow(mainText: L10n.twitter, secondaryText: L10n.socialHandle) {
+                            AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
                                 model.track(action: .twitter)
                                 SocialsHelper.openTwitter()
                             }
