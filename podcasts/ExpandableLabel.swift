@@ -77,7 +77,7 @@ class ExpandableLabel: ThemeableLabel {
         if let url = gesture.didTapLinkInLabel(label: self) {
             delegate?.linkTapped(url: url)
             return
-        }        
+        }
         if collapsed {
             delegate?.willExpandLabel(self)
             collapsed = false
