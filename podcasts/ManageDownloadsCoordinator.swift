@@ -31,7 +31,7 @@ class ManageDownloadsCoordinator {
                 presentationVC?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
             })
         }, onNotNowTap: { [weak presentationVC] in
-            Analytics.track(.freeUpSpaceMaybeLaterTapped)
+            Analytics.track(.freeUpSpaceMaybeLaterTapped, properties: ["source": source])
             Settings.manageDownloadsLastCheckDate = Date.now
             presentationVC?.dismiss(animated: true)
         })
