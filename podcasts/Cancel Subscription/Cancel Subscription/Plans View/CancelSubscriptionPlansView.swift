@@ -87,6 +87,21 @@ struct CancelSubscriptionPlansView: View {
         case .available:
             ZStack {
                 plansView
+                VStack {
+                    HStack {
+                        Button(action: viewModel.popViewController) {
+                            Image(systemName: "chevron.left")
+                                .renderingMode(.template)
+                                .font(.system(size: 20))
+                                .foregroundStyle(theme.primaryIcon01)
+                                .frame(width: 32, height: 32)
+                        }
+                        .padding(.leading, 8)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                .padding(.top, 20)
                 if viewModel.state == .purchasing {
                     showLoading(fullScreen: true)
                 }

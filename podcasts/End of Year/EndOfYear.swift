@@ -29,6 +29,17 @@ struct EndOfYear {
         var year: Int? {
             modelType?.year
         }
+
+        var literalValue: String {
+            switch self {
+            case .y2022:
+                return "2022"
+            case .y2023:
+                return "2023"
+            case .y2024:
+                return "2024"
+            }
+        }
     }
 
     static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
@@ -155,7 +166,7 @@ struct EndOfYear {
         }
 
         viewController.present(storiesViewController, animated: true, completion: nil)
-        Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
+        Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue, "year": EndOfYear.currentYear.literalValue])
     }
 
     static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {

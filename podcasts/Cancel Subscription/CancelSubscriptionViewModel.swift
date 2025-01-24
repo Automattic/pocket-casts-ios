@@ -14,6 +14,7 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
         super.init(purchaseHandler: purchaseHandler)
 
+        //TODO: Need to check the if the promotion can be applied
         self.loadPrices()
     }
 
@@ -31,13 +32,28 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
 // IAP
 extension CancelSubscriptionViewModel {
-    func monthlyPrice() -> String? {
-        switch SubscriptionHelper.activeTier {
-        case .plus:
+    func price() -> String? {
+        switch (SubscriptionHelper.activeTier, SubscriptionHelper.subscriptionFrequencyValue()) {
+        case (.plus, .monthly):
             return pricingInfo.products.first { $0.identifier == .monthly }?.rawPrice
-        case .patron:
+        case (.plus, .yearly):
+            return pricingInfo.products.first { $0.identifier == .yearly }?.rawPrice
+        case (.patron, .monthly):
             return pricingInfo.products.first { $0.identifier == .patronMonthly }?.rawPrice
-        case .none:
+        case (.patron, .yearly):
+            return pricingInfo.products.first { $0.identifier == .patronYearly }?.rawPrice
+        default:
+            return nil
+        }
+    }
+
+    func subscriptionFrequency() -> SubscriptionFrequency? {
+        switch SubscriptionHelper.subscriptionFrequencyValue() {
+        case .monthly:
+            return .monthly
+        case .yearly:
+            return .yearly
+        default:
             return nil
         }
     }
@@ -47,6 +63,10 @@ extension CancelSubscriptionViewModel {
         //TODO: Apply one month free
         //TODO: Purchase the offer and display the success view if succeeded
         showClaimOfferSuccess()
+    }
+
+    func canClaimOffer() -> Bool {
+        return true
     }
 }
 

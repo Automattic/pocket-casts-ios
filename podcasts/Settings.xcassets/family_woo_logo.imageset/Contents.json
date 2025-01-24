@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "woo.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "woo@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "woo@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "logo-woo.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
