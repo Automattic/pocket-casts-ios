@@ -45,7 +45,7 @@ struct EndOfYearModal: View {
         .applyDefaultThemeOptions()
         .onAppear {
             Settings.setHasShownModalForEndOfYear(true, year: year)
-            Analytics.track(.endOfYearModalShown)
+            Analytics.track(.endOfYearModalShown, properties: ["year": EndOfYear.currentYear.literalValue])
         }
     }
 

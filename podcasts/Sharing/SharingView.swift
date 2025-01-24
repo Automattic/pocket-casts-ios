@@ -114,6 +114,7 @@ struct SharingView: View {
             switch shareable.option {
             case .clipShare(let episode, let clipTime, _):
                 Button(action: {
+                    Analytics.track(.shareScreenEditButtonTapped)
                     withAnimation {
                         shareable.option = .clip(episode, clipTime.playback)
                     }

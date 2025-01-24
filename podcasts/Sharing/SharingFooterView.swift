@@ -36,6 +36,7 @@ struct SharingFooterView: View {
                 .foregroundStyle(.white.opacity(0.5))
                 .font(.caption.weight(.semibold))
                 Button(L10n.next, action: {
+                    Analytics.track(.shareScreenNavigationButtonTapped)
                     withAnimation {
                         option = .clipShare(episode, clipTime, style)
                     }
