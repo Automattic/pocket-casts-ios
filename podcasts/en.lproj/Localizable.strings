@@ -4684,6 +4684,9 @@
 /* Cancel subscription: title for the promotion row */
 "cancel_subscription_promotion_title" = "Get your next month free";
 
+/* Cancel subscription: title for the yearly promotion row */
+"cancel_subscription_yearly_promotion_title" = "Get 50%% off your next year";
+
 /* Cancel subscription: description for the promotion row */
 "cancel_subscription_promotion_description" = "Save %@ at the start of your next billing cycle.";
 
@@ -4714,8 +4717,14 @@
 /* Title of the success screen when the cancel subscription offer is applied */
 "cancel_subscription_offer_success_view_title" = "Enjoy your free month!";
 
+/* Title of the success screen when the cancel yearly subscription offer is applied */
+"cancel_subscription_offer_yearly_success_view_title" = "50%% off your next year!";
+
 /* Description of the success screen when the cancel subscription offer is applied */
 "cancel_subscription_offer_success_view_description" = "Thanks for choosing Pocket Casts. Billing starts after your free month ends.";
+
+/* Description of the success screen when the cancel yearly subscription offer is applied */
+"cancel_subscription_offer_yearly_success_view_description" = "Thanks for choosing Pocket Casts. Your discounted plan starts after your current billing period.";
 
 /* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
 "referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";

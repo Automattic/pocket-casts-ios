@@ -74,6 +74,10 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
         navigationController?.dismiss(animated: true)
     }
 
+    func popViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+
     enum CurrentProductAvailability {
         case idle
         case loading

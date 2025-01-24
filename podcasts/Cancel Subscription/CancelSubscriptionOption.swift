@@ -1,7 +1,9 @@
-enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
-    static var allCases: [CancelSubscriptionOption] = [.promotion(price: ""), .availablePlans, .help]
+import PocketCastsServer
 
-    case promotion(price: String)
+enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
+    static var allCases: [CancelSubscriptionOption] = [.promotion(price: "", frequency: .none), .availablePlans, .help]
+
+    case promotion(price: String, frequency: SubscriptionFrequency)
     case availablePlans
     case help
 
@@ -11,8 +13,12 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
 
     var title: String {
         switch self {
-        case .promotion:
-            return L10n.cancelSubscriptionPromotionTitle
+        case .promotion(_, let frequency):
+            if frequency == .monthly {
+                return L10n.cancelSubscriptionPromotionTitle
+            } else {
+                return L10n.cancelSubscriptionYearlyPromotionTitle
+            }
         case .availablePlans:
             return L10n.cancelSubscriptionNewPlanTitle
         case .help:
@@ -22,7 +28,7 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
 
     var subtitle: String {
         switch self {
-        case .promotion(let price):
+        case .promotion(let price, _):
             return L10n.cancelSubscriptionPromotionDescription(price)
         case .availablePlans:
             return L10n.cancelSubscriptionNewPlanDescription
