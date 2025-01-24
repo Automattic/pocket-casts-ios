@@ -8,6 +8,7 @@ class ReferralsClaimBannerTableCell: ThemeableCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         let viewModel = ReferralClaimPassModel()
         viewModel.onCloseTap = {
+            Analytics.track(.referralPassBannerHideTapped)
             ReferralsCoordinator.shared.cleanReferalURL()
         }
         let bannerView = ReferralsClaimBannerView(viewModel: viewModel).themedUIView
