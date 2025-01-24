@@ -44,7 +44,6 @@ class OpmlImporter: Operation, XMLParserDelegate {
                         SJUIUtils.showAlert(title: L10n.opmlImportFailedTitle, message: L10n.opmlImportFailedMessage, from: controller)
                     } else {
                         NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportFailed)
-                        return
                     }
 
                     Analytics.track(.opmlImportFailed)
@@ -70,14 +69,11 @@ class OpmlImporter: Operation, XMLParserDelegate {
             DispatchQueue.main.async {
                 if let progressWindow = self.progressWindow {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.podcastListPageKey, data: nil)
-
                     progressWindow.hideAlert(true)
-
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
-                } else {
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
-                    return
                 }
+
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.opmlImportCompleted)
+
                 Analytics.track(.opmlImportFinished, properties: ["count": self.initialPodcastCount, "number_parsed": self.initialPodcastCount])
             }
         }
