@@ -16,7 +16,7 @@ class ManageDownloadsCoordinator {
            fabs(lastCheckDate.timeIntervalSince(Date.now)) < 14.days {
            return false
         }
-        return percentage < 1
+        return percentage < 0.1
     }
 
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
@@ -31,7 +31,7 @@ class ManageDownloadsCoordinator {
                 presentationVC?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
             })
         }, onNotNowTap: { [weak presentationVC] in
-            Analytics.track(.freeUpSpaceMaybeLaterTapped)
+            Analytics.track(.freeUpSpaceMaybeLaterTapped, properties: ["source": source])
             Settings.manageDownloadsLastCheckDate = Date.now
             presentationVC?.dismiss(animated: true)
         })
