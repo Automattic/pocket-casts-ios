@@ -1,11 +1,13 @@
 import UIKit
 
 protocol ExpandableLabelDelegate: NSObjectProtocol {
-    func willExpandLabel(_ label: ExpandableLabel)
-    func didExpandLabel(_ label: ExpandableLabel)
+    func willExpandLabel(_ label: UIView)
+    func didExpandLabel(_ label: UIView)
 
-    func willCollapseLabel(_ label: ExpandableLabel)
-    func didCollapseLabel(_ label: ExpandableLabel)
+    func willCollapseLabel(_ label: UIView)
+    func didCollapseLabel(_ label: UIView)
+
+    func linkTapped(url: URL)
 }
 
 class ExpandableLabel: ThemeableLabel {
@@ -73,10 +75,9 @@ class ExpandableLabel: ThemeableLabel {
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
         if let url = gesture.didTapLinkInLabel(label: self) {
-            UIApplication.shared.open(url)
+            delegate?.linkTapped(url: url)
             return
         }
-        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         if collapsed {
             delegate?.willExpandLabel(self)
             collapsed = false
