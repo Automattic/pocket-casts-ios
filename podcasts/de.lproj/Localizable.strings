@@ -357,8 +357,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Die Abrechnung beginnt nach dem kostenlosen Monat.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Genieße deinen kostenlosen Monat!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Spare %@ im nächsten Monat.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_title</key>
@@ -1346,8 +1344,6 @@ Podcasts mit</string>
     <string>Du musst ein E-Mail-Konto auf dem Gerät konfigurieren, um die Protokolle senden zu können</string>
     <key>manage_downloads_action</key>
     <string>Downloads verwalten</string>
-    <key>manage_downloads_detail</key>
-    <string>Entferne abgespielte Folgen und gib so %1$@ Speicherplatz frei.</string>
     <key>manage_downloads_title</key>
     <string>Du benötigst mehr Speicherplatz?</string>
     <key>mark_played</key>

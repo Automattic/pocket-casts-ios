@@ -14,12 +14,15 @@ struct LegalAndMore: View {
             List {
                 Section {
                     AboutRow(mainText: L10n.aboutTermsOfService, showChevronIcon: true) {
+                        track(row: "terms_of_service")
                         showTermsOfService = true
                     }
                     AboutRow(mainText: L10n.aboutPrivacyPolicy, showChevronIcon: true) {
+                        track(row: "privacy_policy")
                         showPrivacyPolicy = true
                     }
                     AboutRow(mainText: L10n.aboutAcknowledgements, showChevronIcon: true) {
+                        track(row: "acknowledgements")
                         showAcknowledgements = true
                     }
                 }
@@ -42,6 +45,10 @@ struct LegalAndMore: View {
             destination: WebView(url: Constants.acknowledgementsURL).navigationTitle(L10n.aboutAcknowledgements),
             isActive: $showAcknowledgements
         ) {}
+    }
+
+    private func track(row: String) {
+        Analytics.track(.settingsAboutLegalAndMoreTapped, properties: ["row": row])
     }
 
     private enum Constants {
