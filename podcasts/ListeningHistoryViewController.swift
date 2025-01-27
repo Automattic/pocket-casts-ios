@@ -171,8 +171,12 @@ class ListeningHistoryViewController: PCViewController {
             self.refreshEpisodes(animated: true)
 
         })
+        optionPicker.setNoActionCallback {
+            Analytics.track(.listeningHistoryClearConfirmationDismissed)
+        }
         optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        Analytics.track(.listeningHistoryClearConfirmationShown)
     }
 
     func setupNavBar() {
