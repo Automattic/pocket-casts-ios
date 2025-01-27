@@ -200,6 +200,8 @@ enum AnalyticsEvent: String {
     case listeningHistoryMultiSelectExited
 
     case listeningHistoryCleared
+    case listeningHistoryClearConfirmationShown
+    case listeningHistoryClearConfirmationDismissed
 
     // MARK: - Uploaded Files
 
@@ -446,6 +448,8 @@ enum AnalyticsEvent: String {
     case episodeBulkAddToUpNext
 
     case episodeRemovedFromUpNext
+
+    case episodeRemovedListeningHistory
 
     case podcastShared
 

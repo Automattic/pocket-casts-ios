@@ -1522,6 +1522,8 @@ internal enum L10n {
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more") }
   /// Listening History
   internal static var listeningHistory: String { return L10n.tr("Localizable", "listening_history") }
+  /// Remove from history
+  internal static var listeningHistoryRemove: String { return L10n.tr("Localizable", "listening_history_remove") }
   /// We couldn't find any episode for that search. Try another keyword.
   internal static var listeningHistorySearchNoEpisodesText: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_text") }
   /// No episodes found

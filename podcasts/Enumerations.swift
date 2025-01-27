@@ -481,7 +481,7 @@ extension PlayerAction: AnalyticsDescribable {
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory
 
     func title() -> String {
         switch self {
@@ -515,6 +515,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.delete
         case .share:
             return L10n.share
+        case .removeListeningHistory:
+            return L10n.listeningHistoryRemove
         }
     }
 
@@ -550,6 +552,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "episode-delete"
         case .share:
             return "podcast-share"
+        case .removeListeningHistory:
+            return "episode-delete"
         }
     }
 
@@ -585,6 +589,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "delete"
         case .share:
             return "share"
+        case .removeListeningHistory:
+            return "listening_history_remove_episode"
         }
     }
 
