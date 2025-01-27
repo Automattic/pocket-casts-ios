@@ -345,7 +345,6 @@ class MultiSelectHelper {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
         EpisodeManager.removeListeningHistory(episodes: selectedEpisodes)
         actionDelegate.multiSelectActionCompleted()
-        Analytics.track(AnalyticsEvent.listeningHistoryRemoveEpisode)
     }
 
 

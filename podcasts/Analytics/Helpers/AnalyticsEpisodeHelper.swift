@@ -32,6 +32,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         bulkEvent(.episodeBulkUnstarred, count: count)
     }
 
+
     // MARK: - Download
 
     func downloadCancelled(episodeUUID: String) {
@@ -85,6 +86,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
 
     func bulkMarkAsUnplayed(count: Int) {
         bulkEvent(.episodeBulkMarkedAsUnplayed, count: count)
+    }
+
+    func bulkRemoveFromListeningHistory(count: Int) {
+        bulkEvent(.episodeRemovedListeningHistory, count: count)
     }
 
     // MARK: - Archive
