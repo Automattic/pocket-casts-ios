@@ -40,7 +40,8 @@ class MultiSelectHelper {
             delete(actionDelegate: actionDelegate)
         case .share:
             share(actionDelegate: actionDelegate, view: view)
-            return
+        case .removeListeningHistory:
+            removeListeningHistory(actionDelegate: actionDelegate)
         }
     }
 
@@ -339,6 +340,14 @@ class MultiSelectHelper {
                                          fromSource: .multiSelect
         )
     }
+
+    private class func removeListeningHistory(actionDelegate: MultiSelectActionDelegate) {
+        let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
+        EpisodeManager.removeListeningHistory(episodes: selectedEpisodes)
+        actionDelegate.multiSelectActionCompleted()
+        Analytics.track(AnalyticsEvent.listeningHistoryRemoveEpisode)
+    }
+
 
     // MARK: - Selection Helpers
 

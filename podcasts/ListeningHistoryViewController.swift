@@ -74,6 +74,8 @@ class ListeningHistoryViewController: PCViewController {
     @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
         didSet {
             multiSelectFooter.delegate = self
+            multiSelectFooter.getActionsFunc = Settings.listeningHistoryMultiSelectActions
+            multiSelectFooter.setActionsFunc = Settings.updateListeningHistoryMultiSelectActions
         }
     }
 
@@ -117,6 +119,7 @@ class ListeningHistoryViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.listeningHistoryChanged, selector: #selector(refreshEpisodesFromNotification))
     }
 
     @objc private func refreshEpisodesFromNotification() {
