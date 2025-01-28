@@ -50,6 +50,9 @@ struct CancelSubscriptionOfferSuccessView: View {
             AppTheme.color(for: .primaryUi01, theme: theme)
                 .ignoresSafeArea()
         )
+        .onDisappear {
+            Analytics.track(.winbackScreenDismissed, properties: ["screen": "offer_claimed"])
+        }
     }
 
     private func icon(for themeType: Theme.ThemeType) -> Image {
