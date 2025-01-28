@@ -942,7 +942,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func reloadPodcastFeed() {
-        
+        if podcastFeedViewModel?.loadingState == .loading {
+            return
+        }
+        Task { @MainActor [weak self] in
+            let podcastNeedsReload = await self?.podcastFeedViewModel?.checkIfNewEpisodesAreAvailable() ?? false
+            if podcastNeedsReload {
+                self?.loadPodcastInfo()
+            }
+        }
     }
 
     // MARK: - Long press actions
