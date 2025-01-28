@@ -132,6 +132,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let optionPicker = OptionsPicker(title: nil)
 
+        if delegate.shouldDisplayPodcastFeedReloadButton() {
+            let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
+                guard let self = self else { return }
+                self.podcastDelegate?.reloadPodcastFeed()
+            }
+            optionPicker.addAction(action: reloadPodcastFeedAction)
+        }
+
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.podcastDelegate?.enableMultiSelect()
