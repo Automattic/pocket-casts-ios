@@ -337,6 +337,10 @@
     <string>キャンセルできません</string>
     <key>cancel_subscription</key>
     <string>サブスクリプションをキャンセル</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>新しいプランは現在の請求期間の終了時に有効化されます。</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>申し訳ありません、プランの取得中にエラーが発生しました。</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>利用可能なプラン</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@
     <string>Pocket Casts をお選びいただきありがとうございます。 1か月の無料期間が終わると請求が始まります。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>1か月の無料期間をお楽しみください !</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>次の請求期間の開始時に%@を節約します。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ログを送信するには、端末にメールアドレスアカウントを設定する必要があります</string>
     <key>manage_downloads_action</key>
     <string>ダウンロードを管理</string>
+    <key>manage_downloads_detail</key>
+    <string>ダウンロード済みエピソードを管理して%1$@を節約します。</string>
     <key>manage_downloads_title</key>
     <string>容量を空ける必要がありますか ?</string>
     <key>mark_played</key>

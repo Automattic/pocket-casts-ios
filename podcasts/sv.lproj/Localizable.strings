@@ -337,6 +337,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Ditt nya paket kommer att aktiveras i slutet av din nuvarande faktureringsperiod.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Något gick fel vid hämtningen av dina paket.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>

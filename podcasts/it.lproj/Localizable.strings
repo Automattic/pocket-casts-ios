@@ -337,6 +337,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Impossibile annullare</string>
     <key>cancel_subscription</key>
     <string>Annulla l'abbonamento</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Il nuovo piano si attiverà alla fine dell'attuale periodo di fatturazione.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Siamo spiacenti, qualcosa è andato storto durante il recupero dei piani.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Piani disponibili</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grazie per aver scelto Pocket Casts. La fatturazione inizia dopo la fine del mese gratuito.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Goditi il tuo mese gratuito!</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Risparmia %@ all'inizio del prossimo ciclo di fatturazione.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Ottieni il tuo prossimo mese gratuitamente</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@ pocast con te</string>
     <string>Per inviare i log è necessario configurare un account e-mail sul dispositivo.</string>
     <key>manage_downloads_action</key>
     <string>Gestisci i download</string>
+    <key>manage_downloads_detail</key>
+    <string>Risparmia %1$@ gestendo gli episodi scaricati.</string>
     <key>manage_downloads_title</key>
     <string>Hai bisogno di liberare spazio?</string>
     <key>mark_played</key>
