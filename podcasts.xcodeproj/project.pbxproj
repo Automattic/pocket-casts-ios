@@ -676,6 +676,7 @@
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
 		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
+		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -2840,6 +2841,7 @@
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
 		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
 		9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProviderTests.swift; sourceTree = "<group>"; };
+		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
@@ -6324,6 +6326,7 @@
 				BD907DA82153324D004D7C02 /* Podcast Settings */,
 				BD6D417B200C555000CA8993 /* Cells */,
 				BD780AE620049BFF00B5A442 /* PodcastViewController.swift */,
+				9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */,
 				BD5AE6821FE0E9A20009B8A1 /* PodcastViewController+TableData.swift */,
 				BDDF8AA5240CE85D009BA263 /* PodcastViewController+Swipe.swift */,
 				BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */,
@@ -10151,6 +10154,7 @@
 				8BC862692B71690A000627B9 /* WhatsNewFullView.swift in Sources */,
 				4011B93B2164546E00661A7D /* FilterEditOptionsViewController.swift in Sources */,
 				4051A5762281A9DD00C13C12 /* AccountActionCell.swift in Sources */,
+				9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */,
 				BDC63BBC21A5051B00C31887 /* LayerAutoSizingView.swift in Sources */,
 				BD69EBBC1CD1D383007F273B /* SocialsHelper.swift in Sources */,
 				BDEDCF7124627F02005910C1 /* CustomSegmentedControl.swift in Sources */,

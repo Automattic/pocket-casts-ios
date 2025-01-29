@@ -2261,6 +2261,14 @@ internal enum L10n {
   internal static var podcastFailedDownload: String { return L10n.tr("Localizable", "podcast_failed_download") }
   /// Failed to upload
   internal static var podcastFailedUpload: String { return L10n.tr("Localizable", "podcast_failed_upload") }
+  /// Refresh episode list
+  internal static var podcastFeedReloadButton: String { return L10n.tr("Localizable", "podcast_feed_reload_button") }
+  /// Refreshing episode list...
+  internal static var podcastFeedReloadLoading: String { return L10n.tr("Localizable", "podcast_feed_reload_loading") }
+  /// New episodes found!
+  internal static var podcastFeedReloadNewEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_new_episodes_found") }
+  /// No episodes found.
+  internal static var podcastFeedReloadNoEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_no_episodes_found") }
   /// Discover Podcasts
   internal static var podcastGridDiscoverPodcasts: String { return L10n.tr("Localizable", "podcast_grid_discover_podcasts") }
   /// Coming from another app? Import your podcasts via Profile > Settings > Import & Export.
