@@ -28,6 +28,11 @@ class TracksAdapter: AnalyticsAdapter {
 
         // Generate a new UUID if there isn't currently one
         guard let uuid = userDefaults.string(forKey: key) else {
+            // Check the old standard UserDefaults so we don't lose that one
+            if let oldUuid = UserDefaults.standard.string(forKey: key) {
+                userDefaults.set(oldUuid, forKey: key)
+                return oldUuid
+            }
             let uuid = UUID().uuidString
             userDefaults.set(uuid, forKey: key)
             return uuid
@@ -40,7 +45,7 @@ class TracksAdapter: AnalyticsAdapter {
         notificationCenter.removeObserver(self)
     }
 
-    init(userDefaults: UserDefaults = .standard,
+    init(userDefaults: UserDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard,
          subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
          notificationCenter: NotificationCenter = .default,
          abTestProvider: ABTestProviding = ABTestProvider.shared) {

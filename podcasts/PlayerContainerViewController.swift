@@ -124,7 +124,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+#if !APPCLIP
         showNotesItem.updateScrollSize()
+#endif
     }
 
     override func viewDidDisappear(_ animated: Bool) {

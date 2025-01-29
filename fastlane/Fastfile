@@ -9,6 +9,7 @@ default_platform :ios
 
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+XCODE_PROJECT_PATH = File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcodeproj')
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
@@ -68,6 +69,7 @@ APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype
 
 # Keep this in alphabetical case-insensitive order so it's easier to visually compare with the list on the Developers Portal.
 EXTENSIONS = %w[
+  Clip
   NotificationContent
   NotificationExtension
   PodcastsIntents
@@ -575,10 +577,10 @@ platform :ios do
   #  - `symbols_upload` to upload dSYMs to Sentry
   #  - `create_release_on_github(beta_release: …)` to create the GitHub Release
   #
-  # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_app_store_connect do |fetch_code_signing: true|
-    configure_code_signing_app_store if fetch_code_signing
+  lane :build_app_store_connect do |set_up_code_signing: true|
+    configure_code_signing_app_store if set_up_code_signing
 
     build_app(
       scheme: SCHEME,
@@ -639,12 +641,16 @@ platform :ios do
   #
   # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_enterprise do |skip_code_sign_setup: false|
-    if skip_code_sign_setup
-      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
-    else
+  lane :build_enterprise do |set_up_code_signing: true|
+    if set_up_code_signing
       configure_code_signing_enterprise
+    else
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
     end
+
+    UI.important('Hacking the project file to remove the App Clip dependency because Enterprise distribution does not support it...')
+    remove_app_clip_dependency!
+    UI.important('Remember not to commit the modified project file! The change is only meant to allow building for Enterprise where App Clips are not supported.')
 
     version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
     build_number = generate_prototype_build_number
@@ -876,7 +882,7 @@ platform :ios do
   #
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
+    version = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'podcasts')
 
     files = {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
@@ -1425,5 +1431,30 @@ platform :ios do
     build_code_next = VERSION_CALCULATOR.next_build_number(version: build_code_current)
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: build_code_next)
+  end
+
+  def remove_app_clip_dependency!
+    project_path = XCODE_PROJECT_PATH
+    project = Xcodeproj::Project.open(project_path)
+
+    native_targets = project.targets.select { |t| t.is_a?(Xcodeproj::Project::Object::PBXNativeTarget) }
+    app_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application' }
+    app_clip_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application.on-demand-install-capable' }
+
+    if app_clip_targets.empty?
+      UI.user_error!("No on-demand-install-capable targets found in #{project_path}. Has something changed in the project structure? Aborting App Clips removal.")
+    end
+
+    app_targets.each do |app|
+      # Delete any dependency of the app target that is an app_clip target
+      app.dependencies.delete_if { |dep| app_clip_targets.include?(dep.target) }
+      # Delete the "Embed App Clips" build phase
+      app.build_phases.delete_if { |b| b.display_name == 'Embed App Clips' }
+    end
+
+    UI.message('Saving the project file....')
+    project.save
+
+    UI.success('Dependency successfuly removed.')
   end
 end
