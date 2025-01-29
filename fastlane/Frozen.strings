@@ -4733,6 +4733,9 @@
 /* Message when no email account is configured to be able to send the logs*/
 "logs_no_email_account_configured" = "You need to configure an email account on the device in order to send the logs";
 
+/* Title for action to remove episode from listening history */
+"listening_history_remove" = "Remove from history";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
