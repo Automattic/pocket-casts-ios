@@ -135,7 +135,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         if delegate.shouldDisplayPodcastFeedReloadButton() {
             let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
                 guard let self = self else { return }
-                self.podcastDelegate?.reloadPodcastFeed()
+                self.podcastDelegate?.reloadPodcastFeed(source: .menu)
             }
             optionPicker.addAction(action: reloadPodcastFeedAction)
         }
