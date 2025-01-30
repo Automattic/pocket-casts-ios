@@ -74,6 +74,8 @@ class ListeningHistoryViewController: PCViewController {
     @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
         didSet {
             multiSelectFooter.delegate = self
+            multiSelectFooter.getActionsFunc = Settings.listeningHistoryMultiSelectActions
+            multiSelectFooter.setActionsFunc = Settings.updateListeningHistoryMultiSelectActions
         }
     }
 
@@ -117,6 +119,7 @@ class ListeningHistoryViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.listeningHistoryChanged, selector: #selector(refreshEpisodesFromNotification))
     }
 
     @objc private func refreshEpisodesFromNotification() {
@@ -168,8 +171,12 @@ class ListeningHistoryViewController: PCViewController {
             self.refreshEpisodes(animated: true)
 
         })
+        optionPicker.setNoActionCallback {
+            Analytics.track(.listeningHistoryClearConfirmationDismissed)
+        }
         optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        Analytics.track(.listeningHistoryClearConfirmationShown)
     }
 
     func setupNavBar() {

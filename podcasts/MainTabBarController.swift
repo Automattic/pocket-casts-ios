@@ -6,6 +6,7 @@ import Combine
 import PocketCastsUtils
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
+
     enum Tab { case podcasts, filter, discover, profile, upNext }
 
     var pcTabs = [Tab]()
@@ -158,7 +159,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func fixTarBarTraitCollectionOnIpadForiOS18() {
         if #available(iOS 18.0, *),
-            UIDevice.current.userInterfaceIdiom == .pad {
+           UIDevice.current.userInterfaceIdiom == .pad {
             traitOverrides.horizontalSizeClass = .compact
             if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
                 tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
@@ -475,6 +476,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             navController.popToRootViewController(animated: false)
             navController.pushViewController(SettingsViewController(), animated: false)
             navController.pushViewController(HeadphoneSettingsViewController(), animated: true)
+        }
+    }
+
+    func showGeneralSettings(row: GeneralSettingsViewController.TableRow?) {
+        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+
+        // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
+        if state != .open, state != .animating {
+            dismissPresentedViewController()
+        }
+
+        switchToTab(.profile)
+        if let navController = selectedViewController as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            navController.pushViewController(SettingsViewController(), animated: false)
+            let generalSettingsController = GeneralSettingsViewController()
+            generalSettingsController.scrollToRow = row
+            navController.pushViewController(generalSettingsController, animated: true)
         }
     }
 

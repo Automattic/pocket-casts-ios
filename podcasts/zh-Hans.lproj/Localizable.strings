@@ -337,6 +337,10 @@
     <string>无法取消</string>
     <key>cancel_subscription</key>
     <string>取消订阅</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>您的新套餐将在当前计费周期结束时激活。</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>很抱歉，获取您的套餐时出错了。</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>可用套餐</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@
     <string>感谢您选用 Pocket Casts。 免费月结束后开始计费。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>享受一个月的免费体验！</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>在您的下一个计费周期开始时节省 %@。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@
     <string>您需要在设备上配置电子邮件账户，以便发送日志</string>
     <key>manage_downloads_action</key>
     <string>管理下载</string>
+    <key>manage_downloads_detail</key>
+    <string>通过管理下载的剧集节省 %1$@。</string>
     <key>manage_downloads_title</key>
     <string>需要释放空间？</string>
     <key>mark_played</key>

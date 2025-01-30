@@ -860,6 +860,24 @@ class Settings: NSObject {
         UserDefaults.standard.set(actionInts, forKey: Settings.multiSelectActionsKey)
     }
 
+    private static let listeningHistoryMultiSelectActionsKey = "ListeningHistoryMultiSelectActions"
+    class func listeningHistoryMultiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .removeListeningHistory, .markAsPlayed, .star]
+        guard let savedInts = UserDefaults.standard.object(forKey: Settings.listeningHistoryMultiSelectActionsKey) as? [Int32] else {
+            return defaultActions
+        }
+
+        let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
+
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
+    }
+
+    class func updateListeningHistoryMultiSelectActions(_ actions: [MultiSelectAction]) {
+        let actionInts = actions.map(\.rawValue)
+        UserDefaults.standard.set(actionInts, forKey: Settings.listeningHistoryMultiSelectActionsKey)
+    }
+
     private static let filesMultiSelectActionsKey = "FilesMultiSelectActionsV2"
     class func fileMultiSelectActions() -> [MultiSelectAction] {
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.filesMultiSelectActionsKey) as? [Int32] else {

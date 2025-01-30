@@ -337,6 +337,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Impossible d’annuler</string>
     <key>cancel_subscription</key>
     <string>Annuler l’abonnement</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Votre nouveau plan sera activé à la fin de votre période de facturation actuelle.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Veuillez nous excuser, un problème est survenu lors de l’extraction de vos plans.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Merci d’avoir choisi Pocket Casts. La facturation commence au terme du mois gratuit.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Profitez de votre mois gratuit !</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Économisez %@ au début de votre prochain cycle de facturation.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtenir votre prochain mois gratuit</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@ podcasts partout avec</string>
     <string>Vous devez configurer un compte de messagerie sur l’appareil pour envoyer les journaux</string>
     <key>manage_downloads_action</key>
     <string>Gérer les téléchargements</string>
+    <key>manage_downloads_detail</key>
+    <string>Économisez %1$@ en gérant les épisodes téléchargés.</string>
     <key>manage_downloads_title</key>
     <string>Besoin de libérer de l’espace ?</string>
     <key>mark_played</key>

@@ -237,6 +237,14 @@ class EpisodeManager: NSObject {
         analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
     }
 
+    class func removeListeningHistory(episodes: [BaseEpisode]) {
+        for episode in episodes {
+            DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
+        }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.listeningHistoryChanged)
+        analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+    }
+
     class func deleteAllEpisodesInPodcast(id: Int64) {
         let episodes = DataManager.sharedManager.allEpisodesForPodcast(id: id)
         if episodes.count < 1 { return }

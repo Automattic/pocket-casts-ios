@@ -337,6 +337,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Kan niet annuleren</string>
     <key>cancel_subscription</key>
     <string>Abonnement annuleren</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Je nieuwe abonnement wordt aan het einde van je huidige factuurperiode geactiveerd.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Er is iets fout gegaan bij het ophalen van je abonnementen.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Beschikbare abonnementen</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bedankt dat je voor Pocket Casts kiest. De facturering begint nadat je gratis maand is afgelopen.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Geniet van een maand gratis toegang!</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Bespaar %@ aan het begin van je volgende factuurperiode.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@ podcasts mee</string>
     <string>Configureer een e-mailaccount op het apparaat om de logboeken te verzenden</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
+    <key>manage_downloads_detail</key>
+    <string>Bespaar %1$@ door gedownloade afleveringen te beheren.</string>
     <key>manage_downloads_title</key>
     <string>Wil je ruimte vrijmaken?</string>
     <key>mark_played</key>
