@@ -168,7 +168,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
 
     override func prepareForReuse() {
-        richPodcastDescription.frame = .zero
+        super.prepareForReuse()
+        richPodcastDescription.reset()
     }
 
     private func addBookmarksTabView(parentController: UIViewController) {

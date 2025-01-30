@@ -40,6 +40,13 @@ class RichExpandableLabel: WKWebView {
         updateStyle()
     }
 
+    func reset() {
+        htmlReady = false
+        previousHTML = ""
+        frame = .zero
+        heightConstraint.constant = 0
+    }
+
     private func updateStyle() {
         isOpaque = false
         scrollView.backgroundColor = .clear
