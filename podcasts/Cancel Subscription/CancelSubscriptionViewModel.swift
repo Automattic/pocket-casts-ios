@@ -14,71 +14,96 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
         super.init(purchaseHandler: purchaseHandler)
 
+        //TODO: Need to check the if the promotion can be applied
         self.loadPrices()
     }
 
     override func didAppear() {
-        Analytics.track(.cancelSubscriptionShown)
+        Analytics.track(.winbackScreenShown, properties: ["screen": "main"])
     }
 
     override func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }
 
-        Analytics.track(.cancelSubscriptionDismissed)
+        Analytics.track(.winbackScreenDismissed, properties: ["screen": "main"])
+    }
+
+    private func trackRow(option: CancelSubscriptionOption) {
+        let activeTier = SubscriptionHelper.activeTier
+        let frequency = SubscriptionHelper.subscriptionFrequencyValue()
+        Analytics.track(.winbackMainScreenRowTap, properties: ["row": option.analyticsRow,
+                                                               "tier": activeTier.analyticsDescription,
+                                                               "frequency": frequency.analyticsDescription])
     }
 }
 
 // IAP
 extension CancelSubscriptionViewModel {
-    func monthlyPrice() -> String? {
-        switch SubscriptionHelper.activeTier {
-        case .plus:
+    func price() -> String? {
+        switch (SubscriptionHelper.activeTier, SubscriptionHelper.subscriptionFrequencyValue()) {
+        case (.plus, .monthly):
             return pricingInfo.products.first { $0.identifier == .monthly }?.rawPrice
-        case .patron:
+        case (.plus, .yearly):
+            return pricingInfo.products.first { $0.identifier == .yearly }?.rawPrice
+        case (.patron, .monthly):
             return pricingInfo.products.first { $0.identifier == .patronMonthly }?.rawPrice
-        case .none:
+        case (.patron, .yearly):
+            return pricingInfo.products.first { $0.identifier == .patronYearly }?.rawPrice
+        default:
+            return nil
+        }
+    }
+
+    func subscriptionFrequency() -> SubscriptionFrequency? {
+        switch SubscriptionHelper.subscriptionFrequencyValue() {
+        case .monthly:
+            return .monthly
+        case .yearly:
+            return .yearly
+        default:
             return nil
         }
     }
 
     func claimOffer() {
-        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "claim_offer"])
+        trackRow(option: .promotion(price: "", frequency: .none))
         //TODO: Apply one month free
         //TODO: Purchase the offer and display the success view if succeeded
         showClaimOfferSuccess()
+    }
+
+    func canClaimOffer() -> Bool {
+        return true
     }
 }
 
 // Navigation
 extension CancelSubscriptionViewModel {
     func cancelSubscriptionTap() {
-        Analytics.track(.cancelSubscriptionContinueButtonTap)
+        Analytics.track(.winbackContinueButtonTap)
 
         let viewController = CancelConfirmationViewModel.make(in: navigationController)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     func showPlans() {
-        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "plans"])
+        trackRow(option: .availablePlans)
 
         let viewController = CancelSubscriptionPlansViewModel.make(in: navigationController)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     func showHelp() {
-        Analytics.track(.cancelSubscriptionRowTap, properties: ["row": "help"])
+        trackRow(option: .help)
 
-        let controller = OnlineSupportController()
-        controller.didDismiss = { [weak self] in
-            self?.didDismiss(type: .swipe)
-        }
+        let controller = OnlineSupportController(source: .winback)
         navigationController?.navigationBar.isHidden = false
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func showClaimOfferSuccess() {
-        Analytics.track(.cancelSubscriptionClaimOfferSuccessShown)
+        Analytics.track(.winbackScreenShown, properties: ["screen": "offer_claimed"])
 
         let view = CancelSubscriptionOfferSuccessView(viewModel: self).setupDefaultEnvironment()
         let controller = OnboardingHostingViewController(rootView: view)
@@ -87,7 +112,7 @@ extension CancelSubscriptionViewModel {
     }
 
     func closeOffer() {
-        didDismiss(type: .swipe)
+        Analytics.track(.winbackOfferClaimedDoneButtonTapped)
 
         navigationController?.dismiss(animated: true)
     }

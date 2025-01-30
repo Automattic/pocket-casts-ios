@@ -41,6 +41,9 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+
+    func shouldDisplayPodcastFeedReloadButton() -> Bool
+    func reloadPodcastFeed()
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -174,6 +177,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
+    private var podcastFeedViewModel: PodcastFeedViewModel?
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
@@ -231,6 +235,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            podcastFeedViewModel = PodcastFeedViewModel(uuid: podcast?.uuid ?? podcastInfo?.uuid)
+        }
 
         closeTapped = { [weak self] in
             _ = self?.navigationController?.popViewController(animated: true)
@@ -925,6 +933,24 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
+    }
+
+    // MARK: - Podcast Feed Reload action
+
+    func shouldDisplayPodcastFeedReloadButton() -> Bool {
+        return FeatureFlag.podcastFeedUpdate.enabled && podcastFeedViewModel?.uuid != nil
+    }
+
+    func reloadPodcastFeed() {
+        if podcastFeedViewModel?.loadingState == .loading {
+            return
+        }
+        Task { @MainActor [weak self] in
+            let podcastNeedsReload = await self?.podcastFeedViewModel?.checkIfNewEpisodesAreAvailable() ?? false
+            if podcastNeedsReload {
+                self?.loadPodcastInfo()
+            }
+        }
     }
 
     // MARK: - Long press actions

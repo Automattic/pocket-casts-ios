@@ -5,18 +5,34 @@ struct CancelSubscriptionOfferSuccessView: View {
 
     @ObservedObject var viewModel: CancelSubscriptionViewModel
 
+    var title: String {
+        if viewModel.subscriptionFrequency() == .monthly {
+            return L10n.cancelSubscriptionOfferSuccessViewTitle
+        } else {
+            return L10n.cancelSubscriptionOfferYearlySuccessViewTitle
+        }
+    }
+
+    var description: String {
+        if viewModel.subscriptionFrequency() == .monthly {
+            return L10n.cancelSubscriptionOfferSuccessViewDescription
+        } else {
+            return L10n.cancelSubscriptionOfferYearlySuccessViewDescription
+        }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             icon(for: theme.activeTheme)
                 .frame(width: 162, height: 162)
                 .padding(.top, 70)
                 .padding(.bottom, 21)
-            Text(L10n.cancelSubscriptionOfferSuccessViewTitle)
+            Text(title)
                 .font(size: 28.0, style: .body, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 16.0)
-            Text(L10n.cancelSubscriptionOfferSuccessViewDescription)
+            Text(description)
                 .font(size: 18.0, style: .body, weight: .regular)
                 .foregroundStyle(theme.primaryText02)
                 .multilineTextAlignment(.center)
@@ -34,6 +50,9 @@ struct CancelSubscriptionOfferSuccessView: View {
             AppTheme.color(for: .primaryUi01, theme: theme)
                 .ignoresSafeArea()
         )
+        .onDisappear {
+            Analytics.track(.winbackScreenDismissed, properties: ["screen": "offer_claimed"])
+        }
     }
 
     private func icon(for themeType: Theme.ThemeType) -> Image {

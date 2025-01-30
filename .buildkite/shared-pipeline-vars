@@ -5,7 +5,7 @@
 
 # 🎗️ If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
 XCODE_VERSION="16.1"
-CI_TOOLKIT_PLUGIN_VERSION="3.7.1"
+CI_TOOLKIT_PLUGIN_VERSION="3.9.1"
 
 # Note: `-v4` suffix added to use xcode-16.1-v4 image; remember to remove that suffix on next Xcode update
 export IMAGE_ID="xcode-$XCODE_VERSION-v4"

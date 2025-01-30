@@ -63,7 +63,7 @@ struct AboutView: View {
                                 model.track(action: .instagram)
                                 SocialsHelper.openInstagram()
                             }
-                            AboutRow(mainText: L10n.twitter, secondaryText: L10n.socialHandle) {
+                            AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
                                 model.track(action: .twitter)
                                 SocialsHelper.openTwitter()
                             }
@@ -109,6 +109,15 @@ struct AboutView: View {
                             }
                         }
                         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
+                        Section {
+                            HStack {
+                                Spacer()
+                                Image("automattic-logo")
+                                    .tint(theme.activeTheme.isDark ? .white : .black)
+                                Spacer()
+                            }
+                        }
+                        .listRowBackground(Color.clear)
                     }
                     .colorScheme(theme.activeTheme.isDark ? .dark : .light)
                 }

@@ -410,6 +410,10 @@ internal enum L10n {
   internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
   /// Enjoy your free month!
   internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
+  /// Thanks for choosing Pocket Casts. Your discounted plan starts after your current billing period.
+  internal static var cancelSubscriptionOfferYearlySuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_description") }
+  /// 50%% off your next year!
+  internal static var cancelSubscriptionOfferYearlySuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_title") }
   /// Save %@ at the start of your next billing cycle.
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
@@ -419,6 +423,8 @@ internal enum L10n {
   /// Before you cancel,
   /// check out these offers
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
+  /// Get 50%% off your next year
+  internal static var cancelSubscriptionYearlyPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_yearly_promotion_title") }
   /// Canceling...
   internal static var canceling: String { return L10n.tr("Localizable", "canceling") }
   /// %1$@ of %2$@. %3$@
@@ -2257,6 +2263,14 @@ internal enum L10n {
   internal static var podcastFailedDownload: String { return L10n.tr("Localizable", "podcast_failed_download") }
   /// Failed to upload
   internal static var podcastFailedUpload: String { return L10n.tr("Localizable", "podcast_failed_upload") }
+  /// Refresh episode list
+  internal static var podcastFeedReloadButton: String { return L10n.tr("Localizable", "podcast_feed_reload_button") }
+  /// Refreshing episode list...
+  internal static var podcastFeedReloadLoading: String { return L10n.tr("Localizable", "podcast_feed_reload_loading") }
+  /// New episodes found!
+  internal static var podcastFeedReloadNewEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_new_episodes_found") }
+  /// No episodes found.
+  internal static var podcastFeedReloadNoEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_no_episodes_found") }
   /// Discover Podcasts
   internal static var podcastGridDiscoverPodcasts: String { return L10n.tr("Localizable", "podcast_grid_discover_podcasts") }
   /// Coming from another app? Import your podcasts via Profile > Settings > Import & Export.

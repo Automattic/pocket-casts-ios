@@ -615,6 +615,7 @@ enum AnalyticsEvent: String {
     case settingsHelpShown
     case settingsGetSupport
     case settingsLeaveFeedback
+    case exportDatabaseTapped
 
     // MARK: - Settings: Import / Export OPML
 
@@ -810,17 +811,18 @@ enum AnalyticsEvent: String {
     case referralPassBannerHideTapped
 
     // MARK: - Winback
+    case winbackScreenShown
+    case winbackScreenDismissed
+    case winbackContinueButtonTap
+    case winbackMainScreenRowTap
+    case winbackOfferClaimedDoneButtonTapped
+    case winbackAvailablePlansBackButtonTapped
+    case winbackCancelConfirmationStayButtonTapped
+    case winbackCancelConfirmationCancelButtonTapped
+    case winbackAvailablePlansSelectPlan
+    case winbackAvailablePlansNewPlanPurchaseSuccessful
 
-    case cancelSubscriptionShown
-    case cancelSubscriptionDismissed
-    case cancelSubscriptionContinueButtonTap
-    case cancelSubscriptionRowTap
-    case cancelSubscriptionClaimOfferSuccessShown
-    case cancelSubscriptionAvailablePlansShown
-    case cancelSubscriptionAvailablePlansDismissed
-    case cancelSubscriptionSelectPlan
-    case cancelSubscriptionNewPlanPurchaseSuccessful
-
+    // MARK: - Champion Dialog
     case pocketCastsChampionDialogShown
     case pocketCastsChampionDialogRateButtonTapped
 

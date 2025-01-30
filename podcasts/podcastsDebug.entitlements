@@ -19,6 +19,7 @@
 		<string>applinks:pocket-casts-main-development.mystagingwebsite.com</string>
 		<string>appclips:pca.st</string>
 		<string>appclips:pcast.pocketcasts.net</string>
+		<string>appclips:pocketcasts.com</string>
 	</array>
 	<key>com.apple.developer.carplay-audio</key>
 	<true/>
