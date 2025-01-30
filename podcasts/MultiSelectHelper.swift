@@ -147,7 +147,6 @@ class MultiSelectHelper {
         actionDelegate.multiSelectActionBegan(status: status)
         DispatchQueue.global().async {
             EpisodeManager.bulkUnarchive(episodes: selectedEpisodes)
-
             actionDelegate.multiSelectActionCompleted()
         }
     }
@@ -195,12 +194,14 @@ class MultiSelectHelper {
     }
 
     private class func markAsUnplayedEpisodes(actionDelegate: MultiSelectActionDelegate) {
+        let selectedArchiveEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesUnplayedSingular : L10n.multiSelectMarkEpisodesUnplayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
 
         DispatchQueue.global().async {
             EpisodeManager.bulkMarkAsUnPlayed(selectedEpisodes)
+            EpisodeManager.bulkUnarchive(episodes: selectedArchiveEpisodes)
             actionDelegate.multiSelectActionCompleted()
         }
     }
