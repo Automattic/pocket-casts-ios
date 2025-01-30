@@ -18,6 +18,7 @@ class CustomRefreshControl: UIRefreshControl {
         super.init(frame: .zero)
         setupView()
         setupLayout()
+        alpha = 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,10 +29,9 @@ class CustomRefreshControl: UIRefreshControl {
         NotificationCenter.default.removeObserver(self)
     }
 
-    override func beginRefreshing() {
-        super.beginRefreshing()
+    func startRefreshing() {
+        beginRefreshing()
         isAnimating = true
-        refreshLabel.text = L10n.refreshControlFetchingEpisodes
         startRefreshAnimation()
         perform?()
     }
@@ -39,8 +39,11 @@ class CustomRefreshControl: UIRefreshControl {
     override func endRefreshing() {
         super.endRefreshing()
 
-        endRefreshAnimation()
-        isAnimating = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.endRefreshAnimation()
+            self?.isAnimating = false
+            self?.alpha = 0
+        }
     }
 
     private func setupView() {
@@ -124,7 +127,11 @@ extension CustomRefreshControl {
     private func processRefreshCompleted(_ message: String) {
         refreshLabel.text = message.uppercased()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            self?.endRefreshing()
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.alpha = 0
+            }, completion: { _ in
+                self?.endRefreshing()
+            })
         }
     }
 
@@ -184,13 +191,13 @@ extension CustomRefreshControl {
 
         outerRotationAngle = (amount * 2).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
-
+        print("Amount: \(amount), Alpha: \(alphaValue)")
         alpha = amount >= 150.0 ? alphaValue : 0.0
     }
 
     private func didEndDraggingAt(_ position: CGFloat) {
         if position > pullDownAmountForRefresh {
-            beginRefreshing()
+            startRefreshing()
         }
     }
 }
