@@ -191,7 +191,7 @@ extension CustomRefreshControl {
 
         outerRotationAngle = (amount * 2).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
-        print("Amount: \(amount), Alpha: \(alphaValue)")
+
         alpha = amount >= 150.0 ? alphaValue : 0.0
     }
 
