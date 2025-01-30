@@ -10,6 +10,7 @@ class RichExpandableLabel: WKWebView {
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
     private var previousHTML: String = ""
+    private var isFirstTime = true
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
@@ -155,6 +156,10 @@ class RichExpandableLabel: WKWebView {
             contentHeight = CGFloat(cgHeight)
             htmlReady = true
             update()
+            if isFirstTime {
+                isFirstTime = false
+                updateLinesRequired()
+            }
         })
     }
 
@@ -181,7 +186,6 @@ extension RichExpandableLabel: WKNavigationDelegate {
             }
             updateStyle()
             updateScrollSize()
-            updateLinesRequired()
         })
     }
 
