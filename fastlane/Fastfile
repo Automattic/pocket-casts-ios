@@ -427,7 +427,6 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    remove_branch_protection(repository: GITHUB_REPO, branch: release_branch_name)
     set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
     close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
 
