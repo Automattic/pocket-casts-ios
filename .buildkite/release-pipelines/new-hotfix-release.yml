@@ -28,4 +28,4 @@ steps:
     retry:
       manual:
         allowed: false
-        reason: "If this job fails, please trigger a new build from ReleasesV2 instead of retrying this step" 
+        reason: "If this job fails, please trigger a new build from ReleasesV2 instead of retrying this step"
