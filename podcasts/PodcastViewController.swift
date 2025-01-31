@@ -308,6 +308,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         updateColors()
     }
 
+    lazy var podcastHeadingCell: PodcastHeadingTableCell = {
+         let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
+         let cell = nib?[0] as! PodcastHeadingTableCell
+         return cell
+    }()
+
     private var hasAppearedAlready = false
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

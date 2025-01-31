@@ -167,6 +167,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     @IBOutlet var bookmarkTabsView: UIStackView!
     private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        richPodcastDescription.reset()
+    }
+
     private func addBookmarksTabView(parentController: UIViewController) {
         // Make sure the view reappears
         if let tabsViewController {
