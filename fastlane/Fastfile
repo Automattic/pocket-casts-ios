@@ -427,7 +427,6 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    remove_branch_protection(repository: GITHUB_REPO, branch: release_branch_name)
     set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
     close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
 
@@ -1179,15 +1178,24 @@ platform :ios do
   # @return [String] The URL of the build that has been triggered
   #
   def trigger_buildkite_release_build(branch:, beta:)
-    require_env_vars!('BUILDKITE_TOKEN')
-
-    buildkite_trigger_build(
-      buildkite_organization: 'automattic',
-      buildkite_pipeline: 'pocket-casts-ios',
-      branch: branch,
-      environment: { BETA_RELEASE: beta },
-      pipeline_file: 'release-builds.yml'
-    )
+    pipeline_args = {
+      pipeline_file: 'release-builds.yml',
+      environment: {
+        RELEASE_VERSION: release_version_current,
+        BETA_RELEASE: beta
+      }
+    }
+    if is_ci?
+      buildkite_pipeline_upload(**pipeline_args)
+    else
+      require_env_vars!('BUILDKITE_TOKEN')
+      buildkite_trigger_build(
+        buildkite_organization: 'automattic',
+        buildkite_pipeline: 'pocket-casts-ios',
+        branch: branch,
+        **pipeline_args
+      )
+    end
   end
 
   # Update the milestone of still-open PRs
