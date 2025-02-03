@@ -40,7 +40,8 @@ class MultiSelectHelper {
             delete(actionDelegate: actionDelegate)
         case .share:
             share(actionDelegate: actionDelegate, view: view)
-            return
+        case .removeListeningHistory:
+            removeListeningHistory(actionDelegate: actionDelegate)
         }
     }
 
@@ -146,7 +147,6 @@ class MultiSelectHelper {
         actionDelegate.multiSelectActionBegan(status: status)
         DispatchQueue.global().async {
             EpisodeManager.bulkUnarchive(episodes: selectedEpisodes)
-
             actionDelegate.multiSelectActionCompleted()
         }
     }
@@ -194,12 +194,14 @@ class MultiSelectHelper {
     }
 
     private class func markAsUnplayedEpisodes(actionDelegate: MultiSelectActionDelegate) {
+        let selectedArchiveEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesUnplayedSingular : L10n.multiSelectMarkEpisodesUnplayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
 
         DispatchQueue.global().async {
             EpisodeManager.bulkMarkAsUnPlayed(selectedEpisodes)
+            EpisodeManager.bulkUnarchive(episodes: selectedArchiveEpisodes)
             actionDelegate.multiSelectActionCompleted()
         }
     }
@@ -339,6 +341,13 @@ class MultiSelectHelper {
                                          fromSource: .multiSelect
         )
     }
+
+    private class func removeListeningHistory(actionDelegate: MultiSelectActionDelegate) {
+        let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes()
+        EpisodeManager.removeListeningHistory(episodes: selectedEpisodes)
+        actionDelegate.multiSelectActionCompleted()
+    }
+
 
     // MARK: - Selection Helpers
 

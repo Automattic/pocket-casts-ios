@@ -337,6 +337,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Ditt nya paket kommer att aktiveras i slutet av din nuvarande faktureringsperiod.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Något gick fel vid hämtningen av dina paket.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tack för att du väljer Pocket Casts. Fakturering startar när din gratismånad har löpt ut.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Njut av din gratismånad!</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Spara %@ i början av nästa faktureringscykel.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
     <key>cancel_subscription_title</key>
@@ -1346,6 +1352,8 @@ podcasts med dig</string>
     <string>Du behöver konfigurera ett e-postkonto på enheten för att skicka loggarna</string>
     <key>manage_downloads_action</key>
     <string>Hantera nedladdningar</string>
+    <key>manage_downloads_detail</key>
+    <string>Spara %1$@  genom att hantera nedladdade avsnitt.</string>
     <key>manage_downloads_title</key>
     <string>Behöver du frigöra utrymme?</string>
     <key>mark_played</key>

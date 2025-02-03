@@ -10,6 +10,7 @@ class RichExpandableLabel: WKWebView {
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
     private var previousHTML: String = ""
+    private var isFirstTime = true
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
@@ -38,6 +39,13 @@ class RichExpandableLabel: WKWebView {
         scrollView.isScrollEnabled = false
         navigationDelegate = self
         updateStyle()
+    }
+
+    func reset() {
+        htmlReady = false
+        previousHTML = ""
+        frame = .zero
+        heightConstraint.constant = 0
     }
 
     private func updateStyle() {
@@ -148,6 +156,10 @@ class RichExpandableLabel: WKWebView {
             contentHeight = CGFloat(cgHeight)
             htmlReady = true
             update()
+            if isFirstTime {
+                isFirstTime = false
+                updateLinesRequired()
+            }
         })
     }
 
@@ -174,7 +186,6 @@ extension RichExpandableLabel: WKNavigationDelegate {
             }
             updateStyle()
             updateScrollSize()
-            updateLinesRequired()
         })
     }
 

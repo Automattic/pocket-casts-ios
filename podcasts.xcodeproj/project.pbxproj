@@ -680,6 +680,7 @@
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
+		9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -2059,6 +2060,13 @@
 			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
 			remoteInfo = "Share Extension";
 		};
+		9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5D5F7782CEBE769001F492D;
+			remoteInfo = "Pocket Casts App Clip";
+		};
 		BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -2115,6 +2123,17 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AC09DDA2D2D4103003EBA96 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				9AC09DDB2D2D4146003EBA96 /* Pocket Casts App Clip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		BD0CFBE12682C4E600765E33 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -8546,8 +8565,9 @@
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
-				C716FF45296F2BE3006B787D /* Modify Plist */,
+				9AC09DDA2D2D4103003EBA96 /* Embed App Clips */,
 				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
+				C716FF45296F2BE3006B787D /* Modify Plist */,
 			);
 			buildRules = (
 			);
@@ -8561,6 +8581,7 @@
 				4090975A25235DFC00CED68C /* PBXTargetDependency */,
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
+				9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -11085,6 +11106,11 @@
 			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
 			targetProxy = 8B0845942A66C86D00742C2F /* PBXContainerItemProxy */;
 		};
+		9AC09DD92D2D409A003EBA96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
+			targetProxy = 9AC09DD82D2D409A003EBA96 /* PBXContainerItemProxy */;
+		};
 		BD3A21131E6CFC2400F42241 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
@@ -12749,7 +12775,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Automattic, Inc. (PZYM8XX95Q)";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
@@ -12962,13 +12988,9 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "Pocket Casts App Clip/Pocket_Casts_App_Clip.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"Pocket Casts App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = PZYM8XX95Q;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -12988,14 +13010,12 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts App Clip Development";
-				SKIP_INSTALL = NO;
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts App Clip Development";
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited) APPCLIP";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts App Clip/app-clip-Bridging-Header.h";
@@ -13020,14 +13040,10 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "Pocket Casts App Clip/Pocket_Casts_App_Clip.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Pocket Casts App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -13048,14 +13064,12 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts App Clip Development";
-				SKIP_INSTALL = NO;
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts App Clip Development";
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -13081,14 +13095,10 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "Pocket Casts App Clip/Pocket_Casts_App_Clip.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Pocket Casts App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -13110,14 +13120,11 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.Clip;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.prototype.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts App Clip Development";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -13146,11 +13153,8 @@
 				CODE_SIGN_ENTITLEMENTS = "Pocket Casts App Clip/Pocket_Casts_App_Clip.entitlements";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Pocket Casts App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -13171,14 +13175,11 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts App Clip Development";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -337,6 +337,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Beenden nicht möglich</string>
     <key>cancel_subscription</key>
     <string>Abonnement beenden</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Dein neuer Tarif wird am Ende deines aktuellen Abrechnungszeitraums aktiviert.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Entschuldigung! Beim Abrufen deiner Tarife ist ein Fehler aufgetreten.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Verfügbare Tarife</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -357,6 +361,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Die Abrechnung beginnt nach dem kostenlosen Monat.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Genieße deinen kostenlosen Monat!</string>
+    <key>cancel_subscription_promotion_description</key>
+    <string>Spare %@ zu Beginn deines nächsten Abrechnungszyklus.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_title</key>
@@ -1344,6 +1350,8 @@ Podcasts mit</string>
     <string>Du musst ein E-Mail-Konto auf dem Gerät konfigurieren, um die Protokolle senden zu können</string>
     <key>manage_downloads_action</key>
     <string>Downloads verwalten</string>
+    <key>manage_downloads_detail</key>
+    <string>Spare %1$@ Speicherplatz, indem du die heruntergeladenen Folgen verwaltest.</string>
     <key>manage_downloads_title</key>
     <string>Du benötigst mehr Speicherplatz?</string>
     <key>mark_played</key>
