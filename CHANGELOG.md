@@ -1,3 +1,7 @@
+7.83
+-----
+
+
 7.82
 -----
 - Add App Clips [#2549](https://github.com/Automattic/pocket-casts-ios/issues/2549)
