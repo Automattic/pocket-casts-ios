@@ -1,4 +1,6 @@
+#if !APPCLIP
 import Agrume
+#endif
 import AVKit
 import SafariServices
 import UIKit
@@ -291,9 +293,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let chapters = PlaybackManager.shared.currentChapters()
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
-        #if APPCLIP
-        //TODO: Prompt to install app
-        #else
+        #if !APPCLIP
             if Settings.openLinks {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {
@@ -303,10 +303,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func imageTapped() {
+#if !APPCLIP
         guard let artwork = episodeImage.image else { return }
 
         let agrume = Agrume(image: artwork, background: .blurred(.regular))
         agrume.show(from: self)
+#endif
     }
 
     @objc private func videoTapped() {
