@@ -184,6 +184,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var cancellables = Set<AnyCancellable>()
     private var podcastFeedViewModel: PodcastFeedViewModel?
     private var refreshControl: CustomRefreshControl?
+    private var podcastFeedReloadTask: Task<Void, Never>?
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
@@ -380,6 +381,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             properties["list_id"] = listUuid
         }
         Analytics.track(.podcastScreenShown, properties: properties)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if FeatureFlag.podcastFeedUpdate.enabled,
+           let task = podcastFeedReloadTask,
+           !task.isCancelled {
+            task.cancel()
+            Toast.dismiss()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -998,11 +1010,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         //TODO: Add analytics based on source
 
-        Task { @MainActor [weak self] in
+        podcastFeedReloadTask = Task { @MainActor [weak self] in
             let podcastNeedsReload = await self?.podcastFeedViewModel?.checkIfNewEpisodesAreAvailable(from: source) ?? false
             if podcastNeedsReload {
                 self?.loadPodcastInfo()
             }
+        }
+
+        Task {
+            await podcastFeedReloadTask?.value
         }
     }
 

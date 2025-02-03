@@ -365,6 +365,10 @@ public class MainServerHandler {
 
         FileLog.shared.console("Update Podcast API start request \(url.absoluteString)")
 
+        if Task.isCancelled {
+            return false
+        }
+
         let response = try await URLSession.shared.data(for: request)
         guard let urlResponse = response.1 as? HTTPURLResponse else {
             return false
@@ -385,6 +389,9 @@ public class MainServerHandler {
             FileLog.shared.console("Poll Podcast API with delay of \(interval) sec")
             let delay = UInt64(interval * 1_000_000_000)
             try await Task<Never, Never>.sleep(nanoseconds: delay)
+            if Task.isCancelled {
+                return false
+            }
             guard let newUrlResponse = try await pollUpdatePodcast(url: location) else {
                 FileLog.shared.console("Poll Podcast API no response")
                 return false
