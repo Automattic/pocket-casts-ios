@@ -45,7 +45,7 @@ class PodcastFeedViewModel {
                 if source == .refreshControl {
                     NotificationCenter.default.post(name: PodcastFeedReloadNotification.loading, object: nil)
                 } else {
-                    Toast.show(L10n.podcastFeedReloadLoading)
+                    Toast.show(L10n.podcastFeedReloadLoading, dismissAfter: .never)
                 }
             }
             let success: Bool
