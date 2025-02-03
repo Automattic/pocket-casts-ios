@@ -1331,6 +1331,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Més informació</string>
     <key>listening_history</key>
     <string>Historial d'episodis escoltats</string>
+    <key>listening_history_remove</key>
+    <string>Esborra de l'historial</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>No hem pogut trobar cap episodi per a aquesta cerca. Prova amb una altra paraula clau.</string>
     <key>listening_history_search_no_episodes_title</key>
