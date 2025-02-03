@@ -42,6 +42,9 @@ class PodcastFeedViewModel {
             guard let self else { return false }
             await MainActor.run {
                 self.loadingState = .loading
+
+                Analytics.track(.podcastScreenRefreshEpisodeList, properties: ["action": source.analyticsValue, "podcast_uuid": uuid])
+
                 if source == .refreshControl {
                     NotificationCenter.default.post(name: PodcastFeedReloadNotification.loading, object: nil)
                 } else {
@@ -57,6 +60,10 @@ class PodcastFeedViewModel {
             }
             await MainActor.run {
                 if self.loadingState != .cancelled {
+
+                    let event: AnalyticsEvent = success ? .podcastScreenRefreshNewEpisodeFound : .podcastScreenRefreshNoEpisodesFound
+                    Analytics.track(event, properties: ["action": source.analyticsValue, "podcast_uuid": uuid])
+
                     if source == .refreshControl {
                         let notification = success ? PodcastFeedReloadNotification.episodesFound : PodcastFeedReloadNotification.noEpisodesFound
                         NotificationCenter.default.post(name: notification, object: nil)
