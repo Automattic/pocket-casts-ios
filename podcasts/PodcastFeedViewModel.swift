@@ -13,47 +13,62 @@ class PodcastFeedViewModel {
     enum LoadingState {
         case idle
         case loading
+        case cancelled
     }
 
     let uuid: String?
 
     private(set) var loadingState: LoadingState = .idle
+    private var podcastFeedReloadTask: Task<Bool, Never>?
 
     init(uuid: String?) {
         self.uuid = uuid
+    }
+
+    func cancelTask() {
+        if loadingState == .loading,
+           let task = podcastFeedReloadTask,
+           !task.isCancelled {
+            loadingState = .cancelled
+            task.cancel()
+        }
     }
 
     func checkIfNewEpisodesAreAvailable(from source: PodcastFeedReloadSource) async -> Bool {
         guard let uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             return false
         }
-        await MainActor.run {
-            loadingState = .loading
-            if source == .refreshControl {
-                NotificationCenter.default.post(name: PodcastFeedReloadNotification.loading, object: nil)
-            } else {
-                Toast.show(L10n.podcastFeedReloadLoading)
+        podcastFeedReloadTask = Task { [weak self] in
+            guard let self else { return false }
+            await MainActor.run {
+                self.loadingState = .loading
+                if source == .refreshControl {
+                    NotificationCenter.default.post(name: PodcastFeedReloadNotification.loading, object: nil)
+                } else {
+                    Toast.show(L10n.podcastFeedReloadLoading)
+                }
             }
-        }
-
-        let success: Bool
-        do {
-            success = try await MainServerHandler.shared.updatePodcast(uuid: uuid, lastEpisodeUuid: podcast.latestEpisodeUuid)
-        } catch {
-            success = false
-            FileLog.shared.console("Failed update podcast \(uuid) - \(error.localizedDescription)")
-        }
-
-        await MainActor.run {
-            if source == .refreshControl {
-                let notification = success ? PodcastFeedReloadNotification.episodesFound : PodcastFeedReloadNotification.noEpisodesFound
-                NotificationCenter.default.post(name: notification, object: nil)
-            } else {
-                let message = success ? L10n.podcastFeedReloadNewEpisodesFound : L10n.podcastFeedReloadNoEpisodesFound
-                Toast.show(message)
+            let success: Bool
+            do {
+                success = try await MainServerHandler.shared.updatePodcast(uuid: uuid, lastEpisodeUuid: podcast.latestEpisodeUuid)
+            } catch {
+                success = false
+                FileLog.shared.console("Failed update podcast \(uuid) - \(error.localizedDescription)")
             }
-            loadingState = .idle
+            await MainActor.run {
+                if self.loadingState != .cancelled {
+                    if source == .refreshControl {
+                        let notification = success ? PodcastFeedReloadNotification.episodesFound : PodcastFeedReloadNotification.noEpisodesFound
+                        NotificationCenter.default.post(name: notification, object: nil)
+                    } else {
+                        let message = success ? L10n.podcastFeedReloadNewEpisodesFound : L10n.podcastFeedReloadNoEpisodesFound
+                        Toast.show(message)
+                    }
+                }
+                self.loadingState = .idle
+            }
+            return success
         }
-        return success
+        return await podcastFeedReloadTask?.value ?? false
     }
 }
