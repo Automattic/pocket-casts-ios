@@ -6,6 +6,11 @@ import PocketCastsUtils
 import UIKit
 import UIDeviceIdentifier
 
+enum PodcastFeedReloadSource {
+    case menu
+    case refreshControl
+}
+
 protocol PodcastActionsDelegate: AnyObject {
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
@@ -43,7 +48,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func showBookmarks()
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
-    func reloadPodcastFeed()
+    func reloadPodcastFeed(source: PodcastFeedReloadSource)
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -178,6 +183,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
     private var podcastFeedViewModel: PodcastFeedViewModel?
+    private var refreshControl: CustomRefreshControl?
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
@@ -259,6 +265,21 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         listenForBookmarkChanges()
         setupLogin()
+
+        setupRefreshControl()
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            refreshControl?.scrollViewDidScroll(scrollView)
+        }
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            refreshControl?.scrollViewDidEndDragging(scrollView)
+        }
     }
 
     private func setupLogin() {
@@ -321,6 +342,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
         updateColors()
 
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            refreshControl?.parentViewControllerDidAppear()
+        }
+
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
@@ -361,6 +386,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         super.viewDidDisappear(animated)
 
         removeAllCustomObservers()
+
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            refreshControl?.parentViewControllerDidDisappear()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -941,22 +970,49 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         present(controller, animated: true)
     }
 
-    // MARK: - Podcast Feed Reload action
+    // MARK: - Podcast Feed Reload
+
+    private func setupRefreshControl() {
+        if shouldDisplayPodcastFeedReloadButton() {
+            refreshControl = CustomRefreshControl()
+            refreshControl?.perform = { [weak self] in
+                self?.reloadPodcastFeed(source: .refreshControl)
+            }
+            episodesTable.refreshControl = refreshControl
+        }
+    }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {
         return FeatureFlag.podcastFeedUpdate.enabled && podcastFeedViewModel?.uuid != nil
     }
 
-    func reloadPodcastFeed() {
+    func reloadPodcastFeed(source: PodcastFeedReloadSource) {
+        // In case the FF is switched off
+        guard shouldDisplayPodcastFeedReloadButton() else {
+            refreshControl?.endRefreshing()
+            return
+        }
         if podcastFeedViewModel?.loadingState == .loading {
             return
         }
+
+        //TODO: Add analytics based on source
+
         Task { @MainActor [weak self] in
-            let podcastNeedsReload = await self?.podcastFeedViewModel?.checkIfNewEpisodesAreAvailable() ?? false
+            let podcastNeedsReload = await self?.podcastFeedViewModel?.checkIfNewEpisodesAreAvailable(from: source) ?? false
             if podcastNeedsReload {
                 self?.loadPodcastInfo()
             }
         }
+    }
+
+    func refreshPodcastFeed() {
+        // In case the FF is switched off
+        guard shouldDisplayPodcastFeedReloadButton() else {
+            refreshControl?.endRefreshing()
+            return
+        }
+        reloadPodcastFeed(source: .refreshControl)
     }
 
     // MARK: - Long press actions
