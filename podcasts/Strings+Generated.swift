@@ -414,7 +414,7 @@ internal enum L10n {
   internal static var cancelSubscriptionOfferYearlySuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_description") }
   /// 50%% off your next year!
   internal static var cancelSubscriptionOfferYearlySuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_title") }
-  /// Save %@ at the start of your next billing cycle.
+  /// Pay %@ now for another year at 50%% off
   internal static func cancelSubscriptionPromotionDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "cancel_subscription_promotion_description", String(describing: p1))
   }
