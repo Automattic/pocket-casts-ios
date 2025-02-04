@@ -1892,7 +1892,6 @@
 		F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F5F509692CEBF859007D6E39 /* Kingfisher */; };
 		F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096B2CEBF871007D6E39 /* PocketCastsServer */; };
 		F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096B2CEBF871007D6E39 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096E2CEBF884007D6E39 /* Lottie */; };
 		F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2A49E51701A6AE00C2F192 /* SJCommonUtils.m */; };
 		F5F509712CEBF8C1007D6E39 /* SJMediaMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */; };
 		F5F509722CEBF8C8007D6E39 /* MNAVChapterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF0D4B323EBF1190034129E /* MNAVChapterReader.m */; };
@@ -4129,7 +4128,6 @@
 				F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */,
 				F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */,
-				F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13606,11 +13604,6 @@
 		F5F5096B2CEBF871007D6E39 /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsServer;
-		};
-		F5F5096E2CEBF884007D6E39 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
 		};
 		FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;

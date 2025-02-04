@@ -1,4 +1,6 @@
+#if !APPCLIP
 import Lottie
+#endif
 import UIKit
 
 class SkipButton: UIButton {
@@ -25,15 +27,22 @@ class SkipButton: UIButton {
     override var tintColor: UIColor! {
         didSet {
             skipLabel.textColor = tintColor
-
+#if APPCLIP
+            animationView.tintColor = tintColor
+#else
             let colorValues = tintColor.getRGBA()
             let colorProvider = ColorValueProvider(LottieColor(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3]))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 1.Color"))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Stroke 1.Color"))
+#endif
         }
     }
 
+#if APPCLIP
+    private var animationView: UIImageView
+#else
     private var animationView: LottieAnimationView
+#endif
     private let skipLabel: UILabel
 
     private var currentSize: Size = .large
@@ -44,13 +53,20 @@ class SkipButton: UIButton {
     private lazy var skipLabelXConstraint = skipBack ? trailingAnchor.constraint(equalTo: skipLabel.trailingAnchor, constant: SkipButton.buttonPadding) : skipLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
 
     required init?(coder aDecoder: NSCoder) {
+#if APPCLIP
+        animationView = UIImageView(image: UIImage(named: "ac-skip-button"))
+        animationView.tintColor = .white
+#else
         animationView = LottieAnimationView(name: "skip_button")
+#endif
         skipLabel = UILabel()
 
         super.init(coder: aDecoder)
 
         animationView.isUserInteractionEnabled = false
+#if !APPCLIP
         animationView.animationSpeed = 1.3
+#endif
         animationView.clipsToBounds = false
 
         skipLabel.textAlignment = .center
@@ -102,8 +118,11 @@ class SkipButton: UIButton {
     }
 
     @objc private func playAnimation() {
+#if !APPCLIP
         animationView.currentProgress = 0
         animationView.play()
+#endif
+        
     }
 
     func changeSize(to size: Size) {
@@ -123,8 +142,13 @@ class SkipButton: UIButton {
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
     // Here we snapshot the view to provide a smooth animation
     func prepareForAnimateTransition(withBackground: UIColor?) {
+#if APPCLIP
+        guard let lottieView = subviews.first as? UIImageView,
+              let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
+#else
         guard let lottieView = subviews.first as? LottieAnimationView,
               let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
+#endif
 
         let multiplier = currentSize == .large ? Size.large.sizes.width / Size.large.sizes.height : Size.large.sizes.height / Size.large.sizes.width
 

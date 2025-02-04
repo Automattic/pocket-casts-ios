@@ -1,4 +1,6 @@
+#if !APPCLIP
 import Lottie
+#endif
 import UIKit
 
 class PlayPauseButton: BasePlayPauseButton {
@@ -19,7 +21,11 @@ class PlayPauseButton: BasePlayPauseButton {
 
     var circleColor = UIColor.white {
         didSet {
+#if APPCLIP
+            circleView.backgroundColor = .clear
+#else
             circleView.backgroundColor = circleColor
+#endif
         }
     }
 
@@ -29,6 +35,27 @@ class PlayPauseButton: BasePlayPauseButton {
         circleView.layer.cornerRadius = 0.5 * circleView.bounds.width
     }
 
+#if APPCLIP
+    override func place(animation: UIImageView) {
+        circleView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(circleView)
+        NSLayoutConstraint.activate([
+            circleView.widthAnchor.constraint(equalTo: widthAnchor),
+            circleView.heightAnchor.constraint(equalTo: heightAnchor),
+            circleView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            circleView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+
+        animation.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(animation)
+        NSLayoutConstraint.activate([
+            animation.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
+            animation.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
+            animation.widthAnchor.constraint(equalTo: circleView.widthAnchor),
+            animation.heightAnchor.constraint(equalTo: circleView.heightAnchor)
+        ])
+    }
+#else
     override func place(animation: LottieAnimationView) {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(circleView)
@@ -48,6 +75,7 @@ class PlayPauseButton: BasePlayPauseButton {
             animation.heightAnchor.constraint(equalTo: circleView.heightAnchor, multiplier: 0.48)
         ])
     }
+#endif
 
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
     // Here we snapshot the view to provide a smooth animation

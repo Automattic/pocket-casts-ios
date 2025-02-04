@@ -39,12 +39,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            episodeName.text = ""
+#endif
             episodeName.style = .playerContrast01
         }
     }
 
     @IBOutlet var podcastName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            podcastName.text = ""
+#endif
             podcastName.style = .playerContrast02
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
