@@ -38,6 +38,9 @@ class PodcastFeedViewModel {
         guard let uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             return false
         }
+
+        FileLog.shared.console("Reload podcast feed for podcast \(uuid) - last episode \(podcast.latestEpisodeUuid ?? "none")")
+
         podcastFeedReloadTask = Task { [weak self] in
             guard let self else { return false }
             await MainActor.run {
@@ -55,6 +58,12 @@ class PodcastFeedViewModel {
                 success = false
                 FileLog.shared.console("Failed update podcast \(uuid) - \(error.localizedDescription)")
             }
+
+            if success {
+                FileLog.shared.console("Refresh manager update podcast \(uuid)")
+                await RefreshManager.shared.refresh(podcast: podcast, from: uuid)
+            }
+
             await MainActor.run {
                 if self.loadingState != .cancelled {
                     if source == .refreshControl {
