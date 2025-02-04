@@ -2263,7 +2263,7 @@ internal enum L10n {
   internal static var podcastFailedDownload: String { return L10n.tr("Localizable", "podcast_failed_download") }
   /// Failed to upload
   internal static var podcastFailedUpload: String { return L10n.tr("Localizable", "podcast_failed_upload") }
-  /// Refresh episode list
+  /// Refresh Episode List
   internal static var podcastFeedReloadButton: String { return L10n.tr("Localizable", "podcast_feed_reload_button") }
   /// Refreshing episode list...
   internal static var podcastFeedReloadLoading: String { return L10n.tr("Localizable", "podcast_feed_reload_loading") }

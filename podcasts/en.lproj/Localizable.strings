@@ -4742,7 +4742,7 @@
 "listening_history_remove" = "Remove from history";
 
 /* Button title we display in the podcast view sheet prompted */
-"podcast_feed_reload_button" = "Refresh episode list";
+"podcast_feed_reload_button" = "Refresh Episode List";
 
 /* Message showed in the toast menu or pull down to refresh control indicating the podcast feed is reloading */
 "podcast_feed_reload_loading" = "Refreshing episode list...";
