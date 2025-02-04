@@ -400,7 +400,7 @@ public class MainServerHandler {
             FileLog.shared.console("Poll Podcast API new status code \(statusCode)")
         }
 
-        if urlResponse.statusCode == 200 {
+        if statusCode == 200 {
             return true
         }
         return false
