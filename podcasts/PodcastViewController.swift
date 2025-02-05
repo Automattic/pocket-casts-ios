@@ -9,6 +9,15 @@ import UIDeviceIdentifier
 enum PodcastFeedReloadSource {
     case menu
     case refreshControl
+
+    var analyticsValue: String {
+        switch self {
+        case .menu:
+            return "refresh_button"
+        case .refreshControl:
+            return "pull_to_refresh"
+        }
+    }
 }
 
 protocol PodcastActionsDelegate: AnyObject {
