@@ -3,7 +3,10 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class CancelSubscriptionViewModel: PlusPurchaseModel {
+    @Published var offerLoadingState: WinbackOfferLoadingState = .idle
+
     weak var navigationController: UINavigationController?
+    var winbackOffer: WinbackOfferInfo?
 
     var isEligibleForOffer: Bool {
         purchaseHandler.isEligibleForOffer
@@ -14,7 +17,6 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
         super.init(purchaseHandler: purchaseHandler)
 
-        //TODO: Need to check the if the promotion can be applied
         self.loadPrices()
     }
 
@@ -36,6 +38,10 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
                                                                "tier": activeTier.analyticsDescription,
                                                                "frequency": frequency.analyticsDescription])
     }
+
+    enum WinbackOfferLoadingState {
+        case idle, loading, loaded
+    }
 }
 
 // IAP
@@ -44,12 +50,10 @@ extension CancelSubscriptionViewModel {
         switch (SubscriptionHelper.activeTier, SubscriptionHelper.subscriptionFrequencyValue()) {
         case (.plus, .monthly):
             return pricingInfo.products.first { $0.identifier == .monthly }?.rawPrice
-        case (.plus, .yearly):
-            return pricingInfo.products.first { $0.identifier == .yearly }?.rawPrice
         case (.patron, .monthly):
             return pricingInfo.products.first { $0.identifier == .patronMonthly }?.rawPrice
-        case (.patron, .yearly):
-            return pricingInfo.products.first { $0.identifier == .patronYearly }?.rawPrice
+        case (_, .yearly):
+            return winbackOffer?.offerPrice
         default:
             return nil
         }
@@ -66,6 +70,21 @@ extension CancelSubscriptionViewModel {
         }
     }
 
+    func loadWinbackOffer() async {
+        if offerLoadingState == .loading {
+            return
+        }
+        Task { @MainActor in
+            offerLoadingState = .loading
+            winbackOffer = await ApiServerHandler.shared.loadWinbackOffer()
+            if let iap = winbackOffer?.details?.iap,
+               let offerId = winbackOffer?.details?.offerId {
+                winbackOffer?.offerPrice = await purchaseHandler.winbackOfferPrice(for: iap, offerId: offerId)
+            }
+            offerLoadingState = .loaded
+        }
+    }
+
     func claimOffer() {
         trackRow(option: .promotion(price: "", frequency: .none))
         //TODO: Apply one month free
@@ -74,7 +93,7 @@ extension CancelSubscriptionViewModel {
     }
 
     func canClaimOffer() -> Bool {
-        return true
+        return winbackOffer != nil
     }
 }
 

@@ -70,6 +70,10 @@ class IAPHelper: NSObject {
         request.start()
     }
 
+    func requestProductsInfo(for ids: [String]) async throws -> [Product] {
+        return try await Product.products(for: ids)
+    }
+
     func getProduct(for identifier: IAPProductID) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
@@ -104,6 +108,15 @@ class IAPHelper: NSObject {
                 return $0.purchaseDate < $1.purchaseDate
             }
             .last
+    }
+
+    func winbackOfferPrice(for mainProductId: String, offerId: String) async -> String? {
+        do {
+            let product = try await requestProductsInfo(for: [mainProductId]).first
+            return product?.subscription?.promotionalOffers.first { $0.id == offerId }?.displayPrice
+        } catch {
+            return nil
+        }
     }
 
     func showManageSubscriptions(in windowScene: UIWindowScene) async throws {

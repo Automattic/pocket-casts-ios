@@ -11,8 +11,8 @@ struct CancelSubscriptionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            switch viewModel.priceAvailability {
-            case .available:
+            switch (viewModel.priceAvailability, viewModel.offerLoadingState) {
+            case (.available, .loaded):
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         Text(L10n.cancelSubscriptionTitle)
@@ -23,13 +23,15 @@ struct CancelSubscriptionView: View {
                             .padding(.horizontal, 34.0)
 
                         ForEach(CancelSubscriptionOption.allCases, id: \.id) { option in
-                            if case .promotion = option, viewModel.canClaimOffer() {
-                                if let price = viewModel.price(),
+                            switch option {
+                            case .promotion:
+                                if viewModel.canClaimOffer(),
+                                   let price = viewModel.price(),
                                    let frequency = viewModel.subscriptionFrequency() {
                                     CancelSubscriptionViewRow(option: .promotion(price: price, frequency: frequency),
                                                               viewModel: viewModel)
                                 }
-                            } else {
+                            default:
                                 CancelSubscriptionViewRow(option: option,
                                                           viewModel: viewModel)
                             }
@@ -48,21 +50,24 @@ struct CancelSubscriptionView: View {
                 .padding(.horizontal, 34.0)
                 .padding(.top, 10.0)
                 .padding(.bottom, 58.0)
-            case .loading, .unknown:
-                ProgressView()
-                    .tint(theme.primaryText01)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            case .failed:
+            case (.failed, _):
                 Text(L10n.cancelSubscriptionGenericError)
                     .font(size: 18.0, style: .body, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
                     .multilineTextAlignment(.center)
+            default:
+                ProgressView()
+                    .tint(theme.primaryText01)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .background(
             color(for: .primaryUi01)
                 .ignoresSafeArea()
         )
+        .task {
+            await viewModel.loadWinbackOffer()
+        }
     }
 
     private func color(for style: ThemeStyle) -> Color {
