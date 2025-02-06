@@ -1336,6 +1336,8 @@ podcasts med dig</string>
     <string>Lär dig mer</string>
     <key>listening_history</key>
     <string>Lyssningshistorik</string>
+    <key>listening_history_remove</key>
+    <string>Ta bort från historik</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>Vi kunde inte hitta något avsnitt för denna sökning. Prova med ett annat nyckelord.</string>
     <key>listening_history_search_no_episodes_title</key>

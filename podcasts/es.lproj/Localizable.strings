@@ -1336,6 +1336,8 @@ pódcast contigo</string>
     <string>Más información</string>
     <key>listening_history</key>
     <string>Historial de elementos escuchados</string>
+    <key>listening_history_remove</key>
+    <string>Eliminar del historial</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>No hemos podido encontrar ningún episodio para esa búsqueda. Prueba con otra palabra clave.</string>
     <key>listening_history_search_no_episodes_title</key>

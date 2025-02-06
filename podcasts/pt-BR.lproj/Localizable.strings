@@ -1336,6 +1336,8 @@ podcasts com você</string>
     <string>Saiba mais</string>
     <key>listening_history</key>
     <string>Histórico de escuta</string>
+    <key>listening_history_remove</key>
+    <string>Remover do histórico</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>Não encontramos nenhum episódio para essa pesquisa. Tente outra palavra-chave.</string>
     <key>listening_history_search_no_episodes_title</key>

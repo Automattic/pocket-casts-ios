@@ -1336,6 +1336,8 @@ podcasts partout avec</string>
     <string>En savoir plus</string>
     <key>listening_history</key>
     <string>Historique d’écoute</string>
+    <key>listening_history_remove</key>
+    <string>Retirer de l’historique</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>Nous n’avons trouvé aucun épisode correspondant à cette recherche. Essayez un autre mot-clé.</string>
     <key>listening_history_search_no_episodes_title</key>

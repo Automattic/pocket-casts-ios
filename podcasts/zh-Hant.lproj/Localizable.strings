@@ -1336,6 +1336,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>了解詳情</string>
     <key>listening_history</key>
     <string>收聽記錄</string>
+    <key>listening_history_remove</key>
+    <string>從記錄中移除</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>找不到符合搜尋內容的單集。 請嘗試其他關鍵字。</string>
     <key>listening_history_search_no_episodes_title</key>
