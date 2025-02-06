@@ -5,6 +5,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import UIDeviceIdentifier
+import SwiftUI
 
 enum PodcastFeedReloadSource {
     case menu
@@ -193,6 +194,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var cancellables = Set<AnyCancellable>()
     private var podcastFeedViewModel: PodcastFeedViewModel?
     private var refreshControl: CustomRefreshControl?
+    private var podcastFeedReloadTooltip: UIViewController?
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
@@ -351,8 +353,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
         updateColors()
 
-        if FeatureFlag.podcastFeedUpdate.enabled {
+        if FeatureFlag.podcastFeedUpdate.enabled, Settings.shouldShowPodcastFeeReloadTip {
             refreshControl?.parentViewControllerDidAppear()
+            if let vc = showPodcastFeedReloadTip() {
+                present(vc, animated: true) {
+                    Analytics.track(.podcastRefreshEpisodeTooltipShown)
+                }
+                podcastFeedReloadTooltip = vc
+            }
         }
 
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
@@ -1033,6 +1041,46 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         reloadPodcastFeed(source: .refreshControl)
     }
 
+    private func dismissPodcastFeedReloadTip() {
+        guard Settings.shouldShowPodcastFeeReloadTip else {
+            return
+        }
+        Analytics.track(.podcastRefreshEpisodeTooltipDismissed)
+        Settings.shouldShowPodcastFeeReloadTip = false
+        podcastFeedReloadTooltip?.dismiss(animated: true) { [weak self] in
+            self?.podcastFeedReloadTooltip = nil
+        }
+    }
+
+    private func showPodcastFeedReloadTip() -> UIViewController? {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let idealSize = CGSizeMake(290, 100)
+        let tipView = TipViewStatic(title: L10n.podcastFeedReloadTipTitle,
+                                    message: L10n.podcastFeedReloadTipMessage,
+                              onTap: { [weak self] in
+            self?.dismissPodcastFeedReloadTip()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        if #available(iOS 16.0, *) {
+            vc.sizingOptions = [.preferredContentSize]
+        } else {
+            vc.preferredContentSize = idealSize
+        }
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = [.down]
+            popoverPresentationController.sourceView = searchController?.overflowButton
+            popoverPresentationController.sourceRect = searchController?.overflowButton.bounds ?? .zero
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
+        return vc
+    }
+
     // MARK: - Long press actions
 
     func archiveAll(startingAt: Episode) {
@@ -1089,5 +1137,16 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
+    }
+}
+
+extension PodcastViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        dismissPodcastFeedReloadTip()
     }
 }

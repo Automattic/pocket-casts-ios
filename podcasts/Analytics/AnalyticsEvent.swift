@@ -838,4 +838,6 @@ enum AnalyticsEvent: String {
     case podcastScreenRefreshEpisodeList
     case podcastScreenRefreshNoEpisodesFound
     case podcastScreenRefreshNewEpisodeFound
+    case podcastRefreshEpisodeTooltipShown
+    case podcastRefreshEpisodeTooltipDismissed
 }
