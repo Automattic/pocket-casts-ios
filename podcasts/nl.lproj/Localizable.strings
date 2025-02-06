@@ -1336,6 +1336,8 @@ podcasts mee</string>
     <string>Meer weten</string>
     <key>listening_history</key>
     <string>Luistergeschiedenis</string>
+    <key>listening_history_remove</key>
+    <string>Verwijderen uit geschiedenis</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>We kunnen geen aflevering vinden voor die zoekopdracht. Probeer een ander trefwoord.</string>
     <key>listening_history_search_no_episodes_title</key>

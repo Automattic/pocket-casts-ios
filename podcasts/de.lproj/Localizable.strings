@@ -1334,6 +1334,8 @@ Podcasts mit</string>
     <string>Weitere Informationen</string>
     <key>listening_history</key>
     <string>Hörverlauf</string>
+    <key>listening_history_remove</key>
+    <string>Aus dem Verlauf entfernen</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>Wir konnten keine Folge für diese Suche finden. Versuche es mit einem anderen Stichwort.</string>
     <key>listening_history_search_no_episodes_title</key>

@@ -1336,6 +1336,8 @@
     <string>了解更多</string>
     <key>listening_history</key>
     <string>历史记录</string>
+    <key>listening_history_remove</key>
+    <string>从历史记录中删除</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>我们未搜索到任何相关剧集。 请尝试使用其他关键字。</string>
     <key>listening_history_search_no_episodes_title</key>

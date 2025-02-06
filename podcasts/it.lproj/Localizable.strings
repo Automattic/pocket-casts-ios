@@ -1336,6 +1336,8 @@ pocast con te</string>
     <string>Scopri di più</string>
     <key>listening_history</key>
     <string>Cronologia di ascolto</string>
+    <key>listening_history_remove</key>
+    <string>Rimuovi dalla cronologia</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>Non abbiamo trovato alcun episodio per la ricerca. Prova un'altra parola chiave.</string>
     <key>listening_history_search_no_episodes_title</key>

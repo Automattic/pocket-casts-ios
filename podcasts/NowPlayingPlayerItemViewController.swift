@@ -1,4 +1,6 @@
+#if !APPCLIP
 import Agrume
+#endif
 import AVKit
 import SafariServices
 import UIKit
@@ -37,12 +39,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            episodeName.text = ""
+#endif
             episodeName.style = .playerContrast01
         }
     }
 
     @IBOutlet var podcastName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            podcastName.text = ""
+#endif
             podcastName.style = .playerContrast02
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
@@ -54,6 +62,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var chapterName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            chapterName.text = ""
+#endif
             chapterName.style = .playerContrast01
 
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(chapterNameTapped))
@@ -303,10 +314,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func imageTapped() {
+#if !APPCLIP
         guard let artwork = episodeImage.image else { return }
 
         let agrume = Agrume(image: artwork, background: .blurred(.regular))
         agrume.show(from: self)
+#endif
     }
 
     @objc private func videoTapped() {

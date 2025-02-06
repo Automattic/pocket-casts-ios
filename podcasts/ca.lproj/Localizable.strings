@@ -730,7 +730,7 @@
     <key>download_all</key>
     <string>Descarregar-ho tot</string>
     <key>download_data_warning</key>
-    <string>La descàrrega emprarà dades mòbils.</string>
+    <string>La descàrrega consumirà dades mòbils.</string>
     <key>download_episode_plural_format</key>
     <string>Descarregar %1$@ episodis</string>
     <key>download_episode_singular</key>
@@ -1997,7 +1997,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>podcast_stream_confirmation</key>
     <string>Reprodueix-ho de totes maneres</string>
     <key>podcast_stream_data_warning</key>
-    <string>La reproducció d'aquest episodi emprarà dades</string>
+    <string>La reproducció d'aquest episodi consumirà dades</string>
     <key>podcast_this_month</key>
     <string>Aquest mes</string>
     <key>podcast_time_left</key>
