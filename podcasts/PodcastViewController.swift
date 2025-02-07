@@ -255,6 +255,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         if FeatureFlag.podcastFeedUpdate.enabled {
             podcastFeedViewModel = PodcastFeedViewModel(uuid: podcast?.uuid ?? podcastInfo?.uuid)
+
+            // Let's collapse the header if the tooltip has never been showed before
+            forceCollapsingHeaderIfNeeded()
         }
 
         closeTapped = { [weak self] in
@@ -353,16 +356,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
         updateColors()
 
-        if FeatureFlag.podcastFeedUpdate.enabled, Settings.shouldShowPodcastFeeReloadTip {
-            refreshControl?.parentViewControllerDidAppear()
-            if let vc = showPodcastFeedReloadTip() {
-                present(vc, animated: true) {
-                    Analytics.track(.podcastRefreshEpisodeTooltipShown)
-                }
-                podcastFeedReloadTooltip = vc
-            }
-        }
-
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
@@ -397,6 +390,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             properties["list_id"] = listUuid
         }
         Analytics.track(.podcastScreenShown, properties: properties)
+
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            refreshControl?.parentViewControllerDidAppear()
+            showPodcastFeedReloadTipIfNeeded()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1052,7 +1050,34 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
+    func forceCollapsingHeaderIfNeeded() {
+        if FeatureFlag.podcastFeedUpdate.enabled {
+            if Settings.shouldShowPodcastFeeReloadTip, summaryExpanded {
+                summaryExpanded = false
+            }
+        }
+    }
+
+    func showPodcastFeedReloadTipIfNeeded() {
+        guard
+            Settings.shouldShowPodcastFeeReloadTip,
+            FeatureFlag.podcastFeedUpdate.enabled,
+            podcastFeedReloadTooltip != nil
+        else {
+            return
+        }
+        if let vc = showPodcastFeedReloadTip() {
+            present(vc, animated: true) {
+                Analytics.track(.podcastRefreshEpisodeTooltipShown)
+            }
+            podcastFeedReloadTooltip = vc
+        }
+    }
+
     private func showPodcastFeedReloadTip() -> UIViewController? {
+        guard let button = searchController?.overflowButton else {
+            return nil
+        }
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let idealSize = CGSizeMake(290, 100)
         let tipView = TipViewStatic(title: L10n.podcastFeedReloadTipTitle,
@@ -1074,8 +1099,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.down]
-            popoverPresentationController.sourceView = searchController?.overflowButton
-            popoverPresentationController.sourceRect = searchController?.overflowButton.bounds ?? .zero
+            popoverPresentationController.sourceView = button
+            popoverPresentationController.sourceRect = button.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
         }
         return vc
