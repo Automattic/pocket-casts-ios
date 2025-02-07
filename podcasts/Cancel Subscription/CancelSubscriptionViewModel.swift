@@ -1,9 +1,11 @@
 import SwiftUI
+import Combine
 import PocketCastsServer
 import PocketCastsUtils
 
 class CancelSubscriptionViewModel: PlusPurchaseModel {
     @Published var offerLoadingState: WinbackOfferLoadingState = .idle
+    @Published var offerPurchasingState: WinbackOfferPurchasingState = .idle
 
     weak var navigationController: UINavigationController?
     var winbackOffer: WinbackOfferInfo?
@@ -17,7 +19,8 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
 
         super.init(purchaseHandler: purchaseHandler)
 
-        self.loadPrices()
+        loadPrices()
+        addObservers()
     }
 
     override func didAppear() {
@@ -39,8 +42,30 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
                                                                "frequency": frequency.analyticsDescription])
     }
 
+    private var cancellables = Set<AnyCancellable>()
+    private func addObservers() {
+        // Observe IAP flows notification
+        Publishers.Merge4(
+            NotificationCenter.default.publisher(for: ServerNotifications.iapProductsFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCancelled),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
+        )
+        .receive(on: OperationQueue.main)
+        .sink { [weak self] notification in
+            Task {
+                await self?.purchaseCompleted(success: notification.name == ServerNotifications.iapPurchaseCompleted)
+            }
+        }
+        .store(in: &cancellables)
+    }
+
     enum WinbackOfferLoadingState {
         case idle, loading, loaded
+    }
+
+    enum WinbackOfferPurchasingState {
+        case idle, purchasing
     }
 }
 
@@ -86,14 +111,71 @@ extension CancelSubscriptionViewModel {
     }
 
     func claimOffer() {
-        trackRow(option: .promotion(price: "", frequency: .none))
-        //TODO: Apply one month free
-        //TODO: Purchase the offer and display the success view if succeeded
-        showClaimOfferSuccess()
+        if let price = price(), let frequency = subscriptionFrequency() {
+            trackRow(option: .promotion(price: price, frequency: frequency))
+        }
+        purchaseOffer()
     }
 
     func canClaimOffer() -> Bool {
         return winbackOffer != nil
+    }
+
+    private func purchaseOffer() {
+        guard let productID = translateToProduct(), let discountInfo = makeDiscountInfo() else {
+            return
+        }
+        offerPurchasingState = .purchasing
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
+            offerPurchasingState = .idle
+            return
+        }
+    }
+
+    private func translateToProduct() -> IAPProductID? {
+        guard let iap = winbackOffer?.details?.iap else {
+            return nil
+        }
+        return IAPProductID(rawValue: iap)
+    }
+
+    private func makeDiscountInfo() -> IAPDiscountInfo? {
+        guard let winbackOffer,
+              let details = winbackOffer.details,
+              details.type == "offer",
+              let offerID = details.offerId,
+              let uuidString = details.nonce,
+              let uuid = UUID(uuidString: uuidString),
+              let timestamp = details.timestampMs,
+              let key = details.keyIdentifier,
+              let signature = details.signature
+        else {
+            return nil
+        }
+        return IAPDiscountInfo(identifier: offerID, uuid: uuid, timestamp: timestamp, key: key, signature: signature)
+    }
+
+    private func purchaseCompleted(success: Bool) async {
+        if success {
+            let redeemSuccess = await redeemCode()
+            if redeemSuccess {
+                await MainActor.run {
+                    offerPurchasingState = .idle
+                    showClaimOfferSuccess()
+                }
+            }
+        } else {
+            await MainActor.run {
+                offerPurchasingState = .idle
+            }
+        }
+    }
+
+    private func redeemCode() async -> Bool {
+        guard let winbackOffer else {
+            return false
+        }
+        return await ApiServerHandler.shared.redeemCode(winbackOffer.code)
     }
 }
 
