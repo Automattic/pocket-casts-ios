@@ -1062,7 +1062,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard
             Settings.shouldShowPodcastFeeReloadTip,
             FeatureFlag.podcastFeedUpdate.enabled,
-            podcastFeedReloadTooltip != nil
+            podcastFeedReloadTooltip == nil
         else {
             return
         }
