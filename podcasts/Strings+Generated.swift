@@ -2271,6 +2271,10 @@ internal enum L10n {
   internal static var podcastFeedReloadNewEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_new_episodes_found") }
   /// No episodes found.
   internal static var podcastFeedReloadNoEpisodesFound: String { return L10n.tr("Localizable", "podcast_feed_reload_no_episodes_found") }
+  /// Pull down or use this menu to see if there's something new.
+  internal static var podcastFeedReloadTipMessage: String { return L10n.tr("Localizable", "podcast_feed_reload_tip_message") }
+  /// Fresh episodes, coming right up!
+  internal static var podcastFeedReloadTipTitle: String { return L10n.tr("Localizable", "podcast_feed_reload_tip_title") }
   /// Discover Podcasts
   internal static var podcastGridDiscoverPodcasts: String { return L10n.tr("Localizable", "podcast_grid_discover_podcasts") }
   /// Coming from another app? Import your podcasts via Profile > Settings > Import & Export.

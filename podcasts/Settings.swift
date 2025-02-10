@@ -1373,6 +1373,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Podcast Feed Reload
+
+    static var shouldShowPodcastFeeReloadTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastFeedReload.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastFeedReload.showTip)
+        }
+    }
+
     // MARK: - Manage Downloads
 
     class var manageDownloadsLastCheckDate: Date? {
