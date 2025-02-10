@@ -20,7 +20,6 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
         super.init(purchaseHandler: purchaseHandler)
 
         loadPrices()
-        addObservers()
     }
 
     override func didAppear() {
@@ -58,6 +57,13 @@ class CancelSubscriptionViewModel: PlusPurchaseModel {
             }
         }
         .store(in: &cancellables)
+    }
+
+    private func removeObservers() {
+        cancellables.forEach {
+            $0.cancel()
+        }
+        cancellables.removeAll()
     }
 
     enum WinbackOfferLoadingState {
@@ -111,6 +117,9 @@ extension CancelSubscriptionViewModel {
     }
 
     func claimOffer() {
+        if offerPurchasingState == .purchasing {
+            return
+        }
         if let price = price(), let frequency = subscriptionFrequency() {
             trackRow(option: .promotion(price: price, frequency: frequency))
         }
@@ -126,8 +135,10 @@ extension CancelSubscriptionViewModel {
             return
         }
         offerPurchasingState = .purchasing
+        addObservers()
         guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
             offerPurchasingState = .idle
+            removeObservers()
             return
         }
     }
@@ -161,12 +172,14 @@ extension CancelSubscriptionViewModel {
             if redeemSuccess {
                 await MainActor.run {
                     offerPurchasingState = .idle
+                    removeObservers()
                     showClaimOfferSuccess()
                 }
             }
         } else {
             await MainActor.run {
                 offerPurchasingState = .idle
+                removeObservers()
             }
         }
     }
