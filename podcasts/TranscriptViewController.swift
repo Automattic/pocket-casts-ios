@@ -383,6 +383,8 @@ class TranscriptViewController: PlayerItemViewController {
         if resetPosition {
             transcriptView.setContentOffset(.zero, animated: false)
         }
+        var userActivity = NSUserActivity(activityType: "au.com.shiftyjelly.podcasts.journal.entry")
+        userActivity.appEntityIdentifier = ""
     }
 
     private func makeStyle(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
