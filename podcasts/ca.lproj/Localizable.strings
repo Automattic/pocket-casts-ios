@@ -361,12 +361,18 @@
     <string>Gràcies per triar Pocket Casts. La facturació comença després que acabi el teu mes gratuït.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Gaudeix del teu mes gratuït!</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>Gràcies per triar Pocket Casts. El teu pla amb descompte comença després del teu període de facturació actual.</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>50%% de descompte en el teu proper any!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Estalvia %@ al començament del teu proper cicle de facturació.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtén el teu pròxim mes gratis</string>
     <key>cancel_subscription_title</key>
     <string>Abans de cancel·lar, mira aquestes ofertes</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>Aconsegueix un 50%% de descompte en el teu pròxim any</string>
     <key>canceling</key>
     <string>Cancel·lant...</string>
     <key>carplay_chapter_count</key>
@@ -1934,6 +1940,14 @@ ACTUALITZACIONS</string>
     <string>Error en descarregar l'episodi.</string>
     <key>podcast_failed_upload</key>
     <string>S'ha produït un error a la pujada</string>
+    <key>podcast_feed_reload_button</key>
+    <string>Actualitzar la llista d'episodis</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>Actualitzant la llista d'episodis...</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>S'han trobat episodis nous!</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>No s'han trobat episodis.</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Descobrir pòdcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>
