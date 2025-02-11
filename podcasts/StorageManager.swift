@@ -21,7 +21,10 @@ struct StorageManager {
     }
 
     @discardableResult
-    static func copyItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil) throws -> Bool {
+    static func copyItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil, options: Options? = nil) throws -> Bool {
+        if let options, options.contains(.overwriteExisting) {
+            removeItem(at: toURL)
+        }
         try copyItem(at: fromURL, to: toURL)
 
         let attrs = (attributes ?? [:]).merging(Constants.defaultAttributes) { current, _ in current }
