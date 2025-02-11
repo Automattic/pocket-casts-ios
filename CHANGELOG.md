@@ -6,6 +6,7 @@
 -----
 - Add App Clips [#2549](https://github.com/Automattic/pocket-casts-ios/issues/2549)
 - Unarchived all episodes bulk marked as unplayed. [#2713](https://github.com/Automattic/pocket-casts-ios/pull/2713)
+- Fix downloads copies errors. [#2737](https://github.com/Automattic/pocket-casts-ios/pull/2737)
 
 7.81
 -----
