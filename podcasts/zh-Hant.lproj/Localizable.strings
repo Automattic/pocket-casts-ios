@@ -361,12 +361,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝選用 Pocket Casts。 免費試用月結束後，將開始計費。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>盡情免費試用一個月！</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>感謝選用 Pocket Casts。 折扣方案會在目前的帳單週期結束後開始。</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>次年享五折優惠%%！</string>
     <key>cancel_subscription_promotion_description</key>
     <string>自下一期帳單起省下 %@。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下個月免費使用</string>
     <key>cancel_subscription_title</key>
     <string>取消前，不妨看看以下優惠</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>立享次年五折優惠%%</string>
     <key>canceling</key>
     <string>正在取消…</string>
     <key>carplay_chapter_count</key>
@@ -1939,6 +1945,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>單集下載失敗。</string>
     <key>podcast_failed_upload</key>
     <string>無法上傳</string>
+    <key>podcast_feed_reload_button</key>
+    <string>重新整理單集清單</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>正在重新整理單集清單...</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>找到新的單集！</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>找不到任何單集。</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>探索 Podcast 節目</string>
     <key>podcast_grid_no_podcasts_msg</key>
