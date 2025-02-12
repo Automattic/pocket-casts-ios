@@ -5,16 +5,36 @@ import StoreKit
 import PocketCastsUtils
 
 struct NowPlayingView: View {
+
+    enum ScreenState: Int {
+        case loading
+        case ready
+        case failed
+    }
+
     @State var presentAppStoreOverlay: Bool = false
+    @State var state: ScreenState = .loading
 
     var body: some View {
         VStack {
-            NowPlayingPlayerItemViewControllerRepresentable()
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                        presentAppStoreOverlay = true
+            Spacer()
+            HStack { Spacer() }
+            switch state {
+            case .loading:
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(Color(uiColor: PlayerColorHelper.playerHighlightColor02()))
+            case .ready:
+                NowPlayingPlayerItemViewControllerRepresentable()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                            presentAppStoreOverlay = true
+                        }
                     }
-                }
+            case .failed:
+                EmptyView()
+            }
+            Spacer()
         }
         .appStoreOverlay(isPresented: $presentAppStoreOverlay, configuration: {
             SKOverlay.AppClipConfiguration(position: .bottom)
@@ -32,7 +52,10 @@ struct NowPlayingView: View {
             let path = components.path,
             path != "/get",
             path != "/get/"
-        else { return }
+        else {
+            showErrorMessage(userActivity: userActivity)
+            return
+        }
 
         // NOTE: This doesn't handle the redeem URL. See `AppDelegate.handleContinue(_ userActivity: NSUserActivity)` for this logic
 
@@ -46,16 +69,19 @@ struct NowPlayingView: View {
         PodcastManager.shared.importSharedItemFromUrl(importPath) { shareItem in
             guard let shareItem else {
                 FileLog.shared.addMessage("App Clip: Missing Share Item")
+                showErrorMessage(userActivity: userActivity)
                 return
             }
 
             guard let episodeUUID = shareItem.episodeHeader?.uuid else {
                 FileLog.shared.addMessage("App Clip: No episode found in share item")
+                showErrorMessage(userActivity: userActivity)
                 return
             }
 
             guard let podcastUUID = shareItem.podcastHeader?.uuid else {
                 FileLog.shared.addMessage("App Clip: No podcast found in share item")
+                showErrorMessage(userActivity: userActivity)
                 return
             }
 
@@ -63,21 +89,33 @@ struct NowPlayingView: View {
             loadEpisode(episodeUuid: episodeUUID, podcastUuid: podcastUUID) {
                 guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUUID) else {
                     FileLog.shared.addMessage("App Clip: Could not find Episode")
+                    showErrorMessage(userActivity: userActivity)
                     return
                 }
 
                 FileLog.shared.addMessage("App Clip: Loaded episode: \(episode.title ?? "unknown")")
-
+                state = .ready
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
                 Analytics.track(.playbackPlay, source: AnalyticsSource.handleUserActivity, properties: ["url": incomingURL.absoluteString, "podcast": podcastUUID, "episode": episode.uuid])
             }
         }
     }
 
+    private func showErrorMessage(userActivity: NSUserActivity) {
+        userActivity.invalidate()
+        state = .failed
+        DispatchQueue.main.async {
+            let rootViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
+            SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: rootViewController)
+        }
+    }
+
     private func loadEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil, completion: @escaping () -> Void) {
         if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-                completion()
+                DispatchQueue.main.async {
+                    completion()
+                }
             }
 
             return
@@ -85,7 +123,9 @@ struct NowPlayingView: View {
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
             if success, let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                completion()
+                DispatchQueue.main.async {
+                    completion()
+                }
             } else {
                 DispatchQueue.main.async {
                     let rootViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
