@@ -4687,8 +4687,11 @@
 /* Cancel subscription: title for the yearly promotion row */
 "cancel_subscription_yearly_promotion_title" = "Get 50%% off your next year";
 
-/* Cancel subscription: description for the promotion row */
-"cancel_subscription_promotion_description" = "Pay %@ now for another year at 50%% off";
+/* Cancel subscription: description for the monthly promotion row. The %@ represents the price. */
+"cancel_subscription_promotion_description_monthly" = "Save %@ at the start of your next billing cycle.";
+
+/* Cancel subscription: description for the yearly promotion row. The %@ represents the price. */
+"cancel_subscription_promotion_description_yearly" = "Pay %@ now for another year at 50%% off";
 
 /* Cancel subscription: title for the new plan row */
 "cancel_subscription_new_plan_title" = "Looking for a different plan?";
