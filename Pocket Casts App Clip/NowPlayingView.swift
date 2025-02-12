@@ -23,7 +23,7 @@ struct NowPlayingView: View {
             case .loading:
                 ProgressView()
                     .progressViewStyle(.circular)
-                    .tint(Color(uiColor: PlayerColorHelper.playerHighlightColor02()))
+                    .tint(UIColor.label.color)
             case .ready:
                 NowPlayingPlayerItemViewControllerRepresentable()
                     .onAppear {
@@ -36,10 +36,10 @@ struct NowPlayingView: View {
             }
             Spacer()
         }
+        .background(state != .ready ? UIColor.systemBackground.color : PlayerColorHelper.playerBackgroundColor01().color)
         .appStoreOverlay(isPresented: $presentAppStoreOverlay, configuration: {
             SKOverlay.AppClipConfiguration(position: .bottom)
         })
-        .background(Color(uiColor: PlayerColorHelper.playerBackgroundColor01()))
         .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
             handle(userActivity: userActivity)
         }
