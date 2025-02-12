@@ -364,7 +364,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
     <string>Merci d’avoir choisi Pocket Casts. La remise sur votre plan débute à la fin de votre période de facturation actuelle.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
-    <string>-50 %% sur l’année prochaine !</string>
+    <string>-50 %% sur la prochaine année !</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Économisez %@ au début de votre prochain cycle de facturation.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -372,7 +372,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>cancel_subscription_title</key>
     <string>Avant que vous n’annuliez, jetez un coup d’œil à ces offres</string>
     <key>cancel_subscription_yearly_promotion_title</key>
-    <string>Obtenir -50 %% sur l’année prochaine</string>
+    <string>Obtenir -50 %% sur la prochaine année</string>
     <key>canceling</key>
     <string>Annulation...</string>
     <key>carplay_chapter_count</key>
