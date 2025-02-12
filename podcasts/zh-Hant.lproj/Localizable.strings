@@ -364,7 +364,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
     <string>感謝選用 Pocket Casts。 折扣方案會在目前的帳單週期結束後開始。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
-    <string>次年享五折優惠%%！</string>
+    <string>次年享 50%% 優惠！</string>
     <key>cancel_subscription_promotion_description</key>
     <string>自下一期帳單起省下 %@。</string>
     <key>cancel_subscription_promotion_title</key>
@@ -372,7 +372,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>cancel_subscription_title</key>
     <string>取消前，不妨看看以下優惠</string>
     <key>cancel_subscription_yearly_promotion_title</key>
-    <string>立享次年五折優惠%%</string>
+    <string>次年享有 50%% 優惠</string>
     <key>canceling</key>
     <string>正在取消…</string>
     <key>carplay_chapter_count</key>
@@ -1948,7 +1948,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>podcast_feed_reload_button</key>
     <string>重新整理單集清單</string>
     <key>podcast_feed_reload_loading</key>
-    <string>正在重新整理單集清單...</string>
+    <string>正在重新整理單集清單…</string>
     <key>podcast_feed_reload_new_episodes_found</key>
     <string>找到新的單集！</string>
     <key>podcast_feed_reload_no_episodes_found</key>

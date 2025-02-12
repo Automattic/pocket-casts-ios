@@ -361,12 +361,18 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Die Abrechnung beginnt nach dem kostenlosen Monat.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Genieße deinen kostenlosen Monat!</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Der Tarif mit Rabatt beginnt nach Ablauf deines aktuellen Abrechnungszeitraums.</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>50 %% Rabatt auf das nächste Jahr!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Spare %@ zu Beginn deines nächsten Abrechnungszyklus.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_title</key>
     <string>Schau dir diese Angebote an, bevor du kündigst</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>50 %% Rabatt auf das nächste Jahr sichern</string>
     <key>canceling</key>
     <string>Wird abgebrochen ...</string>
     <key>carplay_chapter_count</key>
@@ -1937,6 +1943,14 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Download der Folge fehlgeschlagen.</string>
     <key>podcast_failed_upload</key>
     <string>Upload fehlgeschlagen</string>
+    <key>podcast_feed_reload_button</key>
+    <string>Folgenliste aktualisieren</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>Folgenliste wird aktualisiert …</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>Neue Folgen gefunden!</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>Keine Folgen gefunden.</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Podcasts entdecken</string>
     <key>podcast_grid_no_podcasts_msg</key>

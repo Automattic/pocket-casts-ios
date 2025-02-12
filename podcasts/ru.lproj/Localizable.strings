@@ -364,7 +364,7 @@
     <key>cancel_subscription_offer_yearly_success_view_description</key>
     <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш тарифный план со скидкой начнёт действовать по окончании текущего расчётного периода.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
-    <string>Скидка 50%% на первый год</string>
+    <string>Скидка 50 %% на следующий год!</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Сэкономьте %@ в начале следующего расчётного периода.</string>
     <key>cancel_subscription_promotion_title</key>
@@ -372,7 +372,7 @@
     <key>cancel_subscription_title</key>
     <string>Прежде чем окончательно отменить подписку, просмотрите наши предложения</string>
     <key>cancel_subscription_yearly_promotion_title</key>
-    <string>Скидка 50%% на первый год</string>
+    <string>Получите скидку 50 %% на следующий год</string>
     <key>canceling</key>
     <string>Отмена...</string>
     <key>carplay_chapter_count</key>
@@ -1950,7 +1950,7 @@
     <key>podcast_feed_reload_loading</key>
     <string>Обновление списка выпусков…</string>
     <key>podcast_feed_reload_new_episodes_found</key>
-    <string>Новый выпуск!</string>
+    <string>Новые выпуски!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Выпуски не найдены.</string>
     <key>podcast_grid_discover_podcasts</key>

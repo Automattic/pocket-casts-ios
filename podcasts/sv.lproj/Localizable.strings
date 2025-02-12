@@ -361,12 +361,18 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tack för att du väljer Pocket Casts. Fakturering startar när din gratismånad har löpt ut.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Njut av din gratismånad!</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>Tack för att du väljer Pocket Casts. Din rabatterade paketprenumeration startar efter din nuvarande faktureringsperiod.</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>50 %% rabatt på nästa år.</string>
     <key>cancel_subscription_promotion_description</key>
     <string>Spara %@ i början av nästa faktureringscykel.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
     <key>cancel_subscription_title</key>
     <string>Innan du avslutar, kolla in dessa erbjudanden</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>50 %% rabatt på ditt nästa år.</string>
     <key>canceling</key>
     <string>Avbryter...</string>
     <key>carplay_chapter_count</key>
@@ -1939,6 +1945,14 @@ UPPDATERINGAR</string>
     <string>Nedladdningen av avsnittet misslyckades.</string>
     <key>podcast_failed_upload</key>
     <string>Uppladdningen misslyckades</string>
+    <key>podcast_feed_reload_button</key>
+    <string>Uppdatera avsnittslista</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>Uppdaterar avsnittslista...</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>Nya avsnitt hittades.</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>Inga avsnitt hittades.</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Upptäck podcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>
