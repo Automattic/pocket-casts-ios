@@ -217,7 +217,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .markAllSyncedInSingleStatement:
             true
         case .winback:
-            false
+            true
         case .manageDownloadedEpisodes:
 			true
         case .useSyncResponseEpisodeIDs:
