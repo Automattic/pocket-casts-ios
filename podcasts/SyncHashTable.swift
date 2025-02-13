@@ -17,8 +17,8 @@ class SyncHashTable<Key: Hashable, Value> {
     }
 
     func updateValue(_ value: Value?, forKey key: Key) {
-        queue.sync {
-            table[key] = value
+        queue.async(flags: .barrier) {
+            self.table[key] = value
         }
     }
 
