@@ -3,8 +3,8 @@ class SyncHashTable<Key: Hashable, Value> {
     private let queue: DispatchQueue
     private var table: [Key: Value]
 
-    init(label: String = UUID().uuidString) {
-        queue = DispatchQueue(label: label)
+    init(label: String = "au.com.shiftyjelly.podcasts.SyncHashTable") {
+        queue = DispatchQueue(label: label, attributes: .concurrent)
         table = [:]
     }
 
