@@ -13,7 +13,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var progressManager = DownloadProgressManager()
 
-    var downloadingEpisodesCache = [String: BaseEpisode]()
+    var downloadingEpisodesCache: SyncHashTable<String, BaseEpisode> = SyncHashTable()
 
     var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
 
