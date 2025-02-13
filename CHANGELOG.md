@@ -1,6 +1,7 @@
 7.83
 -----
 - Add the functionality to reload the podcast feed [#2703](https://github.com/Automattic/pocket-casts-ios/issues/2703)
+- Add Winback feature [#2435](https://github.com/Automattic/pocket-casts-ios/issues/2435)
 
 
 7.82
