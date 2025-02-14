@@ -14,6 +14,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         addNotificationObservers()
     }
 
+    func setup() {
+        // Empty method just to ensure that sigleton is initialized
+    }
+
     // MARK: - Star
 
     func star(episode: BaseEpisode) {
