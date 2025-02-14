@@ -414,7 +414,7 @@ platform :ios do
     UI.important("Finalizing release: #{release_version_current}")
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
-    check_all_translations_progress(interactive: true)
+    check_all_translations_progress(interactive: !skip_confirm)
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
