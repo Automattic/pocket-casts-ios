@@ -1,6 +1,6 @@
 7.83
 -----
-
+- Fix for crash when downloads caches are update. [#2748](https://github.com/Automattic/pocket-casts-ios/pull/2748)
 
 7.82
 -----
