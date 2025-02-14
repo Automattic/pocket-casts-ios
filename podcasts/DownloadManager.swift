@@ -16,7 +16,7 @@ protocol DownloadManagerEpisodesCache {
 extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<String, BaseEpisode> {
 }
 
-extension SyncHashTable: DownloadManagerEpisodesCache where SyncHashTable == SyncHashTable<String, BaseEpisode> {
+extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
 }
 
 class DownloadManager: NSObject, FilePathProtocol {
@@ -28,7 +28,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     lazy var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
         if FeatureFlag.downloadsThreadSafeCache.enabled {
-            SyncHashTable<String, BaseEpisode>()
+            ThreadSafeDictionary<String, BaseEpisode>()
         } else {
             Dictionary<String, BaseEpisode>()
         }

@@ -1,4 +1,4 @@
-class SyncHashTable<Key: Hashable, Value> {
+class ThreadSafeDictionary<Key: Hashable, Value> {
 
     private let queue: DispatchQueue
     private var table: [Key: Value] = [:]
