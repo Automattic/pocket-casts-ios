@@ -1633,6 +1633,9 @@
 /* Pocket Casts Plus marketing page, description of the hide ads feature */
 "plus_marketing_hide_ads_description" = "Ad-free experience which gives you more of what you love and less of what you don't";
 
+/* Pocket Casts Plus marketing page, description of the Up Next Shuffle feature */
+"plus_marketing_up_next_shuffle" = "Up Next Shuffle";
+
 /* Informational message informing the user that their recurring payments for Plus have been canceled. */
 "plus_payment_canceled" = "Payment Cancelled";
 
