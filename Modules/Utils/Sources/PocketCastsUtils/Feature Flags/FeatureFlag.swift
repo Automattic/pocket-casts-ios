@@ -138,6 +138,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
 
+    /// Enable/Disable the use of a thread safe ongoing downloads cache
+    case downloadsThreadSafeCache
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -229,6 +232,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .disablePrivateFeedSharing:
             true
         case .podcastFeedUpdate:
+            true
+        case .downloadsThreadSafeCache:
             true
         }
     }
