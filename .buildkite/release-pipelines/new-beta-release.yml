@@ -12,6 +12,8 @@ steps:
       echo '--- 🤖 Use bot for Git operations'
       source use-bot-for-git
 
+      .buildkite/commands/checkout-release-branch.sh "${RELEASE_VERSION}"
+
       echo '--- :ruby: Setup Ruby Tools'
       install_gems
 
