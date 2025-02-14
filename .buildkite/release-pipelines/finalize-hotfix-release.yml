@@ -18,6 +18,9 @@ steps:
       echo '--- 🔐 Access Secrets'
       bundle exec fastlane run configure_apply
 
+      echo '--- :git: Checkout Release Branch'
+      .buildkite/commands/checkout-release-branch.sh "${RELEASE_VERSION}"
+
       echo '--- 🚀 Finalize Hotfix Release'
       bundle exec fastlane finalize_hotfix_release skip_confirm:true
     plugins: [$CI_TOOLKIT]
