@@ -208,6 +208,9 @@ struct Constants {
             static let lastCheckDate = "manageDownloadsLastCheckDate"
         }
 
+        enum podcastFeedReload {
+            static let showTip = "podcastFeedReload.showtip"
+        }
     }
 
     enum Values {

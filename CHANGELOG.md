@@ -1,6 +1,8 @@
 7.83
 -----
 - Fix for crash when downloads caches are update. [#2748](https://github.com/Automattic/pocket-casts-ios/pull/2748)
+- Add the functionality to reload the podcast feed [#2703](https://github.com/Automattic/pocket-casts-ios/issues/2703)
+
 
 7.82
 -----

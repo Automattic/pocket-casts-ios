@@ -232,7 +232,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .disablePrivateFeedSharing:
             true
         case .podcastFeedUpdate:
-            false
+            true
         case .downloadsThreadSafeCache:
             true
         }

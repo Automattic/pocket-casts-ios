@@ -104,13 +104,13 @@ struct PlusAccountUpgradePrompt: View {
 
     private let productFeatures: [IAPProductID: [Feature]] = [
         .yearly: ([
-            .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
-            PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
+            .init(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl) : nil,
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons),
+            PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
         ]
             .compactMap { $0 }),

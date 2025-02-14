@@ -833,4 +833,11 @@ enum AnalyticsEvent: String {
     case settingsSelectPodcastsSelectNoneTapped
     case settingsSelectPodcastsPodcastToggled
     case settingsSelectPodcastsSelectAllPodcastsToggled
+
+    // MARK: Podcast Feed Reload
+    case podcastScreenRefreshEpisodeList
+    case podcastScreenRefreshNoEpisodesFound
+    case podcastScreenRefreshNewEpisodeFound
+    case podcastRefreshEpisodeTooltipShown
+    case podcastRefreshEpisodeTooltipDismissed
 }

@@ -56,15 +56,20 @@ extension AppLifecycleAnalytics {
 // MARK: - App Install/Updates
 
 extension AppLifecycleAnalytics {
+    enum AppInstallState {
+        case installed
+        case updated
+    }
+
     /// Checks whether we need to track an app install or app update
-    func checkApplicationInstalledOrUpgraded() {
+    func checkApplicationInstalledOrUpgraded() -> AppInstallState? {
         // Don't check for install or upgrade if protected data isn't available yet
         //
         // If the app is launched "in the background" and protected data is enabled then the analytics won't
         // be enabled and we may miss some events.
         // When the user opens the app directly the event will be tracked.
 
-        guard UIApplication.shared.isProtectedDataAvailable else { return }
+        guard UIApplication.shared.isProtectedDataAvailable else { return nil }
 
         let currentVersion = Settings.appVersion()
 
@@ -77,15 +82,17 @@ extension AppLifecycleAnalytics {
         // If there is no previous version, then record this as an install
         guard let lastRunVersion = tryToDetermineLastRunVersion() else {
             analytics.track(.applicationInstalled)
-            return
+            return .installed
         }
 
         // If the versions are not the same, then record this as an upgrade
         guard lastRunVersion != currentVersion else {
-            return
+            return .updated
         }
 
         analytics.track(.applicationUpdated, properties: ["previous_version": lastRunVersion])
+
+        return .updated
     }
 
     private func tryToDetermineLastRunVersion() -> String? {

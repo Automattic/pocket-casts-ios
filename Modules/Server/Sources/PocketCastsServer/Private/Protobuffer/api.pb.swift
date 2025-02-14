@@ -3143,6 +3143,15 @@ struct Api_UserPodcastResponse: @unchecked Sendable {
     set {_uniqueStorage()._descriptionHtml = newValue}
   }
 
+  var isPrivate: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._isPrivate ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._isPrivate = newValue}
+  }
+  /// Returns true if `isPrivate` has been explicitly set.
+  var hasIsPrivate: Bool {return _storage._isPrivate != nil}
+  /// Clears the value of `isPrivate`. Subsequent reads from it will return its default value.
+  mutating func clearIsPrivate() {_uniqueStorage()._isPrivate = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -7420,6 +7429,24 @@ struct Api_ReferralRedemption: Sendable {
   init() {}
 }
 
+struct Api_WinbackResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var offer: String = String()
+
+  var platform: Int32 = 0
+
+  var details: String = String()
+
+  var code: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "api"
@@ -10845,6 +10872,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     16: .standard(proto: "date_added"),
     17: .same(proto: "settings"),
     18: .standard(proto: "description_html"),
+    19: .standard(proto: "is_private"),
   ]
 
   fileprivate class _StorageClass {
@@ -10866,6 +10894,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     var _settings: Api_PodcastSettings? = nil
     var _descriptionHtml: String = String()
+    var _isPrivate: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
     #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
@@ -10898,6 +10927,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       _dateAdded = source._dateAdded
       _settings = source._settings
       _descriptionHtml = source._descriptionHtml
+      _isPrivate = source._isPrivate
     }
   }
 
@@ -10934,6 +10964,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
         case 17: try { try decoder.decodeSingularMessageField(value: &_storage._settings) }()
         case 18: try { try decoder.decodeSingularStringField(value: &_storage._descriptionHtml) }()
+        case 19: try { try decoder.decodeSingularMessageField(value: &_storage._isPrivate) }()
         default: break
         }
       }
@@ -11000,6 +11031,9 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       if !_storage._descriptionHtml.isEmpty {
         try visitor.visitSingularStringField(value: _storage._descriptionHtml, fieldNumber: 18)
       }
+      try { if let v = _storage._isPrivate {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 19)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11027,6 +11061,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         if _storage._dateAdded != rhs_storage._dateAdded {return false}
         if _storage._settings != rhs_storage._settings {return false}
         if _storage._descriptionHtml != rhs_storage._descriptionHtml {return false}
+        if _storage._isPrivate != rhs_storage._isPrivate {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -18419,6 +18454,56 @@ extension Api_ReferralRedemption: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   }
 
   static func ==(lhs: Api_ReferralRedemption, rhs: Api_ReferralRedemption) -> Bool {
+    if lhs.code != rhs.code {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_WinbackResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".WinbackResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "offer"),
+    2: .same(proto: "platform"),
+    3: .same(proto: "details"),
+    4: .same(proto: "code"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.offer) }()
+      case 2: try { try decoder.decodeSingularInt32Field(value: &self.platform) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.details) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.code) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.offer.isEmpty {
+      try visitor.visitSingularStringField(value: self.offer, fieldNumber: 1)
+    }
+    if self.platform != 0 {
+      try visitor.visitSingularInt32Field(value: self.platform, fieldNumber: 2)
+    }
+    if !self.details.isEmpty {
+      try visitor.visitSingularStringField(value: self.details, fieldNumber: 3)
+    }
+    if !self.code.isEmpty {
+      try visitor.visitSingularStringField(value: self.code, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_WinbackResponse, rhs: Api_WinbackResponse) -> Bool {
+    if lhs.offer != rhs.offer {return false}
+    if lhs.platform != rhs.platform {return false}
+    if lhs.details != rhs.details {return false}
     if lhs.code != rhs.code {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

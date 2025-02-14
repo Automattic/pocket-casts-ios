@@ -28,8 +28,12 @@ enum CancelSubscriptionOption: CaseIterable, Hashable, Identifiable {
 
     var subtitle: String {
         switch self {
-        case .promotion(let price, _):
-            return L10n.cancelSubscriptionPromotionDescription(price)
+        case .promotion(let price, let frequency):
+            if frequency == .monthly {
+                return L10n.cancelSubscriptionPromotionDescriptionMonthly(price)
+            } else {
+                return L10n.cancelSubscriptionPromotionDescriptionYearly(price)
+            }
         case .availablePlans:
             return L10n.cancelSubscriptionNewPlanDescription
         case .help:
