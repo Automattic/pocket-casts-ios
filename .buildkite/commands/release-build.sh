@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
+"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
+
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :closed_lock_with_key: Installing Secrets"

@@ -18,7 +18,6 @@ steps:
       echo '--- 🔐 Access Secrets'
       bundle exec fastlane run configure_apply
 
-      echo '--- :git: Checkout Release Branch'
       .buildkite/commands/checkout-release-branch.sh "${RELEASE_VERSION}"
 
       echo '--- 🚀 New Beta Release'

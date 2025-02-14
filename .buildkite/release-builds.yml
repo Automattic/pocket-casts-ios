@@ -14,7 +14,7 @@ steps:
 
   - label: "🛠 Release Build (App Store Connect)"
     key: testflight_build
-    command: .buildkite/commands/release-build.sh
+    command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     artifact_paths:
