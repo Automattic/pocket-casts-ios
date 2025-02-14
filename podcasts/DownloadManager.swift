@@ -6,6 +6,19 @@ import AVKit
 #if os(watchOS)
     import WatchKit
 #endif
+
+protocol DownloadManagerEpisodesCache {
+    subscript(index: String) -> BaseEpisode? { get set }
+
+    func contains(where predicate: ((key: String, value: BaseEpisode)) throws -> Bool) rethrows -> Bool
+}
+
+extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<String, BaseEpisode> {
+}
+
+extension SyncHashTable: DownloadManagerEpisodesCache where SyncHashTable == SyncHashTable<String, BaseEpisode> {
+}
+
 class DownloadManager: NSObject, FilePathProtocol {
     static let shared = DownloadManager(dataManager: DataManager.sharedManager)
 
@@ -13,7 +26,13 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var progressManager = DownloadProgressManager()
 
-    var downloadingEpisodesCache: SyncHashTable<String, BaseEpisode> = SyncHashTable()
+    lazy var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
+        if FeatureFlag.downloadsThreadSafeCache.enabled {
+            SyncHashTable<String, BaseEpisode>()
+        } else {
+            Dictionary<String, BaseEpisode>()
+        }
+    }()
 
     var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
 
@@ -330,7 +349,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             while !exportCompleted {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
-            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes.removeValue(forKey: downloadTaskUUID)
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
