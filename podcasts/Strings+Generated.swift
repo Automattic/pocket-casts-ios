@@ -2105,6 +2105,8 @@ internal enum L10n {
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
   /// Everything you love about Pocket Casts, plus more
   internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
+  /// Up Next Shuffle
+  internal static var plusMarketingUpNextShuffle: String { return L10n.tr("Localizable", "plus_marketing_up_next_shuffle") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
   /// Listen in more places with our Windows, macOS and Web apps
