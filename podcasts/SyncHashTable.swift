@@ -1,11 +1,10 @@
 class SyncHashTable<Key: Hashable, Value> {
 
     private let queue: DispatchQueue
-    private var table: [Key: Value]
+    private var table: [Key: Value] = [:]
 
     init(label: String = "au.com.shiftyjelly.podcasts.SyncHashTable") {
         queue = DispatchQueue(label: label, attributes: .concurrent)
-        table = [:]
     }
 
     func value(forKey key: Key) -> Value? {

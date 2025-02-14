@@ -1931,6 +1931,7 @@
 		FF0F407A2D5E32920036FFE9 /* SyncHashTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* SyncHashTable.swift */; };
 		FF0F407B2D5E37250036FFE9 /* SyncHashTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* SyncHashTable.swift */; };
 		FF0F407C2D5E37250036FFE9 /* SyncHashTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* SyncHashTable.swift */; };
+		FF146C2A2D5F446300D2FCCE /* SyncHashTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF146C292D5F445B00D2FCCE /* SyncHashTableTests.swift */; };
 		FF1D0CB82C9CE11300F600C6 /* ReferralsMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */; };
 		FF1D0CBA2C9DC62200F600C6 /* ReferralsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */; };
 		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
@@ -3949,6 +3950,7 @@
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
 		FF0F40792D5E328B0036FFE9 /* SyncHashTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHashTable.swift; sourceTree = "<group>"; };
+		FF146C292D5F445B00D2FCCE /* SyncHashTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHashTableTests.swift; sourceTree = "<group>"; };
 		FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsMessageView.swift; sourceTree = "<group>"; };
 		FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsCoordinator.swift; sourceTree = "<group>"; };
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
@@ -8078,6 +8080,7 @@
 		C7F4C6642A8EAB0A00483C37 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FF146C292D5F445B00D2FCCE /* SyncHashTableTests.swift */,
 				C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */,
 				F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */,
 				F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */,
@@ -9699,6 +9702,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */,
+				FF146C2A2D5F446300D2FCCE /* SyncHashTableTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				F5952FCC2C05814100754BC3 /* DownloadManagerTests.swift in Sources */,
