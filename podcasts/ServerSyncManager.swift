@@ -147,6 +147,7 @@ class ServerSyncManager: ServerSyncDelegate {
         if Settings.autoDownloadEnabled() {
             if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
                 for uuid in uuids {
+                    AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: uuid)
                     DownloadManager.shared.addToQueue(episodeUuid: uuid)
                 }
             }

@@ -7,7 +7,12 @@ import AVKit
     import WatchKit
 #endif
 class DownloadManager: NSObject, FilePathProtocol {
-    static let shared = DownloadManager(dataManager: DataManager.sharedManager)
+
+    static let shared: DownloadManager = {
+        let manager = DownloadManager(dataManager: DataManager.sharedManager)
+        AnalyticsEpisodeHelper.shared.setup()
+        return manager
+    }()
 
     static let cellBackgroundSessionId = "au.com.shiftyjelly.PCManualSession"
 
