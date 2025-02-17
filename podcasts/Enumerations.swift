@@ -245,8 +245,8 @@ extension PlayerAction: AnalyticsDescribable {
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
         [
-            .effects, .sleepTimer, .routePicker, .transcript, .download,
-            .shareEpisode, .goToPodcast, .addBookmark, .markPlayed,
+            .effects, .sleepTimer, .routePicker, .shareEpisode, .download,
+            .transcript, .goToPodcast, .addBookmark, .markPlayed,
             .starEpisode, .chromecast, .archive
         ]
     }
