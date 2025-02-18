@@ -72,31 +72,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     @IBOutlet var settingsButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var contentViewBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet var supporterHeartView: ThemeableView! {
-        didSet {
-            supporterHeartView.style = .support02
-        }
-    }
-
-    @IBOutlet var supporterHeart: UIImageView!
-    @IBOutlet var supporterBadge: UIImageView!
-    @IBOutlet var supportDetailsView: ThemeableView! {
-        didSet {
-            supportDetailsView.style = .primaryUi06
-        }
-    }
-
-    @IBOutlet var supportMessageHeart: UIImageView!
-    @IBOutlet var supportMessage: ThemeableLabel!
-    @IBOutlet var supportDate: ThemeableLabel! {
-        didSet {
-            supportDate.style = .primaryText02
-        }
-    }
-
-    @IBOutlet var supporterDateImageView: UIImageView!
-    @IBOutlet var manageSupportBtn: ThemeableUIButton!
-
     @IBOutlet var roundedBorder: RoundedBorderView! {
         didSet {
             roundedBorder.cornerRadius = 8
@@ -133,13 +108,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
-    @IBOutlet var supporterView: UIView!
-    @IBOutlet var supporterLabel: ThemeableLabel! {
-        didSet {
-            supporterLabel.style = .contrast02
-        }
-    }
-
     @IBOutlet var expandButton: ExpandCollapseButton!
     private weak var delegate: PodcastActionsDelegate? {
         didSet {
@@ -155,7 +123,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             expandButton.isEnabled = buttonsEnabled
             folderButton.isEnabled = buttonsEnabled
             settingsBtn.isEnabled = buttonsEnabled
-            manageSupportBtn.isEnabled = buttonsEnabled
             link.isUserInteractionEnabled = buttonsEnabled
         }
     }
@@ -212,47 +179,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
-
-        if podcast.isPaid {
-            supporterView.isHidden = false
-            supporterBadge.tintColor = ThemeColor.contrast02()
-            supporterView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-            supporterHeart.tintColor = ThemeColor.primaryInteractive02()
-
-            supportMessage.text = SyncManager.isUserLoggedIn() ? L10n.subscriptionsThankYou : L10n.paidPodcastSupporterOnlyMsg
-            supporterLabel.text = L10n.supporter.localizedUppercase
-            if let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) {
-                let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
-                let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
-                supporterDateImageView.image = UIImage(named: "support-date-calendar")
-                if subscription.autoRenewing {
-                    supportDate.text = L10n.nextPaymentFormat(expiryDateStr)
-                    supportMessage.style = .support02
-                    supportMessageHeart.tintColor = ThemeColor.support02()
-                } else {
-                    supportDate.text = podcast.displayableExpiryLanguage(expiryDate: expiryDate)
-                    supportMessage.style = .primaryText02
-                    supportMessageHeart.tintColor = ThemeColor.primaryText02()
-                }
-            } else {
-                supportMessage.style = .primaryText02
-
-                if SyncManager.isUserLoggedIn() {
-                    supportDate.text = L10n.paidPodcastGenericError
-                    manageSupportBtn.setTitle(L10n.paidPodcastManage, for: .normal)
-                } else {
-                    supportDate.text = L10n.paidPodcastSigninPromptTitle
-                    manageSupportBtn.setTitle(L10n.signIn, for: .normal)
-                    supporterBadge.image = UIImage(named: "podcast-supporter-warning")
-                    supporterBadge.tintColor = ThemeColor.contrast02()
-                    supporterLabel.text = L10n.paidPodcastSigninPromptMsg
-                    supporterDateImageView.image = UIImage(named: "podcast-supporter-signin")
-                }
-            }
-        }
-        supportDetailsView.isHidden = !podcast.isPaid
-        supporterHeartView.isHidden = !(podcast.isPaid && podcast.isSubscribed())
-        supporterView.isHidden = !podcast.isPaid
 
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check" : "folder-create"
         folderButton.setImage(UIImage(named: folderImage), for: .normal)
