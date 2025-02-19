@@ -1,5 +1,9 @@
 #!/bin/bash -eu
 
+# Ensure we get the latest commit of the `release/*` branch, especially to get last version bump commit before publishing the GitHub Release and creating the git tag
+RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
+"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
+
 BETA_RELEASE=${1:-true} # use first call param, default to true for safety
 
 echo "Running $0 with BETA_RELEASE = $BETA_RELEASE..."
