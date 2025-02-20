@@ -22,7 +22,8 @@ struct SuggestedFoldersView: View {
                     }
                 }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(.stack)
+        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
     }
 
     var mainBody: some View {

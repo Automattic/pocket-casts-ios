@@ -80,6 +80,7 @@ struct CreateFolderView: View {
                 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
     }
 
     var insideNavigationBody: some View {
