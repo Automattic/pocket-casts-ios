@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
+    @State private var createFolderActive = false
 
     var dismissAction: (String?) -> Void
 
@@ -40,9 +41,8 @@ struct SuggestedFoldersView: View {
                     .textStyle(RoundedButton())
             }
             NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
                 dismissAction(uuid)
-            }) {
+            }, isActive: $createFolderActive) {
                 Text(L10n.suggestedFoldersCreateCustomFolders)
                     .textStyle(BorderButton())
             }
@@ -54,6 +54,11 @@ struct SuggestedFoldersView: View {
         }
         .onDisappear {
 
+        }
+        .onChange(of: createFolderActive) { newFolder in
+            if newFolder {
+                Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+            }
         }
         .applyDefaultThemeOptions()
     }
