@@ -340,8 +340,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             }
         }
         let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
-
         present(hostingController, animated: true, completion: nil)
+        hostingController.sheetPresentationController?.delegate = self
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
@@ -479,5 +479,11 @@ extension PodcastListViewController {
                                           navBar: navController.navigationBar,
                                           searchBar: searchController,
                                           source: .podcastsList)
+    }
+}
+
+extension PodcastListViewController: UISheetPresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
     }
 }
