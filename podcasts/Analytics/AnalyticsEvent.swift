@@ -161,6 +161,11 @@ enum AnalyticsEvent: String {
     case folderChooseRemovedFromFolder
     case folderPodcastModalOptionTapped
 
+    case suggestedFoldersModalShow
+    case suggestedFoldersModalDismissed
+    case suggestedFoldersModalUseTheseFoldersTapped
+    case suggestedFoldersModalCreateCustomFoldersTapped
+
     // MARK: - Tab Bar Items
 
     case podcastsTabOpened
