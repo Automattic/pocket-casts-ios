@@ -365,8 +365,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Der Tarif mit Rabatt beginnt nach Ablauf deines aktuellen Abrechnungszeitraums.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% Rabatt auf das nächste Jahr!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Spare %@ zu Beginn deines nächsten Abrechnungszyklus.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_title</key>

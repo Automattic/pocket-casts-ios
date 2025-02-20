@@ -11,7 +11,14 @@
 
 echo "--- :git: Checkout Release Branch"
 
-RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
+if [[ -n "${1:-}" ]]; then
+  RELEASE_VERSION="$1"
+elif [[ "${BUILDKITE_BRANCH:-}" =~ ^release/ ]]; then
+  RELEASE_VERSION="${BUILDKITE_BRANCH#release/}"
+else
+  echo "Error: RELEASE_VERSION parameter missing and BUILDKITE_BRANCH is not a release branch"
+  exit 1
+fi
 BRANCH_NAME="release/${RELEASE_VERSION}"
 
 git fetch origin "$BRANCH_NAME"

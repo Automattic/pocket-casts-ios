@@ -365,8 +365,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grazie per aver scelto Pocket Casts. Il tuo piano scontato inizierà al termine del periodo di fatturazione attuale.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Sconto del 50%% sul prossimo anno!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Risparmia %@ all'inizio del prossimo ciclo di fatturazione.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Ottieni il tuo prossimo mese gratuitamente</string>
     <key>cancel_subscription_title</key>

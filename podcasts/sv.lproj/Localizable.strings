@@ -365,8 +365,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tack för att du väljer Pocket Casts. Din rabatterade paketprenumeration startar efter din nuvarande faktureringsperiod.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% rabatt på nästa år.</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Spara %@ i början av nästa faktureringscykel.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
     <key>cancel_subscription_title</key>

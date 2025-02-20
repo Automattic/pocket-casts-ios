@@ -365,8 +365,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝選用 Pocket Casts。 折扣方案會在目前的帳單週期結束後開始。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年享 50%% 優惠！</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>自下一期帳單起省下 %@。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下個月免費使用</string>
     <key>cancel_subscription_title</key>
