@@ -296,6 +296,16 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
+        if FeatureFlag.suggestedFolders.enabled {
+            newSuggestedFolderCreationFlow()
+        } else {
+            oldFolderCreationFlow()
+        }
+        AnalyticsHelper.folderCreated()
+        Analytics.track(.podcastsListFolderButtonTapped)
+    }
+
+    private func oldFolderCreationFlow() {
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
@@ -313,8 +323,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
 
         present(hostingController, animated: true, completion: nil)
-        AnalyticsHelper.folderCreated()
-        Analytics.track(.podcastsListFolderButtonTapped)
+    }
+
+    private func newSuggestedFolderCreationFlow() {
+
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
