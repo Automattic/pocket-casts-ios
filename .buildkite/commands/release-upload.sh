@@ -4,7 +4,7 @@
 RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
 "$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
 
-BETA_RELEASE=${1:-true} # use first call param, default to true for safety
+BETA_RELEASE=${2:-true} # use second call param, default to true for safety
 
 echo "Running $0 with BETA_RELEASE = $BETA_RELEASE..."
 
