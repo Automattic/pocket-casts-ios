@@ -365,8 +365,6 @@
     <string>Pocket Casts をお選びいただきありがとうございます。 割引プランは現在の請求期間の後に開始します。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年度が50%% オフ !</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>次の請求期間の開始時に%@を節約します。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>

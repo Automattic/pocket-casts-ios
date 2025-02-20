@@ -365,8 +365,6 @@
     <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш тарифный план со скидкой начнёт действовать по окончании текущего расчётного периода.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Скидка 50 %% на следующий год!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Сэкономьте %@ в начале следующего расчётного периода.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
     <key>cancel_subscription_title</key>
