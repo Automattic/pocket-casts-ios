@@ -208,6 +208,28 @@ struct RoundedButton: ViewModifier {
     }
 }
 
+struct BorderButton: ViewModifier {
+    @EnvironmentObject var theme: Theme
+
+    func body(content: Content) -> some View {
+        HStack {
+            Spacer()
+            content
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+            Spacer()
+        }
+        .padding()
+        .background(ThemeColor.primaryUi01(for: theme.activeTheme).color)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
+        .frame(height: 44)
+        .overlay(
+            RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+        )
+    }
+}
+
 /// A dark button filled with a light color
 struct RoundedDarkButton: ButtonStyle {
     @ObservedObject var theme: Theme
