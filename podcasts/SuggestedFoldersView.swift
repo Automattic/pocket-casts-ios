@@ -28,6 +28,7 @@ struct SuggestedFoldersView: View {
 
     var mainBody: some View {
         VStack(alignment: .leading, spacing: 16) {
+            Spacer().frame(height: 8)
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
             Spacer()
