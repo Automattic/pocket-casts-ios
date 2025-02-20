@@ -3405,6 +3405,14 @@ internal enum L10n {
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
+  /// Create custom folders
+  internal static var suggestedFoldersCreateCustomFolders: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folders") }
+  /// We’ve organized your podcasts for you. Save or customize them to fit your style.
+  internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
+  /// Suggested Folders
+  internal static var suggestedFoldersTitle: String { return L10n.tr("Localizable", "suggested_folders_title") }
+  /// Use these folders
+  internal static var suggestedFoldersUseSuggestedFolders: String { return L10n.tr("Localizable", "suggested_folders_use_suggested_folders") }
   /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.
   internal static var supportWatchHelpMessage: String { return L10n.tr("Localizable", "support_watch_help_message") }
   /// I've opened the Watch app

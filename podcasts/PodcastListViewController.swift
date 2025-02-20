@@ -296,6 +296,16 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
+        if FeatureFlag.suggestedFolders.enabled {
+            newSuggestedFolderCreationFlow()
+        } else {
+            oldFolderCreationFlow()
+        }
+        AnalyticsHelper.folderCreated()
+        Analytics.track(.podcastsListFolderButtonTapped)
+    }
+
+    private func oldFolderCreationFlow() {
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
@@ -313,8 +323,25 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
 
         present(hostingController, animated: true, completion: nil)
-        AnalyticsHelper.folderCreated()
-        Analytics.track(.podcastsListFolderButtonTapped)
+    }
+
+    private func newSuggestedFolderCreationFlow() {
+        if !SubscriptionHelper.hasActiveSubscription() {
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            return
+        }
+        let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in
+            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+                self?.dismiss(animated: true, completion: {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+                })
+            } else {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        present(hostingController, animated: true, completion: nil)
+        hostingController.sheetPresentationController?.delegate = self
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
@@ -452,5 +479,11 @@ extension PodcastListViewController {
                                           navBar: navController.navigationBar,
                                           searchBar: searchController,
                                           source: .podcastsList)
+    }
+}
+
+extension PodcastListViewController: UISheetPresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
     }
 }
