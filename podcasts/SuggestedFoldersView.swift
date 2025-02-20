@@ -1,61 +1,18 @@
 import PocketCastsDataModel
 import SwiftUI
 
-struct CreateFolderView: View {
+struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject private var pickerModel = PodcastPickerModel()
-    @ObservedObject private var model = FolderModel()
 
     var dismissAction: (String?) -> Void
 
-    var preselectPodcastUuid: String?
-
-    var addButtonTitle: String {
-        let selectedCount = pickerModel.selectedPodcastUuids.count
-        if selectedCount == 1 {
-            return L10n.folderAddPodcastsSingular
-        } else {
-            return L10n.folderAddPodcastsPluralFormat(selectedCount)
-        }
-    }
-
     var body: some View {
-        if let _ = preselectPodcastUuid {
-            mainBody
-        } else {
-            navWrappedBody
-        }
-    }
-
-    var mainBody: some View {
-        VStack {
-            PodcastPickerView(pickerModel: pickerModel)
-            NavigationLink(destination: NameFolderView(model: model, dismissAction: dismissAction, numberOfSelectedPodcasts: pickerModel.selectedPodcastUuids.count)) {
-                Text(addButtonTitle)
-                    .textStyle(RoundedButton())
-            }
-            .padding(.horizontal)
-        }
-        .navigationTitle(L10n.folderCreate)
-        .onAppear {
-            pickerModel.setup()
-            if let uuid = preselectPodcastUuid {
-                pickerModel.selectedPodcastUuids.append(uuid)
-            }
-            Analytics.track(.folderCreateShown, properties: ["source": analyticsSource])
-        }
-        .onDisappear {
-            model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
-        }
-        .applyDefaultThemeOptions()
-    }
-
-    var navWrappedBody: some View {
         NavigationView {
             mainBody
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
+                            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
                             dismissAction(nil)
                         } label: {
                             Image("close")
@@ -63,28 +20,47 @@ struct CreateFolderView: View {
                         }
                         .accessibilityLabel(L10n.close)
                     }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            pickerModel.toggleSelectAll()
-                        } label: {
-                            Text(pickerModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll)
-                        }
-                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
-                    }
                 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
 
-    /// From when the flow was initiated
-    var analyticsSource: AnalyticsSource {
-        preselectPodcastUuid != nil ? .chooseFolder : .podcastsList
+    var mainBody: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(L10n.suggestedFoldersDescription)
+                .textStyle(SecondaryText())
+            Spacer()
+            Button {
+                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
+                dismissAction(nil)
+            } label: {
+                Text(L10n.suggestedFoldersUseSuggestedFolders)
+                    .textStyle(RoundedButton())
+            }
+            NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
+                Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+                dismissAction(uuid)
+            }) {
+                Text(L10n.suggestedFoldersCreateCustomFolders)
+                    .textStyle(BorderButton())
+            }
+        }
+        .padding(.horizontal, 20)
+        .navigationTitle(L10n.suggestedFoldersTitle)
+        .onAppear {
+            Analytics.track(.suggestedFoldersModalShow, properties: [:])
+        }
+        .onDisappear {
+
+        }
+        .applyDefaultThemeOptions()
     }
+
 }
 
-struct CreateFolderView_Previews: PreviewProvider {
+struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateFolderView(dismissAction: { _ in })
+        SuggestedFoldersView(dismissAction: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

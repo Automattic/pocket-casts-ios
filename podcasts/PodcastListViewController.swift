@@ -326,7 +326,22 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func newSuggestedFolderCreationFlow() {
+        if !SubscriptionHelper.hasActiveSubscription() {
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            return
+        }
+        let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in
+            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+                self?.dismiss(animated: true, completion: {
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+                })
+            } else {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
 
+        present(hostingController, animated: true, completion: nil)
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
