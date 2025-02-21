@@ -11,9 +11,9 @@ class AnalyticsHelper {
     static var optedOut: Bool {
         #if APPCLIP
         return true
-        #else {
+        #else
         return Settings.analyticsOptOut()
-        }
+        #endif
     }
 
     class func openedCategory(categoryId: Int, region: String) {
