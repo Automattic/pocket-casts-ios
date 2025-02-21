@@ -13,18 +13,20 @@ final class FMDBDatabase: PCDatabase {
     }
 
     func executeQuery(_ sql: String, values: [Any]?) throws -> any PCDBResultSet {
-        try FMDBResultSet(fmdbResultSet: fmdbDatabase.executeQuery(sql, values: values))
+        try fmdbDatabase.executeQuery(sql, values: values)
     }
 
     func executeUpdate(_ sql: String, values: [Any]?) throws {
         try fmdbDatabase.executeUpdate(sql, values: values)
     }
 
-    func commit() {
+    @discardableResult
+    func commit() -> Bool {
         fmdbDatabase.commit()
     }
 
-    func beginTransaction() {
+    @discardableResult
+    func beginTransaction() -> Bool {
         fmdbDatabase.beginTransaction()
     }
 
@@ -40,7 +42,8 @@ final class FMDBDatabase: PCDatabase {
         fmdbDatabase.lastErrorMessage()
     }
 
-    func rollback() {
+    @discardableResult
+    func rollback() -> Bool {
         fmdbDatabase.rollback()
     }
 }

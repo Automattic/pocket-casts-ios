@@ -7,9 +7,11 @@ protocol PCDatabase {
 
     func executeUpdate(_ sql: String, values: [Any]?) throws
 
-    func commit()
+    @discardableResult
+    func commit() -> Bool
 
-    func beginTransaction()
+    @discardableResult
+    func beginTransaction() -> Bool
 
     func insert(into: String, columns: [String], values: [Any?]) throws
 
@@ -17,5 +19,6 @@ protocol PCDatabase {
 
     func lastErrorMessage() -> String
 
-    func rollback()
+    @discardableResult
+    func rollback() -> Bool
 }
