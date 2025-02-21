@@ -1,6 +1,10 @@
 7.83
 -----
 
+7.82.1
+-----
+- Fix analytcs bug [#2769](https://github.com/Automattic/pocket-casts-ios/pull/2769)
+
 
 7.82
 -----
