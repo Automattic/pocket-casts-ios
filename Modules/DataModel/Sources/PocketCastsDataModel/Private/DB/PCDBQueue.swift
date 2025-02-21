@@ -1,9 +1,9 @@
 import Foundation
 
 protocol PCDBQueue {
-    func inDatabase(_ block: @escaping (PCDatabase) -> Void)
+    func inDatabase(_ block: (PCDatabase) -> Void)
 
-    func inTransaction(_ block: @escaping (PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void)
+    func inTransaction(_ block: (PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void)
 
     func close()
 }

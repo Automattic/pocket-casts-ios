@@ -8,14 +8,14 @@ final class FMDBQueue: PCDBQueue {
         self.fmdbQueue = fmdbQueue
     }
 
-    func inDatabase(_ block: @escaping (any PCDatabase) -> Void) {
+    func inDatabase(_ block: (any PCDatabase) -> Void) {
         fmdbQueue.inDatabase { db in
             let dbWrapper = FMDBDatabase(fmdbDatabase: db)
             block(dbWrapper)
         }
     }
 
-    func inTransaction(_ block: @escaping (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
+    func inTransaction(_ block: (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
         fmdbQueue.inTransaction { db, rollback in
             let dbWrapper = FMDBDatabase(fmdbDatabase: db)
             block(dbWrapper, rollback)
