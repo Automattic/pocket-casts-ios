@@ -1,6 +1,6 @@
 import Foundation
 
-protocol PCDatabase {
+public protocol PCDatabase {
     var changes: Int32 { get }
 
     func executeQuery(_ sql: String, values: [Any]?) throws -> PCDBResultSet

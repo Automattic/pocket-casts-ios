@@ -20,23 +20,23 @@ class FolderDataManager {
         return queue
     }()
 
-    func setup(dbQueue: FMDatabaseQueue) {
+    func setup(dbQueue: PCDBQueue) {
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func findFolder(uuid: String, dbQueue: FMDatabaseQueue) -> Folder? {
+    func findFolder(uuid: String, dbQueue: PCDBQueue) -> Folder? {
         cachedFolderQueue.sync {
             cachedFolders.first { $0.uuid == uuid }
         }
     }
 
-    func allFolders(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> [Folder] {
+    func allFolders(includeDeleted: Bool, dbQueue: PCDBQueue) -> [Folder] {
         if includeDeleted { return cachedFolders }
 
         return cachedFolders.filter { $0.wasDeleted == false }
     }
 
-    func save(folder: Folder, dbQueue: FMDatabaseQueue) {
+    func save(folder: Folder, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 if folder.uuid.isEmpty {
@@ -56,17 +56,17 @@ class FolderDataManager {
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func delete(folderUuid: String, dbQueue: FMDatabaseQueue) {
+    func delete(folderUuid: String, dbQueue: PCDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.folderTableName) WHERE uuid = ?", values: [folderUuid], methodName: "FolderDataManager.delete", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func deleteAllFolders(dbQueue: FMDatabaseQueue) {
+    func deleteAllFolders(dbQueue: PCDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.folderTableName)", values: nil, methodName: "FolderDataManager.deleteAllFolders", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func saveSortOrders(folders: [Folder], syncModified: Int64, dbQueue: FMDatabaseQueue) {
+    func saveSortOrders(folders: [Folder], syncModified: Int64, dbQueue: PCDBQueue) {
         dbQueue.inTransaction { db, _ in
             do {
                 for folders in folders {
@@ -79,22 +79,22 @@ class FolderDataManager {
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func updateFolderColor(folderUuid: String, color: Int32, syncModified: Int64, dbQueue: FMDatabaseQueue) {
+    func updateFolderColor(folderUuid: String, color: Int32, syncModified: Int64, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET color = ?, syncModified = ? WHERE uuid = ?", values: [color, syncModified, folderUuid], methodName: "FolderDataManager.updateFolderColor", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func updateFolderSyncModified(folderUuid: String, syncModified: Int64, dbQueue: FMDatabaseQueue) {
+    func updateFolderSyncModified(folderUuid: String, syncModified: Int64, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET syncModified = ? WHERE uuid = ?", values: [syncModified, folderUuid], methodName: "FolderDataManager.updateFolderSyncModified", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func bulkSetSyncModified(_ syncModified: Int64, onFolders folderUuids: [String], dbQueue: FMDatabaseQueue) {
+    func bulkSetSyncModified(_ syncModified: Int64, onFolders folderUuids: [String], dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET syncModified = ? WHERE uuid IN (\(DataHelper.convertArrayToInString(folderUuids)))", values: [syncModified], methodName: "FolderDataManager.bulkSetSyncModified", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func allUnsyncedFolders(dbQueue: FMDatabaseQueue) -> [Folder] {
+    func allUnsyncedFolders(dbQueue: PCDBQueue) -> [Folder] {
         var unsyncedFolders = [Folder]()
         cachedFolderQueue.sync {
             unsyncedFolders = cachedFolders.filter { $0.syncModified > 0 }
@@ -103,17 +103,17 @@ class FolderDataManager {
         return unsyncedFolders
     }
 
-    func markAllFoldersSynced(dbQueue: FMDatabaseQueue) {
+    func markAllFoldersSynced(dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET syncModified = 0", values: nil, methodName: "FolderDataManager.markAllFoldersSynced", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    func markFolderAsDeleted(folderUuid: String, syncModified: Int64, dbQueue: FMDatabaseQueue) {
+    func markFolderAsDeleted(folderUuid: String, syncModified: Int64, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET syncModified = ?, wasDeleted = 1 WHERE uuid = ?", values: [syncModified, folderUuid], methodName: "FolderDataManager.markFolderAsDeleted", onQueue: dbQueue)
         cacheFolders(dbQueue: dbQueue)
     }
 
-    private func cacheFolders(dbQueue: FMDatabaseQueue) {
+    private func cacheFolders(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.folderTableName)", values: nil)
@@ -135,7 +135,7 @@ class FolderDataManager {
 
     // MARK: - Conversion
 
-    private func createFrom(resultSet rs: FMResultSet) -> Folder {
+    private func createFrom(resultSet rs: PCDBResultSet) -> Folder {
         let folder = Folder()
 
         folder.uuid = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "uuid")

@@ -4,11 +4,11 @@ import FMDB
 import XCTest
 
 final class BookmarkDataManagerTests: XCTestCase {
-    private var dbQueue: FMDatabaseQueue!
+    private var dbQueue: PCDBQueue!
     private var dataManager: BookmarkDataManager!
 
     override func setUp(completion: @escaping (Error?) -> Void) {
-        dbQueue = FMDatabaseQueue()
+        dbQueue = PCDBQueue()
 
         // Create the schema
         // the inDatabase call doesn't let you throw, so we'll track if there's an error here then pass it to the completion

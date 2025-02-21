@@ -15,7 +15,7 @@ class DBTestCase: XCTestCase {
     }
 
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
+        let dbQueue = try XCTUnwrap(PCDBQueue.newTestDatabase())
         return DataManager(dbQueue: dbQueue)
     }
 
