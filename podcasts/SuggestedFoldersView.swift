@@ -1,6 +1,12 @@
 import PocketCastsDataModel
 import SwiftUI
 
+struct SuggestedFolder {
+    let name: String
+    let color: Int32
+    let topPodcastUuids: [String]
+}
+
 struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
     @State private var createFolderActive = false
@@ -32,9 +38,7 @@ struct SuggestedFoldersView: View {
             Spacer().frame(height: 8)
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
-            Spacer()
-            folderView
-            Spacer()
+            foldersView            
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)
@@ -48,6 +52,7 @@ struct SuggestedFoldersView: View {
                 Text(L10n.suggestedFoldersCreateCustomFolders)
                     .textStyle(BorderButton())
             }
+            Spacer()
         }
         .padding(.horizontal, 20)
         .navigationTitle(L10n.suggestedFoldersTitle)
@@ -65,11 +70,14 @@ struct SuggestedFoldersView: View {
         .applyDefaultThemeOptions()
     }
 
-    var folderView: some View {
+    var foldersView: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 101))], spacing: 16) {
-                ForEach(0..<5) { _ in
-                    Rectangle().foregroundColor(Color.red)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 150))], alignment: .center, spacing: 6) {
+                ForEach(0..<100) { index in
+                    SuggestedFolderPreviewWrapper(folder: SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: []))
+                        .cornerRadius(4)
+                        .frame(minWidth: 110, maxWidth: 150)
+                        .aspectRatio(1, contentMode: .fit)
                 }
             }
         }

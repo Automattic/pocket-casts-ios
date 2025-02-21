@@ -67,6 +67,10 @@ class FolderPreviewView: UIView {
         setup(folderName: model.nameForFolder(), folderColor: Int32(model.colorInt), topPodcastUuids: model.selectedPodcastUuids)
     }
 
+    func populateFrom(suggestedFolder folder: SuggestedFolder) {
+        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: folder.topPodcastUuids)
+    }
+
     private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String]) {
         configureGradient()
         updateNameLabel(name: folderName)
