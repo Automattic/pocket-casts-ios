@@ -1,21 +1,9 @@
 import Foundation
 
 protocol PCDBQueue {
-    var changes: Int32 { get }
+    func inDatabase(_ block: (PCDatabase) -> Void)
 
-    func executeQuery(_ sql: String, values: [Any]?) throws -> PCDBResultSet
+    func inTransaction(_ block: (PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void)
 
-    func executeUpdate(_ sql: String, values: [Any]?) throws
-
-    func commit()
-
-    func beginTransaction()
-
-    func insert(into: String, columns: [String], values: [Any?]) throws
-
-    func lastErrorCode() -> Int32
-
-    func lastErrorMessage() -> String
-
-    func rollback()
+    func close()
 }
