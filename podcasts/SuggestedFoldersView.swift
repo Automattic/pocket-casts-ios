@@ -33,6 +33,8 @@ struct SuggestedFoldersView: View {
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
             Spacer()
+            folderView
+            Spacer()
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)
@@ -63,6 +65,15 @@ struct SuggestedFoldersView: View {
         .applyDefaultThemeOptions()
     }
 
+    var folderView: some View {
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 101))], spacing: 16) {
+                ForEach(0..<5) { _ in
+                    Rectangle().foregroundColor(Color.red)
+                }
+            }
+        }
+    }
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
