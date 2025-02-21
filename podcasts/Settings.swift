@@ -792,11 +792,6 @@ class Settings: NSObject {
             playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
 
-        // Show transcript as the 4th item if it's not present
-        if !playerActions.contains(.transcript) {
-            playerActions.insert(.transcript, safelyAt: 3)
-        }
-
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
@@ -1370,6 +1365,17 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.claimURL)
+        }
+    }
+
+    // MARK: - Podcast Feed Reload
+
+    static var shouldShowPodcastFeeReloadTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastFeedReload.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastFeedReload.showTip)
         }
     }
 

@@ -18,7 +18,6 @@ struct CancelConfirmationView: View {
             .init(imageName: "locked-large", text: L10n.cancelConfirmItemPlus),
             .init(imageName: "folder-locked", text: L10n.cancelConfirmItemFolders),
             .init(imageName: "remove_from_cloud", text: L10n.cancelConfirmItemUploads),
-            .init(imageName: "about_website", text: L10n.cancelConfirmItemWebPlayer),
         ]
     }
 

@@ -365,8 +365,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Merci d’avoir choisi Pocket Casts. La remise sur votre plan débute à la fin de votre période de facturation actuelle.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>-50 %% sur la prochaine année !</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Économisez %@ au début de votre prochain cycle de facturation.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtenir votre prochain mois gratuit</string>
     <key>cancel_subscription_title</key>

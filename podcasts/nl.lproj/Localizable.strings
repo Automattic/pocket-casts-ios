@@ -365,8 +365,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bedankt dat je voor Pocket Casts kiest. Je abonnement met korting gaat in na je huidige factuurperiode.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50%% korting op je eerste jaar!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Bespaar %@ aan het begin van je volgende factuurperiode.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
     <key>cancel_subscription_title</key>

@@ -330,10 +330,10 @@ platform :ios do
     trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
 
-    # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
-    # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
-    # This should be changed only when we have PCiOS releases done on CI, when the CI bot is the one running `git push`.
-    set_branch_protection(repository: GITHUB_REPO, branch: release_branch_name)
+    # Copy the branch protection settings from the default branch to the new release branch
+    copy_branch_protection(repository: GITHUB_REPO, from_branch: DEFAULT_BRANCH, to_branch: release_branch_name)
+    # But allow admins to bypass restrictions, so that wpmobilebot can push to the release branch directly for beta version bumps
+    set_branch_protection(repository: GITHUB_REPO, branch: release_branch_name, enforce_admins: false)
 
     # Move still-open PRs to next milestone, then add frozen marker to milestone title
     update_milestone

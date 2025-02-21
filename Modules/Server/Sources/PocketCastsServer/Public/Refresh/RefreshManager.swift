@@ -50,6 +50,21 @@ public class RefreshManager {
         }
     }
 
+    public func refresh(podcast: Podcast, from episodeUuid: String) async {
+        podcast.forceRefreshEpisodeFrom = episodeUuid
+        await withCheckedContinuation { continuation in
+            refresh(podcasts: [podcast]) {
+                if SyncManager.isUserLoggedIn() {
+                    guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
+
+                    DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+                    podcast.forceRefreshEpisodeFrom = nil
+                }
+                continuation.resume()
+            }
+        }
+    }
+
     public func refreshPodcasts(forceEvenIfRefreshedRecently: Bool = false) {
         if !forceEvenIfRefreshedRecently {
             if let lastRefreshStartTime = ServerSettings.lastRefreshStartTime(), fabs(lastRefreshStartTime.timeIntervalSinceNow) < RefreshManager.minTimeBetweenRefreshes {

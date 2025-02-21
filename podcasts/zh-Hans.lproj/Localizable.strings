@@ -365,8 +365,6 @@
     <string>感谢您选用 Pocket Casts。 您的折扣套餐将在您当前的计费周期结束后开始生效。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>下一年享 5%% 折优惠！</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>在您的下一个计费周期开始时节省 %@。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_title</key>

@@ -418,6 +418,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // MARK: - Peak Limter
 
         func createPeakLimiter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, tap: MTAudioProcessingTap) -> AudioUnit? {
+            guard let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: tap) else {
+                return nil
+            }
             var componentDescription = AudioComponentDescription(componentType: kAudioUnitType_Effect,
                                                                  componentSubType: kAudioUnitSubType_PeakLimiter,
                                                                  componentManufacturer: kAudioUnitManufacturer_Apple,
@@ -437,7 +440,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             var renderCallback: AURenderCallbackStruct
             if FeatureFlag.useDefaultPlayerTapCookie.enabled {
                 let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
-                renderCallback = AURenderCallbackStruct(inputProc: peakLimiterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
+                renderCallback = AURenderCallbackStruct(inputProc: referenceToSelf.peakLimiterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
             } else {
                 renderCallback = AURenderCallbackStruct(inputProc: peakLimiterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
             }
@@ -477,6 +480,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // MARK: - High Pass Filter
 
     private func createHighPassFilter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, tap: MTAudioProcessingTap) -> AudioUnit? {
+            guard let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: tap) else {
+                return nil
+            }
             var componentDescription = AudioComponentDescription(componentType: kAudioUnitType_Effect,
                                                                  componentSubType: kAudioUnitSubType_HighPassFilter,
                                                                  componentManufacturer: kAudioUnitManufacturer_Apple,
@@ -496,7 +502,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             var renderCallback: AURenderCallbackStruct
             if FeatureFlag.useDefaultPlayerTapCookie.enabled {
                 let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
-                renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
+                renderCallback = AURenderCallbackStruct(inputProc: referenceToSelf.highPassFilterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
             } else {
                 renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: Unmanaged.passUnretained(self).toOpaque())
             }
