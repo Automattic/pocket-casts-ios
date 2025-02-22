@@ -1,15 +1,20 @@
 import PocketCastsDataModel
 import SwiftUI
 
-struct SuggestedFolder {
-    let name: String
-    let color: Int32
-    let topPodcastUuids: [String]
+class SuggestedFoldersModel: ObservableObject {
+
+    var folders: [SuggestedFolder] = {
+        let result: [SuggestedFolder] = (0..<10).map { index in
+            SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: [])
+        }
+        return result
+    }()
 }
 
 struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
     @State private var createFolderActive = false
+    @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
     var dismissAction: (String?) -> Void
 
@@ -38,7 +43,7 @@ struct SuggestedFoldersView: View {
             Spacer().frame(height: 8)
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
-            foldersView            
+            foldersView
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)
@@ -71,16 +76,7 @@ struct SuggestedFoldersView: View {
     }
 
     var foldersView: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 150))], alignment: .center, spacing: 6) {
-                ForEach(0..<100) { index in
-                    SuggestedFolderPreviewWrapper(folder: SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: []))
-                        .cornerRadius(4)
-                        .frame(minWidth: 110, maxWidth: 150)
-                        .aspectRatio(1, contentMode: .fit)
-                }
-            }
-        }
+        GridFoldersView(folders: model.folders)
     }
 }
 
