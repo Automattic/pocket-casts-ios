@@ -3,9 +3,11 @@ import SwiftUI
 
 class SuggestedFoldersModel: ObservableObject {
 
+    private static let somePodcastsUUIDs = ["e7abe050-6cc7-0130-f8c5-723c91aeae46", "ba993300-d71c-0137-1e26-0acc26574db2", "4eb5b260-c933-0134-10da-25324e2a541d", "71a77ab0-c8bf-0136-7b94-27f978dac4db", "467b49a0-c657-0138-e72e-0acc26574db2"]
+
     var folders: [SuggestedFolder] = {
         let result: [SuggestedFolder] = (0..<10).map { index in
-            SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: [])
+            SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: somePodcastsUUIDs.shuffled())
         }
         return result
     }()
