@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 import SQLite3
 
@@ -35,7 +36,7 @@ public class DataManager {
         DataManager.ensureDbFolderExists()
 
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        let dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+        let dbQueue: PCDBQueue = FeatureFlag.grdb.enabled ? GRDBQueue(dbQueue: try! DatabaseQueue(path: DataManager.pathToDb())) : FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
 
         self.init(dbQueue: dbQueue)
     }
@@ -49,7 +50,7 @@ public class DataManager {
             DatabaseHelper.setup(db: db)
         }
 
-        if shouldCloseQueueAfterSetup {
+        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
             dbQueue.close()
         }
