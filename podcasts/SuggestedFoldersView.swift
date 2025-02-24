@@ -46,6 +46,14 @@ struct SuggestedFoldersView: View {
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
             foldersView
+                .padding(.horizontal, -20)
+                // hack to allow the scroll indicators to be visible without overlapping the content
+                .safeAreaInset(edge: .trailing) {
+                    EmptyView().frame(width: 20)
+                }
+                .safeAreaInset(edge: .leading) {
+                    EmptyView().frame(width: 20)
+                }
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)

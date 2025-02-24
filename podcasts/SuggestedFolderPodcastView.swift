@@ -15,8 +15,14 @@ struct SuggestedFolderPodcastView: View {
                 }
             }
             .navigationTitle(folder.name)
-        }        
-        .padding()
+        }
+        // hack to allow the scroll indicator to be visible without overlapping the content
+        .safeAreaInset(edge: .trailing) {
+            EmptyView().frame(width: 20)
+        }
+        .safeAreaInset(edge: .leading) {
+            EmptyView().frame(width: 20)
+        }
         .applyDefaultThemeOptions()
     }
 }
