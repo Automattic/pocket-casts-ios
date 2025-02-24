@@ -222,11 +222,11 @@ struct BorderButton: ViewModifier {
         .padding()
         .background(ThemeColor.primaryUi01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
-        .frame(height: 44)
         .overlay(
             RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                 .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
         )
+        .frame(height: 44)
     }
 }
 
