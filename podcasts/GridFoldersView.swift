@@ -18,10 +18,12 @@ struct GridFoldersView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
                 ForEach(folders) { folder in
-                    SuggestedFolderPreviewWrapper(folder: folder)
-                        .cornerRadius(4)
-                        .frame(minWidth: 110, maxWidth: 160)
-                        .aspectRatio(1, contentMode: .fit)
+                    NavigationLink(destination: SuggestedFolderPodcastView(folder: folder)) {
+                        SuggestedFolderPreviewWrapper(folder: folder)
+                            .cornerRadius(4)
+                            .frame(minWidth: 110, maxWidth: 160)
+                            .aspectRatio(1, contentMode: .fit)
+                    }
                 }
             }
         }

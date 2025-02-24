@@ -1926,6 +1926,8 @@
 		FF06AFA82CB692D30099EC9B /* MediaFileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */; };
 		FF0753842D69088E00BE8B3B /* GridFoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753832D69087F00BE8B3B /* GridFoldersView.swift */; };
 		FF0753862D6CB70A00BE8B3B /* NavigationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */; };
+		FF0753882D6CB79600BE8B3B /* SuggestedFolderPodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */; };
+		FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */; };
 		FF09982E2CDA996D00C1647B /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */; };
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
@@ -3951,6 +3953,8 @@
 		FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileHandle.swift; sourceTree = "<group>"; };
 		FF0753832D69087F00BE8B3B /* GridFoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFoldersView.swift; sourceTree = "<group>"; };
 		FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContainer.swift; sourceTree = "<group>"; };
+		FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFolderPodcastView.swift; sourceTree = "<group>"; };
+		FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImageViewWrapper.swift; sourceTree = "<group>"; };
 		FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
@@ -6949,7 +6953,9 @@
 			children = (
 				BD998AC927B2408500B38857 /* CreateFolderView.swift */,
 				FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */,
+				FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */,
 				FF0753832D69087F00BE8B3B /* GridFoldersView.swift */,
+				FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */,
 				BD998ACB27B2436000B38857 /* NameFolderView.swift */,
 				BD998AD227B3430700B38857 /* ColorPreviewFolderView.swift */,
 				BD26AFD627BE09E8008CC973 /* EditFolderView.swift */,
@@ -9838,6 +9844,7 @@
 				10C1D5502C737EEF009E1E98 /* PlusPaywallContainer.swift in Sources */,
 				BDC5F25027B3997300A85C93 /* FolderModel.swift in Sources */,
 				BDBD2AC7202D66B300E0A79E /* OptionsPickerRootController.swift in Sources */,
+				FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */,
 				4004F56524EB51F900FBEBE1 /* SceneHelper.swift in Sources */,
 				F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */,
 				40FFAD8D2149E1C200024FCF /* EpisodeFilterChipCell.swift in Sources */,
@@ -10627,6 +10634,7 @@
 				C7B3C6142919F47A00054145 /* HorizontalScrollView.swift in Sources */,
 				BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */,
 				10C1D5522C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift in Sources */,
+				FF0753882D6CB79600BE8B3B /* SuggestedFolderPodcastView.swift in Sources */,
 				F53C3E832CC73549004F3581 /* TopSpotStory2024.swift in Sources */,
 				8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */,
 				BDCC55141CD0A448006BE239 /* AEXML.swift in Sources */,
