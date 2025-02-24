@@ -21,7 +21,7 @@ struct SuggestedFoldersView: View {
     var dismissAction: (String?) -> Void
 
     var body: some View {
-        NavigationView {
+        NavigationContainer {
             mainBody
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
