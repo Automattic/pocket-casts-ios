@@ -243,7 +243,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .suggestedFolders:
             false
         case .grdb:
-            false
+            true
         }
     }
 
