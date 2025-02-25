@@ -9,7 +9,7 @@ class GRDBQueue: PCDBQueue {
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
-        dbPool.write { db in
+        try! dbPool.write { db in
             let dbWrapper = GRDBDatabase(database: db)
             block(dbWrapper)
         }
