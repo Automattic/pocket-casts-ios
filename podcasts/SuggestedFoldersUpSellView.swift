@@ -29,6 +29,7 @@ struct SuggestedFoldersUpSellView: View {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
+            Spacer().frame(height: 8)
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalMaybeLaterTapped, properties: [:])
                 dismissAction()
@@ -46,12 +47,12 @@ struct SuggestedFoldersUpSellView: View {
     }
 
     var foldersView: some View {
-        LazyHGrid(rows: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
+        LazyHGrid(rows: [GridItem(.adaptive(minimum: 110, maximum: 130))], alignment: .center, spacing: 6) {
             ForEach(Array<SuggestedFolder>(model.folders.prefix(3))) { folder in
                 SuggestedFolderPreviewWrapper(folder: folder)
                     .cornerRadius(4)
-                    .frame(width: 130, height: 130)
                     .aspectRatio(1, contentMode: .fit)
+                    .frame(height: 130)
             }
         }
     }

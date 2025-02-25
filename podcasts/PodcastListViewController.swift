@@ -333,7 +333,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 let upsellSuggestedFoldersView = SuggestedFoldersUpSellView()
                 let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
                 if UIDevice.current.userInterfaceIdiom == .phone {
-                    hostingController.sheetPresentationController?.detents = [.medium()]
+                    if #available(iOS 16.0, *) {
+                        hostingController.sheetPresentationController?.detents = [.custom(resolver: { context in
+                            return context.maximumDetentValue * 0.65
+                        })]
+                    } else {
+                        hostingController.sheetPresentationController?.detents = [.medium()]
+                    }
                     hostingController.sheetPresentationController?.prefersGrabberVisible = true
                 } else {
                     hostingController.modalPresentationStyle = .formSheet
