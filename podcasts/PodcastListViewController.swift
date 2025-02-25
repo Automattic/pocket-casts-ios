@@ -327,7 +327,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func newSuggestedFolderCreationFlow() {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            if !SyncManager.isUserLoggedIn() {
+                NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            } else {
+                let upsellSuggestedFoldersView = SuggestedFoldersUpSellView()
+                let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
+                hostingController.sheetPresentationController?.detents = [.medium()]
+                hostingController.sheetPresentationController?.prefersGrabberVisible = true
+                present(hostingController, animated: true, completion: nil)
+            }
             return
         }
         let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in

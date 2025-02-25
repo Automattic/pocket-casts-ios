@@ -4777,3 +4777,9 @@
 /* Suggested Folders button title to create custom folders*/
 "suggested_folders_create_custom_folders" = "Create custom folders";
 
+/* Suggested Folder upsell title */
+"suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
+
+/* Suggested Folder upsell detail */
+"suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
+
