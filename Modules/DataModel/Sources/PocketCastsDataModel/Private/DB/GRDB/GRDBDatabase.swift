@@ -21,14 +21,14 @@ class GRDBDatabase: PCDatabase {
     }
 
     func commit() -> Bool {
-        // Not needed in GRDB
-        try! database.commit()
+        // Every operation in GRDB uses a write
+        // The only usage of commit in our code doesn't need to execute commit
+        // in GRDB.
         return true
     }
 
     func beginTransaction() -> Bool {
-        // Not needed in GRDB
-        try! database.beginTransaction(.exclusive)
+        // Every operation in GRDB uses a write which already starts a transaction
         return true
     }
 
