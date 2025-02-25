@@ -53,9 +53,7 @@ public class DataManager {
     public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
 
-        dbQueue.inDatabase { db in
-            DatabaseHelper.setup(db: db)
-        }
+        DatabaseHelper.setup(queue: dbQueue)
 
         if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
