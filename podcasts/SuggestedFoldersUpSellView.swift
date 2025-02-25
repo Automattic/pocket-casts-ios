@@ -7,15 +7,21 @@ struct SuggestedFoldersUpSellView: View {
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .center, spacing: 16) {
             Spacer()
             foldersView
-            Text(L10n.suggestedFoldersUpsellTitle)
-                .font(.body)
-                .textStyle(PrimaryText())
-            Text(L10n.suggestedFoldersUpsellDescription)
-                .font(.caption)
-                .textStyle(SecondaryText())
+            Spacer()
+            Group {
+                Text(L10n.suggestedFoldersUpsellTitle)
+                    .font(.title2)
+                    .textStyle(PrimaryText())
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(L10n.suggestedFoldersUpsellDescription)
+                    .font(.body)
+                    .textStyle(SecondaryText())
+                    .fixedSize(horizontal: false, vertical: true)
+            }.multilineTextAlignment(.center)
+            Spacer()
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])
                 dismissAction()
@@ -40,11 +46,11 @@ struct SuggestedFoldersUpSellView: View {
     }
 
     var foldersView: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
+        LazyHGrid(rows: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
             ForEach(Array<SuggestedFolder>(model.folders.prefix(3))) { folder in
                 SuggestedFolderPreviewWrapper(folder: folder)
                     .cornerRadius(4)
-                    .frame(minWidth: 110, maxWidth: 160)
+                    .frame(width: 130, height: 130)
                     .aspectRatio(1, contentMode: .fit)
             }
         }

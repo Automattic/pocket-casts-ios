@@ -332,8 +332,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             } else {
                 let upsellSuggestedFoldersView = SuggestedFoldersUpSellView()
                 let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
-                hostingController.sheetPresentationController?.detents = [.medium()]
-                hostingController.sheetPresentationController?.prefersGrabberVisible = true
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    hostingController.sheetPresentationController?.detents = [.medium()]
+                    hostingController.sheetPresentationController?.prefersGrabberVisible = true
+                } else {
+                    hostingController.modalPresentationStyle = .formSheet
+                }
                 present(hostingController, animated: true, completion: nil)
             }
             return
