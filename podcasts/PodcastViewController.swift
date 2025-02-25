@@ -216,7 +216,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         self.podcast = podcast
 
         // show the expanded view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
-        summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
+        summaryExpanded = !podcast.isSubscribed()
 
         AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
         podcastRatingViewModel.update(podcast: podcast)
