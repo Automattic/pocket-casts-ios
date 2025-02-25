@@ -2,21 +2,21 @@ import GRDB
 import Foundation
 
 class GRDBQueue: PCDBQueue {
-    private let dbQueue: DatabaseQueue
+    private let dbPool: DatabasePool
 
-    init(dbQueue: DatabaseQueue) {
-        self.dbQueue = dbQueue
+    init(dbPool: DatabasePool) {
+        self.dbPool = dbPool
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
-        dbQueue.inDatabase { db in
+        dbPool.write { db in
             let dbWrapper = GRDBDatabase(database: db)
             block(dbWrapper)
         }
     }
 
     func inTransaction(_ block: (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
-        try! dbQueue.inTransaction { db in
+        try! dbPool.writeInTransaction { db in
             let rollback = UnsafeMutablePointer<ObjCBool>.allocate(capacity: 1)
             rollback.pointee = false
             let dbWrapper = GRDBDatabase(database: db)
@@ -27,7 +27,7 @@ class GRDBQueue: PCDBQueue {
     }
 
     func close() {
-        try! dbQueue.close()
+        try! dbPool.close()
     }
 }
 
