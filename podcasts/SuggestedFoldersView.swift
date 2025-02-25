@@ -14,6 +14,11 @@ class SuggestedFoldersModel: ObservableObject {
 }
 
 struct SuggestedFoldersView: View {
+
+    enum Constants {
+        static var margin: CGFloat = 20
+    }
+
     @EnvironmentObject var theme: Theme
     @State private var createFolderActive = false
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
@@ -21,7 +26,7 @@ struct SuggestedFoldersView: View {
     var dismissAction: (String?) -> Void
 
     var body: some View {
-        NavigationView {
+        NavigationContainer {
             mainBody
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -46,6 +51,9 @@ struct SuggestedFoldersView: View {
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
             foldersView
+                .padding(.horizontal, -Constants.margin)
+                // hack to allow the scroll indicator to be visible without overlapping the content
+                .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)
@@ -61,7 +69,7 @@ struct SuggestedFoldersView: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, Constants.margin)
         .navigationTitle(L10n.suggestedFoldersTitle)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
