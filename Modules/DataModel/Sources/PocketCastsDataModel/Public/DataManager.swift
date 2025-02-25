@@ -35,8 +35,15 @@ public class DataManager {
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
-        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        let dbQueue: PCDBQueue = FeatureFlag.grdb.enabled ? GRDBQueue(dbQueue: try! DatabaseQueue(path: DataManager.pathToDb())) : FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+        var dbQueue: PCDBQueue
+        if FeatureFlag.grdb.enabled {
+            var config = Configuration()
+            config.busyMode = .timeout(10)
+            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
+        } else {
+            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+        }
 
         self.init(dbQueue: dbQueue)
     }
