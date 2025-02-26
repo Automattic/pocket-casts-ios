@@ -43,6 +43,9 @@ struct SuggestedFoldersUpSellView: View {
         .onAppear {
             Analytics.track(.suggestedFoldersPaywallModalShown, properties: [:])
         }
+        .task {
+            await model.load()
+        }
         .applyDefaultThemeOptions()
     }
 
