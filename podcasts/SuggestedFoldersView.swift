@@ -78,10 +78,14 @@ struct SuggestedFoldersView: View {
             Spacer().frame(height: 8)
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
-            foldersView
-                .padding(.horizontal, -Constants.margin)
-                // hack to allow the scroll indicator to be visible without overlapping the content
-                .customHorizontalMargin(margin: Constants.margin)
+            if model.loadingState == .loaded {
+                foldersView
+                    .padding(.horizontal, -Constants.margin)
+                    // hack to allow the scroll indicator to be visible without overlapping the content
+                    .customHorizontalMargin(margin: Constants.margin)
+            } else {
+                LoadingView()
+            }
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)

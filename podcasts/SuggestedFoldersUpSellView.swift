@@ -9,7 +9,11 @@ struct SuggestedFoldersUpSellView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
             Spacer()
-            foldersView
+            if model.loadingState == .loaded {
+                foldersView
+            } else {
+                LoadingView()
+            }
             Spacer()
             Group {
                 Text(L10n.suggestedFoldersUpsellTitle)
