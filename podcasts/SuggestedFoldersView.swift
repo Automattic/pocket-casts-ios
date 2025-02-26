@@ -29,7 +29,7 @@ class SuggestedFoldersModel: ObservableObject {
                 return
             }
             var folders = [SuggestedFolder]()
-            for suggestion in suggestionsResponse.suggestions.keys {
+            for suggestion in suggestionsResponse.suggestions.keys.sorted() {
                 if let uuids = suggestionsResponse.suggestions[suggestion] {
                     let folder = SuggestedFolder(name: suggestion, color: Int32.random(in: 0..<10), topPodcastUuids: uuids)
                     folders.append(folder)
