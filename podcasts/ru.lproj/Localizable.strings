@@ -365,6 +365,10 @@
     <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш тарифный план со скидкой начнёт действовать по окончании текущего расчётного периода.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Скидка 50 %% на следующий год!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Сэкономьте %@ в начале следующего расчётного периода.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Уплатите %@ за следующий год со скидкой 50%% прямо сейчас</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
     <key>cancel_subscription_title</key>
@@ -1811,6 +1815,8 @@
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
     <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Следующий, случайно выбранный элемент</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1957,10 @@
     <string>Новые выпуски!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Выпуски не найдены.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Перетащите вниз или откройте это меню, чтобы узнать, что нового.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Свежие выпуски уже скоро!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Найти подкасты</string>
     <key>podcast_grid_no_podcasts_msg</key>
