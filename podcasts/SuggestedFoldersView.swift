@@ -1,16 +1,45 @@
 import PocketCastsDataModel
 import SwiftUI
+import PocketCastsServer
 
 class SuggestedFoldersModel: ObservableObject {
 
     private static let somePodcastsUUIDs = ["e7abe050-6cc7-0130-f8c5-723c91aeae46", "ba993300-d71c-0137-1e26-0acc26574db2", "4eb5b260-c933-0134-10da-25324e2a541d", "71a77ab0-c8bf-0136-7b94-27f978dac4db", "467b49a0-c657-0138-e72e-0acc26574db2"]
 
-    var folders: [SuggestedFolder] = {
-        let result: [SuggestedFolder] = (0..<20).map { index in
-            SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: somePodcastsUUIDs.shuffled())
+    @Published var folders: [SuggestedFolder] = []
+
+    enum State {
+        case start
+        case loading
+        case loaded
+    }
+
+    @Published var loadingState: State = .start
+
+    init() {
+
+    }
+
+    func load() async {
+        if loadingState == .loading {
+            return
         }
-        return result
-    }()
+        Task { @MainActor in
+            loadingState = .loading
+            guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: Self.somePodcastsUUIDs) else {
+                return
+            }
+            var folders = [SuggestedFolder]()
+            for suggestion in suggestionsResponse.suggestions.keys {
+                if let uuids = suggestionsResponse.suggestions[suggestion] {
+                    let folder = SuggestedFolder(name: suggestion, color: Int32.random(in: 0..<10), topPodcastUuids: uuids)
+                    folders.append(folder)
+                }
+            }
+            self.folders = folders
+            loadingState = .loaded
+        }
+    }
 }
 
 struct SuggestedFoldersView: View {
@@ -74,8 +103,8 @@ struct SuggestedFoldersView: View {
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
         }
-        .onDisappear {
-
+        .task {
+            await model.load()
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
