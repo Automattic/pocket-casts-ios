@@ -353,6 +353,73 @@ public class MainServerHandler {
         }.resume()
     }
 
+    public func updatePodcast(uuid: String, lastEpisodeUuid: String?) async throws -> Bool {
+        var query = "podcast_uuid=\(uuid)"
+        if let lastEpisodeUuid {
+            query += "&last_episode_uuid=\(lastEpisodeUuid)"
+        }
+        let url = ServerHelper.asUrl(ServerConstants.Urls.main() + "api/v1/update_podcast?\(query)")
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+
+        FileLog.shared.console("Update Podcast API start request \(url.absoluteString)")
+
+        if Task.isCancelled {
+            return false
+        }
+
+        let response = try await URLSession.shared.data(for: request)
+        guard let urlResponse = response.1 as? HTTPURLResponse else {
+            return false
+        }
+
+        FileLog.shared.console("Update Podcast API response status code \(urlResponse.statusCode)")
+
+        var statusCode = urlResponse.statusCode
+        let allHeaderFields = urlResponse.allHeaderFields
+        while statusCode == 202 {
+            guard
+                let location = allHeaderFields["Location"] as? String,
+                let retry = allHeaderFields["retry-after"] as? String,
+                let interval = UInt(retry) else {
+                FileLog.shared.console("Update Podcast API response incorrect header")
+                return false
+            }
+            FileLog.shared.console("Poll Podcast API with delay of \(interval) sec")
+            let delay = UInt64(interval * 1_000_000_000)
+            try await Task<Never, Never>.sleep(nanoseconds: delay)
+            if Task.isCancelled {
+                return false
+            }
+            guard let newUrlResponse = try await pollUpdatePodcast(url: location) else {
+                FileLog.shared.console("Poll Podcast API no response")
+                return false
+            }
+            statusCode = newUrlResponse.statusCode
+            FileLog.shared.console("Poll Podcast API new status code \(statusCode)")
+        }
+
+        if statusCode == 200 {
+            return true
+        }
+        return false
+    }
+
+    private func pollUpdatePodcast(url: String) async throws -> HTTPURLResponse? {
+        guard let url = URL(string: url) else {
+            FileLog.shared.console("Poll Podcast API anavailable url: \(url)")
+            return nil
+        }
+        FileLog.shared.console("Poll Podcast API start fetching \(url)")
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+
+        let response = try await URLSession.shared.data(for: request)
+        return response.1 as? HTTPURLResponse
+    }
+
     private func jsonWithStandardParams(uniqueId: String) -> [String: Any] {
         var json: [String: Any] = [:]
         let locale = Locale.current

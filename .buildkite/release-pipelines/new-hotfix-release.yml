@@ -3,8 +3,6 @@
 
 # This pipeline is meant to be triggered by the MC scenario in ReleasesV2
 
-# Expected variables passed to the pipeline by ReleasesV2: `RELEASE_VERSION`
-
 env:
   IMAGE_ID: $IMAGE_ID
 
@@ -13,8 +11,6 @@ steps:
     command: |
       echo '--- 🤖 Use bot for Git operations'
       source use-bot-for-git
-
-      .buildkite/commands/checkout-release-branch.sh "${RELEASE_VERSION}"
 
       echo '--- :ruby: Setup Ruby Tools'
       install_gems

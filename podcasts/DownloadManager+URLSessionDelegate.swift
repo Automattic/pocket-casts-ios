@@ -188,7 +188,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let taskId = episode.downloadTaskId ?? episode.uuid
-        downloadingEpisodesCache.removeValue(forKey: taskId)
+        downloadingEpisodesCache[taskId] = nil
     }
 
     private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {

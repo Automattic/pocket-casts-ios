@@ -54,7 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
-        appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
+
+        if let appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded(),
+           appInstallState == .installed {
+            //Never show the podcast feed reload tooltip for fresh install
+            Settings.shouldShowPodcastFeeReloadTip = false
+        }
 
         let defaults = UserDefaults.standard
 

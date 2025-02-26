@@ -365,8 +365,10 @@
     <string>Pocket Casts をお選びいただきありがとうございます。 割引プランは現在の請求期間の後に開始します。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年度が50%% オフ !</string>
-    <key>cancel_subscription_promotion_description</key>
+    <key>cancel_subscription_promotion_description_monthly</key>
     <string>次の請求期間の開始時に%@を節約します。</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>今すぐ%@を支払うと、もう1年が50%% オフになります。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>
@@ -1813,6 +1815,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>テーマとアイコン</string>
     <key>plus_marketing_title</key>
     <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>次のシャッフル</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1953,6 +1957,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>新しいエピソードが見つかりました !</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>エピソードがありません。</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>プルダウンまたはこちらのメニューを使って、新しいものがあるかを確認します。</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>最新エピソードがまもなく登場 !</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>ポッドキャストをディスカバー</string>
     <key>podcast_grid_no_podcasts_msg</key>

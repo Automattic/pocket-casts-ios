@@ -1637,6 +1637,9 @@
 /* Pocket Casts Plus marketing page, description of the hide ads feature */
 "plus_marketing_hide_ads_description" = "Ad-free experience which gives you more of what you love and less of what you don't";
 
+/* Pocket Casts Plus marketing page, description of the Up Next Shuffle feature */
+"plus_marketing_up_next_shuffle" = "Up Next Shuffle";
+
 /* Informational message informing the user that their recurring payments for Plus have been canceled. */
 "plus_payment_canceled" = "Payment Cancelled";
 
@@ -4691,8 +4694,11 @@
 /* Cancel subscription: title for the yearly promotion row */
 "cancel_subscription_yearly_promotion_title" = "Get 50%% off your next year";
 
-/* Cancel subscription: description for the promotion row */
-"cancel_subscription_promotion_description" = "Save %@ at the start of your next billing cycle.";
+/* Cancel subscription: description for the monthly promotion row. The %@ represents the price. */
+"cancel_subscription_promotion_description_monthly" = "Save %@ at the start of your next billing cycle.";
+
+/* Cancel subscription: description for the yearly promotion row. The %@ represents the price. */
+"cancel_subscription_promotion_description_yearly" = "Pay %@ now for another year at 50%% off";
 
 /* Cancel subscription: title for the new plan row */
 "cancel_subscription_new_plan_title" = "Looking for a different plan?";
@@ -4746,7 +4752,7 @@
 "listening_history_remove" = "Remove from history";
 
 /* Button title we display in the podcast view sheet prompted */
-"podcast_feed_reload_button" = "Refresh episode list";
+"podcast_feed_reload_button" = "Refresh Episode List";
 
 /* Message showed in the toast menu or pull down to refresh control indicating the podcast feed is reloading */
 "podcast_feed_reload_loading" = "Refreshing episode list...";
@@ -4756,6 +4762,12 @@
 
 /* After the podcast feed reloading completes, this is the message we display if there's no new episodes to load */
 "podcast_feed_reload_no_episodes_found" = "No episodes found.";
+
+/* Title used in the tooltip showed in the podcast view controller the first time the view appears */
+"podcast_feed_reload_tip_title" = "Fresh episodes, coming right up!";
+
+/* Description used in the tooltip showed in the podcast view controller the first time the view appears */
+"podcast_feed_reload_tip_message" = "Pull down or use this menu to see if there's something new.";
 
 /* MARK: - InfoPlist.strings */
 
