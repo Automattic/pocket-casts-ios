@@ -365,6 +365,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bedankt dat je voor Pocket Casts kiest. Je abonnement met korting gaat in na je huidige factuurperiode.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50%% korting op je eerste jaar!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Bespaar %@ aan het begin van je volgende factuurperiode.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Betaal nu %@ voor nog een jaar met 50%% korting.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
     <key>cancel_subscription_title</key>
@@ -1811,6 +1815,8 @@ UPDATES</string>
     <string>Thema's en pictogrammen</string>
     <key>plus_marketing_title</key>
     <string>Alles wat je geweldig vindt aan Pocket Casts en meer</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Hierna shuffelen</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Wanneer je je bestanden naar een cloudopslag uploadt, zijn ze overal beschikbaar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1957,10 @@ UPDATES</string>
     <string>Nieuwe afleveringen gevonden!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Geen afleveringen gevonden.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Vouw uit of gebruik dit menu om te zien of er iets nieuws is.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Nieuwe afleveringen staan voor je klaar!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Podcasts ontdekken</string>
     <key>podcast_grid_no_podcasts_msg</key>
