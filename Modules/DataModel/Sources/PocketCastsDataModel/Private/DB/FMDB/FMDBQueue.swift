@@ -9,16 +9,20 @@ final class FMDBQueue: PCDBQueue {
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
-        fmdbQueue.inDatabase { db in
-            let dbWrapper = FMDBDatabase(fmdbDatabase: db)
-            block(dbWrapper)
+        withoutActuallyEscaping(block) { block in
+            fmdbQueue.inDatabase { db in
+                let dbWrapper = FMDBDatabase(fmdbDatabase: db)
+                block(dbWrapper)
+            }
         }
     }
 
     func inTransaction(_ block: (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
-        fmdbQueue.inTransaction { db, rollback in
-            let dbWrapper = FMDBDatabase(fmdbDatabase: db)
-            block(dbWrapper, rollback)
+        withoutActuallyEscaping(block) { block in
+            fmdbQueue.inTransaction { db, rollback in
+                let dbWrapper = FMDBDatabase(fmdbDatabase: db)
+                block(dbWrapper, rollback)
+            }
         }
     }
 
