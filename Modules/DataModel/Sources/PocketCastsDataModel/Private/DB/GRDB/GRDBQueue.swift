@@ -9,20 +9,24 @@ class GRDBQueue: PCDBQueue {
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
-        try! dbPool.write { db in
-            let dbWrapper = GRDBDatabase(database: db)
-            block(dbWrapper)
+        withoutActuallyEscaping(block) { block in
+            try! dbPool.write { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
+            }
         }
     }
 
     func inTransaction(_ block: (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
-        try! dbPool.writeInTransaction { db in
-            let rollback = UnsafeMutablePointer<ObjCBool>.allocate(capacity: 1)
-            rollback.pointee = false
-            let dbWrapper = GRDBDatabase(database: db)
-            block(dbWrapper, rollback)
-            defer { rollback.deallocate() }
-            return rollback.pointee.boolValue ? .rollback : .commit
+        withoutActuallyEscaping(block) { block in
+            try! dbPool.writeInTransaction { db in
+                let rollback = UnsafeMutablePointer<ObjCBool>.allocate(capacity: 1)
+                rollback.pointee = false
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper, rollback)
+                defer { rollback.deallocate() }
+                return rollback.pointee.boolValue ? .rollback : .commit
+            }
         }
     }
 
@@ -30,4 +34,3 @@ class GRDBQueue: PCDBQueue {
         try! dbPool.close()
     }
 }
-
