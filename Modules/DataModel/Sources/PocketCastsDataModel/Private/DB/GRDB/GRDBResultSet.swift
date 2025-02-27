@@ -65,8 +65,14 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func double(forColumn: String) -> Double {
-        let isNull = row[forColumn]?.databaseValue.isNull ?? true
-        return isNull ? 0 : row![forColumn]
+        // GRDB sometimes convert the date right away to a String
+        // When casting back to double, it becomes the year, which mess up
+        // the date. We deal with this special case here
+        if row[forColumn] is String {
+            return Date.fromDatabaseValue(row[forColumn])?.timeIntervalSince1970 ?? 0
+        }
+
+        return row[forColumn] ?? 0
     }
 
     func date(forColumn: String) -> Date? {
