@@ -327,7 +327,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func newSuggestedFolderCreationFlow() {
         if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            if !SyncManager.isUserLoggedIn() {
+                NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            } else {
+                showUpSellSuggestedFolder()
+            }
             return
         }
         let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in
@@ -342,6 +346,25 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
+    }
+
+    private func showUpSellSuggestedFolder() {
+        let upsellSuggestedFoldersView = SuggestedFoldersUpSellView()
+        let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if #available(iOS 16.0, *) {
+                hostingController.sheetPresentationController?.detents = [.custom(resolver: { context in
+                    return context.maximumDetentValue * 0.65
+                })]
+            } else {
+                hostingController.sheetPresentationController?.detents = [.medium()]
+            }
+            hostingController.sheetPresentationController?.prefersGrabberVisible = true
+        } else {
+            hostingController.modalPresentationStyle = .formSheet
+        }
+        present(hostingController, animated: true, completion: nil)
+
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
