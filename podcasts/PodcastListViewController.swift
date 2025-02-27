@@ -349,7 +349,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func showUpSellSuggestedFolder() {
-        let upsellSuggestedFoldersView = SuggestedFoldersUpSellView()
+        let upsellSuggestedFoldersView = SuggestedFoldersUpSellView(model: SuggestedFoldersModel(failedToLoadAction: {[weak self] in
+            guard let self else { return }
+            self.dismiss(animated: false) {
+                NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            }
+        }))
         let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
         if UIDevice.current.userInterfaceIdiom == .phone {
             if #available(iOS 16.0, *) {

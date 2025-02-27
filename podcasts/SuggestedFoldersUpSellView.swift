@@ -4,16 +4,44 @@ import SwiftUI
 struct SuggestedFoldersUpSellView: View {
     @Environment(\.dismiss) var dismissAction
     @EnvironmentObject var theme: Theme
-    @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
+    @ObservedObject var model: SuggestedFoldersModel
+
+    init(model: SuggestedFoldersModel = SuggestedFoldersModel()) {
+        self.model = model
+    }
 
     var body: some View {
+        Group {
+            switch model.loadingState {
+            case .loaded:
+                mainBody
+            default:
+                loadingView
+            }
+        }
+        .task {
+            await model.load()
+        }
+        .applyDefaultThemeOptions()
+    }
+
+    var loadingView: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                LoadingView()
+                Spacer()
+            }
+            Spacer()
+        }
+        .applyDefaultThemeOptions()
+    }
+
+    var mainBody: some View {
         VStack(alignment: .center, spacing: 16) {
             Spacer()
-            if model.loadingState == .loaded {
-                foldersView
-            } else {
-                LoadingView()
-            }
+            foldersView
             Spacer()
             Group {
                 Text(L10n.suggestedFoldersUpsellTitle)
@@ -47,10 +75,6 @@ struct SuggestedFoldersUpSellView: View {
         .onAppear {
             Analytics.track(.suggestedFoldersPaywallModalShown, properties: [:])
         }
-        .task {
-            await model.load()
-        }
-        .applyDefaultThemeOptions()
     }
 
     var foldersView: some View {

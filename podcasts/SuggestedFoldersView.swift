@@ -10,22 +10,27 @@ class SuggestedFoldersModel: ObservableObject {
         case start
         case loading
         case loaded
+        case failed
     }
 
     @Published var loadingState: State = .start
 
-    init() {
+    var failedToLoadAction: (() -> ())? = nil
 
+    init(failedToLoadAction: (() -> ())? = nil) {
+        self.failedToLoadAction = failedToLoadAction
     }
 
     func load() async {
-        if loadingState == .loading || loadingState == .loaded {
+        if loadingState != .start {
             return
         }
         Task { @MainActor in
             loadingState = .loading
             let uuids = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
             guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: uuids) else {
+                loadingState = .failed
+                failedToLoadAction?()
                 return
             }
             var folders = [SuggestedFolder]()
@@ -54,23 +59,48 @@ struct SuggestedFoldersView: View {
     var dismissAction: (String?) -> Void
 
     var body: some View {
-        NavigationContainer {
-            mainBody
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
-                            dismissAction(nil)
-                        } label: {
-                            Image("close")
-                                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        Group {
+            switch model.loadingState {
+            case .start, .loading:
+                loadingView
+            case .loaded:
+                NavigationContainer {
+                    mainBody
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button {
+                                    Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+                                    dismissAction(nil)
+                                } label: {
+                                    Image("close")
+                                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                }
+                                .accessibilityLabel(L10n.close)
+                            }
                         }
-                        .accessibilityLabel(L10n.close)
-                    }
                 }
+                .navigationViewStyle(.stack)
+                .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            case .failed:
+                CreateFolderView(isInsideNavigation: false, dismissAction: dismissAction)
+            }
         }
-        .navigationViewStyle(.stack)
-        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        .task {
+            await model.load()
+        }
+    }
+
+    var loadingView: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                LoadingView()
+                Spacer()
+            }
+            Spacer()
+        }
+        .applyDefaultThemeOptions()
     }
 
     var mainBody: some View {
@@ -78,14 +108,10 @@ struct SuggestedFoldersView: View {
             Spacer().frame(height: 8)
             Text(L10n.suggestedFoldersDescription)
                 .textStyle(SecondaryText())
-            if model.loadingState == .loaded {
-                foldersView
-                    .padding(.horizontal, -Constants.margin)
-                    // hack to allow the scroll indicator to be visible without overlapping the content
-                    .customHorizontalMargin(margin: Constants.margin)
-            } else {
-                LoadingView()
-            }
+            foldersView
+                .padding(.horizontal, -Constants.margin)
+                // hack to allow the scroll indicator to be visible without overlapping the content
+                .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
                 dismissAction(nil)
@@ -105,9 +131,6 @@ struct SuggestedFoldersView: View {
         .navigationTitle(L10n.suggestedFoldersTitle)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
-        }
-        .task {
-            await model.load()
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
