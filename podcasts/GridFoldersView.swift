@@ -1,15 +1,5 @@
 import SwiftUI
 
-struct SuggestedFolder: Identifiable {
-    var id: String {
-        return name
-    }
-
-    let name: String
-    let color: Int32
-    let topPodcastUuids: [String]
-}
-
 struct GridFoldersView: View {
 
     var folders: [SuggestedFolder]

@@ -1930,6 +1930,7 @@
 		FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */; };
 		FF07538C2D6CC4FA00BE8B3B /* CustomHorizontalMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */; };
 		FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */; };
+		FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */; };
 		FF09982E2CDA996D00C1647B /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */; };
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
@@ -3959,6 +3960,7 @@
 		FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImageViewWrapper.swift; sourceTree = "<group>"; };
 		FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHorizontalMargin.swift; sourceTree = "<group>"; };
 		FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersUpSellView.swift; sourceTree = "<group>"; };
+		FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersModel.swift; sourceTree = "<group>"; };
 		FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
@@ -6946,6 +6948,7 @@
 		BDD3578C27BCD3180000D155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */,
 				BDC5F24F27B3997300A85C93 /* FolderModel.swift */,
 				BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */,
 			);
@@ -10706,6 +10709,7 @@
 				F55598112C534D4100C02EEB /* CMTimeScale+Common.swift in Sources */,
 				BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */,
 				10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */,
+				FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */,
 				C7CA0559293E8918000E41BD /* HolographicEffect.swift in Sources */,
 				BD0F6D7B24BD60FF00EDFB99 /* FilterDurationViewController.swift in Sources */,
 				8BAD2EB42AEE9620006264B3 /* PaidStoryWallView.swift in Sources */,
