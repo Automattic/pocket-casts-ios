@@ -91,7 +91,7 @@ struct SuggestedFoldersUpSellView: View {
 
 struct SuggestedFoldersUpSellView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(dismissAction: { _ in })
+        SuggestedFoldersView(completion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

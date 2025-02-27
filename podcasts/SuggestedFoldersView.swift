@@ -52,14 +52,24 @@ struct SuggestedFoldersView: View {
         static var margin: CGFloat = 20
     }
 
+    public enum FolderResult {
+        case dismiss
+        case createManualFolder(String)
+        case createSuggestedFolders([SuggestedFolder])
+    }
+
     @EnvironmentObject var theme: Theme
     @State private var createFolderActive = false
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
-    var dismissAction: (String?) -> Void
+    var dismissAction: (FolderResult) -> ()
+
+    init(completion: @escaping (FolderResult) -> ()) {
+        self.dismissAction = completion
+    }
 
     var body: some View {
-        Group {
+        VStack {
             switch model.loadingState {
             case .start, .loading:
                 loadingView
@@ -70,7 +80,7 @@ struct SuggestedFoldersView: View {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
                                     Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
-                                    dismissAction(nil)
+                                    dismissAction(.dismiss)
                                 } label: {
                                     Image("close")
                                         .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
@@ -78,11 +88,17 @@ struct SuggestedFoldersView: View {
                                 .accessibilityLabel(L10n.close)
                             }
                         }
-                }
                 .navigationViewStyle(.stack)
                 .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            }
             case .failed:
-                CreateFolderView(isInsideNavigation: false, dismissAction: dismissAction)
+                CreateFolderView(isInsideNavigation: false, dismissAction: { uuid in
+                    if let uuid {
+                        dismissAction(.createManualFolder(uuid))
+                    } else {
+                        dismissAction(.dismiss)
+                    }
+                })
             }
         }
         .task {
@@ -114,13 +130,17 @@ struct SuggestedFoldersView: View {
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
-                dismissAction(nil)
+                dismissAction(.createSuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
             NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                dismissAction(uuid)
+                if let uuid {
+                    dismissAction(.createManualFolder(uuid))
+                } else {
+                    dismissAction(.dismiss)
+                }
             }, isActive: $createFolderActive) {
                 Text(L10n.suggestedFoldersCreateCustomFolders)
                     .textStyle(BorderButton())
@@ -147,7 +167,7 @@ struct SuggestedFoldersView: View {
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(dismissAction: { _ in })
+        SuggestedFoldersView(completion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

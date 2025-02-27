@@ -334,13 +334,21 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             }
             return
         }
-        let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
-                self?.dismiss(animated: true, completion: {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
-                })
-            } else {
-                self?.dismiss(animated: true, completion: nil)
+        let suggestedFoldersView = SuggestedFoldersView { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .createManualFolder(let folderUuid):
+                if let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+                    dismiss(animated: true, completion: {
+                        NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+                    })
+                } else {
+                    dismiss(animated: true, completion: nil)
+                }
+            case .dismiss:
+                dismiss(animated: true, completion: nil)
+            case .createSuggestedFolders(let folders):
+                applySuggestedFolders(folders)
             }
         }
         let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
@@ -370,6 +378,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
         present(hostingController, animated: true, completion: nil)
 
+    }
+
+    private func applySuggestedFolders(_ folders: [SuggestedFolder]) {
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
