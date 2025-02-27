@@ -8,10 +8,12 @@ public struct SuggestedFoldersResponse {
 
 class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
     var uuids: [String]
+    var language: String
     var completion: ((SuggestedFoldersResponse?) -> Void)?
 
-    init(uuids: [String], completion: ((SuggestedFoldersResponse?) -> Void)?) {
+    init(uuids: [String], language: String, completion: ((SuggestedFoldersResponse?) -> Void)?) {
         self.uuids = uuids
+        self.language = language
         self.completion = completion
     }
 
@@ -19,7 +21,7 @@ class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
         let urlString = "\(ServerConstants.Urls.cache())podcast/suggest_folders"
 
         do {
-            guard let requestData = try? JSONSerialization.data(withJSONObject: ["language": "en", "uuids": uuids]) else {
+            guard let requestData = try? JSONSerialization.data(withJSONObject: ["language": language, "uuids": uuids]) else {
                 FileLog.shared.addMessage("Failed to encode uuids for suggested folders call")
                 completion?(nil)
                 return
