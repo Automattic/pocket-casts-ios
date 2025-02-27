@@ -1931,6 +1931,7 @@
 		FF07538C2D6CC4FA00BE8B3B /* CustomHorizontalMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */; };
 		FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */; };
 		FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */; };
+		FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */; };
 		FF09982E2CDA996D00C1647B /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */; };
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
@@ -3961,6 +3962,7 @@
 		FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHorizontalMargin.swift; sourceTree = "<group>"; };
 		FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersUpSellView.swift; sourceTree = "<group>"; };
 		FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersModel.swift; sourceTree = "<group>"; };
+		FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersCoordinator.swift; sourceTree = "<group>"; };
 		FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
@@ -6273,6 +6275,7 @@
 		BD7455C627B0E6C000D4D5B0 /* Folders */ = {
 			isa = PBXGroup;
 			children = (
+				FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */,
 				BDD3578B27BCD3090000D155 /* Create & Edit */,
 				BD998ACF27B252FD00B38857 /* Podcast Selection */,
 				BDD3578E27BCD33D0000D155 /* FolderViewController.swift */,
@@ -10610,6 +10613,7 @@
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
 				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
+				FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
