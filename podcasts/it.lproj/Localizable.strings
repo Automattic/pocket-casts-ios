@@ -365,6 +365,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grazie per aver scelto Pocket Casts. Il tuo piano scontato inizierà al termine del periodo di fatturazione attuale.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Sconto del 50%% sul prossimo anno!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Risparmia %@ all'inizio del prossimo ciclo di fatturazione.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Paga %@ ora per un ulteriore anno con uno sconto del 50%%</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Ottieni il tuo prossimo mese gratuitamente</string>
     <key>cancel_subscription_title</key>
@@ -1811,6 +1815,8 @@ AGGIORNAMENTI</string>
     <string>Temi e icone</string>
     <key>plus_marketing_title</key>
     <string>Tutto ciò che ti piace di Pocket Casts e molto altro</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Riproduzione casuale successivo</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carica i tuoi file sull'archiviazione su cloud e rendili disponibili per qualsiasi postazione</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1957,10 @@ AGGIORNAMENTI</string>
     <string>Nuovi episodi trovati!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Nessun episodio trovato.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Fai scorrere il dito verso il basso o utilizza questo menu per non perderti le novità.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Nuovissimi episodi in arrivo!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Scopri i podcast</string>
     <key>podcast_grid_no_podcasts_msg</key>

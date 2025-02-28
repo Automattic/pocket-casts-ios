@@ -498,7 +498,7 @@
     <key>create_clip</key>
     <string>Crear clip</string>
     <key>create_filter</key>
-    <string>Crear filtre</string>
+    <string>Crear un filtre</string>
     <key>current_email_prompt</key>
     <string>Adreça de correu electrònic actual</string>
     <key>current_password_prompt</key>
@@ -1022,7 +1022,7 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <key>filter_create_filter_by</key>
     <string>FILTRAR PER</string>
     <key>filter_create_instructions</key>
-    <string>Selecciona els vostres criteris de filtre amb aquests botons per a crear una llista de reproducció intel·ligent d'episodis actualitzada.</string>
+    <string>Selecciona els filtres amb aquests botons per a crear una llista de reproducció d'episodis intel·ligent i actualitzada.</string>
     <key>filter_create_no_episodes</key>
     <string>No hi ha episodis que coincideixin</string>
     <key>filter_create_no_episodes_description_explanation</key>
