@@ -16,6 +16,7 @@ struct SuggestedFoldersView: View {
 
     @State private var createFolderActive = false
     @State private var howItWorksActive = false
+    @State private var applySuggestedFoldersConfirmation = false
 
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
@@ -95,7 +96,8 @@ struct SuggestedFoldersView: View {
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
-                onCompletion(.applySuggestedFolders(model.folders))
+                Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
+                applySuggestedFoldersConfirmation.toggle()
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
@@ -138,11 +140,28 @@ struct SuggestedFoldersView: View {
                 }
             }
         }
+        .sheet(isPresented: $applySuggestedFoldersConfirmation) {
+            ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
+                             action: {
+                applySuggestedFoldersConfirmation = false
+                Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+                onCompletion(.applySuggestedFolders(model.folders))
+            })
+            .modify {
+                if #available(iOS 16.0, *) {
+                    $0.presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                } else {
+                    $0
+                }
+            }
+        }
     }
 
     var foldersView: some View {
         GridFoldersView(folders: model.folders)
     }
+
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
