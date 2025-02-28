@@ -4783,3 +4783,5 @@
 /* Suggested Folder upsell detail */
 "suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
 
+/* Suggested Folder how it work links */
+"suggested_folders_how_it_works" = "How it works";

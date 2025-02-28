@@ -13,8 +13,12 @@ struct SuggestedFoldersView: View {
     }
 
     @EnvironmentObject var theme: Theme
+
     @State private var createFolderActive = false
+    @State private var howItWorksActive = false
+
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
+
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
@@ -78,6 +82,11 @@ struct SuggestedFoldersView: View {
                 Text(L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
+                Text(L10n.suggestedFoldersHowItWorks)
+                    .foregroundColor(theme.primaryInteractive01)
+                    .onTapGesture {
+                        howItWorksActive.toggle()
+                    }
             }
             foldersView
                 .padding(.horizontal, -Constants.margin)
@@ -113,6 +122,24 @@ struct SuggestedFoldersView: View {
             }
         }
         .applyDefaultThemeOptions()
+        .sheet(isPresented: $howItWorksActive) {
+            Text("Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.")
+                .modify {
+                    if #available(iOS 16.0, *) {
+                        $0.presentationDetents([.medium])
+                            .presentationDragIndicator(.visible)
+                    } else {
+                        $0
+                    }
+                }
+        }
+    }
+
+    private func isiO16Available() -> Bool {
+        guard #available(iOS 16.0, *) else {
+            return false
+        }
+        return true
     }
 
     var foldersView: some View {

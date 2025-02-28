@@ -3409,6 +3409,8 @@ internal enum L10n {
   internal static var suggestedFoldersCreateCustomFolders: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folders") }
   /// We’ve organized your podcasts for you. Save or customize them to fit your style.
   internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
+  /// How it works
+  internal static var suggestedFoldersHowItWorks: String { return L10n.tr("Localizable", "suggested_folders_how_it_works") }
   /// Smart Folders
   internal static var suggestedFoldersTitle: String { return L10n.tr("Localizable", "suggested_folders_title") }
   /// We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.
