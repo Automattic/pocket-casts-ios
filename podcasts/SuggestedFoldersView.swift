@@ -86,6 +86,7 @@ struct SuggestedFoldersView: View {
                     .foregroundColor(theme.primaryInteractive01)
                     .onTapGesture {
                         howItWorksActive.toggle()
+                        Analytics.track(.suggestedFoldersHowItWorksTapped)
                     }
             }
             foldersView
@@ -93,7 +94,7 @@ struct SuggestedFoldersView: View {
                 // hack to allow the scroll indicator to be visible without overlapping the content
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
-                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
+                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
                 onCompletion(.applySuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
@@ -124,8 +125,9 @@ struct SuggestedFoldersView: View {
         .applyDefaultThemeOptions()
         .sheet(isPresented: $howItWorksActive) {
             ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, actionTitle: L10n.gotIt, action: {
-                howItWorksActive = false }
-            )
+                howItWorksActive = false
+                Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
+            })
             .modify {
                 if #available(iOS 16.0, *) {
                     $0.presentationDetents([.medium])
