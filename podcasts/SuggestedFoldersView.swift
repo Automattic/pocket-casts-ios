@@ -123,23 +123,18 @@ struct SuggestedFoldersView: View {
         }
         .applyDefaultThemeOptions()
         .sheet(isPresented: $howItWorksActive) {
-            Text("Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.")
-                .modify {
-                    if #available(iOS 16.0, *) {
-                        $0.presentationDetents([.medium])
-                            .presentationDragIndicator(.visible)
-                    } else {
-                        $0
-                    }
+            ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, actionTitle: L10n.gotIt, action: {
+                howItWorksActive = false }
+            )
+            .modify {
+                if #available(iOS 16.0, *) {
+                    $0.presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                } else {
+                    $0
                 }
+            }
         }
-    }
-
-    private func isiO16Available() -> Bool {
-        guard #available(iOS 16.0, *) else {
-            return false
-        }
-        return true
     }
 
     var foldersView: some View {
