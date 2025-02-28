@@ -41,18 +41,20 @@ struct SuggestedFoldersUpSellView: View {
     var mainBody: some View {
         VStack(alignment: .center, spacing: 16) {
             Spacer()
+                .frame(minHeight: 16)
             foldersView
             Spacer()
             Group {
                 Text(L10n.suggestedFoldersUpsellTitle)
-                    .font(.title2)
+                    .font(.system(size: 18, weight: .semibold))
                     .textStyle(PrimaryText())
                     .fixedSize(horizontal: false, vertical: true)
                 Text(L10n.suggestedFoldersUpsellDescription)
-                    .font(.body)
+                    .font(.system(size: 15))
                     .textStyle(SecondaryText())
                     .fixedSize(horizontal: false, vertical: true)
-            }.multilineTextAlignment(.center)
+            }
+            .multilineTextAlignment(.center)
             Spacer()
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])
@@ -78,12 +80,12 @@ struct SuggestedFoldersUpSellView: View {
     }
 
     var foldersView: some View {
-        LazyHGrid(rows: [GridItem(.adaptive(minimum: 110, maximum: 130))], alignment: .center, spacing: 6) {
+        LazyHGrid(rows: [GridItem(.adaptive(minimum: 90, maximum: 130))], alignment: .center, spacing: 6) {
             ForEach(Array<SuggestedFolder>(model.folders.prefix(3))) { folder in
                 SuggestedFolderPreviewWrapper(folder: folder)
                     .cornerRadius(4)
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(height: 130)
+                    .frame(minHeight: 90)
             }
         }
     }
