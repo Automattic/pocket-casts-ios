@@ -124,7 +124,8 @@ struct SuggestedFoldersView: View {
         }
         .applyDefaultThemeOptions()
         .sheet(isPresented: $howItWorksActive) {
-            ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, actionTitle: L10n.gotIt, action: {
+            ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
+                             action: {
                 howItWorksActive = false
                 Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
             })

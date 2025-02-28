@@ -7,6 +7,7 @@ struct ModalMessageView: View {
     let icon: String
     let title: String
     let message: String
+    let destructive: Bool
     let actionTitle: String
     let action: (() -> Void)?
 
@@ -34,7 +35,7 @@ struct ModalMessageView: View {
                 dismiss()
             } label: {
                 Text(actionTitle)
-                    .textStyle(RoundedButton())
+                    .textStyle(RoundedButton(destructive: destructive))
             }
             Spacer()
                 .frame(maxHeight: 16)
