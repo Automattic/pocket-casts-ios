@@ -1,16 +1,49 @@
 import PocketCastsDataModel
 import SwiftUI
+import PocketCastsServer
 
 class SuggestedFoldersModel: ObservableObject {
 
-    private static let somePodcastsUUIDs = ["e7abe050-6cc7-0130-f8c5-723c91aeae46", "ba993300-d71c-0137-1e26-0acc26574db2", "4eb5b260-c933-0134-10da-25324e2a541d", "71a77ab0-c8bf-0136-7b94-27f978dac4db", "467b49a0-c657-0138-e72e-0acc26574db2"]
+    @Published var folders: [SuggestedFolder] = []
 
-    var folders: [SuggestedFolder] = {
-        let result: [SuggestedFolder] = (0..<20).map { index in
-            SuggestedFolder(name: "Folder-\(index)", color: Int32(index), topPodcastUuids: somePodcastsUUIDs.shuffled())
+    enum State {
+        case start
+        case loading
+        case loaded
+        case failed
+    }
+
+    @Published var loadingState: State = .start
+
+    var failedToLoadAction: (() -> ())? = nil
+
+    init(failedToLoadAction: (() -> ())? = nil) {
+        self.failedToLoadAction = failedToLoadAction
+    }
+
+    func load() async {
+        if loadingState != .start {
+            return
         }
-        return result
-    }()
+        loadingState = .loading
+        Task { @MainActor in
+            let uuids = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
+            guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: uuids) else {
+                loadingState = .failed
+                failedToLoadAction?()
+                return
+            }
+            var folders = [SuggestedFolder]()
+            for suggestion in suggestionsResponse.suggestions.keys.sorted() {
+                if let uuids = suggestionsResponse.suggestions[suggestion] {
+                    let folder = SuggestedFolder(name: suggestion, color: Int32.random(in: 0..<10), topPodcastUuids: uuids)
+                    folders.append(folder)
+                }
+            }
+            self.folders = folders
+            loadingState = .loaded
+        }
+    }
 }
 
 struct SuggestedFoldersView: View {
@@ -26,23 +59,48 @@ struct SuggestedFoldersView: View {
     var dismissAction: (String?) -> Void
 
     var body: some View {
-        NavigationContainer {
-            mainBody
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
-                            dismissAction(nil)
-                        } label: {
-                            Image("close")
-                                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        Group {
+            switch model.loadingState {
+            case .start, .loading:
+                loadingView
+            case .loaded:
+                NavigationContainer {
+                    mainBody
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button {
+                                    Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+                                    dismissAction(nil)
+                                } label: {
+                                    Image("close")
+                                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                }
+                                .accessibilityLabel(L10n.close)
+                            }
                         }
-                        .accessibilityLabel(L10n.close)
-                    }
                 }
+                .navigationViewStyle(.stack)
+                .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            case .failed:
+                CreateFolderView(isInsideNavigation: false, dismissAction: dismissAction)
+            }
         }
-        .navigationViewStyle(.stack)
-        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        .task {
+            await model.load()
+        }
+    }
+
+    var loadingView: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                LoadingView()
+                Spacer()
+            }
+            Spacer()
+        }
+        .applyDefaultThemeOptions()
     }
 
     var mainBody: some View {
@@ -73,9 +131,6 @@ struct SuggestedFoldersView: View {
         .navigationTitle(L10n.suggestedFoldersTitle)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
-        }
-        .onDisappear {
-
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
