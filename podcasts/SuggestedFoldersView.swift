@@ -1,5 +1,11 @@
 import SwiftUI
 
+enum SuggestedFoldersResult {
+    case dismiss
+    case applySuggestedFolders([SuggestedFolder])
+    case createdManualFolder(String)
+}
+
 struct SuggestedFoldersView: View {
 
     enum Constants {
@@ -10,7 +16,7 @@ struct SuggestedFoldersView: View {
     @State private var createFolderActive = false
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
-    var dismissAction: (String?) -> Void
+    var onCompletion: (SuggestedFoldersResult) -> Void
 
     var body: some View {
         Group {
@@ -24,7 +30,7 @@ struct SuggestedFoldersView: View {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
                                     Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
-                                    dismissAction(nil)
+                                    onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
                                         .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
@@ -36,7 +42,13 @@ struct SuggestedFoldersView: View {
                 .navigationViewStyle(.stack)
                 .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
             case .failed:
-                CreateFolderView(isInsideNavigation: false, dismissAction: dismissAction)
+                CreateFolderView(isInsideNavigation: false) { uuid in
+                    if let uuid {
+                        onCompletion(.createdManualFolder(uuid))
+                    } else {
+                        onCompletion(.dismiss)
+                    }
+                }
             }
         }
         .task {
@@ -68,13 +80,17 @@ struct SuggestedFoldersView: View {
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
-                dismissAction(nil)
+                onCompletion(.applySuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
             NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                dismissAction(uuid)
+                if let uuid {
+                    onCompletion(.createdManualFolder(uuid))
+                } else {
+                    onCompletion(.dismiss)
+                }
             }, isActive: $createFolderActive) {
                 Text(L10n.suggestedFoldersCreateCustomFolders)
                     .textStyle(BorderButton())
@@ -101,7 +117,7 @@ struct SuggestedFoldersView: View {
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(dismissAction: { _ in })
+        SuggestedFoldersView(onCompletion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

@@ -35,8 +35,8 @@ class SuggestedFoldersModel: ObservableObject {
         if loadingState != .start {
             return
         }
-        loadingState = .loading
         Task { @MainActor in
+            loadingState = .loading
             let uuids = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
             guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: uuids) else {
                 loadingState = .failed
