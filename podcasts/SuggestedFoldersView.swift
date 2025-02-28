@@ -126,35 +126,10 @@ struct SuggestedFoldersView: View {
         }
         .applyDefaultThemeOptions()
         .sheet(isPresented: $howItWorksActive) {
-            ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
-                             action: {
-                howItWorksActive = false
-                Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
-            })
-            .modify {
-                if #available(iOS 16.0, *) {
-                    $0.presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
-                } else {
-                    $0
-                }
-            }
+            howItWorksModal
         }
         .sheet(isPresented: $applySuggestedFoldersConfirmation) {
-            ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
-                             action: {
-                applySuggestedFoldersConfirmation = false
-                Analytics.track(.suggestedFoldersReplaceFoldersTapped)
-                onCompletion(.applySuggestedFolders(model.folders))
-            })
-            .modify {
-                if #available(iOS 16.0, *) {
-                    $0.presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
-                } else {
-                    $0
-                }
-            }
+            confirmationModal
         }
     }
 
@@ -162,6 +137,38 @@ struct SuggestedFoldersView: View {
         GridFoldersView(folders: model.folders)
     }
 
+    private var howItWorksModal: some View {
+        ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
+                         action: {
+            howItWorksActive = false
+            Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
+    }
+
+    private var confirmationModal: some View {
+        ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
+                         action: {
+            applySuggestedFoldersConfirmation = false
+            Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+            onCompletion(.applySuggestedFolders(model.folders))
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
+    }
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
