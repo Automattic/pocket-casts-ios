@@ -4766,7 +4766,7 @@
 "podcast_feed_reload_tip_message" = "Pull down or use this menu to see if there's something new.";
 
 /* Suggested Folders screen title */
-"suggested_folders_title" = "Suggested Folders";
+"suggested_folders_title" = "Smart Folders";
 
 /* Suggested Folders screen description */
 "suggested_folders_description" = "We’ve organized your podcasts for you. Save or customize them to fit your style.";

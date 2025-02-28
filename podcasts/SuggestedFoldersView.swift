@@ -9,7 +9,7 @@ enum SuggestedFoldersResult {
 struct SuggestedFoldersView: View {
 
     enum Constants {
-        static var margin: CGFloat = 20
+        static var margin: CGFloat = 16
     }
 
     @EnvironmentObject var theme: Theme
@@ -71,9 +71,14 @@ struct SuggestedFoldersView: View {
 
     var mainBody: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Spacer().frame(height: 8)
-            Text(L10n.suggestedFoldersDescription)
-                .textStyle(SecondaryText())
+            Group {
+                Text(L10n.suggestedFoldersTitle)
+                    .textStyle(PrimaryText())
+                    .font(.largeTitle.bold())
+                Text(L10n.suggestedFoldersDescription)
+                    .textStyle(SecondaryText())
+                    .font(.body)
+            }
             foldersView
                 .padding(.horizontal, -Constants.margin)
                 // hack to allow the scroll indicator to be visible without overlapping the content
@@ -98,7 +103,7 @@ struct SuggestedFoldersView: View {
             Spacer()
         }
         .padding(.horizontal, Constants.margin)
-        .navigationTitle(L10n.suggestedFoldersTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
         }
