@@ -4788,3 +4788,12 @@
 
 /* Suggested Folder how it work detail */
 "suggested_folders_how_it_works_detail" = "Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.";
+
+/* Suggested Folder replace confirmation title */
+"suggested_folders_replace_confirmation_title" = "Replace existing folders?";
+
+/* Suggested Folder replace confirmation details */
+"suggested_folders_replace_confirmation_details " = "Accepting suggested folders will overwrite your current folders. This can’t be undone.";
+
+/* Suggested Folder replace confirmation action button title */
+"suggested_folders_replace_confirmation_button " = "Replace folders";

@@ -3413,6 +3413,12 @@ internal enum L10n {
   internal static var suggestedFoldersHowItWorks: String { return L10n.tr("Localizable", "suggested_folders_how_it_works") }
   /// Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.
   internal static var suggestedFoldersHowItWorksDetail: String { return L10n.tr("Localizable", "suggested_folders_how_it_works_detail") }
+  /// Replace folders
+  internal static var suggestedFoldersReplaceConfirmationButton: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_button ") }
+  /// Accepting suggested folders will overwrite your current folders. This can’t be undone.
+  internal static var suggestedFoldersReplaceConfirmationDetails: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_details ") }
+  /// Replace existing folders?
+  internal static var suggestedFoldersReplaceConfirmationTitle: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_title") }
   /// Smart Folders
   internal static var suggestedFoldersTitle: String { return L10n.tr("Localizable", "suggested_folders_title") }
   /// We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.
