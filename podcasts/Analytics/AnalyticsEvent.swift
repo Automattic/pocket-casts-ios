@@ -173,7 +173,7 @@ enum AnalyticsEvent: String {
     case suggestedFoldersHowItWorksGotItTapped
     case suggestedFoldersReplaceExistingFoldersModalShown
     case suggestedFoldersReplaceFoldersTapped
-    
+
     // MARK: - Tab Bar Items
 
     case podcastsTabOpened
