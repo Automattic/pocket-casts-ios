@@ -19,5 +19,8 @@ struct SuggestedFolderPodcastView: View {
         // hack to allow the scroll indicator to be visible without overlapping the content
         .customHorizontalMargin(margin: SuggestedFoldersView.Constants.margin)
         .applyDefaultThemeOptions()
+        .onAppear {
+            Analytics.track(.suggestedFoldersDetailModalShown, properties: [:])
+        }
     }
 }
