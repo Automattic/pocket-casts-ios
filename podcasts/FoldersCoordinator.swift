@@ -46,13 +46,21 @@ class FoldersCoordinator: NSObject {
             }
             return
         }
-        let suggestedFoldersView = SuggestedFoldersView { [weak vc] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+        let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
+            switch result {
+            case .dismiss:
+                vc?.dismiss(animated: true, completion: nil)
+            case .applySuggestedFolders(let folders):
+                vc?.dismiss(animated: true, completion: nil)
+                self?.applySuggestedFolders(folders)
+            case .createdManualFolder(let folderUuid):
+                guard let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) else {
+                    vc?.dismiss(animated: true, completion: nil)
+                    return
+                }
                 vc?.dismiss(animated: true, completion: {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })
-            } else {
-                vc?.dismiss(animated: true, completion: nil)
             }
         }
         let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
@@ -82,6 +90,29 @@ class FoldersCoordinator: NSObject {
         }
         vc.present(hostingController, animated: true, completion: nil)
 
+    }
+
+    private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
+        DataManager.sharedManager.clearAllFolderInformation()
+        for suggestedFolder in suggestedFolders {
+            let folder = makeFolder(from: suggestedFolder)
+            DataManager.sharedManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.topPodcastUuids)
+        }
+        NotificationCenter.postOnMainThread(notification: ServerNotifications.podcastsRefreshed, object: nil)
+    }
+
+    private func makeFolder(from suggestedFolder: SuggestedFolder) -> Folder {
+        let folder = Folder()
+        folder.name = suggestedFolder.name
+        folder.color = suggestedFolder.color
+        folder.addedDate = Date()
+        folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
+        folder.sortOrder = ServerPodcastManager.shared.lowestSortOrderForHomeGrid() - 1
+
+        // the sort type for newly created folders defaults to the same thing the home grid is set to
+        folder.sortType = Int32(Settings.homeFolderSortOrder().old.rawValue)
+        DataManager.sharedManager.save(folder: folder)
+        return folder
     }
 }
 
