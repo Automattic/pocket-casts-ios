@@ -60,8 +60,7 @@ struct SuggestedFoldersUpsellView: View {
             .multilineTextAlignment(.center)
             Spacer()
             Button {
-                Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])
-                dismissAction()
+                Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])                
                 onCompletion?(.applySuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)

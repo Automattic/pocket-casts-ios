@@ -73,12 +73,8 @@ class FoldersCoordinator: NSObject {
 
     private func newSuggestedFolderCreationFlow(from vc: UIViewController) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            if !SyncManager.isUserLoggedIn() {
-                navigationManager.showUpsellView(from: vc, source: .folders)
-            } else {
-                currentUpsellFlow = .userInitiated
-                showUpsellSuggestedFolder(from: vc)
-            }
+            currentUpsellFlow = .userInitiated
+            showUpsellSuggestedFolder(from: vc)
             return
         }
         let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
@@ -111,7 +107,7 @@ class FoldersCoordinator: NSObject {
             vc.dismiss(animated: false) { [weak self] in
                 self?.navigationManager.showUpsellView(from: vc, source: .folders)
             }
-        })) { result in
+        })) { [weak self] result in
             switch result {
             case .dismiss:
                 //Update settings only if this was show by system
@@ -122,6 +118,9 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders:
                 //Show subscription/IAP flow
+                vc.dismiss(animated: false) {
+                    self?.navigationManager.showUpsellView(from: vc, source: .folders)
+                }
                 return
             default:
                 break
