@@ -18,6 +18,8 @@
 		<string>appclips:pocketcasts.com</string>
 		<string>applinks:play.pocketcasts.net</string>
 		<string>applinks:play.pocketcasts.com</string>
+		<string>appclips:play.pocketcasts.com</string>
+		<string>appclips:play.pocketcasts.net</string>
 	</array>
 	<key>com.apple.developer.networking.wifi-info</key>
 	<true/>
