@@ -39,7 +39,7 @@ class FoldersCoordinator: NSObject {
         else {
             return
         }
-        showUpSellSuggestedFolder(from: vc)
+        showUpSellSuggestedFolder(from: vc, fromUserAction: false)
     }
 
     private func oldFolderCreationFlow(from vc: UIViewController) {
