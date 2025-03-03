@@ -145,7 +145,7 @@ class FoldersCoordinator: NSObject {
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
-        DataManager.sharedManager.clearAllFolderInformation()
+        DataManager.sharedManager.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.topPodcastUuids)
