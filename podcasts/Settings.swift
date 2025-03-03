@@ -1391,6 +1391,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Smart Folders Upsell display
+    class var suggestedFoldersLastUpsellDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate) as? Date
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

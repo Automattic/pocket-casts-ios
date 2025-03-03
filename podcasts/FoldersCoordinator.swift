@@ -9,6 +9,11 @@ class FoldersCoordinator: NSObject {
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
 
+    private enum Constants {
+        static let minimumNumberOfPodcasts: Int = 8
+        static let intervalBetweenUpsell: TimeInterval = 7.days
+    }
+
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
@@ -22,7 +27,18 @@ class FoldersCoordinator: NSObject {
         }
         AnalyticsHelper.folderCreated()
         Analytics.track(.podcastsListFolderButtonTapped)
+    }
 
+    func showUpsellIfNeeded(from vc: UIViewController) {
+        guard FeatureFlag.suggestedFolders.enabled,
+              !SubscriptionHelper.hasActiveSubscription(),
+              DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
+              DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
+        else {
+            return
+        }
+        Settings.suggestedFoldersLastUpsellDate = Date.now
+        showUpSellSuggestedFolder(from: vc)
     }
 
     private func oldFolderCreationFlow(from vc: UIViewController) {
