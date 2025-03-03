@@ -9,12 +9,17 @@ enum SuggestedFoldersResult {
 struct SuggestedFoldersView: View {
 
     enum Constants {
-        static var margin: CGFloat = 20
+        static var margin: CGFloat = 16
     }
 
     @EnvironmentObject var theme: Theme
+
     @State private var createFolderActive = false
+    @State private var howItWorksActive = false
+    @State private var applySuggestedFoldersConfirmation = false
+
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
+
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
@@ -71,16 +76,28 @@ struct SuggestedFoldersView: View {
 
     var mainBody: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Spacer().frame(height: 8)
-            Text(L10n.suggestedFoldersDescription)
-                .textStyle(SecondaryText())
+            Group {
+                Text(L10n.suggestedFoldersTitle)
+                    .textStyle(PrimaryText())
+                    .font(.largeTitle.bold())
+                Text(L10n.suggestedFoldersDescription)
+                    .textStyle(SecondaryText())
+                    .font(.body)
+                Text(L10n.suggestedFoldersHowItWorks)
+                    .foregroundColor(theme.primaryInteractive01)
+                    .onTapGesture {
+                        howItWorksActive.toggle()
+                        Analytics.track(.suggestedFoldersHowItWorksTapped)
+                    }
+            }
             foldersView
                 .padding(.horizontal, -Constants.margin)
                 // hack to allow the scroll indicator to be visible without overlapping the content
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
-                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
-                onCompletion(.applySuggestedFolders(model.folders))
+                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
+                Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
+                applySuggestedFoldersConfirmation.toggle()
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
@@ -98,7 +115,7 @@ struct SuggestedFoldersView: View {
             Spacer()
         }
         .padding(.horizontal, Constants.margin)
-        .navigationTitle(L10n.suggestedFoldersTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
         }
@@ -108,10 +125,49 @@ struct SuggestedFoldersView: View {
             }
         }
         .applyDefaultThemeOptions()
+        .sheet(isPresented: $howItWorksActive) {
+            howItWorksModal
+        }
+        .sheet(isPresented: $applySuggestedFoldersConfirmation) {
+            confirmationModal
+        }
     }
 
     var foldersView: some View {
         GridFoldersView(folders: model.folders)
+    }
+
+    private var howItWorksModal: some View {
+        ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
+                         action: {
+            howItWorksActive = false
+            Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
+    }
+
+    private var confirmationModal: some View {
+        ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
+                         action: {
+            applySuggestedFoldersConfirmation = false
+            Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+            onCompletion(.applySuggestedFolders(model.folders))
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
     }
 }
 
