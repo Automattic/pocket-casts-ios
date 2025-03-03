@@ -4769,6 +4769,25 @@
 /* Description used in the tooltip showed in the podcast view controller the first time the view appears */
 "podcast_feed_reload_tip_message" = "Pull down or use this menu to see if there's something new.";
 
+/* Suggested Folders screen title */
+"suggested_folders_title" = "Suggested Folders";
+
+/* Suggested Folders screen description */
+"suggested_folders_description" = "We’ve organized your podcasts for you. Save or customize them to fit your style.";
+
+/* Suggested Folders button title to accept suggested folders*/
+"suggested_folders_use_suggested_folders" = "Use these folders";
+
+/* Suggested Folders button title to create custom folders*/
+"suggested_folders_create_custom_folders" = "Create custom folders";
+
+/* Suggested Folder upsell title */
+"suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
+
+/* Suggested Folder upsell detail */
+"suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
+
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
