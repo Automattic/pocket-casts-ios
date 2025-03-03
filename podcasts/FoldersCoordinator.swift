@@ -6,6 +6,14 @@ import PocketCastsUtils
 
 class FoldersCoordinator: NSObject {
 
+    enum UpsellFlow {
+        case none
+        case cta
+        case userInitiated
+    }
+
+    private var currentUpsellFlow: UpsellFlow = .none
+
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
 
@@ -39,6 +47,7 @@ class FoldersCoordinator: NSObject {
         else {
             return
         }
+        currentUpsellFlow = .cta
         showUpSellSuggestedFolder(from: vc, fromUserAction: false)
     }
 
@@ -67,6 +76,7 @@ class FoldersCoordinator: NSObject {
             if !SyncManager.isUserLoggedIn() {
                 navigationManager.showUpsellView(from: vc, source: .folders)
             } else {
+                currentUpsellFlow = .userInitiated
                 showUpSellSuggestedFolder(from: vc)
             }
             return
@@ -130,6 +140,7 @@ class FoldersCoordinator: NSObject {
         } else {
             hostingController.modalPresentationStyle = .formSheet
         }
+        hostingController.presentationController?.delegate = self
         vc.present(hostingController, animated: true, completion: nil)
 
     }
@@ -160,6 +171,14 @@ class FoldersCoordinator: NSObject {
 
 extension FoldersCoordinator: UISheetPresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+        if currentUpsellFlow == .none {
+            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+        } else {
+            if currentUpsellFlow == .cta {
+                Settings.suggestedFoldersLastUpsellDate = Date.now
+                Settings.suggestedFoldersUpsellCount += 1
+            }
+        }
+        currentUpsellFlow = .none
     }
 }
