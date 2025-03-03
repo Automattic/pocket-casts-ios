@@ -37,7 +37,6 @@ class FoldersCoordinator: NSObject {
         else {
             return
         }
-        Settings.suggestedFoldersLastUpsellDate = Date.now
         showUpSellSuggestedFolder(from: vc)
     }
 
@@ -94,13 +93,27 @@ class FoldersCoordinator: NSObject {
         hostingController.sheetPresentationController?.delegate = self
     }
 
-    private func showUpSellSuggestedFolder(from vc: UIViewController) {
+    private func showUpSellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false) {
         let upsellSuggestedFoldersView = SuggestedFoldersUpSellView(model: SuggestedFoldersModel(failedToLoadAction: {[weak vc] in
             guard let vc else { return }
             vc.dismiss(animated: false) { [weak self] in
                 self?.navigationManager.showUpsellView(from: vc, source: .folders)
             }
-        }))
+        })) { result in
+            switch result {
+            case .dismiss:
+                //Update settings only if this was show by system
+                if !fromUserAction {
+                    Settings.suggestedFoldersLastUpsellDate = Date.now
+                }
+                return
+            case .applySuggestedFolders:
+                //Show IAP code
+                return
+            default:
+                break
+            }
+        }
         let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
         if UIDevice.current.userInterfaceIdiom == .phone {
             if #available(iOS 16.0, *) {
