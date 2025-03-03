@@ -13,6 +13,7 @@ class FoldersCoordinator: NSObject {
     }
 
     private var currentUpsellFlow: UpsellFlow = .none
+    private let startingTime: Date = Date.now
 
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
@@ -21,6 +22,7 @@ class FoldersCoordinator: NSObject {
         static let minimumNumberOfPodcasts: Int = 8
         static let intervalBetweenUpsell: TimeInterval = 7.days
         static let maxUpsellDisplays: Int = 1
+        static let intervalAfterStartup: TimeInterval = 1.minutes
     }
 
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
@@ -41,6 +43,7 @@ class FoldersCoordinator: NSObject {
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
               !SubscriptionHelper.hasActiveSubscription(),
+              DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
               DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
               DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
