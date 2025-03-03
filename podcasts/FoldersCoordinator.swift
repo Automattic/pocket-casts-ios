@@ -33,7 +33,7 @@ class FoldersCoordinator: NSObject {
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
               !SubscriptionHelper.hasActiveSubscription(),
-              Settings.suggestedFoldersUpsellCount > Constants.maxUpsellDisplays,
+              Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
               DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
               DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
         else {
@@ -111,7 +111,7 @@ class FoldersCoordinator: NSObject {
                 }
                 return
             case .applySuggestedFolders:
-                //Show IAP code
+                //Show subscription/IAP flow
                 return
             default:
                 break
