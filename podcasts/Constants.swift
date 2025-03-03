@@ -214,6 +214,7 @@ struct Constants {
 
         enum suggestedFolders {
             static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
+            static let upsellCount = "suggestedFolders.upsellCount"
         }
     }
 

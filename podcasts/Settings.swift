@@ -1402,6 +1402,16 @@ class Settings: NSObject {
         }
     }
 
+    class var suggestedFoldersUpsellCount: Int {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.upsellCount)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.upsellCount) as? Int ?? 0
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
