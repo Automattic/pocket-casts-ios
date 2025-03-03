@@ -48,7 +48,7 @@ class FoldersCoordinator: NSObject {
             return
         }
         currentUpsellFlow = .cta
-        showUpSellSuggestedFolder(from: vc, fromUserAction: false)
+        showUpsellSuggestedFolder(from: vc, fromUserAction: false)
     }
 
     private func oldFolderCreationFlow(from vc: UIViewController) {
@@ -77,7 +77,7 @@ class FoldersCoordinator: NSObject {
                 navigationManager.showUpsellView(from: vc, source: .folders)
             } else {
                 currentUpsellFlow = .userInitiated
-                showUpSellSuggestedFolder(from: vc)
+                showUpsellSuggestedFolder(from: vc)
             }
             return
         }
@@ -105,8 +105,8 @@ class FoldersCoordinator: NSObject {
         hostingController.sheetPresentationController?.delegate = self
     }
 
-    private func showUpSellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false) {
-        let upsellSuggestedFoldersView = SuggestedFoldersUpSellView(model: SuggestedFoldersModel(failedToLoadAction: {[weak vc] in
+    private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false) {
+        let upsellSuggestedFoldersView = SuggestedFoldersUpsellView(model: SuggestedFoldersModel(failedToLoadAction: {[weak vc] in
             guard let vc else { return }
             vc.dismiss(animated: false) { [weak self] in
                 self?.navigationManager.showUpsellView(from: vc, source: .folders)

@@ -1,7 +1,7 @@
 import PocketCastsDataModel
 import SwiftUI
 
-struct SuggestedFoldersUpSellView: View {
+struct SuggestedFoldersUpsellView: View {
     @Environment(\.dismiss) var dismissAction
     @EnvironmentObject var theme: Theme
     @ObservedObject var model: SuggestedFoldersModel
@@ -96,9 +96,9 @@ struct SuggestedFoldersUpSellView: View {
     }
 }
 
-struct SuggestedFoldersUpSellView_Previews: PreviewProvider {
+struct SuggestedFoldersUpsellView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersUpSellView()
+        SuggestedFoldersUpsellView()
             .environmentObject(Theme(previewTheme: .light))
     }
 }
