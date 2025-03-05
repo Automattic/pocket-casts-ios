@@ -113,7 +113,7 @@ struct SuggestedFoldersView: View {
                     onCompletion(.dismiss)
                 }
             }, isActive: $createFolderActive) {
-                Text(L10n.suggestedFoldersCreateCustomFolders)
+                Text(L10n.suggestedFoldersCreateCustomFolder)
                     .textStyle(BorderButton())
             }
             Spacer()

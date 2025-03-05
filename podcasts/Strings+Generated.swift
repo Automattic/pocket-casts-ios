@@ -3405,9 +3405,9 @@ internal enum L10n {
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
-  /// Create custom folders
-  internal static var suggestedFoldersCreateCustomFolders: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folders") }
-  /// We’ve organized your podcasts for you. Save or customize them to fit your style.
+  /// Create custom folder
+  internal static var suggestedFoldersCreateCustomFolder: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folder") }
+  /// We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.
   internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
   /// How it works
   internal static var suggestedFoldersHowItWorks: String { return L10n.tr("Localizable", "suggested_folders_how_it_works") }

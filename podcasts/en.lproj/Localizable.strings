@@ -4769,13 +4769,13 @@
 "suggested_folders_title" = "Smart Folders";
 
 /* Suggested Folders screen description */
-"suggested_folders_description" = "We’ve organized your podcasts for you. Save or customize them to fit your style.";
+"suggested_folders_description" = "We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.";
 
 /* Suggested Folders button title to accept suggested folders*/
 "suggested_folders_use_suggested_folders" = "Use these folders";
 
-/* Suggested Folders button title to create custom folders*/
-"suggested_folders_create_custom_folders" = "Create custom folders";
+/* Suggested Folders button title to create a custom folder*/
+"suggested_folders_create_custom_folder" = "Create custom folder";
 
 /* Suggested Folder upsell title */
 "suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
