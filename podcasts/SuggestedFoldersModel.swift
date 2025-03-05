@@ -54,4 +54,8 @@ class SuggestedFoldersModel: ObservableObject {
             loadingState = .loaded
         }
     }
+
+    var userHasExistingFolders: Bool {
+        return DataManager.sharedManager.allFolders().count > 0
+    }
 }

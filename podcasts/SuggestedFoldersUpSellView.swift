@@ -61,7 +61,6 @@ struct SuggestedFoldersUpsellView: View {
             Spacer()
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])
-                dismissAction()
                 onCompletion?(.applySuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)

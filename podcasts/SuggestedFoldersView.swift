@@ -97,7 +97,11 @@ struct SuggestedFoldersView: View {
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
                 Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
-                applySuggestedFoldersConfirmation.toggle()
+                if model.userHasExistingFolders {
+                    applySuggestedFoldersConfirmation.toggle()
+                } else {
+                    onCompletion(.applySuggestedFolders(model.folders))
+                }
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())

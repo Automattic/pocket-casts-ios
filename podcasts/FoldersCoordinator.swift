@@ -3,6 +3,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Combine
 
 class FoldersCoordinator: NSObject {
 
@@ -28,9 +29,14 @@ class FoldersCoordinator: NSObject {
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
+        super.init()
+        addObservers()
     }
 
+    private weak var currentVC: UIViewController? = nil
+
     func startFolderCreationFlow(from vc: UIViewController) {
+        currentVC = vc
         if FeatureFlag.suggestedFolders.enabled {
             newSuggestedFolderCreationFlow(from: vc)
         } else {
@@ -41,6 +47,7 @@ class FoldersCoordinator: NSObject {
     }
 
     func showUpsellIfNeeded(from vc: UIViewController) {
+        currentVC = vc
         guard FeatureFlag.suggestedFolders.enabled,
               !SubscriptionHelper.hasActiveSubscription(),
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
@@ -76,12 +83,8 @@ class FoldersCoordinator: NSObject {
 
     private func newSuggestedFolderCreationFlow(from vc: UIViewController) {
         if !SubscriptionHelper.hasActiveSubscription() {
-            if !SyncManager.isUserLoggedIn() {
-                navigationManager.showUpsellView(from: vc, source: .folders)
-            } else {
-                currentUpsellFlow = .userInitiated
-                showUpsellSuggestedFolder(from: vc)
-            }
+            currentUpsellFlow = .userInitiated
+            showUpsellSuggestedFolder(from: vc)
             return
         }
         let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
@@ -114,7 +117,7 @@ class FoldersCoordinator: NSObject {
             vc.dismiss(animated: false) { [weak self] in
                 self?.navigationManager.showUpsellView(from: vc, source: .folders)
             }
-        })) { result in
+        })) { [weak self] result in
             switch result {
             case .dismiss:
                 //Update settings only if this was show by system
@@ -125,6 +128,9 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders:
                 //Show subscription/IAP flow
+                vc.dismiss(animated: false) {
+                    self?.navigationManager.showUpsellView(from: vc, source: .folders)
+                }
                 return
             default:
                 break
@@ -149,7 +155,7 @@ class FoldersCoordinator: NSObject {
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
-        DataManager.sharedManager.clearAllFolderInformation()
+        DataManager.sharedManager.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.topPodcastUuids)
@@ -170,6 +176,43 @@ class FoldersCoordinator: NSObject {
         dataManager.save(folder: folder)
         return folder
     }
+
+    private var cancellables = Set<AnyCancellable>()
+    private func addObservers() {
+        // Observe IAP flows notification
+        Publishers.Merge3(
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCancelled),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
+        )
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            refreshAfterFlow()
+        }
+        .store(in: &cancellables)
+
+        //Observe Login/Signup notification
+        NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            refreshAfterFlow()
+        }
+        .store(in: &cancellables)
+    }
+
+    private func refreshAfterFlow() {
+        guard FeatureFlag.suggestedFolders.enabled,
+              SubscriptionHelper.hasActiveSubscription(),
+              let currentVC
+        else {
+            currentVC = nil
+            currentUpsellFlow = .none
+            return
+        }
+        currentUpsellFlow = .none
+        newSuggestedFolderCreationFlow(from: currentVC)
+        self.currentVC = nil
+    }
 }
 
 extension FoldersCoordinator: UISheetPresentationControllerDelegate {
@@ -183,5 +226,6 @@ extension FoldersCoordinator: UISheetPresentationControllerDelegate {
             }
         }
         currentUpsellFlow = .none
+        currentVC = nil
     }
 }
