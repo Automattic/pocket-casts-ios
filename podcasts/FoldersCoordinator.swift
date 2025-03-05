@@ -30,7 +30,6 @@ class FoldersCoordinator: NSObject {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
         super.init()
-        addObservers()
     }
 
     private weak var currentVC: UIViewController? = nil
@@ -122,11 +121,8 @@ class FoldersCoordinator: NSObject {
                 }
                 return
             case .applySuggestedFolders, .createdManualFolder:
-                //Show subscription/IAP flow
-                currentVC = vc
-                vc.dismiss(animated: false) {
-                    self.navigationManager.showUpsellView(from: vc, source: .folders)
-                }
+                //Show upsell flow
+                startUpsellFlow(from: vc)
                 return
             }
         }
@@ -159,6 +155,14 @@ class FoldersCoordinator: NSObject {
         return folder
     }
 
+    private func startUpsellFlow(from vc: UIViewController) {
+        currentVC = vc
+        addObservers()
+        vc.dismiss(animated: false) {
+            self.navigationManager.showUpsellView(from: vc, source: .folders)
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
         // Observe IAP flows notification
@@ -169,7 +173,7 @@ class FoldersCoordinator: NSObject {
         )
         .receive(on: OperationQueue.main)
         .sink { [unowned self] notification in
-            refreshAfterFlow()
+            refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)
 
@@ -177,20 +181,22 @@ class FoldersCoordinator: NSObject {
         NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
         .receive(on: OperationQueue.main)
         .sink { [unowned self] notification in
-            refreshAfterFlow()
+            refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)
     }
 
-    private func refreshAfterFlow() {
+    private func refreshAfterUpsellFlow() {
         guard FeatureFlag.suggestedFolders.enabled,
               SubscriptionHelper.hasActiveSubscription(),
               let currentVC
         else {
             currentVC = nil
             currentUpsellFlow = .none
+            cancellables = []
             return
         }
+        cancellables = []
         currentUpsellFlow = .none
         suggestedFolderCreationFlow(from: currentVC)
         self.currentVC = nil
