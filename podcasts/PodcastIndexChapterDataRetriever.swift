@@ -10,6 +10,7 @@ struct PodcastIndexChapter: Decodable {
     let number: Int?
     let endTime: TimeInterval?
     let startTime: TimeInterval
+    let toc: Bool?
 }
 
 /// Request information about an episode using the show notes endpoint
