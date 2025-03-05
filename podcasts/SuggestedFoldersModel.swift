@@ -55,6 +55,10 @@ class SuggestedFoldersModel: ObservableObject {
         }
     }
 
+    var showConfirmation: Bool {
+        return userHasExistingFolders && SubscriptionHelper.hasActiveSubscription()
+    }
+
     var userHasExistingFolders: Bool {
         return DataManager.sharedManager.allFolders().count > 0
     }

@@ -80,7 +80,7 @@ struct SuggestedFoldersView: View {
                 Text(L10n.suggestedFoldersTitle)
                     .textStyle(PrimaryText())
                     .font(.largeTitle.bold())
-                Text(L10n.suggestedFoldersDescription)
+                Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
             }
@@ -91,13 +91,13 @@ struct SuggestedFoldersView: View {
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
                 Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
-                if model.userHasExistingFolders {
+                if model.showConfirmation {
                     applySuggestedFoldersConfirmation.toggle()
                 } else {
                     onCompletion(.applySuggestedFolders(model.folders))
                 }
             } label: {
-                Text(L10n.suggestedFoldersUseSuggestedFolders)
+                Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
             NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in

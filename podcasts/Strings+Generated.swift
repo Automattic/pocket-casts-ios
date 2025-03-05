@@ -3407,8 +3407,10 @@ internal enum L10n {
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
   /// Create custom folder
   internal static var suggestedFoldersCreateCustomFolder: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folder") }
-  /// We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.
+  /// We've organized your podcasts into folders. Save now and customize later.
   internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
+  /// We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.
+  internal static var suggestedFoldersDescriptionWithExistingFolders: String { return L10n.tr("Localizable", "suggested_folders_description_with_existing_folders") }
   /// How it works
   internal static var suggestedFoldersHowItWorks: String { return L10n.tr("Localizable", "suggested_folders_how_it_works") }
   /// Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.

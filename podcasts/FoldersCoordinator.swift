@@ -112,45 +112,28 @@ class FoldersCoordinator: NSObject {
     }
 
     private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false) {
-        let upsellSuggestedFoldersView = SuggestedFoldersUpsellView(model: SuggestedFoldersModel(failedToLoadAction: {[weak vc] in
-            guard let vc else { return }
-            vc.dismiss(animated: false) { [weak self] in
-                self?.navigationManager.showUpsellView(from: vc, source: .folders)
-            }
-        })) { [weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
+            guard let self, let vc else { return }
             switch result {
             case .dismiss:
+                vc.dismiss(animated: true)
                 //Update settings only if this was show by system
                 if !fromUserAction {
                     Settings.suggestedFoldersLastUpsellDate = Date.now
                     Settings.suggestedFoldersUpsellCount += 1
                 }
                 return
-            case .applySuggestedFolders:
+            case .applySuggestedFolders, .createdManualFolder:
                 //Show subscription/IAP flow
                 vc.dismiss(animated: false) {
-                    self?.navigationManager.showUpsellView(from: vc, source: .folders)
+                    self.navigationManager.showUpsellView(from: vc, source: .folders)
                 }
                 return
-            default:
-                break
             }
         }
-        let hostingController = PCHostingController(rootView: upsellSuggestedFoldersView.environmentObject(Theme.sharedTheme))
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if #available(iOS 16.0, *) {
-                hostingController.sheetPresentationController?.detents = [.custom(resolver: { context in
-                    return context.maximumDetentValue * 0.65
-                })]
-            } else {
-                hostingController.sheetPresentationController?.detents = [.medium()]
-            }
-            hostingController.sheetPresentationController?.prefersGrabberVisible = true
-        } else {
-            hostingController.modalPresentationStyle = .formSheet
-        }
-        hostingController.presentationController?.delegate = self
+        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
+        hostingController.sheetPresentationController?.delegate = self
 
     }
 

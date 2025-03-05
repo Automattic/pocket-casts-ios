@@ -4769,7 +4769,10 @@
 "suggested_folders_title" = "Smart Folders";
 
 /* Suggested Folders screen description */
-"suggested_folders_description" = "We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.";
+"suggested_folders_description" = "We've organized your podcasts into folders. Save now and customize later.";
+
+/* Suggested Folders screen description when user already has folders */
+"suggested_folders_description_with_existing_folders" = "We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.";
 
 /* Suggested Folders button title to accept suggested folders*/
 "suggested_folders_use_suggested_folders" = "Use these folders";
