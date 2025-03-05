@@ -90,8 +90,8 @@ struct SuggestedFoldersView: View {
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
                 Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
-                Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
                 if model.showConfirmation {
+                    Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
                     applySuggestedFoldersConfirmation.toggle()
                 } else {
                     onCompletion(.applySuggestedFolders(model.folders))
@@ -100,15 +100,25 @@ struct SuggestedFoldersView: View {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
-            NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                if let uuid {
-                    onCompletion(.createdManualFolder(uuid))
-                } else {
-                    onCompletion(.dismiss)
+            if model.userHasSubscription {
+                NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
+                    if let uuid {
+                        onCompletion(.createdManualFolder(uuid))
+                    } else {
+                        onCompletion(.dismiss)
+                    }
+                }, isActive: $createFolderActive) {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
                 }
-            }, isActive: $createFolderActive) {
-                Text(L10n.suggestedFoldersCreateCustomFolder)
-                    .textStyle(BorderButton())
+            } else {
+                Button {
+                    Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+                    onCompletion(.createdManualFolder(""))
+                } label: {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
+                }
             }
             Spacer()
         }

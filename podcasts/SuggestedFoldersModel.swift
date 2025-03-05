@@ -55,6 +55,10 @@ class SuggestedFoldersModel: ObservableObject {
         }
     }
 
+    var userHasSubscription: Bool {
+        return SubscriptionHelper.hasActiveSubscription()
+    }
+
     var showConfirmation: Bool {
         return userHasExistingFolders && SubscriptionHelper.hasActiveSubscription()
     }
