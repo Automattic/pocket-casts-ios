@@ -15,7 +15,7 @@ struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
 
     @State private var createFolderActive = false
-    @State private var howItWorksActive = false
+
     @State private var applySuggestedFoldersConfirmation = false
 
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
@@ -83,12 +83,6 @@ struct SuggestedFoldersView: View {
                 Text(L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
-                Text(L10n.suggestedFoldersHowItWorks)
-                    .foregroundColor(theme.primaryInteractive01)
-                    .onTapGesture {
-                        howItWorksActive.toggle()
-                        Analytics.track(.suggestedFoldersHowItWorksTapped)
-                    }
             }
             foldersView
                 .padding(.horizontal, -Constants.margin)
@@ -129,9 +123,6 @@ struct SuggestedFoldersView: View {
             }
         }
         .applyDefaultThemeOptions()
-        .sheet(isPresented: $howItWorksActive) {
-            howItWorksModal
-        }
         .sheet(isPresented: $applySuggestedFoldersConfirmation) {
             confirmationModal
         }
@@ -139,22 +130,6 @@ struct SuggestedFoldersView: View {
 
     var foldersView: some View {
         GridFoldersView(folders: model.folders)
-    }
-
-    private var howItWorksModal: some View {
-        ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
-                         action: {
-            howItWorksActive = false
-            Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
-        })
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
     }
 
     private var confirmationModal: some View {
