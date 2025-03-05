@@ -3411,10 +3411,6 @@ internal enum L10n {
   internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
   /// We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.
   internal static var suggestedFoldersDescriptionWithExistingFolders: String { return L10n.tr("Localizable", "suggested_folders_description_with_existing_folders") }
-  /// How it works
-  internal static var suggestedFoldersHowItWorks: String { return L10n.tr("Localizable", "suggested_folders_how_it_works") }
-  /// Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.
-  internal static var suggestedFoldersHowItWorksDetail: String { return L10n.tr("Localizable", "suggested_folders_how_it_works_detail") }
   /// Replace folders
   internal static var suggestedFoldersReplaceConfirmationButton: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_button ") }
   /// Accepting suggested folders will overwrite your current folders. This can’t be undone.
@@ -3423,10 +3419,6 @@ internal enum L10n {
   internal static var suggestedFoldersReplaceConfirmationTitle: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_title") }
   /// Smart Folders
   internal static var suggestedFoldersTitle: String { return L10n.tr("Localizable", "suggested_folders_title") }
-  /// We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.
-  internal static var suggestedFoldersUpsellDescription: String { return L10n.tr("Localizable", "suggested_folders_upsell_description") }
-  /// Your podcasts, automatically organized
-  internal static var suggestedFoldersUpsellTitle: String { return L10n.tr("Localizable", "suggested_folders_upsell_title") }
   /// Use these folders
   internal static var suggestedFoldersUseSuggestedFolders: String { return L10n.tr("Localizable", "suggested_folders_use_suggested_folders") }
   /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.

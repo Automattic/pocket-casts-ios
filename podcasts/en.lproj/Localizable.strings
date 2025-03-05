@@ -4780,18 +4780,6 @@
 /* Suggested Folders button title to create a custom folder*/
 "suggested_folders_create_custom_folder" = "Create custom folder";
 
-/* Suggested Folder upsell title */
-"suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
-
-/* Suggested Folder upsell detail */
-"suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
-
-/* Suggested Folder how it work title */
-"suggested_folders_how_it_works" = "How it works";
-
-/* Suggested Folder how it work detail */
-"suggested_folders_how_it_works_detail" = "Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.";
-
 /* Suggested Folder replace confirmation title */
 "suggested_folders_replace_confirmation_title" = "Replace existing folders?";
 
