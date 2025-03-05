@@ -38,9 +38,9 @@ class FoldersCoordinator: NSObject {
     func startFolderCreationFlow(from vc: UIViewController) {
         currentVC = vc
         if FeatureFlag.suggestedFolders.enabled {
-            newSuggestedFolderCreationFlow(from: vc)
+            suggestedFolderCreationFlow(from: vc)
         } else {
-            oldFolderCreationFlow(from: vc)
+            manualFolderCreationFlow(from: vc)
         }
         AnalyticsHelper.folderCreated()
         Analytics.track(.podcastsListFolderButtonTapped)
@@ -61,7 +61,7 @@ class FoldersCoordinator: NSObject {
         showUpsellSuggestedFolder(from: vc, fromUserAction: false)
     }
 
-    private func oldFolderCreationFlow(from vc: UIViewController) {
+    private func manualFolderCreationFlow(from vc: UIViewController) {
         if !SubscriptionHelper.hasActiveSubscription() {
             navigationManager.showUpsellView(from: vc, source: .folders)
             return
@@ -81,7 +81,7 @@ class FoldersCoordinator: NSObject {
         vc.present(hostingController, animated: true, completion: nil)
     }
 
-    private func newSuggestedFolderCreationFlow(from vc: UIViewController) {
+    private func suggestedFolderCreationFlow(from vc: UIViewController) {
         if !SubscriptionHelper.hasActiveSubscription() {
             currentUpsellFlow = .userInitiated
             showUpsellSuggestedFolder(from: vc)
@@ -193,7 +193,7 @@ class FoldersCoordinator: NSObject {
             return
         }
         currentUpsellFlow = .none
-        newSuggestedFolderCreationFlow(from: currentVC)
+        suggestedFolderCreationFlow(from: currentVC)
         self.currentVC = nil
     }
 }
