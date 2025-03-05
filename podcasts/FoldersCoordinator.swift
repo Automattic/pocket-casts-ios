@@ -180,8 +180,7 @@ class FoldersCoordinator: NSObject {
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
         // Observe IAP flows notification
-        Publishers.Merge4(
-            NotificationCenter.default.publisher(for: ServerNotifications.iapProductsFailed),
+        Publishers.Merge3(         
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCancelled),
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
@@ -212,6 +211,7 @@ class FoldersCoordinator: NSObject {
         }
         currentUpsellFlow = .none
         newSuggestedFolderCreationFlow(from: currentVC)
+        self.currentVC = nil
     }
 }
 
