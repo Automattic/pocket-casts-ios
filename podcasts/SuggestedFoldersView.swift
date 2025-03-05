@@ -141,7 +141,7 @@ struct SuggestedFoldersView: View {
         })
         .modify {
             if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
+                $0.presentationDetents([.fraction(0.35)])
                     .presentationDragIndicator(.visible)
             } else {
                 $0
