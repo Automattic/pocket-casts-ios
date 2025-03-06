@@ -365,6 +365,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝選用 Pocket Casts。 折扣方案會在目前的帳單週期結束後開始。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年享 50%% 優惠！</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>自下一期帳單起省下 %@。</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>立即支付「%@」，次年即享 50%% 優惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下個月免費使用</string>
     <key>cancel_subscription_title</key>
@@ -1811,6 +1815,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>主題和圖示</string>
     <key>plus_marketing_title</key>
     <string>包含所有你喜愛的 Pocket Casts 功能，以及更多好康</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>接下來隨機播放</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>將你的檔案上傳至雲端儲存空間，隨時隨地使用</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1957,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>找到新的單集！</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>找不到任何單集。</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>下拉或透過此選單查看新功能。</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>第一時間收聽全新單集！</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>探索 Podcast 節目</string>
     <key>podcast_grid_no_podcasts_msg</key>

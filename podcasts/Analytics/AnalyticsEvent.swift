@@ -165,6 +165,14 @@ enum AnalyticsEvent: String {
     case suggestedFoldersModalDismissed
     case suggestedFoldersModalUseTheseFoldersTapped
     case suggestedFoldersModalCreateCustomFoldersTapped
+    case suggestedFoldersPaywallModalShown
+    case suggestedFoldersPaywallModalUseTheseFoldersTapped
+    case suggestedFoldersPaywallModalMaybeLaterTapped
+    case suggestedFoldersDetailModalShown
+    case suggestedFoldersHowItWorksTapped
+    case suggestedFoldersHowItWorksGotItTapped
+    case suggestedFoldersReplaceExistingFoldersModalShown
+    case suggestedFoldersReplaceFoldersTapped
 
     // MARK: - Tab Bar Items
 

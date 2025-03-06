@@ -1924,6 +1924,15 @@
 		FF06AFA42CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */; };
 		FF06AFA72CB692D30099EC9B /* MediaFileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */; };
 		FF06AFA82CB692D30099EC9B /* MediaFileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */; };
+		FF0753842D69088E00BE8B3B /* GridFoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753832D69087F00BE8B3B /* GridFoldersView.swift */; };
+		FF0753862D6CB70A00BE8B3B /* NavigationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */; };
+		FF0753882D6CB79600BE8B3B /* SuggestedFolderPodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */; };
+		FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */; };
+		FF07538C2D6CC4FA00BE8B3B /* CustomHorizontalMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */; };
+		FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */; };
+		FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */; };
+		FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */; };
+		FF0753962D721AB900BE8B3B /* ModalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753952D721AAC00BE8B3B /* ModalMessage.swift */; };
 		FF09982E2CDA996D00C1647B /* MarqueeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */; };
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
@@ -3947,6 +3956,15 @@
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporterResourceLoaderDelegate.swift; sourceTree = "<group>"; };
 		FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileHandle.swift; sourceTree = "<group>"; };
+		FF0753832D69087F00BE8B3B /* GridFoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFoldersView.swift; sourceTree = "<group>"; };
+		FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContainer.swift; sourceTree = "<group>"; };
+		FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFolderPodcastView.swift; sourceTree = "<group>"; };
+		FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImageViewWrapper.swift; sourceTree = "<group>"; };
+		FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHorizontalMargin.swift; sourceTree = "<group>"; };
+		FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersUpSellView.swift; sourceTree = "<group>"; };
+		FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersModel.swift; sourceTree = "<group>"; };
+		FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersCoordinator.swift; sourceTree = "<group>"; };
+		FF0753952D721AAC00BE8B3B /* ModalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMessage.swift; sourceTree = "<group>"; };
 		FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
@@ -6259,6 +6277,7 @@
 		BD7455C627B0E6C000D4D5B0 /* Folders */ = {
 			isa = PBXGroup;
 			children = (
+				FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */,
 				BDD3578B27BCD3090000D155 /* Create & Edit */,
 				BD998ACF27B252FD00B38857 /* Podcast Selection */,
 				BDD3578E27BCD33D0000D155 /* FolderViewController.swift */,
@@ -6934,6 +6953,7 @@
 		BDD3578C27BCD3180000D155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */,
 				BDC5F24F27B3997300A85C93 /* FolderModel.swift */,
 				BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */,
 			);
@@ -6945,6 +6965,10 @@
 			children = (
 				BD998AC927B2408500B38857 /* CreateFolderView.swift */,
 				FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */,
+				FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */,
+				FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */,
+				FF0753832D69087F00BE8B3B /* GridFoldersView.swift */,
+				FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */,
 				BD998ACB27B2436000B38857 /* NameFolderView.swift */,
 				BD998AD227B3430700B38857 /* ColorPreviewFolderView.swift */,
 				BD26AFD627BE09E8008CC973 /* EditFolderView.swift */,
@@ -7327,6 +7351,9 @@
 		C74887782919DC7B00EBC926 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				FF0753952D721AAC00BE8B3B /* ModalMessage.swift */,
+				FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */,
+				FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */,
 				F5E16FE62CD47DE800C0372F /* SFSafariView.swift */,
 				F54E0F532CC764C0006D4DA2 /* PositionModifier.swift */,
 				C7B3C60B2919DCC800054145 /* ActionView.swift */,
@@ -9832,6 +9859,7 @@
 				10C1D5502C737EEF009E1E98 /* PlusPaywallContainer.swift in Sources */,
 				BDC5F25027B3997300A85C93 /* FolderModel.swift in Sources */,
 				BDBD2AC7202D66B300E0A79E /* OptionsPickerRootController.swift in Sources */,
+				FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */,
 				4004F56524EB51F900FBEBE1 /* SceneHelper.swift in Sources */,
 				F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */,
 				40FFAD8D2149E1C200024FCF /* EpisodeFilterChipCell.swift in Sources */,
@@ -10278,6 +10306,7 @@
 				FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,
+				FF0753962D721AB900BE8B3B /* ModalMessage.swift in Sources */,
 				BD6C3EFF2378EC5900C01403 /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
 				408F0B36227FF41E0019584D /* ProfileProgressCircleView.swift in Sources */,
 				FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */,
@@ -10370,6 +10399,7 @@
 				C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */,
 				F54E0F542CC764C0006D4DA2 /* PositionModifier.swift in Sources */,
 				8B67A26729A7D80E0076886D /* SearchResultCell.swift in Sources */,
+				FF07538C2D6CC4FA00BE8B3B /* CustomHorizontalMargin.swift in Sources */,
 				8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */,
 				10DFE9362C5A8D1300957D0A /* ABTest.swift in Sources */,
 				BD03DF881CACD9AB005A127E /* DownloadedFilesViewController.swift in Sources */,
@@ -10561,6 +10591,7 @@
 				8B99197729A686BA00A5C81C /* SearchResultsView.swift in Sources */,
 				40E1B4CA2255856C006C96CE /* FiltersShortcutsViewController.swift in Sources */,
 				BDED9312251DD5EB000BF622 /* CarPlayImageHelper.swift in Sources */,
+				FF0753842D69088E00BE8B3B /* GridFoldersView.swift in Sources */,
 				BDB206AA2191734D00C1E456 /* NowPlayingHelper.swift in Sources */,
 				10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */,
 				400AB301220BA8DC0003EE21 /* UploadedViewController+Table.swift in Sources */,
@@ -10586,6 +10617,7 @@
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
 				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
+				FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
@@ -10620,6 +10652,7 @@
 				C7B3C6142919F47A00054145 /* HorizontalScrollView.swift in Sources */,
 				BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */,
 				10C1D5522C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift in Sources */,
+				FF0753882D6CB79600BE8B3B /* SuggestedFolderPodcastView.swift in Sources */,
 				F53C3E832CC73549004F3581 /* TopSpotStory2024.swift in Sources */,
 				8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */,
 				BDCC55141CD0A448006BE239 /* AEXML.swift in Sources */,
@@ -10645,6 +10678,7 @@
 				4635390E26F3C42C00BA9D35 /* MessageSupportViewModel.swift in Sources */,
 				BD1C46E227BA269300B1D8BB /* FolderPreviewView.swift in Sources */,
 				40FFCDB322FA848D00395CA5 /* ThemeableSelectionView.swift in Sources */,
+				FF0753862D6CB70A00BE8B3B /* NavigationContainer.swift in Sources */,
 				BD74F1B621F0133B002EF774 /* MPFeedbackCommand+Title.swift in Sources */,
 				C72CED2D289DA14F0017883A /* AnalyticsEvent.swift in Sources */,
 				BD874EF71C9A428B00F5B2A5 /* GeneralSettingsViewController.swift in Sources */,
@@ -10662,6 +10696,7 @@
 				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
 				463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */,
+				FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */,
 				40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */,
 				4084263E2138E2750076D82E /* FeaturedCollectionViewCell.swift in Sources */,
 				46CD3CA12715E3E600F5EB8F /* SupportConfig.swift in Sources */,
@@ -10682,6 +10717,7 @@
 				F55598112C534D4100C02EEB /* CMTimeScale+Common.swift in Sources */,
 				BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */,
 				10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */,
+				FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */,
 				C7CA0559293E8918000E41BD /* HolographicEffect.swift in Sources */,
 				BD0F6D7B24BD60FF00EDFB99 /* FilterDurationViewController.swift in Sources */,
 				8BAD2EB42AEE9620006264B3 /* PaidStoryWallView.swift in Sources */,

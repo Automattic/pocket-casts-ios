@@ -365,6 +365,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tack för att du väljer Pocket Casts. Din rabatterade paketprenumeration startar efter din nuvarande faktureringsperiod.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% rabatt på nästa år.</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Spara %@ i början av nästa faktureringscykel.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Betala %@ nu för ytterligare ett år med 50 %% rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
     <key>cancel_subscription_title</key>
@@ -1811,6 +1815,8 @@ UPPDATERINGAR</string>
     <string>Teman och ikoner</string>
     <key>plus_marketing_title</key>
     <string>Allt du älskar med Pocket Casts och mer därtill</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Slumpmässig Nästa-uppspelning</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Ladda upp dina filer till molnlagringen och ha dem tillgängliga överallt</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1957,10 @@ UPPDATERINGAR</string>
     <string>Nya avsnitt hittades.</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Inga avsnitt hittades.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Dra nedåt eller använd den här menyn för att se om det finns något nytt.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Nya avsnitt, med en gång!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Upptäck podcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>

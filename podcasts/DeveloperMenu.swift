@@ -292,6 +292,15 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Reset CTA conditions") {
+                    Settings.suggestedFoldersUpsellCount = 0
+                    Settings.suggestedFoldersLastUpsellDate = nil
+                }
+            } header: {
+                Text("Suggested Folders")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")

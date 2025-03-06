@@ -4766,7 +4766,7 @@
 "podcast_feed_reload_tip_message" = "Pull down or use this menu to see if there's something new.";
 
 /* Suggested Folders screen title */
-"suggested_folders_title" = "Suggested Folders";
+"suggested_folders_title" = "Smart Folders";
 
 /* Suggested Folders screen description */
 "suggested_folders_description" = "We’ve organized your podcasts for you. Save or customize them to fit your style.";
@@ -4777,3 +4777,23 @@
 /* Suggested Folders button title to create custom folders*/
 "suggested_folders_create_custom_folders" = "Create custom folders";
 
+/* Suggested Folder upsell title */
+"suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
+
+/* Suggested Folder upsell detail */
+"suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
+
+/* Suggested Folder how it work title */
+"suggested_folders_how_it_works" = "How it works";
+
+/* Suggested Folder how it work detail */
+"suggested_folders_how_it_works_detail" = "Accepting suggested folders will replace your existing ones and can't be undone. You can edit them afterward to fit your preferences.";
+
+/* Suggested Folder replace confirmation title */
+"suggested_folders_replace_confirmation_title" = "Replace existing folders?";
+
+/* Suggested Folder replace confirmation details */
+"suggested_folders_replace_confirmation_details " = "Accepting suggested folders will overwrite your current folders. This can’t be undone.";
+
+/* Suggested Folder replace confirmation action button title */
+"suggested_folders_replace_confirmation_button " = "Replace folders";

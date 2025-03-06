@@ -1,59 +1,127 @@
-import PocketCastsDataModel
 import SwiftUI
 
-struct SuggestedFoldersView: View {
-    @EnvironmentObject var theme: Theme
-    @State private var createFolderActive = false
+enum SuggestedFoldersResult {
+    case dismiss
+    case applySuggestedFolders([SuggestedFolder])
+    case createdManualFolder(String)
+}
 
-    var dismissAction: (String?) -> Void
+struct SuggestedFoldersView: View {
+
+    enum Constants {
+        static var margin: CGFloat = 16
+    }
+
+    @EnvironmentObject var theme: Theme
+
+    @State private var createFolderActive = false
+    @State private var howItWorksActive = false
+    @State private var applySuggestedFoldersConfirmation = false
+
+    @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
+
+
+    var onCompletion: (SuggestedFoldersResult) -> Void
 
     var body: some View {
-        NavigationView {
-            mainBody
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
-                            dismissAction(nil)
-                        } label: {
-                            Image("close")
-                                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        Group {
+            switch model.loadingState {
+            case .start, .loading:
+                loadingView
+            case .loaded:
+                NavigationContainer {
+                    mainBody
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button {
+                                    Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+                                    onCompletion(.dismiss)
+                                } label: {
+                                    Image("close")
+                                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                }
+                                .accessibilityLabel(L10n.close)
+                            }
                         }
-                        .accessibilityLabel(L10n.close)
+                }
+                .navigationViewStyle(.stack)
+                .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            case .failed:
+                CreateFolderView(isInsideNavigation: false) { uuid in
+                    if let uuid {
+                        onCompletion(.createdManualFolder(uuid))
+                    } else {
+                        onCompletion(.dismiss)
                     }
                 }
+            }
         }
-        .navigationViewStyle(.stack)
-        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        .task {
+            await model.load()
+        }
+    }
+
+    var loadingView: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                LoadingView()
+                Spacer()
+            }
+            Spacer()
+        }
+        .applyDefaultThemeOptions()
     }
 
     var mainBody: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Spacer().frame(height: 8)
-            Text(L10n.suggestedFoldersDescription)
-                .textStyle(SecondaryText())
-            Spacer()
+            Group {
+                Text(L10n.suggestedFoldersTitle)
+                    .textStyle(PrimaryText())
+                    .font(.largeTitle.bold())
+                Text(L10n.suggestedFoldersDescription)
+                    .textStyle(SecondaryText())
+                    .font(.body)
+                Text(L10n.suggestedFoldersHowItWorks)
+                    .foregroundColor(theme.primaryInteractive01)
+                    .onTapGesture {
+                        howItWorksActive.toggle()
+                        Analytics.track(.suggestedFoldersHowItWorksTapped)
+                    }
+            }
+            foldersView
+                .padding(.horizontal, -Constants.margin)
+                // hack to allow the scroll indicator to be visible without overlapping the content
+                .customHorizontalMargin(margin: Constants.margin)
             Button {
-                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped, properties: [:])
-                dismissAction(nil)
+                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
+                Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
+                if model.userHasExistingFolders {
+                    applySuggestedFoldersConfirmation.toggle()
+                } else {
+                    onCompletion(.applySuggestedFolders(model.folders))
+                }
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
             NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                dismissAction(uuid)
+                if let uuid {
+                    onCompletion(.createdManualFolder(uuid))
+                } else {
+                    onCompletion(.dismiss)
+                }
             }, isActive: $createFolderActive) {
                 Text(L10n.suggestedFoldersCreateCustomFolders)
                     .textStyle(BorderButton())
             }
+            Spacer()
         }
-        .padding(.horizontal, 20)
-        .navigationTitle(L10n.suggestedFoldersTitle)
+        .padding(.horizontal, Constants.margin)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Analytics.track(.suggestedFoldersModalShow, properties: [:])
-        }
-        .onDisappear {
-
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
@@ -61,13 +129,55 @@ struct SuggestedFoldersView: View {
             }
         }
         .applyDefaultThemeOptions()
+        .sheet(isPresented: $howItWorksActive) {
+            howItWorksModal
+        }
+        .sheet(isPresented: $applySuggestedFoldersConfirmation) {
+            confirmationModal
+        }
     }
 
+    var foldersView: some View {
+        GridFoldersView(folders: model.folders)
+    }
+
+    private var howItWorksModal: some View {
+        ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
+                         action: {
+            howItWorksActive = false
+            Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
+    }
+
+    private var confirmationModal: some View {
+        ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
+                         action: {
+            applySuggestedFoldersConfirmation = false
+            Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+            onCompletion(.applySuggestedFolders(model.folders))
+        })
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
+        }
+    }
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(dismissAction: { _ in })
+        SuggestedFoldersView(onCompletion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }

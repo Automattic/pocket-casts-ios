@@ -282,6 +282,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                     })
                 }
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
     }
@@ -295,53 +296,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         showProfileController()
     }
 
+    private lazy var foldersCoordinator: FoldersCoordinator = {
+        return FoldersCoordinator()
+    }()
+
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
-        if FeatureFlag.suggestedFolders.enabled {
-            newSuggestedFolderCreationFlow()
-        } else {
-            oldFolderCreationFlow()
-        }
-        AnalyticsHelper.folderCreated()
-        Analytics.track(.podcastsListFolderButtonTapped)
-    }
-
-    private func oldFolderCreationFlow() {
-        if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
-            return
-        }
-
-        let creatFolderView = CreateFolderView { [weak self] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
-                self?.dismiss(animated: true, completion: {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
-                })
-            } else {
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-        let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
-
-        present(hostingController, animated: true, completion: nil)
-    }
-
-    private func newSuggestedFolderCreationFlow() {
-        if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
-            return
-        }
-        let suggestedFoldersView = SuggestedFoldersView { [weak self] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
-                self?.dismiss(animated: true, completion: {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
-                })
-            } else {
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
-        present(hostingController, animated: true, completion: nil)
-        hostingController.sheetPresentationController?.delegate = self
+        foldersCoordinator.startFolderCreationFlow(from: self)
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
@@ -479,11 +439,5 @@ extension PodcastListViewController {
                                           navBar: navController.navigationBar,
                                           searchBar: searchController,
                                           source: .podcastsList)
-    }
-}
-
-extension PodcastListViewController: UISheetPresentationControllerDelegate {
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
     }
 }
