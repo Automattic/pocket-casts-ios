@@ -16,7 +16,7 @@ struct NowPlayingView: View {
     @State var state: ScreenState = .loading
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer()
             HStack { Spacer() }
             switch state {
@@ -32,7 +32,7 @@ struct NowPlayingView: View {
                         }
                     }
             case .failed:
-                EmptyView()
+                errorView
             }
             Spacer()
         }
@@ -43,6 +43,28 @@ struct NowPlayingView: View {
         .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
             handle(userActivity: userActivity)
         }
+    }
+
+    var errorView: some View {
+        VStack(spacing: 0) {
+            Image("ac-yield")
+                .renderingMode(.template)
+                .foregroundStyle(UIColor.systemGray.color)
+                .frame(width: 40.0, height: 40.0)
+                .padding(.top, 240.0)
+                .padding(.bottom, 16.0)
+            Text(L10n.appClipPlacholderTitle)
+                .foregroundStyle(UIColor.label.color)
+                .font(.system(size: 18, weight: .semibold))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 16.0)
+            Text(L10n.appClipPlacholderMessage)
+                .foregroundStyle(UIColor.secondaryLabel.color)
+                .font(.system(size: 15, weight: .regular))
+                .multilineTextAlignment(.center)
+            Spacer()
+        }
+        .padding(.horizontal, 32)
     }
 
     private func handle(userActivity: NSUserActivity) {
@@ -85,7 +107,6 @@ struct NowPlayingView: View {
                 return
             }
 
-
             loadEpisode(episodeUuid: episodeUUID, podcastUuid: podcastUUID) {
                 guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUUID) else {
                     FileLog.shared.addMessage("App Clip: Could not find Episode")
@@ -104,10 +125,6 @@ struct NowPlayingView: View {
     private func showErrorMessage(userActivity: NSUserActivity) {
         userActivity.invalidate()
         state = .failed
-        DispatchQueue.main.async {
-            let rootViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
-            SJUIUtils.showAlert(title: L10n.podcastShareErrorTitle, message: L10n.podcastShareErrorMsg, from: rootViewController)
-        }
     }
 
     private func loadEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil, completion: @escaping () -> Void) {
