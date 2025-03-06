@@ -137,7 +137,7 @@ class FoldersCoordinator: NSObject {
         DataManager.sharedManager.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
-            dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.topPodcastUuids)
+            dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.podcastUuids)
         }
         NotificationCenter.postOnMainThread(notification: ServerNotifications.podcastsRefreshed, object: nil)
     }

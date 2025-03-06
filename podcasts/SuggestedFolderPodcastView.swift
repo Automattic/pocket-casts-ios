@@ -10,7 +10,7 @@ struct SuggestedFolderPodcastView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
-                ForEach(folder.topPodcastUuids, id: \.self) { uuid in
+                ForEach(folder.podcastUuids, id: \.self) { uuid in
                     PodcastImageViewWrapper(podcastUUID: uuid, size: .grid)
                         .frame(minWidth: 110, maxWidth: 160)
                         .aspectRatio(1, contentMode: .fit)
@@ -22,7 +22,7 @@ struct SuggestedFolderPodcastView: View {
         .customHorizontalMargin(margin: SuggestedFoldersView.Constants.margin)
         .applyDefaultThemeOptions()
         .onAppear {
-            Analytics.track(.suggestedFoldersPreviewFolderTapped, properties: ["source": source.rawValue, "folder_name": folder.name, "podcasts_count": folder.topPodcastUuids.count])
+            Analytics.track(.suggestedFoldersPreviewFolderTapped, properties: ["source": source.rawValue, "folder_name": folder.name, "podcasts_count": folder.podcastUuids.count])
         }
     }
 }
