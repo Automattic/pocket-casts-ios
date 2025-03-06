@@ -143,7 +143,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable Disable the use of suggested folders
     case suggestedFolders
-    
+
     /// Parse toc value in chapters
     case parseChaptersToc
 
