@@ -1,13 +1,16 @@
 import PocketCastsDataModel
 import SwiftUI
 
-struct SuggestedFoldersUpSellView: View {
+struct SuggestedFoldersUpsellView: View {
     @Environment(\.dismiss) var dismissAction
     @EnvironmentObject var theme: Theme
     @ObservedObject var model: SuggestedFoldersModel
 
-    init(model: SuggestedFoldersModel = SuggestedFoldersModel()) {
+    var onCompletion: ((SuggestedFoldersResult) -> Void)?
+
+    init(model: SuggestedFoldersModel = SuggestedFoldersModel(), onCompletion: ((SuggestedFoldersResult) -> Void)? = nil) {
         self.model = model
+        self.onCompletion = onCompletion
     }
 
     var body: some View {
@@ -58,7 +61,7 @@ struct SuggestedFoldersUpSellView: View {
             Spacer()
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalUseTheseFoldersTapped, properties: [:])
-                dismissAction()
+                onCompletion?(.applySuggestedFolders(model.folders))
             } label: {
                 Text(L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
@@ -67,6 +70,7 @@ struct SuggestedFoldersUpSellView: View {
             Button {
                 Analytics.track(.suggestedFoldersPaywallModalMaybeLaterTapped, properties: [:])
                 dismissAction()
+                onCompletion?(.dismiss)
             } label: {
                 Text(L10n.maybeLater)
                     .textStyle(BorderButton())
@@ -91,9 +95,9 @@ struct SuggestedFoldersUpSellView: View {
     }
 }
 
-struct SuggestedFoldersUpSellView_Previews: PreviewProvider {
+struct SuggestedFoldersUpsellView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersUpSellView()
+        SuggestedFoldersUpsellView()
             .environmentObject(Theme(previewTheme: .light))
     }
 }

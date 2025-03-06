@@ -211,6 +211,11 @@ struct Constants {
         enum podcastFeedReload {
             static let showTip = "podcastFeedReload.showtip"
         }
+
+        enum suggestedFolders {
+            static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
+            static let upsellCount = "suggestedFolders.upsellCount"
+        }
     }
 
     enum Values {

@@ -26,7 +26,7 @@ public class DataManager {
     public let bookmarks: BookmarkDataManager
     public let ratings: RatingsDataManager
 
-    private let dbQueue: FMDatabaseQueue
+    private let dbQueue: PCDBQueue
 
     public static let sharedManager = DataManager()
 
@@ -35,14 +35,14 @@ public class DataManager {
         DataManager.ensureDbFolderExists()
 
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+        let dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
 
         self.init(dbQueue: dbQueue)
     }
 
-    /// Creates a DataManager using the given `FMDatabaseQueue`.
+    /// Creates a DataManager using the given `PCDBQueue`.
     /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
 
         dbQueue.inDatabase { db in
@@ -974,6 +974,10 @@ public class DataManager {
     public func clearAllFolderInformation() {
         podcastManager.removeAllPodcastsFromAllFolders(dbQueue: dbQueue)
         folderManager.deleteAllFolders(dbQueue: dbQueue)
+    }
+
+    public func deleteAllFoldersAndMarkSync() {
+        folderManager.markAllFolderAsDeleted(syncModified: TimeFormatter.currentUTCTimeInMillis(), dbQueue: dbQueue)
     }
 
     // MARK: - Advanced
