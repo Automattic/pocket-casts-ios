@@ -20,10 +20,10 @@ class FoldersCoordinator: NSObject {
     private let dataManager: DataManager
 
     private enum Constants {
-        static let minimumNumberOfPodcasts: Int = 8
+        static let minimumNumberOfPodcasts: Int = 7
         static let intervalBetweenUpsell: TimeInterval = 7.days
         static let maxUpsellDisplays: Int = 2
-        static let intervalAfterStartup: TimeInterval = 1.minutes
+        static let intervalAfterStartup: TimeInterval = 10.seconds
     }
 
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
