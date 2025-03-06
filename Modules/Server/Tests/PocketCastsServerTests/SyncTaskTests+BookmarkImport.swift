@@ -1,5 +1,5 @@
 @testable import PocketCastsServer
-import PocketCastsDataModel
+@testable import PocketCastsDataModel
 import FMDB
 import XCTest
 
@@ -9,7 +9,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
-        dataManager = DataManager(dbQueue: FMDatabaseQueue(), shouldCloseQueueAfterSetup: false)
+        dataManager = DataManager(dbQueue: FMDBQueue(fmdbQueue: FMDatabaseQueue()), shouldCloseQueueAfterSetup: false)
         bookmarkManager = dataManager.bookmarks
         syncTask = SyncTask(dataManager: dataManager)
     }

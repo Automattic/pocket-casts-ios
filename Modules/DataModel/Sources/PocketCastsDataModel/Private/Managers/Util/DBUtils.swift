@@ -22,7 +22,7 @@ class DBUtils {
         return "(?\(questionMarks))"
     }
 
-    class func nonNilStringFromColumn(resultSet rs: FMResultSet, columnName: String) -> String {
+    class func nonNilStringFromColumn(resultSet rs: PCDBResultSet, columnName: String) -> String {
         if let value = rs.string(forColumn: columnName) {
             return value
         }

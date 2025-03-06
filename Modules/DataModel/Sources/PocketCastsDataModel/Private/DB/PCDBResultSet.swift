@@ -1,6 +1,6 @@
 import Foundation
 
-protocol PCDBResultSet {
+public protocol PCDBResultSet {
     func close()
 
     func next() -> Bool
