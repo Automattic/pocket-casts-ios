@@ -36,7 +36,6 @@ class FoldersCoordinator: NSObject {
     private weak var currentVC: UIViewController? = nil
 
     func startFolderCreationFlow(from vc: UIViewController) {
-        currentVC = vc
         if FeatureFlag.suggestedFolders.enabled {
             newSuggestedFolderCreationFlow(from: vc)
         } else {
@@ -47,7 +46,6 @@ class FoldersCoordinator: NSObject {
     }
 
     func showUpsellIfNeeded(from vc: UIViewController) {
-        currentVC = vc
         guard FeatureFlag.suggestedFolders.enabled,
               !SubscriptionHelper.hasActiveSubscription(),
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
@@ -128,6 +126,7 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders:
                 //Show subscription/IAP flow
+                self?.currentVC = vc
                 vc.dismiss(animated: false) {
                     self?.navigationManager.showUpsellView(from: vc, source: .folders)
                 }
