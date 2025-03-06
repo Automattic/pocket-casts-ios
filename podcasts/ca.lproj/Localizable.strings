@@ -1955,7 +1955,7 @@ ACTUALITZACIONS</string>
     <key>podcast_feed_reload_tip_message</key>
     <string>Tira cap avall o fes servir aquest menú per veure si hi ha alguna actualització.</string>
     <key>podcast_feed_reload_tip_title</key>
-    <string>Hi ha episodis nous, que arriben tot d'una!</string>
+    <string>Hi ha episodis nous que arriben tot d'una!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Descobrir pòdcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2946,6 +2946,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>Crear carpetes personalitzades</string>
+    <key>suggested_folders_description</key>
+    <string>Hem organitzat els teus pòdcasts per a tu. Desa'ls o personalitza'ls per adaptar-los al teu estil.</string>
+    <key>suggested_folders_title</key>
+    <string>Carpetes suggerides</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Utilitza aquestes carpetes</string>
     <key>support_watch_help_message</key>
     <string>Si tens problemes amb l'aplicació Pocket Casts Watch, podem enviar-vos els vostres registres de portàtils per a ajudar-vos millor. Per a fer-ho, obriu Pocket Casts al vostre rellotge.</string>
     <key>support_watch_help_opened_app</key>
