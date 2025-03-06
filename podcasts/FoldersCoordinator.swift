@@ -159,7 +159,7 @@ class FoldersCoordinator: NSObject {
         currentVC = vc
         addObservers()
         vc.dismiss(animated: false) {
-            self.navigationManager.showUpsellView(from: vc, source: .folders)
+            self.navigationManager.showUpsellView(from: vc, source: .folders, flow: .suggestedFolderUpsell)
         }
     }
 
