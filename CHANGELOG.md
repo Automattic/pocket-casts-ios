@@ -4,7 +4,7 @@
 
 7.84
 -----
-
+- Add empty state for App Clip [#2809](https://github.com/Automattic/pocket-casts-ios/pull/2809)
 
 7.83
 -----
