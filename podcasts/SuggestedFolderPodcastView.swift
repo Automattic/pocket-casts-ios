@@ -5,6 +5,8 @@ struct SuggestedFolderPodcastView: View {
 
     let folder: SuggestedFolder
 
+    let source: AnalyticsSource
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 110, maximum: 160))], alignment: .center, spacing: 6) {
@@ -20,7 +22,7 @@ struct SuggestedFolderPodcastView: View {
         .customHorizontalMargin(margin: SuggestedFoldersView.Constants.margin)
         .applyDefaultThemeOptions()
         .onAppear {
-            Analytics.track(.suggestedFoldersDetailModalShown, properties: [:])
+            Analytics.track(.suggestedFoldersPreviewFolderTapped, properties: ["source": source.rawValue, "folder_name": folder.name, "podcasts_count": folder.topPodcastUuids.count])
         }
     }
 }

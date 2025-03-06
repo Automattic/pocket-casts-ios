@@ -66,4 +66,19 @@ class SuggestedFoldersModel: ObservableObject {
     var userHasExistingFolders: Bool {
         return DataManager.sharedManager.allFolders().count > 0
     }
+
+    var userIsSignedIn: Bool {
+        return SyncManager.isUserLoggedIn()
+    }
+
+    var userType: String {
+        var userType = "unsigned"
+        if userIsSignedIn {
+            userType = "free"
+        }
+        if userHasSubscription {
+            userType = "paid"
+        }
+        return userType
+    }
 }

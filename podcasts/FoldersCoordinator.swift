@@ -33,10 +33,11 @@ class FoldersCoordinator: NSObject {
     }
 
     private weak var currentVC: UIViewController? = nil
+    private var currentSource: AnalyticsSource = .unknown
 
     func startFolderCreationFlow(from vc: UIViewController) {
         if FeatureFlag.suggestedFolders.enabled {
-            suggestedFolderCreationFlow(from: vc)
+            suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
         }
@@ -55,7 +56,7 @@ class FoldersCoordinator: NSObject {
             return
         }
         currentUpsellFlow = .cta
-        showUpsellSuggestedFolder(from: vc, fromUserAction: false)
+        showUpsellSuggestedFolder(from: vc, fromUserAction: false, source: .suggestedFolderPopup)
     }
 
     private func manualFolderCreationFlow(from vc: UIViewController) {
@@ -78,13 +79,13 @@ class FoldersCoordinator: NSObject {
         vc.present(hostingController, animated: true, completion: nil)
     }
 
-    private func suggestedFolderCreationFlow(from vc: UIViewController) {
+    private func suggestedFolderCreationFlow(from vc: UIViewController, source: AnalyticsSource) {
         if !SubscriptionHelper.hasActiveSubscription() {
             currentUpsellFlow = .userInitiated
-            showUpsellSuggestedFolder(from: vc)
+            showUpsellSuggestedFolder(from: vc, source: source)
             return
         }
-        let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
 
             switch result {
@@ -108,8 +109,8 @@ class FoldersCoordinator: NSObject {
         hostingController.sheetPresentationController?.delegate = self
     }
 
-    private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false) {
-        let suggestedFoldersView = SuggestedFoldersView { [weak vc, weak self] result in
+    private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false, source: AnalyticsSource) {
+        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
             switch result {
             case .dismiss:
@@ -122,7 +123,7 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders, .createdManualFolder:
                 //Show upsell flow
-                startUpsellFlow(from: vc)
+                startUpsellFlow(from: vc, source: source)
                 return
             }
         }
@@ -155,8 +156,9 @@ class FoldersCoordinator: NSObject {
         return folder
     }
 
-    private func startUpsellFlow(from vc: UIViewController) {
+    private func startUpsellFlow(from vc: UIViewController, source: AnalyticsSource) {
         currentVC = vc
+        currentSource = source
         addObservers()
         vc.dismiss(animated: false) {
             self.navigationManager.showUpsellView(from: vc, source: .folders, flow: .suggestedFolderUpsell)
@@ -198,7 +200,7 @@ class FoldersCoordinator: NSObject {
         }
         cancellables = []
         currentUpsellFlow = .none
-        suggestedFolderCreationFlow(from: currentVC)
+        suggestedFolderCreationFlow(from: currentVC, source: currentSource)
         self.currentVC = nil
     }
 }
@@ -206,7 +208,7 @@ class FoldersCoordinator: NSObject {
 extension FoldersCoordinator: UISheetPresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         if currentUpsellFlow == .none {
-            Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+            Analytics.track(.suggestedFoldersPageDismissed, properties: [:])
         } else {
             if currentUpsellFlow == .cta {
                 Settings.suggestedFoldersLastUpsellDate = Date.now

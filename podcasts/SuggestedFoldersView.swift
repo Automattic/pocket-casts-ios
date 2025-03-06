@@ -20,6 +20,7 @@ struct SuggestedFoldersView: View {
 
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
+    let source: AnalyticsSource
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
@@ -34,7 +35,7 @@ struct SuggestedFoldersView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
-                                    Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+                                    track(.suggestedFoldersPageDismissed)
                                     onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
@@ -89,11 +90,11 @@ struct SuggestedFoldersView: View {
                 // hack to allow the scroll indicator to be visible without overlapping the content
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
-                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
                 if model.showConfirmation {
-                    Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
+                    track(.suggestedFoldersReplaceFoldersTapped)
                     applySuggestedFoldersConfirmation.toggle()
                 } else {
+                    track(.suggestedFoldersUseSuggestedFoldersTapped)
                     onCompletion(.applySuggestedFolders(model.folders))
                 }
             } label: {
@@ -113,7 +114,7 @@ struct SuggestedFoldersView: View {
                 }
             } else {
                 Button {
-                    Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+                    track(.suggestedFoldersCreateCustomFolderTapped)
                     onCompletion(.createdManualFolder(""))
                 } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
@@ -125,11 +126,11 @@ struct SuggestedFoldersView: View {
         .padding(.horizontal, Constants.margin)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            Analytics.track(.suggestedFoldersModalShow, properties: [:])
+            track(.suggestedFoldersPageShow)
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
-                Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+                track(.suggestedFoldersCreateCustomFolderTapped)
             }
         }
         .applyDefaultThemeOptions()
@@ -139,14 +140,14 @@ struct SuggestedFoldersView: View {
     }
 
     var foldersView: some View {
-        GridFoldersView(folders: model.folders)
+        GridFoldersView(folders: model.folders, source: .unknown)
     }
 
     private var confirmationModal: some View {
         ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
                          action: {
             applySuggestedFoldersConfirmation = false
-            Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+            track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
         .modify {
@@ -158,11 +159,15 @@ struct SuggestedFoldersView: View {
             }
         }
     }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["source": source.rawValue, "user_type": model.userType])
+    }
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(onCompletion: { _ in })
+        SuggestedFoldersView(source: .unknown, onCompletion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }
