@@ -1929,7 +1929,6 @@
 		FF0753882D6CB79600BE8B3B /* SuggestedFolderPodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */; };
 		FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */; };
 		FF07538C2D6CC4FA00BE8B3B /* CustomHorizontalMargin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */; };
-		FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */; };
 		FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */; };
 		FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */; };
 		FF0753962D721AB900BE8B3B /* ModalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0753952D721AAC00BE8B3B /* ModalMessage.swift */; };
@@ -3961,7 +3960,6 @@
 		FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFolderPodcastView.swift; sourceTree = "<group>"; };
 		FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImageViewWrapper.swift; sourceTree = "<group>"; };
 		FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHorizontalMargin.swift; sourceTree = "<group>"; };
-		FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersUpSellView.swift; sourceTree = "<group>"; };
 		FF0753912D70D6D600BE8B3B /* SuggestedFoldersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersModel.swift; sourceTree = "<group>"; };
 		FF0753932D70F05F00BE8B3B /* FoldersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersCoordinator.swift; sourceTree = "<group>"; };
 		FF0753952D721AAC00BE8B3B /* ModalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMessage.swift; sourceTree = "<group>"; };
@@ -6965,7 +6963,6 @@
 			children = (
 				BD998AC927B2408500B38857 /* CreateFolderView.swift */,
 				FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */,
-				FF07538D2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift */,
 				FF0753872D6CB78D00BE8B3B /* SuggestedFolderPodcastView.swift */,
 				FF0753832D69087F00BE8B3B /* GridFoldersView.swift */,
 				FF0753892D6CB7C300BE8B3B /* PodcastImageViewWrapper.swift */,
@@ -10696,7 +10693,6 @@
 				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
 				463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */,
-				FF07538E2D6E004D00BE8B3B /* SuggestedFoldersUpSellView.swift in Sources */,
 				40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */,
 				4084263E2138E2750076D82E /* FeaturedCollectionViewCell.swift in Sources */,
 				46CD3CA12715E3E600F5EB8F /* SupportConfig.swift in Sources */,

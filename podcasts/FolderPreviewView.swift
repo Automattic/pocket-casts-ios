@@ -68,7 +68,7 @@ class FolderPreviewView: UIView {
     }
 
     func populateFrom(suggestedFolder folder: SuggestedFolder) {
-        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: folder.topPodcastUuids)
+        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: folder.podcastUuids)
     }
 
     private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String]) {

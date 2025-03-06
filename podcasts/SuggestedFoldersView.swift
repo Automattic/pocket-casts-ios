@@ -15,11 +15,12 @@ struct SuggestedFoldersView: View {
     @EnvironmentObject var theme: Theme
 
     @State private var createFolderActive = false
-    @State private var howItWorksActive = false
+
     @State private var applySuggestedFoldersConfirmation = false
 
     @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
 
+    let source: AnalyticsSource
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
@@ -34,7 +35,7 @@ struct SuggestedFoldersView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {
-                                    Analytics.track(.suggestedFoldersModalDismissed, properties: [:])
+                                    track(.suggestedFoldersPageDismissed)
                                     onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
@@ -80,104 +81,93 @@ struct SuggestedFoldersView: View {
                 Text(L10n.suggestedFoldersTitle)
                     .textStyle(PrimaryText())
                     .font(.largeTitle.bold())
-                Text(L10n.suggestedFoldersDescription)
+                Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
-                Text(L10n.suggestedFoldersHowItWorks)
-                    .foregroundColor(theme.primaryInteractive01)
-                    .onTapGesture {
-                        howItWorksActive.toggle()
-                        Analytics.track(.suggestedFoldersHowItWorksTapped)
-                    }
             }
             foldersView
                 .padding(.horizontal, -Constants.margin)
                 // hack to allow the scroll indicator to be visible without overlapping the content
                 .customHorizontalMargin(margin: Constants.margin)
             Button {
-                Analytics.track(.suggestedFoldersModalUseTheseFoldersTapped)
-                Analytics.track(.suggestedFoldersReplaceExistingFoldersModalShown)
-                if model.userHasExistingFolders {
+                if model.showConfirmation {
+                    track(.suggestedFoldersReplaceFoldersTapped)
                     applySuggestedFoldersConfirmation.toggle()
                 } else {
+                    track(.suggestedFoldersUseSuggestedFoldersTapped)
                     onCompletion(.applySuggestedFolders(model.folders))
                 }
             } label: {
-                Text(L10n.suggestedFoldersUseSuggestedFolders)
+                Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
-            NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
-                if let uuid {
-                    onCompletion(.createdManualFolder(uuid))
-                } else {
-                    onCompletion(.dismiss)
+            if model.userHasSubscription {
+                NavigationLink(destination: CreateFolderView(isInsideNavigation: true) { uuid in
+                    if let uuid {
+                        onCompletion(.createdManualFolder(uuid))
+                    } else {
+                        onCompletion(.dismiss)
+                    }
+                }, isActive: $createFolderActive) {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
                 }
-            }, isActive: $createFolderActive) {
-                Text(L10n.suggestedFoldersCreateCustomFolders)
-                    .textStyle(BorderButton())
+            } else {
+                Button {
+                    track(.suggestedFoldersCreateCustomFolderTapped)
+                    onCompletion(.createdManualFolder(""))
+                } label: {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
+                }
             }
             Spacer()
         }
         .padding(.horizontal, Constants.margin)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            Analytics.track(.suggestedFoldersModalShow, properties: [:])
+            track(.suggestedFoldersPageShow)
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
-                Analytics.track(.suggestedFoldersModalCreateCustomFoldersTapped, properties: [:])
+                track(.suggestedFoldersCreateCustomFolderTapped)
             }
         }
         .applyDefaultThemeOptions()
-        .sheet(isPresented: $howItWorksActive) {
-            howItWorksModal
-        }
         .sheet(isPresented: $applySuggestedFoldersConfirmation) {
             confirmationModal
         }
     }
 
     var foldersView: some View {
-        GridFoldersView(folders: model.folders)
-    }
-
-    private var howItWorksModal: some View {
-        ModalMessageView(icon: "folder-create", title: L10n.suggestedFoldersHowItWorks, message: L10n.suggestedFoldersHowItWorksDetail, destructive: false, actionTitle: L10n.gotIt,
-                         action: {
-            howItWorksActive = false
-            Analytics.track(.suggestedFoldersHowItWorksGotItTapped)
-        })
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
+        GridFoldersView(folders: model.folders, source: .unknown)
     }
 
     private var confirmationModal: some View {
         ModalMessageView(icon: "switch", title: L10n.suggestedFoldersReplaceConfirmationTitle, message: L10n.suggestedFoldersReplaceConfirmationDetails, destructive: true, actionTitle: L10n.suggestedFoldersReplaceConfirmationButton,
                          action: {
             applySuggestedFoldersConfirmation = false
-            Analytics.track(.suggestedFoldersReplaceFoldersTapped)
+            track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
         .modify {
             if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
+                $0.presentationDetents([.fraction(0.4)])
                     .presentationDragIndicator(.visible)
             } else {
                 $0
             }
         }
     }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["source": source.rawValue, "user_type": model.userType])
+    }
 }
 
 struct SuggestedFoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestedFoldersView(onCompletion: { _ in })
+        SuggestedFoldersView(source: .unknown, onCompletion: { _ in })
             .environmentObject(Theme(previewTheme: .light))
     }
 }
