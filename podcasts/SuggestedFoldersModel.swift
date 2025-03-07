@@ -100,7 +100,7 @@ class SuggestedFoldersModel: ObservableObject {
         return userType
     }
 
-    private func cacheLocation() -> URL {
+    private lazy var cacheLocation: URL = {
         let fileManager: FileManager = .default
         let name: String = "suggestedFolders"
 
@@ -111,10 +111,10 @@ class SuggestedFoldersModel: ObservableObject {
 
         let fileURL = folderURLs[0].appendingPathComponent(name + ".cache")
         return fileURL
-    }
+    }()
 
     private func saveToCache() {
-        let fileURL = cacheLocation()
+        let fileURL = cacheLocation
         guard let data = try? JSONEncoder().encode(folders) else {
             return
         }
@@ -122,7 +122,7 @@ class SuggestedFoldersModel: ObservableObject {
     }
 
     private func loadFromCache() {
-        let fileURL = cacheLocation()
+        let fileURL = cacheLocation
         guard let data = try? Data(contentsOf: fileURL),
               let folders = try? JSONDecoder().decode([SuggestedFolder].self, from: data) else {
             return
