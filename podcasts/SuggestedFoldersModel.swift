@@ -29,6 +29,8 @@ class SuggestedFoldersModel: ObservableObject {
 
     var failedToLoadAction: (() -> ())? = nil
 
+    var previousUuids: [String] = []
+
     init(dataManager: DataManager = DataManager.sharedManager, failedToLoadAction: (() -> ())? = nil) {
         self.dataManager = dataManager
         self.failedToLoadAction = failedToLoadAction
@@ -40,7 +42,12 @@ class SuggestedFoldersModel: ObservableObject {
         }
         Task { @MainActor in
             loadingState = .loading
-            let uuids = dataManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
+            let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }
+            if areUuidsTheSame(previous: previousUuids, current: uuids) {
+                loadingState = .loaded
+                return
+            }
+            previousUuids = uuids
             guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: uuids) else {
                 loadingState = .failed
                 failedToLoadAction?()
@@ -56,6 +63,10 @@ class SuggestedFoldersModel: ObservableObject {
             self.folders = folders
             loadingState = .loaded
         }
+    }
+
+    private func areUuidsTheSame(previous: [String], current: [String]) -> Bool {
+        return previous == current
     }
 
     var userHasSubscription: Bool {
