@@ -52,7 +52,7 @@ class FoldersCoordinator: NSObject {
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
               DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
-              DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
+              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
         else {
             return
         }
@@ -66,8 +66,9 @@ class FoldersCoordinator: NSObject {
             return
         }
 
-        let creatFolderView = CreateFolderView { [weak vc] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+        let creatFolderView = CreateFolderView { [weak vc, weak self] folderUuid in
+            guard let self = self else { return }
+            if let folderUuid = folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
                 vc?.dismiss(animated: true, completion: { [weak self] in
                     self?.navigationManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })
