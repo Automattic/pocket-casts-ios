@@ -144,6 +144,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
+    /// Enable the generated transcript
+    case generatedTranscripts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -239,6 +242,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
+            false
+        case .generatedTranscripts:
             false
         }
     }
