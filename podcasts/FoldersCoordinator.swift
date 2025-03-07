@@ -14,6 +14,10 @@ class FoldersCoordinator: NSObject {
     }
 
     private var currentUpsellFlow: UpsellFlow = .none
+    private weak var currentVC: UIViewController? = nil
+
+    private var currentSource: AnalyticsSource = .unknown
+
     private let startingTime: Date = Date.now
 
     private let navigationManager: NavigationManager
@@ -31,9 +35,6 @@ class FoldersCoordinator: NSObject {
         self.dataManager = dataManager
         super.init()
     }
-
-    private weak var currentVC: UIViewController? = nil
-    private var currentSource: AnalyticsSource = .unknown
 
     func startFolderCreationFlow(from vc: UIViewController) {
         if FeatureFlag.suggestedFolders.enabled {
