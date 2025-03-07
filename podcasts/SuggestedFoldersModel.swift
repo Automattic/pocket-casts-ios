@@ -25,9 +25,12 @@ class SuggestedFoldersModel: ObservableObject {
 
     @Published var loadingState: State = .start
 
+    let dataManager: DataManager
+
     var failedToLoadAction: (() -> ())? = nil
 
-    init(failedToLoadAction: (() -> ())? = nil) {
+    init(dataManager: DataManager = DataManager.sharedManager, failedToLoadAction: (() -> ())? = nil) {
+        self.dataManager = dataManager
         self.failedToLoadAction = failedToLoadAction
     }
 
@@ -37,7 +40,7 @@ class SuggestedFoldersModel: ObservableObject {
         }
         Task { @MainActor in
             loadingState = .loading
-            let uuids = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
+            let uuids = dataManager.allPodcasts(includeUnsubscribed: false).map { $0.uuid }
             guard let suggestionsResponse = await ApiServerHandler.shared.suggestedFolders(for: uuids) else {
                 loadingState = .failed
                 failedToLoadAction?()
@@ -64,7 +67,7 @@ class SuggestedFoldersModel: ObservableObject {
     }
 
     var userHasExistingFolders: Bool {
-        return DataManager.sharedManager.allFolders().count > 0
+        return dataManager.allFolders().count > 0
     }
 
     var userIsSignedIn: Bool {
