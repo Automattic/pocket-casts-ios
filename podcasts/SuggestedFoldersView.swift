@@ -24,6 +24,12 @@ struct SuggestedFoldersView: View {
 
     var onCompletion: (SuggestedFoldersResult) -> Void
 
+    init(model: SuggestedFoldersModel = SuggestedFoldersModel(), source: AnalyticsSource, onCompletion: @escaping (SuggestedFoldersResult) -> Void) {
+        self.model = model
+        self.source = source
+        self.onCompletion = onCompletion
+    }
+
     var body: some View {
         Group {
             switch model.loadingState {

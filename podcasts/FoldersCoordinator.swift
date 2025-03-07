@@ -22,6 +22,7 @@ class FoldersCoordinator: NSObject {
 
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
+    private let suggestedFoldersModel: SuggestedFoldersModel
 
     private enum Constants {
         static let minimumNumberOfPodcasts: Int = 7
@@ -33,7 +34,11 @@ class FoldersCoordinator: NSObject {
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
+        self.suggestedFoldersModel = SuggestedFoldersModel()
         super.init()
+        Task {
+            await suggestedFoldersModel.load()
+        }
     }
 
     func startFolderCreationFlow(from vc: UIViewController) {
@@ -87,7 +92,7 @@ class FoldersCoordinator: NSObject {
             showUpsellSuggestedFolder(from: vc, source: source)
             return
         }
-        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView(model: suggestedFoldersModel, source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
 
             switch result {
@@ -112,7 +117,7 @@ class FoldersCoordinator: NSObject {
     }
 
     private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false, source: AnalyticsSource) {
-        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView(model: suggestedFoldersModel, source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
             switch result {
             case .dismiss:

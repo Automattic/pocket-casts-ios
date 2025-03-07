@@ -35,7 +35,7 @@ class SuggestedFoldersModel: ObservableObject {
     }
 
     func load() async {
-        if loadingState != .start {
+        if loadingState == .loading {
             return
         }
         Task { @MainActor in
