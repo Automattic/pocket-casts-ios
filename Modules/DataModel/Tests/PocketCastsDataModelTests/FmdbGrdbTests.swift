@@ -27,8 +27,8 @@ final class FmdbGrdbTests: XCTestCase {
     func testGrdbFmdb() throws {
         // Create two podcasts, save them to FMDB and GRDB.
         // Then read them back from FMDB and GRDB and compare them.
-        var fmdbDataManager = try setupDataManagerWithFMDB()
-        var grdbDataManager = try setupDataManagerWithGRDB()
+        let fmdbDataManager = try setupDataManagerWithFMDB()
+        let grdbDataManager = try setupDataManagerWithGRDB()
 
         let jsonString = Podcast.fixture
         let data = jsonString.data(using: .utf8)
