@@ -108,6 +108,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
+    @IBOutlet var notificationButton: ThemeableUIButton! {
+        didSet {
+            notificationButton.style = .primaryIcon02
+        }
+    }
+
     @IBOutlet var expandButton: ExpandCollapseButton!
     private weak var delegate: PodcastActionsDelegate? {
         didSet {
@@ -312,6 +318,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             settingsBtn.alpha = 1
             settingsButtonTrailingConstraint.constant = 48
             subscribeButtonWidthConstraint.constant = 32
+            let isNotificationOn = podcast.isPushEnabled
+            notificationButton.setImage( isNotificationOn ? UIImage(named: "podcast-notification-on") : UIImage(named: "podcast-notification-off"), for: .normal)
         } else {
             subscribeButtonWidthConstraint.constant = tableViewWidth < 350 ? 120 : 147
             folderButton.isHidden = true
@@ -340,6 +348,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     @IBAction func folderBtnTapped(_ sender: Any) {
         delegate?.folderTapped()
+    }
+
+    @IBAction func notificationBtnTapped(_ sender: Any) {
+        delegate?.notificationTapped()
+        setupButtons()
     }
 
     @IBAction func subscribedButtonTapped(_ sender: Any) {
