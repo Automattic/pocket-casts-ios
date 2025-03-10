@@ -282,40 +282,7 @@ public class ServerPodcastManager: NSObject {
             return episode // we already have this episode
         }
 
-        let episode = Episode()
-        episode.addedDate = Date()
-        episode.podcast_id = podcast.id
-        episode.podcastUuid = podcast.uuid
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
-        episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
-        episode.uuid = uuid
-        if let title = firstEpisode["title"] as? String {
-            episode.title = title
-        }
-        if let url = firstEpisode["url"] as? String {
-            episode.downloadUrl = url
-        }
-        if let fileType = firstEpisode["file_type"] as? String {
-            episode.fileType = fileType
-        }
-        if let fileSize = firstEpisode["file_size"] as? Int64 {
-            episode.sizeInBytes = fileSize
-        }
-        if let duration = firstEpisode["duration"] as? Double {
-            episode.duration = duration
-        }
-        if let publishedStr = firstEpisode["published"] as? String {
-            episode.publishedDate = isoFormatter.date(from: publishedStr)
-        }
-        if let number = firstEpisode["number"] as? Int64 {
-            episode.episodeNumber = number
-        }
-        if let season = firstEpisode["season"] as? Int64 {
-            episode.seasonNumber = season
-        }
-        if let type = firstEpisode["type"] as? String {
-            episode.episodeType = type
-        }
+        let episode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
 
         DataManager.sharedManager.save(episode: episode)
 
