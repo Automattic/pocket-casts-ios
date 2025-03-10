@@ -113,7 +113,7 @@ struct NowPlayingView: View {
                 } else {
                     episode = DataManager.sharedManager.findLatestEpisode(podcast: podcast)
                 }
-                
+
                 guard let episode else {
                     FileLog.shared.addMessage("App Clip: Could not find Episode")
                     showErrorMessage(userActivity: userActivity)
