@@ -319,6 +319,7 @@ enum AnalyticsEvent: String {
     case podcastsScreenEpisodeGroupingChanged
     case podcastsScreenTabTapped
     case podcastScreenPodcastDescriptionLinkTapped
+    case podcastScreenNotificationsTapped
 
     // MARK: - App Store Review Request
 

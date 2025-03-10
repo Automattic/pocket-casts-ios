@@ -4783,3 +4783,8 @@
 /* Suggested Folder upsell detail */
 "suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
 
+/* Notifications On*/
+"notifications_on" = "Notifications On";
+
+/* Notifications Off*/
+"notifications_off" = "Notifications Off";
