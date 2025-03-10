@@ -13,20 +13,6 @@ class DBUtils {
         return value
     }
 
-    class func dateNullIfNil(value: Date?) -> Any {
-        guard let value = value else { return NSNull() }
-
-        return value.timeIntervalSince1970
-    }
-
-    class func ensureTimeInterval(value: Date?) -> TimeInterval {
-        guard let value else {
-            return 0
-        }
-
-        return value.timeIntervalSince1970
-    }
-
     class func valuesQuestionMarks(amount: Int) -> String {
         if amount == 0 { return "" }
         if amount == 1 { return "(?)" }
