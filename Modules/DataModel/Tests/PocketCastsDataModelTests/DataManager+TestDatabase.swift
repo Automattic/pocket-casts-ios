@@ -25,6 +25,12 @@ extension FMDatabaseQueue {
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
         return FMDatabaseQueue(path: dbPath, flags: flags)
     }
+}
+
+extension DatabasePool {
+    enum TestError: Error {
+        case dbFolderPathFailure
+    }
 
     static func newTestDatabase() throws -> DatabasePool? {
         var config = Configuration()
