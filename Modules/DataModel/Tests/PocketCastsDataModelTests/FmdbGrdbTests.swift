@@ -1,0 +1,104 @@
+import XCTest
+import FMDB
+import GRDB
+@testable import PocketCastsUtils
+import SQLite3
+@testable import PocketCastsDataModel
+
+final class FmdbGrdbTests: XCTestCase {
+    var dbQueue: FMDatabaseQueue!
+    var dbPool: DatabasePool!
+
+    lazy var isoFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        return formatter
+    }()
+
+    private func setupDataManagerWithFMDB() throws -> DataManager {
+        dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
+        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+    }
+
+    private func setupDataManagerWithGRDB() throws -> DataManager {
+        dbPool = try XCTUnwrap(DatabasePool.newTestDatabase())
+        return DataManager(dbQueue: GRDBQueue(dbPool: dbPool))
+    }
+
+    func testGrdbFmdb() throws {
+        // Create two podcasts, save them to FMDB and GRDB.
+        // Then read them back from FMDB and GRDB and compare them.
+        var fmdbDataManager = try setupDataManagerWithFMDB()
+        var grdbDataManager = try setupDataManagerWithGRDB()
+
+        let jsonString = Podcast.fixture
+        let data = jsonString.data(using: .utf8)
+
+        let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any]
+
+        let podcastOne = Podcast.from(podcastJson: json!["podcast"] as! [String: Any], podcastInfo: [:], uuid: "b5363810-adfb-013d-1a6e-0acc26574db2", subscribe: true, autoDownloads: 0, lastModified: "2025-02-18 08:00:00.000", isoFormatter: isoFormatter)
+
+        let podcastTwo = Podcast.from(podcastJson: json!["podcast"] as! [String: Any], podcastInfo: [:], uuid: "b5363810-adfb-013d-1a6e-0acc26574db2", subscribe: true, autoDownloads: 0, lastModified: "2025-02-18 08:00:00.000", isoFormatter: isoFormatter)
+
+        fmdbDataManager.save(podcast: podcastOne)
+        grdbDataManager.save(podcast: podcastTwo)
+
+        let fmdbPodcast = fmdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
+        let grdbPodcast = grdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
+
+        XCTAssertTrue(fmdbPodcast!.isEqual(to: grdbPodcast!))
+
+        // Create episodes, save them to FMDB and GRDB.
+        // Then read them back from FMDB and GRDB and compare them.
+        let jsonPodcast = json!["podcast"] as! [String: Any]
+        let jsonEpisodes = jsonPodcast["episodes"] as! [[String: Any]]
+
+        jsonEpisodes.forEach { jsonEpisode in
+            let episodeUuid = jsonEpisode["uuid"]! as! String
+            let episodeOne = Episode.from(episodeJson: jsonEpisode, podcastId: fmdbPodcast!.id, podcastUuid: fmdbPodcast!.uuid, isoFormatter: isoFormatter)
+            let episodeTwo = Episode.from(episodeJson: jsonEpisode, podcastId: grdbPodcast!.id, podcastUuid: grdbPodcast!.uuid, isoFormatter: isoFormatter)
+
+            fmdbDataManager.save(episode: episodeOne)
+            grdbDataManager.save(episode: episodeTwo)
+
+            let fmdbEpisode = fmdbDataManager.findEpisode(uuid: episodeUuid)
+            let grdbEpisode = grdbDataManager.findEpisode(uuid: episodeUuid)
+
+            XCTAssertTrue(fmdbEpisode?.isEqual(to: grdbEpisode) ?? false)
+        }
+    }
+}
+
+extension NSObject {
+    func isEqual(to other: Any) -> Bool {
+        guard let other = other as? Self else { return false }
+
+        let mirror1 = Mirror(reflecting: self)
+        let mirror2 = Mirror(reflecting: other)
+
+        guard mirror1.children.count == mirror2.children.count else { return false }
+
+        for (child1, child2) in zip(mirror1.children, mirror2.children) {
+            // Exclude fields that are dynamic
+            if ["id", "addedDate", "podcast_id"].contains(child1.label) {
+                continue
+            }
+
+            // Ensure both values are Equatable
+            if let value1 = child1.value as? (any Equatable),
+               let value2 = child2.value as? (any Equatable) {
+                if !areEqual(value1, value2) {
+                    print("❌ \(child1.label ?? ""): \(value1) is not equal to \(value2)")
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+
+    // Helper function to compare `any Equatable` values
+    private func areEqual(_ lhs: any Equatable, _ rhs: any Equatable) -> Bool {
+        return lhs as? AnyHashable == rhs as? AnyHashable
+    }
+}
