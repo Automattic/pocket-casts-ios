@@ -9,7 +9,14 @@ public class NetworkUtils {
         return monitor
     }()
 
-    private init() {}
+    private init() {
+        monitor.start(queue: .main)
+    }
+
+    deinit {
+        monitor.cancel()
+    }
+
     public static let shared = NetworkUtils()
 
     // MARK: - Connectivity
