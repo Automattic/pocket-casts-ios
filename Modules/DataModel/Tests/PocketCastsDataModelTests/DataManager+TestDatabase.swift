@@ -8,7 +8,25 @@ extension FMDatabaseQueue {
         case dbFolderPathFailure
     }
 
-    static func newTestDatabase() throws -> FMDatabaseQueue? {
+    static func newTestDatabase(databaseName: String? = nil) throws -> FMDatabaseQueue? {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
+            throw TestError.dbFolderPathFailure
+        }
+
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
+        let dbPath = dbFolderPath.appendingPathComponent(databaseName ?? "podcast_testDB.sqlite3")
+        if databaseName == nil && FileManager.default.fileExists(atPath: dbPath) {
+            try FileManager.default.removeItem(atPath: dbPath)
+        }
+        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+        return FMDatabaseQueue(path: dbPath, flags: flags)
+    }
+
+    static func copyDatabase(toFile: String) throws {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
         guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
             throw TestError.dbFolderPathFailure
@@ -20,10 +38,12 @@ extension FMDatabaseQueue {
 
         let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB.sqlite3")
         if FileManager.default.fileExists(atPath: dbPath) {
-            try FileManager.default.removeItem(atPath: dbPath)
+            if FileManager.default.fileExists(atPath: dbFolderPath.appendingPathComponent(toFile)) {
+                try FileManager.default.removeItem(atPath: dbFolderPath.appendingPathComponent(toFile))
+            }
+
+            try FileManager.default.copyItem(at: URL(fileURLWithPath: dbPath), to: URL(fileURLWithPath: dbFolderPath.appendingPathComponent(toFile)))
         }
-        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        return FMDatabaseQueue(path: dbPath, flags: flags)
     }
 }
 
@@ -32,7 +52,7 @@ extension DatabasePool {
         case dbFolderPathFailure
     }
 
-    static func newTestDatabase() throws -> DatabasePool? {
+    static func newTestDatabase(databaseName: String? = nil) throws -> DatabasePool? {
         var config = Configuration()
         config.busyMode = .timeout(10)
 
@@ -41,11 +61,31 @@ extension DatabasePool {
             throw TestError.dbFolderPathFailure
         }
 
-        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB_GRDB.sqlite3")
-        if FileManager.default.fileExists(atPath: dbPath) {
+        let dbPath = dbFolderPath.appendingPathComponent(databaseName ?? "podcast_testDB_GRDB.sqlite3")
+        if databaseName == nil && FileManager.default.fileExists(atPath: dbPath) {
             try FileManager.default.removeItem(atPath: dbPath)
         }
 
         return try! DatabasePool(path: dbPath, configuration: config)
+    }
+
+    static func copyDatabase(toFile: String) throws {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
+            throw TestError.dbFolderPathFailure
+        }
+
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
+        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB_GRDB.sqlite3")
+        if FileManager.default.fileExists(atPath: dbPath) {
+            if FileManager.default.fileExists(atPath: dbFolderPath.appendingPathComponent(toFile)) {
+                try FileManager.default.removeItem(atPath: dbFolderPath.appendingPathComponent(toFile))
+            }
+
+            try FileManager.default.copyItem(at: URL(fileURLWithPath: dbPath), to: URL(fileURLWithPath: dbFolderPath.appendingPathComponent(toFile)))
+        }
     }
 }

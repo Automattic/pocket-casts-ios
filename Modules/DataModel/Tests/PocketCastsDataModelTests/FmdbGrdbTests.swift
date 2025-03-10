@@ -63,8 +63,28 @@ final class FmdbGrdbTests: XCTestCase {
             let fmdbEpisode = fmdbDataManager.findEpisode(uuid: episodeUuid)
             let grdbEpisode = grdbDataManager.findEpisode(uuid: episodeUuid)
 
-            XCTAssertTrue(fmdbEpisode?.isEqual(to: grdbEpisode) ?? false)
+            XCTAssertTrue(fmdbEpisode!.isEqual(to: grdbEpisode!))
         }
+
+        // Open the GRDB database with FMDB, and the FMDB database with GRDB.
+        // Then read the podcasts and episodes back from FMDB and GRDB and compare them.
+        // This ensures that the databases are compatible with each other.
+
+        dbQueue.close()
+        try! dbPool.close()
+        try! DatabasePool.copyDatabase(toFile: "GRDB_copy.sqlite3")
+        try! FMDatabaseQueue.copyDatabase(toFile: "FMDB_copy.sqlite3")
+
+        dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase(databaseName: "GRDB_copy.sqlite3"))
+        let fmdbFromGrdbDataManager = DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+
+        dbPool = try XCTUnwrap(DatabasePool.newTestDatabase(databaseName: "FMDB_copy.sqlite3"))
+        let grdbFromFmdbDataManager = DataManager(dbQueue: GRDBQueue(dbPool: dbPool))
+
+        let fmdbPodcastReadFromGrdb = fmdbFromGrdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
+        let grdbPodcastReadFromFmdb = grdbFromFmdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
+
+        XCTAssertTrue(fmdbPodcastReadFromGrdb!.isEqual(to: grdbPodcastReadFromFmdb!))
     }
 }
 
