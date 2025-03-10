@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 actor ShowInfoCoordinator: ShowInfoCoordinating {
     static let shared = ShowInfoCoordinator()
@@ -57,17 +58,23 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return (metadata?.chapters, nil)
     }
 
-    public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> [Episode.Metadata.Transcript] {
+    public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
 #if os(watchOS)
-        return []
+        return (transcripts: [], hasGeneratedTranscripts: false)
 #else
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
-        guard let transcripts = metadata?.transcripts else {
-            return []
+        if FeatureFlag.generatedTranscripts.enabled {
+            let externalTranscripts = metadata?.transcripts ?? []
+            let pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            let transcripts = externalTranscripts.isEmpty ? pocketCastsTranscripts : externalTranscripts
+            return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty)
         }
 
-        return transcripts
+        guard let transcripts = metadata?.transcripts else {
+            return (transcripts: [], hasGeneratedTranscripts: false)
+        }
+        return (transcripts: transcripts, hasGeneratedTranscripts: metadata?.hasGeneratedTranscripts() ?? false)
 #endif
     }
 
