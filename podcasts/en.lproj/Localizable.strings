@@ -4783,3 +4783,8 @@
 /* Suggested Folder upsell detail */
 "suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
 
+/* App Clip Placeholder view title for when the episode link parsing fails */
+"app_clip_placholder_title" = "Sorry, we couldn't find that episode";
+
+/* App Clip Placeholder view message for when the episode link parsing fails */
+"app_clip_placholder_message" = "It may have been removed or the link is broken.\nBut there's plenty more on Pocket Casts.\nDownload the app for the full experience!";
