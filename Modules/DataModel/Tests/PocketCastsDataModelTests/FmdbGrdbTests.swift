@@ -85,6 +85,16 @@ final class FmdbGrdbTests: XCTestCase {
         let grdbPodcastReadFromFmdb = grdbFromFmdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
 
         XCTAssertTrue(fmdbPodcastReadFromGrdb!.isEqual(to: grdbPodcastReadFromFmdb!))
+
+        // Compare the episodes
+        jsonEpisodes.forEach { jsonEpisode in
+            let episodeUuid = jsonEpisode["uuid"]! as! String
+
+            let fmdbEpisode = fmdbFromGrdbDataManager.findEpisode(uuid: episodeUuid)
+            let grdbEpisode = grdbFromFmdbDataManager.findEpisode(uuid: episodeUuid)
+
+            XCTAssertTrue(fmdbEpisode!.isEqual(to: grdbEpisode!))
+        }
     }
 }
 
