@@ -1,13 +1,13 @@
 import Foundation
+import Network
 
 public class NetworkUtils {
-    #if !os(watchOS)
-        private lazy var reachability: Reachability = {
-            let reachability = Reachability()!
 
-            return reachability
-        }()
-    #endif
+    private var monitor: NWPathMonitor = {
+        let monitor = NWPathMonitor()
+
+        return monitor
+    }()
 
     private init() {}
     public static let shared = NetworkUtils()
@@ -15,16 +15,10 @@ public class NetworkUtils {
     // MARK: - Connectivity
 
     public func isConnectedToWifi() -> Bool {
-        #if os(watchOS)
-            return true // TODO:
-        #else
-            return reachability.connection == .wifi
-        #endif
+        return !monitor.currentPath.isExpensive
     }
 
-    #if !os(watchOS)
     public func isConnected() -> Bool {
-        reachability.connection != .none
+        monitor.currentPath.status == .satisfied
     }
-    #endif
 }
