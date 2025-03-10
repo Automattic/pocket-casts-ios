@@ -1716,6 +1716,10 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off") }
   /// OK
   internal static var ok: String { return L10n.tr("Localizable", "ok") }
+  /// Only on Unmetered Wifi
+  internal static var onlyOnUnmeteredWifi: String { return L10n.tr("Localizable", "only_on_unmetered_wifi") }
+  /// Turning this off will allow downloads on cellular as well as other metered networks. Check your network settings for more info.
+  internal static var onlyOnUnmeteredWifiDetails: String { return L10n.tr("Localizable", "only_on_unmetered_wifi_details") }
   /// Only On WiFi
   internal static var onlyOnWifi: String { return L10n.tr("Localizable", "only_on_wifi") }
   /// Unable to import podcasts from the OPML file you specified. Please check that it's valid

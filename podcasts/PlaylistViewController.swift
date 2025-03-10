@@ -352,7 +352,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToWifi() {
+            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true

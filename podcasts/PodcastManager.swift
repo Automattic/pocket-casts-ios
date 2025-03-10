@@ -98,7 +98,7 @@ class PodcastManager: NSObject {
 
     func checkForPendingAndAutoDownloads() {
         // check if any existing episode that have been queued need to be downloading
-        if NetworkUtils.shared.isConnectedToWifi() {
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             let queuedEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.waitingForWifi.rawValue])
             for episode in queuedEpisodes {
                 downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
@@ -109,7 +109,7 @@ class PodcastManager: NSObject {
         let stuckDownloadingEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.downloading.rawValue])
         for episode in stuckDownloadingEpisodes {
             if !downloadManager.isEpisodeDownloading(episode) {
-                if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
+                if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                     downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
                 }
                 else {
@@ -161,7 +161,7 @@ class PodcastManager: NSObject {
 
             if episode.exemptFromAutoDownload() || episode.downloaded(pathFinder: downloadManager) || episode.queued() || episode.downloading() { continue }
 
-            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
+            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 downloadManager.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)
             } else {
                 downloadManager.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .autoDownloaded)

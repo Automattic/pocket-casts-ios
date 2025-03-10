@@ -14,7 +14,7 @@ public class NetworkUtils {
 
     // MARK: - Connectivity
 
-    public func isConnectedToWifi() -> Bool {
+    public func isConnectedToUnexpensiveConnection() -> Bool {
         return !monitor.currentPath.isExpensive
     }
 
