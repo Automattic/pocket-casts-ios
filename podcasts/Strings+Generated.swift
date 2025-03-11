@@ -1700,6 +1700,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Notifications Off
+  internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
+  /// Notifications On
+  internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Now Playing
