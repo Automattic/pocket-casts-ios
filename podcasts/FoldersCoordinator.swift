@@ -14,10 +14,15 @@ class FoldersCoordinator: NSObject {
     }
 
     private var currentUpsellFlow: UpsellFlow = .none
+    private weak var currentVC: UIViewController? = nil
+
+    private var currentSource: AnalyticsSource = .unknown
+
     private let startingTime: Date = Date.now
 
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
+    private let suggestedFoldersModel: SuggestedFoldersModel
 
     private enum Constants {
         static let minimumNumberOfPodcasts: Int = 7
@@ -29,14 +34,15 @@ class FoldersCoordinator: NSObject {
     init(navigationManager: NavigationManager = .sharedManager, dataManager: DataManager = .sharedManager) {
         self.navigationManager = navigationManager
         self.dataManager = dataManager
+        self.suggestedFoldersModel = SuggestedFoldersModel()
         super.init()
+        Task {
+            await suggestedFoldersModel.load()
+        }
     }
 
-    private weak var currentVC: UIViewController? = nil
-    private var currentSource: AnalyticsSource = .unknown
-
     func startFolderCreationFlow(from vc: UIViewController) {
-        if FeatureFlag.suggestedFolders.enabled {
+        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
@@ -51,7 +57,8 @@ class FoldersCoordinator: NSObject {
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
               DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
-              DataManager.sharedManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts
+              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+              suggestedFoldersModel.loadingState == .loaded
         else {
             return
         }
@@ -65,8 +72,9 @@ class FoldersCoordinator: NSObject {
             return
         }
 
-        let creatFolderView = CreateFolderView { [weak vc] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
+        let creatFolderView = CreateFolderView { [weak vc, weak self] folderUuid in
+            guard let self = self else { return }
+            if let folderUuid = folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
                 vc?.dismiss(animated: true, completion: { [weak self] in
                     self?.navigationManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })
@@ -85,7 +93,7 @@ class FoldersCoordinator: NSObject {
             showUpsellSuggestedFolder(from: vc, source: source)
             return
         }
-        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView(model: suggestedFoldersModel, source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
 
             switch result {
@@ -110,7 +118,7 @@ class FoldersCoordinator: NSObject {
     }
 
     private func showUpsellSuggestedFolder(from vc: UIViewController, fromUserAction: Bool = false, source: AnalyticsSource) {
-        let suggestedFoldersView = SuggestedFoldersView(source: source) { [weak vc, weak self] result in
+        let suggestedFoldersView = SuggestedFoldersView(model: suggestedFoldersModel, source: source) { [weak vc, weak self] result in
             guard let self, let vc else { return }
             switch result {
             case .dismiss:
