@@ -3,11 +3,7 @@ import Network
 
 public class NetworkUtils {
 
-    private var monitor: NWPathMonitor = {
-        let monitor = NWPathMonitor()
-
-        return monitor
-    }()
+    private lazy var monitor = NWPathMonitor()
 
     private init() {
         monitor.start(queue: .main)
