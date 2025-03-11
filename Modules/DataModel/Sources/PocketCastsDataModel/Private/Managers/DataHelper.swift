@@ -11,7 +11,7 @@ class DataHelper {
         return inString
     }
 
-    class func run(query: String, values: [Any]?, methodName: String, onQueue: FMDatabaseQueue) {
+    class func run(query: String, values: [Any]?, methodName: String, onQueue: PCDBQueue) {
         onQueue.inTransaction { db, _ in
             do {
                 try db.executeUpdate(query, values: values)

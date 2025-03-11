@@ -2,9 +2,9 @@ import FMDB
 import PocketCastsUtils
 
 public struct AutoAddCandidatesDataManager {
-    private let dbQueue: FMDatabaseQueue
+    private let dbQueue: PCDBQueue
 
-    init(dbQueue: FMDatabaseQueue) {
+    init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
     }
 
@@ -114,7 +114,7 @@ public struct AutoAddCandidatesDataManager {
         /// The UUID of the candidate episode to add
         public let episodeUuid: String
 
-        init?(from resultSet: FMResultSet) {
+        init?(from resultSet: PCDBResultSet) {
 
             let setting: Int32
             if FeatureFlag.newSettingsStorage.enabled {

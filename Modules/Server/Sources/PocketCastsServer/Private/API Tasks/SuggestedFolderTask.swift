@@ -17,7 +17,11 @@ class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
         self.completion = completion
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func main() {
+        doNetworkCall()
+    }
+
+    func doNetworkCall() {
         let urlString = "\(ServerConstants.Urls.cache())podcast/suggest_folders"
 
         do {
@@ -27,7 +31,7 @@ class SuggestedFoldersTask: ApiBaseTask, @unchecked Sendable {
                 return
             }
 
-            let (data, statusCode) = super.performPostToServer(url: urlString, token: token, data: requestData)
+            let (data, statusCode) = super.performPostToServer(url: urlString, token: nil, data: requestData)
             guard let responseData = data,
                   statusCode == ServerConstants.HttpConstants.ok
             else {

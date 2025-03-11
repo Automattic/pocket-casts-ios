@@ -1,10 +1,10 @@
 7.85
 -----
-
+- Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
 
 7.84
 -----
-
+- UpNext Shuffle: add logs and prevent tap if user is not logged in [#2806](https://github.com/Automattic/pocket-casts-ios/pull/2806)
 
 7.83
 -----
@@ -15,7 +15,6 @@
 7.82.1
 -----
 - Fix analytics bug [#2769](https://github.com/Automattic/pocket-casts-ios/pull/2769)
-
 
 7.82
 -----

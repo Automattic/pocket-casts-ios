@@ -2,7 +2,7 @@ import Foundation
 import FMDB
 
 extension Episode {
-    static func from(resultSet rs: FMResultSet) -> Episode {
+    static func from(resultSet rs: PCDBResultSet) -> Episode {
         let episode = Episode()
         episode.id = rs.longLongInt(forColumn: "id")
         episode.addedDate = DBUtils.convertDate(value: rs.double(forColumn: "addedDate"))

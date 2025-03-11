@@ -346,7 +346,7 @@ class Settings: NSObject {
     }
 
     class func upNextShuffleEnabled() -> Bool {
-        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() {
+        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             return false
         }
         return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
@@ -1388,6 +1388,27 @@ class Settings: NSObject {
 
         get {
             UserDefaults.standard.object(forKey: Constants.UserDefaults.manageDownloads.lastCheckDate) as? Date
+        }
+    }
+
+    // MARK: - Smart Folders Upsell display
+    class var suggestedFoldersLastUpsellDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate) as? Date
+        }
+    }
+
+    class var suggestedFoldersUpsellCount: Int {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.upsellCount)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.upsellCount) as? Int ?? 0
         }
     }
 

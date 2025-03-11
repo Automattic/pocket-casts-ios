@@ -147,6 +147,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Parse toc value in chapters
     case parseChaptersToc
 
+    /// Enable the generated transcript
+    case generatedTranscripts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -245,6 +248,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .parseChaptersToc:
             true
+        case .generatedTranscripts:
+            false
         }
     }
 

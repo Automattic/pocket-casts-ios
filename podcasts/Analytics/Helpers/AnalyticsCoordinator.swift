@@ -52,6 +52,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case multiSelect = "multi_select"
     case episodeSwipeAction = "episode_swipe_action"
     case handleUserActivity = "handle_user_activity"
+    case suggestedFolderPopup = "popup"
     case unknown
 
     var analyticsDescription: String { rawValue }

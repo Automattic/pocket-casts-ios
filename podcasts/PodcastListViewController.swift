@@ -282,6 +282,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                     })
                 }
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
     }
