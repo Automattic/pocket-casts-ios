@@ -74,4 +74,3 @@ extension Database {
         try execute(sql: query, arguments: StatementArguments(values.databaseValues)!)
     }
 }
-
