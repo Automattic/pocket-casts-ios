@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import SwiftUI
 
 struct PodcastHeaderView: View {
@@ -37,9 +38,15 @@ struct PodcastHeaderView: View {
     private var podcastActions: some View {
         HStack(spacing: 8) {
             Spacer()
-            actionButton(imageName: viewModel.folderImage) {}
-            actionButton(imageName: "podcast-notification-on") {}
-            actionButton(imageName: "podcast-settings") {}
+            actionButton(imageName: viewModel.folderImage) {
+                viewModel.delegate?.folderTapped()
+            }
+            actionButton(imageName: "podcast-notification-on") {
+                //viewModel.delegate?.notificationsT
+            }
+            actionButton(imageName: "podcast-settings") {
+                viewModel.delegate?.settingsTapped()
+            }
             Spacer()
         }
     }
@@ -82,5 +89,12 @@ struct PodcastHeaderView: View {
             Spacer()
         }
         .foregroundStyle(theme.primaryIcon02)
+    }
+}
+
+struct PodcastHeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Podcast()))
+            .previewWithAllThemes()
     }
 }

@@ -6,9 +6,11 @@ import PocketCastsUtils
 
 class PodcastHeaderViewModel: ObservableObject {
     let podcast: Podcast
+    private(set) weak var delegate: PodcastActionsDelegate?
 
-    init(podcast: Podcast) {
+    init(podcast: Podcast, delegate: PodcastActionsDelegate? = nil) {
         self.podcast = podcast
+        self.delegate = delegate
     }
 
     lazy var podcastRatingViewModel: PodcastRatingViewModel = {

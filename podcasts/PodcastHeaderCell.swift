@@ -13,9 +13,9 @@ class PodcastHeaderCell: UITableViewCell {
     }
 
     let podcast: Podcast
-    let viewController: UIViewController
+    let viewController: PodcastViewController
 
-    init(podcast: Podcast, vc: UIViewController) {
+    init(podcast: Podcast, vc: PodcastViewController) {
         self.podcast = podcast
         self.viewController = vc
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
@@ -24,7 +24,7 @@ class PodcastHeaderCell: UITableViewCell {
 
     func commonSetup() {
         self.backgroundColor = .clear
-        let viewModel = PodcastHeaderViewModel(podcast: podcast)
+        let viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration(content: {
                 PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
