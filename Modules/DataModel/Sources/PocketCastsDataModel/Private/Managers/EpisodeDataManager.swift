@@ -759,7 +759,7 @@ class EpisodeDataManager {
             do {
                 db.beginTransaction()
                 if FeatureFlag.markAllSyncedInSingleStatement.enabled {
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid IN (\(ids.map { "\"\($0)\""}.joined(separator: ",")))", values: nil)
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid IN (\(ids.map { "'\($0)'"}.joined(separator: ",")))", values: nil)
                 } else {
                     for episodeId in ids {
                         try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid = ?", values: ["\"\(episodeId)\""])
