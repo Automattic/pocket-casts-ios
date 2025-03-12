@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/google/abseil-cpp-binary.git",
         "state": {
           "branch": null,
-          "revision": "194a6706acbd25e4ef639bcaddea16e8758a3e27",
-          "version": "1.2024011602.0"
+          "revision": "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
+          "version": "1.2024072200.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/google/app-check.git",
         "state": {
           "branch": null,
-          "revision": "3b62f154d00019ae29a71e9738800bb6f18b236d",
-          "version": "10.19.2"
+          "revision": "61b85103a1aeed8218f17c794687781505fbbef5",
+          "version": "11.2.0"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
         "state": {
           "branch": null,
-          "revision": "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
-          "version": "1.7.5"
+          "revision": "2781038865a80e2c425a1da12cc1327bcd56501f",
+          "version": "1.7.6"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
           "branch": null,
-          "revision": "4d7d7138a9f2b36c3fd4618aa488ed9e8de2f726",
-          "version": "3.5.0"
+          "revision": "437f586a62c07c6ceec9baf043237b2afe7ea1ac",
+          "version": "3.5.2"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "eca84fd638116dd6adb633b5a3f31cc7befcbb7d",
-          "version": "10.29.0"
+          "revision": "eb523407e4293568ed55590728205c359cbecc5b",
+          "version": "11.9.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "fe727587518729046fc1465625b9afd80b5ab361",
-          "version": "10.28.0"
+          "revision": "d80e25104abe76d69a134d4ec18f011edd8df06c",
+          "version": "11.9.0"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "a637d318ae7ae246b02d7305121275bc75ed5565",
-          "version": "9.4.0"
+          "revision": "617af071af9aa1d6a091d59a202910ac482128f9",
+          "version": "10.1.0"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "57a1d307f42df690fdef2637f3e5b776da02aad6",
-          "version": "7.13.3"
+          "revision": "53156c7ec267db846e6b64c9f4c4e31ba4cf75eb",
+          "version": "8.0.2"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
           "branch": null,
-          "revision": "e9fad491d0673bdda7063a0341fb6b47a30c5359",
-          "version": "1.62.2"
+          "revision": "cc0001a0cf963aa40501d9c2b181e7fc9fd8ec71",
+          "version": "1.69.0"
         }
       },
       {
@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/google/interop-ios-for-google-sdks.git",
         "state": {
           "branch": null,
-          "revision": "2d12673670417654f08f5f90fdd62926dc3a2648",
-          "version": "100.0.0"
+          "revision": "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
+          "version": "101.0.0"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": null,
-          "revision": "2ef543ee21d63734e1c004ad6c870255e8716c50",
-          "version": "7.12.0"
+          "revision": "b450a3b30e0767277a6eed7e02dbdebd7d173da0",
+          "version": "8.3.0"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
           "branch": null,
-          "revision": "fe4c6fe3a0aa66cdeb51d549623c82ca9704b9a5",
-          "version": "4.5.0"
+          "revision": "047aa81b77adcbf583a966dfef620d17650cc656",
+          "version": "4.5.1"
         }
       },
       {
@@ -222,8 +222,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
-          "version": "8.38.0"
+          "revision": "e0fa062817b277fd9ab597b54b8e2f92dc65b009",
+          "version": "8.46.0"
         }
       },
       {
@@ -231,8 +231,8 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "ebc7251dd5b37f627c93698e4374084d98409633",
-          "version": "1.28.2"
+          "revision": "d72aed98f8253ec1aa9ea1141e28150f408cf17f",
+          "version": "1.29.0"
         }
       },
       {
@@ -249,8 +249,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "7cfb9cea6d7b85212de4f445dda17b8f5026c4ff",
-          "version": "1.7.0"
+          "revision": "aaa309326c2b8bfb52b7fdfabb1a43820c2e26b2",
+          "version": "1.8.2"
         }
       },
       {
@@ -276,8 +276,8 @@
         "repositoryURL": "https://github.com/buildkite/test-collector-swift",
         "state": {
           "branch": null,
-          "revision": "631a2400dbe876141a3ef8c7400885907fec7f89",
-          "version": "0.4.1"
+          "revision": "261b2feaafd601e5b35edb68f402d34ad8210967",
+          "version": "0.5.0"
         }
       },
       {
