@@ -31,7 +31,7 @@ struct PodcastHeaderView: View {
                 .foregroundStyle(theme.primaryText01)
                 .fixedSize(horizontal: false, vertical: true)
             podcastDetails
-            EpisodeBookmarksTabsView(delegate: nil)
+            EpisodeBookmarksTabsView(delegate: viewModel.delegate)
         }
     }
 
@@ -42,7 +42,7 @@ struct PodcastHeaderView: View {
                 viewModel.delegate?.folderTapped()
             }
             actionButton(imageName: "podcast-notification-on") {
-                //viewModel.delegate?.notificationsT
+                viewModel.delegate?.notificationTapped()
             }
             actionButton(imageName: "podcast-settings") {
                 viewModel.delegate?.settingsTapped()
