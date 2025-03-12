@@ -229,7 +229,7 @@ class TranscriptViewController: PlayerItemViewController {
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .white.withAlphaComponent(0.5)
-        label.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        label.backgroundColor = .clear
         view.addSubview(label)
 
         let stroke = UIView()
