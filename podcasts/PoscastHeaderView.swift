@@ -43,17 +43,38 @@ struct PodcastHeaderView: View {
             .foregroundStyle(theme.primaryText01)
     }
 
+    private var followButton: some View {
+        Button() {
+            viewModel.subscribeButtonTapped()
+        } label: {
+            Text(viewModel.isPodcastSubscribed ? L10n.unfollow : L10n.follow)
+                .font(.body).bold()
+                .foregroundStyle(theme.primaryText01)
+                .padding()
+                .cornerRadius(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                    .inset(by: 0.5)
+                    .stroke(theme.primaryUi05, lineWidth: 1)
+                )
+        }
+        .frame(width: 150, height: 40)
+    }
+
     private var podcastActions: some View {
         HStack(spacing: 8) {
             Spacer()
-            actionButton(imageName: viewModel.folderImage) {
-                viewModel.delegate?.folderTapped()
-            }
-            actionButton(imageName: "podcast-notification-on") {
-                viewModel.delegate?.notificationTapped()
-            }
-            actionButton(imageName: "podcast-settings") {
-                viewModel.delegate?.settingsTapped()
+            followButton
+            if viewModel.isPodcastSubscribed {
+                actionButton(imageName: viewModel.folderImage) {
+                    viewModel.delegate?.folderTapped()
+                }
+                actionButton(imageName: "podcast-notification-on") {
+                    viewModel.delegate?.notificationTapped()
+                }
+                actionButton(imageName: "podcast-settings") {
+                    viewModel.delegate?.settingsTapped()
+                }
             }
             Spacer()
         }

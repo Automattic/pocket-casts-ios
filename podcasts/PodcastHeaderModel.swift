@@ -56,4 +56,18 @@ class PodcastHeaderViewModel: ObservableObject {
         }
         return L10n.paidPodcastNextEpisodeFormat(estimatedDate)
     }
+
+    var isPodcastSubscribed: Bool {
+        return podcast.isSubscribed()
+    }
+
+    func subscribeButtonTapped() {
+        guard let delegate = delegate, let podcast = delegate.displayedPodcast() else { return }
+
+        if podcast.isSubscribed() {
+            delegate.unsubscribe()
+        } else {
+            delegate.subscribe()
+        }
+    }
 }
