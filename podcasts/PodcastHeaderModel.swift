@@ -26,6 +26,14 @@ class PodcastHeaderViewModel: ObservableObject {
         return folderImage
     }
 
+    var displayCategory: String {
+        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        if let author = podcast.author {
+            result += " · \(author)"
+        }
+        return result
+    }
+
     var displayAuthor: String {
         guard let podcastAuthor = podcast.author else {
             return ""

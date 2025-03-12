@@ -36,14 +36,9 @@ struct PodcastHeaderView: View {
 
     private var podcastCategory: some View {
         VStack {
-            HStack {
-                Text(viewModel.podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? "")
-                Text("·")
-                Text(viewModel.podcast.author ?? "")
-            }
+            Text(viewModel.displayCategory)
             .font(.caption)
             .foregroundStyle(theme.primaryText02)
-            Spacer()
         }
         .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
         .clipped()
