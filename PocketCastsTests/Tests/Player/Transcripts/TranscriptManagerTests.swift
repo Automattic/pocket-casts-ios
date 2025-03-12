@@ -17,14 +17,13 @@ final class TranscriptManagerTests: XCTestCase {
             return (nil, nil)
         }
 
-        func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> [Episode.Metadata.Transcript] {
+        func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "vtt") else {
-                return []
+                return (transcripts: [], hasGeneratedTranscripts: false)
             }
             let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
-            return [transcript]
+            return (transcripts: [transcript], hasGeneratedTranscripts: false)
         }
-
     }
 
     func testLoadingTranscript() async throws {

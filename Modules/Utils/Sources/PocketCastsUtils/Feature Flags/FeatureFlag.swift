@@ -144,6 +144,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
+    /// Enable the generated transcript
+    case generatedTranscripts
+
+    /// Enable the new podcast view
+    case podcastViewChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -240,6 +246,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .suggestedFolders:
             false
+        case .generatedTranscripts:
+            false
+        case .podcastViewChanges:
+            false
         }
     }
 
@@ -261,6 +271,8 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .usePodcastHTMLDescription:
             "use_podcast_html_description"
+        case .podcastViewChanges:
+            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }

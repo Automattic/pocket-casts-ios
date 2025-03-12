@@ -192,6 +192,12 @@ internal enum L10n {
   internal static var announcementSlumberTitle: String { return L10n.tr("Localizable", "announcement_slumber_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
+  /// It may have been removed or the link is broken.
+  /// But there's plenty more on Pocket Casts.
+  /// Download the app for the full experience!
+  internal static var appClipPlacholderMessage: String { return L10n.tr("Localizable", "app_clip_placholder_message") }
+  /// Sorry, we couldn't find that episode
+  internal static var appClipPlacholderTitle: String { return L10n.tr("Localizable", "app_clip_placholder_title") }
   /// Classic
   internal static var appIconClassic: String { return L10n.tr("Localizable", "app_icon_classic") }
   /// Dark
@@ -1694,6 +1700,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Notifications Off
+  internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
+  /// Notifications On
+  internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Now Playing
