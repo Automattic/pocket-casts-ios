@@ -63,7 +63,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == PodcastViewController.headerSection {
             if FeatureFlag.podcastViewChanges.enabled {
-                let cell = PodcastHeaderCell(podcast: self.podcast!)
+                let cell = PodcastHeaderCell(podcast: self.podcast!, vc: self)
                 return cell
             } else {
                 let cell = podcastHeadingCell

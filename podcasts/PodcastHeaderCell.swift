@@ -13,9 +13,11 @@ class PodcastHeaderCell: UITableViewCell {
     }
 
     let podcast: Podcast
+    let viewController: UIViewController
 
-    init(podcast: Podcast) {
+    init(podcast: Podcast, vc: UIViewController) {
         self.podcast = podcast
+        self.viewController = vc
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
         commonSetup()
     }
@@ -30,13 +32,16 @@ class PodcastHeaderCell: UITableViewCell {
             )
         } else {
             // Fallback on earlier versions
+            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding())
         }
     }
 
-    func configureCellFromSwiftUIView(cell: UITableViewCell, viewController: UIViewController, rootView: AnyView) {
+    func configureCellFromSwiftUIView(cell: UITableViewCell, viewController: UIViewController, rootView: some View) {
 
         let swiftUICellViewController = UIHostingController(rootView: rootView)
-
+        swiftUICellViewController.view.backgroundColor = .clear
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
         cell.layoutIfNeeded()
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
@@ -133,6 +138,7 @@ struct PodcastHeaderView: View {
             Text(viewModel.podcast.podcastDescription ?? "")
                 .font(.body)
                 .foregroundStyle(theme.primaryText01)
+                .fixedSize(horizontal: false, vertical: true)
             podcastDetails
             EpisodeBookmarksTabsView(delegate: nil)
         }
