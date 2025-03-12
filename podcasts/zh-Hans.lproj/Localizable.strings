@@ -2953,6 +2953,14 @@
     <string>%1$@ 每 %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>创建自定义文件夹</string>
+    <key>suggested_folders_description</key>
+    <string>我们已为您整理播客。 保存或按照您的风格对其进行自定义。</string>
+    <key>suggested_folders_title</key>
+    <string>建议的文件夹</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>使用这些文件夹</string>
     <key>support_watch_help_message</key>
     <string>如果您在使用 Pocket Casts Watch 应用时遇到问题，我们可以发送您的可穿戴日志以更好地帮助您。 为此，请在您的 Watch 上打开 Pocket Casts。</string>
     <key>support_watch_help_opened_app</key>

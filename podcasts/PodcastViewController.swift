@@ -35,6 +35,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func manageSubscriptionTapped()
     func settingsTapped()
     func folderTapped()
+    func notificationTapped()
     func subscribe()
     func unsubscribe()
     func refreshArtwork(fromRect: CGRect, inView: UIView)
@@ -784,6 +785,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
 
         showFolderPickerDialog()
+    }
+
+    func notificationTapped() {
+        guard let podcast else {
+            return
+        }
+        let newValue = !podcast.isPushEnabled
+        PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        Toast.show(newValue ? L10n.notificationsOn : L10n.notificationsOff)
+        Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
     }
 
     func searchEpisodes(query: String) {

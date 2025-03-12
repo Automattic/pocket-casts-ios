@@ -4,7 +4,9 @@
 
 7.84
 -----
+- Add empty state for App Clip [#2809](https://github.com/Automattic/pocket-casts-ios/pull/2809)
 - UpNext Shuffle: add logs and prevent tap if user is not logged in [#2806](https://github.com/Automattic/pocket-casts-ios/pull/2806)
+- Add notification toggle button on Podcast details [#2824](https://github.com/Automattic/pocket-casts-ios/pull/2824)
 
 7.83
 -----
