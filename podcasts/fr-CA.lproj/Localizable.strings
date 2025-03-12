@@ -2953,6 +2953,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>%1$@ par %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>Créer des dossiers personnalisés</string>
+    <key>suggested_folders_description</key>
+    <string>Nous avons organisé vos podcasts pour vous. Enregistrez-les ou personnalisez-les pour les faire correspondre à votre style.</string>
+    <key>suggested_folders_title</key>
+    <string>Dossiers suggérés</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Utiliser ces dossiers</string>
     <key>support_watch_help_message</key>
     <string>Si vous rencontrez des difficultés avec l’application Pocket Casts Watch, nous pouvons vous envoyer les journaux de votre montre afin de mieux vous aider. Pour ce faire, ouvrez Pocket Casts sur votre montre.</string>
     <key>support_watch_help_opened_app</key>

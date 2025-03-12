@@ -2953,6 +2953,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>%1$@ por %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Obrigado pelo apoio!</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>Criar pastas personalizadas</string>
+    <key>suggested_folders_description</key>
+    <string>Organizamos seus podcasts por você. Salve ou personalize conforme o seu estilo.</string>
+    <key>suggested_folders_title</key>
+    <string>Pastas sugeridas</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Usar estas pastas</string>
     <key>support_watch_help_message</key>
     <string>Se você estiver tendo problemas com o aplicativo Pocket Casts para o Apple Watch, podemos enviar seus registros para ajudar você da melhor forma. Basta abrir o Pocket Casts no seu Apple Watch.</string>
     <key>support_watch_help_opened_app</key>
