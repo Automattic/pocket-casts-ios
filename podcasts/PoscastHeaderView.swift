@@ -2,6 +2,15 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .top).combined(with: .opacity),
+            removal: .scale.combined(with: .opacity)
+        )
+    }
+}
+
 struct PodcastHeaderView: View {
 
     @EnvironmentObject var theme: Theme
@@ -10,37 +19,61 @@ struct PodcastHeaderView: View {
     var body: some View {
         VStack(spacing: 16) {
             PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                .frame(width: 192, height: 192)
-            podcastCategory
+                .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108)
+                .animation(.linear, value: viewModel.isExpanded)
+            if viewModel.isExpanded {
+                podcastCategory
+            }
             podcastTitle
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                                       onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
             podcastActions
-            Text(viewModel.podcast.podcastDescription ?? "")
-                .font(.body)
-                .foregroundStyle(theme.primaryText01)
-                .fixedSize(horizontal: false, vertical: true)
-            podcastDetails
+            if viewModel.isExpanded {
+                VStack {
+                    podcastDescription
+                    podcastDetails
+                }
+                .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
+                .clipped()
+            }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
+            Spacer()
         }
     }
 
     private var podcastCategory: some View {
-        HStack {
-            Text(viewModel.podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? "")
-            Text("·")
-            Text(viewModel.podcast.author ?? "")
-        }
+        VStack {
+            HStack {
+                Text(viewModel.podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? "")
+                Text("·")
+                Text(viewModel.podcast.author ?? "")
+            }
             .font(.caption)
             .foregroundStyle(theme.primaryText02)
+            Spacer()
+        }
+        .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
+        .clipped()
     }
 
     private var podcastTitle: some View {
-        Text(viewModel.podcast.title ?? "")
-            .font(.headline).bold()
-            .foregroundStyle(theme.primaryText01)
+        HStack(spacing: 0) {
+            Text(viewModel.podcast.title ?? "")
+            Image(systemName: "chevron.up")
+                .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
+                .padding()
+                .animation(.easeInOut, value: viewModel.isExpanded)
+        }
+        .font(.headline)
+        .foregroundStyle(theme.primaryText01)
+        .multilineTextAlignment(.center)
+        .onTapGesture {
+            withAnimation {
+                viewModel.isExpanded.toggle()
+            }
+        }
     }
 
     private var followButton: some View {
@@ -94,6 +127,13 @@ struct PodcastHeaderView: View {
 //        .accessibilityLabel(action.title)
 //        .opacity(action.visible ? 1 : 0)
 //        .accessibilityAnimation(.linear(duration: 0.1), value: action.visible)
+    }
+
+    private var podcastDescription: some View {
+        Text(viewModel.podcast.podcastDescription ?? "")
+            .font(.body)
+            .foregroundStyle(theme.primaryText01)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     private var podcastDetails: some View {

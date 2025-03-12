@@ -13,6 +13,8 @@ class PodcastHeaderViewModel: ObservableObject {
         self.delegate = delegate
     }
 
+    @Published var isExpanded: Bool = true
+
     lazy var podcastRatingViewModel: PodcastRatingViewModel = {
         let podcastRatingViewModel = PodcastRatingViewModel()
         podcastRatingViewModel.update(podcast: podcast)
