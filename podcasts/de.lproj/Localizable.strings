@@ -2951,6 +2951,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>%1$@ für %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>Individuelle Ordner erstellen</string>
+    <key>suggested_folders_description</key>
+    <string>Wir haben deine Podcasts für dich organisiert. Speichere sie oder passe sie nach Belieben an.</string>
+    <key>suggested_folders_title</key>
+    <string>Vorgeschlagene Order</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Diese Ordner verwenden</string>
     <key>support_watch_help_message</key>
     <string>Wenn du Probleme mit Pocket Casts in der Watch-App hast, können wir dir Wearable-Protokolle senden, um dich besser zu unterstützen. Öffne dafür Pocket Casts auf deiner Watch.</string>
     <key>support_watch_help_opened_app</key>
