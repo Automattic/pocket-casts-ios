@@ -350,6 +350,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
          return cell
     }()
 
+    lazy var podcastHeaderCell: PodcastHeaderCell = {
+        return PodcastHeaderCell(podcast: self.podcast!, vc: self)
+    }()
+
     private var hasAppearedAlready = false
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -63,7 +63,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == PodcastViewController.headerSection {
             if FeatureFlag.podcastViewChanges.enabled {
-                let cell = PodcastHeaderCell(podcast: self.podcast!, vc: self)
+                let cell = podcastHeaderCell
                 return cell
             } else {
                 let cell = podcastHeadingCell
@@ -115,6 +115,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cellHeights[indexPath] = cell.frame.size.height
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == PodcastViewController.headerSection {
+            return podcastHeaderCell.rowHeight
+        }
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

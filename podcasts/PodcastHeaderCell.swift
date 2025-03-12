@@ -22,6 +22,12 @@ class PodcastHeaderCell: UITableViewCell {
         commonSetup()
     }
 
+    var calculatedHeight: CGFloat?
+
+    var rowHeight: CGFloat {
+        return calculatedHeight ?? UITableView.automaticDimension
+    }
+
     func commonSetup() {
         self.backgroundColor = .clear
         let viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
@@ -32,13 +38,22 @@ class PodcastHeaderCell: UITableViewCell {
             )
         } else {
             // Fallback on earlier versions
-            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding())
+            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
+                ContentSizeGeometryReader { proxy in
+                    PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding()
+                } contentSizeUpdated: { size in
+                    self.calculatedHeight = size.height
+                    self.setNeedsLayout()
+                    self.viewController.tableView().reloadData()
+                }
+            }
+            )
         }
     }
 
-    func configureCellFromSwiftUIView(cell: UITableViewCell, viewController: UIViewController, rootView: some View) {
+    func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
 
-        let swiftUICellViewController = UIHostingController(rootView: rootView)
+        let swiftUICellViewController = UIHostingController(rootView: rootView())
         swiftUICellViewController.view.backgroundColor = .clear
         cell.backgroundColor = .clear
         cell.contentView.backgroundColor = .clear
@@ -48,13 +63,13 @@ class PodcastHeaderCell: UITableViewCell {
         viewController.addChild(swiftUICellViewController)
         cell.contentView.addSubview(swiftUICellViewController.view)
         swiftUICellViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addConstraint(NSLayoutConstraint(item: swiftUICellViewController.view!, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: cell.contentView, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1.0, constant: 0.0))
-        cell.contentView.addConstraint(NSLayoutConstraint(item: swiftUICellViewController.view!, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: cell.contentView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1.0, constant: 0.0))
-        cell.contentView.addConstraint(NSLayoutConstraint(item: swiftUICellViewController.view!, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: cell.contentView, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1.0, constant: 0.0))
-        cell.contentView.addConstraint(NSLayoutConstraint(item: swiftUICellViewController.view!, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: cell.contentView, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1.0, constant: 0.0))
-
+        NSLayoutConstraint.activate([
+            cell.contentView.topAnchor.constraint(equalTo: swiftUICellViewController.view.topAnchor),
+            cell.contentView.bottomAnchor.constraint(equalTo: swiftUICellViewController.view.bottomAnchor),
+            cell.contentView.leftAnchor.constraint(equalTo: swiftUICellViewController.view.leftAnchor),
+            cell.contentView.rightAnchor.constraint(equalTo: swiftUICellViewController.view.rightAnchor),
+        ])
         swiftUICellViewController.didMove(toParent: viewController)
         swiftUICellViewController.view.layoutIfNeeded()
-
     }
 }
