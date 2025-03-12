@@ -20,6 +20,10 @@ class Chapters: Equatable {
         visibleChapter?.index ?? -1
     }
 
+    var originalIndex: Int {
+        visibleChapter?.originalIndex ?? -1
+    }
+
     var url: String? {
         chapters.last(where: { $0.url != nil })?.url
     }

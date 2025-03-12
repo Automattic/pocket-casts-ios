@@ -15,8 +15,10 @@ class ChapterInfo: Equatable {
     var isFirst = false
     var isLast = false
     var index = 0
+    var originalIndex = 0
     var duration: TimeInterval = 0
     var isHidden = false
+    var toc = true
 
     /// Should only be used for sync purposes, if reading for playback
     /// use `isPlayable()` instead

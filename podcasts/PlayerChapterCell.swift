@@ -120,7 +120,9 @@ class PlayerChapterCell: UITableViewCell {
 
         setColors(dim: chapter?.isPlayable() == false)
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
+        let chapterIndex = FeatureFlag.parseChaptersToc.enabled ? chapter?.originalIndex : chapter?.index
+
+        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapterIndex {
             if chapter?.shouldPlay == true {
                 currentEpisode.select(chapterIndex: index)
                 track(.deselectChaptersChapterSelected)

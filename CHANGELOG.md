@@ -1,6 +1,7 @@
 7.85
 -----
 - Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
+- Filter out non-toc chapters [#2807](https://github.com/Automattic/pocket-casts-ios/pull/2807)
 
 7.84
 -----

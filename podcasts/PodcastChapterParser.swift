@@ -41,6 +41,9 @@ class PodcastChapterParser {
             let chapterInfo = ChapterInfo()
             chapterInfo.title = chapter.title ?? ""
             chapterInfo.index = index
+            if FeatureFlag.parseChaptersToc.enabled {
+                chapterInfo.originalIndex = index
+            }
             chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
 
             // Calculate chapter duration based on the info we have
@@ -57,20 +60,34 @@ class PodcastChapterParser {
     }
 
     func parsePodcastIndexChapters(_ podcastIndexChapters: [PodcastIndexChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
-        podcastIndexChapters.enumerated().map { index, chapter in
+        var index = 0
+        let chapters = podcastIndexChapters.enumerated().map { originalIndex, chapter in
             let chapterInfo = ChapterInfo()
             chapterInfo.title = chapter.title ?? ""
-            chapterInfo.index = chapter.number ?? index
+            if FeatureFlag.parseChaptersToc.enabled {
+                chapterInfo.originalIndex = chapter.number ?? originalIndex
+                chapterInfo.toc = chapter.toc ?? true
+                if chapterInfo.toc {
+                    chapterInfo.index = index
+                    index += 1
+                }
+            } else {
+                chapterInfo.index = chapter.number ?? originalIndex
+            }
             chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
             if let endTime = chapter.endTime {
                 chapterInfo.duration = endTime - chapter.startTime
-            } else if let nextChapterStartTime = podcastIndexChapters[safe: index + 1]?.startTime {
+            } else if let nextChapterStartTime = podcastIndexChapters[safe: originalIndex + 1]?.startTime {
                 chapterInfo.duration = nextChapterStartTime - chapter.startTime
             } else {
                 chapterInfo.duration = episodeDuration - chapter.startTime
             }
             return chapterInfo
         }
+        if FeatureFlag.parseChaptersToc.enabled {
+            return chapters.filter { $0.toc == true }
+        }
+        return chapters
     }
 
     private func parseChapters(url: URL, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
@@ -108,6 +125,9 @@ class PodcastChapterParser {
                         convertedChapter.isHidden = chapter.hidden
                         if !convertedChapter.isHidden {
                             convertedChapter.index = index
+                            if FeatureFlag.parseChaptersToc.enabled {
+                                convertedChapter.originalIndex = index
+                            }
                             index += 1
                         }
                         if strongSelf.isValidUrl(chapter.url) {

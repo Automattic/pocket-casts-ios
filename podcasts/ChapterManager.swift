@@ -187,10 +187,21 @@ class ChapterManager {
     private func handleChaptersLoaded(_ chapters: [ChapterInfo], for episode: BaseEpisode) {
         self.chapters = chapters
 
-        episode.deselectedChapters?
-            .split(separator: ",")
-            .compactMap { Int($0) }
-            .forEach { self.chapters[safe: $0]?.shouldPlay = false }
+        if FeatureFlag.parseChaptersToc.enabled {
+            let map = chapters.reduce(into: [Int: ChapterInfo]()) {
+                $0[$1.originalIndex] = $1
+            }
+
+            episode.deselectedChapters?
+                .split(separator: ",")
+                .compactMap { Int($0) }
+                .forEach { map[$0]?.shouldPlay = false }
+        } else {
+            episode.deselectedChapters?
+                .split(separator: ",")
+                .compactMap { Int($0) }
+                .forEach { self.chapters[safe: $0]?.shouldPlay = false }
+        }
 
         updateCurrentChapter(time: PlaybackManager.shared.currentTime())
 
