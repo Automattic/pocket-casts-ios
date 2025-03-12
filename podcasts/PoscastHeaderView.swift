@@ -11,16 +11,8 @@ struct PodcastHeaderView: View {
         VStack(spacing: 16) {
             PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
                 .frame(width: 192, height: 192)
-            HStack {
-                Text(viewModel.podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? "")
-                Text("·")
-                Text(viewModel.podcast.author ?? "")
-            }
-                .font(.caption)
-                .foregroundStyle(theme.primaryText02)
-            Text(viewModel.podcast.title ?? "")
-                .font(.headline).bold()
-                .foregroundStyle(theme.primaryText01)
+            podcastCategory
+            podcastTitle
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                                       onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
@@ -33,6 +25,22 @@ struct PodcastHeaderView: View {
             podcastDetails
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
         }
+    }
+
+    private var podcastCategory: some View {
+        HStack {
+            Text(viewModel.podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? "")
+            Text("·")
+            Text(viewModel.podcast.author ?? "")
+        }
+            .font(.caption)
+            .foregroundStyle(theme.primaryText02)
+    }
+
+    private var podcastTitle: some View {
+        Text(viewModel.podcast.title ?? "")
+            .font(.headline).bold()
+            .foregroundStyle(theme.primaryText01)
     }
 
     private var podcastActions: some View {
