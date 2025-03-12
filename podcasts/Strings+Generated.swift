@@ -1386,6 +1386,8 @@ internal enum L10n {
   internal static func funnyTimeUnitTweets(_ p1: Any) -> String {
     return L10n.tr("Localizable", "funny_time_unit_tweets", String(describing: p1))
   }
+  /// This transcript is automatically generated and available to Plus subscribers only
+  internal static var generatedTranscriptsBanner: String { return L10n.tr("Localizable", "generated_transcripts_banner") }
   /// Go to Podcast
   internal static var goToPodcast: String { return L10n.tr("Localizable", "go_to_podcast") }
   /// Got it

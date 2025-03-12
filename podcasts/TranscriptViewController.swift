@@ -225,7 +225,7 @@ class TranscriptViewController: PlayerItemViewController {
 
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "This transcript is automatically generated and available to Plus subscribers only"
+        label.text = L10n.generatedTranscriptsBanner
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .white.withAlphaComponent(0.5)
