@@ -3,7 +3,7 @@ import Foundation
 import PocketCastsUtils
 
 class DatabaseHelper {
-    class func setup(db: FMDatabase) {
+    class func setup(db: PCDatabase) {
         do {
             try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
 
@@ -24,7 +24,7 @@ class DatabaseHelper {
         }
     }
 
-    private class func upgradeIfRequired(schemaVersion: inout Int32, db: FMDatabase) {
+    private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
         db.beginTransaction()
 
         let failedAt = { (statement: Int) in

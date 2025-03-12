@@ -4766,22 +4766,28 @@
 "podcast_feed_reload_tip_message" = "Pull down or use this menu to see if there's something new.";
 
 /* Suggested Folders screen title */
-"suggested_folders_title" = "Suggested Folders";
+"suggested_folders_title" = "Smart Folders";
 
 /* Suggested Folders screen description */
-"suggested_folders_description" = "We’ve organized your podcasts for you. Save or customize them to fit your style.";
+"suggested_folders_description" = "We've organized your podcasts into folders. Save now and customize later.";
+
+/* Suggested Folders screen description when user already has folders */
+"suggested_folders_description_with_existing_folders" = "We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.";
 
 /* Suggested Folders button title to accept suggested folders*/
 "suggested_folders_use_suggested_folders" = "Use these folders";
 
-/* Suggested Folders button title to create custom folders*/
-"suggested_folders_create_custom_folders" = "Create custom folders";
+/* Suggested Folders button title to create a custom folder*/
+"suggested_folders_create_custom_folder" = "Create custom folder";
 
-/* Suggested Folder upsell title */
-"suggested_folders_upsell_title"  = "Your podcasts, automatically organized";
+/* Suggested Folder replace confirmation title */
+"suggested_folders_replace_confirmation_title" = "Replace existing folders?";
 
-/* Suggested Folder upsell detail */
-"suggested_folders_upsell_description"  = "We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.";
+/* Suggested Folder replace confirmation details */
+"suggested_folders_replace_confirmation_details " = "Accepting suggested folders will overwrite your current folders. This can’t be undone.";
+
+/* Suggested Folder replace confirmation action button title */
+"suggested_folders_replace_confirmation_button " = "Replace folders";
 
 /* App Clip Placeholder view title for when the episode link parsing fails */
 "app_clip_placholder_title" = "Sorry, we couldn't find that episode";

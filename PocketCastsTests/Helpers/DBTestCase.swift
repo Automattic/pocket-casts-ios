@@ -1,5 +1,5 @@
 import XCTest
-import PocketCastsDataModel
+@testable import PocketCastsDataModel
 import FMDB
 @testable import podcasts
 
@@ -16,7 +16,7 @@ class DBTestCase: XCTestCase {
 
     private func setupDatabase() throws -> DataManager {
         let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: dbQueue)
+        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
     }
 
     private func setupData() throws {

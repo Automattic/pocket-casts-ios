@@ -3,7 +3,7 @@ import PocketCastsUtils
 import FMDB
 
 extension Podcast {
-    static func from(resultSet rs: FMResultSet) -> Podcast {
+    static func from(resultSet rs: PCDBResultSet) -> Podcast {
         let podcast = Podcast()
         podcast.id = rs.longLongInt(forColumn: "id")
         podcast.addedDate = DBUtils.convertDate(value: rs.double(forColumn: "addedDate"))

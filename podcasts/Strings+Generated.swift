@@ -3415,16 +3415,20 @@ internal enum L10n {
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
-  /// Create custom folders
-  internal static var suggestedFoldersCreateCustomFolders: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folders") }
-  /// We’ve organized your podcasts for you. Save or customize them to fit your style.
+  /// Create custom folder
+  internal static var suggestedFoldersCreateCustomFolder: String { return L10n.tr("Localizable", "suggested_folders_create_custom_folder") }
+  /// We've organized your podcasts into folders. Save now and customize later.
   internal static var suggestedFoldersDescription: String { return L10n.tr("Localizable", "suggested_folders_description") }
-  /// Suggested Folders
+  /// We've organized your podcasts into folders. Save now and customize later. This will replace any existing folders.
+  internal static var suggestedFoldersDescriptionWithExistingFolders: String { return L10n.tr("Localizable", "suggested_folders_description_with_existing_folders") }
+  /// Replace folders
+  internal static var suggestedFoldersReplaceConfirmationButton: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_button ") }
+  /// Accepting suggested folders will overwrite your current folders. This can’t be undone.
+  internal static var suggestedFoldersReplaceConfirmationDetails: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_details ") }
+  /// Replace existing folders?
+  internal static var suggestedFoldersReplaceConfirmationTitle: String { return L10n.tr("Localizable", "suggested_folders_replace_confirmation_title") }
+  /// Smart Folders
   internal static var suggestedFoldersTitle: String { return L10n.tr("Localizable", "suggested_folders_title") }
-  /// We’ve pre-made folders for your podcasts. Unlock this and features like bookmarks, transcripts, and more with Pocket Casts Plus.
-  internal static var suggestedFoldersUpsellDescription: String { return L10n.tr("Localizable", "suggested_folders_upsell_description") }
-  /// Your podcasts, automatically organized
-  internal static var suggestedFoldersUpsellTitle: String { return L10n.tr("Localizable", "suggested_folders_upsell_title") }
   /// Use these folders
   internal static var suggestedFoldersUseSuggestedFolders: String { return L10n.tr("Localizable", "suggested_folders_use_suggested_folders") }
   /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.

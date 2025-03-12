@@ -36,19 +36,19 @@ class UserEpisodeDataManager {
 
     // MARK: - Query
 
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> UserEpisode? {
+    func findBy(uuid: String, dbQueue: PCDBQueue) -> UserEpisode? {
         loadSingle(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue)
     }
 
-    func findBy(downloadTaskId: String, dbQueue: FMDatabaseQueue) -> UserEpisode? {
+    func findBy(downloadTaskId: String, dbQueue: PCDBQueue) -> UserEpisode? {
         loadSingle(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE downloadTaskId = ?", values: [downloadTaskId], dbQueue: dbQueue)
     }
 
-    func findBy(uploadTaskId: String, dbQueue: FMDatabaseQueue) -> UserEpisode? {
+    func findBy(uploadTaskId: String, dbQueue: PCDBQueue) -> UserEpisode? {
         loadSingle(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE uploadTaskId = ?", values: [uploadTaskId], dbQueue: dbQueue)
     }
 
-    func findAll(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func findAll(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: PCDBQueue) -> [UserEpisode] {
         let whereClause = "WHERE uploadStatus != \(UploadStatus.deleteFromCloudPending.rawValue) AND uploadStatus != \(UploadStatus.deleteFromCloudAndLocalPending.rawValue)"
         var limitClause = ""
         if let limit = limit {
@@ -70,7 +70,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func findAllDownloaded(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func findAllDownloaded(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: PCDBQueue) -> [UserEpisode] {
         var limitClause = ""
         if let limit = limit {
             limitClause = " LIMIT \(limit)"
@@ -92,11 +92,11 @@ class UserEpisodeDataManager {
         }
     }
 
-    func findAllWithUploadStatus(_ status: UploadStatus, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func findAllWithUploadStatus(_ status: UploadStatus, dbQueue: PCDBQueue) -> [UserEpisode] {
         loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE uploadStatus = ?", values: [status.rawValue], dbQueue: dbQueue)
     }
 
-    func removeOrphaned(dbQueue: FMDatabaseQueue) {
+    func removeOrphaned(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uploadStatus = ? AND  ( episodeStatus = ? OR episodeStatus = ? ) ", values: [UploadStatus.notUploaded.rawValue, DownloadStatus.notDownloaded.rawValue, DownloadStatus.downloadFailed.rawValue])
@@ -106,21 +106,21 @@ class UserEpisodeDataManager {
         }
     }
 
-    func unsyncedEpisodes(dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func unsyncedEpisodes(dbQueue: PCDBQueue) -> [UserEpisode] {
         loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE titleModified > 0 OR imageColorModified > 0 OR playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0", values: nil, dbQueue: dbQueue)
     }
 
-    func findWhereNotNull(columnName: String, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func findWhereNotNull(columnName: String, dbQueue: PCDBQueue) -> [UserEpisode] {
         loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue)
     }
 
-    func allUpNextEpisodes(dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    func allUpNextEpisodes(dbQueue: PCDBQueue) -> [UserEpisode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let userEpisodeTableName = DataManager.userEpisodeTableName
         return loadMultiple(query: "SELECT \(userEpisodeTableName).* FROM \(upNextTableName) JOIN \(userEpisodeTableName) ON \(userEpisodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
     }
 
-    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> UserEpisode? {
+    private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> UserEpisode? {
         var episode: UserEpisode?
         dbQueue.inDatabase { db in
             do {
@@ -138,7 +138,7 @@ class UserEpisodeDataManager {
         return episode
     }
 
-    func findFrameCount(episodeId: Int64, dbQueue: FMDatabaseQueue) -> Int64 {
+    func findFrameCount(episodeId: Int64, dbQueue: PCDBQueue) -> Int64 {
         var frameCount = 0 as Int64
 
         dbQueue.inDatabase { db in
@@ -157,7 +157,7 @@ class UserEpisodeDataManager {
         return frameCount
     }
 
-    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [UserEpisode] {
+    private func loadMultiple(query: String, values: [Any]?, dbQueue: PCDBQueue) -> [UserEpisode] {
         var episodes = [UserEpisode]()
         dbQueue.inDatabase { db in
             do {
@@ -176,7 +176,7 @@ class UserEpisodeDataManager {
         return episodes
     }
 
-    func downloadedEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+    func downloadedEpisodeCount(dbQueue: PCDBQueue) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.userEpisodeTableName) WHERE episodeStatus = \(DownloadStatus.downloaded.rawValue)"
         dbQueue.inDatabase { db in
@@ -196,7 +196,7 @@ class UserEpisodeDataManager {
 
     // MARK: - Updates
 
-    func save(episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func save(episode: UserEpisode, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 if episode.id == 0 {
@@ -212,7 +212,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func saveEpisodeSyncInfo(uuid: String, duration: Int?, playingStatus: Int?, playedUpTo: Int?, dbQueue: FMDatabaseQueue) {
+    func saveEpisodeSyncInfo(uuid: String, duration: Int?, playingStatus: Int?, playedUpTo: Int?, dbQueue: PCDBQueue) {
         var fields = [String]()
         var values = [Any]()
 
@@ -242,7 +242,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, useId: false, dbQueue: dbQueue)
     }
 
-    func saveEpisode(playingStatus: PlayingStatus, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playingStatus: PlayingStatus, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         episode.playingStatus = playingStatus.rawValue
         var fields = ["playingStatus"]
         var values = [episode.playingStatus] as [Any]
@@ -257,7 +257,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.sizeInBytes = sizeInBytes
         episode.downloadTaskId = downloadTaskId
@@ -268,7 +268,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.downloadErrorDetails = downloadError
         episode.downloadTaskId = downloadTaskId
@@ -279,12 +279,12 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
         save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.downloadTaskId = downloadTaskId
 
@@ -294,7 +294,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(uploadStatus: UploadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(uploadStatus: UploadStatus, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.uploadStatus = uploadStatus.rawValue
 
         let fields = ["uploadStatus"]
@@ -303,7 +303,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(uploadStatus: UploadStatus, uploadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(uploadStatus: UploadStatus, uploadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.uploadStatus = uploadStatus.rawValue
         episode.downloadTaskId = uploadTaskId
 
@@ -313,7 +313,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(uploadStatus: UploadStatus, uploadError: String?, uploadTaskId: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(uploadStatus: UploadStatus, uploadError: String?, uploadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.uploadStatus = uploadStatus.rawValue
         episode.uploadTaskId = uploadTaskId
 
@@ -322,18 +322,18 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(duration: Double, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(duration: Double, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.duration = duration
 
         save(fieldName: "duration", value: episode.duration, episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func saveEpisode(playbackError: String?, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playbackError: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.playbackErrorDetails = playbackError
         save(fieldName: "playbackErrorDetails", value: DBUtils.replaceNilWithNull(value: episode.playbackErrorDetails), episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.sizeInBytes = sizeInBytes
 
@@ -343,7 +343,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
@@ -354,12 +354,12 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveContentType(contentType: String, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func saveContentType(contentType: String, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.contentType = contentType
         save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func bulkSave(episodes: [UserEpisode], dbQueue: FMDatabaseQueue) {
+    func bulkSave(episodes: [UserEpisode], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 db.beginTransaction()
@@ -381,7 +381,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func bulkMarkAsPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkMarkAsPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
         dbQueue.inDatabase { db in
@@ -413,7 +413,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func bulkMarkAsUnPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkMarkAsUnPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
         dbQueue.inDatabase { db in
@@ -446,7 +446,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func bulkUserFileDelete(episodes: [UserEpisode], dbQueue: FMDatabaseQueue) {
+    func bulkUserFileDelete(episodes: [UserEpisode], dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
         dbQueue.inDatabase { db in
@@ -475,15 +475,15 @@ class UserEpisodeDataManager {
         }
     }
 
-    func clearDownloadTaskId(episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func clearDownloadTaskId(episode: UserEpisode, dbQueue: PCDBQueue) {
         save(fieldName: "downloadTaskId", value: NSNull(), episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func clearUploadTaskId(episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func clearUploadTaskId(episode: UserEpisode, dbQueue: PCDBQueue) {
         save(fieldName: "uploadTaskId", value: NSNull(), episodeId: episode.id, dbQueue: dbQueue)
     }
 
-    func delete(userEpisodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func delete(userEpisodeUuid: String, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: [userEpisodeUuid])
@@ -493,7 +493,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    func delete(userEpisodeUuids: [String], dbQueue: FMDatabaseQueue) {
+    func delete(userEpisodeUuids: [String], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: userEpisodeUuids)
@@ -503,11 +503,11 @@ class UserEpisodeDataManager {
         }
     }
 
-    func saveFrameCount(episodeId: Int64, frameCount: Int64, dbQueue: FMDatabaseQueue) {
+    func saveFrameCount(episodeId: Int64, frameCount: Int64, dbQueue: PCDBQueue) {
         save(fieldName: "cachedFrameCount", value: frameCount, episodeId: episodeId, dbQueue: dbQueue)
     }
 
-    func saveEpisode(playedUpTo: Double, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playedUpTo: Double, episode: UserEpisode, updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         episode.playedUpTo = playedUpTo
         var fields = ["playedUpTo"]
         var values = [episode.playedUpTo] as [Any]
@@ -522,7 +522,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func markEpisodeImageUploaded(episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+    func markEpisodeImageUploaded(episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.imageModified = 0
         episode.imageUrl = nil
 
@@ -532,7 +532,7 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    private func save(fieldName: String, value: Any, episodeId: Int64, dbQueue: FMDatabaseQueue) {
+    private func save(fieldName: String, value: Any, episodeId: Int64, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) SET \(fieldName) = ? WHERE id = ?", values: [value, episodeId])
@@ -542,7 +542,7 @@ class UserEpisodeDataManager {
         }
     }
 
-    private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: FMDatabaseQueue) {
+    private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
@@ -556,7 +556,7 @@ class UserEpisodeDataManager {
 
     // MARK: - Conversion
 
-    private func createEpisodeFrom(resultSet rs: FMResultSet) -> UserEpisode {
+    private func createEpisodeFrom(resultSet rs: PCDBResultSet) -> UserEpisode {
         let episode = UserEpisode()
         episode.id = rs.longLongInt(forColumn: "id")
         episode.addedDate = DBUtils.convertDate(value: rs.double(forColumn: "addedDate"))
