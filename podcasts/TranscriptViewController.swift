@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsServer
 import PocketCastsUtils
 
 class TranscriptViewController: PlayerItemViewController {
@@ -25,6 +26,12 @@ class TranscriptViewController: PlayerItemViewController {
     private var topGradientHeightConstraint: NSLayoutConstraint?
     private var bannerLabelLeadingConstraint: NSLayoutConstraint?
     private var bannerLabelTrailingConstraint: NSLayoutConstraint?
+
+    private var shouldShowPremiumView: Bool {
+        return !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn()
+    }
+
+    var hidePlayerControls: ((Bool) -> Void)?
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -177,6 +184,18 @@ class TranscriptViewController: PlayerItemViewController {
                     bannerView.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
                 ]
             )
+
+            view.addSubview(premiumView)
+            premiumView.translatesAutoresizingMaskIntoConstraints = false
+            premiumView.isHidden = true
+            NSLayoutConstraint.activate(
+                [
+                    premiumView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
+                    premiumView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    premiumView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    premiumView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                ]
+            )
         }
     }
 
@@ -254,6 +273,40 @@ class TranscriptViewController: PlayerItemViewController {
             ]
         )
         return view
+    }()
+
+    private lazy var premiumView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = .clear
+
+        let colorView = UIView()
+        colorView.translatesAutoresizingMaskIntoConstraints = false
+        colorView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        colorView.alpha = 0.9
+        containerView.addSubview(colorView)
+
+        let badge = SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black).uiView
+        badge.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(badge)
+
+//        let host = ThemedHostingController(rootView: TranscriptViewPremiumView())
+//        host.view.translatesAutoresizingMaskIntoConstraints = false
+//        addChild(host)
+//        containerView.addSubview(host.view)
+
+        NSLayoutConstraint.activate(
+            [
+                colorView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                colorView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                colorView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                colorView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                badge.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+                badge.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 26)
+            ]
+        )
+
+        return containerView
     }()
 
     private lazy var transcriptView: UITextView = {
@@ -372,6 +425,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     @objc private func closeTapped() {
+        hidePlayerControls?(false)
         containerDelegate?.dismissTranscript()
     }
 
@@ -384,7 +438,6 @@ class TranscriptViewController: PlayerItemViewController {
 
     private func setupShowTranscriptState() {
         transcriptView.isHidden = false
-        searchButton.isHidden = false
         errorView.isHidden = true
         activityIndicatorView.stopAnimating()
     }
@@ -410,22 +463,33 @@ class TranscriptViewController: PlayerItemViewController {
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-                if FeatureFlag.generatedTranscripts.enabled,
-                   transcriptManager.hasGeneratedTranscripts {
+                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
+                let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled &&  transcriptManager.hasGeneratedTranscripts
+                if hasGeneratedTranscripts {
                     await MainActor.run {
                         self.updateTextMargins()
                         UIView.animate(withDuration: 0.25) {
+                            if self.shouldShowPremiumView {
+                                self.showPremiumView(show: true)
+                            }
                             self.bannerView.isHidden = false
                         }
                     }
+                    await show(transcript: transcript, resetPosition: shouldResetPosition, showSearchButton: !self.shouldShowPremiumView)
+                } else {
+                    await show(transcript: transcript, resetPosition: shouldResetPosition, showSearchButton: true)
                 }
-                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
-                await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
         }
+    }
+
+    private func showPremiumView(show: Bool) {
+        hidePlayerControls?(show)
+        searchButton.isHidden = show
+        premiumView.isHidden = !show
     }
 
     private func retryLoad() {
@@ -483,8 +547,9 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func show(transcript: TranscriptModel, resetPosition: Bool) {
+    private func show(transcript: TranscriptModel, resetPosition: Bool, showSearchButton: Bool) {
         setupShowTranscriptState()
+        searchButton.isHidden = !showSearchButton
         previousRange = nil
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)

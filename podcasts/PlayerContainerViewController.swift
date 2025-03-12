@@ -324,6 +324,11 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         transcriptsItem.didMove(toParent: self)
         transcriptsItem.willBeAddedToPlayer()
         transcriptsItem.themeDidChange()
+        transcriptsItem.hidePlayerControls = { [weak self] hide in
+            UIView.animate(withDuration: 0.25) {
+                self?.nowPlayingItem.view.isHidden = hide
+            }
+        }
     }
 
     func hideTranscript() {
