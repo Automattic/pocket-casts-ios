@@ -65,8 +65,8 @@ class TranscriptViewController: PlayerItemViewController {
 
     func setHasGeneratedTranscripts(_ value: Bool) {
         if FeatureFlag.generatedTranscripts.enabled, value {
-            transcriptViewTopConstraint?.constant = 70.0
-            topGradientTopConstraint?.constant = 104.0
+            transcriptViewTopConstraint?.constant = 80.0
+            topGradientTopConstraint?.constant = 100.0
             topGradientHeightConstraint?.constant = 30.0
 
             updateTextMargins()
@@ -247,7 +247,7 @@ class TranscriptViewController: PlayerItemViewController {
                 label.topAnchor.constraint(equalTo: view.topAnchor, constant: 15.0),
                 bannerLabelLeadingConstraint,
                 bannerLabelTrailingConstraint,
-                stroke.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 14.0),
+                stroke.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 15.0),
                 stroke.leadingAnchor.constraint(equalTo: label.leadingAnchor),
                 stroke.widthAnchor.constraint(equalToConstant: 48),
                 stroke.heightAnchor.constraint(equalToConstant: 1)
@@ -461,13 +461,15 @@ class TranscriptViewController: PlayerItemViewController {
 
     private func updateTextMargins() {
         let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
+        var topInset = 0.75 * Sizes.topGradientHeight
         if FeatureFlag.generatedTranscripts.enabled,
            transcriptManager?.hasGeneratedTranscripts == true {
             let newMargin = margin + 5.0
             bannerLabelLeadingConstraint?.constant = newMargin
             bannerLabelTrailingConstraint?.constant = -newMargin
+            topInset += 5.0
         }
+        transcriptView.textContainerInset = .init(top: topInset, left: margin, bottom: bottomContainerInset, right: margin)
     }
 
     @MainActor
