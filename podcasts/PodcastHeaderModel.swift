@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 import PocketCastsDataModel
@@ -5,15 +6,35 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class PodcastHeaderViewModel: ObservableObject {
-    let podcast: Podcast
+
+    @Published var podcast: Podcast
+
     private(set) weak var delegate: PodcastActionsDelegate?
 
     init(podcast: Podcast, delegate: PodcastActionsDelegate? = nil) {
         self.podcast = podcast
         self.delegate = delegate
+        addObservers()
     }
 
     @Published var isExpanded: Bool = true
+
+    private var cancellables = Set<AnyCancellable>()
+    private func addObservers() {
+        NotificationCenter.default.publisher(for: Constants.Notifications.podcastUpdated)
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            guard let podcastUuid = notification.object as? String,
+                  podcastUuid == podcast.uuid,
+                  let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+            else {
+                return
+            }
+
+            self.podcast = podcast
+        }
+        .store(in: &cancellables)
+    }
 
     lazy var podcastRatingViewModel: PodcastRatingViewModel = {
         let podcastRatingViewModel = PodcastRatingViewModel()
@@ -72,12 +93,13 @@ class PodcastHeaderViewModel: ObservableObject {
     }
 
     func subscribeButtonTapped() {
-        guard let delegate = delegate, let podcast = delegate.displayedPodcast() else { return }
+        guard let delegate = delegate else { return }
 
         if podcast.isSubscribed() {
             delegate.unsubscribe()
         } else {
             delegate.subscribe()
+            isExpanded = false
         }
     }
 }
