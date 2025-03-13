@@ -2953,6 +2953,14 @@
     <string>%1$@ за %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>Создать пользовательские папки</string>
+    <key>suggested_folders_description</key>
+    <string>Мы упорядочиваем подкасты для вас. Сохраните или настройте их по вашему вкусу.</string>
+    <key>suggested_folders_title</key>
+    <string>Рекомендуемые папки</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Использовать эти папки</string>
     <key>support_watch_help_message</key>
     <string>Если у вас возникли проблемы с приложением Pocket Casts для часов, мы можем отправить журналы с носимого устройства, чтобы помочь вам. Для этого откройте Pocket Casts на часах.</string>
     <key>support_watch_help_opened_app</key>
