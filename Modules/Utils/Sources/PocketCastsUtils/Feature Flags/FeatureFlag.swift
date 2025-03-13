@@ -247,7 +247,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .suggestedFolders:
             false
         case .generatedTranscripts:
-            false
+            true
         case .podcastViewChanges:
             false
         }
