@@ -85,13 +85,13 @@ struct PodcastHeaderView: View {
             Spacer()
             followButton
             if viewModel.isPodcastSubscribed {
-                actionButton(imageName: viewModel.folderImage) {
+                actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
-                actionButton(imageName: "podcast-notification-on") {
+                actionButton(title: viewModel.podcast.pushEnabled ? L10n.notificationsOn : L10n.notificationsOff, imageName: viewModel.podcast.pushEnabled ? "podcast-notification-on" : "podcast-notification-off") {
                     viewModel.delegate?.notificationTapped()
                 }
-                actionButton(imageName: "podcast-settings") {
+                actionButton(title: L10n.settings, imageName: "podcast-settings") {
                     viewModel.delegate?.settingsTapped()
                 }
             }
@@ -99,7 +99,7 @@ struct PodcastHeaderView: View {
         }
     }
 
-    private func actionButton(imageName: String, action: @escaping ()->()) -> some View {
+    private func actionButton(title: String, imageName: String, action: @escaping ()->()) -> some View {
         Button {
             action()
         } label: {
@@ -110,9 +110,7 @@ struct PodcastHeaderView: View {
                 .padding(8)
                 .foregroundStyle(theme.primaryIcon02)
         }
-//        .accessibilityLabel(action.title)
-//        .opacity(action.visible ? 1 : 0)
-//        .accessibilityAnimation(.linear(duration: 0.1), value: action.visible)
+        .accessibilityLabel(title)
     }
 
     private var podcastDescription: some View {
