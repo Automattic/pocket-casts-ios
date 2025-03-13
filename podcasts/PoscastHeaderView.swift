@@ -8,28 +8,33 @@ struct PodcastHeaderView: View {
     @StateObject var viewModel: PodcastHeaderViewModel
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
                 .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108, alignment: .top)
             if viewModel.isExpanded {
+                Spacer().frame(height: 24)
                 podcastCategory
             }
+            Spacer().frame(height: 16)
             podcastTitle
+            Spacer().frame(height: 16)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel, style: .short,
                                       onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
+            Spacer().frame(height: 16)
             podcastActions
+            Spacer().frame(height: 24)
             if viewModel.isExpanded {
                 VStack {
                     podcastDescription
                     podcastDetails
+                    Spacer().frame(height: 24)
                 }
                 .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
                 .clipped()
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
-            Spacer()
         }
     }
 
@@ -80,7 +85,7 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastActions: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             Spacer()
             followButton
             if viewModel.isPodcastSubscribed {
@@ -113,10 +118,12 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastDescription: some View {
-        Text(viewModel.podcast.podcastDescription ?? "")
-            .font(.body)
-            .foregroundStyle(theme.primaryText01)
-            .fixedSize(horizontal: false, vertical: true)
+        HStack {
+            Text(viewModel.podcast.podcastDescription ?? "")
+                .font(.body)
+                .foregroundStyle(theme.primaryText01)
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     private var podcastDetails: some View {
