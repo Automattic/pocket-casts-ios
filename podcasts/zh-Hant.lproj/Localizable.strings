@@ -2953,6 +2953,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>每 %2$@ %1$@ 元</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
+    <key>suggested_folders_create_custom_folders</key>
+    <string>建立自訂資料夾</string>
+    <key>suggested_folders_description</key>
+    <string>我們已為你整理 Podcast。 你可直接儲存，或視需求自訂資料夾。</string>
+    <key>suggested_folders_title</key>
+    <string>建議資料夾</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>使用這些資料夾</string>
     <key>support_watch_help_message</key>
     <string>如果 Pocket Casts Watch 應用程式發生問題，我們可以傳送你的穿戴記錄給你以提供協助。 若要進行此操作，請在 Watch 上開啟 Pocket Casts。</string>
     <key>support_watch_help_opened_app</key>

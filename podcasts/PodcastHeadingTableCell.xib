@@ -64,7 +64,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kT6-pE-SNX" userLabel="Folder Button" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="270" y="145" width="44" height="44"/>
+                                <rect key="frame" x="240" y="145" width="44" height="44"/>
                                 <accessibility key="accessibilityConfiguration" label="Notifications"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8WO-i3-WXA"/>
@@ -75,6 +75,20 @@
                                 <state key="normal" image="folder-create"/>
                                 <connections>
                                     <action selector="folderBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ptp-7e-8vc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jYE-ju-hsG" userLabel="Notification Button" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="279" y="145" width="44" height="44"/>
+                                <accessibility key="accessibilityConfiguration" label="Notifications"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="Dzq-Om-NPX"/>
+                                    <constraint firstAttribute="height" constant="44" id="NEg-Wz-S06"/>
+                                </constraints>
+                                <color key="tintColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="imageEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="podcast-notification-off"/>
+                                <connections>
+                                    <action selector="notificationBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Uen-Tp-5sN"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fo-iZ-Ty3" userLabel="Settings Button" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
@@ -97,9 +111,11 @@
                             <constraint firstItem="kT6-pE-SNX" firstAttribute="centerY" secondItem="0fo-iZ-Ty3" secondAttribute="centerY" id="GAl-YO-X0T"/>
                             <constraint firstItem="hc6-iH-U1U" firstAttribute="top" secondItem="5S4-8c-Ssa" secondAttribute="top" constant="151" id="H7b-2e-sxq"/>
                             <constraint firstItem="Dq8-Kf-98T" firstAttribute="top" secondItem="5S4-8c-Ssa" secondAttribute="top" constant="16" id="Nnr-XZ-PQp"/>
+                            <constraint firstItem="kT6-pE-SNX" firstAttribute="centerY" secondItem="jYE-ju-hsG" secondAttribute="centerY" id="UUv-V0-ZLr"/>
                             <constraint firstAttribute="height" priority="750" constant="203" id="Uzk-YX-q2W"/>
-                            <constraint firstItem="0fo-iZ-Ty3" firstAttribute="leading" secondItem="kT6-pE-SNX" secondAttribute="trailing" constant="4" id="hLg-zb-22f"/>
                             <constraint firstItem="Dq8-Kf-98T" firstAttribute="leading" secondItem="5S4-8c-Ssa" secondAttribute="leading" id="ixs-A1-fsw"/>
+                            <constraint firstItem="jYE-ju-hsG" firstAttribute="trailing" secondItem="0fo-iZ-Ty3" secondAttribute="leading" constant="5" id="k8H-EA-WOx"/>
+                            <constraint firstItem="kT6-pE-SNX" firstAttribute="trailing" secondItem="jYE-ju-hsG" secondAttribute="leading" constant="5" id="o52-30-fwV"/>
                             <constraint firstItem="0fo-iZ-Ty3" firstAttribute="centerY" secondItem="hc6-iH-U1U" secondAttribute="centerY" id="oBA-vP-6me"/>
                             <constraint firstAttribute="trailing" secondItem="0fo-iZ-Ty3" secondAttribute="trailing" id="ou5-sZ-J1m"/>
                         </constraints>
@@ -107,31 +123,31 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="TeM-KI-UI1">
                         <rect key="frame" x="16" y="203" width="362" height="303"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCC-7i-Fyr" userLabel="Spacer">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCC-7i-Fyr" userLabel="Spacer">
                                 <rect key="frame" x="0.0" y="0.0" width="362" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="14" id="AYl-qH-Vae"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="750" text="Name Is really really really really looooong" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="YUN-pu-IO8" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="750" ambiguous="YES" text="Name Is really really really really looooong" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="YUN-pu-IO8" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="14" width="362" height="74"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEi-4K-8eu" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEi-4K-8eu" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="88" width="362" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.63921568627450975" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SGH-Lz-9LI" userLabel="Spacer">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGH-Lz-9LI" userLabel="Spacer">
                                 <rect key="frame" x="0.0" y="105" width="362" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="11" id="fcG-DT-YDl"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgd-qp-dvs" customClass="ExpandableLabel" customModule="podcasts" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgd-qp-dvs" customClass="ExpandableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="116" width="362" height="0.0"/>
                                 <attributedString key="attributedText">
                                     <fragment content="...">
@@ -144,7 +160,7 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <wkWebView contentMode="scaleToFill" allowsLinkPreview="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtY-1t-63o" customClass="RichExpandableLabel" customModule="podcasts" customModuleProvider="target">
+                            <wkWebView contentMode="scaleToFill" ambiguous="YES" allowsLinkPreview="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtY-1t-63o" customClass="RichExpandableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="116" width="362" height="0.0"/>
                                 <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
                                     <dataDetectorTypes key="dataDetectorTypes" link="YES"/>
@@ -152,13 +168,13 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nvw-qC-Dra" userLabel="Spacer">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nvw-qC-Dra" userLabel="Spacer">
                                 <rect key="frame" x="0.0" y="116" width="362" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="15" id="gZG-yc-I8w"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="enV-6h-bDJ" userLabel="Spacer">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="enV-6h-bDJ" userLabel="Spacer">
                                 <rect key="frame" x="0.0" y="131" width="362" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="15" id="k5K-qI-XnN"/>
@@ -167,23 +183,23 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ypx-au-SZl">
                                 <rect key="frame" x="0.0" y="146" width="362" height="157"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lfz-rK-i49" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lfz-rK-i49" userLabel="Spacer">
                                         <rect key="frame" x="0.0" y="0.0" width="362" height="6"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="750" constant="6" id="cuB-f2-RxG"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v18-FN-11C" userLabel="Author View">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v18-FN-11C" userLabel="Author View">
                                         <rect key="frame" x="0.0" y="7" width="362" height="35"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="podcast-author" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-iK-8he" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcast-author" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-iK-8he" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="5.5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="24" id="hDG-Ua-gq1"/>
                                                     <constraint firstAttribute="height" constant="24" id="taa-uz-rH1"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k55-Wk-FMM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k55-Wk-FMM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="46" y="9" width="311" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
@@ -197,19 +213,20 @@
                                             <constraint firstAttribute="trailing" secondItem="k55-Wk-FMM" secondAttribute="trailing" constant="5" id="muY-4q-o1I"/>
                                             <constraint firstItem="k55-Wk-FMM" firstAttribute="centerY" secondItem="QYr-iK-8he" secondAttribute="centerY" id="o9s-AN-ezI"/>
                                             <constraint firstItem="k55-Wk-FMM" firstAttribute="leading" secondItem="QYr-iK-8he" secondAttribute="trailing" constant="10" id="vpA-TX-yZi"/>
+                                            <constraint firstItem="QYr-iK-8he" firstAttribute="top" secondItem="v18-FN-11C" secondAttribute="top" constant="5.5" id="zRe-YN-gyy"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GlK-4F-IbG" userLabel="Link View">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlK-4F-IbG" userLabel="Link View">
                                         <rect key="frame" x="0.0" y="43" width="362" height="35"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="podcast-link" translatesAutoresizingMaskIntoConstraints="NO" id="Nhp-Qj-8it" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcast-link" translatesAutoresizingMaskIntoConstraints="NO" id="Nhp-Qj-8it" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="5.5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="24" id="nk1-wW-wdc"/>
                                                     <constraint firstAttribute="height" constant="24" id="vsr-Dc-dWH"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pz6-3s-0F6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pz6-3s-0F6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="46" y="9" width="311" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
@@ -219,23 +236,24 @@
                                         <constraints>
                                             <constraint firstAttribute="height" priority="750" constant="35" id="4ic-2L-Bae"/>
                                             <constraint firstItem="pz6-3s-0F6" firstAttribute="centerY" secondItem="Nhp-Qj-8it" secondAttribute="centerY" id="IDf-pS-Zxe"/>
+                                            <constraint firstItem="Nhp-Qj-8it" firstAttribute="top" secondItem="GlK-4F-IbG" secondAttribute="top" constant="5.5" id="Qns-Rj-XB5"/>
                                             <constraint firstItem="pz6-3s-0F6" firstAttribute="leading" secondItem="Nhp-Qj-8it" secondAttribute="trailing" constant="10" id="T9B-0W-IDg"/>
                                             <constraint firstItem="Nhp-Qj-8it" firstAttribute="leading" secondItem="GlK-4F-IbG" secondAttribute="leading" constant="12" id="kwm-jr-Oxr"/>
                                             <constraint firstItem="Nhp-Qj-8it" firstAttribute="centerY" secondItem="GlK-4F-IbG" secondAttribute="centerY" id="oGw-3x-Rum"/>
                                             <constraint firstAttribute="trailing" secondItem="pz6-3s-0F6" secondAttribute="trailing" constant="5" id="ydX-jl-lXo"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xvp-7p-xGq" userLabel="Schedule View">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xvp-7p-xGq" userLabel="Schedule View">
                                         <rect key="frame" x="0.0" y="79" width="362" height="35"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="podcast-schedule" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-On-axg" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcast-schedule" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-On-axg" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="5.5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="24" id="GwS-Ew-DA2"/>
                                                     <constraint firstAttribute="height" constant="24" id="IKC-Cb-Kcf"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Weekly" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vre-8d-djb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vre-8d-djb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="46" y="9" width="47" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
@@ -248,19 +266,20 @@
                                             <constraint firstItem="Zzu-On-axg" firstAttribute="centerY" secondItem="xvp-7p-xGq" secondAttribute="centerY" id="Nss-vf-60c"/>
                                             <constraint firstItem="Zzu-On-axg" firstAttribute="leading" secondItem="xvp-7p-xGq" secondAttribute="leading" constant="12" id="bwx-pL-Dll"/>
                                             <constraint firstItem="Vre-8d-djb" firstAttribute="centerY" secondItem="Zzu-On-axg" secondAttribute="centerY" id="dnx-ow-vXN"/>
+                                            <constraint firstItem="Zzu-On-axg" firstAttribute="top" secondItem="xvp-7p-xGq" secondAttribute="top" constant="5.5" id="h98-rE-Gek"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KZf-dt-k6x" userLabel="Next Episode View">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZf-dt-k6x" userLabel="Next Episode View">
                                         <rect key="frame" x="0.0" y="115" width="362" height="35"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="podcast-nextepisode" translatesAutoresizingMaskIntoConstraints="NO" id="7d7-9j-mp3" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcast-nextepisode" translatesAutoresizingMaskIntoConstraints="NO" id="7d7-9j-mp3" customClass="ThemeSecondaryIcon" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="5.5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="24" id="w3X-k7-Yh9"/>
                                                     <constraint firstAttribute="width" constant="24" id="zHX-iu-vit"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Hmmm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teN-zx-hwX" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hmmm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teN-zx-hwX" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                                 <rect key="frame" x="46" y="9" width="46.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
@@ -272,16 +291,21 @@
                                             <constraint firstItem="7d7-9j-mp3" firstAttribute="leading" secondItem="KZf-dt-k6x" secondAttribute="leading" constant="12" id="GwS-NM-wrx"/>
                                             <constraint firstAttribute="height" priority="750" constant="35" id="KNc-Dg-EJN"/>
                                             <constraint firstItem="teN-zx-hwX" firstAttribute="leading" secondItem="7d7-9j-mp3" secondAttribute="trailing" constant="10" id="Zbw-lr-X6p"/>
+                                            <constraint firstItem="7d7-9j-mp3" firstAttribute="top" secondItem="KZf-dt-k6x" secondAttribute="top" constant="5.5" id="iLf-g0-C0H"/>
                                             <constraint firstItem="teN-zx-hwX" firstAttribute="centerY" secondItem="7d7-9j-mp3" secondAttribute="centerY" id="yg0-G8-56k"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5Y-gS-EgE" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5Y-gS-EgE" userLabel="Spacer">
                                         <rect key="frame" x="0.0" y="151" width="362" height="6"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="750" constant="6" id="ReK-56-eY8"/>
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="v18-FN-11C" firstAttribute="top" secondItem="Ypx-au-SZl" secondAttribute="top" constant="7" id="38L-L8-fFp"/>
+                                    <constraint firstAttribute="bottom" secondItem="KZf-dt-k6x" secondAttribute="bottom" constant="7" id="PnD-Uv-YJJ"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                     </stackView>
@@ -348,6 +372,7 @@
                 <outlet property="linkView" destination="GlK-4F-IbG" id="jrX-ez-ex2"/>
                 <outlet property="nextEpisode" destination="teN-zx-hwX" id="OYx-WW-ae2"/>
                 <outlet property="nextEpisodeView" destination="KZf-dt-k6x" id="svh-Bg-UaA"/>
+                <outlet property="notificationButton" destination="jYE-ju-hsG" id="9SK-72-ojd"/>
                 <outlet property="podcastCategory" destination="CEi-4K-8eu" id="bZn-6s-TVs"/>
                 <outlet property="podcastDescription" destination="Vgd-qp-dvs" id="LgD-Ie-Gel"/>
                 <outlet property="podcastImageHeightConstraint" destination="bkR-7q-5gT" id="Eq4-YG-Wxl"/>
@@ -378,6 +403,7 @@
         <image name="podcast-expand" width="13" height="9"/>
         <image name="podcast-link" width="24" height="24"/>
         <image name="podcast-nextepisode" width="24" height="24"/>
+        <image name="podcast-notification-off" width="24" height="24"/>
         <image name="podcast-schedule" width="24" height="24"/>
         <image name="podcast-settings" width="24" height="24"/>
     </resources>

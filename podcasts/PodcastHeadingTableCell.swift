@@ -108,6 +108,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
+    @IBOutlet var notificationButton: ThemeableUIButton! {
+        didSet {
+            notificationButton.style = .primaryIcon02
+        }
+    }
+
     @IBOutlet var expandButton: ExpandCollapseButton!
     private weak var delegate: PodcastActionsDelegate? {
         didSet {
@@ -308,14 +314,18 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if subscribeButton.isSelected {
             folderButton.isHidden = !showFolderButton()
             settingsBtn.isHidden = false
+            notificationButton.isHidden = false
             folderButton.alpha = showFolderButton() ? 1 : 0
             settingsBtn.alpha = 1
             settingsButtonTrailingConstraint.constant = 48
             subscribeButtonWidthConstraint.constant = 32
+            let isNotificationOn = podcast.isPushEnabled
+            notificationButton.setImage( isNotificationOn ? UIImage(named: "podcast-notification-on") : UIImage(named: "podcast-notification-off"), for: .normal)
         } else {
             subscribeButtonWidthConstraint.constant = tableViewWidth < 350 ? 120 : 147
             folderButton.isHidden = true
             settingsBtn.isHidden = true
+            notificationButton.isHidden = true
         }
         layoutIfNeeded()
     }
@@ -340,6 +350,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     @IBAction func folderBtnTapped(_ sender: Any) {
         delegate?.folderTapped()
+    }
+
+    @IBAction func notificationBtnTapped(_ sender: Any) {
+        delegate?.notificationTapped()
+        setupButtons()
     }
 
     @IBAction func subscribedButtonTapped(_ sender: Any) {
@@ -458,9 +473,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     private func animateToSubscribed() {
         folderButton.alpha = 0
         settingsBtn.alpha = 0
+        notificationButton.alpha = 0
         folderButton.isHidden = !showFolderButton()
         settingsBtn.isHidden = false
         subscribeButton.isHighlighted = true
+        notificationButton.isHidden = false
         subscribeButton.setBackgroundColors()
         layoutIfNeeded()
         isAnimatingToSubscribed = true
@@ -474,6 +491,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                 self.settingsButtonTrailingConstraint.constant = 48
                 self.folderButton.alpha = self.showFolderButton() ? 1 : 0
                 self.settingsBtn.alpha = 1
+                self.notificationButton.alpha = 1
                 self.layoutIfNeeded()
             }, completion: { _ in
                 self.isAnimatingToSubscribed = false

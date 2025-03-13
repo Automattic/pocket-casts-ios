@@ -192,6 +192,12 @@ internal enum L10n {
   internal static var announcementSlumberTitle: String { return L10n.tr("Localizable", "announcement_slumber_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
+  /// It may have been removed or the link is broken.
+  /// But there's plenty more on Pocket Casts.
+  /// Download the app for the full experience!
+  internal static var appClipPlacholderMessage: String { return L10n.tr("Localizable", "app_clip_placholder_message") }
+  /// Sorry, we couldn't find that episode
+  internal static var appClipPlacholderTitle: String { return L10n.tr("Localizable", "app_clip_placholder_title") }
   /// Classic
   internal static var appIconClassic: String { return L10n.tr("Localizable", "app_icon_classic") }
   /// Dark
@@ -1700,6 +1706,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Notifications Off
+  internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
+  /// Notifications On
+  internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Now Playing
@@ -1722,6 +1732,10 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off") }
   /// OK
   internal static var ok: String { return L10n.tr("Localizable", "ok") }
+  /// Only on Unmetered Wifi
+  internal static var onlyOnUnmeteredWifi: String { return L10n.tr("Localizable", "only_on_unmetered_wifi") }
+  /// Turning this off will allow downloads on cellular as well as other metered networks. Check your network settings for more info.
+  internal static var onlyOnUnmeteredWifiDetails: String { return L10n.tr("Localizable", "only_on_unmetered_wifi_details") }
   /// Only On WiFi
   internal static var onlyOnWifi: String { return L10n.tr("Localizable", "only_on_wifi") }
   /// Unable to import podcasts from the OPML file you specified. Please check that it's valid

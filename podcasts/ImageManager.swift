@@ -328,7 +328,7 @@ class ImageManager {
             }
         }
 
-        if !NetworkUtils.shared.isConnectedToWifi() { return } // we don't auto update podcast images over the cell network
+        if !NetworkUtils.shared.isConnectedToUnexpensiveConnection() { return } // we don't auto update podcast images over the cell network
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
@@ -434,7 +434,7 @@ class ImageManager {
         removeAllFiles(folder: path)
 
         // if on WiFi, recache the images to make it a more seamless transition, if not, they'll just get cached as people use the app
-        if NetworkUtils.shared.isConnectedToWifi() {
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             cacheAllPodcastImages()
         }
     }
