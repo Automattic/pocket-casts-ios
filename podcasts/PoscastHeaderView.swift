@@ -9,11 +9,18 @@ struct PodcastHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108, alignment: .top)
+            HStack(alignment: .top) {
+                Spacer()
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
+                    .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108)
+                Spacer()
+            }
             if viewModel.isExpanded {
-                Spacer().frame(height: 24)
-                podcastCategory
+                VStack(spacing: 0) {
+                    Spacer().frame(height: 24)
+                    podcastCategory
+                }
+                .transition(.collapse.combined(with: .move(edge: .top)))
             }
             Spacer().frame(height: 16)
             podcastTitle
@@ -31,11 +38,10 @@ struct PodcastHeaderView: View {
                     podcastDetails
                     Spacer().frame(height: 24)
                 }
-                .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
-                .clipped()
+                .transition(.collapse)
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
-        }
+         }
     }
 
     private var podcastCategory: some View {
@@ -44,8 +50,6 @@ struct PodcastHeaderView: View {
                 .font(.callout)
             .foregroundStyle(theme.primaryText02)
         }
-        .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
-        .clipped()
     }
 
     private var podcastTitle: some View {
@@ -53,14 +57,13 @@ struct PodcastHeaderView: View {
             Text(viewModel.podcast.title ?? "")
                 .font(.title).bold()
             Image(systemName: "chevron.up")
-                .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
                 .padding()
-                .animation(.easeInOut, value: viewModel.isExpanded)
+                .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
         }
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
         .onTapGesture {
-            withAnimation {
+            withAnimation() {
                 viewModel.toggleExpanded()
             }
         }
@@ -155,12 +158,46 @@ struct PodcastHeaderView: View {
             Image(imageName)
                 .foregroundStyle(theme.primaryIcon02)
             Text(label)
-                .foregroundStyle(isLink ? theme.primaryIcon01 : theme.primaryText01)
+                .foregroundStyle(isLink ? theme.support05 : theme.primaryText01)
                 .onTapGesture {
                     action()
                 }
             Spacer()
         }
+    }
+}
+
+extension AnyTransition {
+    static var collapse: AnyTransition { get {
+        AnyTransition.modifier(
+            active: ShapeClipModifier(shape: CollapseShape(pct: 1)),
+            identity: ShapeClipModifier(shape: CollapseShape(pct: 0)))
+        }
+    }
+}
+
+struct ShapeClipModifier<S: Shape>: ViewModifier {
+    let shape: S
+
+    func body(content: Content) -> some View {
+        content.clipShape(shape)
+    }
+}
+
+struct CollapseShape: Shape {
+    var pct: CGFloat
+
+    var animatableData: CGFloat {
+        get { pct }
+        set { pct = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        path.addRect(CGRect(x: rect.minX, y: rect.minY, width: rect.width, height: (1.0-pct) * rect.height))
+
+        return path
     }
 }
 
