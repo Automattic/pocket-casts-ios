@@ -121,10 +121,18 @@ struct PodcastHeaderView: View {
 
     private var podcastDetails: some View {
         VStack(alignment: .leading) {
-            infoLabel(viewModel.displayAuthor, imageName: "podcast-author", action: {})
-            infoLabel(viewModel.displayWebsite, imageName: "podcast-link", action: {})
-            infoLabel(viewModel.displayFrequency, imageName: "podcast-schedule", action: {})
-            infoLabel(viewModel.displayNextEpisodeDate, imageName: "podcast-nextepisode", action: {})
+            if let displayAuthor = viewModel.displayAuthor {
+                infoLabel(displayAuthor, imageName: "podcast-author", action: {})
+            }
+            if let displayWebsite = viewModel.displayWebsite {
+                infoLabel(displayWebsite, imageName: "podcast-link", action: {})
+            }
+            if let displayFrequency = viewModel.displayFrequency {
+                infoLabel(displayFrequency, imageName: "podcast-schedule", action: {})
+            }
+            if let displayNextEpisodeDate = viewModel.displayNextEpisodeDate {
+                infoLabel(displayNextEpisodeDate, imageName: "podcast-nextepisode", action: {})
+            }
         }
         .padding()
         .cornerRadius(8)
@@ -137,10 +145,12 @@ struct PodcastHeaderView: View {
 
     private func infoLabel(_ label: String, imageName: String, action: @escaping ()->()) -> some View {
         HStack {
-            Label(label, image: imageName)
+            Image(imageName)
+                .foregroundStyle(theme.primaryIcon02)
+            Text(label)
+                .foregroundStyle(theme.primaryText01)
             Spacer()
         }
-        .foregroundStyle(theme.primaryIcon02)
     }
 }
 

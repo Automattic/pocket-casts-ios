@@ -55,16 +55,16 @@ class PodcastHeaderViewModel: ObservableObject {
         return result
     }
 
-    var displayAuthor: String {
+    var displayAuthor: String? {
         guard let podcastAuthor = podcast.author else {
-            return ""
+            return nil
         }
         return podcastAuthor
     }
 
-    var displayWebsite: String {
+    var displayWebsite: String? {
         guard let websiteUrl = podcast.podcastUrl, let host = URL(string: websiteUrl)?.host else {
-            return ""
+            return nil
         }
         if host.startsWith(string: "www.") {
             let wwwIndex = host.index(host.startIndex, offsetBy: 4)
@@ -74,16 +74,16 @@ class PodcastHeaderViewModel: ObservableObject {
         }
     }
 
-    var displayFrequency: String {
+    var displayFrequency: String? {
         guard let frequency = podcast.displayableFrequency() else {
-            return ""
+            return nil
         }
         return L10n.paidPodcastReleaseFrequencyFormat(frequency)
     }
 
-    var displayNextEpisodeDate: String {
+    var displayNextEpisodeDate: String? {
         guard let estimatedDate = podcast.displayableNextEpisodeDate() else {
-            return ""
+            return nil
         }
         return L10n.paidPodcastNextEpisodeFormat(estimatedDate)
     }
