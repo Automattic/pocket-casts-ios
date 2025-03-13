@@ -22,8 +22,9 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         return closeButton
     }()
 
-    private lazy var badge: UIView = {
-        let badge = SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black).uiView
+    private lazy var badge: UIImageView = {
+        let badge = UIImageView(image: UIImage(named: "plusBadge"))
+        badge.backgroundColor = .clear
         badge.translatesAutoresizingMaskIntoConstraints = false
         return badge
     }()
@@ -80,14 +81,14 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
     private func setupView() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.90)
 
-        stackView.addArrangedSubview(closeButton)
-        stackView.addArrangedSubview(UIView())
-
         view.addSubview(stackView)
         view.addSubview(badge)
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(paywallButton)
+
+        stackView.addArrangedSubview(closeButton)
+        stackView.addArrangedSubview(UIView())
 
         let readableContentGuideMargin = 12.0
 
