@@ -74,7 +74,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         guard let transcripts = metadata?.transcripts else {
             return (transcripts: [], hasGeneratedTranscripts: false)
         }
-        return (transcripts: transcripts, hasGeneratedTranscripts: metadata?.hasGeneratedTranscripts() ?? false)
+        return (transcripts: transcripts, hasGeneratedTranscripts: false)
 #endif
     }
 

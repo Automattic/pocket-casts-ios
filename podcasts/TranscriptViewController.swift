@@ -18,6 +18,14 @@ class TranscriptViewController: PlayerItemViewController {
 
     private var kmpSearch: KMPSearch?
 
+    private var transcriptManager: TranscriptManager?
+
+    private var transcriptViewTopConstraint: NSLayoutConstraint?
+    private var topGradientTopConstraint: NSLayoutConstraint?
+    private var topGradientHeightConstraint: NSLayoutConstraint?
+    private var bannerLabelLeadingConstraint: NSLayoutConstraint?
+    private var bannerLabelTrailingConstraint: NSLayoutConstraint?
+
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         super.init()
@@ -35,6 +43,9 @@ class TranscriptViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        if FeatureFlag.generatedTranscripts.enabled {
+            addGeneratedTranscriptsObservers()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,11 +63,36 @@ class TranscriptViewController: PlayerItemViewController {
         true
     }
 
+    func setHasGeneratedTranscripts(_ value: Bool) {
+        if FeatureFlag.generatedTranscripts.enabled, value {
+            transcriptViewTopConstraint?.constant = 80.0
+            topGradientTopConstraint?.constant = 100.0
+            topGradientHeightConstraint?.constant = 30.0
+
+            updateTextMargins()
+        }
+    }
+
+    private func addGeneratedTranscriptsObservers() {
+        addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(updateGeneratedTranscriptState))
+    }
+
+    @objc private func updateGeneratedTranscriptState(_ notification: Notification) {
+        guard
+            let hasGeneratedTranscripts = notification.userInfo?["hasGeneratedTranscripts"] as? Bool
+        else {
+            return
+        }
+        setHasGeneratedTranscripts(hasGeneratedTranscripts)
+    }
+
     private func setupViews() {
         view.addSubview(transcriptView)
+        let transcriptViewTopConstraint = transcriptView.topAnchor.constraint(equalTo: view.topAnchor)
+        self.transcriptViewTopConstraint = transcriptViewTopConstraint
         NSLayoutConstraint.activate(
             [
-                transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
+                transcriptViewTopConstraint,
                 transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -85,12 +121,16 @@ class TranscriptViewController: PlayerItemViewController {
 
         view.addSubview(topGradient)
         topGradient.translatesAutoresizingMaskIntoConstraints = false
+        let topGradientTopConstraint = topGradient.topAnchor.constraint(equalTo: view.topAnchor)
+        let topGradientHeightConstraint = topGradient.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
+        self.topGradientTopConstraint = topGradientTopConstraint
+        self.topGradientHeightConstraint = topGradientHeightConstraint
         NSLayoutConstraint.activate(
             [
-                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
+                topGradientTopConstraint,
                 topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                topGradient.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
+                topGradientHeightConstraint
             ]
         )
 
@@ -124,6 +164,20 @@ class TranscriptViewController: PlayerItemViewController {
             closeButton.heightAnchor.constraint(equalToConstant: 44),
             closeButton.widthAnchor.constraint(equalToConstant: 44)
         ])
+
+        if FeatureFlag.generatedTranscripts.enabled {
+            view.addSubview(bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            bannerView.isHidden = true
+            NSLayoutConstraint.activate(
+                [
+                    bannerView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
+                    bannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    bannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    bannerView.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
+                ]
+            )
+        }
     }
 
     // Only return the searchView as the input acessory view
@@ -163,6 +217,44 @@ class TranscriptViewController: PlayerItemViewController {
 
         resignFirstResponder()
     }
+
+    private lazy var bannerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.generatedTranscriptsBanner
+        label.numberOfLines = 2
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textColor = .white.withAlphaComponent(0.5)
+        label.backgroundColor = .clear
+        view.addSubview(label)
+
+        let stroke = UIView()
+        stroke.translatesAutoresizingMaskIntoConstraints = false
+        stroke.backgroundColor = .white.withAlphaComponent(0.5)
+        view.addSubview(stroke)
+
+        let bannerLabelLeadingConstraint = label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15.0)
+        let bannerLabelTrailingConstraint = label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15.0)
+        self.bannerLabelLeadingConstraint = bannerLabelLeadingConstraint
+        self.bannerLabelTrailingConstraint = bannerLabelTrailingConstraint
+
+        NSLayoutConstraint.activate(
+            [
+                label.topAnchor.constraint(equalTo: view.topAnchor, constant: 15.0),
+                bannerLabelLeadingConstraint,
+                bannerLabelTrailingConstraint,
+                stroke.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 15.0),
+                stroke.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+                stroke.widthAnchor.constraint(equalToConstant: 48),
+                stroke.heightAnchor.constraint(equalToConstant: 1)
+            ]
+        )
+        return view
+    }()
 
     private lazy var transcriptView: UITextView = {
         let textView: UITextView
@@ -307,16 +399,26 @@ class TranscriptViewController: PlayerItemViewController {
         let shouldResetPosition = currentEpisodeUUID != episode.uuid
         currentEpisodeUUID = episode.uuid
 
+        transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
+
         setupLoadingState()
 
-        Task.detached { [weak self] in
-            guard let self else {
+        Task.detached { [weak self, transcriptManager] in
+            guard let self, let transcriptManager else {
                 return
             }
-            let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
+                if FeatureFlag.generatedTranscripts.enabled,
+                   transcriptManager.hasGeneratedTranscripts {
+                    await MainActor.run {
+                        self.updateTextMargins()
+                        UIView.animate(withDuration: 0.25) {
+                            self.bannerView.isHidden = false
+                        }
+                    }
+                }
                 await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
@@ -359,7 +461,15 @@ class TranscriptViewController: PlayerItemViewController {
 
     private func updateTextMargins() {
         let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
+        var topInset = 0.75 * Sizes.topGradientHeight
+        if FeatureFlag.generatedTranscripts.enabled,
+           transcriptManager?.hasGeneratedTranscripts == true {
+            let newMargin = margin + 5.0
+            bannerLabelLeadingConstraint?.constant = newMargin
+            bannerLabelTrailingConstraint?.constant = -newMargin
+            topInset += 5.0
+        }
+        transcriptView.textContainerInset = .init(top: topInset, left: margin, bottom: bottomContainerInset, right: margin)
     }
 
     @MainActor
