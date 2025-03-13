@@ -79,7 +79,11 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.90)
+        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.45)
+
+        let blurEffectView = BlurEffectView(blurIntensity: 0.2)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blurEffectView)
 
         view.addSubview(stackView)
         view.addSubview(badge)
@@ -94,6 +98,10 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
 
         NSLayoutConstraint.activate(
             [
+                blurEffectView.topAnchor.constraint(equalTo: view.topAnchor),
+                blurEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                blurEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                 stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
                 stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
