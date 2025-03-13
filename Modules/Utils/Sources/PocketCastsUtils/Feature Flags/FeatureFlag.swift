@@ -245,7 +245,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
-            false
+            true
         case .generatedTranscripts:
             false
         case .podcastViewChanges:
