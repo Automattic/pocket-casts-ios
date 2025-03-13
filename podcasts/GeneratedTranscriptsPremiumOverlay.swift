@@ -65,6 +65,12 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         return button
     }()
 
+    private lazy var blurEffectView: BlurEffectView = {
+        let blurEffectView = BlurEffectView(blurIntensity: 0.2)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        return blurEffectView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -81,8 +87,6 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
     private func setupView() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.45)
 
-        let blurEffectView = BlurEffectView(blurIntensity: 0.2)
-        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurEffectView)
 
         view.addSubview(stackView)
