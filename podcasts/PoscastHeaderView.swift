@@ -70,7 +70,7 @@ struct PodcastHeaderView: View {
         Button() {
             viewModel.subscribeButtonTapped()
         } label: {
-            Text(viewModel.isPodcastSubscribed ? L10n.unfollow : L10n.follow)
+            Text(viewModel.podcast.subscribed != 0 ? L10n.unfollow : L10n.follow)
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
