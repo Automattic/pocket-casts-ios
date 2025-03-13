@@ -61,7 +61,7 @@ struct PodcastHeaderView: View {
         .multilineTextAlignment(.center)
         .onTapGesture {
             withAnimation {
-                viewModel.isExpanded.toggle()
+                viewModel.toggleExpanded()
             }
         }
     }

@@ -108,4 +108,11 @@ class PodcastHeaderViewModel: ObservableObject {
         Analytics.track(.podcastScreenPodcastDetailsLinkTapped, properties: ["podcast_uuid": podcast.uuid])
         delegate?.open(url: url)
     }
+
+    func toggleExpanded() {
+        let willBeExpanded = !isExpanded
+        delegate?.setSummaryExpanded(expanded: willBeExpanded)
+        Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
+        isExpanded.toggle()
+    }
 }
