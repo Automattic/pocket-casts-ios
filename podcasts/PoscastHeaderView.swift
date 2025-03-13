@@ -10,8 +10,7 @@ struct PodcastHeaderView: View {
     var body: some View {
         VStack(spacing: 16) {
             PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108)
-                .animation(.linear, value: viewModel.isExpanded)
+                .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108, alignment: .top)
             if viewModel.isExpanded {
                 podcastCategory
             }
