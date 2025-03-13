@@ -15,7 +15,7 @@ struct PodcastHeaderView: View {
                 podcastCategory
             }
             podcastTitle
-            StarRatingView(viewModel: viewModel.podcastRatingViewModel,
+            StarRatingView(viewModel: viewModel.podcastRatingViewModel, style: .short,
                                       onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
