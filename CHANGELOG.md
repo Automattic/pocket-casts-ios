@@ -1,6 +1,7 @@
 7.85
 -----
 - Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
+- Implement the possibility to display generated transcripts [#2812](https://github.com/Automattic/pocket-casts-ios/issues/2812)
 
 7.84
 -----
