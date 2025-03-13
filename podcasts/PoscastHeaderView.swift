@@ -41,7 +41,7 @@ struct PodcastHeaderView: View {
     private var podcastCategory: some View {
         VStack {
             Text(viewModel.displayCategory)
-            .font(.caption)
+                .font(.callout)
             .foregroundStyle(theme.primaryText02)
         }
         .frame(height: viewModel.isExpanded ? nil : 0, alignment: .top)
@@ -51,12 +51,12 @@ struct PodcastHeaderView: View {
     private var podcastTitle: some View {
         HStack(spacing: 0) {
             Text(viewModel.podcast.title ?? "")
+                .font(.title).bold()
             Image(systemName: "chevron.up")
                 .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
                 .padding()
                 .animation(.easeInOut, value: viewModel.isExpanded)
         }
-        .font(.headline)
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
         .onTapGesture {
