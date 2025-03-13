@@ -102,4 +102,10 @@ class PodcastHeaderViewModel: ObservableObject {
             isExpanded = false
         }
     }
+
+    func websiteLinkTapped() {
+        guard let website = podcast.podcastUrl, let url = URL(string: website) else { return }
+        Analytics.track(.podcastScreenPodcastDetailsLinkTapped, properties: ["podcast_uuid": podcast.uuid])
+        delegate?.open(url: url)
+    }
 }

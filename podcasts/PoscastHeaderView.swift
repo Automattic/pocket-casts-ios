@@ -132,7 +132,7 @@ struct PodcastHeaderView: View {
                 infoLabel(displayAuthor, imageName: "podcast-author", action: {})
             }
             if let displayWebsite = viewModel.displayWebsite {
-                infoLabel(displayWebsite, imageName: "podcast-link", action: {})
+                infoLabel(displayWebsite, imageName: "podcast-link", isLink: true, action: { viewModel.websiteLinkTapped() })
             }
             if let displayFrequency = viewModel.displayFrequency {
                 infoLabel(displayFrequency, imageName: "podcast-schedule", action: {})
@@ -150,12 +150,15 @@ struct PodcastHeaderView: View {
         )
     }
 
-    private func infoLabel(_ label: String, imageName: String, action: @escaping ()->()) -> some View {
+    private func infoLabel(_ label: String, imageName: String, isLink: Bool = false, action: @escaping ()->()) -> some View {
         HStack {
             Image(imageName)
                 .foregroundStyle(theme.primaryIcon02)
             Text(label)
-                .foregroundStyle(theme.primaryText01)
+                .foregroundStyle(isLink ? theme.primaryIcon01 : theme.primaryText01)
+                .onTapGesture {
+                    action()
+                }
             Spacer()
         }
     }

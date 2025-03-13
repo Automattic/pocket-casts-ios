@@ -6,6 +6,7 @@ import PocketCastsUtils
 import UIKit
 import UIDeviceIdentifier
 import SwiftUI
+import SafariServices
 
 enum PodcastFeedReloadSource {
     case menu
@@ -60,6 +61,8 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
     func reloadPodcastFeed(source: PodcastFeedReloadSource)
+
+    func open(url: URL)
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -1055,6 +1058,22 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         reloadPodcastFeed(source: .refreshControl)
     }
 
+    func open(url: URL) {
+        if Settings.openLinks {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            if URLHelper.isValidScheme(url.scheme) {
+                let safariViewController = SFSafariViewController(with: url)
+                safariViewController.delegate = self
+
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
+                SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+            } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+
     private func dismissPodcastFeedReloadTip() {
         guard Settings.shouldShowPodcastFeeReloadTip else {
             return
@@ -1189,5 +1208,12 @@ extension PodcastViewController: UIPopoverPresentationControllerDelegate {
 
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         dismissPodcastFeedReloadTip()
+    }
+}
+
+extension PodcastViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
+        controller.delegate = nil
     }
 }

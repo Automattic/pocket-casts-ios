@@ -1,7 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
-import SafariServices
 
 class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, ExpandableLabelDelegate {
     @IBOutlet var podcastImageView: PodcastImageView! {
@@ -423,29 +422,15 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if let uuid = delegate?.displayedPodcast()?.uuid {
             Analytics.track(.podcastScreenPodcastDescriptionLinkTapped, properties: ["podcast_uuid": uuid])
         }
-        open(url: url)
+        delegate?.open(url: url)
     }
 
     @objc private func websiteLinkTapped() {
         guard let website = delegate?.displayedPodcast()?.podcastUrl, let url = URL(string: website) else { return }
-
-        open(url: url)
-    }
-
-    private func open(url: URL) {
-        if Settings.openLinks {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            if URLHelper.isValidScheme(url.scheme) {
-                let safariViewController = SFSafariViewController(with: url)
-                safariViewController.delegate = self
-
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-                SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
-            } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+        if let uuid = delegate?.displayedPodcast()?.uuid {
+            Analytics.track(.podcastScreenPodcastDetailsLinkTapped, properties: ["podcast_uuid": uuid])
         }
+        delegate?.open(url: url)
     }
 
     private func artworkSize() -> CGFloat {
@@ -523,12 +508,5 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         } else if gesture.state == .cancelled {
             subscribeButton.isHighlighted = false
         }
-    }
-}
-
-extension PodcastHeadingTableCell: SFSafariViewControllerDelegate {
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        controller.delegate = nil
     }
 }
