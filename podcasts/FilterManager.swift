@@ -9,7 +9,7 @@ class FilterManager {
 
         if filters.count == 0 { return }
 
-        let onWifi = NetworkUtils.shared.isConnectedToWifi()
+        let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
         let mobileDataAllowed = Settings.autoDownloadMobileDataAllowed()
         for filter in filters {
             guard filter.autoDownloadEpisodes else { continue }

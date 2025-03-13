@@ -436,7 +436,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         let tempFilePath = tempPathForEpisode(episode)
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
-        let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToWifi() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
+        let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToUnexpensiveConnection() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
         #if os(watchOS)
             let sessionToUse = await WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession

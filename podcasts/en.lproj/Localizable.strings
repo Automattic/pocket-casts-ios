@@ -4800,3 +4800,8 @@
 
 /* Notifications Off*/
 "notifications_off" = "Notifications Off";
+/* Only on Unmetered Wifi */
+"only_on_unmetered_wifi" = "Only on Unmetered Wifi";
+
+/* Only on Unmetered Wifi detail information */
+"only_on_unmetered_wifi_details" = "Turning this off will allow downloads on cellular as well as other metered networks. Check your network settings for more info.";
