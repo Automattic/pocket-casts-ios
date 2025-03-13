@@ -41,6 +41,8 @@ struct PodcastHeaderView: View {
                 .transition(.collapse)
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
+            Spacer()
+                .frame(height: 8)
          }
     }
 
@@ -57,7 +59,7 @@ struct PodcastHeaderView: View {
             Text(viewModel.podcast.title ?? "")
                 .font(.title).bold()
             Image(systemName: "chevron.up")
-                .padding()
+                .padding(.horizontal, 4)
                 .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
         }
         .foregroundStyle(theme.primaryText01)
