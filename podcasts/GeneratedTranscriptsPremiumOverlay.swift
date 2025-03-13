@@ -5,6 +5,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
     var dismissTranscript: (() -> Void)?
     var purchaseSuccessfull: (() -> Void)?
 
+    private let playbackManager: PlaybackManager
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +73,15 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         return blurEffectView
     }()
 
+    init(playbackManager: PlaybackManager) {
+        self.playbackManager = playbackManager
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -78,10 +89,12 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
 
     func didAppear() {
         NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+        track(event: .transcriptGeneratedPaywallShown)
     }
 
     func didDisappear() {
         NotificationCenter.default.removeObserver(self)
+        track(event: .transcriptGeneratedPaywallDismissed)
     }
 
     private func setupView() {
@@ -132,6 +145,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
     }
 
     @objc private func paywallButtonTapped() {
+        track(event: .transcriptGeneratedPaywallSubscribeTapped)
         NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
     }
 
@@ -141,5 +155,13 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
                 self?.purchaseSuccessfull?()
             }
         }
+    }
+
+    private func track(event: AnalyticsEvent) {
+        guard let episode = playbackManager.currentEpisode(),
+              let podcast = playbackManager.currentPodcast else {
+            return
+        }
+        Analytics.track(event, properties: ["episode_uuid": episode.uuid, "podcast_uuid": podcast.uuid])
     }
 }
