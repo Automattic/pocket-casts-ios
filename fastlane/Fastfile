@@ -677,8 +677,6 @@ platform :ios do
   lane :upload_enterprise do
     require_env_vars!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY')
 
-    commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
-    pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
     release_notes = <<~NOTES
       Pull Request: ##{ENV.fetch('BUILDKITE_PULL_REQUEST', 'N/A')}
       Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'N/A')}`
@@ -687,6 +685,7 @@ platform :ios do
 
     firebase_app_distribution(
       app: FIREBASE_APP_ID,
+      ipa_path: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
       service_credentials_json_data: get_required_env!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY'),
       release_notes: release_notes,
       groups: FIREBASE_TESTERS_GROUP
