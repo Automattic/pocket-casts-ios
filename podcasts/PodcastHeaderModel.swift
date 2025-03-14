@@ -43,7 +43,8 @@ class PodcastHeaderViewModel: ObservableObject {
     }()
 
     var folderImage: String {
-        let folderImage = SubscriptionHelper.hasActiveSubscription() ? (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check" : "folder-create"
+        let isSubscriptionAvailable = SubscriptionHelper.hasActiveSubscription() && SyncManager.isUserLoggedIn()
+        let folderImage = isSubscriptionAvailable ? (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check" : "folder-create"
         return folderImage
     }
 
