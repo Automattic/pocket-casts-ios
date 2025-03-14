@@ -692,7 +692,7 @@ platform :ios do
       groups: FIREBASE_TESTERS_GROUP
     )
 
-    next unless is_ci
+    next if ENV.fetch('BUILDKITE_PULL_REQUEST', 'false') == 'false'
 
     # Post PR Comment
     comment_body = prototype_build_details_comment(
