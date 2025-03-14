@@ -83,7 +83,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }()
 
     private lazy var generatedTranscriptsPremiumOverlay: GeneratedTranscriptsPremiumOverlay = {
-        let item = GeneratedTranscriptsPremiumOverlay()
+        let playbackManager = PlaybackManager.shared
+        let item = GeneratedTranscriptsPremiumOverlay(playbackManager: playbackManager)
         item.view.translatesAutoresizingMaskIntoConstraints = false
         item.dismissTranscript = { [weak self] in
             self?.dismissGeneratedTranscriptsPremiumOverlay(dismissTranscript: true)
