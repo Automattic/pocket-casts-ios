@@ -40,7 +40,7 @@ steps:
         plugins: [$CI_TOOLKIT]
 
   - block: Deploy Prototype Build
-    prompt: Share a Prototype Build via App Center?
+    prompt: Share a Prototype Build via Firebase App Distribution?
     key: prototype_triggered
     # Block steps have implicit dependency on the steps that come before them.
     # See https://buildkite.com/docs/pipelines/trigger-step
