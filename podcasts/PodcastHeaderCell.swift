@@ -14,10 +14,12 @@ class PodcastHeaderCell: UITableViewCell {
 
     let podcast: Podcast
     let viewController: PodcastViewController
+    let viewModel: PodcastHeaderViewModel
 
     init(podcast: Podcast, vc: PodcastViewController) {
         self.podcast = podcast
         self.viewController = vc
+        self.viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
         commonSetup()
     }
@@ -30,16 +32,15 @@ class PodcastHeaderCell: UITableViewCell {
 
     func commonSetup() {
         self.backgroundColor = .clear
-        let viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration(content: {
-                PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
+                PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment()
             })
         } else {
             // Fallback on earlier versions
             configureCellFromSwiftUIView( cell: self, viewController: self.viewController, rootView: {
                     ContentSizeGeometryReader { proxy in
-                        PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding()
+                        PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
                     } contentSizeUpdated: { size in
                         self.calculatedHeight = size.height
                         self.setNeedsLayout()
