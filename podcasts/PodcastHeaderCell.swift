@@ -34,20 +34,18 @@ class PodcastHeaderCell: UITableViewCell {
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration(content: {
                 PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
-            }
-            )
+            })
         } else {
             // Fallback on earlier versions
-            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
-                ContentSizeGeometryReader { proxy in
-                    PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding()
-                } contentSizeUpdated: { size in
-                    self.calculatedHeight = size.height
-                    self.setNeedsLayout()
-                    self.viewController.tableView().reloadData()
-                }
-            }
-            )
+            configureCellFromSwiftUIView( cell: self, viewController: self.viewController, rootView: {
+                    ContentSizeGeometryReader { proxy in
+                        PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment().padding()
+                    } contentSizeUpdated: { size in
+                        self.calculatedHeight = size.height
+                        self.setNeedsLayout()
+                        self.viewController.tableView().reloadData()
+                    }
+            })
         }
     }
 
