@@ -658,7 +658,7 @@ platform :ios do
       include_bitcode: false,
       include_symbols: true,
       clean: true,
-      xcargs: { VERSION_LONG: pr_or_branch, VERSION_SHORT: build_number },
+      xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
       output_directory: ARTIFACTS_FOLDER,
       output_name: PROTOTYPE_BUILD_NAME,
       export_options: {
