@@ -49,7 +49,7 @@ class PodcastHeaderCell: UITableViewCell {
         }
     }
 
-    func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
+    private func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
 
         let swiftUICellViewController = UIHostingController(rootView: rootView())
         swiftUICellViewController.view.backgroundColor = .clear
