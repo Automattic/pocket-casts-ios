@@ -215,8 +215,10 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if navigationTitleSetOnScroll {
             if scrolledToY > scrollPointToChangeTitle, fakeNavTitle.text == nil {
                 changeTitleAnimated(navTitle)
+                updateNavigationBar(transparent: false, animated: true)
             } else if scrolledToY < scrollPointToChangeTitle, fakeNavTitle.text != nil {
                 changeTitleAnimated(nil)
+                updateNavigationBar(transparent: true, animated: true)
             }
         }
         if FeatureFlag.podcastViewChanges.enabled {
@@ -231,6 +233,36 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         guard opacity != fakeNavView.layer.shadowOpacity else { return }
 
         fakeNavView.layer.shadowOpacity = opacity
+    }
+
+    func updateNavigationBar(position: CGFloat) {
+        guard FeatureFlag.podcastViewChanges.enabled else { return }
+        let scrolledToY = position + fakeNavHeight.constant
+        if scrolledToY > scrollPointToChangeTitle {
+            updateNavigationBar(transparent: false, animated: false)
+        } else if scrolledToY < scrollPointToChangeTitle {
+            updateNavigationBar(transparent: true, animated: false)
+        }
+    }
+
+    private func updateNavigationBar(transparent: Bool, animated: Bool = true) {
+        guard FeatureFlag.podcastViewChanges.enabled else {
+            return
+        }
+        if animated {
+            let fadeAnimation = CATransition()
+            fadeAnimation.duration = Constants.Animation.defaultAnimationTime
+            fadeAnimation.type = CATransitionType.fade
+            fakeNavView.layer.add(fadeAnimation, forKey: "fadeBackgroundAnimation")
+        }
+        if transparent {
+            fakeNavView.backgroundColor = .clear
+            updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
+        } else {
+            fakeNavView.backgroundColor = ThemeColor.primaryUi01()
+            fakeNavTitle.textColor = AppTheme.mainTextColor()
+            updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
+        }
     }
 
     private func changeTitleAnimated(_ newTitle: String?) {

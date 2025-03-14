@@ -480,6 +480,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
                 multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                 multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+                // we need to do this for scenarios when theme was changed
+                updateNavigationBar(position: episodesTable.contentOffset.y)
             } else {
                 let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
                 updateNavColors(bgColor: ThemeColor.podcastUi03(podcastColor: podcastBgColor), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
