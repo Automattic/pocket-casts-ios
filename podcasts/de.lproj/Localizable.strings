@@ -2956,7 +2956,7 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <key>suggested_folders_description</key>
     <string>Wir haben deine Podcasts für dich organisiert. Speichere sie oder passe sie nach Belieben an.</string>
     <key>suggested_folders_title</key>
-    <string>Vorgeschlagene Order</string>
+    <string>Vorgeschlagene Ordner</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Diese Ordner verwenden</string>
     <key>support_watch_help_message</key>
