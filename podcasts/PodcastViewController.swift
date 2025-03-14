@@ -103,13 +103,21 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var loadingBgView: UIView! {
         didSet {
-            loadingBgView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+            if FeatureFlag.podcastViewChanges.enabled {
+                loadingBgView.backgroundColor = .clear
+            } else {
+                loadingBgView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+            }
         }
     }
 
     @IBOutlet var loadingImageBg: UIView! {
         didSet {
-            loadingImageBg.backgroundColor = ThemeColor.primaryUi05()
+            if FeatureFlag.podcastViewChanges.enabled {
+                loadingImageBg.backgroundColor = .clear
+            } else {
+                loadingImageBg.backgroundColor = ThemeColor.primaryUi05()
+            }
         }
     }
 
