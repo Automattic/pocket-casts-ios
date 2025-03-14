@@ -21,9 +21,16 @@ struct StarRatingView: View {
         viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeBeforeAnimating
     }
 
-    init(viewModel: PodcastRatingViewModel, onRate: @escaping () -> Void) {
+    init(viewModel: PodcastRatingViewModel, style: Style = .long, onRate: @escaping () -> Void) {
         self.viewModel = viewModel
         self.onRate = onRate
+        self.style = style
+    }
+
+    private var style: Style = .short
+    enum Style {
+        case long
+        case short
     }
 
     var body: some View {
@@ -40,15 +47,16 @@ struct StarRatingView: View {
                     .onTapGesture {
                         viewModel.didTapRating(source: .stars)
                     }
+                if style == .long {
+                    Spacer()
 
-                Spacer()
-
-                Text(L10n.rate)
-                    .font(.system(.callout))
-                    .foregroundStyle(theme.primaryText01)
-                    .buttonize {
-                        viewModel.didTapRating()
-                    }
+                    Text(L10n.rate)
+                        .font(.system(.callout))
+                        .foregroundStyle(theme.primaryText01)
+                        .buttonize {
+                            viewModel.didTapRating()
+                        }
+                }
             }
             .sheet(isPresented: $viewModel.presentingGiveRatings, onDismiss: {
                 switch dismissAction {
@@ -63,12 +71,13 @@ struct StarRatingView: View {
                     RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast, onRate: onRate))
                 }
             })
-
-            Rectangle()
-                .foregroundStyle(theme.primaryUi05)
-                .frame(height: 1)
-                .padding(.top, 12)
-                .padding(.bottom, 0)
+            if style == .long {
+                Rectangle()
+                    .foregroundStyle(theme.primaryUi05)
+                    .frame(height: 1)
+                    .padding(.top, 12)
+                    .padding(.bottom, 0)
+            }
         }
     }
 
