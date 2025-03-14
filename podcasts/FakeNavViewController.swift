@@ -54,9 +54,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn.accessibilityIdentifier = "Close"
         fakeNavView.addSubview(backBtn)
         backBtn.translatesAutoresizingMaskIntoConstraints = false
-        let leftOffset: CGFloat = displayMode == .navController ? 0 : 6
+        var margin: CGFloat = 0
+        if FeatureFlag.podcastViewChanges.enabled {
+            backBtn.layer.cornerRadius = 22
+            backBtn.layer.masksToBounds = true
+            margin = 16
+        }
+        let leftOffset: CGFloat = displayMode == .navController ? margin : 6
         NSLayoutConstraint.activate([
-            backBtn.widthAnchor.constraint(equalToConstant: 40),
+            backBtn.widthAnchor.constraint(equalToConstant: 44),
             backBtn.heightAnchor.constraint(equalToConstant: 44),
             backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leftOffset),
             backBtn.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
@@ -119,7 +125,11 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         }
 
         // we need to allow enough room to show 2 buttons on the right
-        let maxTitleWidth = fakeNavView.bounds.width - 180
+        var buttonsWidth = CGFloat(180)
+        if FeatureFlag.podcastViewChanges.enabled {
+            buttonsWidth = CGFloat(220)
+        }
+        let maxTitleWidth = fakeNavView.bounds.width - buttonsWidth
         if navTitleMaxWidth.constant != maxTitleWidth {
             navTitleMaxWidth.constant = maxTitleWidth
         }
@@ -148,23 +158,28 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private func addButton(_ button: UIButton) {
         button.isPointerInteractionEnabled = true
         fakeNavView.addSubview(button)
-
+        if FeatureFlag.podcastViewChanges.enabled {
+            button.layer.cornerRadius = 22
+            button.layer.masksToBounds = true
+        }
         button.translatesAutoresizingMaskIntoConstraints = false
         if rightActionButtons.count == 0 {
             // if there are no other buttons, anchor this one to the edge
+            let margin: CGFloat = FeatureFlag.podcastViewChanges.enabled ? 16 : 5
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: 44),
                 button.heightAnchor.constraint(equalToConstant: 44),
-                fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 5),
+                fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
         } else {
             let previousButton = rightActionButtons.last!
+            let margin: CGFloat  = FeatureFlag.podcastViewChanges.enabled ? 8 : 0
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: 44),
                 button.heightAnchor.constraint(equalToConstant: 44),
-                button.trailingAnchor.constraint(equalTo: previousButton.leadingAnchor, constant: 0),
+                button.trailingAnchor.constraint(equalTo: previousButton.leadingAnchor, constant: -margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
         }
@@ -180,12 +195,14 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         rightActionButtons = []
     }
 
-    func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor) {
+    func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor, buttonBackgroundColor: UIColor) {
         fakeNavView.backgroundColor = bgColor
         fakeNavTitle.textColor = titleColor
         backBtn.tintColor = buttonColor
+        backBtn.backgroundColor = buttonBackgroundColor
         for button in rightActionButtons {
             button.tintColor = buttonColor
+            button.backgroundColor = buttonBackgroundColor
         }
     }
 
@@ -202,8 +219,11 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                 changeTitleAnimated(nil)
             }
         }
-
-        setShadowVisible(scrolledToY > 9)
+        if FeatureFlag.podcastViewChanges.enabled {
+            setShadowVisible(false)
+        } else {
+            setShadowVisible(scrolledToY > 9)
+        }
     }
 
     func setShadowVisible(_ visible: Bool) {
@@ -217,8 +237,28 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         let fadeTextAnimation = CATransition()
         fadeTextAnimation.duration = Constants.Animation.defaultAnimationTime
         fadeTextAnimation.type = CATransitionType.fade
-        fakeNavTitle.layer.add(fadeTextAnimation, forKey: "fadeText")
 
+        fakeNavTitle.layer.add(fadeTextAnimation, forKey: "fadeText")
+        if FeatureFlag.podcastViewChanges.enabled {
+            fakeNavView.layer.add(fadeTextAnimation, forKey: "fadeText")
+            if newTitle == nil {
+                fakeNavView.backgroundColor = .clear
+                updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
+            } else {
+                fakeNavView.backgroundColor = ThemeColor.primaryUi01()
+                fakeNavTitle.textColor = AppTheme.mainTextColor()
+                updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
+            }
+        }
         fakeNavTitle.text = newTitle
+    }
+
+    private func updateButtonsBackgroundColors(tintColor: UIColor, backgroundColor: UIColor) {
+        backBtn.tintColor = tintColor
+        backBtn.backgroundColor = backgroundColor
+        for button in rightActionButtons {
+            button.tintColor = tintColor
+            button.backgroundColor = backgroundColor
+        }
     }
 }

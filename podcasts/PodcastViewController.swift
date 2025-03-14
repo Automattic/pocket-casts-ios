@@ -89,7 +89,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     @IBOutlet var episodesTableTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet var episodesTable: UITableView! {
+    @IBOutlet var episodesTable: ThemeableTable! {
         didSet {
             registerCells()
             registerLongPress()
@@ -272,7 +272,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         searchController?.podcastDelegate = self
 
         operationQueue.maxConcurrentOperationCount = 1
-        scrollPointToChangeTitle = 38
+        if FeatureFlag.podcastViewChanges.enabled {
+            scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
+            episodesTable.themeStyle = .primaryUi02
+        } else {
+            scrollPointToChangeTitle = 38
+        }
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         addGoogleCastBtn()
         loadPodcastInfo()
@@ -463,14 +468,22 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func updateColors() {
         episodesTable.reloadData()
         if let podcast = podcast {
-            let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
-            updateNavColors(bgColor: ThemeColor.podcastUi03(podcastColor: podcastBgColor), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01())
+            if FeatureFlag.podcastViewChanges.enabled {
+                updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
 
-            multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-            multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-            multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
+                multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: .clear)
+                multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
+                multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
+            } else {
+                let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
+                updateNavColors(bgColor: ThemeColor.podcastUi03(podcastColor: podcastBgColor), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
+
+                multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
+                multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
+                multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
+            }
         } else {
-            updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01())
+            updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
         }
     }
 

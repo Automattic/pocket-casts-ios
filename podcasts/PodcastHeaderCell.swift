@@ -30,6 +30,7 @@ class PodcastHeaderCell: UITableViewCell {
 
     func commonSetup() {
         self.backgroundColor = .clear
+        self.selectionStyle = .none
         let viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration(content: {
