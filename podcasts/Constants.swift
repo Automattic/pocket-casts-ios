@@ -389,6 +389,7 @@ enum PlusUpgradeViewSource: String {
     case promoCode
     case promotionFinished
     case upNextShuffle
+    case generatedTranscripts
     case onboarding
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android

@@ -82,6 +82,18 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
+    private lazy var generatedTranscriptsPremiumOverlay: GeneratedTranscriptsPremiumOverlay = {
+        let item = GeneratedTranscriptsPremiumOverlay()
+        item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.dismissTranscript = { [weak self] in
+            self?.dismissGeneratedTranscriptsPremiumOverlay(dismissTranscript: true)
+        }
+        item.purchaseSuccessfull = { [weak self] in
+            self?.dismissGeneratedTranscriptsPremiumOverlay(dismissTranscript: false)
+        }
+        return item
+    }()
+
     private lazy var upNextViewController = UpNextViewController(source: .player)
     #endif
 
@@ -135,6 +147,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if !APPCLIP
         if nowPlayingItem.displayTranscript {
             transcriptsItem.didDisappear()
+            generatedTranscriptsPremiumOverlay.didDisappear()
         }
         #endif
     }
@@ -324,6 +337,32 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         transcriptsItem.didMove(toParent: self)
         transcriptsItem.willBeAddedToPlayer()
         transcriptsItem.themeDidChange()
+        transcriptsItem.showGeneratedTranscriptsPremiumOverlay = { [weak self] in
+            UIView.animate(withDuration: 0.25) {
+                self?.showGeneratedTranscriptsPremiumOverlay()
+            }
+        }
+    }
+
+    private func showGeneratedTranscriptsPremiumOverlay() {
+        generatedTranscriptsPremiumOverlay.didAppear()
+        addChild(generatedTranscriptsPremiumOverlay)
+        view.addSubview(generatedTranscriptsPremiumOverlay.view)
+        generatedTranscriptsPremiumOverlay.view.anchorToAllSidesOf(view: view)
+        generatedTranscriptsPremiumOverlay.didMove(toParent: self)
+    }
+
+    private func dismissGeneratedTranscriptsPremiumOverlay(dismissTranscript: Bool) {
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.generatedTranscriptsPremiumOverlay.didDisappear()
+            self?.generatedTranscriptsPremiumOverlay.willMove(toParent: nil)
+            self?.generatedTranscriptsPremiumOverlay.removeFromParent()
+            self?.generatedTranscriptsPremiumOverlay.view.removeFromSuperview()
+        } completion: { [weak self] _ in
+            if dismissTranscript {
+                self?.dismissTranscript()
+            }
+        }
     }
 
     func hideTranscript() {

@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsServer
 import PocketCastsUtils
 
 class TranscriptViewController: PlayerItemViewController {
@@ -25,6 +26,13 @@ class TranscriptViewController: PlayerItemViewController {
     private var topGradientHeightConstraint: NSLayoutConstraint?
     private var bannerLabelLeadingConstraint: NSLayoutConstraint?
     private var bannerLabelTrailingConstraint: NSLayoutConstraint?
+
+    private var shouldShowPremiumView: Bool {
+        return FeatureFlag.generatedTranscripts.enabled &&
+        (!SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn())
+    }
+
+    var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -74,6 +82,9 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func addGeneratedTranscriptsObservers() {
+        if shouldShowPremiumView {
+            addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusDidChange))
+        }
         addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(updateGeneratedTranscriptState))
     }
 
@@ -410,20 +421,41 @@ class TranscriptViewController: PlayerItemViewController {
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-                if FeatureFlag.generatedTranscripts.enabled,
-                   transcriptManager.hasGeneratedTranscripts {
+                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
+                let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
+                if hasGeneratedTranscripts {
                     await MainActor.run {
                         self.updateTextMargins()
                         UIView.animate(withDuration: 0.25) {
+                            if self.shouldShowPremiumView {
+                                self.stackView.alpha = 0
+                                self.showGeneratedTranscriptsPremiumOverlay?()
+                            }
                             self.bannerView.isHidden = false
                         }
                     }
                 }
-                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
+            }
+        }
+    }
+
+    @objc private func showUpsellView() {
+        NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+    }
+
+    @objc private func subscriptionStatusDidChange() {
+        if shouldShowPremiumView {
+            return
+        }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if FeatureFlag.generatedTranscripts.enabled,
+               transcriptManager?.hasGeneratedTranscripts == true {
+                self.stackView.alpha = 1.0
             }
         }
     }
