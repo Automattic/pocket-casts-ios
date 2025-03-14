@@ -491,7 +491,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
             }
         } else {
-            updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
+            if FeatureFlag.podcastViewChanges.enabled {
+                updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
+            } else {
+                updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
+            }
         }
     }
 
