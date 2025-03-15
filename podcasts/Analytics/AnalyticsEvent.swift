@@ -788,6 +788,9 @@ enum AnalyticsEvent: String {
     case transcriptSearchShown
     case transcriptSearchNextResult
     case transcriptSearchPreviousResult
+    case transcriptGeneratedPaywallShown
+    case transcriptGeneratedPaywallDismissed
+    case transcriptGeneratedPaywallSubscribeTapped
 
     // MARK: - Widgets
 

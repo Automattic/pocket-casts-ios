@@ -395,13 +395,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
         shelfButtonTapped(.transcript)
 
-        if FeatureFlag.generatedTranscripts.enabled &&
-           transcriptButton.hasGeneratedTranscripts &&
-           (!SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn()) {
-            // Presented paywall
-        } else {
-            displayTranscript = true
-        }
+        displayTranscript = true
         #endif
     }
 

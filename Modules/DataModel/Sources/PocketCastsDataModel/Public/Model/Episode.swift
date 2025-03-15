@@ -216,12 +216,5 @@ public class Episode: NSObject, BaseEpisode {
             public let type: String
             public let language: String?
         }
-
-        public func hasGeneratedTranscripts() -> Bool {
-            guard let pocketCastsTranscripts else {
-                return false
-            }
-            return !pocketCastsTranscripts.isEmpty
-        }
     }
 }

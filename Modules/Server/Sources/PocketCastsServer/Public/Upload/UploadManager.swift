@@ -84,7 +84,7 @@ public class UploadManager: NSObject {
 
     private func performAddToQueue(episode: UserEpisode, previousUploadFailed: Bool, fireNotification: Bool) {
         let mobileDataAllowed = !ServerSettings.userEpisodeOnlyOnWifi()
-        let useCellularSession = mobileDataAllowed && !NetworkUtils.shared.isConnectedToWifi()
+        let useCellularSession = mobileDataAllowed && !NetworkUtils.shared.isConnectedToUnexpensiveConnection()
         let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
 
         resumeUpload(episode: episode, session: sessionToUse, previousUploadFailed: previousUploadFailed, taskId: episode.uploadTaskId)

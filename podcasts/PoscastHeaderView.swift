@@ -10,7 +10,7 @@ struct PodcastHeaderView: View {
     }
 
     @EnvironmentObject var theme: Theme
-    @StateObject var viewModel: PodcastHeaderViewModel
+    @ObservedObject var viewModel: PodcastHeaderViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -98,7 +98,7 @@ struct PodcastHeaderView: View {
         HStack(spacing: 0) {
             Spacer()
             followButton
-            if viewModel.isPodcastSubscribed {
+            if viewModel.podcast.subscribed != 0 {
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }

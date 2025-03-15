@@ -228,7 +228,7 @@ class MultiSelectHelper {
         let confirmPicker = OptionsPicker(title: nil)
         var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-        if NetworkUtils.shared.isConnectedToWifi() {
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             if downloadableCount < 5 {
                 let status = L10n.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
