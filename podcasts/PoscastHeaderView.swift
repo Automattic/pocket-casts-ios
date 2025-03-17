@@ -93,8 +93,8 @@ struct PodcastHeaderView: View {
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
-                .cornerRadius(viewModel.isSubscribed ? 8 : 32)
-                .frame(width: viewModel.isSubscribed ? 32 : nil, height: viewModel.isSubscribed ? 32 : 40)
+                .cornerRadius(viewModel.isSubscribed ? 8 : 32)                
+                .frame(minWidth: viewModel.isSubscribed ? 32 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
                 .background {
                     Image("discover_tick")
                         .resizable()
