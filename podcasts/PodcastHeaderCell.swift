@@ -32,25 +32,26 @@ class PodcastHeaderCell: UITableViewCell {
 
     func commonSetup() {
         self.backgroundColor = .clear
+        self.selectionStyle = .none
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration(content: {
-                PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment()
+                PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
             })
         } else {
             // Fallback on earlier versions
-            configureCellFromSwiftUIView( cell: self, viewController: self.viewController, rootView: {
-                    ContentSizeGeometryReader { proxy in
-                        PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
-                    } contentSizeUpdated: { size in
-                        self.calculatedHeight = size.height
-                        self.setNeedsLayout()
-                        self.viewController.tableView().reloadData()
-                    }
+            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
+                ContentSizeGeometryReader { proxy in
+                    PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
+                } contentSizeUpdated: { size in
+                    self.calculatedHeight = size.height
+                    self.setNeedsLayout()
+                    self.viewController.tableView().reloadData()
+                }
             })
         }
     }
 
-    private func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
+    func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
 
         let swiftUICellViewController = UIHostingController(rootView: rootView())
         swiftUICellViewController.view.backgroundColor = .clear

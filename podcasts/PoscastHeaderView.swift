@@ -4,15 +4,26 @@ import SwiftUI
 
 struct PodcastHeaderView: View {
 
+    enum Constants {
+        static let largeImageSize: CGFloat = 192
+        static let smallImageSize: CGFloat = 108
+    }
+
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastHeaderViewModel
 
     var body: some View {
         VStack(spacing: 0) {
+            if viewModel.isExpanded {
+                Spacer()
+                    .transaction { transaction in
+                        transaction.disablesAnimations = true
+                    }
+            }
             HStack(alignment: .top) {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                    .frame(width: viewModel.isExpanded ? 192 : 108, height: viewModel.isExpanded ? 192 : 108)
+                    .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
                 Spacer()
             }
             if viewModel.isExpanded {
@@ -41,6 +52,7 @@ struct PodcastHeaderView: View {
                 .transition(.collapse)
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
+            Spacer()
             Spacer()
                 .frame(height: 8)
          }
