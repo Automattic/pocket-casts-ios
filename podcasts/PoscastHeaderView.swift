@@ -85,20 +85,34 @@ struct PodcastHeaderView: View {
 
     private var followButton: some View {
         Button() {
-            viewModel.subscribeButtonTapped()
+            withAnimation {
+                viewModel.subscribeButtonTapped()
+            }
         } label: {
-            Text(viewModel.podcast.subscribed != 0 ? L10n.unfollow : L10n.follow)
+            Text(viewModel.podcast.subscribed != 0 ? "" : L10n.follow)
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
-                .cornerRadius(8)
+                .cornerRadius(viewModel.podcast.subscribed == 0 ? 8 : 44)
+                .background {
+                    Image("discover_tick")
+                        .cornerRadius(44)
+                        .frame(width: 44, height: 44)
+                        .background {
+                            RoundedRectangle(cornerRadius: 44)
+                            .inset(by: 0.5)
+                            .stroke(theme.support02, lineWidth: 1)
+                            .background(theme.support02)
+                        }
+                        .opacity(viewModel.podcast.subscribed == 0 ? 0 : 1)
+                }
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: viewModel.podcast.subscribed == 0 ? 8 : 44)
                     .inset(by: 0.5)
                     .stroke(theme.primaryUi05, lineWidth: 1)
                 )
+
         }
-        .frame(width: 150, height: 40)
     }
 
     private var podcastActions: some View {

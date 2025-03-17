@@ -100,7 +100,7 @@ class PodcastHeaderViewModel: ObservableObject {
             delegate.unsubscribe()
         } else {
             delegate.subscribe()
-            isExpanded = false
+            //isExpanded = false
         }
     }
 
