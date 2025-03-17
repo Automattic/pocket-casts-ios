@@ -29,7 +29,7 @@ extension AppDelegate {
             else { return }
 
             //If path is just the base share URL let's return
-            if path.isEmpty, URL(string: ServerConstants.Urls.share())?.host == incomingURL.host {
+            if path.isEmpty || path == "/", URL(string: ServerConstants.Urls.share())?.host == incomingURL.host {
                 return
             }
 
