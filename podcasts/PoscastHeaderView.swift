@@ -117,7 +117,7 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastActions: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 8) {
             Spacer()
             followButton
             if viewModel.podcast.subscribed != 0 {
