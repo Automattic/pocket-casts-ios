@@ -1,3 +1,7 @@
+7.86
+-----
+
+
 7.85
 -----
 - Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
