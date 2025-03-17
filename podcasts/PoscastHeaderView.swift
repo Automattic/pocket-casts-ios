@@ -89,28 +89,29 @@ struct PodcastHeaderView: View {
                 viewModel.subscribeButtonTapped()
             }
         } label: {
-            Text(viewModel.podcast.subscribed != 0 ? "" : L10n.follow)
+            Text(viewModel.isSubscribed ? "" : L10n.follow)
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
-                .cornerRadius(viewModel.podcast.subscribed == 0 ? 8 : 44)
+                .cornerRadius(viewModel.isSubscribed ? 8 : 32)
+                .frame(width: viewModel.isSubscribed ? 32 : nil, height: viewModel.isSubscribed ? 32 : 40)
                 .background {
                     Image("discover_tick")
-                        .cornerRadius(44)
-                        .frame(width: 44, height: 44)
-                        .background {
-                            RoundedRectangle(cornerRadius: 44)
-                            .inset(by: 0.5)
-                            .stroke(theme.support02, lineWidth: 1)
-                            .background(theme.support02)
-                        }
-                        .opacity(viewModel.podcast.subscribed == 0 ? 0 : 1)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .background(theme.support02)
+                        .tint(theme.primaryUi01)
+                        .frame(width: 24, height: 24)
+                        .clipShape(Circle())
+                        .opacity(viewModel.isSubscribed ? 1 : 0)
                 }
                 .overlay(
-                    RoundedRectangle(cornerRadius: viewModel.podcast.subscribed == 0 ? 8 : 44)
+                    RoundedRectangle(cornerRadius: viewModel.isSubscribed ? 32 : 8)
                     .inset(by: 0.5)
                     .stroke(theme.primaryUi05, lineWidth: 1)
+                    .opacity(viewModel.isSubscribed ? 0 : 1)
                 )
+                .clipped()
 
         }
     }
