@@ -47,6 +47,7 @@ struct PodcastHeaderView: View {
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
             Spacer()
+            Spacer()
                 .frame(height: 8)
          }
     }
