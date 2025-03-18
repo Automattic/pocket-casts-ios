@@ -2,6 +2,23 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+struct PodcastBlurHeaderView: View {
+
+    let podcastUUID: String
+
+    var body: some View {
+        GeometryReader { proxy in
+            HStack {
+                Spacer()
+                PodcastImageViewWrapper(podcastUUID: podcastUUID, size: .grid)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                .blur(radius: 120)
+                Spacer()
+            }
+        }
+    }
+}
+
 struct PodcastHeaderView: View {
 
     enum Constants {
@@ -20,20 +37,11 @@ struct PodcastHeaderView: View {
                         transaction.disablesAnimations = true
                     }
             }
-            ZStack {
-                HStack(alignment: .top) {
-                    Spacer()
-                    PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                        .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
-                    Spacer()
-                }.background {
-                    GeometryReader { proxy in
-                        PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
-                            .frame(width: proxy.size.width * 1.2, height: proxy.size.width * 1.2)
-                            .offset(x: -proxy.size.width * 0.1, y: -(proxy.size.width))
-                        .blur(radius: 120)
-                    }
-                }
+            HStack(alignment: .top) {
+                Spacer()
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
+                    .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
+                Spacer()
             }
             if viewModel.isExpanded {
                 VStack(spacing: 0) {

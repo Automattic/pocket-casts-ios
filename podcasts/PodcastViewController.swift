@@ -268,6 +268,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         operationQueue.cancelAllOperations()
     }
 
+    lazy var blurHeaderView: UIView = {
+        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = .clear
+        return headerView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -289,6 +296,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if FeatureFlag.podcastViewChanges.enabled {
             scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
             episodesTable.themeStyle = .primaryUi02
+            episodesTable.addSubview(blurHeaderView)
+            episodesTable.sendSubviewToBack(blurHeaderView)
+            NSLayoutConstraint.activate([
+                self.blurHeaderView.bottomAnchor.constraint(equalTo: self.episodesTable.topAnchor, constant: 150),
+                self.blurHeaderView.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: 40),
+                self.blurHeaderView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: -20),
+                self.blurHeaderView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 20),
+            ])
         } else {
             scrollPointToChangeTitle = 38
         }
@@ -452,6 +467,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
+        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -481,6 +497,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func updateColors() {
         episodesTable.reloadData()
+        episodesTable.layoutIfNeeded()
         if let podcast = podcast {
             if FeatureFlag.podcastViewChanges.enabled {
                 updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
@@ -505,6 +522,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
             }
         }
+        // This is being done here because after a relayout of table data we need to send the header back
+        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override func handleThemeChanged() {
