@@ -268,13 +268,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         operationQueue.cancelAllOperations()
     }
 
-    lazy var blurHeaderView: UIView = {
-        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = .clear
-        return headerView
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -298,12 +291,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
             episodesTable.sendSubviewToBack(blurHeaderView)
+            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize)
             NSLayoutConstraint.activate([
-                self.blurHeaderView.bottomAnchor.constraint(equalTo: self.episodesTable.topAnchor, constant: 150),
-                self.blurHeaderView.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: 40),
-                self.blurHeaderView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: -20),
-                self.blurHeaderView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 20),
+                blurHeaderPositionConstraint,
+                blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
+                blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
+                blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             ])
+            self.blurHeaderPositionConstraint = blurHeaderPositionConstraint
         } else {
             scrollPointToChangeTitle = 38
         }
@@ -380,6 +375,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         updateColors()
     }
+
+    lazy var blurHeaderView: UIView = {
+        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = .clear
+        return headerView
+    }()
+
+    var blurHeaderPositionConstraint: NSLayoutConstraint?
 
     lazy var podcastHeadingCell: PodcastHeadingTableCell = {
          let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
@@ -763,6 +767,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
+        blurHeaderPositionConstraint?.constant = expanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize
     }
 
     func isDescriptionExpanded() -> Bool {
