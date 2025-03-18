@@ -120,7 +120,7 @@ struct PodcastHeaderView: View {
         HStack(spacing: 8) {
             Spacer()
             followButton
-            if viewModel.podcast.subscribed != 0 {
+            if viewModel.isSubscribed {
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
