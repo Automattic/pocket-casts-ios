@@ -85,27 +85,42 @@ struct PodcastHeaderView: View {
 
     private var followButton: some View {
         Button() {
-            viewModel.subscribeButtonTapped()
+            withAnimation {
+                viewModel.subscribeButtonTapped()
+            }
         } label: {
-            Text(viewModel.podcast.subscribed != 0 ? L10n.unfollow : L10n.follow)
+            Text(viewModel.isSubscribed ? "" : L10n.follow)
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
-                .cornerRadius(8)
+                .cornerRadius(viewModel.isSubscribed ? 8 : 32)
+                .frame(minWidth: viewModel.isSubscribed ? 32 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
+                .background {
+                    Image("discover_tick")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .background(theme.support02)
+                        .tint(theme.primaryUi01)
+                        .frame(width: 24, height: 24)
+                        .clipShape(Circle())
+                        .opacity(viewModel.isSubscribed ? 1 : 0)
+                }
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: viewModel.isSubscribed ? 32 : 8)
                     .inset(by: 0.5)
                     .stroke(theme.primaryUi05, lineWidth: 1)
+                    .opacity(viewModel.isSubscribed ? 0 : 1)
                 )
+                .clipped()
+
         }
-        .frame(width: 150, height: 40)
     }
 
     private var podcastActions: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 8) {
             Spacer()
             followButton
-            if viewModel.podcast.subscribed != 0 {
+            if viewModel.isSubscribed {
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
