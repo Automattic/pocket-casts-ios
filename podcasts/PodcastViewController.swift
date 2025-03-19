@@ -500,7 +500,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    private func reloadData() {
+    func reloadData() {
         episodesTable.reloadData()
         if FeatureFlag.podcastViewChanges.enabled {
             episodesTable.layoutIfNeeded()
