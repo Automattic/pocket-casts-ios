@@ -173,6 +173,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>大膽作夢</string>
     <key>app_badge</key>
     <string>應用程式徽章</string>
+    <key>app_clip_placholder_message</key>
+    <string>內容可能移除，或連結損壞。
+但 Pocket Casts 還有更多內容。
+下載應用程式，享受完整體驗！</string>
+    <key>app_clip_placholder_title</key>
+    <string>抱歉，找不到該單集</string>
     <key>app_icon_classic</key>
     <string>經典</string>
     <key>app_icon_dark</key>
@@ -1474,6 +1480,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無</string>
     <key>not_on_wifi</key>
     <string>你並未連上 WiFi</string>
+    <key>notifications_off</key>
+    <string>關閉通知</string>
+    <key>notifications_on</key>
+    <string>開啟通知</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>now_playing</key>
@@ -2953,12 +2963,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>每 %2$@ %1$@ 元</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>建立自訂資料夾</string>
-    <key>suggested_folders_description</key>
-    <string>我們已為你整理 Podcast。 你可直接儲存，或視需求自訂資料夾。</string>
-    <key>suggested_folders_title</key>
-    <string>建議資料夾</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>使用這些資料夾</string>
     <key>support_watch_help_message</key>
