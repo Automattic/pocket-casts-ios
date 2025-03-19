@@ -441,6 +441,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
+        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -499,9 +500,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    private func updateColors() {
+    private func reloadData() {
         episodesTable.reloadData()
-        episodesTable.layoutIfNeeded()
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.layoutIfNeeded()
+            // This is being done here because after a relayout of table data we need to send the header back
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
+    }
+
+    private func updateColors() {
+        reloadData()
         if let podcast = podcast {
             if FeatureFlag.podcastViewChanges.enabled {
                 updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
@@ -526,8 +535,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
             }
         }
-        // This is being done here because after a relayout of table data we need to send the header back
-        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override func handleThemeChanged() {
@@ -559,7 +566,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     @objc private func upNextChanged() {
-        episodesTable.reloadData()
+        reloadData()
     }
 
     @objc private func shareTapped(_ sender: UIButton) {
@@ -669,11 +676,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                     }
                 } catch {
                     self.episodeInfo = finalData
-                    self.episodesTable.reloadData()
+                    reloadData()
                 }
             } else {
                 self.episodeInfo = finalData
-                self.episodesTable.reloadData()
+                reloadData()
             }
             self.searchController?.episodesDidReload()
             if self.isMultiSelectEnabled {
