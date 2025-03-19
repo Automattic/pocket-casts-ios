@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 import Intents
 import JLRoutes
 import PocketCastsDataModel
@@ -26,6 +27,11 @@ extension AppDelegate {
                 path != "/get",
                 path != "/get/"
             else { return }
+
+            //If path is just the base share URL let's return
+            if path.isEmpty || path == "/", URL(string: ServerConstants.Urls.share())?.host == incomingURL.host {
+                return
+            }
 
             if path.startsWith(string: "/redeem") {
                 handleReferralsDeepLink(url: incomingURL)
