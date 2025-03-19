@@ -23,6 +23,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		002197B3AE1C5F0C18A2EAD3 /* Pods_podcasts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B6E7EFAA361E7EA09CA75 /* Pods_podcasts.framework */; };
 		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */; };
 		102141132C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102141122C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift */; };
@@ -65,7 +66,6 @@
 		10DFE9362C5A8D1300957D0A /* ABTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9322C5A8D1300957D0A /* ABTest.swift */; };
 		10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
 		10DFE9382C5A8D1300957D0A /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
-		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
 		2F9099112A4F88B10044FC55 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */; };
@@ -675,6 +675,10 @@
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
+		9A2F930D2D8B0BB60026332A /* SleepTimerLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F930C2D8B0BB60026332A /* SleepTimerLiveActivity.swift */; };
+		9A2F93572D8C2B480026332A /* SleepTimerLiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F93562D8C2B430026332A /* SleepTimerLiveActivityManager.swift */; };
+		9A2F935B2D8C2C870026332A /* SleepTimerLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F93592D8C2C840026332A /* SleepTimerLiveActivityAttributes.swift */; };
+		9A2F935C2D8C2CB00026332A /* SleepTimerLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F93592D8C2C840026332A /* SleepTimerLiveActivityAttributes.swift */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
 		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
@@ -2700,7 +2704,6 @@
 		54ED78EC09BAADC1F8473C61 /* Pods-Pocket Casts App ClipUITests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.prototype.xcconfig"; sourceTree = "<group>"; };
 		56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pocket Casts App ClipUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		678072719F4DCDAD9B2ABD20 /* Pods-Pocket Casts App ClipTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-podcasts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7289AC5C473501D96592DF73 /* Pods-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
@@ -2877,6 +2880,9 @@
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
+		9A2F930C2D8B0BB60026332A /* SleepTimerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerLiveActivity.swift; sourceTree = "<group>"; };
+		9A2F93562D8C2B430026332A /* SleepTimerLiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerLiveActivityManager.swift; sourceTree = "<group>"; };
+		9A2F93592D8C2C840026332A /* SleepTimerLiveActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerLiveActivityAttributes.swift; sourceTree = "<group>"; };
 		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
 		9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProviderTests.swift; sourceTree = "<group>"; };
 		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
@@ -2888,6 +2894,7 @@
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
 		AA688FF113B87D7B363799D5 /* Pods-Pocket Casts App ClipTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.staging.xcconfig"; sourceTree = "<group>"; };
+		BB4B6E7EFAA361E7EA09CA75 /* Pods_podcasts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_podcasts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -4139,7 +4146,7 @@
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */,
-				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
+				002197B3AE1C5F0C18A2EAD3 /* Pods_podcasts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4574,6 +4581,7 @@
 				BD422EC226840ECB0078B799 /* Data */,
 				BD422EBB26840D9B0078B799 /* Up Next */,
 				BD422EBA26840D960078B799 /* Now Playing */,
+				9A2F930B2D8B0B7B0026332A /* SleepTimerLive */,
 				8B71828B28CF68D300B98F04 /* App Icon */,
 				4090979F25236BFD00CED68C /* WidgetExtension.entitlements */,
 				4090978525236B0400CED68C /* PocketCastsWidgetBundle.swift */,
@@ -5351,6 +5359,14 @@
 				9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */,
 			);
 			path = "Plans View";
+			sourceTree = "<group>";
+		};
+		9A2F930B2D8B0B7B0026332A /* SleepTimerLive */ = {
+			isa = PBXGroup;
+			children = (
+				9A2F930C2D8B0BB60026332A /* SleepTimerLiveActivity.swift */,
+			);
+			path = SleepTimerLive;
 			sourceTree = "<group>";
 		};
 		9A509DDE2D14604600E8CEB1 /* Offer View */ = {
@@ -6739,9 +6755,9 @@
 				403B5B1A21813FFA00821A54 /* IntentsUI.framework */,
 				4090974F25235DFA00CED68C /* WidgetKit.framework */,
 				C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */,
-				6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */,
 				E5D4DB350D74CF5E69EFC734 /* libPods-Pocket Casts App ClipTests.a */,
 				56D9A014C40B4DD6451C1232 /* libPods-Pocket Casts App ClipUITests.a */,
+				BB4B6E7EFAA361E7EA09CA75 /* Pods_podcasts.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7136,6 +7152,8 @@
 			isa = PBXGroup;
 			children = (
 				4022A4BE236BA15800900734 /* SleepTimerViewController.swift */,
+				9A2F93562D8C2B430026332A /* SleepTimerLiveActivityManager.swift */,
+				9A2F93592D8C2C840026332A /* SleepTimerLiveActivityAttributes.swift */,
 				4022A4BF236BA15800900734 /* SleepTimerViewController.xib */,
 			);
 			name = "Sleep Timer";
@@ -9727,10 +9745,12 @@
 				4036B06725240C2800AE08E6 /* NowPlayingWidget.swift in Sources */,
 				BD422ED426841C340078B799 /* UpNextStyles.swift in Sources */,
 				8B71828D28CF68E800B98F04 /* AppIconWidget.swift in Sources */,
+				9A2F930D2D8B0BB60026332A /* SleepTimerLiveActivity.swift in Sources */,
 				BD422EC6268415830078B799 /* UpNextProvider.swift in Sources */,
 				BD422ECC268419820078B799 /* UpNextMediumWidgetView.swift in Sources */,
 				4036B05A25240C2200AE08E6 /* UpNextWidget.swift in Sources */,
 				BD422EC126840E140078B799 /* NowPlayingEntryView.swift in Sources */,
+				9A2F935C2D8C2CB00026332A /* SleepTimerLiveActivityAttributes.swift in Sources */,
 				4520AC292C1B7CE70043E701 /* PCWidgetColorScheme.swift in Sources */,
 				8BC060092AB1FA0D00A4FEC6 /* PlayEpisodeIntent.swift in Sources */,
 				4036B04C25240C1B00AE08E6 /* CommonWidgetHelper.swift in Sources */,
@@ -10241,6 +10261,7 @@
 				BDD62979200ECCBB00168DF7 /* EpisodeDetailViewController+ShowNotes.swift in Sources */,
 				BDD832AF214B8A8B0013D692 /* PCGoogleCastButton.swift in Sources */,
 				8B3295402A5333C900BDFA11 /* WhatsNew.swift in Sources */,
+				9A2F93572D8C2B480026332A /* SleepTimerLiveActivityManager.swift in Sources */,
 				4573899A285BBAD500D4FE6C /* ColorSelectRow.swift in Sources */,
 				C7318EA82A622AD000EAFA9C /* BookmarkEditTitleViewController.swift in Sources */,
 				BD1C46D927B9DD8C00B1D8BB /* FolderGridCell.swift in Sources */,
@@ -10331,6 +10352,7 @@
 				FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
+				9A2F935B2D8C2C870026332A /* SleepTimerLiveActivityAttributes.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
 				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
@@ -11494,6 +11516,8 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11684,6 +11708,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = NO;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12017,6 +12043,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = NO;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12057,6 +12085,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = NO;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12097,6 +12127,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = NO;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12592,6 +12624,8 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12879,6 +12913,8 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12905,6 +12941,8 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -252,6 +252,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             self.updateIdleTimer()
 
             self.sleepTimerManager.restartSleepTimerIfNeeded()
+
+#if !os(watchOS) && !APPCLIP
+        if #available(iOS 16.2, *) {
+            if self.sleepTimeRemaining > 0 {
+                SleepTimerLiveActivityManager.shared.startActivity(currentTime: self.sleepTimeRemaining)
+            }
+        }
+#endif
         })
     }
 
@@ -1464,6 +1472,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         checkForChapterChange()
         fireProgressNotification()
 
+#if !os(watchOS) && !APPCLIP
+        if #available(iOS 16.2, *) {
+            SleepTimerLiveActivityManager.shared.updateActivity(currentTime: sleepTimeRemaining)
+        }
+#endif
+
         if updateCount > updatesPerSave {
             recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
             updateCount = 0
@@ -1586,6 +1600,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Sleep Timer
 
     func cancelSleepTimer(userInitiated: Bool = false) {
+#if !os(watchOS) && !APPCLIP
+        if #available(iOS 16.2, *) {
+            SleepTimerLiveActivityManager.shared.endActivity(currentTime: sleepTimeRemaining)
+        }
+#endif
         sleepTimerManager.cancelSleepTimer(userInitiated: userInitiated)
         sleepTimeRemaining = -1
         numberOfEpisodesToSleepAfter = 0
