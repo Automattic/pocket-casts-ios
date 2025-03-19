@@ -52,7 +52,8 @@ extension DiscoverViewController: DiscoverDelegate {
             collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptive_list : CollectionCellStyle.grid
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
-            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: item.source)
+            let source = replaceRegionCode(string: item.source ?? "")
+            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source)
             listView.title = replaceRegionName(string: item.title?.localized ?? "")
             listView.showFeaturedCell = item.expandedStyle == "ranked_list"
             listView.showRankingNumber = item.expandedStyle == "ranked_list"
