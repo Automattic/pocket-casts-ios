@@ -651,7 +651,7 @@ platform :ios do
     UI.important('Remember not to commit the modified project file! The change is only meant to allow building for Enterprise where App Clips are not supported.')
 
     build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', '0')
-    pr_or_branch = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
+    pr_or_branch = pull_request_number&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
 
     build_app(
       scheme: SCHEME_ENTERPRISE,
@@ -678,7 +678,7 @@ platform :ios do
     require_env_vars!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY')
 
     release_notes = <<~NOTES
-      Pull Request: ##{ENV.fetch('BUILDKITE_PULL_REQUEST', 'N/A')}
+      Pull Request: ##{pull_request_number || 'N/A'}
       Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'N/A')}`
       Commit: #{ENV.fetch('BUILDKITE_COMMIT', 'N/A')[0...7]}
     NOTES
@@ -691,7 +691,7 @@ platform :ios do
       groups: FIREBASE_TESTERS_GROUP
     )
 
-    next if ENV.fetch('BUILDKITE_PULL_REQUEST', 'false') == 'false'
+    next if pull_request_number.nil?
 
     # Post PR Comment
     comment_body = prototype_build_details_comment(
@@ -700,7 +700,7 @@ platform :ios do
     )
     comment_on_pr(
       project: GITHUB_REPO,
-      pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
+      pr_number: pull_request_number,
       reuse_identifier: 'prototype-build-link',
       body: comment_body
     )
@@ -1294,6 +1294,12 @@ platform :ios do
     UI.user_error!("Release branch for version #{version} doesn't exist. Abort.") unless success
 
     UI.message "Checked out branch `#{git_branch}` as requested by user.\n"
+  end
+
+  def pull_request_number
+    # Buildkite sets this env var to the PR number if on a PR, but to 'false' (and not nil) if not on a PR
+    pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', 'false')
+    pr_num == 'false' ? nil : Integer(pr_num)
   end
 
   # Create a commit with the typical message to use for a version bump
