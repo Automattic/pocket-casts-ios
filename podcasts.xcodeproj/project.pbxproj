@@ -675,6 +675,7 @@
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
+		9A2F93122D8B3F510026332A /* GoogleCast in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2F93112D8B3F510026332A /* GoogleCast */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
 		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
@@ -4126,6 +4127,7 @@
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
+				9A2F93122D8B3F510026332A /* GoogleCast in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
@@ -8525,7 +8527,6 @@
 				45ECEF7727E910E300C65030 /* Sources */,
 				45ECEF7827E910E300C65030 /* Frameworks */,
 				45ECEF7927E910E300C65030 /* Resources */,
-				E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */,
 				8BF0BBD5289199D2006BBECF /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -8614,7 +8615,6 @@
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				9AB645172D51388400A842C8 /* Embed App Clips */,
-				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 			);
 			buildRules = (
@@ -8650,6 +8650,7 @@
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
 				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
+				9A2F93112D8B3F510026332A /* GoogleCast */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -8837,6 +8838,7 @@
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
+				9A2F93102D8B3F510026332A /* XCRemoteSwiftPackageReference "google-cast" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -9602,23 +9604,6 @@
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
 		};
-		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -9635,23 +9620,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -13463,6 +13431,14 @@
 				minimumVersion = 5.6.12;
 			};
 		};
+		9A2F93102D8B3F510026332A /* XCRemoteSwiftPackageReference "google-cast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/google-cast";
+			requirement = {
+				branch = "add-spm";
+				kind = branch;
+			};
+		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -13599,6 +13575,11 @@
 		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsDataModel;
+		};
+		9A2F93112D8B3F510026332A /* GoogleCast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2F93102D8B3F510026332A /* XCRemoteSwiftPackageReference "google-cast" */;
+			productName = GoogleCast;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;

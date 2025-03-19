@@ -92,6 +92,15 @@
         }
       },
       {
+        "package": "GoogleCast",
+        "repositoryURL": "https://github.com/Automattic/google-cast",
+        "state": {
+          "branch": "add-spm",
+          "revision": "2b4ab90d4ad580d9dc77066553812e4ae4700970",
+          "version": null
+        }
+      },
+      {
         "package": "GoogleAppMeasurement",
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
