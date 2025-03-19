@@ -26,9 +26,21 @@ class RichExpandableLabel: WKWebView {
         }
     }
 
+    init() {
+        super.init(frame: CGRect(x: 0, y: 0, width: 300, height: 300), configuration: WKWebViewConfiguration())
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+        commonInit()
+    }
 
+    private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
         self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
         heightConstraint.priority = .defaultLow

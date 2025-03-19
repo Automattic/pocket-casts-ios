@@ -121,4 +121,8 @@ class PodcastHeaderViewModel: ObservableObject {
         Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
         isExpanded.toggle()
     }
+
+    var htmlDescription: String {
+        return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
 }

@@ -29,6 +29,8 @@ struct PodcastHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastHeaderViewModel
 
+    @State private var contentHeight: CGFloat = 0
+
     var body: some View {
         VStack(spacing: 0) {
             if viewModel.isExpanded {
@@ -60,9 +62,10 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
+            PodcastHeaderDescriptionView(htmlDescription: "Sergio", delegate: nil, contentHeight: $contentHeight)
+                .frame(height: contentHeight)
             if viewModel.isExpanded {
                 VStack {
-                    podcastDescription
                     podcastDetails
                     Spacer().frame(height: 24)
                 }
@@ -167,11 +170,13 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastDescription: some View {
-        HStack {
-            Text(viewModel.podcast.podcastDescription ?? "")
-                .font(.body)
-                .foregroundStyle(theme.primaryText01)
-                .fixedSize(horizontal: false, vertical: true)
+        VStack {
+            PodcastHeaderDescriptionView(htmlDescription: viewModel.podcast.podcastHTMLDescription ?? viewModel.podcast.podcastDescription ?? "", delegate: nil, contentHeight: $contentHeight)
+                .frame(height: contentHeight)
+//            Text(viewModel.podcast.podcastDescription ?? "")
+//                .font(.body)
+//                .foregroundStyle(theme.primaryText01)
+//                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
