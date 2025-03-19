@@ -2,6 +2,23 @@ import Foundation
 import PocketCastsDataModel
 import SwiftUI
 
+struct PodcastBlurHeaderView: View {
+
+    let podcastUUID: String
+
+    var body: some View {
+        GeometryReader { proxy in
+            HStack {
+                Spacer()
+                PodcastImageViewWrapper(podcastUUID: podcastUUID, size: .grid)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                .blur(radius: 120)
+                Spacer()
+            }
+        }
+    }
+}
+
 struct PodcastHeaderView: View {
 
     enum Constants {
