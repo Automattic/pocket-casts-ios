@@ -475,7 +475,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        UIStatusBarStyle.lightContent
+        AppTheme.defaultStatusBarStyle()
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
