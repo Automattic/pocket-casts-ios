@@ -24,6 +24,7 @@ struct ComposeFilter: TranscriptFilter {
 
     static let htmlFilter = ComposeFilter(filters: [
         RegexFilter.breakLineFilter,
+        RegexFilter.htmlParagraphFilter,
         HTMLEntititiesFilter(),
         RegexFilter.vttTagsFilter,
         RegexFilter.soundDescriptorFilter,
@@ -80,6 +81,8 @@ extension RegexFilter {
     static let doubleOrMoreSpacesFilter = RegexFilter(pattern: "[ ]+", replacement: " ")
     // Double or more lines
     static let doubleOrMoreEmptyLinesFilter = RegexFilter(pattern: "[\\n]+", replacement: "\n")
+    // </p> filter
+    static let htmlParagraphFilter = RegexFilter(pattern: "</p>", replacement: "\n")
 }
 
 struct SuffixFilter: TranscriptFilter {

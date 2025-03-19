@@ -2956,12 +2956,6 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>Crear carpetes personalitzades</string>
-    <key>suggested_folders_description</key>
-    <string>Hem organitzat els pòdcasts per a tu. Desa-les o personalitza-les per adaptar-les al teu estil.</string>
-    <key>suggested_folders_title</key>
-    <string>Carpetes suggerides</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utilitza aquestes carpetes</string>
     <key>support_watch_help_message</key>
