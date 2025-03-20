@@ -15,6 +15,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         self.podcast = podcast
         self.delegate = delegate
         self.isSubscribed = podcast.isSubscribed()
+        _isExpanded =  Published(initialValue: delegate?.isSummaryExpanded() ?? false)
         super.init()
         addObservers()
     }

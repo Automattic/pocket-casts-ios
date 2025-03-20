@@ -291,7 +291,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
             episodesTable.sendSubviewToBack(blurHeaderView)
-            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize)
+            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize)
             NSLayoutConstraint.activate([
                 blurHeaderPositionConstraint,
                 blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
