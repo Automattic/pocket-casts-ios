@@ -5,14 +5,12 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     @State var htmlDescription: String
     weak var delegate: ExpandableLabelDelegate?
     var heightChanged: (CGFloat) -> ()
-    //@Binding var contentHeight: CGFloat
 
     static var cache: [String: RichExpandableLabel] = [:]
 
     init(htmlDescription: String, delegate: ExpandableLabelDelegate?, heightChanged: @escaping (CGFloat) -> ()) {
         _htmlDescription = .init(initialValue: htmlDescription)
         self.delegate = delegate
-//        _contentHeight = contentHeight
         self.heightChanged = heightChanged
     }
 
@@ -47,8 +45,7 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     class Coordinator: NSObject {
 
         func heightChanged(newHeight: CGFloat) {
-            DispatchQueue.main.async { [weak self] in
-                //self?.parent.contentHeight = newHeight
+            DispatchQueue.main.async { [weak self] in                
                 self?.parent.heightChanged(newHeight)
             }
         }
