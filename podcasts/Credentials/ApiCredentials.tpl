@@ -38,4 +38,8 @@ struct ApiCredentials {
     /// Instagram App ID
     ///
     static let instagramAppID = "%{instagram_app_id}"
+
+    /// AppsFlyer Dev Key
+    ///
+    static let appsFlyerDevKey = "%{appsflyer_dev_key}"
 }

@@ -173,6 +173,12 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Große Träume</string>
     <key>app_badge</key>
     <string>App-Badge</string>
+    <key>app_clip_placholder_message</key>
+    <string>Möglicherweise wurde der Inhalt entfernt oder der Link ist fehlerhaft.
+Aber Pocket Casts hat noch mehr zu bieten.
+Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
+    <key>app_clip_placholder_title</key>
+    <string>Wir konnten diese Folge leider nicht finden</string>
     <key>app_icon_classic</key>
     <string>Klassisch</string>
     <key>app_icon_dark</key>
@@ -1472,6 +1478,10 @@ Podcasts mit</string>
     <string>Nichts</string>
     <key>not_on_wifi</key>
     <string>Du hast keine WLAN-Verbindung</string>
+    <key>notifications_off</key>
+    <string>Benachrichtigungen aus</string>
+    <key>notifications_on</key>
+    <string>Benachrichtigungen an</string>
     <key>notifications_play_now</key>
     <string>Jetzt abspielen</string>
     <key>now_playing</key>
@@ -2951,12 +2961,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>%1$@ für %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>Individuelle Ordner erstellen</string>
-    <key>suggested_folders_description</key>
-    <string>Wir haben deine Podcasts für dich organisiert. Speichere sie oder passe sie nach Belieben an.</string>
-    <key>suggested_folders_title</key>
-    <string>Vorgeschlagene Ordner</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Diese Ordner verwenden</string>
     <key>support_watch_help_message</key>

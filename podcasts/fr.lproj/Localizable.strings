@@ -173,6 +173,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Faites de grands rêves</string>
     <key>app_badge</key>
     <string>Badge de l’application</string>
+    <key>app_clip_placholder_message</key>
+    <string>Il a peut-être été supprimé ou le lien est cassé.
+Mais Pocket Casts en propose bien d’autres.
+Téléchargez l’application pour vivre pleinement l’expérience !</string>
+    <key>app_clip_placholder_title</key>
+    <string>Toutes nos excuses, impossible de trouver cet épisode</string>
     <key>app_icon_classic</key>
     <string>Classique</string>
     <key>app_icon_dark</key>
@@ -1474,6 +1480,10 @@ podcasts partout avec</string>
     <string>Aucun</string>
     <key>not_on_wifi</key>
     <string>Vous n’êtes pas connecté au WiFi</string>
+    <key>notifications_off</key>
+    <string>Notifications désactivées</string>
+    <key>notifications_on</key>
+    <string>Notifications activées</string>
     <key>notifications_play_now</key>
     <string>Lire maintenant</string>
     <key>now_playing</key>
@@ -2953,12 +2963,6 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>%1$@ par %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci pour votre soutien !</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>Créer des dossiers personnalisés</string>
-    <key>suggested_folders_description</key>
-    <string>Nous avons organisé vos podcasts pour vous. Enregistrez-les ou personnalisez-les pour les faire correspondre à votre style.</string>
-    <key>suggested_folders_title</key>
-    <string>Dossiers suggérés</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utiliser ces dossiers</string>
     <key>support_watch_help_message</key>

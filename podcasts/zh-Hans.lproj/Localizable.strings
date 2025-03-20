@@ -173,6 +173,12 @@
     <string>怀揣远大梦想</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
+    <key>app_clip_placholder_message</key>
+    <string>它可能已被移除，或者链接已失效。
+但 Pocket Casts 还有更多功能。
+下载应用程序，获取完整体验！</string>
+    <key>app_clip_placholder_title</key>
+    <string>很抱歉，我们找不到该剧集</string>
     <key>app_icon_classic</key>
     <string>Classic</string>
     <key>app_icon_dark</key>
@@ -1474,6 +1480,10 @@
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
+    <key>notifications_off</key>
+    <string>通知关闭</string>
+    <key>notifications_on</key>
+    <string>通知开启</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>now_playing</key>
@@ -2953,12 +2963,6 @@
     <string>%1$@ 每 %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>创建自定义文件夹</string>
-    <key>suggested_folders_description</key>
-    <string>我们已为您整理播客。 保存或按照您的风格对其进行自定义。</string>
-    <key>suggested_folders_title</key>
-    <string>建议的文件夹</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>使用这些文件夹</string>
     <key>support_watch_help_message</key>
