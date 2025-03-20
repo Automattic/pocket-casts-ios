@@ -14,17 +14,14 @@ class PodcastHeaderCell: UITableViewCell {
 
     let podcast: Podcast
     let viewController: PodcastViewController
-
+    let viewModel: PodcastHeaderViewModel
     init(podcast: Podcast, vc: PodcastViewController) {
         self.podcast = podcast
         self.viewController = vc
+        self.viewModel = PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
         super.init(style: .default, reuseIdentifier: "PodcastHeaderCell")
         commonSetup()
     }
-
-    lazy var viewModel: PodcastHeaderViewModel = {
-        PodcastHeaderViewModel(podcast: podcast, delegate: self.viewController)
-    }()
 
     var calculatedHeight: CGFloat?
 
