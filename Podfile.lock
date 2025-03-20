@@ -1,13 +1,8 @@
 PODS:
-  - PulseCore (4.2.4)
-  - PulseUI (4.2.4):
-    - PulseCore (~> 4.2)
   - SwiftGen (6.5.1)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
-  - PulseCore (from `https://github.com/kean/Pulse.git`, tag `4.2.4`)
-  - PulseUI (from `https://github.com/kean/Pulse.git`, tag `4.2.4`)
   - SwiftGen (~> 6.0)
   - SwiftLint (= 0.54.0)
 
@@ -16,28 +11,10 @@ SPEC REPOS:
     - SwiftGen
     - SwiftLint
 
-EXTERNAL SOURCES:
-  PulseCore:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-  PulseUI:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-
-CHECKOUT OPTIONS:
-  PulseCore:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-  PulseUI:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-
 SPEC CHECKSUMS:
-  PulseCore: a40e40555e355948829a4d3b5f997578098a49c4
-  PulseUI: f7464009d4fca0c88de41f6153d7aef4ae0a906a
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: ff0fbf5248c3dc7c6d05343e76e51d848d3406f4
+PODFILE CHECKSUM: 1fa0629889dae842b920471fd4b19dd1de33f716
 
 COCOAPODS: 1.15.2

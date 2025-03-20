@@ -1985,7 +1985,7 @@
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF89C0962D807B4000BC5104 /* PodcastHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */; };
 		FF89C0982D81A2D000BC5104 /* PodcastHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */; };
-		FF89C09A2D81A31D00BC5104 /* PoscastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0992D81A31700BC5104 /* PoscastHeaderView.swift */; };
+		FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
@@ -4013,7 +4013,7 @@
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
 		FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderCell.swift; sourceTree = "<group>"; };
 		FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderModel.swift; sourceTree = "<group>"; };
-		FF89C0992D81A31700BC5104 /* PoscastHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoscastHeaderView.swift; sourceTree = "<group>"; };
+		FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderView.swift; sourceTree = "<group>"; };
 		FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Sizes.swift"; sourceTree = "<group>"; };
 		FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeRoundedSegmentedControl.swift; sourceTree = "<group>"; };
 		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
@@ -6229,7 +6229,7 @@
 			isa = PBXGroup;
 			children = (
 				FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */,
-				FF89C0992D81A31700BC5104 /* PoscastHeaderView.swift */,
+				FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */,
 				FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */,
 				409C793522387C0500386495 /* AllArchivedCell.swift */,
 				409C793622387C0500386495 /* AllArchivedCell.xib */,
@@ -10249,7 +10249,7 @@
 				8BBE19F22BEA98C9009E944B /* ShowInfoCoordinator.swift in Sources */,
 				BDB1E4FE1B8C5C2B009AD30F /* CategorySummaryViewController.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
-				FF89C09A2D81A31D00BC5104 /* PoscastHeaderView.swift in Sources */,
+				FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */,
 				F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */,
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
 				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,

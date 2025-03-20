@@ -76,9 +76,12 @@ class TranscriptViewController: PlayerItemViewController {
             transcriptViewTopConstraint?.constant = 80.0
             topGradientTopConstraint?.constant = 100.0
             topGradientHeightConstraint?.constant = 30.0
-
-            updateTextMargins()
+        } else {
+            transcriptViewTopConstraint?.constant = 0.0
+            topGradientTopConstraint?.constant = 0.0
+            topGradientHeightConstraint?.constant = Sizes.topGradientHeight
         }
+        updateTextMargins()
     }
 
     private func addGeneratedTranscriptsObservers() {
@@ -368,6 +371,9 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.indicatorStyle = .white
         activityIndicatorView.color = ThemeColor.playerContrast02()
         updateGradientColors()
+        if FeatureFlag.generatedTranscripts.enabled {
+            bannerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        }
     }
 
     private func updateGradientColors() {
@@ -423,16 +429,14 @@ class TranscriptViewController: PlayerItemViewController {
                 let transcript = try await transcriptManager.loadTranscript()
                 await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
-                if hasGeneratedTranscripts {
-                    await MainActor.run {
-                        self.updateTextMargins()
-                        UIView.animate(withDuration: 0.25) {
-                            if self.shouldShowPremiumView {
-                                self.stackView.alpha = 0
-                                self.showGeneratedTranscriptsPremiumOverlay?()
-                            }
-                            self.bannerView.isHidden = false
+                await MainActor.run {
+                    self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
+                    UIView.animate(withDuration: 0.25) {
+                        if hasGeneratedTranscripts, self.shouldShowPremiumView {
+                            self.stackView.alpha = 0
+                            self.showGeneratedTranscriptsPremiumOverlay?()
                         }
+                        self.bannerView.isHidden = !hasGeneratedTranscripts
                     }
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)

@@ -173,6 +173,12 @@
     <string>夢は大きく</string>
     <key>app_badge</key>
     <string>アプリバッジ</string>
+    <key>app_clip_placholder_message</key>
+    <string>削除されたか、リンクが壊れている可能性があります。
+しかし、Pocket Casts ではさらに多くをご利用いただけます。
+アプリをダウンロードしてフル活用しましょう !</string>
+    <key>app_clip_placholder_title</key>
+    <string>対象のエピソードは見つかりませんでした</string>
     <key>app_icon_classic</key>
     <string>クラシック</string>
     <key>app_icon_dark</key>
@@ -1474,6 +1480,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>なし</string>
     <key>not_on_wifi</key>
     <string>Wi-Fi に接続していません</string>
+    <key>notifications_off</key>
+    <string>通知オフ</string>
+    <key>notifications_on</key>
+    <string>通知オン</string>
     <key>notifications_play_now</key>
     <string>今すぐ再生</string>
     <key>now_playing</key>
@@ -2949,12 +2959,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
-    <key>suggested_folders_create_custom_folders</key>
-    <string>カスタムフォルダーを作成</string>
-    <key>suggested_folders_description</key>
-    <string>ポッドキャストを整理しておきました。 保存するか、カスタマイズしてご自身のスタイルに合わせましょう。</string>
-    <key>suggested_folders_title</key>
-    <string>おすすめのフォルダー</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>これらのフォルダーを使用</string>
     <key>support_watch_help_message</key>

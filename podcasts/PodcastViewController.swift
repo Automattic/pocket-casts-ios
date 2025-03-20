@@ -289,6 +289,16 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if FeatureFlag.podcastViewChanges.enabled {
             scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
             episodesTable.themeStyle = .primaryUi02
+            episodesTable.addSubview(blurHeaderView)
+            episodesTable.sendSubviewToBack(blurHeaderView)
+            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize)
+            NSLayoutConstraint.activate([
+                blurHeaderPositionConstraint,
+                blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
+                blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
+                blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+            ])
+            self.blurHeaderPositionConstraint = blurHeaderPositionConstraint
         } else {
             scrollPointToChangeTitle = 38
         }
@@ -366,6 +376,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         updateColors()
     }
 
+    lazy var blurHeaderView: UIView = {
+        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.backgroundColor = .clear
+        return headerView
+    }()
+
+    var blurHeaderPositionConstraint: NSLayoutConstraint?
+
     lazy var podcastHeadingCell: PodcastHeadingTableCell = {
          let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
          let cell = nib?[0] as! PodcastHeadingTableCell
@@ -422,6 +441,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
+        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -452,10 +472,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
+        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        UIStatusBarStyle.lightContent
+        AppTheme.defaultStatusBarStyle()
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -479,8 +500,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    private func updateColors() {
+    func reloadData() {
         episodesTable.reloadData()
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.layoutIfNeeded()
+            // This is being done here because after a relayout of table data we need to send the header back
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
+    }
+
+    private func updateColors() {
+        reloadData()
         if let podcast = podcast {
             if FeatureFlag.podcastViewChanges.enabled {
                 updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
@@ -536,7 +566,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     @objc private func upNextChanged() {
-        episodesTable.reloadData()
+        reloadData()
     }
 
     @objc private func shareTapped(_ sender: UIButton) {
@@ -646,11 +676,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                     }
                 } catch {
                     self.episodeInfo = finalData
-                    self.episodesTable.reloadData()
+                    reloadData()
                 }
             } else {
                 self.episodeInfo = finalData
-                self.episodesTable.reloadData()
+                reloadData()
             }
             self.searchController?.episodesDidReload()
             if self.isMultiSelectEnabled {
@@ -744,6 +774,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
+        blurHeaderPositionConstraint?.constant = expanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize
     }
 
     func isDescriptionExpanded() -> Bool {
