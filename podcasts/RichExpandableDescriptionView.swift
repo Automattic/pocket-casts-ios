@@ -28,7 +28,8 @@ class RichExpandableLabel: WKWebView {
 
     var heightChanged: ((CGFloat) -> ())?
 
-    init(heightChanged: ((CGFloat) -> ())? = nil) {
+    init(maxLines: Int = 3, heightChanged: ((CGFloat) -> ())? = nil) {
+        self.maxLines = maxLines
         self.heightChanged = heightChanged
         super.init(frame: .zero, configuration: WKWebViewConfiguration())
         commonInit()

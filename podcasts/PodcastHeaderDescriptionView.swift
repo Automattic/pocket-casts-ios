@@ -45,7 +45,7 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     class Coordinator: NSObject {
 
         func heightChanged(newHeight: CGFloat) {
-            DispatchQueue.main.async { [weak self] in                
+            DispatchQueue.main.async { [weak self] in       
                 self?.parent.heightChanged(newHeight)
             }
         }
