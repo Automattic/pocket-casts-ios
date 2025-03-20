@@ -177,8 +177,8 @@ class RichExpandableLabel: WKWebView {
 
     private func updateLinesRequired() {
         evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
-            guard let self = self, let linesRequired = lines as? Int else { return }
-            collapsed = linesRequired > self.maxLines
+            guard let self = self, let linesRequired = lines as? Double else { return }
+            collapsed = Int(linesRequired.rounded(.up)) > self.maxLines
         })
     }
 
