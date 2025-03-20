@@ -167,10 +167,11 @@ class RichExpandableLabel: WKWebView {
 
             contentHeight = CGFloat(cgHeight)
             htmlReady = true
-            update()
             if isFirstTime {
                 isFirstTime = false
                 updateLinesRequired()
+            } else {
+                update()
             }
         })
     }
