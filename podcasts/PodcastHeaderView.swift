@@ -69,6 +69,7 @@ struct PodcastHeaderView: View {
                     Spacer().frame(height: 24)
                 }
                 .transition(.collapse)
+                .transformEffect(.identity)
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
             Spacer()
@@ -169,14 +170,13 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastDescription: some View {
-        VStack {
-            PodcastHeaderDescriptionView(htmlDescription: viewModel.htmlDescription, contentHeight: $contentHeight)
-            .frame(height: contentHeight)
+        PodcastHeaderDescriptionView(htmlDescription: viewModel.htmlDescription, contentHeight: $contentHeight)
+        .frame(height: contentHeight)
+        .animation(.linear, value: contentHeight)
 //            Text(viewModel.podcast.podcastDescription ?? "")
 //                .font(.body)
 //                .foregroundStyle(theme.primaryText01)
 //                .fixedSize(horizontal: false, vertical: true)
-        }
     }
 
     private var podcastDetails: some View {
