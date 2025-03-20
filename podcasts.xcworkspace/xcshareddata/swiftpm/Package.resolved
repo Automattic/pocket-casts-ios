@@ -95,8 +95,8 @@
         "package": "GoogleCast",
         "repositoryURL": "https://github.com/Automattic/google-cast",
         "state": {
-          "branch": "add-spm",
-          "revision": "2b4ab90d4ad580d9dc77066553812e4ae4700970",
+          "branch": null,
+          "revision": "bb93b20e2c0b585f6442fb41463e21cae3ded355",
           "version": null
         }
       },
