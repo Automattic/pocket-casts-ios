@@ -12,7 +12,7 @@ struct PodcastBlurHeaderView: View {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: podcastUUID, size: .grid)
                     .frame(width: proxy.size.width, height: proxy.size.height)
-                .blur(radius: 120)
+                .blur(radius: 60)
                 Spacer()
             }
         }

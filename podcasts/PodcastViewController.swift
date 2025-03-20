@@ -291,7 +291,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
             episodesTable.sendSubviewToBack(blurHeaderView)
-            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize)
+            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
             NSLayoutConstraint.activate([
                 blurHeaderPositionConstraint,
                 blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
@@ -384,6 +384,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }()
 
     var blurHeaderPositionConstraint: NSLayoutConstraint?
+
+    private var blurHeaderPosition: CGFloat {
+        summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize / 2
+    }
 
     lazy var podcastHeadingCell: PodcastHeadingTableCell = {
          let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
@@ -774,7 +778,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
-        blurHeaderPositionConstraint?.constant = expanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize
+        blurHeaderPositionConstraint?.constant = blurHeaderPosition
     }
 
     func isDescriptionExpanded() -> Bool {
