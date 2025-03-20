@@ -6,7 +6,7 @@ use_modular_headers!
 
 inhibit_all_warnings!
 
-app_ios_deployment_target = Gem::Version.new('15.0')
+app_ios_deployment_target = Gem::Version.new('16.0')
 
 def common_pods
   pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/Automattic/google-cast'
