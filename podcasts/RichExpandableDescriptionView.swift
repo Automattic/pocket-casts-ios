@@ -26,7 +26,10 @@ class RichExpandableLabel: WKWebView {
         }
     }
 
-    init() {
+    var heightChanged: ((CGFloat) -> ())?
+
+    init(heightChanged: ((CGFloat) -> ())? = nil) {
+        self.heightChanged = heightChanged
         super.init(frame: .zero, configuration: WKWebViewConfiguration())
         commonInit()
     }
@@ -70,7 +73,7 @@ class RichExpandableLabel: WKWebView {
         let styledHTML = style(html: html)
         guard previousHTML != styledHTML else {
             if htmlReady {
-                delegate?.heightChanged(newHeight: heightConstraint.constant.rounded(.up))
+                heightChanged?(heightConstraint.constant.rounded(.up))
             }
             return
         }
@@ -154,11 +157,11 @@ class RichExpandableLabel: WKWebView {
             let font = UIFont.preferredFont(forTextStyle: .body)
             let newHeight = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
             heightConstraint.constant = newHeight
-            delegate?.heightChanged(newHeight: newHeight.rounded(.up))
+            heightChanged?(newHeight.rounded(.up))
         } else {
             removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
-            delegate?.heightChanged(newHeight: contentHeight.rounded(.up))
+            heightChanged?(contentHeight.rounded(.up))
         }
         if htmlReady {
             toggleColapseHTMLContent(on: collapsed)

@@ -425,10 +425,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         delegate?.open(url: url)
     }
 
-    func heightChanged(newHeight: CGFloat) {
-
-    }
-
     @objc private func websiteLinkTapped() {
         guard let website = delegate?.displayedPodcast()?.podcastUrl, let url = URL(string: website) else { return }
         if let uuid = delegate?.displayedPodcast()?.uuid {

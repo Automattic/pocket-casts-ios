@@ -4,19 +4,22 @@ import SwiftUI
 struct PodcastHeaderDescriptionView: UIViewRepresentable {
     @State var htmlDescription: String
     weak var delegate: ExpandableLabelDelegate?
-    //var heightChanged: (CGFloat) -> ()
-    @Binding var contentHeight: CGFloat
+    var heightChanged: (CGFloat) -> ()
+    //@Binding var contentHeight: CGFloat
 
     static var cache: [String: RichExpandableLabel] = [:]
 
-    init(htmlDescription: String, contentHeight: Binding<CGFloat>) {
+    init(htmlDescription: String, delegate: ExpandableLabelDelegate?, heightChanged: @escaping (CGFloat) -> ()) {
         _htmlDescription = .init(initialValue: htmlDescription)
-        _contentHeight = contentHeight
+        self.delegate = delegate
+//        _contentHeight = contentHeight
+        self.heightChanged = heightChanged
     }
 
     func makeUIView(context: Context) -> RichExpandableLabel {
         if let view = Self.cache[htmlDescription] {
             view.removeFromSuperview()
+            view.delegate = self.delegate
             context.coordinator.webView = view
             return view
         }
@@ -25,6 +28,7 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
         Self.cache[htmlDescription] = view
         // we need this or else the webview will not expand to the width
         view.translatesAutoresizingMaskIntoConstraints = true
+        view.delegate = self.delegate
         context.coordinator.webView = view
         return view
     }
@@ -40,37 +44,20 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
         Coordinator(self)
     }
 
-    class Coordinator: NSObject, ExpandableLabelDelegate {
-        func willExpandLabel(_ label: UIView) {
-
-        }
-
-        func didExpandLabel(_ label: UIView) {
-
-        }
-
-        func willCollapseLabel(_ label: UIView) {
-
-        }
-
-        func didCollapseLabel(_ label: UIView) {
-
-        }
-
-        func linkTapped(url: URL) {
-
-        }
+    class Coordinator: NSObject {
 
         func heightChanged(newHeight: CGFloat) {
             DispatchQueue.main.async { [weak self] in
-                self?.parent.contentHeight = newHeight
+                //self?.parent.contentHeight = newHeight
+                self?.parent.heightChanged(newHeight)
             }
         }
 
         var parent: PodcastHeaderDescriptionView
-        var webView: RichExpandableLabel? {
+        weak var webView: RichExpandableLabel? {
             didSet {
-                webView?.delegate = self
+                webView?.delegate = parent.delegate
+                webView?.heightChanged = self.heightChanged
             }
         }
 
