@@ -8,6 +8,8 @@ protocol ExpandableLabelDelegate: NSObjectProtocol {
     func didCollapseLabel(_ label: UIView)
 
     func linkTapped(url: URL)
+
+    func heightChanged(newHeight: CGFloat)
 }
 
 class ExpandableLabel: ThemeableLabel {

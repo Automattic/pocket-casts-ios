@@ -29,7 +29,7 @@ struct PodcastHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastHeaderViewModel
 
-    @State private var contentHeight: CGFloat = 0
+    @State private var contentHeight: CGFloat = UIFont.preferredFont(forTextStyle: .body).lineHeight * 1.4 * CGFloat(3)
 
     var body: some View {
         VStack(spacing: 0) {
@@ -62,10 +62,9 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
-            PodcastHeaderDescriptionView(htmlDescription: "Sergio", delegate: nil, contentHeight: $contentHeight)
-                .frame(height: contentHeight)
             if viewModel.isExpanded {
                 VStack {
+                    podcastDescription
                     podcastDetails
                     Spacer().frame(height: 24)
                 }
@@ -171,8 +170,8 @@ struct PodcastHeaderView: View {
 
     private var podcastDescription: some View {
         VStack {
-            PodcastHeaderDescriptionView(htmlDescription: viewModel.podcast.podcastHTMLDescription ?? viewModel.podcast.podcastDescription ?? "", delegate: nil, contentHeight: $contentHeight)
-                .frame(height: contentHeight)
+            PodcastHeaderDescriptionView(htmlDescription: viewModel.htmlDescription, contentHeight: $contentHeight)
+            .frame(height: contentHeight)
 //            Text(viewModel.podcast.podcastDescription ?? "")
 //                .font(.body)
 //                .foregroundStyle(theme.primaryText01)

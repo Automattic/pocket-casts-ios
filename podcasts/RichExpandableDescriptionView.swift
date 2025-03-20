@@ -27,12 +27,12 @@ class RichExpandableLabel: WKWebView {
     }
 
     init() {
-        super.init(frame: CGRect(x: 0, y: 0, width: 300, height: 300), configuration: WKWebViewConfiguration())
+        super.init(frame: .zero, configuration: WKWebViewConfiguration())
         commonInit()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
 
     override func awakeFromNib() {
@@ -69,6 +69,9 @@ class RichExpandableLabel: WKWebView {
     func setRichText(html: String) {
         let styledHTML = style(html: html)
         guard previousHTML != styledHTML else {
+            if htmlReady {
+                delegate?.heightChanged(newHeight: heightConstraint.constant.rounded(.up))
+            }
             return
         }
         htmlReady = false
@@ -149,10 +152,13 @@ class RichExpandableLabel: WKWebView {
         if collapsed {
             addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
-            heightConstraint.constant = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
+            let newHeight = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
+            heightConstraint.constant = newHeight
+            delegate?.heightChanged(newHeight: newHeight.rounded(.up))
         } else {
             removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
+            delegate?.heightChanged(newHeight: contentHeight.rounded(.up))
         }
         if htmlReady {
             toggleColapseHTMLContent(on: collapsed)
