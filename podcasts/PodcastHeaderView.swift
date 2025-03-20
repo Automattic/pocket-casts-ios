@@ -90,6 +90,7 @@ struct PodcastHeaderView: View {
         HStack(spacing: 0) {
             Text(viewModel.podcast.title ?? "")
                 .font(.title).bold()
+                .fixedSize(horizontal: false, vertical: true)
             Image(systemName: "chevron.up")
                 .padding(.horizontal, 4)
                 .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
