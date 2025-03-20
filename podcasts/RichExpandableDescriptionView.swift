@@ -9,7 +9,7 @@ class RichExpandableLabel: WKWebView {
     private var heightConstraint: NSLayoutConstraint!
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
-    private var previousHTML: String = ""
+    private(set) var previousHTML: String = ""
     private var isFirstTime = true
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {

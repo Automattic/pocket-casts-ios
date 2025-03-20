@@ -30,7 +30,10 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: RichExpandableLabel, context: Context) {
-        uiView.setRichText(html: htmlDescription)
+        context.coordinator.parent = self
+        if uiView.previousHTML != htmlDescription {
+            uiView.setRichText(html: htmlDescription)
+        }
     }
 
     func makeCoordinator() -> Coordinator {
