@@ -1621,6 +1621,12 @@
 /* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
 "plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
 
+/* Pocket Casts Plus marketing page, title of the Bookmarks feature */
+"plus_marketing_bookmarks_title" = "Bookmarks";
+
+/* Pocket Casts Plus marketing page, title of the Folders feature */
+"plus_marketing_folders_title" = "Folders";
+
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
 
