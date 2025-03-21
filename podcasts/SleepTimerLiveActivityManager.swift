@@ -19,19 +19,20 @@ class SleepTimerLiveActivityManager {
             FileLog.shared.console("[SleepTimerLiveActivityManager] Live activity already exists")
             return
         }
-        if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let progress = Double(currentTime) / sleepTimerTimeInterval
-            let attributes = SleepTimerLiveActivityAttributes()
-            let state = SleepTimerLiveActivityAttributes.SleepTimerLiveStatus(currentTime: currentTime, progress: progress)
-            do {
-                activity = try Activity<SleepTimerLiveActivityAttributes>.request(
-                    attributes: attributes,
-                    content: .init(state: state, staleDate: nil)
-                )
-                FileLog.shared.console("[SleepTimerLiveActivityManager] Live activity started")
-            } catch {
-                FileLog.shared.console("[SleepTimerLiveActivityManager] Failed to start live activity: \(error)")
-            }
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            return
+        }
+        let progress = Double(currentTime) / sleepTimerTimeInterval
+        let attributes = SleepTimerLiveActivityAttributes()
+        let state = SleepTimerLiveActivityAttributes.SleepTimerLiveStatus(currentTime: currentTime, progress: progress)
+        do {
+            activity = try Activity<SleepTimerLiveActivityAttributes>.request(
+                attributes: attributes,
+                content: .init(state: state, staleDate: nil)
+            )
+            FileLog.shared.console("[SleepTimerLiveActivityManager] Live activity started")
+        } catch {
+            FileLog.shared.console("[SleepTimerLiveActivityManager] Failed to start live activity: \(error)")
         }
     }
 

@@ -1619,7 +1619,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("Sleep Timer: starting with \(stopIn)")
 #if !os(watchOS) && !APPCLIP
         if #available(iOS 16.2, *) {
-            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(5.minutes)
+            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(stopIn)
             SleepTimerLiveActivityManager.shared.startActivity(currentTime: stopIn)
         }
 #endif

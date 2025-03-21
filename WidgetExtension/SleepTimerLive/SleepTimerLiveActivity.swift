@@ -68,8 +68,8 @@ struct SleepTimerLiveActivityContent: View {
             }
         }
         .padding(16)
-        .activityBackgroundTint(Color("WidgetBackground"))
-        .activitySystemActionForegroundColor(Color.black)
+        .activityBackgroundTint(.clear)
+        .activitySystemActionForegroundColor(.black)
     }
 }
 
@@ -83,12 +83,11 @@ struct HorizontalProgressBar: View {
             let boxWidth = frame.width * progress
 
             RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(Color("ContainerHigh"))
+                .foregroundColor(.red.opacity(0.5))
 
             RoundedRectangle(cornerRadius: 20)
                 .frame(width: boxWidth)
-                .foregroundColor(Color("PrimaryColor"))
-
+                .foregroundColor(.red)
         }
     }
 }
@@ -100,10 +99,10 @@ struct MinimalProgressBar: View {
 
     var body: some View {
         ProgressView(value: progress, total: 1) {
-            Text("\(TimeFormatter.shared.playTimeFormat(time: currentTime))")
+//            Text("\(TimeFormatter.shared.playTimeFormat(time: currentTime))")
         }.frame(width: size, height: size)
             .progressViewStyle(.circular)
-            .tint(Color("PrimaryColor"))
+            .tint(.red)
     }
 }
 
