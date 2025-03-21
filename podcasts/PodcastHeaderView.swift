@@ -82,6 +82,7 @@ struct PodcastHeaderView: View {
         VStack {
             Text(viewModel.displayCategory)
                 .font(.callout)
+                .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(theme.primaryText02)
         }
     }
