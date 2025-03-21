@@ -4,8 +4,8 @@ import UIKit
 class RichExpandableLabel: WKWebView {
 
     weak var delegate: ExpandableLabelDelegate?
-    var desiredLinedHeightMultiple: CGFloat = 1.4
-    var maxLines = 3
+    private var desiredLinedHeightMultiple: CGFloat = 1.4
+    private var maxLines = 3
     private var heightConstraint: NSLayoutConstraint!
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
@@ -46,8 +46,11 @@ class RichExpandableLabel: WKWebView {
 
     private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
-        self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
-        heightConstraint.priority = .defaultLow
+        let font = UIFont.preferredFont(forTextStyle: .body)
+        let estimatedHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
+        self.frame = CGRect(x: 0, y: 0, width: 320, height: estimatedHeight)
+        self.heightConstraint = heightAnchor.constraint(equalToConstant: estimatedHeight)
+        heightConstraint.priority = .required
         NSLayoutConstraint.activate([
             heightConstraint
         ])
@@ -152,11 +155,15 @@ class RichExpandableLabel: WKWebView {
         update()
     }
 
+    static func estimateHeightFor(maxLines: Int, lineHeightMultiple: CGFloat, font: UIFont) -> CGFloat {
+        return font.lineHeight * lineHeightMultiple * CGFloat(maxLines)
+    }
+
     private func update() {
         if collapsed {
             addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
-            let newHeight = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
+            let newHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
             heightConstraint.constant = newHeight
             heightChanged?(newHeight.rounded(.up))
         } else {

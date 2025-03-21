@@ -29,7 +29,7 @@ struct PodcastHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastHeaderViewModel
 
-    @State private var contentHeight: CGFloat = UIFont.preferredFont(forTextStyle: .body).lineHeight * 1.4 * CGFloat(3)
+    @State private var contentHeight: CGFloat = RichExpandableLabel.estimateHeightFor(maxLines: 3, lineHeightMultiple: 1.4, font: UIFont.preferredFont(forTextStyle: .body))
 
     var body: some View {
         VStack(spacing: 0) {
