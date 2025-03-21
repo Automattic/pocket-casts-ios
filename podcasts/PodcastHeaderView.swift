@@ -173,14 +173,11 @@ struct PodcastHeaderView: View {
 
     private var podcastDescription: some View {
         PodcastHeaderDescriptionView(htmlDescription: viewModel.htmlDescription, delegate: viewModel) { newHeight in
-            contentHeight = newHeight
+            DispatchQueue.main.async {
+                contentHeight = newHeight
+            }
         }
-        .frame(height: contentHeight)
-       // .animation(.linear, value: contentHeight)
-//            Text(viewModel.podcast.podcastDescription ?? "")
-//                .font(.body)
-//                .foregroundStyle(theme.primaryText01)
-//                .fixedSize(horizontal: false, vertical: true)
+        .frame(height: contentHeight)        
     }
 
     private var podcastDetails: some View {

@@ -50,7 +50,7 @@ class RichExpandableLabel: WKWebView {
         let estimatedHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
         self.frame = CGRect(x: 0, y: 0, width: 320, height: estimatedHeight)
         self.heightConstraint = heightAnchor.constraint(equalToConstant: estimatedHeight)
-        heightConstraint.priority = .required
+        heightConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             heightConstraint
         ])
@@ -156,7 +156,7 @@ class RichExpandableLabel: WKWebView {
     }
 
     static func estimateHeightFor(maxLines: Int, lineHeightMultiple: CGFloat, font: UIFont) -> CGFloat {
-        return font.lineHeight * lineHeightMultiple * CGFloat(maxLines)
+        return (font.lineHeight * lineHeightMultiple * CGFloat(maxLines)).rounded(.up)
     }
 
     private func update() {
@@ -165,7 +165,7 @@ class RichExpandableLabel: WKWebView {
             let font = UIFont.preferredFont(forTextStyle: .body)
             let newHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
             heightConstraint.constant = newHeight
-            heightChanged?(newHeight.rounded(.up))
+            heightChanged?(newHeight)
         } else {
             removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
@@ -182,7 +182,7 @@ class RichExpandableLabel: WKWebView {
         evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
             guard let self = self, let cgHeight = height as? CGFloat else { return }
 
-            contentHeight = CGFloat(cgHeight)
+            contentHeight = CGFloat(cgHeight).rounded(.up)
             htmlReady = true
             if isFirstTime {
                 isFirstTime = false
