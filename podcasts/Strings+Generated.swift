@@ -2097,7 +2097,7 @@ internal enum L10n {
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
   /// Dream with Slumber Studios content
   internal static var plusFeatureSlumberNew: String { return L10n.tr("Localizable", "plus_feature_slumber_new") }
-  /// Extra Themes & App Icons
+  /// Extra themes & icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
   internal static var plusFeatures: String { return L10n.tr("Localizable", "plus_features") }
