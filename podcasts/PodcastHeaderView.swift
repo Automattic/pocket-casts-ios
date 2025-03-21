@@ -76,6 +76,7 @@ struct PodcastHeaderView: View {
             Spacer()
                 .frame(height: 8)
          }
+        .padding()
     }
 
     private var podcastCategory: some View {
@@ -177,7 +178,7 @@ struct PodcastHeaderView: View {
                 contentHeight = newHeight
             }
         }
-        .frame(height: contentHeight)        
+        .frame(height: contentHeight)
     }
 
     private var podcastDetails: some View {

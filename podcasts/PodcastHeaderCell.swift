@@ -36,11 +36,12 @@ class PodcastHeaderCell: UITableViewCell {
             self.contentConfiguration = UIHostingConfiguration(content: {
                 PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
             })
+            .margins(.all, 0)
         } else {
             // Fallback on earlier versions
             configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
                 ContentSizeGeometryReader { proxy in
-                    PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
+                    PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment()
                 } contentSizeUpdated: { size in
                     self.calculatedHeight = size.height
                     self.viewController.reloadData()
