@@ -44,8 +44,7 @@ class PodcastHeaderCell: UITableViewCell {
                     PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
                 } contentSizeUpdated: { size in
                     self.calculatedHeight = size.height
-                    self.setNeedsLayout()
-                    self.viewController.tableView().reloadData()
+                    self.viewController.reloadData()
                 }
             })
         }

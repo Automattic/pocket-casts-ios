@@ -37,3 +37,4 @@ podcasts/Credentials/LocalApiCredentials.swift
 artifacts/*
 *.app.dSYM.zip
 *.ipa
+*.build

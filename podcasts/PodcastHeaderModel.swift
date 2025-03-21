@@ -14,10 +14,13 @@ class PodcastHeaderViewModel: ObservableObject {
     init(podcast: Podcast, delegate: PodcastActionsDelegate? = nil) {
         self.podcast = podcast
         self.delegate = delegate
+        self.isSubscribed = podcast.isSubscribed()
         addObservers()
     }
 
     @Published var isExpanded: Bool = true
+
+    @Published var isSubscribed: Bool = false
 
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
@@ -30,8 +33,8 @@ class PodcastHeaderViewModel: ObservableObject {
             else {
                 return
             }
-
             self.podcast = podcast
+            self.isSubscribed = podcast.isSubscribed()
         }
         .store(in: &cancellables)
     }
@@ -98,9 +101,11 @@ class PodcastHeaderViewModel: ObservableObject {
 
         if podcast.isSubscribed() {
             delegate.unsubscribe()
+            // do not switch variable here because there is still a confimation screen
         } else {
             delegate.subscribe()
-            isExpanded = false
+            // switching state immediately so animation is triggered at press
+            isSubscribed = true
         }
     }
 

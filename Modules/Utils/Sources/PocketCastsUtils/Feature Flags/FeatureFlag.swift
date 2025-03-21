@@ -8,9 +8,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether network debugging with Pulse is enabled
-    case networkDebugging
-
     /// Whether End Of Year feature is enabled
     case endOfYear
 
@@ -163,8 +160,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .tracksLogging:
             false
         case .firebaseLogging:
-            false
-        case .networkDebugging:
             false
         case .endOfYear:
             false
