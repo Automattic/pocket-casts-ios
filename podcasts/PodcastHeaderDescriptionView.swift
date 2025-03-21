@@ -27,40 +27,13 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
         // we need this or else the webview will not expand to the width
         view.translatesAutoresizingMaskIntoConstraints = true
         view.delegate = self.delegate
-        context.coordinator.webView = view
+        view.heightChanged = self.heightChanged
         return view
     }
 
     func updateUIView(_ uiView: RichExpandableLabel, context: Context) {
-        context.coordinator.parent = self
         if uiView.previousHTML != htmlDescription {
             uiView.setRichText(html: htmlDescription)
         }
     }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject {
-
-        func heightChanged(newHeight: CGFloat) {
-            DispatchQueue.main.async { [weak self] in
-                self?.parent.heightChanged(newHeight)
-            }
-        }
-
-        var parent: PodcastHeaderDescriptionView
-        weak var webView: RichExpandableLabel? {
-            didSet {
-                webView?.delegate = parent.delegate
-                webView?.heightChanged = self.heightChanged
-            }
-        }
-
-        init(_ parent: PodcastHeaderDescriptionView) {
-            self.parent = parent
-        }
-    }
-
 }
