@@ -305,7 +305,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         addGoogleCastBtn()
         loadPodcastInfo()
-        updateColors()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
@@ -404,8 +403,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         super.viewDidAppear(animated)
 
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
-        updateColors()
-
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
