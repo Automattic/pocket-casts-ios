@@ -15,15 +15,15 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> RichExpandableLabel {
-        if let view = Self.cache[htmlDescription] {
+        let view: RichExpandableLabel
+        if let cachedView = Self.cache[htmlDescription] {
+            view = cachedView
             view.removeFromSuperview()
-            view.delegate = self.delegate
-            context.coordinator.webView = view
-            return view
+        } else {
+            view = RichExpandableLabel()
+            Self.cache.removeAll()
+            Self.cache[htmlDescription] = view
         }
-        let view = RichExpandableLabel()
-        Self.cache.removeAll()
-        Self.cache[htmlDescription] = view
         // we need this or else the webview will not expand to the width
         view.translatesAutoresizingMaskIntoConstraints = true
         view.delegate = self.delegate
@@ -45,7 +45,7 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     class Coordinator: NSObject {
 
         func heightChanged(newHeight: CGFloat) {
-            DispatchQueue.main.async { [weak self] in       
+            DispatchQueue.main.async { [weak self] in
                 self?.parent.heightChanged(newHeight)
             }
         }
