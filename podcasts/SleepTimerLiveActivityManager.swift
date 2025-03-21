@@ -1,5 +1,6 @@
 import Foundation
 import ActivityKit
+import PocketCastsUtils
 
 @available(iOS 16.2, *)
 class SleepTimerLiveActivityManager {
@@ -15,6 +16,7 @@ class SleepTimerLiveActivityManager {
 
     func startActivity(currentTime: TimeInterval) {
         if activity != nil {
+            FileLog.shared.console("[SleepTimerLiveActivityManager] Live activity already exists")
             return
         }
         if ActivityAuthorizationInfo().areActivitiesEnabled {
@@ -26,9 +28,9 @@ class SleepTimerLiveActivityManager {
                     attributes: attributes,
                     content: .init(state: state, staleDate: nil)
                 )
-                print("Live activity started")
+                FileLog.shared.console("[SleepTimerLiveActivityManager] Live activity started")
             } catch {
-                print("Failed to start live activity: \(error)")
+                FileLog.shared.console("[SleepTimerLiveActivityManager] Failed to start live activity: \(error)")
             }
         }
     }
@@ -41,7 +43,7 @@ class SleepTimerLiveActivityManager {
 
         Task {
             await activity.update(using: state)
-            print("Live Activity updated currentTime: \(currentTime).")
+            FileLog.shared.console("[SleepTimerLiveActivityManager] Live Activity updated currentTime: \(currentTime).")
         }
     }
 
@@ -53,7 +55,7 @@ class SleepTimerLiveActivityManager {
 
         Task { [weak self] in
             await activity.end(ActivityContent(state: state, staleDate: nil), dismissalPolicy: .immediate)
-            print("Live Activity ended.")
+            FileLog.shared.console("[SleepTimerLiveActivityManager] Live Activity ended.")
             self?.activity = nil
         }
     }

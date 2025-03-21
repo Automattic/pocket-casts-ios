@@ -11,10 +11,12 @@ struct SleepTimerLiveActivity: Widget {
         } dynamicIsland: { attributes in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    AppLogo(size: 35)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    MinimalProgressBar(progress: attributes.state.progress,
+                                       currentTime: attributes.state.currentTime,
+                                       size: 35)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     // expanded content
