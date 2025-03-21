@@ -292,41 +292,21 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBAction func fiveMinutesTapped(_ sender: Any) {
         PlaybackManager.shared.setSleepTimerInterval(5.minutes)
-#if !APPCLIP
-        if #available(iOS 16.2, *) {
-            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(5.minutes)
-        }
-#endif
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func fifteenMinutesTapped(_ sender: Any) {
         PlaybackManager.shared.setSleepTimerInterval(15.minutes)
-#if !APPCLIP
-        if #available(iOS 16.2, *) {
-            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(15.minutes)
-        }
-#endif
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func thirtyMinutesTapped(_ sender: Any) {
         PlaybackManager.shared.setSleepTimerInterval(30.minutes)
-#if !APPCLIP
-        if #available(iOS 16.2, *) {
-            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(30.minutes)
-        }
-#endif
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func oneHourTapped(_ sender: Any) {
         PlaybackManager.shared.setSleepTimerInterval(1.hours)
-#if !APPCLIP
-        if #available(iOS 16.2, *) {
-            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(1.hours)
-        }
-#endif
         dismiss(animated: true, completion: nil)
     }
 

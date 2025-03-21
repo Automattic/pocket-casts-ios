@@ -1617,6 +1617,12 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
         FileLog.shared.addMessage("Sleep Timer: starting with \(stopIn)")
+#if !os(watchOS) && !APPCLIP
+        if #available(iOS 16.2, *) {
+            SleepTimerLiveActivityManager.shared.setSleepTimerInterval(5.minutes)
+            SleepTimerLiveActivityManager.shared.startActivity(currentTime: stopIn)
+        }
+#endif
         sleepTimerManager.recordSleepTimerDuration(duration: stopIn, onEpisodeEnd: nil)
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
