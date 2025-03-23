@@ -66,11 +66,11 @@
 		10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
 		10DFE9382C5A8D1300957D0A /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
-		2F4E99982D8BB8830056B1D9 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */; };
 		2F4E99A02D8BFB5B0056B1D9 /* SpoolerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */; };
 		2F4E99A22D8D16880056B1D9 /* CustomOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */; };
 		2F4E99A52D8D19F40056B1D9 /* DailyBriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */; };
 		2F4E99A62D8D19F40056B1D9 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */; };
+		2F4E99A82D8FBA600056B1D9 /* BriefPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A72D8FBA600056B1D9 /* BriefPlayerManager.swift */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
 		2F9099112A4F88B10044FC55 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */; };
@@ -2268,11 +2268,11 @@
 		1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.prototype.xcconfig"; sourceTree = "<group>"; };
-		2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoolerAPIClient.swift; sourceTree = "<group>"; };
 		2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOptionsView.swift; sourceTree = "<group>"; };
 		2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBriefView.swift; sourceTree = "<group>"; };
 		2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		2F4E99A72D8FBA600056B1D9 /* BriefPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefPlayerManager.swift; sourceTree = "<group>"; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F90990D2A4F88B10044FC55 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -4328,11 +4328,11 @@
 		2F4E999D2D8BFB5B0056B1D9 /* Spooler */ = {
 			isa = PBXGroup;
 			children = (
+				2F4E99A72D8FBA600056B1D9 /* BriefPlayerManager.swift */,
 				2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */,
 				2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */,
 				2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */,
 				2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */,
-				2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */,
 			);
 			path = Spooler;
 			sourceTree = "<group>";
@@ -10336,7 +10336,6 @@
 				BD023C622251BB4E008A9C6F /* ListHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
-				2F4E99982D8BB8830056B1D9 /* PreferencesViewController.swift in Sources */,
 				C7C4F9BF2A4CC359002822DD /* PCTableViewController.swift in Sources */,
 				BD874EFB1C9A637200F5B2A5 /* NotificationsViewController.swift in Sources */,
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
@@ -10361,6 +10360,7 @@
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,
 				BD7641332588272B0070CBF3 /* ThemeableSwitch.swift in Sources */,
+				2F4E99A82D8FBA600056B1D9 /* BriefPlayerManager.swift in Sources */,
 				1021411B2C7F5BF40065D34A /* PlusPaywallReviewsViewModel.swift in Sources */,
 				8B938E2B29BFB4F2008997B9 /* SearchAnalyticsHelper.swift in Sources */,
 				BD585C1F2047887700AC842C /* AppDelegate+UrlHandling.swift in Sources */,
