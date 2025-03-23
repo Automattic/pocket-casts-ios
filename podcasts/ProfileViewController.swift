@@ -40,7 +40,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    private enum TableRow { case kidsProfile, referralsClaim, allStats, downloaded, dailyBrief, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -298,6 +298,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .downloaded:
             cell.settingsImage.image = UIImage(named: "profile-download")
             cell.settingsLabel.text = L10n.downloads
+        case .dailyBrief:
+            cell.settingsImage.image = UIImage(named: "profile-download")
+            cell.settingsLabel.text = L10n.dailyBrief
         case .uploadedFiles:
             cell.settingsImage.image = UIImage(named: "profile_files")
             cell.settingsLabel.text = L10n.files
@@ -364,6 +367,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .downloaded:
             let downloadController = DownloadsViewController()
             navigationController?.pushViewController(downloadController, animated: true)
+        case .dailyBrief:
+            let dailyBriefView = UIHostingController(rootView: DailyBriefView())
+            navigationController?.pushViewController(dailyBriefView, animated: true)
         case .uploadedFiles:
             let uploadedController = UploadedViewController()
             navigationController?.pushViewController(uploadedController, animated: true)
@@ -407,7 +413,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
+        data = [[.allStats, .downloaded, .dailyBrief, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)

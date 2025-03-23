@@ -66,6 +66,11 @@
 		10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
 		10DFE9382C5A8D1300957D0A /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
+		2F4E99982D8BB8830056B1D9 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */; };
+		2F4E99A02D8BFB5B0056B1D9 /* SpoolerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */; };
+		2F4E99A22D8D16880056B1D9 /* CustomOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */; };
+		2F4E99A52D8D19F40056B1D9 /* DailyBriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */; };
+		2F4E99A62D8D19F40056B1D9 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
 		2F9099112A4F88B10044FC55 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */; };
@@ -2263,6 +2268,11 @@
 		1521541D9016EE0C97E18DE3 /* Pods-Pocket Casts App ClipUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipUITests/Pods-Pocket Casts App ClipUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F04A9CA7ADF5A3948051F39 /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		20ED49F9E7F27A1A1B9CAB9A /* Pods-Pocket Casts App ClipTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.prototype.xcconfig"; sourceTree = "<group>"; };
+		2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoolerAPIClient.swift; sourceTree = "<group>"; };
+		2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOptionsView.swift; sourceTree = "<group>"; };
+		2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBriefView.swift; sourceTree = "<group>"; };
+		2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F90990D2A4F88B10044FC55 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -4315,6 +4325,18 @@
 			path = ABTest;
 			sourceTree = "<group>";
 		};
+		2F4E999D2D8BFB5B0056B1D9 /* Spooler */ = {
+			isa = PBXGroup;
+			children = (
+				2F4E99A32D8D19F40056B1D9 /* DailyBriefView.swift */,
+				2F4E99A42D8D19F40056B1D9 /* PreferencesView.swift */,
+				2F4E99A12D8D16880056B1D9 /* CustomOptionsView.swift */,
+				2F4E999A2D8BFB5B0056B1D9 /* SpoolerAPIClient.swift */,
+				2F4E99972D8BB8830056B1D9 /* PreferencesViewController.swift */,
+			);
+			path = Spooler;
+			sourceTree = "<group>";
+		};
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -6031,6 +6053,7 @@
 				FF9ED3542C86010F00B6E630 /* TipView.swift */,
 				BD8139D11FB95C3900DBF0EC /* ProfileViewController.xib */,
 				40164A6D23E19C9A0043907B /* ProfileViewController+Promotion.swift */,
+				2F4E999D2D8BFB5B0056B1D9 /* Spooler */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -10313,6 +10336,7 @@
 				BD023C622251BB4E008A9C6F /* ListHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
+				2F4E99982D8BB8830056B1D9 /* PreferencesViewController.swift in Sources */,
 				C7C4F9BF2A4CC359002822DD /* PCTableViewController.swift in Sources */,
 				BD874EFB1C9A637200F5B2A5 /* NotificationsViewController.swift in Sources */,
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
@@ -10498,6 +10522,7 @@
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
 				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
+				2F4E99A02D8BFB5B0056B1D9 /* SpoolerAPIClient.swift in Sources */,
 				10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
 				F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
@@ -10582,6 +10607,7 @@
 				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
 				8B0EEDEA2900990D00075772 /* LongestEpisodeStory2023.swift in Sources */,
 				BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */,
+				2F4E99A22D8D16880056B1D9 /* CustomOptionsView.swift in Sources */,
 				8B3295492A5357A100BDFA11 /* WhatsNewView.swift in Sources */,
 				8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */,
 				4006E31123A88AE600174DEB /* ExpandedCollectionViewController.swift in Sources */,
@@ -10768,6 +10794,8 @@
 				8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */,
 				BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */,
 				100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */,
+				2F4E99A52D8D19F40056B1D9 /* DailyBriefView.swift in Sources */,
+				2F4E99A62D8D19F40056B1D9 /* PreferencesView.swift in Sources */,
 				F555980B2C50242800C02EEB /* VideoExporter.swift in Sources */,
 				BDA2065D1BB3AF5D00D38389 /* DownloadProgress.swift in Sources */,
 				407083C625423F0A002FC9F8 /* EpisodePreviewCell.swift in Sources */,

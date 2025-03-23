@@ -754,6 +754,9 @@
 /* A common string used throughout the app. Prompt to download the selected item(s). */
 "download" = "Download";
 
+/* Spooler's Daily Bried. */
+"dailyBrief" = "Your Daily Brief";
+
 /* A common string used throughout the app. Prompt to download all of the selected item(s). */
 "download_all" = "Download All";
 
