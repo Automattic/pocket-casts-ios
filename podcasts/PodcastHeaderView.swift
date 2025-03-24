@@ -33,12 +33,6 @@ struct PodcastHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if viewModel.isExpanded {
-                Spacer()
-                    .transaction { transaction in
-                        transaction.disablesAnimations = true
-                    }
-            }
             HStack(alignment: .top) {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
@@ -72,7 +66,6 @@ struct PodcastHeaderView: View {
                 .transformEffect(.identity)
             }
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
-            Spacer()
             Spacer()
                 .frame(height: 8)
          }
