@@ -151,16 +151,18 @@ class FoldersCoordinator: NSObject {
         NotificationCenter.postOnMainThread(notification: ServerNotifications.podcastsRefreshed, object: nil)
     }
 
-    private func saveLastUuidsUsed() {
+    private var currentPodcastsHash: String {
         let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
         let md5 = String(uuids.joined(separator: "")).md5
-        Settings.suggestedFoldersLastPodcastsUsed = md5
+        return md5
+    }
+
+    private func saveLastUuidsUsed() {
+        Settings.suggestedFoldersLastPodcastsUsed = currentPodcastsHash
     }
 
     private func didPodcastsChanged() -> Bool {
-        let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
-        let md5 = String(uuids.joined(separator: "")).md5
-        return Settings.suggestedFoldersLastPodcastsUsed != md5
+        return Settings.suggestedFoldersLastPodcastsUsed != currentPodcastsHash
     }
 
     private func makeFolder(from suggestedFolder: SuggestedFolder) -> Folder {
