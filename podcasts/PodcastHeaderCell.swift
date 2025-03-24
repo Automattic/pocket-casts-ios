@@ -34,7 +34,9 @@ class PodcastHeaderCell: UITableViewCell {
         self.selectionStyle = .none
         configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
             ContentSizeGeometryReader { proxy in
-                PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().ignoresSafeArea()
+                PodcastHeaderView(viewModel: self.viewModel)
+                    .setupDefaultEnvironment()
+                    .ignoresSafeArea()//Needs to be done in order to allow expansion of the view to navigation area when scrolling up
             } contentSizeUpdated: { size in
                 self.calculatedHeight = size.height
                 self.viewController.reloadData()
