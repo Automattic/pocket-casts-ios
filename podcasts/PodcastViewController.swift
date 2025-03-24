@@ -775,9 +775,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
-        blurHeaderPositionConstraint?.constant = blurHeaderPosition
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
+        if FeatureFlag.podcastViewChanges.enabled {
+            blurHeaderPositionConstraint?.constant = blurHeaderPosition
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
         }
     }
 

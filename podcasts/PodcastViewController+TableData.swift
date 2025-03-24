@@ -118,7 +118,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == PodcastViewController.headerSection {
+        if FeatureFlag.podcastViewChanges.enabled, indexPath.section == PodcastViewController.headerSection {
             return podcastHeaderCell.rowHeight
         }
         return UITableView.automaticDimension
