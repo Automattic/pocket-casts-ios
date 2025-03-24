@@ -1412,6 +1412,16 @@ class Settings: NSObject {
         }
     }
 
+    class var suggestedFoldersLastPodcastsUsed: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed) as? String
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
