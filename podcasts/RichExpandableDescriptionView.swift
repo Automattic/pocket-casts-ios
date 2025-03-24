@@ -4,12 +4,12 @@ import UIKit
 class RichExpandableLabel: WKWebView {
 
     weak var delegate: ExpandableLabelDelegate?
-    var desiredLinedHeightMultiple: CGFloat = 1.4
-    var maxLines = 3
+    private var desiredLinedHeightMultiple: CGFloat = 1.4
+    private var maxLines = 3
     private var heightConstraint: NSLayoutConstraint!
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
-    private var previousHTML: String = ""
+    private(set) var previousHTML: String = ""
     private var isFirstTime = true
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {
@@ -26,11 +26,30 @@ class RichExpandableLabel: WKWebView {
         }
     }
 
+    var heightChanged: ((CGFloat) -> ())?
+
+    init(maxLines: Int = 3, heightChanged: ((CGFloat) -> ())? = nil) {
+        self.maxLines = maxLines
+        self.heightChanged = heightChanged
+        super.init(frame: .zero, configuration: WKWebViewConfiguration())
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+        commonInit()
+    }
 
+    private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
-        self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
+        let font = UIFont.preferredFont(forTextStyle: .body)
+        let estimatedHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
+        self.frame = CGRect(x: 0, y: 0, width: 320, height: estimatedHeight)
+        self.heightConstraint = heightAnchor.constraint(equalToConstant: estimatedHeight)
         heightConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             heightConstraint
@@ -57,6 +76,9 @@ class RichExpandableLabel: WKWebView {
     func setRichText(html: String) {
         let styledHTML = style(html: html)
         guard previousHTML != styledHTML else {
+            if htmlReady {
+                heightChanged?(heightConstraint.constant.rounded(.up))
+            }
             return
         }
         htmlReady = false
@@ -133,14 +155,21 @@ class RichExpandableLabel: WKWebView {
         update()
     }
 
+    static func estimateHeightFor(maxLines: Int, lineHeightMultiple: CGFloat, font: UIFont) -> CGFloat {
+        return (font.lineHeight * lineHeightMultiple * CGFloat(maxLines)).rounded(.up)
+    }
+
     private func update() {
         if collapsed {
             addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
-            heightConstraint.constant = font.lineHeight * desiredLinedHeightMultiple * CGFloat(maxLines)
+            let newHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
+            heightConstraint.constant = newHeight
+            heightChanged?(newHeight)
         } else {
             removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
+            heightChanged?(contentHeight.rounded(.up))
         }
         if htmlReady {
             toggleColapseHTMLContent(on: collapsed)
@@ -153,20 +182,21 @@ class RichExpandableLabel: WKWebView {
         evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
             guard let self = self, let cgHeight = height as? CGFloat else { return }
 
-            contentHeight = CGFloat(cgHeight)
+            contentHeight = CGFloat(cgHeight).rounded(.up)
             htmlReady = true
-            update()
             if isFirstTime {
                 isFirstTime = false
                 updateLinesRequired()
+            } else {
+                update()
             }
         })
     }
 
     private func updateLinesRequired() {
         evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
-            guard let self = self, let linesRequired = lines as? Int else { return }
-            collapsed = linesRequired > self.maxLines
+            guard let self = self, let linesRequired = lines as? Double else { return }
+            collapsed = Int(linesRequired.rounded(.up)) > self.maxLines
         })
     }
 

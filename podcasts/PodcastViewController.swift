@@ -291,7 +291,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
             episodesTable.sendSubviewToBack(blurHeaderView)
-            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize)
+            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
             NSLayoutConstraint.activate([
                 blurHeaderPositionConstraint,
                 blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
@@ -305,7 +305,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         addGoogleCastBtn()
         loadPodcastInfo()
-        updateColors()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
@@ -385,6 +384,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     var blurHeaderPositionConstraint: NSLayoutConstraint?
 
+    private var blurHeaderPosition: CGFloat {
+        summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize / 2
+    }
+
     lazy var podcastHeadingCell: PodcastHeadingTableCell = {
          let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
          let cell = nib?[0] as! PodcastHeadingTableCell
@@ -400,8 +403,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         super.viewDidAppear(animated)
 
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
-        updateColors()
-
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
@@ -774,7 +775,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
-        blurHeaderPositionConstraint?.constant = expanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize
+        if FeatureFlag.podcastViewChanges.enabled {
+            blurHeaderPositionConstraint?.constant = blurHeaderPosition
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 
     func isDescriptionExpanded() -> Bool {
