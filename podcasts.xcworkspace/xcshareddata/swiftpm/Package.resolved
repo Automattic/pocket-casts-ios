@@ -38,6 +38,15 @@
         }
       },
       {
+        "package": "AppsFlyerLib",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/AppsFlyerFramework-Dynamic",
+        "state": {
+          "branch": null,
+          "revision": "4a1439b4601f127e3c118f47bb3230eb28d012e7",
+          "version": "6.16.2"
+        }
+      },
+      {
         "package": "AutomatticTracksiOS",
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
