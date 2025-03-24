@@ -1977,6 +1977,7 @@
 		FF6BBCEE2C53E9D000604A01 /* TranscriptManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */; };
 		FF6BBCF02C53EA1F00604A01 /* sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = FF6BBCEF2C53EA1F00604A01 /* sample.vtt */; };
 		FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
+		FF6C9DB02D916AA700BF2711 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C9DAF2D916AA000BF2711 /* String+MD5.swift */; };
 		FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */; };
 		FF7F89ED2C2AF6DE00FC0ED5 /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */; };
 		FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */ = {isa = PBXBuildFile; productRef = FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */; };
@@ -4006,6 +4007,7 @@
 		FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptManagerTests.swift; sourceTree = "<group>"; };
 		FF6BBCEF2C53EA1F00604A01 /* sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample.vtt; sourceTree = "<group>"; };
 		FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsDataRetriever.swift; sourceTree = "<group>"; };
+		FF6C9DAF2D916AA000BF2711 /* String+MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptViewController.swift; sourceTree = "<group>"; };
 		FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
 		FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptModel.swift; sourceTree = "<group>"; };
@@ -7250,6 +7252,7 @@
 		BDF9DDDC1B8AE9B900E77B35 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FF6C9DAF2D916AA000BF2711 /* String+MD5.swift */,
 				FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */,
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
 				FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */,
@@ -10237,6 +10240,7 @@
 				BD69EBBC1CD1D383007F273B /* SocialsHelper.swift in Sources */,
 				BDEDCF7124627F02005910C1 /* CustomSegmentedControl.swift in Sources */,
 				BD2F592A20468C6700AD3767 /* CustomObserver.swift in Sources */,
+				FF6C9DB02D916AA700BF2711 /* String+MD5.swift in Sources */,
 				C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */,
 				BDD62979200ECCBB00168DF7 /* EpisodeDetailViewController+ShowNotes.swift in Sources */,
 				BDD832AF214B8A8B0013D692 /* PCGoogleCastButton.swift in Sources */,
