@@ -86,8 +86,10 @@ struct PodcastHeaderView: View {
                 .font(.title).bold()
                 .fixedSize(horizontal: false, vertical: true)
             Image(systemName: "chevron.up")
+                .frame(width: 24, height: 24)
                 .padding(.horizontal, 4)
                 .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
+                .contentShape(Rectangle())
         }
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
