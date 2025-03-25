@@ -146,7 +146,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable the new podcast view
     case podcastViewChanges
-    
+
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 

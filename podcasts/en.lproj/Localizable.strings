@@ -1621,6 +1621,12 @@
 /* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
 "plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
 
+/* Pocket Casts Plus marketing page, title of the Bookmarks feature */
+"plus_marketing_bookmarks_title" = "Bookmarks";
+
+/* Pocket Casts Plus marketing page, title of the Folders feature */
+"plus_marketing_folders_title" = "Folders";
+
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
 
@@ -1684,7 +1690,7 @@
 "plus_subscription_web_details" = "To cancel your subscription, you’ll need to cancel via Pocketcasts.com.";
 
 /* Feature of Pocket Casts plus, Themes and icons. Themes for changing the way the app looks, icons to change the icon shown on your home screen */
-"plus_feature_themes_icons" = "Extra Themes & App Icons";
+"plus_feature_themes_icons" = "Extra themes & icons";
 
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
