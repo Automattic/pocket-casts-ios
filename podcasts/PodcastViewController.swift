@@ -1227,7 +1227,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Settings.shouldShowPodcastViewChangesTip = false
         var point = podcastHeaderCell.center
         point.y = summaryExpanded ? 1.4 * PodcastHeaderView.Constants.largeImageSize : 1.4 * PodcastHeaderView.Constants.smallImageSize
-        var rect = CGRect(origin: point, size: .zero)
+        let rect = CGRect(origin: point, size: .zero)
         viewChangesTipVC = showTip(title: L10n.podcastViewChangesTipTitle, message: L10n.podcastViewChangesTipDetails, sourceView: podcastHeaderCell, sourceRect: rect) { [weak self] in
             self?.dismissViewChangesTip()
         }
@@ -1253,6 +1253,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let idealSize = CGSizeMake(290, 100)
         let tipView = TipViewStatic(title: title,
                                     message: message,
+                                    showClose: true,
                               onTap: {
             action()
         })
