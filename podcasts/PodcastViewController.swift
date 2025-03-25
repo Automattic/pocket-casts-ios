@@ -1216,6 +1216,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private var viewChangesTipVC: UIViewController?
+    private var dimmingView: UIView?
 
     private func showViewChangesTipIfNeeded() {
         guard FeatureFlag.podcastViewChanges.enabled,
@@ -1237,10 +1238,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             return
         }
         viewChangesTipVC.dismiss(animated: true)
+        dimmingView?.removeFromSuperview()
         self.viewChangesTipVC = nil
     }
 
-    private func showTip(title: String, message: String, sourceView: UIView, sourceRect: CGRect = CGRectNull, action: @escaping () -> ()) -> UIViewController {
+    private func showTip(title: String, message: String, sourceView: UIView, sourceRect: CGRect = CGRectNull, dimBackground: Bool = true, action: @escaping () -> ()) -> UIViewController {
+        if dimBackground {
+            let dimmingView = UIView(frame: self.view.bounds)
+            dimmingView.backgroundColor = .black.withAlphaComponent(0.3)
+            self.tabBarController?.view.addSubview(dimmingView)
+            self.dimmingView = dimmingView
+        }
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let idealSize = CGSizeMake(290, 100)
         let tipView = TipViewStatic(title: title,
