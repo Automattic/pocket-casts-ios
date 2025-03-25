@@ -1422,6 +1422,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Podcast View Changes Tip
+
+    static var shouldShowPodcastViewChangesTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastViewChanges.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastViewChanges.showTip)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
