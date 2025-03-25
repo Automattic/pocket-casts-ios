@@ -50,8 +50,9 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastTitle
             Spacer().frame(height: 16)
-            StarRatingView(viewModel: viewModel.podcastRatingViewModel, style: .short,
-                                      onRate: {
+            StarRatingView(viewModel: viewModel.podcastRatingViewModel,
+                           style: .short,
+                           onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
             Spacer().frame(height: 16)
