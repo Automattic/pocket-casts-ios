@@ -1426,8 +1426,16 @@ internal enum L10n {
   internal static var hoursSaved: String { return L10n.tr("Localizable", "hours_saved") }
   /// First, open an app that has the audio files you'd like to save
   internal static var howToUploadExplanation: String { return L10n.tr("Localizable", "how_to_upload_explanation") }
+  /// Audio File
+  internal static var howToUploadFirstImageBackgroundButtonText: String { return L10n.tr("Localizable", "how_to_upload_first_image_background_button_text") }
+  /// Menu Option
+  internal static var howToUploadFirstImageForegroundMenuOptionText: String { return L10n.tr("Localizable", "how_to_upload_first_image_foreground_menu_option_text") }
   /// Choose to share that file
   internal static var howToUploadFirstInstruction: String { return L10n.tr("Localizable", "how_to_upload_first_instruction") }
+  /// Copy to Pocket Casts
+  internal static var howToUploadSecondImageCenterText: String { return L10n.tr("Localizable", "how_to_upload_second_image_center_text") }
+  /// Something Else
+  internal static var howToUploadSecondImageSidesText: String { return L10n.tr("Localizable", "how_to_upload_second_image_sides_text") }
   /// In the menu tap "Copy to Pocket Casts"
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!

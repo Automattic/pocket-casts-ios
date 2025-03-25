@@ -1,4 +1,4 @@
-import UIKit
+import SwiftUI
 
 class HowToUploadViewController: UIViewController {
     @IBOutlet var explanationLabel: ThemeableLabel! {
@@ -15,24 +15,17 @@ class HowToUploadViewController: UIViewController {
         }
     }
 
-    @IBOutlet var howToShare1: ThemeableImageView! {
-        didSet {
-            howToShare1.imageNameFunc = AppTheme.howToFiles1ImageName
-        }
-    }
+    @IBOutlet var howToShare1: ThemeableImageView!
 
     @IBOutlet var secondInstructionLabel: ThemeableLabel! {
         didSet {
             secondInstructionLabel.style = .primaryText02
             secondInstructionLabel.text = L10n.howToUploadSecondInstruction
+            secondInstructionLabel.textAlignment = .center
         }
     }
 
-    @IBOutlet var howToShare2: ThemeableImageView! {
-        didSet {
-            howToShare2.imageNameFunc = AppTheme.howToFiles2ImageName
-        }
-    }
+    @IBOutlet var howToShare2: ThemeableImageView!
 
     @IBOutlet var summaryLabel: ThemeableLabel! {
         didSet {
@@ -67,6 +60,15 @@ class HowToUploadViewController: UIViewController {
         closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        let hvc = UIHostingController(rootView: HowToShareImage1View().environmentObject(Theme.sharedTheme))
+        guard let subview = hvc.view else { return }
+        addChild(hvc)
+        howToShare1.addSubview(subview)
+        let hvc2 = UIHostingController(rootView: HowToShareImage2View().environmentObject(Theme.sharedTheme))
+        guard let subview2 = hvc2.view else { return }
+        addChild(hvc2)
+        howToShare2.addSubview(subview2)
     }
 
     @IBAction func doneTapped(_ sender: Any) {

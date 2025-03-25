@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -45,8 +45,12 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Files-How-To-Sheet-01-Light" translatesAutoresizingMaskIntoConstraints="NO" id="iXW-Yh-s7Q" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iXW-Yh-s7Q" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="72" y="58" width="230" height="120"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="120" id="BzS-QA-0bY"/>
+                                        <constraint firstAttribute="width" constant="230" id="GhM-LV-ckV"/>
+                                    </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -72,8 +76,12 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Files-How-To-Sheet-02-Light" translatesAutoresizingMaskIntoConstraints="NO" id="BJD-ID-Os3" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BJD-ID-Os3" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="77" y="58" width="220" height="150"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="150" id="Z2N-Gb-Uve"/>
+                                        <constraint firstAttribute="width" constant="220" id="sTR-4u-yjk"/>
+                                    </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -166,8 +174,4 @@
             <point key="canvasLocation" x="-239.13043478260872" y="-143.30357142857142"/>
         </view>
     </objects>
-    <resources>
-        <image name="Files-How-To-Sheet-01-Light" width="230" height="120"/>
-        <image name="Files-How-To-Sheet-02-Light" width="220" height="150"/>
-    </resources>
 </document>
