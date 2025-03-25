@@ -51,7 +51,7 @@ class PodcastHeaderCell: UITableViewCell {
         cell.contentView.backgroundColor = .clear
         cell.layoutIfNeeded()
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
+        cell.contentView.clipsToBounds = true
         viewController.addChild(swiftUICellViewController)
         cell.contentView.addSubview(swiftUICellViewController.view)
         swiftUICellViewController.view.translatesAutoresizingMaskIntoConstraints = false
