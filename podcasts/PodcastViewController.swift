@@ -443,6 +443,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             showPodcastFeedReloadTipIfNeeded()
         }
         episodesTable.sendSubviewToBack(blurHeaderView)
+
+        showViewChangesTipIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1145,12 +1147,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func dismissPodcastFeedReloadTip() {
-        guard Settings.shouldShowPodcastFeeReloadTip else {
+        guard Settings.shouldShowPodcastFeeReloadTip,
+            let podcastFeedReloadTooltip
+        else {
             return
         }
         Analytics.track(.podcastRefreshEpisodeTooltipDismissed)
         Settings.shouldShowPodcastFeeReloadTip = false
-        podcastFeedReloadTooltip?.dismiss(animated: true) { [weak self] in
+        podcastFeedReloadTooltip.dismiss(animated: true) { [weak self] in
             self?.podcastFeedReloadTooltip = nil
         }
     }
@@ -1208,6 +1212,57 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             popoverPresentationController.sourceRect = button.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
         }
+        return vc
+    }
+
+    private var viewChangesTipVC: UIViewController?
+
+    private func showViewChangesTipIfNeeded() {
+        guard FeatureFlag.podcastViewChanges.enabled else {
+            return
+        }
+        viewChangesTipVC = showViewChangesTip()
+    }
+
+    private func dismissViewChangesTip() {
+        guard let viewChangesTipVC else {
+            return
+        }
+        viewChangesTipVC.dismiss(animated: true)
+        self.viewChangesTipVC = nil
+    }
+
+    private func showViewChangesTip() -> UIViewController {
+        let sourceView = podcastHeaderCell
+
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let idealSize = CGSizeMake(290, 100)
+        let tipView = TipViewStatic(title: L10n.podcastViewChangesTipTitle,
+                                    message: L10n.podcastViewChangesTipDetails,
+                              onTap: { [weak self] in
+            self?.dismissViewChangesTip()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        if #available(iOS 16.0, *) {
+            vc.sizingOptions = [.preferredContentSize]
+        } else {
+            vc.preferredContentSize = idealSize
+        }
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = [.down]
+            popoverPresentationController.sourceView = sourceView
+            var point = sourceView.center
+            point.y = summaryExpanded ? 1.4 * PodcastHeaderView.Constants.largeImageSize : 1.4 * PodcastHeaderView.Constants.smallImageSize
+            popoverPresentationController.sourceRect = CGRect(origin: point, size: .zero)
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
+        present(vc, animated: true)
         return vc
     }
 
@@ -1278,6 +1333,7 @@ extension PodcastViewController: UIPopoverPresentationControllerDelegate {
 
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         dismissPodcastFeedReloadTip()
+        dismissViewChangesTip()
     }
 }
 
