@@ -1224,7 +1224,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             return
         }
         Settings.shouldShowPodcastViewChangesTip = false
-        viewChangesTipVC = showViewChangesTip()
+        var point = podcastHeaderCell.center
+        point.y = summaryExpanded ? 1.4 * PodcastHeaderView.Constants.largeImageSize : 1.4 * PodcastHeaderView.Constants.smallImageSize
+        var rect = CGRect(origin: point, size: .zero)
+        viewChangesTipVC = showTip(title: L10n.podcastViewChangesTipTitle, message: L10n.podcastViewChangesTipDetails, sourceView: podcastHeaderCell, sourceRect: rect) { [weak self] in
+            self?.dismissViewChangesTip()
+        }
     }
 
     private func dismissViewChangesTip() {
@@ -1235,15 +1240,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         self.viewChangesTipVC = nil
     }
 
-    private func showViewChangesTip() -> UIViewController {
-        let sourceView = podcastHeaderCell
-
+    private func showTip(title: String, message: String, sourceView: UIView, sourceRect: CGRect = CGRectNull, action: @escaping () -> ()) -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let idealSize = CGSizeMake(290, 100)
-        let tipView = TipViewStatic(title: L10n.podcastViewChangesTipTitle,
-                                    message: L10n.podcastViewChangesTipDetails,
-                              onTap: { [weak self] in
-            self?.dismissViewChangesTip()
+        let tipView = TipViewStatic(title: title,
+                                    message: message,
+                              onTap: {
+            action()
         })
             .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
@@ -1260,9 +1263,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.down]
             popoverPresentationController.sourceView = sourceView
-            var point = sourceView.center
-            point.y = summaryExpanded ? 1.4 * PodcastHeaderView.Constants.largeImageSize : 1.4 * PodcastHeaderView.Constants.smallImageSize
-            popoverPresentationController.sourceRect = CGRect(origin: point, size: .zero)
+            popoverPresentationController.sourceRect = sourceRect
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
         }
         present(vc, animated: true)
