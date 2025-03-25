@@ -172,7 +172,7 @@ struct PodcastHeaderView: View {
             }
         }
         .frame(height: contentHeight)
-        .animation(.snappy, value: contentHeight)
+        .animation(.easeInOut(duration: 0.1), value: contentHeight)
     }
 
     private var podcastDetails: some View {
