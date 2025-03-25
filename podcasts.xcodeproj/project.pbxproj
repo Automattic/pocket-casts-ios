@@ -675,6 +675,7 @@
 		9A11FC932D91CBF300A1EF3E /* AppsFlyerLib-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */; };
 		9A11FC962D91D06600A1EF3E /* AppsFlyerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */; };
 		9A11FC9A2D91D1CD00A1EF3E /* AppsFlyerDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */; };
+		9A11FCA02D92F3E400A1EF3E /* AppTrackingTransparencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FC9F2D92F3E100A1EF3E /* AppTrackingTransparencyController.swift */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -2881,6 +2882,7 @@
 		9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedTranscriptsPremiumOverlay.swift; sourceTree = "<group>"; };
 		9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapter.swift; sourceTree = "<group>"; };
 		9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerDataProvider.swift; sourceTree = "<group>"; };
+		9A11FC9F2D92F3E100A1EF3E /* AppTrackingTransparencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparencyController.swift; sourceTree = "<group>"; };
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
@@ -5351,6 +5353,14 @@
 			path = "Newform AppsFlyer";
 			sourceTree = "<group>";
 		};
+		9A11FC9E2D92F3D600A1EF3E /* Apple ATT */ = {
+			isa = PBXGroup;
+			children = (
+				9A11FC9F2D92F3E100A1EF3E /* AppTrackingTransparencyController.swift */,
+			);
+			path = "Apple ATT";
+			sourceTree = "<group>";
+		};
 		9A156AAE2CF61016007BA8D9 /* Cancel Subscription */ = {
 			isa = PBXGroup;
 			children = (
@@ -7363,6 +7373,7 @@
 		C72CED30289DA17F0017883A /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
+				9A11FC9E2D92F3D600A1EF3E /* Apple ATT */,
 				C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */,
 				9A11FC942D91D04E00A1EF3E /* Newform AppsFlyer */,
 				46A6AC0128F5B67D000E6254 /* Crash Logging */,
@@ -10808,6 +10819,7 @@
 				9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */,
 				BD92323523629F7B00C1E118 /* PlayerItemViewController.swift in Sources */,
 				BDB1E4F61B8C5BF9009AD30F /* NetworkSummaryViewController.swift in Sources */,
+				9A11FCA02D92F3E400A1EF3E /* AppTrackingTransparencyController.swift in Sources */,
 				F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */,
 				8BD7A23C2C06254400CF84E8 /* UpNextEntryView.swift in Sources */,
 				404A080724E215A200308722 /* CheckboxSubtitleCell.swift in Sources */,

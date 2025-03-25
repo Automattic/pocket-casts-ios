@@ -5,10 +5,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
     private let appsFlyer = AppsFlyerLib.shared()
     private let dataProvider: AppsFlyerDataProvider
     private let notificationCenter: NotificationCenter
-    private var canTrack: Bool {
-        FeatureFlag.podcastNewformAppsFlyer.enabled &&
-        dataProvider.userId != nil
-    }
+    private var appTrackingTransparencyProvider: AppTrackingTransparencyProvider
 
     deinit {
         notificationCenter.removeObserver(self)
@@ -16,16 +13,22 @@ class AppsFlyerAdapter: AnalyticsAdapter {
 
     init(
         dataProvider: AppsFlyerDataProvider = AppsFlyerDataProvider(),
-        notificationCenter: NotificationCenter = .default
+        notificationCenter: NotificationCenter = .default,
+        appTrackingTransparencyProvider: AppTrackingTransparencyProvider
     ) {
         self.dataProvider = dataProvider
         self.notificationCenter = notificationCenter
+        self.appTrackingTransparencyProvider = appTrackingTransparencyProvider
         startObserver()
         setup()
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
-        guard FeatureFlag.podcastNewformAppsFlyer.enabled else {
+        guard
+            FeatureFlag.podcastNewformAppsFlyer.enabled,
+            dataProvider.userId != nil,
+            appTrackingTransparencyProvider.userGaveConsent()
+        else {
             return
         }
         appsFlyer.logEvent(name, withValues: properties)
@@ -36,29 +39,36 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         let userId = dataProvider.userId else {
             return
         }
+        if appTrackingTransparencyProvider.userDeniedConsent() {
+            return
+        }
         appsFlyer.appsFlyerDevKey = dataProvider.devKey
         appsFlyer.appleAppID = dataProvider.appleAppID
         appsFlyer.customerUserID = userId
 #if DEBUG
         appsFlyer.isDebug = true
 #endif
-        //Check ATT status
-//        appsFlyer.waitForATTUserAuthorization(timeoutInterval: 60)
-        //start()
+        let shouldShowPrompt = appTrackingTransparencyProvider.shouldShowPrompt()
+        if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {
+            start()
+        } else if shouldShowPrompt {
+            appsFlyer.waitForATTUserAuthorization(timeoutInterval: 60)
+            appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized in
+                if authorized {
+                    self?.start()
+                }
+            }
+        }
     }
 
     private func start() {
-#if DEBUG
         appsFlyer.start {  params, error in
             if let error {
-                FileLog.shared.console("AppsFlyer start error: \(error)")
+                FileLog.shared.addMessage("AppsFlyer start error: \(error)")
             } else {
-                FileLog.shared.console("AppsFlyer start success: \(params ?? [:])")
+                FileLog.shared.addMessage("AppsFlyer start success: \(params ?? [:])")
             }
         }
-#else
-        appsFlyer.start()
-#endif
     }
 
     private func startObserver() {
