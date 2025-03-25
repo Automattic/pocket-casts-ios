@@ -39,13 +39,13 @@ struct PodcastHeaderView: View {
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
                 Spacer()
             }
-            if viewModel.isExpanded {
-                VStack(spacing: 0) {
-                    Spacer().frame(height: 24)
-                    podcastCategory
-                }
-                .transition(.collapse.combined(with: .move(edge: .top)))
+            VStack(spacing: 0) {
+                Spacer().frame(height: 24)
+                podcastCategory
             }
+                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
+                .opacity(viewModel.isExpanded ? 1 : 0)
+                .clipped()
             Spacer().frame(height: 16)
             podcastTitle
             Spacer().frame(height: 16)
@@ -56,19 +56,18 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
-            if viewModel.isExpanded {
-                VStack {
-                    podcastDescription
-                    podcastDetails
-                    Spacer().frame(height: 24)
-                }
-                .transition(.collapse)
-                .transformEffect(.identity)
+            VStack {
+                podcastDescription
+                podcastDetails
+                Spacer().frame(height: 24)
             }
+                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
+                .opacity(viewModel.isExpanded ? 1 : 0)
+                .clipped()
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
             Spacer()
                 .frame(height: 8)
-         }
+        }
         .padding()
     }
 
