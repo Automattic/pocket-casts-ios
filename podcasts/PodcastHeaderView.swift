@@ -37,38 +37,39 @@ struct PodcastHeaderView: View {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
+                    .animation(.bouncy, value: viewModel.isExpanded)
                 Spacer()
             }
-            if viewModel.isExpanded {
-                VStack(spacing: 0) {
-                    Spacer().frame(height: 24)
-                    podcastCategory
-                }
-                .transition(.collapse.combined(with: .move(edge: .top)))
+            VStack(spacing: 0) {
+                Spacer().frame(height: 24)
+                podcastCategory
             }
+                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
+                .opacity(viewModel.isExpanded ? 1 : 0)
+                .clipped()
             Spacer().frame(height: 16)
             podcastTitle
             Spacer().frame(height: 16)
-            StarRatingView(viewModel: viewModel.podcastRatingViewModel, style: .short,
-                                      onRate: {
+            StarRatingView(viewModel: viewModel.podcastRatingViewModel,
+                           style: .short,
+                           onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
-            if viewModel.isExpanded {
-                VStack {
-                    podcastDescription
-                    podcastDetails
-                    Spacer().frame(height: 24)
-                }
-                .transition(.collapse)
-                .transformEffect(.identity)
+            VStack {
+                podcastDescription
+                podcastDetails
+                Spacer().frame(height: 24)
             }
+                .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
+                .opacity(viewModel.isExpanded ? 1 : 0)
+                .clipped()
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
             Spacer()
                 .frame(height: 8)
-         }
+        }
         .padding()
     }
 
@@ -87,8 +88,10 @@ struct PodcastHeaderView: View {
                 .font(.title).bold()
                 .fixedSize(horizontal: false, vertical: true)
             Image(systemName: "chevron.up")
+                .frame(width: 24, height: 24)
                 .padding(.horizontal, 4)
                 .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
+                .contentShape(Rectangle())
         }
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
@@ -172,7 +175,7 @@ struct PodcastHeaderView: View {
             }
         }
         .frame(height: contentHeight)
-        .animation(.snappy, value: contentHeight)
+        .animation(.easeInOut(duration: 0.1), value: contentHeight)
     }
 
     private var podcastDetails: some View {
