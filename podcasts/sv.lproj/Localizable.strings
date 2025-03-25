@@ -1210,6 +1210,12 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Under den här tiden kunde du ha knutit %1$@ skosnören. Kanske. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Under den här tiden skrevs %1$@ tweets. Tut! Tut! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Den här transkriptionen genereras automatiskt och är endast tillgänglig för Plus-prenumeranter.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Prenumerera på Plus för att få åtkomst till den och andra Premium-funktioner som bokmärken och mappar.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Den här transkriptionen genereras automatiskt av Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Gå till podcasten</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Endast på WiFi utan datapriser</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Om du inaktiverar det här alternativet tillåts nedladdningar på mobila nätverk såväl som andra nätverk med datapriser. Kontrollera dina nätverksinställningar för mer information.</string>
     <key>only_on_wifi</key>
     <string>Endast via WiFi</string>
     <key>opml_import_failed_message</key>
@@ -2965,6 +2975,18 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Tack för ditt stöd!</string>
     <key>suggested_folders_create_custom_folder</key>
     <string>Skapa anpassad mapp</string>
+    <key>suggested_folders_description</key>
+    <string>Vi har organiserat dina podcasts i mappar. Spara nu och anpassa senare.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Vi har organiserat dina podcasts i mappar. Spara nu och anpassa senare. Detta kommer att ersätta befintliga mappar.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Ersätt mappar</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Om du godkänner de föreslagna mapparna skrivs dina befintliga mappar över. Det här kan inte ångras.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Ersätt befintliga mappar?</string>
+    <key>suggested_folders_title</key>
+    <string>Smarta mappar</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Använd dessa mappar</string>
     <key>support_watch_help_message</key>
