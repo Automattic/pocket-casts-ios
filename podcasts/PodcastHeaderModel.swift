@@ -62,12 +62,13 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return String(substring).lowercased()
     }
 
-    var displayCategory: String {
-        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+    var displayCategoryAndAuthor: AttributedString {
+        let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        var markdown = "[\(category)](http://pocketcasts.com)"
         if let author = podcast.author {
-            result += " · \(author)"
+            markdown += " · \(author)"
         }
-        return result
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
     }
 
     var displayAuthor: String? {
