@@ -59,7 +59,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         else {
             return ""
         }
-        return String(substring)
+        return String(substring).lowercased()
     }
 
     var displayCategory: String {

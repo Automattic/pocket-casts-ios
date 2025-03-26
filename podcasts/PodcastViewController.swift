@@ -876,8 +876,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
     }
 
-    func categoryTapped(_ category: String) {        
-        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+    func categoryTapped(_ category: String) {
+        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
         Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
     }
 
