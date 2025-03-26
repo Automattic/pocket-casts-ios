@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            appInstallState == .installed {
             //Never show the podcast feed reload tooltip for fresh install
             Settings.shouldShowPodcastFeeReloadTip = false
+            Settings.shouldShowPodcastViewChangesTip = false
         }
 
         let defaults = UserDefaults.standard
