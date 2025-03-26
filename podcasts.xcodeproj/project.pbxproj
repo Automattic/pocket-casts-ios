@@ -679,6 +679,8 @@
 		9A11FCB22D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
 		9A11FCB32D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
 		9A11FCB42D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
+		9A11FCB62D94626E00A1EF3E /* AnonymousIdentifiableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */; };
+		9A11FCB82D94651A00A1EF3E /* AppsFlyerAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -2887,6 +2889,8 @@
 		9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerDataProvider.swift; sourceTree = "<group>"; };
 		9A11FC9F2D92F3E100A1EF3E /* AppTrackingTransparencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparencyController.swift; sourceTree = "<group>"; };
 		9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiable.swift; sourceTree = "<group>"; };
+		9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiableTests.swift; sourceTree = "<group>"; };
+		9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapterTests.swift; sourceTree = "<group>"; };
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
@@ -8062,6 +8066,8 @@
 				C7D854F228ADD98700877E87 /* AppLifecyleAnalyticsTests.swift */,
 				8BA55A0F28CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift */,
 				9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */,
+				9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */,
+				9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -9831,9 +9837,11 @@
 				107836262C62816900DA3FF0 /* ABTestProviderTests.swift in Sources */,
 				8B484EF728D23F06001AFA97 /* PlaybackTimeHelperTests.swift in Sources */,
 				F53EFEE82CD405DA00F4561B /* YearOverYearCompareTests.swift in Sources */,
+				9A11FCB82D94651A00A1EF3E /* AppsFlyerAdapterTests.swift in Sources */,
 				45ECEF8627E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift in Sources */,
 				2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */,
 				8BA6CAFE2C404C3600FB4704 /* ComposeFilterTests.swift in Sources */,
+				9A11FCB62D94626E00A1EF3E /* AnonymousIdentifiableTests.swift in Sources */,
 				8B317BA728906CC200A26A13 /* TestingViewController.swift in Sources */,
 				8BA55A1028CA6843002BECC5 /* AnalyticsPlaybackHelperTests.swift in Sources */,
 				321AC02A2B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift in Sources */,
