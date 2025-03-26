@@ -147,6 +147,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new podcast view
     case podcastViewChanges
 
+    /// Enable Newform AppsFlyer SDK
+    case podcastNewformAppsFlyer
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -244,6 +247,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedTranscripts:
             true
         case .podcastViewChanges:
+            false
+        case .podcastNewformAppsFlyer:
             false
         }
     }
