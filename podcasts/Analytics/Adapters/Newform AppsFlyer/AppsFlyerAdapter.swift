@@ -21,12 +21,14 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         self.appTrackingTransparencyProvider = appTrackingTransparencyProvider
         startObserver()
         setup()
+#if DEBUG
+        FileLog.shared.console("AppsFlyer anonymous UUID \(dataProvider.anonymousUUID)")
+#endif
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
         guard
             FeatureFlag.podcastNewformAppsFlyer.enabled,
-            dataProvider.userId != nil,
             appTrackingTransparencyProvider.userGaveConsent()
         else {
             return
@@ -35,8 +37,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
     }
 
     private func setup() {
-        guard FeatureFlag.podcastNewformAppsFlyer.enabled,
-        let userId = dataProvider.userId else {
+        guard FeatureFlag.podcastNewformAppsFlyer.enabled else {
             return
         }
         if appTrackingTransparencyProvider.userDeniedConsent() {
@@ -44,7 +45,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         }
         appsFlyer.appsFlyerDevKey = dataProvider.devKey
         appsFlyer.appleAppID = dataProvider.appleAppID
-        appsFlyer.customerUserID = userId
+        appsFlyer.customerUserID = dataProvider.anonymousUUID
 #if DEBUG
         appsFlyer.isDebug = true
 #endif
@@ -52,8 +53,9 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {
             start()
         } else if shouldShowPrompt {
-            appsFlyer.waitForATTUserAuthorization(timeoutInterval: 60)
+            FileLog.shared.addMessage("AppsFlyer ATT not determined: wait for user to give consent")
             appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized in
+                FileLog.shared.addMessage("AppsFlyer ATT auth state changed: authorized \(authorized)")
                 if authorized {
                     self?.start()
                 }
