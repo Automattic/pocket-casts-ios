@@ -1918,6 +1918,8 @@
 		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
+		FCE96E142D922FEF00AC50E3 /* HowToShareImage1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */; };
+		FCE96E162D9230A800AC50E3 /* HowToShareImage2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */; };
 		FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */; };
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
@@ -3958,6 +3960,8 @@
 		F5FF612A2BD6EB3B00190711 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		F88E534BDAFFD21F2017D2B9 /* Pods-Pocket Casts App ClipTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.release.xcconfig"; sourceTree = "<group>"; };
 		FC7ED004592D8F6B73D5DCEE /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToShareImage1View.swift; sourceTree = "<group>"; };
+		FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToShareImage2View.swift; sourceTree = "<group>"; };
 		FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceModel.swift; sourceTree = "<group>"; };
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
@@ -4396,6 +4400,8 @@
 				407B21E62231F6A300B4E492 /* UploadedSettingsViewController.xib */,
 				BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */,
 				BDB1DC622316964E00119B81 /* HowToUploadViewController.xib */,
+				FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */,
+				FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -9941,6 +9947,7 @@
 				40164A6723D696E00043907B /* PromotionViewController.swift in Sources */,
 				BD93FDA920159B6B00F6EF55 /* PlaylistsViewController+Table.swift in Sources */,
 				C7FF770C291C2C4D0082A464 /* LoginLandingView.swift in Sources */,
+				FCE96E142D922FEF00AC50E3 /* HowToShareImage1View.swift in Sources */,
 				BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */,
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */,
@@ -10597,6 +10604,7 @@
 				8BC862672B714782000627B9 /* UnderlineLinkTextView.swift in Sources */,
 				4005F27522C057EA006BB8B8 /* AVFileUtil.swift in Sources */,
 				BDEAA17D1BB140CE001097D9 /* SwitchCell.swift in Sources */,
+				FCE96E162D9230A800AC50E3 /* HowToShareImage2View.swift in Sources */,
 				4041FE95218A828F0089D4A1 /* SiriShortcutSuggestedCell.swift in Sources */,
 				BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */,
 				8BC8626B2B718042000627B9 /* SlumberViews.swift in Sources */,
