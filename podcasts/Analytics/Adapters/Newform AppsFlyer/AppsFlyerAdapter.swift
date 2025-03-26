@@ -4,22 +4,14 @@ import PocketCastsUtils
 class AppsFlyerAdapter: AnalyticsAdapter {
     private let appsFlyer = AppsFlyerLib.shared()
     private let dataProvider: AppsFlyerDataProvider
-    private let notificationCenter: NotificationCenter
     private var appTrackingTransparencyProvider: AppTrackingTransparencyProvider
-
-    deinit {
-        notificationCenter.removeObserver(self)
-    }
 
     init(
         dataProvider: AppsFlyerDataProvider = AppsFlyerDataProvider(),
-        notificationCenter: NotificationCenter = .default,
         appTrackingTransparencyProvider: AppTrackingTransparencyProvider
     ) {
         self.dataProvider = dataProvider
-        self.notificationCenter = notificationCenter
         self.appTrackingTransparencyProvider = appTrackingTransparencyProvider
-        startObserver()
         setup()
 #if DEBUG
         FileLog.shared.console("AppsFlyer anonymous UUID \(dataProvider.anonymousUUID)")
@@ -41,6 +33,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
             return
         }
         if appTrackingTransparencyProvider.userDeniedConsent() {
+            FileLog.shared.addMessage("AppsFlyer setup not possible as ATT is denied")
             return
         }
         appsFlyer.appsFlyerDevKey = dataProvider.devKey
@@ -70,16 +63,6 @@ class AppsFlyerAdapter: AnalyticsAdapter {
             } else {
                 FileLog.shared.addMessage("AppsFlyer start success: \(params ?? [:])")
             }
-        }
-    }
-
-    private func startObserver() {
-        notificationCenter.addObserver(
-            forName: .userLoginDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.setup()
         }
     }
 }
