@@ -53,6 +53,15 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return folderImage
     }
 
+    var firstCategory: String {
+        guard let category = podcast.podcastCategory,
+              let substring = category.split(whereSeparator: \.isNewline).first
+        else {
+            return ""
+        }
+        return String(substring)
+    }
+
     var displayCategory: String {
         var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
         if let author = podcast.author {
@@ -126,6 +135,10 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     var htmlDescription: String {
         return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
+
+    func categoryTapped() {
+        delegate?.categoryTapped(firstCategory)
     }
 }
 

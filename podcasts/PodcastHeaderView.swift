@@ -79,6 +79,9 @@ struct PodcastHeaderView: View {
                 .font(.callout)
                 .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(theme.primaryText02)
+            .onTapGesture {
+                viewModel.categoryTapped()
+            }
         }
     }
 

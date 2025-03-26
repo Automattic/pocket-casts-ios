@@ -37,6 +37,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func settingsTapped()
     func folderTapped()
     func notificationTapped()
+    func categoryTapped(_ category: String)
     func subscribe()
     func unsubscribe()
     func refreshArtwork(fromRect: CGRect, inView: UIView)
@@ -873,6 +874,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         Toast.show(newValue ? L10n.notificationsOn : L10n.notificationsOff)
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
+    }
+
+    func categoryTapped(_ category: String) {        
+        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+        Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
     }
 
     func searchEpisodes(query: String) {
