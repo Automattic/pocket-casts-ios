@@ -51,11 +51,9 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
-
 #if DEBUG
         FileLog.shared.console("TracksAdapter anonymous UUID \(anonymousUUID)")
 #endif
-        
         // Setup the rest of the properties
         reloadExPlat()
         updateUserProperties()

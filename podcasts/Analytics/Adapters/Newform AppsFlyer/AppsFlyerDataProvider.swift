@@ -2,7 +2,7 @@ import PocketCastsServer
 
 struct AppsFlyerDataProvider: AnonymousIdentifiable {
     let devKey = ApiCredentials.appsFlyerDevKey
-    let appleAppID = "PZYM8XX95Q"
+    let appleAppID = "414834813"
     let userDefaults: UserDefaults
 
     var anonymousUUID: String {

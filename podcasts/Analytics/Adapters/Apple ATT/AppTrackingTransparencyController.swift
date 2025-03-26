@@ -31,6 +31,7 @@ class AppTrackingTransparencyController: AppTrackingTransparencyProvider {
         return ATTrackingManager.trackingAuthorizationStatus.idDenied
     }
 
+    @discardableResult
     func promptConsentAlert() async -> Bool {
         guard shouldShowPrompt() else {
             return false
