@@ -1031,7 +1031,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>We use analytics to improve the app but we understand if you don&apos;t want to share your data.</string>
+	<string>We use analytics to make the app better and to measure if our ad campaigns are successful.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ChapterIntent</string>

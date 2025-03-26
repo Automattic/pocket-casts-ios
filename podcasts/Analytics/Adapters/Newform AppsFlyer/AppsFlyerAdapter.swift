@@ -47,7 +47,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         appsFlyer.appleAppID = dataProvider.appleAppID
         appsFlyer.customerUserID = dataProvider.anonymousUUID
 #if DEBUG
-        appsFlyer.isDebug = true
+        appsFlyer.isDebug = FeatureFlag.appsFlyerLogging.enabled
 #endif
         let shouldShowPrompt = appTrackingTransparencyProvider.shouldShowPrompt()
         if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {

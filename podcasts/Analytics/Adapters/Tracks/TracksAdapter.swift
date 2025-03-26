@@ -27,7 +27,6 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     private enum TracksConfig {
         static let prefix = "pcios"
         static let userKey = "pocketcasts:user_id"
-        static let anonymousUUIDKey = "TracksAnonymousUUID"
         static let platform = "pocketcasts"
     }
 
