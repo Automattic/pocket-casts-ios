@@ -4806,6 +4806,7 @@
 
 /* Notifications Off*/
 "notifications_off" = "Notifications Off";
+
 /* Only on Unmetered Wifi */
 "only_on_unmetered_wifi" = "Only on Unmetered Wifi";
 
@@ -4827,3 +4828,5 @@
 /* Podcast View Changes tooltip details of change*/
 "podcast_view_changes_tip_details" = "Tap on the podcast title to collapse or expand its description and details";
 
+/* Toast message when notifications are enable for podcast. %1$@ argument is the name of the podcast*/
+"notifications_on_for_podcast" = "We’ll notify you with new episodes of %1$@";

@@ -874,7 +874,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let newValue = !podcast.isPushEnabled
         PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        Toast.show(newValue ? L10n.notificationsOn : L10n.notificationsOff)
+        var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
+        if let title = podcast.title, newValue {
+            message = L10n.notificationsOnForPodcast(title)
+        }
+        Toast.show(message)
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
     }
 
