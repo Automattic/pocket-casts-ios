@@ -506,7 +506,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func reloadData() {
         episodesTable.reloadData()
-        if FeatureFlag.podcastViewChanges.enabled {
+        if FeatureFlag.podcastViewChanges.enabled, viewIfLoaded != nil, viewIfLoaded?.window != nil {
             episodesTable.layoutIfNeeded()
             // This is being done here because after a relayout of table data we need to send the header back
             episodesTable.sendSubviewToBack(blurHeaderView)
