@@ -1228,9 +1228,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var viewChangesTipVC: UIViewController?
     private var dimmingView: UIView?
 
-    private func showViewChangesTipIfNeeded() {
+    func showViewChangesTipIfNeeded() {
         guard FeatureFlag.podcastViewChanges.enabled,
-              Settings.shouldShowPodcastViewChangesTip
+              Settings.shouldShowPodcastViewChangesTip,
+              self.podcast != nil,
+              viewChangesTipVC == nil
         else {
             return
         }
