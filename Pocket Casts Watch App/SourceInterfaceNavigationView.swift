@@ -59,10 +59,14 @@ struct SourceInterfaceNavigationView: View {
     @ViewBuilder
     var sourceSection: some View {
         Section {
-            NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
+            NavigationLink {
+                InterfaceView(source: .phone)
+            } label: {
                 SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
             }
-            NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
+            NavigationLink {
+                InterfaceView(source: .watch)
+            } label: {
                 SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: !model.isLoggedIn || !model.isPlusUser, active: model.activeSource == .watch)
             }.disabled(!model.isPlusUser)
         } footer: {
@@ -129,7 +133,7 @@ struct SourceInterfaceNavigationView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 sourceSection
                 dataRefreshSection

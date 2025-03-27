@@ -41,27 +41,39 @@ struct InterfaceView: View {
             ForEach(rowList) { row in
                 switch row {
                 case .downloads:
-                    NavigationLink(destination: DownloadListView(), tag: WatchInterfaceType.downloads.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        DownloadListView()
+                    } label: {
                         MenuRow(label: L10n.downloads, icon: "filter_downloaded", count: $downloadsViewModel.downloadedCount)
                     }
                 case .podcasts:
-                    NavigationLink(destination: PodcastsListView(), tag: WatchInterfaceType.podcasts.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        PodcastsListView()
+                    } label: {
                         MenuRow(label: L10n.podcastsPlural, icon: "podcasts")
                     }
                 case .files:
-                    NavigationLink(destination: FilesListView(), tag: WatchInterfaceType.files.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        FilesListView()
+                    } label: {
                         MenuRow(label: L10n.files, icon: "file")
                     }
                 case .upNext:
-                    NavigationLink(destination: UpNextView(), tag: WatchInterfaceType.upnext.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        UpNextView()
+                    } label: {
                         MenuRow(label: L10n.upNext, icon: "upnext", count: $upNextViewModel.upNextCount)
                     }
                 case .filters:
-                    NavigationLink(destination: FiltersListView(), tag: WatchInterfaceType.filterList.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        FiltersListView()
+                    } label: {
                         MenuRow(label: L10n.filters, icon: "filters")
                     }
                 case .nowPlaying:
-                    NavigationLink(destination: NowPlayingContainerView(), tag: WatchInterfaceType.nowPlaying.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink {
+                        NowPlayingContainerView()
+                    } label: {
                         NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle)
                     }
                 }
