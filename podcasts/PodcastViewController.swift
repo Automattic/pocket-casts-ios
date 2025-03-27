@@ -443,7 +443,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-        episodesTable.sendSubviewToBack(blurHeaderView)
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
 
         showViewChangesTipIfNeeded()
     }
@@ -476,7 +478,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
-        episodesTable.sendSubviewToBack(blurHeaderView)
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
