@@ -141,6 +141,10 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     func categoryTapped() {
         delegate?.categoryTapped(firstCategory)
     }
+
+    func podcastArtworkTapped() {
+        delegate?.refreshArtwork()
+    }
 }
 
 extension PodcastHeaderViewModel: ExpandableLabelDelegate {

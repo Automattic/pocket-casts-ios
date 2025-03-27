@@ -1,6 +1,6 @@
 7.86
 -----
-
+- New podcast page design [#2825](https://github.com/Automattic/pocket-casts-ios/pull/2825)
 
 7.85
 -----

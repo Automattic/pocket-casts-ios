@@ -40,7 +40,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func categoryTapped(_ category: String)
     func subscribe()
     func unsubscribe()
-    func refreshArtwork(fromRect: CGRect, inView: UIView)
+    func refreshArtwork()
     func searchEpisodes(query: String)
     func clearSearch()
     func toggleShowArchived()
@@ -443,7 +443,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-        episodesTable.sendSubviewToBack(blurHeaderView)
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
 
         showViewChangesTipIfNeeded()
     }
@@ -476,7 +478,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
-        episodesTable.sendSubviewToBack(blurHeaderView)
+        if FeatureFlag.podcastViewChanges.enabled {
+            episodesTable.sendSubviewToBack(blurHeaderView)
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -506,7 +510,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func reloadData() {
         episodesTable.reloadData()
-        if FeatureFlag.podcastViewChanges.enabled {
+        if FeatureFlag.podcastViewChanges.enabled, viewIfLoaded != nil, viewIfLoaded?.window != nil {
             episodesTable.layoutIfNeeded()
             // This is being done here because after a relayout of table data we need to send the header back
             episodesTable.sendSubviewToBack(blurHeaderView)
@@ -701,7 +705,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     // MARK: - PodcastActionsDelegate
 
-    func refreshArtwork(fromRect: CGRect, inView: UIView) {
+    func refreshArtwork() {
         guard let podcast = podcast else { return }
 
         let optionsPicker = OptionsPicker(title: nil)
@@ -874,7 +878,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let newValue = !podcast.isPushEnabled
         PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        Toast.show(newValue ? L10n.notificationsOn : L10n.notificationsOff)
+        var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
+        if let title = podcast.title, newValue {
+            message = L10n.notificationsOnForPodcast(title)
+        }
+        Toast.show(message)
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
     }
 
@@ -1224,9 +1232,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var viewChangesTipVC: UIViewController?
     private var dimmingView: UIView?
 
-    private func showViewChangesTipIfNeeded() {
+    func showViewChangesTipIfNeeded() {
         guard FeatureFlag.podcastViewChanges.enabled,
-              Settings.shouldShowPodcastViewChangesTip
+              Settings.shouldShowPodcastViewChangesTip,
+              self.podcast != nil,
+              viewChangesTipVC == nil
         else {
             return
         }
