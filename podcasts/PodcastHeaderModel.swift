@@ -5,7 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-class PodcastHeaderViewModel: ObservableObject {
+class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     @Published var podcast: Podcast
 
@@ -15,6 +15,8 @@ class PodcastHeaderViewModel: ObservableObject {
         self.podcast = podcast
         self.delegate = delegate
         self.isSubscribed = podcast.isSubscribed()
+        _isExpanded =  Published(initialValue: delegate?.isSummaryExpanded() ?? false)
+        super.init()
         addObservers()
     }
 
@@ -51,12 +53,22 @@ class PodcastHeaderViewModel: ObservableObject {
         return folderImage
     }
 
-    var displayCategory: String {
-        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        if let author = podcast.author {
-            result += " · \(author)"
+    var firstCategory: String {
+        guard let category = podcast.podcastCategory,
+              let substring = category.split(whereSeparator: \.isNewline).first
+        else {
+            return ""
         }
-        return result
+        return String(substring).lowercased()
+    }
+
+    var displayCategoryAndAuthor: AttributedString {
+        let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        var markdown = "[\(category)](http://pocketcasts.com)"
+        if let author = podcast.author {
+            markdown += " · \(author)"
+        }
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
     }
 
     var displayAuthor: String? {
@@ -120,5 +132,44 @@ class PodcastHeaderViewModel: ObservableObject {
         delegate?.setSummaryExpanded(expanded: willBeExpanded)
         Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
         isExpanded.toggle()
+    }
+
+    var htmlDescription: String {
+        return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
+
+    func categoryTapped() {
+        delegate?.categoryTapped(firstCategory)
+    }
+}
+
+extension PodcastHeaderViewModel: ExpandableLabelDelegate {
+    // MARK: - ExpandableLabelDelegate
+
+    func willExpandLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
+        delegate?.tableView().beginUpdates()
+    }
+
+    func didExpandLabel(_ label: UIView) {
+        delegate?.tableView().endUpdates()
+        delegate?.setDescriptionExpanded(expanded: true)
+    }
+
+    func willCollapseLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
+        delegate?.tableView().beginUpdates()
+    }
+
+    func didCollapseLabel(_ label: UIView) {
+        delegate?.tableView().endUpdates()
+        delegate?.setDescriptionExpanded(expanded: false)
+    }
+
+    func linkTapped(url: URL) {
+        if let uuid = delegate?.displayedPodcast()?.uuid {
+            Analytics.track(.podcastScreenPodcastDescriptionLinkTapped, properties: ["podcast_uuid": uuid])
+        }
+        delegate?.open(url: url)
     }
 }

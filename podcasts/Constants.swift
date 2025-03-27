@@ -102,6 +102,8 @@ struct Constants {
 
         // Gravatar
         static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
+
+        static let discoverNavigateToCategory = Notification.Name(rawValue: "DiscoverNavigateToCategory")
     }
 
     enum UserDefaults {
@@ -215,6 +217,11 @@ struct Constants {
         enum suggestedFolders {
             static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
             static let upsellCount = "suggestedFolders.upsellCount"
+            static let lastPodcastsUsed = "suggestedFolders.lastPodcastsUsed"
+        }
+
+        enum podcastViewChanges {
+            static let showTip = "podcastViewChanges.showtip"
         }
     }
 

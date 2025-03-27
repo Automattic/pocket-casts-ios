@@ -42,7 +42,7 @@ class FoldersCoordinator: NSObject {
     }
 
     func startFolderCreationFlow(from vc: UIViewController) {
-        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded {
+        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded, didPodcastsChanged() {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
@@ -142,12 +142,27 @@ class FoldersCoordinator: NSObject {
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
+        saveLastUuidsUsed()
         DataManager.sharedManager.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.podcastUuids)
         }
         NotificationCenter.postOnMainThread(notification: ServerNotifications.podcastsRefreshed, object: nil)
+    }
+
+    private var currentPodcastsHash: String {
+        let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
+        let md5 = String(uuids.joined(separator: "")).md5
+        return md5
+    }
+
+    private func saveLastUuidsUsed() {
+        Settings.suggestedFoldersLastPodcastsUsed = currentPodcastsHash
+    }
+
+    private func didPodcastsChanged() -> Bool {
+        return Settings.suggestedFoldersLastPodcastsUsed != currentPodcastsHash
     }
 
     private func makeFolder(from suggestedFolder: SuggestedFolder) -> Folder {

@@ -1412,6 +1412,27 @@ class Settings: NSObject {
         }
     }
 
+    class var suggestedFoldersLastPodcastsUsed: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed) as? String
+        }
+    }
+
+    // MARK: - Podcast View Changes Tip
+
+    static var shouldShowPodcastViewChangesTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastViewChanges.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastViewChanges.showTip)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

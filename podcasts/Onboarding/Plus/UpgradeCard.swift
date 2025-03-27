@@ -29,22 +29,24 @@ struct UpgradeTier: Identifiable {
 extension UpgradeTier {
     static var plus: UpgradeTier {
         UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: [
-            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
+            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
+            TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
+            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
         ].compactMap { $0 },
         yearlyFeatures: [
-            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
+            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
+            TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
+            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude
         ].compactMap { $0 },
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))

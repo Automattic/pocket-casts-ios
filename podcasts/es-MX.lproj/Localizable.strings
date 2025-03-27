@@ -1210,6 +1210,12 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>Durante ese tiempo, podrías haber atado %1$@ cordones de zapatos. Quizás. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Durante ese tiempo, se enviaron %1$@ tweets. ¡Envío! ¡Envío! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Esta transcripción se genera automáticamente y solo está disponible para los suscriptores de Plus</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Suscríbete a Plus para acceder a esta función y a otras funciones Premium, como los marcadores y las carpetas.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Pocket Casts genera automáticamente esta transcripción.</string>
     <key>go_to_podcast</key>
     <string>Ir a podcast</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ pódcast contigo</string>
     <string>Desactivado</string>
     <key>ok</key>
     <string>Vale</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Solo con Wi-Fi sin restricciones de datos</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Si desactivas esta opción, se podrán descargar archivos con redes móviles y con otro tipo de redes de uso medido. Comprueba la configuración de red para obtener más información.</string>
     <key>only_on_wifi</key>
     <string>Solo con conexión a Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1649,6 +1659,8 @@ ACTUALIZACIONES</string>
     <string>En comparación con 2023, tu tiempo de escucha disminuyó más de un %1$@</string>
     <key>playback_2024_year_over_year_compare_title_same</key>
     <string>En comparación con 2023, tu tiempo de escucha se mantuvo más o menos igual</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>En comparación con 2023, tu tiempo de escucha aumentó más de un %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_little</key>
     <string>En comparación con 2023, tu tiempo de escucha aumentó un poco</string>
     <key>playback_2024_year_over_year_compare_title_up_lot</key>
@@ -2961,6 +2973,20 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>%1$@ por %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Crear carpeta personalizada</string>
+    <key>suggested_folders_description</key>
+    <string>Hemos organizado tus podcasts en carpetas. Guardar ahora y personalizar más tarde.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Hemos organizado tus podcasts en carpetas. Guardar ahora y personalizar más tarde. Esta acción reemplazará cualquier carpeta que haya.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Reemplazar carpetas</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Aceptar las carpetas sugeridas sobrescribirá tus carpetas actuales. Esta acción no se puede deshacer.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>¿Reemplazar las carpetas existentes?</string>
+    <key>suggested_folders_title</key>
+    <string>Carpetas inteligentes</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Usar estas carpetas</string>
     <key>support_watch_help_message</key>
