@@ -7,7 +7,7 @@ final class AppsFlyerAdapterTests: XCTestCase {
     func testAdapter() throws {
         let attController = AppTrackingTransparencyControllerMock()
         let adapter = AppsFlyerAdapterMock(appTrackingTransparencyProvider: attController)
-        adapter.track(name: "test 1", properties: nil)
+        adapter.track(name: "test_1", properties: nil)
 
         XCTAssertNil(adapter.trackedName)
         XCTAssertFalse(adapter.didAuthorize)
@@ -19,23 +19,38 @@ final class AppsFlyerAdapterTests: XCTestCase {
         XCTAssertTrue(adapter.didAuthorize)
         XCTAssertTrue(attController.userGaveConsent())
 
-        adapter.track(name: "test 2", properties: nil)
-        XCTAssertEqual(adapter.trackedName, "test 2")
+        adapter.track(name: "test_2", properties: nil)
+        XCTAssertEqual(adapter.trackedName, "test_2")
 
         attController.authState = .denied
 
-        adapter.track(name: "test 3", properties: nil)
+        adapter.track(name: "test_3", properties: nil)
+        XCTAssertNil(adapter.trackedName)
+
+        adapter.track(name: "non_supported_event", properties: nil)
         XCTAssertNil(adapter.trackedName)
     }
+}
+
+struct AppsFlyerDataProviderMock {
+    let supportedEvents: Set<String> = [
+        "test_1",
+        "test_2",
+        "test_3"
+    ]
 }
 
 fileprivate class AppsFlyerAdapterMock: AnalyticsAdapter {
     private(set) var trackedName: String?
     private(set) var didAuthorize = false
     private var appTrackingTransparencyProvider: AppTrackingTransparencyProvider
+    private let dataProvider: AppsFlyerDataProviderMock
 
     func track(name: String, properties: [AnyHashable: Any]?) {
-        guard appTrackingTransparencyProvider.userGaveConsent() else {
+        guard
+            appTrackingTransparencyProvider.userGaveConsent(),
+            dataProvider.supportedEvents.contains(name)
+        else {
             trackedName = nil
             return
         }
@@ -43,8 +58,10 @@ fileprivate class AppsFlyerAdapterMock: AnalyticsAdapter {
     }
 
     init(
+        dataProvider: AppsFlyerDataProviderMock = AppsFlyerDataProviderMock(),
         appTrackingTransparencyProvider: AppTrackingTransparencyProvider
     ) {
+        self.dataProvider = dataProvider
         self.appTrackingTransparencyProvider = appTrackingTransparencyProvider
         setup()
     }
