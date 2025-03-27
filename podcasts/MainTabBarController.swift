@@ -104,6 +104,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
+
+        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
+            Task {
+                await AppTrackingTransparencyController.shared.promptConsentAlert()
+            }
+        }
     }
 
     /// Update database indexes and delete unused columns

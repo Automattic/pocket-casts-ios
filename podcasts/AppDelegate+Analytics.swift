@@ -13,7 +13,11 @@ extension AppDelegate {
             return
         }
 
-        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
+        var adapters: [AnalyticsAdapter] = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
+        }
+        Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }
 
