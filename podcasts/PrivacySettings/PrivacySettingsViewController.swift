@@ -42,9 +42,12 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.row == 2 else { return }
-
-        NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+        switch indexPath.row {
+        case 2, 5:
+            NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+        default:
+            break
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
