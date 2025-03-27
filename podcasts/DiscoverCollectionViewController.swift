@@ -159,7 +159,7 @@ extension DiscoverCollectionViewController {
             countrySummary.discoverLayout = self.discoverLayout
             countrySummary.registerDiscoverDelegate(self)
 
-            supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
+            supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: self, viewController: countrySummary)
         }
 
         let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
@@ -173,7 +173,7 @@ extension DiscoverCollectionViewController {
         }
 
         let registrations: [DiscoverCellType: UICollectionView.CellRegistration] = DiscoverCellType.allCases.reduce(into: [:]) { partialResult, cellType in
-            partialResult[cellType] = cellType.createCellRegistration(delegate: self)
+            partialResult[cellType] = cellType.createCellRegistration(parentViewController: self, delegate: self)
         }
 
         let nonItemRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in

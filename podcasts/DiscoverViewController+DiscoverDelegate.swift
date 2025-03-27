@@ -3,6 +3,18 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 extension DiscoverViewController: DiscoverDelegate {
+
+    func navigateTo(category: String) {
+        if isViewLoaded {
+            NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
+        } else {
+            loadViewIfNeeded()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
+                NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
+            }
+        }
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         // No-op for this older implementation.
     }

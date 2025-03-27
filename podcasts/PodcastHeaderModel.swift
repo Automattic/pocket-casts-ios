@@ -53,12 +53,22 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return folderImage
     }
 
-    var displayCategory: String {
-        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        if let author = podcast.author {
-            result += " · \(author)"
+    var firstCategory: String {
+        guard let category = podcast.podcastCategory,
+              let substring = category.split(whereSeparator: \.isNewline).first
+        else {
+            return ""
         }
-        return result
+        return String(substring).lowercased()
+    }
+
+    var displayCategoryAndAuthor: AttributedString {
+        let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        var markdown = "[\(category)](http://pocketcasts.com)"
+        if let author = podcast.author {
+            markdown += " · \(author)"
+        }
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
     }
 
     var displayAuthor: String? {
@@ -126,6 +136,10 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     var htmlDescription: String {
         return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
+
+    func categoryTapped() {
+        delegate?.categoryTapped(firstCategory)
     }
 }
 

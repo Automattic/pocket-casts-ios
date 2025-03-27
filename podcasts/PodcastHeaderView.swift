@@ -75,10 +75,15 @@ struct PodcastHeaderView: View {
 
     private var podcastCategory: some View {
         VStack {
-            Text(viewModel.displayCategory)
+            Text(viewModel.displayCategoryAndAuthor)
                 .font(.callout)
                 .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(theme.primaryText02)
+            .tint(theme.primaryText02)
+            .environment(\.openURL, OpenURLAction { url in
+                viewModel.categoryTapped()
+                return .handled
+            })
         }
     }
 
