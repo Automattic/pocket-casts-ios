@@ -1210,6 +1210,12 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Nesse período, você poderia ter amarrado %1$@ cadarços. Talvez. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Nesse período, %1$@ tweets foram publicados. Uau! Uau! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Esta transcrição é gerada automaticamente e está disponível apenas para assinantes do Plus</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Assine o Plus para ter acesso a essa e outras funcionalidades premium, como favoritos e pastas.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Esta transcrição é gerada automaticamente pelo Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Acessar podcast</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Apenas em Wi-Fi ilimitado</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Desativar esta opção permitirá downloads no celular e também em outras redes de Internet limitadas. Verifique suas configurações de rede para obter mais informações.</string>
     <key>only_on_wifi</key>
     <string>Somente no Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ ATUALIZAÇÕES</string>
     <string>Um ano de conteúdo exclusivo do Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Sonhe com o conteúdo do Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Ícones de aplicativo e temas extras</string>
     <key>plus_features</key>
     <string>FUNCIONALIDADES PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>%1$@ por %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Obrigado pelo apoio!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Criar pasta personalizada</string>
+    <key>suggested_folders_description</key>
+    <string>Organizamos seus podcasts em pastas. Salve agora e personalize mais tarde.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Organizamos seus podcasts em pastas. Salve agora e personalize mais tarde. Isso substituirá todas as pastas existentes.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Substituir pastas</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Se você aceitar as pastas sugeridas, elas substituirão suas pastas atuais. Essa ação não pode ser desfeita.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Substituir pastas existentes?</string>
+    <key>suggested_folders_title</key>
+    <string>Pastas inteligentes</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Usar estas pastas</string>
     <key>support_watch_help_message</key>

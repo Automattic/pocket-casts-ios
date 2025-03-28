@@ -1509,7 +1509,7 @@ pódcast contigo</string>
     <key>only_on_unmetered_wifi</key>
     <string>Solo con Wi-Fi sin restricciones de datos</string>
     <key>only_on_unmetered_wifi_details</key>
-    <string>Si desactivas esta opción, se podrán descargar archivos con redes móviles y con otro tipo de redes de uso medido. Comprueba la configuración de red para obtener más información.</string>
+    <string>Si desactivas esta opción, se podrán descargar archivos con redes móviles y con otro tipo de redes de uso medido. Comprueba tu configuración de red para obtener más información.</string>
     <key>only_on_wifi</key>
     <string>Solo con conexión a Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1660,7 +1660,7 @@ ACTUALIZACIONES</string>
     <key>playback_2024_year_over_year_compare_title_same</key>
     <string>En comparación con 2023, tu tiempo de escucha se mantuvo más o menos igual</string>
     <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
-    <string>En comparación con 2023, tu tiempo de escucha aumentó más de un %1$@</string>
+    <string>En comparación con 2023, tu tiempo de escucha aumentó más de %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_little</key>
     <string>En comparación con 2023, tu tiempo de escucha aumentó un poco</string>
     <key>playback_2024_year_over_year_compare_title_up_lot</key>
@@ -1809,8 +1809,6 @@ ACTUALIZACIONES</string>
     <string>Un año de contenido exclusivo de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Contenido de Sueña con Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Iconos de aplicaciones y temas adicionales</string>
     <key>plus_features</key>
     <string>FUNCIONES PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2976,9 +2974,9 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <key>suggested_folders_create_custom_folder</key>
     <string>Crear carpeta personalizada</string>
     <key>suggested_folders_description</key>
-    <string>Hemos organizado tus podcasts en carpetas. Guardar ahora y personalizar más tarde.</string>
+    <string>Hemos organizado tus podcasts en carpetas. Guárdalas ahora y personalízalas más tarde.</string>
     <key>suggested_folders_description_with_existing_folders</key>
-    <string>Hemos organizado tus podcasts en carpetas. Guardar ahora y personalizar más tarde. Esta acción reemplazará cualquier carpeta que haya.</string>
+    <string>Hemos organizado tus podcasts en carpetas. Guárdalas ahora y personalízalas más tarde. Esta acción reemplazará cualquier carpeta que tengas.</string>
     <key>suggested_folders_replace_confirmation_button </key>
     <string>Reemplazar carpetas</string>
     <key>suggested_folders_replace_confirmation_details </key>

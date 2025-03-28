@@ -1207,6 +1207,12 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Durant aquest temps, podries haver-te lligat els cordons de les sabates %1$@ vegades. Pot ser. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Durant aquest temps s'han enviat %1$@ tuits. Piu! Piu! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Aquesta transcripció es genera automàticament i només està disponible per als subscriptors de Plus</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Subscriu-te a Plus per accedir a aquesta funció i a altres Premium, com ara els marcadors i les carpetes.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Pocket Casts genera automàticament aquesta transcripció.</string>
     <key>go_to_podcast</key>
     <string>Anar al pòdcast</string>
     <key>got_it</key>
@@ -1495,6 +1501,10 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Desactivat</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Només amb Wi-Fi sense restriccions de dades</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Si desactives aquesta opció, es podran descarregar arxius amb xarxes mòbils i amb un altre tipus de xarxes d'ús mesurat. Comprova la configuració de xarxa per a més informació.</string>
     <key>only_on_wifi</key>
     <string>Només amb Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1795,17 +1805,21 @@ ACTUALITZACIONS</string>
     <key>plus_feature_slumber_new</key>
     <string>Somia amb el contingut de Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
-    <string>Més temes i icones de l'aplicació</string>
+    <string>Més temes i icones</string>
     <key>plus_features</key>
     <string>FUNCIONS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Prova gratuïta de %1$@</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Marcadors</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicacions d'escriptori i web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Carpetes i marcadors</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea carpetes per a organitzar la teva col·lecció de pòdcasts.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Carpetes</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>L'experiència sense anuncis que et dona més del que t'encanta i menys del que et desagrada</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2956,6 +2970,20 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Crear carpeta personalitzada</string>
+    <key>suggested_folders_description</key>
+    <string>Hem organitzat els teus pòdcasts en carpetes. Desa ara i personalitza més tard.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Hem organitzat els teus pòdcasts en carpetes. Desa ara i personalitza més tard. Això substituirà qualsevol carpeta existent.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Substitueix les carpetes</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Acceptar les carpetes suggerides sobreescriurà les teves carpetes actuals. Això no es pot desfer.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Substituir les carpetes existents?</string>
+    <key>suggested_folders_title</key>
+    <string>Carpetes intel·ligents</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utilitza aquestes carpetes</string>
     <key>support_watch_help_message</key>

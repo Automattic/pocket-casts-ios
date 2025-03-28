@@ -1210,6 +1210,12 @@
     <string>За это время вы могли бы завязать %1$@ шнурков на ботинках. Возможно. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>За это время написано %1$@ твитов. Твит! Твит! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Эта расшифровка создана автоматически и доступна только подписчикам Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Подпишитесь на Plus, чтобы пользоваться ею и другими премиум-функциями, такими как закладки и папки.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Расшифровка автоматически создана Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Перейти к подкасту</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Только в сетях Wi-Fi без тарификации</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Если отключить этот параметр, то скачивание будет возможно как в сотовых, так и в других платных сетях. Проверьте настройки сети, чтобы узнать дополнительные сведения.</string>
     <key>only_on_wifi</key>
     <string>Только по WiFi</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@
     <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
     <key>plus_feature_slumber_new</key>
     <string>Содержание: Slumber Studios — мы помогаем вам мечтать</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Дополнительные темы и значки приложения</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@
     <string>%1$@ за %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Создать пользовательскую папку</string>
+    <key>suggested_folders_description</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже. Они заменят все нынешние папки.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Заменить папки</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Если вы примете предложенные папки, ваши текущие папки будут заменены. Это действие нельзя отменить.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Заменить существующие папки?</string>
+    <key>suggested_folders_title</key>
+    <string>Умные папки</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Использовать эти папки</string>
     <key>support_watch_help_message</key>

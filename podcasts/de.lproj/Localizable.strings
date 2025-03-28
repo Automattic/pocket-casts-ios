@@ -927,6 +927,8 @@ Folge dauerte
     <string>Im Vergleich zu 2022 ist deine Audiozeit ein wenig zurückgegangen</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>Im Vergleich zu 2022 ist deine Audiozeit um ganze %1$@ angestiegen</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Ich habe %2$@ %1$@ verschiedene Podcasts bewertet – %3$@ war dabei meine am häufigsten verwendete Bewertung</string>
     <key>episode</key>
     <string>Folge</string>
     <key>episode_count_plural_format</key>
@@ -1208,6 +1210,12 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>In dieser Zeit hättest du %1$@ Schnürsenkel binden können. Vielleicht. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>In dieser Zeit wurden %1$@ Tweets gezwitschert. Zwitscher! Zwitscher! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Dieses Transkript wird automatisch generiert und ist nur für Plus-Abonnenten verfügbar</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Werde Plus-Abonnent, um Zugriff auf das Transkript und andere Premium-Funktionen wie Lesezeichen und Ordner zu erhalten.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Dieses Transkript wird automatisch von Pocket Casts generiert.</string>
     <key>go_to_podcast</key>
     <string>Zum Podcast</string>
     <key>got_it</key>
@@ -1498,6 +1506,10 @@ Podcasts mit</string>
     <string>Aus</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Nur über nicht getaktetes WLAN</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Wenn du diese Funktion ausschaltest, kannst du Dateien sowohl über das Mobilfunknetz als auch über andere getaktete Netzwerke herunterladen. Weitere Informationen findest du in deinen Netzwerkeinstellungen.</string>
     <key>only_on_wifi</key>
     <string>Nur bei WLAN-Verbindung</string>
     <key>opml_import_failed_message</key>
@@ -1797,8 +1809,6 @@ UM UPDATES ZU ERHALTEN</string>
     <string>1 Jahr exklusive Inhalte von Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Erholsamer Schlaf mit Inhalten von Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Zusätzliche Themes und App-Icons</string>
     <key>plus_features</key>
     <string>PLUS-FEATURES</string>
     <key>plus_free_membership_format</key>
@@ -2961,6 +2971,20 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>%1$@ für %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Individuellen Ordner erstellen</string>
+    <key>suggested_folders_description</key>
+    <string>Wir haben deine Podcasts in Ordnern organisiert. Speichere sie jetzt und passe sie später an.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Wir haben deine Podcasts in Ordnern organisiert. Speichere sie jetzt und passe sie später an. Dadurch werden alle bereits vorhandenen Ordner ersetzt.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Ordner ersetzen</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Wenn du vorgeschlagene Ordner akzeptierst, werden deine aktuellen Ordner überschrieben. Dies kann nicht rückgängig gemacht werden.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Bestehende Ordner ersetzen?</string>
+    <key>suggested_folders_title</key>
+    <string>Intelligente Ordner</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Diese Ordner verwenden</string>
     <key>support_watch_help_message</key>

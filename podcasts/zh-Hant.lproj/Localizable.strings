@@ -1210,6 +1210,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在這段時間內你都能綁 %1$@ 雙鞋的鞋帶了。大概吧。👟</string>
     <key>funny_time_unit_tweets</key>
     <string>在這段時間內世界發送了 %1$@ 則推文。嘰嘰喳喳！嘰嘰喳喳！🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>本逐字稿由系統自動生成，僅供 Plus 訂閱者使用</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>訂閱 Plus 即可存取逐字稿和其他進階版功能，例如書籤和資料夾。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>本逐字稿由 Pocket Casts 自動生成。</string>
     <key>go_to_podcast</key>
     <string>前往 Podcast 節目</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>關閉</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>僅限非計量付費 WiFi</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>關閉此功能，將允許透過行動數據和其他計量付費網路下載。 請檢查網路設定，進一步了解詳細資訊。</string>
     <key>only_on_wifi</key>
     <string>僅在連上 WiFi 時啟用 </string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>1 年份的 Slumber Studios 獨家內容</string>
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios 伴你進入夢鄉」內容</string>
-    <key>plus_feature_themes_icons</key>
-    <string>其他主題和應用程式圖示</string>
     <key>plus_features</key>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>每 %2$@ %1$@ 元</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>建立自訂資料夾</string>
+    <key>suggested_folders_description</key>
+    <string>我們已將你的 Podcast 整理進資料夾。 立即儲存，稍後再加以自訂。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>我們已將你的 Podcast 整理進資料夾。 立即儲存，稍後再加以自訂。 這個資料夾會取代任何現有的資料夾。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>取代資料夾</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>若你接受建議的資料夾，系統將覆寫目前的資料夾。 此動作無法復原。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>要取代現有的資料夾嗎？</string>
+    <key>suggested_folders_title</key>
+    <string>智慧資料夾</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>使用這些資料夾</string>
     <key>support_watch_help_message</key>

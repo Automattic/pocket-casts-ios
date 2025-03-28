@@ -1210,6 +1210,12 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Temps pendant lequel vous auriez pu attacher %1$@ lacets de chaussure. Peut-être. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Pendant lequel %1$@ gazouillis ont été publiés. Cui! Cui! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Cette transcription est générée automatiquement et n’est disponible que pour les abonnés Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Abonnez-vous à Plus pour y avoir accès ainsi qu’à d’autres fonctionnalités premium comme les signets et les dossiers.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Cette transcription est générée automatiquement par Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Accéder au balado</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ podcasts partout avec</string>
     <string>Désactivé</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Uniquement en Wi-Fi illimité</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>En désactivant cette option, les téléchargements sur les réseaux cellulaires et autres réseaux limités sont autorisés. Vérifiez les réglages de votre réseau pour plus d’informations.</string>
     <key>only_on_wifi</key>
     <string>Uniquement sur Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ MISES À JOUR</string>
     <string>1 an de contenu exclusif de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Rêver avec le contenu Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Thèmes et icônes supplémentaires</string>
     <key>plus_features</key>
     <string>FONCTIONNALITÉS PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>%1$@ par %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Créer un dossier personnalisé</string>
+    <key>suggested_folders_description</key>
+    <string>Nous avons organisé vos podcasts dans des dossiers. Enregistrez maintenant et personnalisez plus tard.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Nous avons organisé vos podcasts dans des dossiers. Enregistrez maintenant et personnalisez plus tard. Tous les dossiers existants seront remplacés.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Remplacer les dossiers</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Accepter les dossiers suggérés écrasera vos dossiers actuels. Cette opération est irréversible.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Remplacer les dossiers existants ?</string>
+    <key>suggested_folders_title</key>
+    <string>Dossiers intelligents</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utiliser ces dossiers</string>
     <key>support_watch_help_message</key>
