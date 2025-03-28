@@ -1210,6 +1210,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@本の靴紐が結べるほどの時間です。 おそらく。 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>こちらのトランスクリプトは自動的に生成され、Plus サブスクリプションの登録者のみが利用できます</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Plus サブスクリプションに登録すると、Plus にアクセスし、ブックマークやフォルダーなどのその他のプレミアム機能もご利用いただけます。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>こちらのトランスクリプトは Pocket Casts によって自動的に生成されます。</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>従量制課金が行われない Wi-Fi のみ</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>こちらをオフにすることで、携帯ネットワークやその他の従量制課金接続でダウンロードできるようになります。 詳細についてはネットワーク設定を確認してください。</string>
     <key>only_on_wifi</key>
     <string>Wi-Fi 接続中のみ</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios でぐっすり眠る」のコンテンツ</string>
-    <key>plus_feature_themes_icons</key>
-    <string>追加のテーマとアプリアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
@@ -2959,6 +2967,20 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>カスタムフォルダーを作成</string>
+    <key>suggested_folders_description</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。 これにより、すべての既存フォルダーが置き換えられます。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>フォルダーを置換</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>おすすめフォルダーを承認すると、現在のフォルダーが上書きされます。 この操作は元に戻すことができません。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>既存のフォルダーを置換しますか ?</string>
+    <key>suggested_folders_title</key>
+    <string>スマートフォルダー</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>これらのフォルダーを使用</string>
     <key>support_watch_help_message</key>

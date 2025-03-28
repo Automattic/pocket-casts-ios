@@ -1210,6 +1210,12 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>In de tussentijd had je %1$@ veters kunnen strikken. Misschien. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>In de tussentijd zijn %1$@ tweets getoet. Toet! Toet! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Deze transcriptie is automatisch gegenereerd en is alleen beschikbaar voor Plus-abonnees</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Abonneer je op Plus om er toegang tot te krijgen en tot andere Premium-functies zoals bladwijzers en mappen.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Deze transcriptie is automatisch gegenereerd door Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Naar podcast</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Alleen wifi zonder limiet</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Door dit uit te schakelen worden ook downloads op mobiele netwerken en op andere netwerken met limiet ingeschakeld. Controleer je netwerkinstellingen voor meer informatie.</string>
     <key>only_on_wifi</key>
     <string>Alleen via wifi</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ UPDATES</string>
     <string>1 jaar lang exclusieve content van Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Droom met content van Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Extra thema's en app-pictogrammen</string>
     <key>plus_features</key>
     <string>FUNCTIES VAN PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Aangepaste mappen aanmaken</string>
+    <key>suggested_folders_description</key>
+    <string>We hebben je podcasts in mappen geordend. Nu opslaan en later aanpassen.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>We hebben je podcasts in mappen geordend. Nu opslaan en later aanpassen. Dit vervangt alle bestaande mappen.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Mappen vervangen</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Als je de aanbevolen mappen accepteert, worden je huidige mappen overschreven. Dit kan niet ongedaan worden gemaakt.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Bestaande mappen vervangen?</string>
+    <key>suggested_folders_title</key>
+    <string>Slimme mappen</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Deze mappen gebruiken</string>
     <key>support_watch_help_message</key>

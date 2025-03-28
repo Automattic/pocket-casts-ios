@@ -1210,6 +1210,12 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Durante questo periodo avresti potuto allacciare per %1$@ volte i lacci delle scarpe. Forse. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Durante questo periodo sono stati "cinguettati" %1$@ tweet. Tweet! Tweet! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Questa trascrizione è stata generata automaticamente ed è disponibile solo per gli abbonati a Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Abbonati a Plus per accedere a questa funzionalità e ad altre funzionalità Premium come segnalibri e cartelle.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Questa trascrizione è stata generata automaticamente da Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Vai al podcast</string>
     <key>got_it</key>
@@ -1500,6 +1506,10 @@ pocast con te</string>
     <string>Off</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Solo su Wi-Fi non a consumo</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Se disattivi questa opzione, l'app scaricherà anche su reti cellulari e altre reti a consumo. Controlla le impostazioni di rete per maggiori informazioni.</string>
     <key>only_on_wifi</key>
     <string>Solo su WiFi</string>
     <key>opml_import_failed_message</key>
@@ -1799,8 +1809,6 @@ AGGIORNAMENTI</string>
     <string>1 anno di contenuti esclusivi Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Sogna con i contenuti di Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Temi aggiuntivi e icone delle app</string>
     <key>plus_features</key>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
@@ -2963,6 +2971,20 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Grazie per il supporto.</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Crea una cartella personalizzata</string>
+    <key>suggested_folders_description</key>
+    <string>Abbiamo organizzato i tuoi podcast in cartelle. Salva ora e personalizza in seguito.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Abbiamo organizzato i tuoi podcast in cartelle. Salva ora e personalizza in seguito. Questa azione sostituirà tutte le cartelle esistenti.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Sostituisci cartelle</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Accettando le cartelle suggerite, verranno sovrascritte le cartelle attuali. Questa operazione non può essere annullata.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Sostituire le cartelle esistenti?</string>
+    <key>suggested_folders_title</key>
+    <string>Cartelle intelligenti</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utilizza queste cartelle</string>
     <key>support_watch_help_message</key>
