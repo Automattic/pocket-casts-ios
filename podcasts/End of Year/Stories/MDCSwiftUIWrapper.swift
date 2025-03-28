@@ -91,14 +91,10 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     static func present(_ content: ContentView, autoSize: Bool = false, in viewController: UIViewController) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content)
         if autoSize {
-            if #available(iOS 16.0, *) {
-                let customDetent = UISheetPresentationController.Detent.custom { _ in
-                    return wrapperController.customDetentHeight
-                }
-                wrapperController.presentModally(in: viewController, detents: [customDetent])
-            } else {
-                wrapperController.presentModally(in: viewController, detents: [.large()])
+            let customDetent = UISheetPresentationController.Detent.custom { _ in
+                return wrapperController.customDetentHeight
             }
+            wrapperController.presentModally(in: viewController, detents: [customDetent])
         } else {
             wrapperController.presentModally(in: viewController)
         }

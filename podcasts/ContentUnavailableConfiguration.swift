@@ -1,6 +1,5 @@
 import SwiftUI
 
-@available(iOS 16, *)
 // Many of these can be replaced with UIContentUnavailableConfigurations in iOS 17
 struct ContentUnavailableConfiguration {
     static func loading() -> UIContentConfiguration {
