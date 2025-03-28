@@ -48,7 +48,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn = UIButton(frame: CGRect(x: 0, y: 21, width: 40, height: 44))
         backBtn.isPointerInteractionEnabled = true
         backBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
-        let backImage = displayMode == .navController ? UIImage(named: "nav-back") : UIImage(named: "episode-close")
+        let backImage = displayMode == .navController ? UIImage(systemName: "chevron.left") : UIImage(named: "episode-close")
         backBtn.setImage(backImage, for: .normal)
         backBtn.accessibilityLabel = L10n.close
         backBtn.accessibilityIdentifier = "Close"
