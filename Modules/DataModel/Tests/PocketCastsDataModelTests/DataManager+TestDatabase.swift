@@ -2,6 +2,8 @@ import SQLite3
 import FMDB
 import GRDB
 import Foundation
+@testable import PocketCastsDataModel
+import PocketCastsUtils
 
 extension FMDatabaseQueue {
     enum TestError: Error {
@@ -87,5 +89,11 @@ extension DatabasePool {
 
             try FileManager.default.copyItem(at: URL(fileURLWithPath: dbPath), to: URL(fileURLWithPath: dbFolderPath.appendingPathComponent(toFile)))
         }
+    }
+}
+
+extension DataManager {
+    static func newTestDataManager() -> DataManager {
+        try! FeatureFlag.grdb.enabled ? DataManager(dbQueue: FMDBQueue(fmdbQueue: FMDatabaseQueue.newTestDatabase()!)) : DataManager(dbQueue: GRDBQueue(dbPool: DatabasePool.newTestDatabase()!))
     }
 }
