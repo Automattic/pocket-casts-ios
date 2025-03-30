@@ -93,7 +93,7 @@ struct PodcastHeaderView: View {
     private var podcastTitle: some View {
         HStack(spacing: 0) {
             Text(viewModel.podcast.title ?? "")
-                .font(.title).bold()
+                .font(.title2).bold()
                 .fixedSize(horizontal: false, vertical: true)
             Image(systemName: "chevron.up")
                 .frame(width: 24, height: 24)
