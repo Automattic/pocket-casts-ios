@@ -35,7 +35,7 @@ struct PodcastHeaderView: View {
         VStack(spacing: 0) {
             HStack(alignment: .top) {
                 Spacer()
-                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
                     .onLongPressGesture {
                         viewModel.podcastArtworkTapped()
