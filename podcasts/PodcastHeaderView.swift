@@ -103,7 +103,7 @@ struct PodcastHeaderView: View {
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
         .onTapGesture {
-            withAnimation() {
+            withAnimation(.bouncy) {
                 viewModel.toggleExpanded()
             }
         }
