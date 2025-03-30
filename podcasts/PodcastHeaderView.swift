@@ -70,10 +70,8 @@ struct PodcastHeaderView: View {
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
-            Spacer()
-                .frame(height: 8)
         }
-        .padding()
+        .padding(.horizontal)
     }
 
     private var podcastCategory: some View {
