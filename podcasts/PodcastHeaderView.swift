@@ -95,10 +95,11 @@ struct PodcastHeaderView: View {
             Text(viewModel.podcast.title ?? "")
                 .font(.title2).bold()
                 .fixedSize(horizontal: false, vertical: true)
-            Image(systemName: "chevron.up")
+            Image("chevron-small-down")
+                .renderingMode(.template)
                 .frame(width: 24, height: 24)
                 .padding(.horizontal, 4)
-                .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
+                .rotationEffect(.degrees(viewModel.isExpanded ? 180 : 0))
                 .contentShape(Rectangle())
         }
         .foregroundStyle(theme.primaryText01)
