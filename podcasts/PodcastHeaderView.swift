@@ -37,7 +37,6 @@ struct PodcastHeaderView: View {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
-                    .animation(.bouncy, value: viewModel.isExpanded)
                     .onLongPressGesture {
                         viewModel.podcastArtworkTapped()
                     }
