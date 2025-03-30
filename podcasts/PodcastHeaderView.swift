@@ -78,6 +78,7 @@ struct PodcastHeaderView: View {
         VStack {
             Text(viewModel.displayCategoryAndAuthor)
                 .font(.callout)
+                .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(theme.primaryText02)
             .tint(theme.primaryText02)
