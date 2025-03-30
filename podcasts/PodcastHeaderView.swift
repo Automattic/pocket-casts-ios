@@ -143,10 +143,11 @@ struct PodcastHeaderView: View {
     }
 
     private var podcastActions: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             Spacer()
             followButton
             if viewModel.isSubscribed {
+                Spacer().frame(width: 8)
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
