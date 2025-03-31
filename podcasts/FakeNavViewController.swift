@@ -30,6 +30,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     var displayMode = NavDisplayMode.navController
     var closeTapped: (() -> Void)?
 
+    private var backBtnLeadingConstraint: NSLayoutConstraint?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,7 +50,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn = UIButton(frame: CGRect(x: 0, y: 21, width: 40, height: 44))
         backBtn.isPointerInteractionEnabled = true
         backBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
-        let backImage = displayMode == .navController ? UIImage(systemName: "chevron.left") : UIImage(named: "episode-close")
+        let backImage = displayMode == .navController ? UIImage(systemName: "chevron.backward") : UIImage(named: "episode-close")
         backBtn.setImage(backImage, for: .normal)
         backBtn.accessibilityLabel = L10n.close
         backBtn.accessibilityIdentifier = "Close"
@@ -60,14 +62,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             backBtn.layer.masksToBounds = true
             margin = 16
         }
-        let leftOffset: CGFloat = displayMode == .navController ? margin : 6
+        let leadingOffset: CGFloat = displayMode == .navController ? margin : 6
+        let backBtnLeadingConstraint = backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leadingOffset)
         NSLayoutConstraint.activate([
             backBtn.widthAnchor.constraint(equalToConstant: 44),
             backBtn.heightAnchor.constraint(equalToConstant: 44),
-            backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leftOffset),
+            backBtnLeadingConstraint,
             backBtn.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
         ])
-
+        self.backBtnLeadingConstraint = backBtnLeadingConstraint
         fakeNavTitle = UILabel()
         fakeNavTitle.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         fakeNavTitle.textAlignment = .center
@@ -258,10 +261,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if transparent {
             fakeNavView.backgroundColor = .clear
             updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
+            backBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            backBtnLeadingConstraint?.constant = 16
         } else {
             fakeNavView.backgroundColor = ThemeColor.primaryUi01()
             fakeNavTitle.textColor = AppTheme.mainTextColor()
             updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
+            var config = UIImage.SymbolConfiguration(textStyle: UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedBody"), scale: .large)
+            backBtn.setImage(UIImage(systemName: "chevron.backward")?.withConfiguration(config), for: .normal)
+            backBtnLeadingConstraint?.constant = 6
         }
     }
 

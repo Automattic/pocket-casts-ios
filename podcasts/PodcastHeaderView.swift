@@ -49,15 +49,18 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            Spacer().frame(height: 16)
+            Rectangle().frame(height: 16)
+                .border(.red)
             podcastTitle
-            Spacer().frame(height: 16)
+            Rectangle().frame(height: 16)
+                .border(.red)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                            style: .short,
                            onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
-            Spacer().frame(height: 16)
+            Rectangle().frame(height: 16)
+                .border(.red)
             podcastActions
             Spacer().frame(height: 24)
             VStack {
