@@ -121,7 +121,7 @@ struct PodcastHeaderView: View {
                 .foregroundStyle(theme.primaryText01)
                 .padding()
                 .cornerRadius(viewModel.isSubscribed ? 8 : 32)
-                .frame(minWidth: viewModel.isSubscribed ? 32 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
+                .frame(minWidth: viewModel.isSubscribed ? 32 : viewModel.podcast.fundingURL != nil ? 118 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
                 .background {
                     Image("discover_tick")
                         .resizable()
@@ -143,16 +143,53 @@ struct PodcastHeaderView: View {
         }
     }
 
+    private var fundingButton: some View {
+        Button {
+            viewModel.delegate?.fundingTapped()
+        } label: {
+            if !viewModel.isSubscribed {
+                // Unsubscribed state - larger button next to Follow
+                Image("podcast-funding")
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding()
+                    .frame(minWidth: 40, maxWidth: 40, minHeight: 40, maxHeight: 40)
+                    .foregroundStyle(theme.primaryIcon02)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                        .inset(by: 0.5)
+                        .stroke(theme.primaryUi05, lineWidth: 1)
+                    )
+            } else {
+                // Subscribed state - compact button with other actions
+                Image("podcast-funding")
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(8)
+                    .foregroundStyle(theme.primaryIcon02)
+            }
+        }
+        .accessibilityLabel(L10n.funding)
+    }
+
     private var podcastActions: some View {
         HStack(spacing: 8) {
             Spacer()
             followButton
+            if !viewModel.isSubscribed, let _ = viewModel.podcast.fundingURL {
+                fundingButton
+            }
             if viewModel.isSubscribed {
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
                 actionButton(title: viewModel.podcast.pushEnabled ? L10n.notificationsOn : L10n.notificationsOff, imageName: viewModel.podcast.pushEnabled ? "podcast-notification-on" : "podcast-notification-off") {
                     viewModel.delegate?.notificationTapped()
+                }
+                if let _ = viewModel.podcast.fundingURL {
+                    fundingButton
                 }
                 actionButton(title: L10n.settings, imageName: "podcast-settings") {
                     viewModel.delegate?.settingsTapped()
@@ -205,8 +242,8 @@ struct PodcastHeaderView: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-            .inset(by: 0.5)
-            .stroke(theme.primaryUi05, lineWidth: 1)
+                .inset(by: 0.5)
+                .stroke(theme.primaryUi05, lineWidth: 1)
         )
     }
 
