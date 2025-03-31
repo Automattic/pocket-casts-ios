@@ -78,6 +78,11 @@ extension ServerPodcastManager {
         if let isPrivate = podcastJson["is_private"] as? Bool {
             podcast.isPrivate = isPrivate
         }
+        if let fundingsJson = podcastJson["fundings"] as? [[String: Any]] {
+            if let url = fundingsJson.first?["url"] as? String {
+                podcast.fundingURL = url
+            }
+        }
 
         DataManager.sharedManager.save(podcast: podcast)
 
