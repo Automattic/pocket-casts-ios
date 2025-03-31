@@ -79,8 +79,8 @@ struct PodcastHeaderView: View {
                 .font(.callout)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-            .foregroundStyle(theme.primaryText02)
-            .tint(theme.primaryText02)
+                .foregroundStyle(theme.primaryInteractive01Active)
+            .tint(theme.primaryInteractive01Active)
             .environment(\.openURL, OpenURLAction { url in
                 viewModel.categoryTapped()
                 return .handled
