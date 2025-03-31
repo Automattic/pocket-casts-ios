@@ -149,29 +149,29 @@ struct PodcastHeaderView: View {
         } label: {
             if !viewModel.isSubscribed {
                 // Unsubscribed state - larger button next to Follow
-                Image("podcast-funding")
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding()
-                    .frame(minWidth: 40, maxWidth: 40, minHeight: 40, maxHeight: 40)
-                    .foregroundStyle(theme.primaryIcon02)
+                fundingImage(width: 20.0, height: 20.0, padding: 10.0)
+                    .frame(width: 40, height: 40)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                        .inset(by: 0.5)
-                        .stroke(theme.primaryUi05, lineWidth: 1)
+                            .inset(by: 0.5)
+                            .stroke(theme.primaryUi05, lineWidth: 1)
                     )
+
             } else {
                 // Subscribed state - compact button with other actions
-                Image("podcast-funding")
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .padding(8)
-                    .foregroundStyle(theme.primaryIcon02)
+                fundingImage(width: 24.0, height: 24.0, padding: 8.0)
             }
         }
         .accessibilityLabel(L10n.funding)
+    }
+
+    private func fundingImage(width: CGFloat, height: CGFloat, padding: CGFloat) -> some View {
+        return Image("podcast-funding")
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: width, height: height)
+            .padding(padding)
+            .foregroundStyle(theme.primaryIcon02)
     }
 
     private var podcastActions: some View {
