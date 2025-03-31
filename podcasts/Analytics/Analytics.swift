@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 class Analytics {
     static let shared = Analytics()
@@ -17,7 +18,13 @@ class Analytics {
 
     /// Unregisters all the registered adapters, disabling analytics
     static func unregister() {
-        Self.shared.adapters = nil
+        if FeatureFlag.podcastNewformAppsFlyer.enabled,
+           let adapters = Self.shared.adapters {
+            //Keep only third-party adapters
+            Self.shared.adapters = adapters.filter { $0.isThirdPartyAdapter }
+        } else {
+            Self.shared.adapters = nil
+        }
         shared.adaptersRegistered = false
     }
 #if !os(watchOS) && !APPCLIP
@@ -92,7 +99,14 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
+    var isThirdPartyAdapter: Bool { get }
     func track(name: String, properties: [AnyHashable: Any]?)
+}
+
+extension AnalyticsAdapter {
+    var isThirdPartyAdapter: Bool {
+        false
+    }
 }
 
 // MARK: - Dynamic Event Name
