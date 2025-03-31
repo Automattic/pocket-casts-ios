@@ -1,6 +1,7 @@
 7.86
 -----
 - New podcast page design [#2825](https://github.com/Automattic/pocket-casts-ios/pull/2825)
+- Add Creator Funding Support [#2913](https://github.com/Automattic/pocket-casts-ios/pull/2913)
 
 7.85
 -----
