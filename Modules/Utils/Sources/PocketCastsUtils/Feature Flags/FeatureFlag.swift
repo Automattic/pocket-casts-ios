@@ -254,7 +254,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastViewChanges:
             true
         case .podcastNewformAppsFlyer:
-            false
+            true
         }
     }
 
