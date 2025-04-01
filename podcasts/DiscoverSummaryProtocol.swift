@@ -26,4 +26,6 @@ protocol DiscoverDelegate: AnyObject {
     func failedToLoadEpisode()
 
     func invalidate(item: DiscoverItem)
+
+    func navigateTo(category: String)
 }

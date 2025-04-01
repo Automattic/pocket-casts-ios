@@ -1,7 +1,9 @@
 final class UIViewControllerContentConfiguration: UIContentConfiguration {
     let viewController: UIViewController
+    let parentViewController: UIViewController
 
-    init(viewController: UIViewController) {
+    init(parentViewController: UIViewController, viewController: UIViewController) {
+        self.parentViewController = parentViewController
         self.viewController = viewController
     }
 
@@ -45,6 +47,8 @@ class ViewControllerContainerContentView: UIView, UIContentView {
             viewController.view.trailingAnchor.constraint(equalTo: trailingAnchor),
             viewController.view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+
+        configuration.parentViewController.addChild(viewController)
     }
 
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {

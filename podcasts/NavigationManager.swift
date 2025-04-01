@@ -17,6 +17,7 @@ class NavigationManager {
     private static let homePageKey = "homePage"
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
+    static let discoverCategoryKey = "discoverCategory"
 
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
@@ -136,7 +137,11 @@ class NavigationManager {
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
-            mainController?.navigateToDiscover(animated)
+            guard let data = data, let category = data[NavigationManager.discoverCategoryKey] as? String else {
+                mainController?.navigateToDiscover(animated)
+                return
+            }
+            mainController?.navigateToDiscover(category: category, animated: animated)
         } else if place == NavigationManager.filterPageKey {
             if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)

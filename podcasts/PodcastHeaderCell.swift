@@ -13,9 +13,9 @@ class PodcastHeaderCell: UITableViewCell {
     }
 
     let podcast: Podcast
-    let viewController: PodcastViewController
+    weak var viewController: PodcastViewController?
     let viewModel: PodcastHeaderViewModel
-
+    var firstTime = true
     init(podcast: Podcast, vc: PodcastViewController) {
         self.podcast = podcast
         self.viewController = vc
@@ -31,35 +31,38 @@ class PodcastHeaderCell: UITableViewCell {
     }
 
     func commonSetup() {
+        guard let viewController = self.viewController else { return }
         self.backgroundColor = .clear
         self.selectionStyle = .none
-        if #available(iOS 16.0, *) {
-            self.contentConfiguration = UIHostingConfiguration(content: {
-                PodcastHeaderView(viewModel: viewModel).setupDefaultEnvironment()
-            })
-        } else {
-            // Fallback on earlier versions
-            configureCellFromSwiftUIView(cell: self, viewController: self.viewController, rootView: {
-                ContentSizeGeometryReader { proxy in
-                    PodcastHeaderView(viewModel: self.viewModel).setupDefaultEnvironment().padding()
-                } contentSizeUpdated: { size in
-                    self.calculatedHeight = size.height
-                    self.setNeedsLayout()
-                    self.viewController.tableView().reloadData()
+        configureCellFromSwiftUIView(cell: self, viewController: viewController, rootView: {
+            ContentSizeGeometryReader { proxy in
+                PodcastHeaderView(viewModel: self.viewModel)
+                    .setupDefaultEnvironment()
+                    .ignoresSafeArea()//Needs to be done in order to allow expansion of the view to navigation area when scrolling up
+            } contentSizeUpdated: { [weak self] size in
+                guard let self = self else { return }
+                calculatedHeight = size.height
+                if firstTime {
+                    firstTime = false
+                    viewController.reloadData()
+                } else {
+                    // the following code allows the table to refresh the row height in a animated way
+                    viewController.tableView().beginUpdates()
+                    viewController.tableView().endUpdates()
                 }
-            })
-        }
+
+            }
+        })
     }
 
     func configureCellFromSwiftUIView<Content: View>(cell: UITableViewCell, viewController: UIViewController, @ViewBuilder rootView: @escaping () -> Content) {
-
         let swiftUICellViewController = UIHostingController(rootView: rootView())
         swiftUICellViewController.view.backgroundColor = .clear
         cell.backgroundColor = .clear
         cell.contentView.backgroundColor = .clear
         cell.layoutIfNeeded()
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
+        cell.contentView.clipsToBounds = true
         viewController.addChild(swiftUICellViewController)
         cell.contentView.addSubview(swiftUICellViewController.view)
         swiftUICellViewController.view.translatesAutoresizingMaskIntoConstraints = false

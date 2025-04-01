@@ -1710,6 +1710,10 @@ internal enum L10n {
   internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
   /// Notifications On
   internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
+  /// We’ll notify you with new episodes of %1$@
+  internal static func notificationsOnForPodcast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "notifications_on_for_podcast", String(describing: p1))
+  }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Now Playing
@@ -2400,6 +2404,10 @@ internal enum L10n {
   internal static func podcastUploading(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_uploading", String(describing: p1))
   }
+  /// Tap on the podcast title to collapse or expand its description and details
+  internal static var podcastViewChangesTipDetails: String { return L10n.tr("Localizable", "podcast_view_changes_tip_details") }
+  /// We've made some changes
+  internal static var podcastViewChangesTipTitle: String { return L10n.tr("Localizable", "podcast_view_changes_tip_title") }
   /// Waiting to upload
   internal static var podcastWaitingUpload: String { return L10n.tr("Localizable", "podcast_waiting_upload") }
   /// Yesterday

@@ -104,6 +104,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
+
+        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
+            Task {
+                await AppTrackingTransparencyController.shared.promptConsentAlert()
+            }
+        }
     }
 
     /// Update database indexes and delete unused columns
@@ -313,6 +319,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func navigateToDiscover(_ animated: Bool) {
         switchToTab(.discover)
+    }
+
+    func navigateToDiscover(category: String, animated: Bool) {
+        switchToTab(.discover)
+        if let index = pcTabs.firstIndex(of: .discover),
+           let navController = viewControllers?[safe: index] as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            if let discoverDelegate = navController.topViewController as? DiscoverDelegate {
+                discoverDelegate.navigateTo(category: category)
+            }
+        }
     }
 
     func navigateToUpNext(_ animated: Bool) {

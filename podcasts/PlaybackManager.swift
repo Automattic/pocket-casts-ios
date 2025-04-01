@@ -1333,11 +1333,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func setAudioSessionProperties() throws {
         let audioSession = AVAudioSession.sharedInstance()
-        #if os(watchOS)
-            try audioSession.setCategory(.playback, mode: .default, policy: .longFormAudio)
-        #else
-            try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
-        #endif
+        try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
     }
 
     private func setAudioSessionVideoProperties() {
