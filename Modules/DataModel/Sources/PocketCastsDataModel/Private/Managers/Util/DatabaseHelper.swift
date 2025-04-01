@@ -805,6 +805,15 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 56 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fundingURL TEXT;", values: nil)
+                schemaVersion = 56
+            } catch {
+                failedAt(56)
+                return
+            }
+        }
         db.commit()
     }
 }
