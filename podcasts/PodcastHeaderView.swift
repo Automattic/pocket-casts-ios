@@ -49,7 +49,7 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            Spacer().frame(height: (viewModel.isExpanded ? 16 : 24) - topMarginAdjustmentForTitle)
+            Spacer().frame(height: (viewModel.isExpanded ? 20 : 28) - topMarginAdjustmentForTitle)
             podcastTitle
             Spacer().frame(height: 16 - bottomMarginAdjustmentForTitle)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
