@@ -8,18 +8,23 @@ extension AppDelegate {
     }
 
     func setupAnalytics() {
-        var adapters: [AnalyticsAdapter] = []
-        
-        // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
-        if shouldRegisterFirstPartyAdapters {
-            adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
-        }
+        setupFirstPartyAnalytics()
+        setupThirdPartyAnalytics()
+    }
 
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
+    func setupFirstPartyAnalytics() {
+        guard shouldRegisterFirstPartyAdapters else {
+            return
         }
+        let adapters: [AnalyticsAdapter] = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
         Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
+    }
+
+    func setupThirdPartyAnalytics() {
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            Analytics.add(adapter: AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
+        }
     }
 
     func logActiveDownloadTasks() {

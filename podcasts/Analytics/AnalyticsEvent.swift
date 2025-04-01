@@ -387,8 +387,8 @@ enum AnalyticsEvent: String {
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
-    case analyticsThirdPartyOptInTap
-    case analyticsThirdPartyOptOutTap
+    case analyticsThirdPartyOptIn
+    case analyticsThirdPartyOptOut
 
     // MARK: - Player
 

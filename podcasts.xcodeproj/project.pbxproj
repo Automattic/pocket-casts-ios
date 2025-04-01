@@ -7395,8 +7395,8 @@
 		C72CED30289DA17F0017883A /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				9A11FC9E2D92F3D600A1EF3E /* Apple ATT */,
 				C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */,
+				9A11FC9E2D92F3D600A1EF3E /* Apple ATT */,
 				9A11FC942D91D04E00A1EF3E /* Newform AppsFlyer */,
 				46A6AC0128F5B67D000E6254 /* Crash Logging */,
 				C7C4CAEC28AB0BE300CFC8CF /* Tracks */,
