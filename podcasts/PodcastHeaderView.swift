@@ -49,15 +49,15 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            Spacer().frame(height: 16)
+            Spacer().frame(height: (viewModel.isExpanded ? 16 : 24) - topMarginAdjustmentForTitle)
             podcastTitle
-            Spacer().frame(height: 16)
+            Spacer().frame(height: 16 - bottomMarginAdjustmentForTitle)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                            style: .short,
                            onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
-            Spacer().frame(height: 16)
+            Spacer().frame(height: 16 - (viewModel.isSubscribed ? 4 : 0))
             podcastActions
             Spacer().frame(height: 24)
             VStack {
@@ -86,6 +86,16 @@ struct PodcastHeaderView: View {
                 return .handled
             })
         }
+    }
+
+    var topMarginAdjustmentForTitle: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        return font.lineHeight - font.capHeight
+    }
+
+    var bottomMarginAdjustmentForTitle: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        return -font.descender
     }
 
     private var podcastTitle: some View {
