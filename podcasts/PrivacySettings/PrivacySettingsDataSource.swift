@@ -75,6 +75,11 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
     }
 
     @objc private func openSettings(_ sender: UISwitch) {
+        if sender.isOn {
+            Analytics.track(.analyticsThirdPartyOptInTap)
+        } else {
+            Analytics.track(.analyticsThirdPartyOptOutTap)
+        }
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url, options: [:]) {
                 _ in
