@@ -121,7 +121,7 @@ struct PodcastHeaderView: View {
                 .foregroundStyle(theme.primaryText01)
                 .padding()
                 .cornerRadius(viewModel.isSubscribed ? 8 : 32)
-                .frame(minWidth: viewModel.isSubscribed ? 32 : viewModel.podcast.fundingURL != nil ? 118 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
+                .frame(minWidth: viewModel.isSubscribed ? 32 : viewModel.hasFundingURL ? 118 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
                 .background {
                     Image("discover_tick")
                         .resizable()
@@ -178,9 +178,6 @@ struct PodcastHeaderView: View {
         HStack(spacing: 8) {
             Spacer()
             followButton
-            if !viewModel.isSubscribed, let _ = viewModel.podcast.fundingURL {
-                fundingButton
-            }
             if viewModel.isSubscribed {
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
@@ -188,11 +185,15 @@ struct PodcastHeaderView: View {
                 actionButton(title: viewModel.podcast.pushEnabled ? L10n.notificationsOn : L10n.notificationsOff, imageName: viewModel.podcast.pushEnabled ? "podcast-notification-on" : "podcast-notification-off") {
                     viewModel.delegate?.notificationTapped()
                 }
-                if let _ = viewModel.podcast.fundingURL {
+                if viewModel.hasFundingURL {
                     fundingButton
                 }
                 actionButton(title: L10n.settings, imageName: "podcast-settings") {
                     viewModel.delegate?.settingsTapped()
+                }
+            } else {
+                if viewModel.hasFundingURL {
+                    fundingButton
                 }
             }
             Spacer()

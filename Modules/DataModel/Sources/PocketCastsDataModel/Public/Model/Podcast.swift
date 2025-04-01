@@ -65,6 +65,10 @@ public class Podcast: NSObject, Identifiable {
     // UUID will be updated
     public var forceRefreshEpisodeFrom: String? = nil
 
+    public var needsForceReload: Bool {
+        fundingURL == nil
+    }
+
     public func autoDownloadOn() -> Bool {
         autoDownloadSetting == AutoDownloadSetting.latest.rawValue
     }

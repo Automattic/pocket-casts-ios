@@ -80,6 +80,8 @@ extension ServerPodcastManager {
         }
         if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
             podcast.fundingURL = url
+        }  else {
+            podcast.fundingURL = ""
         }
 
         DataManager.sharedManager.save(podcast: podcast)

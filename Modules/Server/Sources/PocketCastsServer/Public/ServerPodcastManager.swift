@@ -251,6 +251,8 @@ public class ServerPodcastManager: NSObject {
         }
         if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
             podcast.fundingURL = url
+        } else {
+            podcast.fundingURL = ""
         }
 
         // we don't accept podcasts with no episodes

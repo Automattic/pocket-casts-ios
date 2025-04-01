@@ -138,6 +138,13 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
     }
 
+    var hasFundingURL: Bool {
+        if let fundingURL = podcast.fundingURL {
+            return !fundingURL.isEmpty
+        }
+        return false
+    }
+
     func categoryTapped() {
         delegate?.categoryTapped(firstCategory)
     }

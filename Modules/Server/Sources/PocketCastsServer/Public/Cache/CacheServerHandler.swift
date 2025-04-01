@@ -103,7 +103,7 @@ public class CacheServerHandler {
     public func loadPodcastIfModified(podcast: Podcast, completion: @escaping (([String: Any]?, String?) -> Void)) {
         let url = urlForPodcast(uuid: podcast.uuid)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: CacheServerHandler.defaultTimeout)
-        if let lastUpdated = podcast.lastUpdatedAt, podcast.isSubscribed() {
+        if let lastUpdated = podcast.lastUpdatedAt, podcast.isSubscribed(), !podcast.needsForceReload {
             request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
         }
 
