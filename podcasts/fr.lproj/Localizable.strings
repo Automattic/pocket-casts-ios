@@ -1809,16 +1809,22 @@ MISES À JOUR</string>
     <string>1 an de contenu exclusif de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Rêver avec le contenu Slumber Studios</string>
+    <key>plus_feature_themes_icons</key>
+    <string>Thèmes et icônes supplémentaires</string>
     <key>plus_features</key>
     <string>FONCTIONNALITÉS EXCLUSIVES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ d’essai gratuit</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Signets</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Applications Web et de bureau</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Dossiers et favoris</string>
     <key>plus_marketing_folders_description</key>
     <string>Créez des dossiers pour organiser votre collection de podcasts.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Dossiers</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Une expérience sans publicité qui vous permet de profiter encore plus de ce que vous aimez et qui évite ce qui ne vous intéresse pas</string>
     <key>plus_marketing_hide_ads_title</key>
