@@ -1485,6 +1485,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Notificacions desactivades</string>
     <key>notifications_on</key>
     <string>Notificacions activades</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Et notificarem amb nous episodis de %1$@</string>
     <key>notifications_play_now</key>
     <string>Reproduir ara</string>
     <key>now_playing</key>
@@ -2060,6 +2062,10 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Pujar ara</string>
     <key>podcast_uploading</key>
     <string>Pujant... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Pitja al títol del pòdcast per arreplegar o expandir la seva descripció i detalls</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Hem fet alguns canvis</string>
     <key>podcast_waiting_upload</key>
     <string>Esperant per a pujar</string>
     <key>podcast_yesterday</key>
@@ -2748,7 +2754,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>share_current_position</key>
     <string>Posició actual</string>
     <key>share_description</key>
-    <string>Tria un format i una plataforma per a compartir amb</string>
+    <string>Tria un format i una plataforma per a compartir</string>
     <key>share_episode</key>
     <string>Compartir l'episodi</string>
     <key>share_episode_at</key>
