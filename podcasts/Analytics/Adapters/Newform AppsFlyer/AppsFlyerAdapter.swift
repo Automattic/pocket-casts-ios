@@ -2,6 +2,8 @@ import AppsFlyerLib
 import PocketCastsUtils
 
 class AppsFlyerAdapter: AnalyticsAdapter {
+    let isThirdPartyAdapter = true
+
     private let appsFlyer = AppsFlyerLib.shared()
     private let dataProvider: AppsFlyerDataProvider
     private var appTrackingTransparencyProvider: AppTrackingTransparencyProvider
