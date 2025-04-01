@@ -33,6 +33,7 @@ struct PodcastHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Spacer().frame(height: 16)
             HStack(alignment: .top) {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
