@@ -35,13 +35,6 @@ class Analytics {
     }
 #endif
 
-    static func add(adapter: AnalyticsAdapter) {
-        var adapters = Self.shared.adapters ?? []
-        adapters.append(adapter)
-        Self.shared.adapters = adapters
-        logCurrentAdapters()
-    }
-
     /// Convenience method to call Analytics.shared.track*
     static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
         Self.shared.track(event, properties: properties)
@@ -89,11 +82,7 @@ extension Analytics {
     func optInOfAnalytics() {
 #if !os(watchOS) && !APPCLIP
         Settings.setAnalytics(optOut: false)
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            (UIApplication.shared.delegate as? AppDelegate)?.setupFirstPartyAnalytics()
-        } else {
-            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-        }
+        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
         Analytics.track(.analyticsOptIn)
 #endif
     }
