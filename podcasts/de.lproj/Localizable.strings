@@ -173,6 +173,12 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Große Träume</string>
     <key>app_badge</key>
     <string>App-Badge</string>
+    <key>app_clip_placholder_message</key>
+    <string>Möglicherweise wurde der Inhalt entfernt oder der Link ist fehlerhaft.
+Aber Pocket Casts hat noch mehr zu bieten.
+Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
+    <key>app_clip_placholder_title</key>
+    <string>Wir konnten diese Folge leider nicht finden</string>
     <key>app_icon_classic</key>
     <string>Klassisch</string>
     <key>app_icon_dark</key>
@@ -365,6 +371,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Vielen Dank, dass du dich für Pocket Casts entschieden hast. Der Tarif mit Rabatt beginnt nach Ablauf deines aktuellen Abrechnungszeitraums.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% Rabatt auf das nächste Jahr!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Spare %@ zu Beginn deines nächsten Abrechnungszyklus.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Zahle jetzt %@ und erhalte für ein weiteres Jahr 50 %% Rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_title</key>
@@ -917,6 +927,8 @@ Folge dauerte
     <string>Im Vergleich zu 2022 ist deine Audiozeit ein wenig zurückgegangen</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>Im Vergleich zu 2022 ist deine Audiozeit um ganze %1$@ angestiegen</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Ich habe %2$@ %1$@ verschiedene Podcasts bewertet – %3$@ war dabei meine am häufigsten verwendete Bewertung</string>
     <key>episode</key>
     <string>Folge</string>
     <key>episode_count_plural_format</key>
@@ -1198,6 +1210,12 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>In dieser Zeit hättest du %1$@ Schnürsenkel binden können. Vielleicht. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>In dieser Zeit wurden %1$@ Tweets gezwitschert. Zwitscher! Zwitscher! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Dieses Transkript wird automatisch generiert und ist nur für Plus-Abonnenten verfügbar</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Werde Plus-Abonnent, um Zugriff auf das Transkript und andere Premium-Funktionen wie Lesezeichen und Ordner zu erhalten.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Dieses Transkript wird automatisch von Pocket Casts generiert.</string>
     <key>go_to_podcast</key>
     <string>Zum Podcast</string>
     <key>got_it</key>
@@ -1468,6 +1486,10 @@ Podcasts mit</string>
     <string>Nichts</string>
     <key>not_on_wifi</key>
     <string>Du hast keine WLAN-Verbindung</string>
+    <key>notifications_off</key>
+    <string>Benachrichtigungen aus</string>
+    <key>notifications_on</key>
+    <string>Benachrichtigungen an</string>
     <key>notifications_play_now</key>
     <string>Jetzt abspielen</string>
     <key>now_playing</key>
@@ -1484,6 +1506,10 @@ Podcasts mit</string>
     <string>Aus</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Nur über nicht getaktetes WLAN</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Wenn du diese Funktion ausschaltest, kannst du Dateien sowohl über das Mobilfunknetz als auch über andere getaktete Netzwerke herunterladen. Weitere Informationen findest du in deinen Netzwerkeinstellungen.</string>
     <key>only_on_wifi</key>
     <string>Nur bei WLAN-Verbindung</string>
     <key>opml_import_failed_message</key>
@@ -1783,8 +1809,6 @@ UM UPDATES ZU ERHALTEN</string>
     <string>1 Jahr exklusive Inhalte von Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Erholsamer Schlaf mit Inhalten von Slumber Studios</string>
-    <key>plus_feature_themes_icons</key>
-    <string>Zusätzliche Themes und App-Icons</string>
     <key>plus_features</key>
     <string>PLUS-FEATURES</string>
     <key>plus_free_membership_format</key>
@@ -1809,6 +1833,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Themes und Icons</string>
     <key>plus_marketing_title</key>
     <string>Alles, was du an Pocket Casts liebst, und noch viel mehr</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Mischen der Warteschlange</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Lade deine Dateien in den Cloud-Speicher, damit du von überall aus darauf zugreifen kannst</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1949,6 +1975,10 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Neue Folgen gefunden!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Keine Folgen gefunden.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Ziehe nach unten oder schaue über dieses Menü nach, ob es etwas Neues gibt.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Neue Episoden bald verfügbar!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Podcasts entdecken</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2941,6 +2971,22 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>%1$@ für %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Individuellen Ordner erstellen</string>
+    <key>suggested_folders_description</key>
+    <string>Wir haben deine Podcasts in Ordnern organisiert. Speichere sie jetzt und passe sie später an.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Wir haben deine Podcasts in Ordnern organisiert. Speichere sie jetzt und passe sie später an. Dadurch werden alle bereits vorhandenen Ordner ersetzt.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Ordner ersetzen</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Wenn du vorgeschlagene Ordner akzeptierst, werden deine aktuellen Ordner überschrieben. Dies kann nicht rückgängig gemacht werden.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Bestehende Ordner ersetzen?</string>
+    <key>suggested_folders_title</key>
+    <string>Intelligente Ordner</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Diese Ordner verwenden</string>
     <key>support_watch_help_message</key>
     <string>Wenn du Probleme mit Pocket Casts in der Watch-App hast, können wir dir Wearable-Protokolle senden, um dich besser zu unterstützen. Öffne dafür Pocket Casts auf deiner Watch.</string>
     <key>support_watch_help_opened_app</key>

@@ -19,7 +19,7 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell, .endOfYearUpsell:
+        case .plusUpsell, .endOfYearUpsell, .suggestedFolderUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController,
@@ -133,6 +133,8 @@ struct OnboardingFlow {
         /// When the user is brought into the onboarding flow from the End Of Year stories
         case endOfYearUpsell
 
+        case suggestedFolderUpsell = "suggested_folder_upsell"
+
         case promoCode = "promo_code"
 
         case referralCode = "referral_code"
@@ -154,7 +156,7 @@ struct OnboardingFlow {
         /// dismissed right away
         var shouldDismissAfterPurchase: Bool {
             switch self {
-            case .endOfYearUpsell:
+            case .endOfYearUpsell, .suggestedFolderUpsell:
                 true
             default:
                 false

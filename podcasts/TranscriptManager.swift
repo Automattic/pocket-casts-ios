@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import Sentry
 
 enum TranscriptError: Error {
     case notAvailable
@@ -34,6 +35,8 @@ class TranscriptManager {
 
     let showCoordinator: ShowInfoCoordinating
 
+    private(set) var hasGeneratedTranscripts: Bool = false
+
     init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
         self.episodeUUID = episodeUUID
         self.podcastUUID = podcastUUID
@@ -42,11 +45,12 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
-            !transcripts.isEmpty else {
+            let metadata = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
+            !metadata.transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
-        var transcriptsAvailable = transcripts
+        var transcriptsAvailable = metadata.transcripts
+        hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
         while let transcript = TranscriptFormat.bestTranscript(from: transcriptsAvailable) {
             do {
                 let model = try await loadTranscript(transcript)
@@ -73,6 +77,12 @@ class TranscriptManager {
         else {
             throw TranscriptError.failedToLoad
         }
+
+        let crumb = Breadcrumb()
+        crumb.level = SentryLevel.info
+        crumb.category = "transcript"
+        crumb.message = "Transcript file \(transcriptURL)"
+        SentrySDK.addBreadcrumb(crumb)
 
         guard let model = TranscriptModel.makeModel(from: transcriptText, format: transcriptFormat) else {
             throw TranscriptError.failedToParse

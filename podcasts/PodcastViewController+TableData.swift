@@ -62,10 +62,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == PodcastViewController.headerSection {
-            let cell = podcastHeadingCell
-            cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
-            cell.buttonsEnabled = !isMultiSelectEnabled
-            return cell
+            if FeatureFlag.podcastViewChanges.enabled {
+                let cell = podcastHeaderCell
+                return cell
+            } else {
+                let cell = podcastHeadingCell
+                cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
+                cell.buttonsEnabled = !isMultiSelectEnabled
+                return cell
+            }
         }
 
         guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
@@ -110,6 +115,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cellHeights[indexPath] = cell.frame.size.height
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if FeatureFlag.podcastViewChanges.enabled, indexPath.section == PodcastViewController.headerSection {
+            return podcastHeaderCell.rowHeight
+        }
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

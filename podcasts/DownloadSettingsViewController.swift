@@ -61,6 +61,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             return L10n.settingsAutoDownloadsSubtitleNewEpisodes
         case .filterSelection:
             return L10n.settingsAutoDownloadsSubtitleFilters
+        case .onlyOnWifi:
+            return L10n.onlyOnUnmeteredWifiDetails
         default:
             return nil
         }
@@ -135,7 +137,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .onlyOnWifi:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
 
-            cell.cellLabel.text = L10n.onlyOnWifi
+            cell.cellLabel.text = L10n.onlyOnUnmeteredWifi
             cell.cellSwitch.isOn = !Settings.autoDownloadMobileDataAllowed()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(useMobileDataToggled(_:)), for: UIControl.Event.valueChanged)

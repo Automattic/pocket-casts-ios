@@ -113,6 +113,11 @@ class FolderDataManager {
         cacheFolders(dbQueue: dbQueue)
     }
 
+    func markAllFolderAsDeleted(syncModified: Int64, dbQueue: PCDBQueue) {
+        DataHelper.run(query: "UPDATE \(DataManager.folderTableName) SET syncModified = ?, wasDeleted = 1", values: [syncModified], methodName: "FolderDataManager.markAllFolderAsDeleted", onQueue: dbQueue)
+        cacheFolders(dbQueue: dbQueue)
+    }
+
     private func cacheFolders(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {

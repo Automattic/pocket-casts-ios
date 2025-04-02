@@ -982,6 +982,10 @@ public class DataManager {
         folderManager.deleteAllFolders(dbQueue: dbQueue)
     }
 
+    public func deleteAllFoldersAndMarkSync() {
+        folderManager.markAllFolderAsDeleted(syncModified: TimeFormatter.currentUTCTimeInMillis(), dbQueue: dbQueue)
+    }
+
     // MARK: - Advanced
 
     public func count(query: String, values: [Any]?) -> Int {

@@ -193,6 +193,12 @@ struct RoundedButtonStyle: ButtonStyle {
 struct RoundedButton: ViewModifier {
     @EnvironmentObject var theme: Theme
 
+    var destructive: Bool
+
+    init(destructive: Bool = false) {
+        self.destructive = destructive
+    }
+
     func body(content: Content) -> some View {
         HStack {
             Spacer()
@@ -202,11 +208,12 @@ struct RoundedButton: ViewModifier {
             Spacer()
         }
         .padding()
-        .background(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+        .background(destructive ? ThemeColor.support05(for: theme.activeTheme).color : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
         .frame(height: 44)
     }
 }
+
 
 struct BorderButton: ViewModifier {
     @EnvironmentObject var theme: Theme
@@ -222,11 +229,11 @@ struct BorderButton: ViewModifier {
         .padding()
         .background(ThemeColor.primaryUi01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
-        .frame(height: 44)
         .overlay(
             RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                 .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
         )
+        .frame(height: 44)
     }
 }
 

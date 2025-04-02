@@ -173,6 +173,12 @@
     <string>怀揣远大梦想</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
+    <key>app_clip_placholder_message</key>
+    <string>它可能已被移除，或者链接已失效。
+但 Pocket Casts 还有更多功能。
+下载应用程序，获取完整体验！</string>
+    <key>app_clip_placholder_title</key>
+    <string>很抱歉，我们找不到该剧集</string>
     <key>app_icon_classic</key>
     <string>Classic</string>
     <key>app_icon_dark</key>
@@ -365,6 +371,10 @@
     <string>感谢您选用 Pocket Casts。 您的折扣套餐将在您当前的计费周期结束后开始生效。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>下一年享 5%% 折优惠！</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>在您的下一个计费周期开始时节省 %@。</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>现在支付 %@ 即可再享一年 50%% 优惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_title</key>
@@ -1200,6 +1210,12 @@
     <string>在此期间，您应可以绑定 %1$@ 根鞋带。 也许。 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>在此期间，发送了 %1$@ 篇推文。 太棒了！ 太棒了！ 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>此文字转录稿为自动生成，仅供 Plus 订阅者使用</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>订阅 Plus 以使用此功能和其他高级功能（如书签和文件夹）。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>此文字转录稿由 Pocket Casts 自动生成。</string>
     <key>go_to_podcast</key>
     <string>转至播客</string>
     <key>got_it</key>
@@ -1470,6 +1486,10 @@
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
+    <key>notifications_off</key>
+    <string>通知关闭</string>
+    <key>notifications_on</key>
+    <string>通知开启</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>now_playing</key>
@@ -1486,6 +1506,10 @@
     <string>关闭</string>
     <key>ok</key>
     <string>确定</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>仅通过不计量的 Wifi 下载</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>关闭此功能将允许在蜂窝网络和其他计量网络上下载。 请查看您的网络设置以获取更多信息。</string>
     <key>only_on_wifi</key>
     <string>仅在 WiFi 上</string>
     <key>opml_import_failed_message</key>
@@ -1786,17 +1810,21 @@
     <key>plus_feature_slumber_new</key>
     <string>通过 Slumber Studios 的内容圆梦</string>
     <key>plus_feature_themes_icons</key>
-    <string>其他主题和应用程序图标</string>
+    <string>其他主题和图标</string>
     <key>plus_features</key>
     <string>PLUS 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ 免费试用</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>书签</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和 Web 应用程序</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>文件夹和书签</string>
     <key>plus_marketing_folders_description</key>
     <string>创建文件夹以整理您的播客集。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>文件夹</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>无广告体验，提供更多您喜欢的内容，并减少您不喜欢内容</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1811,6 +1839,8 @@
     <string>主题和图标</string>
     <key>plus_marketing_title</key>
     <string>您喜欢的 Pocket Casts 的一切，还有更多内容</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>下一个随机播放</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>将文件上传到云存储空间，在任何地方都能访问这些文件</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1981,10 @@
     <string>找到新剧集！</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>未找到剧集。</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>下拉或使用此菜单查看是否有新内容。</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>精彩剧集，即将上线！</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>了解播客</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2943,6 +2977,22 @@
     <string>%1$@ 每 %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>创建自定义文件夹</string>
+    <key>suggested_folders_description</key>
+    <string>我们已将您的播客整理到文件夹中。 立即保存，稍后进行自定义。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>我们已将您的播客整理到文件夹中。 立即保存，稍后进行自定义。 这将替换任何现有文件夹。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>替换文件夹</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>接受建议的文件夹后，您当前的文件夹将被覆盖。 此操作无法撤销。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>替换现有文件夹？</string>
+    <key>suggested_folders_title</key>
+    <string>智能文件夹</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>使用这些文件夹</string>
     <key>support_watch_help_message</key>
     <string>如果您在使用 Pocket Casts Watch 应用时遇到问题，我们可以发送您的可穿戴日志以更好地帮助您。 为此，请在您的 Watch 上打开 Pocket Casts。</string>
     <key>support_watch_help_opened_app</key>

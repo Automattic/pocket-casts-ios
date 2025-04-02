@@ -173,6 +173,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Sonhe alto</string>
     <key>app_badge</key>
     <string>Selo do app</string>
+    <key>app_clip_placholder_message</key>
+    <string>Ele pode ter sido removido ou o link está corrompido.
+Mas há muito mais no Pocket Casts.
+Faça download do aplicativo para ter uma experiência completa!</string>
+    <key>app_clip_placholder_title</key>
+    <string>Não foi possível encontrar esse episódio</string>
     <key>app_icon_classic</key>
     <string>Classic</string>
     <key>app_icon_dark</key>
@@ -365,6 +371,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Agradecemos por você escolher o Pocket Casts. O desconto no seu plano começa a valer após o período de cobrança atual.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50%% de desconto no próximo ano!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Economize %@ no começo do próximo ciclo de cobrança.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Pague %@ agora e tenha mais um ano com 50%% de desconto</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Não pague nada no próximo mês</string>
     <key>cancel_subscription_title</key>
@@ -1200,6 +1210,12 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Nesse período, você poderia ter amarrado %1$@ cadarços. Talvez. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Nesse período, %1$@ tweets foram publicados. Uau! Uau! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Esta transcrição é gerada automaticamente e está disponível apenas para assinantes do Plus</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Assine o Plus para ter acesso a essa e outras funcionalidades premium, como favoritos e pastas.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Esta transcrição é gerada automaticamente pelo Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Acessar podcast</string>
     <key>got_it</key>
@@ -1470,6 +1486,10 @@ podcasts com você</string>
     <string>Nenhum</string>
     <key>not_on_wifi</key>
     <string>Você não está no Wi-Fi</string>
+    <key>notifications_off</key>
+    <string>Notificações desativadas</string>
+    <key>notifications_on</key>
+    <string>Notificações ativadas</string>
     <key>notifications_play_now</key>
     <string>Reproduzir agora</string>
     <key>now_playing</key>
@@ -1486,6 +1506,10 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Apenas em Wi-Fi ilimitado</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Desativar esta opção permitirá downloads no celular e também em outras redes de Internet limitadas. Verifique suas configurações de rede para obter mais informações.</string>
     <key>only_on_wifi</key>
     <string>Somente no Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1786,17 +1810,21 @@ ATUALIZAÇÕES</string>
     <key>plus_feature_slumber_new</key>
     <string>Sonhe com o conteúdo do Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
-    <string>Ícones de aplicativo e temas extras</string>
+    <string>Ícones e temas extras</string>
     <key>plus_features</key>
     <string>FUNCIONALIDADES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Teste gratuito de %1$@</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Favoritos</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicativos para desktop e web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Pastas e favoritos</string>
     <key>plus_marketing_folders_description</key>
     <string>Crie pastas para organizar sua coleção de podcasts.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Pastas</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Experiência sem publicidade, que se alinha mais ao seu gosto</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1811,6 +1839,8 @@ ATUALIZAÇÕES</string>
     <string>Temas e ícones</string>
     <key>plus_marketing_title</key>
     <string>Tudo o que você adora no Pocket Casts e muito mais</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Próximo aleatório</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Faça upload dos seus arquivos na nuvem para acessá-los em qualquer lugar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1981,10 @@ ATUALIZAÇÕES</string>
     <string>Novos episódios encontrados!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Nenhum episódio encontrado.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Deslize a tela para baixo ou use este menu para saber se tem alguma novidade.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Em breve, episódios inéditos!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Explorar podcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2943,6 +2977,22 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>%1$@ por %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Obrigado pelo apoio!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Criar pasta personalizada</string>
+    <key>suggested_folders_description</key>
+    <string>Organizamos seus podcasts em pastas. Salve agora e personalize mais tarde.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Organizamos seus podcasts em pastas. Salve agora e personalize mais tarde. Isso substituirá todas as pastas existentes.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Substituir pastas</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Se você aceitar as pastas sugeridas, elas substituirão suas pastas atuais. Essa ação não pode ser desfeita.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Substituir pastas existentes?</string>
+    <key>suggested_folders_title</key>
+    <string>Pastas inteligentes</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Usar estas pastas</string>
     <key>support_watch_help_message</key>
     <string>Se você estiver tendo problemas com o aplicativo Pocket Casts para o Apple Watch, podemos enviar seus registros para ajudar você da melhor forma. Basta abrir o Pocket Casts no seu Apple Watch.</string>
     <key>support_watch_help_opened_app</key>

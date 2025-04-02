@@ -161,10 +161,13 @@ enum AnalyticsEvent: String {
     case folderChooseRemovedFromFolder
     case folderPodcastModalOptionTapped
 
-    case suggestedFoldersModalShow
-    case suggestedFoldersModalDismissed
-    case suggestedFoldersModalUseTheseFoldersTapped
-    case suggestedFoldersModalCreateCustomFoldersTapped
+    case suggestedFoldersPageShow
+    case suggestedFoldersPageDismissed
+    case suggestedFoldersUseSuggestedFoldersTapped
+    case suggestedFoldersCreateCustomFolderTapped
+    case suggestedFoldersPreviewFolderTapped
+    case suggestedFoldersReplaceFoldersTapped
+    case suggestedFoldersReplaceFoldersConfirmTapped
 
     // MARK: - Tab Bar Items
 
@@ -315,6 +318,9 @@ enum AnalyticsEvent: String {
     case podcastsScreenEpisodeGroupingChanged
     case podcastsScreenTabTapped
     case podcastScreenPodcastDescriptionLinkTapped
+    case podcastScreenNotificationsTapped
+    case podcastScreenPodcastDetailsLinkTapped
+    case podcastScreenCategoryTapped
 
     // MARK: - App Store Review Request
 
@@ -382,6 +388,8 @@ enum AnalyticsEvent: String {
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
+    case analyticsThirdPartyOptIn
+    case analyticsThirdPartyOptOut
 
     // MARK: - Player
 
@@ -783,6 +791,9 @@ enum AnalyticsEvent: String {
     case transcriptSearchShown
     case transcriptSearchNextResult
     case transcriptSearchPreviousResult
+    case transcriptGeneratedPaywallShown
+    case transcriptGeneratedPaywallDismissed
+    case transcriptGeneratedPaywallSubscribeTapped
 
     // MARK: - Widgets
 

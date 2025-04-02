@@ -50,7 +50,7 @@ struct UserEpisodeManager {
     }
 
     static func uploadUserEpisode(userEpisode: UserEpisode) {
-        if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToWifi() {
+        if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             UploadManager.shared.queueForLaterUpload(episodeUuid: userEpisode.uuid, fireNotification: true)
         } else {
             UploadManager.shared.addToQueue(episodeUuid: userEpisode.uuid)
@@ -141,7 +141,7 @@ struct UserEpisodeManager {
 
     static func checkForPendingUploads() {
         // check if any existing episode that have been queued need to be uploaded
-        if NetworkUtils.shared.isConnectedToWifi() {
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             let queuedEpisodes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.waitingForWifi)
             for episode in queuedEpisodes {
                 UploadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true)

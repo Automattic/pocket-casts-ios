@@ -9,10 +9,11 @@ import PocketCastsUtils
 class AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
     static var optedOut: Bool {
-        #if !APPCLIP
-        Settings.analyticsOptOut()
-        #endif
+        #if APPCLIP
         return true
+        #else
+        return Settings.analyticsOptOut()
+        #endif
     }
 
     class func openedCategory(categoryId: Int, region: String) {

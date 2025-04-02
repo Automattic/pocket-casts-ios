@@ -173,6 +173,12 @@
     <string>Мечтайте о большем</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
+    <key>app_clip_placholder_message</key>
+    <string>Возможно, он удалён или ссылка не работает.
+Но в Pocket Casts есть ещё много интересного.
+Загрузите приложение, чтобы получить всё!</string>
+    <key>app_clip_placholder_title</key>
+    <string>К сожалению, не удалось найти этот выпуск</string>
     <key>app_icon_classic</key>
     <string>Классический</string>
     <key>app_icon_dark</key>
@@ -365,6 +371,10 @@
     <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш тарифный план со скидкой начнёт действовать по окончании текущего расчётного периода.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Скидка 50 %% на следующий год!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Сэкономьте %@ в начале следующего расчётного периода.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Уплатите %@ за следующий год со скидкой 50%% прямо сейчас</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
     <key>cancel_subscription_title</key>
@@ -1200,6 +1210,12 @@
     <string>За это время вы могли бы завязать %1$@ шнурков на ботинках. Возможно. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>За это время написано %1$@ твитов. Твит! Твит! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Эта расшифровка создана автоматически и доступна только подписчикам Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Подпишитесь на Plus, чтобы пользоваться ею и другими премиум-функциями, такими как закладки и папки.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Расшифровка автоматически создана Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Перейти к подкасту</string>
     <key>got_it</key>
@@ -1470,6 +1486,10 @@
     <string>Пусто</string>
     <key>not_on_wifi</key>
     <string>Вы не подключены к WiFi</string>
+    <key>notifications_off</key>
+    <string>Уведомления откл.</string>
+    <key>notifications_on</key>
+    <string>Уведомления вкл.</string>
     <key>notifications_play_now</key>
     <string>Воспроизвести</string>
     <key>now_playing</key>
@@ -1486,6 +1506,10 @@
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Только в сетях Wi-Fi без тарификации</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Если отключить этот параметр, то скачивание будет возможно как в сотовых, так и в других платных сетях. Проверьте настройки сети, чтобы узнать дополнительные сведения.</string>
     <key>only_on_wifi</key>
     <string>Только по WiFi</string>
     <key>opml_import_failed_message</key>
@@ -1786,17 +1810,21 @@
     <key>plus_feature_slumber_new</key>
     <string>Содержание: Slumber Studios — мы помогаем вам мечтать</string>
     <key>plus_feature_themes_icons</key>
-    <string>Дополнительные темы и значки приложения</string>
+    <string>Дополнительные темы и значки</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Пробный период в течение %1$@</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Закладки</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Приложения для ПК и веб-приложения</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Папки и закладки</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Папки</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Без рекламы у вас будет больше того, что вам нравится, и меньше того, что вам не нравится.</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1811,6 +1839,8 @@
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
     <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Следующий, случайно выбранный элемент</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1981,10 @@
     <string>Новые выпуски!</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>Выпуски не найдены.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Перетащите вниз или откройте это меню, чтобы узнать, что нового.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Свежие выпуски уже скоро!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Найти подкасты</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2943,6 +2977,22 @@
     <string>%1$@ за %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Создать пользовательскую папку</string>
+    <key>suggested_folders_description</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже. Они заменят все нынешние папки.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Заменить папки</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Если вы примете предложенные папки, ваши текущие папки будут заменены. Это действие нельзя отменить.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Заменить существующие папки?</string>
+    <key>suggested_folders_title</key>
+    <string>Умные папки</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Использовать эти папки</string>
     <key>support_watch_help_message</key>
     <string>Если у вас возникли проблемы с приложением Pocket Casts для часов, мы можем отправить журналы с носимого устройства, чтобы помочь вам. Для этого откройте Pocket Casts на часах.</string>
     <key>support_watch_help_opened_app</key>

@@ -440,7 +440,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
 
         updateButtonStates()
-        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor)
+        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor, buttonBackgroundColor: .clear)
     }
 
     @objc private func starTapped(_ sender: UIButton) {

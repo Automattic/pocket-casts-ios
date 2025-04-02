@@ -209,6 +209,7 @@ public class Episode: NSObject, BaseEpisode {
         }
 
         public let transcripts: [Transcript]
+        public let pocketCastsTranscripts: [Transcript]?
 
         public struct Transcript: Decodable {
             public let url: String

@@ -220,11 +220,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var displayTranscript = false {
         didSet {
-            #if APPCLIP
-            //TODO: Show install banner
-            #else
+#if !APPCLIP
             toggleTranscript()
-            #endif
+#endif
         }
     }
 

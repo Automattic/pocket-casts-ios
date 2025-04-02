@@ -173,6 +173,12 @@
     <string>夢は大きく</string>
     <key>app_badge</key>
     <string>アプリバッジ</string>
+    <key>app_clip_placholder_message</key>
+    <string>削除されたか、リンクが壊れている可能性があります。
+しかし、Pocket Casts ではさらに多くをご利用いただけます。
+アプリをダウンロードしてフル活用しましょう !</string>
+    <key>app_clip_placholder_title</key>
+    <string>対象のエピソードは見つかりませんでした</string>
     <key>app_icon_classic</key>
     <string>クラシック</string>
     <key>app_icon_dark</key>
@@ -365,6 +371,10 @@
     <string>Pocket Casts をお選びいただきありがとうございます。 割引プランは現在の請求期間の後に開始します。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年度が50%% オフ !</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>次の請求期間の開始時に%@を節約します。</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>今すぐ%@を支払うと、もう1年が50%% オフになります。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>
@@ -1200,6 +1210,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@本の靴紐が結べるほどの時間です。 おそらく。 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>こちらのトランスクリプトは自動的に生成され、Plus サブスクリプションの登録者のみが利用できます</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Plus サブスクリプションに登録すると、Plus にアクセスし、ブックマークやフォルダーなどのその他のプレミアム機能もご利用いただけます。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>こちらのトランスクリプトは Pocket Casts によって自動的に生成されます。</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
     <key>got_it</key>
@@ -1470,6 +1486,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>なし</string>
     <key>not_on_wifi</key>
     <string>Wi-Fi に接続していません</string>
+    <key>notifications_off</key>
+    <string>通知オフ</string>
+    <key>notifications_on</key>
+    <string>通知オン</string>
     <key>notifications_play_now</key>
     <string>今すぐ再生</string>
     <key>now_playing</key>
@@ -1486,6 +1506,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>従量制課金が行われない Wi-Fi のみ</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>こちらをオフにすることで、携帯ネットワークやその他の従量制課金接続でダウンロードできるようになります。 詳細についてはネットワーク設定を確認してください。</string>
     <key>only_on_wifi</key>
     <string>Wi-Fi 接続中のみ</string>
     <key>opml_import_failed_message</key>
@@ -1786,17 +1810,21 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios でぐっすり眠る」のコンテンツ</string>
     <key>plus_feature_themes_icons</key>
-    <string>追加のテーマとアプリアイコン</string>
+    <string>追加のテーマとアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ の無料お試し</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>ブックマーク</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>デスクトップアプリとウェブアプリ</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>フォルダーとブックマーク</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>フォルダー</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>広告非表示の操作環境では気に入ったコンテンツを増やし、気に入らないコンテンツは減らすことができます</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1811,6 +1839,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>テーマとアイコン</string>
     <key>plus_marketing_title</key>
     <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>次のシャッフル</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1951,6 +1981,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>新しいエピソードが見つかりました !</string>
     <key>podcast_feed_reload_no_episodes_found</key>
     <string>エピソードがありません。</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>プルダウンまたはこちらのメニューを使って、新しいものがあるかを確認します。</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>最新エピソードがまもなく登場 !</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>ポッドキャストをディスカバー</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -2732,7 +2766,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
     <key>share_more_actions</key>
-    <string>詳細</string>
+    <string>共有</string>
     <key>share_podcast</key>
     <string>ポッドキャストを共有</string>
     <key>share_podcast_private_not_available</key>
@@ -2939,6 +2973,22 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>カスタムフォルダーを作成</string>
+    <key>suggested_folders_description</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。 これにより、すべての既存フォルダーが置き換えられます。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>フォルダーを置換</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>おすすめフォルダーを承認すると、現在のフォルダーが上書きされます。 この操作は元に戻すことができません。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>既存のフォルダーを置換しますか ?</string>
+    <key>suggested_folders_title</key>
+    <string>スマートフォルダー</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>これらのフォルダーを使用</string>
     <key>support_watch_help_message</key>
     <string>Pocket Casts Watch アプリで問題が発生した場合は、ウェアラブルログを送信するとサポートの際に役立ちます。 これを行うには、Watch で Pocket Cast を開いてください。</string>
     <key>support_watch_help_opened_app</key>
