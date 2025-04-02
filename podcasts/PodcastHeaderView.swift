@@ -92,7 +92,7 @@ struct PodcastHeaderView: View {
     var topMarginForTitle: CGFloat {
         let font = UIFont.preferredFont(forTextStyle: .title2)
         let adjustment =  font.lineHeight - font.capHeight + font.descender
-        return (viewModel.isExpanded ? 20 : 28) - adjustment
+        return (viewModel.isExpanded ? 18 : 26) - adjustment
     }
 
     var bottomMarginAdjustmentForTitle: CGFloat {
