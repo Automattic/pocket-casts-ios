@@ -42,7 +42,10 @@ class FoldersCoordinator: NSObject {
     }
 
     func startFolderCreationFlow(from vc: UIViewController) {
-        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded, didPodcastsChanged() {
+        if FeatureFlag.suggestedFolders.enabled,
+           dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+           suggestedFoldersModel.loadingState == .loaded,
+           didPodcastsChanged() {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
