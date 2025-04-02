@@ -8,6 +8,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         @Published public var item: DiscoverItem?
         @Published public var selectedCategory: DiscoverCategory?
         @Published public var region: String?
+        private(set) var cachedCategories = [DiscoverCategory]()
 
         lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
             guard let source = self?.item?.source else { return nil }
@@ -16,7 +17,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
                 guard let id = $0.id else { return false }
                 return self?.item?.popular?.contains(id) == true
             }
-
+            self?.cachedCategories = categories
             return (categories, popular)
         }
 
@@ -35,6 +36,14 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
         self.delegate = delegate
+    }
+
+    func setCategory(_ category: String) {
+        for categoryObject in observable.cachedCategories {
+            if categoryObject.name?.lowercased() == category {
+                observable.selectedCategory = categoryObject
+            }
+        }
     }
 
     func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?, category: DiscoverCategory?) {
@@ -56,9 +65,20 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         self.observable.$selectedCategory
             .delay(for: .milliseconds(20), scheduler: DispatchQueue.main)
             .sink { [weak self] category in
-            guard let item = self?.observable.item else { return }
-            self?.delegate?.showExpanded(item: item, category: category)
-        }.store(in: &cancellables)
+                guard let item = self?.observable.item else { return }
+                self?.delegate?.showExpanded(item: item, category: category)
+            }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.discoverNavigateToCategory)
+            .receive(on: OperationQueue.main)
+            .sink { [unowned self] notification in
+                guard let category = notification.object as? String else {
+                    return
+                }
+                self.setCategory(category)
+            }
+            .store(in: &cancellables)
     }
 
     required init?(coder aDecoder: NSCoder) {

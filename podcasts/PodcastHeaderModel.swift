@@ -5,7 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-class PodcastHeaderViewModel: ObservableObject {
+class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     @Published var podcast: Podcast
 
@@ -14,10 +14,15 @@ class PodcastHeaderViewModel: ObservableObject {
     init(podcast: Podcast, delegate: PodcastActionsDelegate? = nil) {
         self.podcast = podcast
         self.delegate = delegate
+        self.isSubscribed = podcast.isSubscribed()
+        _isExpanded =  Published(initialValue: delegate?.isSummaryExpanded() ?? false)
+        super.init()
         addObservers()
     }
 
     @Published var isExpanded: Bool = true
+
+    @Published var isSubscribed: Bool = false
 
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
@@ -30,8 +35,8 @@ class PodcastHeaderViewModel: ObservableObject {
             else {
                 return
             }
-
             self.podcast = podcast
+            self.isSubscribed = podcast.isSubscribed()
         }
         .store(in: &cancellables)
     }
@@ -48,12 +53,22 @@ class PodcastHeaderViewModel: ObservableObject {
         return folderImage
     }
 
-    var displayCategory: String {
-        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        if let author = podcast.author {
-            result += " · \(author)"
+    var firstCategory: String {
+        guard let category = podcast.podcastCategory,
+              let substring = category.split(whereSeparator: \.isNewline).first
+        else {
+            return ""
         }
-        return result
+        return String(substring).lowercased()
+    }
+
+    var displayCategoryAndAuthor: AttributedString {
+        let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        var markdown = "[\(category)](http://pocketcasts.com)"
+        if let author = podcast.author {
+            markdown += " · \(author)"
+        }
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
     }
 
     var displayAuthor: String? {
@@ -98,9 +113,11 @@ class PodcastHeaderViewModel: ObservableObject {
 
         if podcast.isSubscribed() {
             delegate.unsubscribe()
+            // do not switch variable here because there is still a confimation screen
         } else {
             delegate.subscribe()
-            isExpanded = false
+            // switching state immediately so animation is triggered at press
+            isSubscribed = true
         }
     }
 
@@ -115,5 +132,48 @@ class PodcastHeaderViewModel: ObservableObject {
         delegate?.setSummaryExpanded(expanded: willBeExpanded)
         Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
         isExpanded.toggle()
+    }
+
+    var htmlDescription: String {
+        return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
+
+    func categoryTapped() {
+        delegate?.categoryTapped(firstCategory)
+    }
+
+    func podcastArtworkTapped() {
+        delegate?.refreshArtwork()
+    }
+}
+
+extension PodcastHeaderViewModel: ExpandableLabelDelegate {
+    // MARK: - ExpandableLabelDelegate
+
+    func willExpandLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
+        delegate?.tableView().beginUpdates()
+    }
+
+    func didExpandLabel(_ label: UIView) {
+        delegate?.tableView().endUpdates()
+        delegate?.setDescriptionExpanded(expanded: true)
+    }
+
+    func willCollapseLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
+        delegate?.tableView().beginUpdates()
+    }
+
+    func didCollapseLabel(_ label: UIView) {
+        delegate?.tableView().endUpdates()
+        delegate?.setDescriptionExpanded(expanded: false)
+    }
+
+    func linkTapped(url: URL) {
+        if let uuid = delegate?.displayedPodcast()?.uuid {
+            Analytics.track(.podcastScreenPodcastDescriptionLinkTapped, properties: ["podcast_uuid": uuid])
+        }
+        delegate?.open(url: url)
     }
 }

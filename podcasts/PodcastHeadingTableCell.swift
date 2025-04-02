@@ -227,7 +227,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            delegate?.refreshArtwork(fromRect: podcastImageView.frame, inView: self)
+            delegate?.refreshArtwork()
         }
     }
 

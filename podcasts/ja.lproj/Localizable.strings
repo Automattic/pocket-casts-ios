@@ -1809,16 +1809,22 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios でぐっすり眠る」のコンテンツ</string>
+    <key>plus_feature_themes_icons</key>
+    <string>追加のテーマとアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ の無料お試し</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>ブックマーク</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>デスクトップアプリとウェブアプリ</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>フォルダーとブックマーク</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>フォルダー</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>広告非表示の操作環境では気に入ったコンテンツを増やし、気に入らないコンテンツは減らすことができます</string>
     <key>plus_marketing_hide_ads_title</key>
