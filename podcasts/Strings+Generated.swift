@@ -1336,6 +1336,8 @@ internal enum L10n {
   internal static func freeTrialTitleLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "free_trial_title_label", String(describing: p1))
   }
+  /// Funding
+  internal static var funding: String { return L10n.tr("Localizable", "funding") }
   /// It really matches your eyes ✨
   internal static var funnyConfMsg: String { return L10n.tr("Localizable", "funny_conf_msg") }
   /// You really don't listen much, do you?

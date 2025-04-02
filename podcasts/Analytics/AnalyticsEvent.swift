@@ -305,6 +305,7 @@ enum AnalyticsEvent: String {
     case podcastScreenShown
     case podcastScreenFolderTapped
     case podcastScreenSettingsTapped
+    case podcastScreenFundingTapped
     case podcastScreenSubscribeTapped
     case podcastScreenUnsubscribeTapped
     case podcastScreenSearchPerformed
@@ -388,6 +389,8 @@ enum AnalyticsEvent: String {
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
+    case analyticsThirdPartyOptIn
+    case analyticsThirdPartyOptOut
 
     // MARK: - Player
 

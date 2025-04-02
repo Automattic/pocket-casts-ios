@@ -3,17 +3,18 @@ import PocketCastsUtils
 import PocketCastsDataModel
 
 extension AppDelegate {
-    private var shouldRegisterAdapters: Bool {
+    private var shouldRegisterFirstPartyAdapters: Bool {
         UIApplication.shared.isProtectedDataAvailable && !Settings.analyticsOptOut() && !Analytics.shared.adaptersRegistered
     }
 
     func setupAnalytics() {
+        var adapters: [AnalyticsAdapter] = []
+
         // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
-        guard shouldRegisterAdapters else {
-            return
+        if shouldRegisterFirstPartyAdapters {
+            adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
         }
 
-        var adapters: [AnalyticsAdapter] = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
         if FeatureFlag.podcastNewformAppsFlyer.enabled {
             adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
         }
