@@ -56,6 +56,7 @@ class FoldersCoordinator: NSObject {
 
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
+              vc.presentedViewController == nil,
               !SubscriptionHelper.hasActiveSubscription(),
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
