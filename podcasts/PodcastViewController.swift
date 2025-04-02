@@ -59,6 +59,7 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+    func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
     func reloadPodcastFeed(source: PodcastFeedReloadSource)
@@ -331,10 +332,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func setupLogin() {
         podcastRatingViewModel.presentLogin = { [weak self] viewModel in
-            let loginViewController = LoginCoordinator.make()
-            self?.present(loginViewController, animated: true)
+            self?.showLogin(message: L10n.ratingLoginRequired)
+        }
+    }
 
-            Toast.show(L10n.ratingLoginRequired)
+    func showLogin(message: String?) {
+        let loginViewController = LoginCoordinator.make()
+        present(loginViewController, animated: true)
+        if let message {
+            Toast.show(message)
         }
     }
 
