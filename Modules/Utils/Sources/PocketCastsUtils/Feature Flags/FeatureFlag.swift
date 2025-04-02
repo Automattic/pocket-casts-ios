@@ -258,7 +258,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastNewformAppsFlyer:
             false
         case .grdb:
-            true
+            false
         }
     }
 
