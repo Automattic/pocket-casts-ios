@@ -377,7 +377,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
-
+        if FeatureFlag.podcastViewChanges.enabled {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         updateColors()
     }
 
@@ -449,7 +451,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-
+        if FeatureFlag.podcastViewChanges.enabled {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         showViewChangesTipIfNeeded()
     }
 
