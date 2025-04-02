@@ -35,6 +35,7 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func manageSubscriptionTapped()
     func settingsTapped()
+    func fundingTapped()
     func folderTapped()
     func notificationTapped()
     func categoryTapped(_ category: String)
@@ -59,6 +60,7 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+    func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
     func reloadPodcastFeed(source: PodcastFeedReloadSource)
@@ -291,7 +293,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
-            episodesTable.sendSubviewToBack(blurHeaderView)
             let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
             NSLayoutConstraint.activate([
                 blurHeaderPositionConstraint,
@@ -331,10 +332,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func setupLogin() {
         podcastRatingViewModel.presentLogin = { [weak self] viewModel in
-            let loginViewController = LoginCoordinator.make()
-            self?.present(loginViewController, animated: true)
+            self?.showLogin(message: L10n.ratingLoginRequired)
+        }
+    }
 
-            Toast.show(L10n.ratingLoginRequired)
+    func showLogin(message: String?) {
+        let loginViewController = LoginCoordinator.make()
+        present(loginViewController, animated: true)
+        if let message {
+            Toast.show(message)
         }
     }
 
@@ -372,7 +378,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
-
+        if FeatureFlag.podcastViewChanges.enabled {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         updateColors()
     }
 
@@ -380,6 +388,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
+        headerView.layer.zPosition = -1000
         return headerView
     }()
 
@@ -444,9 +453,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             showPodcastFeedReloadTipIfNeeded()
         }
         if FeatureFlag.podcastViewChanges.enabled {
-            episodesTable.sendSubviewToBack(blurHeaderView)
+            self.navigationController?.isNavigationBarHidden = true
         }
-
         showViewChangesTipIfNeeded()
     }
 
@@ -478,13 +486,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
-        if FeatureFlag.podcastViewChanges.enabled {
-            episodesTable.sendSubviewToBack(blurHeaderView)
-        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        AppTheme.defaultStatusBarStyle()
+        return .default
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -510,11 +515,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func reloadData() {
         episodesTable.reloadData()
-        if FeatureFlag.podcastViewChanges.enabled, viewIfLoaded != nil, viewIfLoaded?.window != nil {
-            episodesTable.layoutIfNeeded()
-            // This is being done here because after a relayout of table data we need to send the header back
-            episodesTable.sendSubviewToBack(blurHeaderView)
-        }
     }
 
     private func updateColors() {
@@ -825,6 +825,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         settingsController.episodes = episodeInfo
         navigationController?.pushViewController(settingsController, animated: true)
         Analytics.track(.podcastScreenSettingsTapped)
+    }
+
+    func fundingTapped() {
+        Analytics.track(.podcastScreenFundingTapped)
+        guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
+        open(url: url)
     }
 
     func manageSubscriptionTapped() {

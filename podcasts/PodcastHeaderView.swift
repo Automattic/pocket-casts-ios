@@ -33,11 +33,11 @@ struct PodcastHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Spacer().frame(height: 16)
             HStack(alignment: .top) {
                 Spacer()
-                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .grid)
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
-                    .animation(.bouncy, value: viewModel.isExpanded)
                     .onLongPressGesture {
                         viewModel.podcastArtworkTapped()
                     }
@@ -50,9 +50,9 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            Spacer().frame(height: 16)
+            Spacer().frame(height: topMarginForTitle)
             podcastTitle
-            Spacer().frame(height: 16)
+            Spacer().frame(height: 16 - bottomMarginAdjustmentForTitle)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                            style: .short,
                            onRate: {
@@ -70,19 +70,18 @@ struct PodcastHeaderView: View {
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
             EpisodeBookmarksTabsView(delegate: viewModel.delegate)
-            Spacer()
-                .frame(height: 8)
         }
-        .padding()
+        .padding(.horizontal)
     }
 
     private var podcastCategory: some View {
         VStack {
             Text(viewModel.displayCategoryAndAuthor)
-                .font(.callout)
+                .font(.footnote)
+                .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-            .foregroundStyle(theme.primaryText02)
-            .tint(theme.primaryText02)
+                .foregroundStyle(theme.primaryText01)
+            .tint(theme.primaryText01)
             .environment(\.openURL, OpenURLAction { url in
                 viewModel.categoryTapped()
                 return .handled
@@ -90,21 +89,33 @@ struct PodcastHeaderView: View {
         }
     }
 
+    var topMarginForTitle: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        let adjustment =  font.lineHeight - font.capHeight + font.descender
+        return (viewModel.isExpanded ? 18 : 26) - adjustment
+    }
+
+    var bottomMarginAdjustmentForTitle: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        return -font.descender
+    }
+
     private var podcastTitle: some View {
         HStack(spacing: 0) {
             Text(viewModel.podcast.title ?? "")
-                .font(.title).bold()
+                .font(.title2).bold()
                 .fixedSize(horizontal: false, vertical: true)
-            Image(systemName: "chevron.up")
+            Image("chevron-small-down")
+                .renderingMode(.template)
                 .frame(width: 24, height: 24)
                 .padding(.horizontal, 4)
-                .rotationEffect(.degrees(viewModel.isExpanded ? 0 : 180))
+                .rotationEffect(.degrees(viewModel.isExpanded ? 180 : 0))
                 .contentShape(Rectangle())
         }
         .foregroundStyle(theme.primaryText01)
         .multilineTextAlignment(.center)
         .onTapGesture {
-            withAnimation() {
+            withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
                 viewModel.toggleExpanded()
             }
         }
@@ -121,7 +132,7 @@ struct PodcastHeaderView: View {
                 .foregroundStyle(theme.primaryText01)
                 .padding()
                 .cornerRadius(viewModel.isSubscribed ? 8 : 32)
-                .frame(minWidth: viewModel.isSubscribed ? 32 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
+                .frame(minWidth: viewModel.isSubscribed ? 32 : viewModel.podcast.fundingURL != nil ? 118 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
                 .background {
                     Image("discover_tick")
                         .resizable()
@@ -143,16 +154,54 @@ struct PodcastHeaderView: View {
         }
     }
 
+    private var fundingButton: some View {
+        Button {
+            viewModel.delegate?.fundingTapped()
+        } label: {
+            if !viewModel.isSubscribed {
+                // Unsubscribed state - larger button next to Follow
+                fundingImage(width: 20.0, height: 20.0, padding: 10.0)
+                    .frame(width: 40, height: 40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .inset(by: 0.5)
+                            .stroke(theme.primaryUi05, lineWidth: 1)
+                    )
+
+            } else {
+                // Subscribed state - compact button with other actions
+                fundingImage(width: 24.0, height: 24.0, padding: 8.0)
+            }
+        }
+        .accessibilityLabel(L10n.funding)
+    }
+
+    private func fundingImage(width: CGFloat, height: CGFloat, padding: CGFloat) -> some View {
+        return Image("podcast-funding")
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: width, height: height)
+            .padding(padding)
+            .foregroundStyle(theme.primaryIcon02)
+    }
+
     private var podcastActions: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             Spacer()
             followButton
+            if !viewModel.isSubscribed, let _ = viewModel.podcast.fundingURL {
+                fundingButton
+            }
             if viewModel.isSubscribed {
+                Spacer().frame(width: 8)
                 actionButton(title: L10n.folder, imageName: viewModel.folderImage) {
                     viewModel.delegate?.folderTapped()
                 }
                 actionButton(title: viewModel.podcast.pushEnabled ? L10n.notificationsOn : L10n.notificationsOff, imageName: viewModel.podcast.pushEnabled ? "podcast-notification-on" : "podcast-notification-off") {
                     viewModel.delegate?.notificationTapped()
+                }
+                if let _ = viewModel.podcast.fundingURL {
+                    fundingButton
                 }
                 actionButton(title: L10n.settings, imageName: "podcast-settings") {
                     viewModel.delegate?.settingsTapped()
@@ -171,7 +220,7 @@ struct PodcastHeaderView: View {
                 .resizable()
                 .frame(width: 24, height: 24)
                 .padding(8)
-                .foregroundStyle(theme.primaryIcon02)
+                .foregroundStyle(theme.primaryIcon02Active)
         }
         .accessibilityLabel(title)
     }
@@ -205,8 +254,8 @@ struct PodcastHeaderView: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-            .inset(by: 0.5)
-            .stroke(theme.primaryUi05, lineWidth: 1)
+                .inset(by: 0.5)
+                .stroke(theme.primaryUi05, lineWidth: 1)
         )
     }
 

@@ -249,6 +249,9 @@ public class ServerPodcastManager: NSObject {
         if let isPrivate = podcastJson["is_private"] as? Bool {
             podcast.isPrivate = isPrivate
         }
+        if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
+            podcast.fundingURL = url
+        }
 
         // we don't accept podcasts with no episodes
         guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }

@@ -1809,16 +1809,22 @@ AGGIORNAMENTI</string>
     <string>1 anno di contenuti esclusivi Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Sogna con i contenuti di Slumber Studios</string>
+    <key>plus_feature_themes_icons</key>
+    <string>Temi e icone aggiuntivi</string>
     <key>plus_features</key>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ di prova gratuita</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Segnalibri</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>App per desktop e web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Cartelle e segnalibri</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea cartelle per organizzare la tua raccolta di podcast.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Cartelle</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Esperienza senza pubblicità che offre più di ciò che ami e meno di ciò che non ti piace</string>
     <key>plus_marketing_hide_ads_title</key>
