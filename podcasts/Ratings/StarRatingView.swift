@@ -93,14 +93,14 @@ struct StarRatingView: View {
         Group {
             if let rating, viewModel.hasRatings {
                 Text("\(rating.average, specifier: "%.1f")")
-                    .font(size: 14, style: .footnote, weight: .semibold)
+                    .font(size: 15, style: .footnote, weight: .semibold)
                     .padding([.leading], -2)
                 Text("(\(rating.total.abbreviated))")
-                    .font(size: 14, style: .footnote)
+                    .font(size: 15, style: .footnote)
                     .padding([.leading], -2)
             } else {
                 Text(L10n.ratingNoRatings)
-                    .font(size: 14, style: .footnote)
+                    .font(size: 15, style: .footnote)
             }
         }
         .foregroundColor(defaultColor)
