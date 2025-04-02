@@ -38,12 +38,21 @@
         }
       },
       {
+        "package": "AppsFlyerLib",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/AppsFlyerFramework-Dynamic",
+        "state": {
+          "branch": null,
+          "revision": "4a1439b4601f127e3c118f47bb3230eb28d012e7",
+          "version": "6.16.2"
+        }
+      },
+      {
         "package": "AutomatticTracksiOS",
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
           "branch": null,
-          "revision": "4d7d7138a9f2b36c3fd4618aa488ed9e8de2f726",
-          "version": "3.5.0"
+          "revision": "437f586a62c07c6ceec9baf043237b2afe7ea1ac",
+          "version": "3.5.2"
         }
       },
       {
@@ -231,8 +240,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
-          "version": "8.38.0"
+          "revision": "21223d1c864db0561d91f48d80f269a363a1625d",
+          "version": "8.47.0"
         }
       },
       {
@@ -258,8 +267,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "7cfb9cea6d7b85212de4f445dda17b8f5026c4ff",
-          "version": "1.7.0"
+          "revision": "aaa309326c2b8bfb52b7fdfabb1a43820c2e26b2",
+          "version": "1.8.2"
         }
       },
       {

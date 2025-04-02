@@ -21,7 +21,15 @@ struct TipView: View {
 struct TipViewStatic: View {
     let title: String
     let message: String?
+    let showClose: Bool
     let onTap: (()->())?
+
+    init(title: String, message: String?, showClose: Bool = false, onTap: (() -> Void)?) {
+        self.title = title
+        self.message = message
+        self.showClose = showClose
+        self.onTap = onTap
+    }
 
     @EnvironmentObject var theme: Theme
 
@@ -51,6 +59,17 @@ struct TipViewStatic: View {
             .frame(maxHeight: .infinity)
             .onTapGesture {
                 onTap?()
+            }
+        }.overlay(alignment: .topTrailing) {
+            if showClose {
+                Button() {
+                    onTap?()
+                } label: {
+                    Image("close")
+                        .renderingMode(.template)
+                        .foregroundColor(theme.primaryText01)
+                        .padding(8)
+                }
             }
         }
     }

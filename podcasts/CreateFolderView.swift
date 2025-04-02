@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CreateFolderView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject private var pickerModel = PodcastPickerModel()
+    @StateObject private var pickerModel = PodcastPickerModel()
     @ObservedObject private var model = FolderModel()
 
     var isInsideNavigation: Bool = false

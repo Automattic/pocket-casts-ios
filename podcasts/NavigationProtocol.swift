@@ -14,6 +14,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?)
 
     func navigateToDiscover(_ animated: Bool)
+    func navigateToDiscover(category: String, animated: Bool)
 
     func navigateToProfile(_ animated: Bool)
 

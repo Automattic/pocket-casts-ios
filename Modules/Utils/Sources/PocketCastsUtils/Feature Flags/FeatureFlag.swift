@@ -8,8 +8,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether network debugging with Pulse is enabled
-    case networkDebugging
+    /// Whether logging of AppsFlyer events in console are enabled
+    case appsFlyerLogging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
@@ -146,6 +146,15 @@ public enum FeatureFlag: String, CaseIterable {
 
     case grdb
 
+    /// Enable the generated transcript
+    case generatedTranscripts
+
+    /// Enable the new podcast view
+    case podcastViewChanges
+
+    /// Enable Newform AppsFlyer SDK
+    case podcastNewformAppsFlyer
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -160,7 +169,7 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .firebaseLogging:
             false
-        case .networkDebugging:
+        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
@@ -241,9 +250,15 @@ public enum FeatureFlag: String, CaseIterable {
         case .downloadsThreadSafeCache:
             true
         case .suggestedFolders:
+            true
+        case .generatedTranscripts:
+            true
+        case .podcastViewChanges:
+            true
+        case .podcastNewformAppsFlyer:
             false
         case .grdb:
-            true
+            false
         }
     }
 
@@ -265,6 +280,8 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .usePodcastHTMLDescription:
             "use_podcast_html_description"
+        case .podcastViewChanges:
+            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }

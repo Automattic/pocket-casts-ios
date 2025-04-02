@@ -3,6 +3,18 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 extension DiscoverViewController: DiscoverDelegate {
+
+    func navigateTo(category: String) {
+        if isViewLoaded {
+            NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
+        } else {
+            loadViewIfNeeded()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
+                NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
+            }
+        }
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         // No-op for this older implementation.
     }
@@ -52,7 +64,8 @@ extension DiscoverViewController: DiscoverDelegate {
             collectionListVC.cellStyle = (item.expandedStyle == "descriptive_list") ? CollectionCellStyle.descriptive_list : CollectionCellStyle.grid
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
-            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: item.source)
+            let source = replaceRegionCode(string: item.source ?? "")
+            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source)
             listView.title = replaceRegionName(string: item.title?.localized ?? "")
             listView.showFeaturedCell = item.expandedStyle == "ranked_list"
             listView.showRankingNumber = item.expandedStyle == "ranked_list"

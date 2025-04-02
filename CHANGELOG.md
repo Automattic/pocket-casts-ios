@@ -1,6 +1,24 @@
-7.84
+7.87
 -----
 
+
+7.86
+-----
+- New podcast page design [#2825](https://github.com/Automattic/pocket-casts-ios/pull/2825)
+- Fix Watch app should pause play during announcements from other apps [#2245](https://github.com/Automattic/pocket-casts-ios/issues/2245)
+
+7.85
+-----
+- Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
+- Implement the possibility to display generated transcripts [#2812](https://github.com/Automattic/pocket-casts-ios/issues/2812)
+- Add Suggested Folder feature [#2828](https://github.com/Automattic/pocket-casts-ios/issues/2828)
+- Fix Most popular in Region list URL when sharing [#2869](https://github.com/Automattic/pocket-casts-ios/issues/2869)
+
+7.84
+-----
+- Add empty state for App Clip [#2809](https://github.com/Automattic/pocket-casts-ios/pull/2809)
+- UpNext Shuffle: add logs and prevent tap if user is not logged in [#2806](https://github.com/Automattic/pocket-casts-ios/pull/2806)
+- Add notification toggle button on Podcast details [#2824](https://github.com/Automattic/pocket-casts-ios/pull/2824)
 
 7.83
 -----
@@ -8,6 +26,9 @@
 - Add the functionality to reload the podcast feed [#2703](https://github.com/Automattic/pocket-casts-ios/issues/2703)
 - Add Winback feature [#2435](https://github.com/Automattic/pocket-casts-ios/issues/2435)
 
+7.82.1
+-----
+- Fix analytics bug [#2769](https://github.com/Automattic/pocket-casts-ios/pull/2769)
 
 7.82
 -----

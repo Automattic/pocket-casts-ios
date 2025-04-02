@@ -2,9 +2,6 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
-#if canImport(PulseUI)
-import PulseUI
-#endif
 
 struct DeveloperMenu: View {
     @State var showingImporter = false
@@ -64,16 +61,6 @@ struct DeveloperMenu: View {
                 }, label: {
                     Text("Copy Device ID")
                 })
-            }
-
-            if FeatureFlag.networkDebugging.enabled {
-            #if canImport(PulseUI)
-                Section {
-                    NavigationLink(destination: ConsoleView()) {
-                        Text("Network Debugger")
-                    }
-                }
-            #endif
             }
 
             Section {
@@ -289,6 +276,15 @@ struct DeveloperMenu: View {
                 EndOfYearDeveloperMenuButton()
             } header: {
                 Text("End of Year")
+            }
+
+            Section {
+                Button("Reset CTA conditions") {
+                    Settings.suggestedFoldersUpsellCount = 0
+                    Settings.suggestedFoldersLastUpsellDate = nil
+                }
+            } header: {
+                Text("Suggested Folders")
             }
 
             Section {

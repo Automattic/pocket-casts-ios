@@ -102,6 +102,8 @@ struct Constants {
 
         // Gravatar
         static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
+
+        static let discoverNavigateToCategory = Notification.Name(rawValue: "DiscoverNavigateToCategory")
     }
 
     enum UserDefaults {
@@ -210,6 +212,16 @@ struct Constants {
 
         enum podcastFeedReload {
             static let showTip = "podcastFeedReload.showtip"
+        }
+
+        enum suggestedFolders {
+            static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
+            static let upsellCount = "suggestedFolders.upsellCount"
+            static let lastPodcastsUsed = "suggestedFolders.lastPodcastsUsed"
+        }
+
+        enum podcastViewChanges {
+            static let showTip = "podcastViewChanges.showtip"
         }
     }
 
@@ -384,6 +396,7 @@ enum PlusUpgradeViewSource: String {
     case promoCode
     case promotionFinished
     case upNextShuffle
+    case generatedTranscripts
     case onboarding
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
