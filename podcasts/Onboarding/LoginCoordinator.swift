@@ -226,12 +226,12 @@ extension LoginCoordinator {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 
-        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.encourageAccountCreationPhaseOne.enabled)
+        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.encourageAccountCreation.enabled)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         controller.viewModel = coordinator
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
-        if FeatureFlag.encourageAccountCreationPhaseOne.enabled {
+        if FeatureFlag.encourageAccountCreation.enabled {
             navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
         }
         coordinator.navigationController = navController
