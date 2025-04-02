@@ -4807,6 +4807,9 @@
 /* Notifications Off*/
 "notifications_off" = "Notifications Off";
 
+/* Funding*/
+"funding" = "Funding";
+
 /* Only on Unmetered Wifi */
 "only_on_unmetered_wifi" = "Only on Unmetered Wifi";
 

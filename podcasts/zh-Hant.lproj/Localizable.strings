@@ -1809,16 +1809,22 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>1 年份的 Slumber Studios 獨家內容</string>
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios 伴你進入夢鄉」內容</string>
+    <key>plus_feature_themes_icons</key>
+    <string>其他佈景主題和圖示</string>
     <key>plus_features</key>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@免費試用</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>書籤</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和網頁應用程式</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>資料夾和書籤</string>
     <key>plus_marketing_folders_description</key>
     <string>你可以建立資料夾來整理你的 Podcast 收藏。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>資料夾</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>無廣告體驗，讓系統更常顯示你喜歡的內容，並減少顯示不喜歡的內容</string>
     <key>plus_marketing_hide_ads_title</key>

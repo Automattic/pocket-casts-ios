@@ -35,6 +35,7 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func manageSubscriptionTapped()
     func settingsTapped()
+    func fundingTapped()
     func folderTapped()
     func notificationTapped()
     func categoryTapped(_ category: String)
@@ -825,6 +826,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         settingsController.episodes = episodeInfo
         navigationController?.pushViewController(settingsController, animated: true)
         Analytics.track(.podcastScreenSettingsTapped)
+    }
+
+    func fundingTapped() {
+        Analytics.track(.podcastScreenFundingTapped)
+        guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
+        open(url: url)
     }
 
     func manageSubscriptionTapped() {

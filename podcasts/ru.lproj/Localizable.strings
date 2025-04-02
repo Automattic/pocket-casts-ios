@@ -1809,16 +1809,22 @@
     <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
     <key>plus_feature_slumber_new</key>
     <string>Содержание: Slumber Studios — мы помогаем вам мечтать</string>
+    <key>plus_feature_themes_icons</key>
+    <string>Дополнительные темы и значки</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Пробный период в течение %1$@</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Закладки</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Приложения для ПК и веб-приложения</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Папки и закладки</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Папки</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Без рекламы у вас будет больше того, что вам нравится, и меньше того, что вам не нравится.</string>
     <key>plus_marketing_hide_ads_title</key>
