@@ -57,16 +57,18 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         fakeNavView.addSubview(backBtn)
         backBtn.translatesAutoresizingMaskIntoConstraints = false
         var margin: CGFloat = 0
-        if FeatureFlag.podcastViewChanges.enabled {
-            backBtn.layer.cornerRadius = 22
+        var buttonSize: CGFloat = 44
+        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+            buttonSize = 32
+            backBtn.layer.cornerRadius = buttonSize / 2
             backBtn.layer.masksToBounds = true
             margin = 16
         }
         let leadingOffset: CGFloat = displayMode == .navController ? margin : 6
         let backBtnLeadingConstraint = backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leadingOffset)
         NSLayoutConstraint.activate([
-            backBtn.widthAnchor.constraint(equalToConstant: 44),
-            backBtn.heightAnchor.constraint(equalToConstant: 44),
+            backBtn.widthAnchor.constraint(equalToConstant: buttonSize),
+            backBtn.heightAnchor.constraint(equalToConstant: buttonSize),
             backBtnLeadingConstraint,
             backBtn.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
         ])
@@ -161,8 +163,21 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private func addButton(_ button: UIButton) {
         button.isPointerInteractionEnabled = true
         fakeNavView.addSubview(button)
-        if FeatureFlag.podcastViewChanges.enabled {
-            button.layer.cornerRadius = 22
+        var buttonSize: CGFloat = 44
+        var imageSize: CGFloat = 24
+        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+            buttonSize = 32
+            imageSize = 20
+            button.imageView?.contentMode = .scaleAspectFit
+            if let imageView = button.imageView {
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.frame = CGRect(x: 0, y: 0, width: imageSize, height: imageSize)
+                NSLayoutConstraint.activate([
+                    imageView.widthAnchor.constraint(equalToConstant: imageSize),
+                    imageView.heightAnchor.constraint(equalToConstant: imageSize),
+                ])
+            }
+            button.layer.cornerRadius = buttonSize / 2
             button.layer.masksToBounds = true
         }
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -170,8 +185,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             // if there are no other buttons, anchor this one to the edge
             let margin: CGFloat = FeatureFlag.podcastViewChanges.enabled ? 16 : 5
             NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: 44),
-                button.heightAnchor.constraint(equalToConstant: 44),
+                button.widthAnchor.constraint(equalToConstant: buttonSize),
+                button.heightAnchor.constraint(equalToConstant: buttonSize),
                 fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
@@ -180,8 +195,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             let margin: CGFloat  = FeatureFlag.podcastViewChanges.enabled ? 8 : 0
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: 44),
-                button.heightAnchor.constraint(equalToConstant: 44),
+                button.widthAnchor.constraint(equalToConstant: buttonSize),
+                button.heightAnchor.constraint(equalToConstant: buttonSize),
                 button.trailingAnchor.constraint(equalTo: previousButton.leadingAnchor, constant: -margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
