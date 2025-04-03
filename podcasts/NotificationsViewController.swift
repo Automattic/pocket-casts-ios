@@ -28,6 +28,25 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
         case newFeaturesAndTips
         case pocketCastsOffers
+
+        var description: String {
+            switch self {
+            case .newEpisodes:
+                return L10n.newEpisodes.localizedCapitalized
+            case .podcastsChosen:
+                return L10n.filterChoosePodcasts
+            case .appBadges:
+                return L10n.appBadge
+            case .trendingRecommendations:
+                return L10n.notificationsTrendingAndRecommendations
+            case .dailyReminders:
+                return L10n.notificationsDailyReminders
+            case .newFeaturesAndTips:
+                return L10n.notificationsNewFeaturesTips
+            case .pocketCastsOffers:
+                return L10n.notificationsPocketCastOffers
+            }
+        }
     }
 
     @IBOutlet var settingsTable: UITableView! {
@@ -78,7 +97,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         switch row {
         case .newEpisodes:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.newEpisodes.localizedCapitalized
+            cell.cellLabel.text = row.description
             cell.cellSwitch.isOn = NotificationsHelper.shared.pushEnabled()
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -95,7 +114,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return cell
         case .appBadges:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.appBadge
+            cell.cellLabel.text = row.description
             let badgeChoice = Settings.appBadge
 
             switch badgeChoice {
@@ -110,7 +129,14 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             }
             return cell
         default:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = row.description
+            cell.cellSwitch.isOn = false
+            cell.cellSwitch.tag = row.rawValue
+            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)
+
+            return cell
         }
     }
 
@@ -187,6 +213,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         Settings.trackValueToggled(.settingsNotificationsNewEpisodesToggled, enabled: sender.isOn)
 
         settingsTable.reloadData()
+    }
+
+    @objc private func notificationToggled(_ sender: UISwitch) {
+
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
