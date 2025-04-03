@@ -182,7 +182,7 @@ struct PodcastHeaderView: View {
             .resizable()
             .frame(width: width, height: height)
             .padding(padding)
-            .foregroundStyle(theme.primaryIcon02)
+            .foregroundStyle(theme.primaryIcon02Active)
     }
 
     private var podcastActions: some View {
