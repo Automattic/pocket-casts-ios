@@ -132,23 +132,47 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private var podcastChooserController: PodcastChooserViewController?
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 1 { // choose podcasts for push
-            podcastChooserController = PodcastChooserViewController()
-            podcastChooserController?.analyticsSource = .notifications
-            if let podcastsController = podcastChooserController {
-                podcastsController.delegate = self
-                let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
-                navigationController?.pushViewController(podcastsController, animated: true)
-            }
-        } else if indexPath.row == 2 { // app badge
-            let badgeSettingsChooser = BadgeSettingsViewController(nibName: "BadgeSettingsViewController", bundle: nil)
-            navigationController?.pushViewController(badgeSettingsChooser, animated: true)
+        guard let sectionType = Section(rawValue: indexPath.section)
+        else {
+            return
         }
+        let rowType = rows[indexPath.section][indexPath.row]
+
+        switch sectionType {
+        case .episodes:
+            switch rowType {
+            case .podcastsChosen: // choose podcasts for push
+                podcastChooserController = PodcastChooserViewController()
+                podcastChooserController?.analyticsSource = .notifications
+                if let podcastsController = podcastChooserController {
+                    podcastsController.delegate = self
+                    let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                    podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
+                    navigationController?.pushViewController(podcastsController, animated: true)
+                }
+            case .appBadges: // app badge
+                let badgeSettingsChooser = BadgeSettingsViewController(nibName: "BadgeSettingsViewController", bundle: nil)
+                navigationController?.pushViewController(badgeSettingsChooser, animated: true)
+            default:
+                return
+            }
+        default:
+            return
+        }
+
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        NotificationsHelper.shared.pushEnabled() ? nil : L10n.settingsNotificationsSubtitle
+        guard let sectionType = Section(rawValue: section) else {
+            return nil
+        }
+        switch sectionType {
+        case .episodes:
+            return NotificationsHelper.shared.pushEnabled() ? nil : L10n.settingsNotificationsSubtitle
+        default:
+            return nil
+        }
+
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
