@@ -182,7 +182,7 @@ struct PodcastHeaderView: View {
             .resizable()
             .frame(width: width, height: height)
             .padding(padding)
-            .foregroundStyle(theme.primaryIcon02Active)
+            .foregroundStyle(theme.primaryIcon03)
     }
 
     private var podcastActions: some View {
@@ -220,7 +220,7 @@ struct PodcastHeaderView: View {
                 .resizable()
                 .frame(width: 24, height: 24)
                 .padding(8)
-                .foregroundStyle(theme.primaryIcon02Active)
+                .foregroundStyle(theme.primaryIcon03)
         }
         .accessibilityLabel(title)
     }
