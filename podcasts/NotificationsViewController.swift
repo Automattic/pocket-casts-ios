@@ -82,9 +82,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         switch sectionType {
         case .episodes:
             return NotificationsHelper.shared.pushEnabled() ? 3 : 1
-        case .featuresAndOffers:
-            return rows[section].count
-        case .recommendationsAndReminders:
+        case .featuresAndOffers, .recommendationsAndReminders:
             return rows[section].count
         }
     }
@@ -116,17 +114,8 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = row.description
             let badgeChoice = Settings.appBadge
+            cell.cellSecondaryLabel.text =  badgeChoice?.description
 
-            switch badgeChoice {
-            case .totalUnplayed:
-                cell.cellSecondaryLabel.text = L10n.statusUnplayed
-            case .filterCount:
-                cell.cellSecondaryLabel.text = L10n.settingsNotificationsFilterCount
-            case .newSinceLastOpened:
-                cell.cellSecondaryLabel.text = L10n.newEpisodes
-            default:
-                cell.cellSecondaryLabel.text = L10n.off
-            }
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
@@ -221,5 +210,21 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+}
+
+extension AppBadge {
+
+    var description: String {
+        switch self {
+        case .totalUnplayed:
+            return L10n.statusUnplayed
+        case .filterCount:
+            return L10n.settingsNotificationsFilterCount
+        case .newSinceLastOpened:
+            return L10n.newEpisodes
+        default:
+            return L10n.off
+        }
     }
 }
