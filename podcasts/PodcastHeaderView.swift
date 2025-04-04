@@ -190,6 +190,7 @@ struct PodcastHeaderView: View {
             Spacer()
             followButton
             if !viewModel.isSubscribed, let _ = viewModel.podcast.fundingURL {
+                Spacer().frame(width: 8)
                 fundingButton
             }
             if viewModel.isSubscribed {
