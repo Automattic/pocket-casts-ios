@@ -178,13 +178,6 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     func handleAccountCreated() {
         Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider ?? "password"])
         OnboardingFlow.shared.accountCreated?(true)
-
-        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
-            Task {
-                await AppTrackingTransparencyController.shared.promptConsentAlert()
-            }
-        }
-
         if OnboardingFlow.shared.currentFlow.shouldDismiss {
             handleDismiss()
             return

@@ -151,6 +151,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
+        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
+            Task {
+                await AppTrackingTransparencyController.shared.promptConsentAlert()
+            }
+        }
+
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
 
         // Set the flag so the user won't see the on launch flow again
