@@ -23,6 +23,10 @@ class AppTrackingTransparencyController: AppTrackingTransparencyProvider {
         return ATTrackingManager.trackingAuthorizationStatus == .notDetermined
     }
 
+    func userSawPrompt() -> Bool {
+        return ATTrackingManager.trackingAuthorizationStatus != .notDetermined
+    }
+
     func userGaveConsent() -> Bool {
         return ATTrackingManager.trackingAuthorizationStatus.isAuthorized
     }

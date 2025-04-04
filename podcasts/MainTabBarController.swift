@@ -104,12 +104,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
-
-        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
-            Task {
-                await AppTrackingTransparencyController.shared.promptConsentAlert()
-            }
-        }
     }
 
     /// Update database indexes and delete unused columns
@@ -155,6 +149,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // Show if the user is not logged in and has never seen the prompt before
         if SyncManager.isUserLoggedIn() || (Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true) {
             return
+        }
+
+        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
+            Task {
+                await AppTrackingTransparencyController.shared.promptConsentAlert()
+            }
         }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.initialOnboarding])
