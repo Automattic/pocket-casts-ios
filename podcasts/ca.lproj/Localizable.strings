@@ -1177,6 +1177,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Començar la prova gratuïta</string>
     <key>free_trial_title_label</key>
     <string>Prova Plus durant %1$@ de franc</string>
+    <key>funding</key>
+    <string>Finançament</string>
     <key>funny_conf_msg</key>
     <string>Combina amb els teus ulls ✨</string>
     <key>funny_time_not_enough</key>

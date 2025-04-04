@@ -1809,16 +1809,22 @@ UPDATES</string>
     <string>1 jaar lang exclusieve content van Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Droom met content van Slumber Studios</string>
+    <key>plus_feature_themes_icons</key>
+    <string>Extra thema's en pictogrammen</string>
     <key>plus_features</key>
     <string>FUNCTIES VAN PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ Gratis Proefversie</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Bladwijzers</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Desktop- en web-apps</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Mappen en bladwijzers</string>
     <key>plus_marketing_folders_description</key>
     <string>Maak mappen aan om je podcastverzameling te sorteren.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Mappen</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Een advertentievrije ervaring die je meer biedt van wat je leuk vindt en minder van wat je niet leuk vindt</string>
     <key>plus_marketing_hide_ads_title</key>
