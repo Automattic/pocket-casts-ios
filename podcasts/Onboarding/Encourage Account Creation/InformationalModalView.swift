@@ -2,7 +2,7 @@ import SwiftUI
 
 struct InformationalModalView: View {
     @EnvironmentObject var theme: Theme
-    @State var currentIndex = 0
+    @State var currentIndex: Int? = 0
 
     let viewModel: InformationalModalViewModel
 
@@ -10,28 +10,28 @@ struct InformationalModalView: View {
     private var isiPad: Bool {
         UIDevice.current.isiPad()
     }
-    private var cardSize: CGSize {
-        isiPad ? CGSize(width: 400, height: 274) : CGSize(width: 313, height: 370)
-    }
-    private var hPadding: CGFloat {
-        isiPad ? 70.0 : 24.0
-    }
-    private var spacing: CGFloat {
-        isiPad ? 18.0 : 16.0
+    private var cardHeight: CGFloat {
+        isiPad ? 274 : 370
     }
 
     var body: some View {
         ScrollView {
             title
             description
-            HorizontalCarouselCardViewContainer(
-                spacing: spacing,
-                items: items,
-                currentIndex: $currentIndex,
-                cardSize: cardSize,
-                hPadding: hPadding,
-                showPagination: true
-            )
+            GeometryReader { proxy in
+                HorizontalCarouselCardViewContainer(
+                    spacing: isiPad ? 18.0 : 16.0,
+                    items: items,
+                    currentIndex: $currentIndex,
+                    cardSize: CGSize(
+                        width: isiPad ? 400 : proxy.size.width - 48.0,
+                        height: cardHeight
+                    ),
+                    hPadding: isiPad ? (proxy.size.width - 400) * 0.5 : 24.0,
+                    showPagination: true
+                )
+            }
+            .frame(height: cardHeight + 24.0)
             buttons
                 .padding(.top, isiPad ? 12.0 : 39.0)
                 .if(!isiPad) {
@@ -42,7 +42,7 @@ struct InformationalModalView: View {
                 }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
-        .onChange(of: currentIndex) { newValue in
+        .onChange(of: currentIndex ?? 0) { newValue in
             viewModel.pageDidChange(newValue)
         }
     }
@@ -53,7 +53,7 @@ struct InformationalModalView: View {
             .foregroundStyle(theme.primaryText01)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 24.0)
-            .padding(.top, isiPad ? 20.0 : 24.0)
+            .padding(.top, isiPad ? 20.0 : 34.0)
             .padding(.bottom, 8.0)
     }
 

@@ -3,39 +3,64 @@ import SwiftUI
 struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresentable>: View {
     private let spacing: CGFloat
     private let items: [Item]
-    @Binding private var currentIndex: Int
     private let cardSize: CGSize
     private let hPadding: CGFloat
-    private let peekAmount: CGFloat
     private let showPagination: Bool
 
-    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int>, cardSize: CGSize, hPadding: CGFloat = 24.0, peekAmount: CGFloat? = nil, showPagination: Bool = false) {
+    @Binding private var currentIndex: Int?
+
+    private var currentIndexNonOptional: Binding<Int> {
+        Binding<Int>(
+            get: { currentIndex ?? 0 },
+            set: { currentIndex = $0 }
+        )
+    }
+
+    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false) {
         self.spacing = spacing
         self.items = items
         self._currentIndex = currentIndex
         self.cardSize = cardSize
         self.hPadding = hPadding
-        self.peekAmount = peekAmount ?? cardSize.width + spacing + hPadding + hPadding
         self.showPagination = showPagination
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            GeometryReader { proxy in
-                HorizontalCarousel(currentIndex: $currentIndex, items: items) { item in
-                    HorizontalCarouselCard(item: item)
-                        .frame(width: cardSize.width)
-                        .frame(height: cardSize.height)
-                        .id(item.id)
+            if #available(iOS 17.0, *) {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: spacing) {
+                        ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
+                            HorizontalCarouselCard(item: item)
+                                .frame(width: cardSize.width)
+                                .frame(height: cardSize.height)
+                                .id(i)
+                        }
+                    }
+                    .scrollTargetLayout()
                 }
-                .carouselItemSpacing(spacing)
-                .carouselPeekAmount(.constant(proxy.size.width - peekAmount))
-                .carouselScrollEnabled(true)
-                .padding(.horizontal, hPadding)
+                .scrollTargetBehavior(.viewAligned)
+                .safeAreaPadding(.horizontal, hPadding)
+                .scrollPosition(id: $currentIndex)
+                .scrollIndicators(.hidden)
+                .frame(height: cardSize.height)
+            } else {
+                GeometryReader { proxy in
+                    HorizontalCarousel(currentIndex: currentIndexNonOptional, items: items) { item in
+                        HorizontalCarouselCard(item: item)
+                            .frame(width: cardSize.width)
+                            .frame(height: cardSize.height)
+                            .id(item.id)
+                    }
+                    .carouselItemSpacing(spacing)
+                    .carouselPeekAmount(.constant(proxy.size.width - (cardSize.width + spacing + hPadding + hPadding)))
+                    .carouselScrollEnabled(true)
+                    .padding(.horizontal, hPadding)
+                }
+                .frame(height: cardSize.height)
             }
-            .frame(height: cardSize.height)
             if showPagination {
-                PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex)
+                PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex ?? 0)
                     .padding(.top, 16.0)
             }
         }
@@ -44,6 +69,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
 
 fileprivate enum MockItem: String, CaseIterable, Identifiable, HorizontalCarouselItemRepresentable {
     case test
+    case test2
 
     var backgroundColor: Color {
         .red
@@ -79,5 +105,10 @@ fileprivate enum MockItem: String, CaseIterable, Identifiable, HorizontalCarouse
 }
 
 #Preview {
-    HorizontalCarouselCardViewContainer(items: [MockItem.test, MockItem.test], currentIndex: .constant(0), cardSize: CGSize(width: 313, height: 370), showPagination: true)
+    HorizontalCarouselCardViewContainer(
+        items: [MockItem.test, MockItem.test2],
+        currentIndex: .constant(0),
+        cardSize: CGSize(width: 313, height: 370),
+        hPadding: 24,
+        showPagination: true)
 }
