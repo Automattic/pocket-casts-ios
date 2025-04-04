@@ -4,10 +4,11 @@ import PocketCastsServer
 struct LoginLandingView: View {
     @EnvironmentObject var theme: Theme
     let coordinator: LoginCoordinator
+    let fullScreenMode: Bool
 
     var body: some View {
         ProportionalValueFrameCalculator {
-            LoginLandingContent(coordinator: coordinator)
+            LoginLandingContent(coordinator: coordinator, fullScreenMode: fullScreenMode)
         }
     }
 }
@@ -21,11 +22,13 @@ private struct LoginLandingContent: View {
 
     /// Determines if we should compact the view for smaller devices such as the iPhone SE / iPhone 12 Mini
     private var smallHeight: Bool { deviceHeight < 700 }
+    private let fullScreenMode: Bool
 
     let coordinator: LoginCoordinator
 
-    init(coordinator: LoginCoordinator) {
+    init(coordinator: LoginCoordinator, fullScreenMode: Bool) {
         self.coordinator = coordinator
+        self.fullScreenMode = fullScreenMode
 
         // Calculate the header height for the small header too
         calculatedHeaderHeightSmall = {
@@ -47,10 +50,11 @@ private struct LoginLandingContent: View {
     var body: some View {
         let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
         let headerHeight = loginHeaderHeight - headerHeightOffset
+        let topPadding = fullScreenMode ? Config.topPadding : Config.padding
 
         ZStack(alignment: .top) {
             GeometryReader { viewSizeProxy in
-                LoginHeader(models: calculatedModels, topPadding: Config.padding)
+                LoginHeader(models: calculatedModels, topPadding: topPadding)
                     .clipped()
 
                     VStack {
@@ -62,7 +66,12 @@ private struct LoginLandingContent: View {
 
                         Spacer()
 
-                        LoginButtons(coordinator: coordinator)
+                        HStack(spacing: 0) {
+                            Spacer()
+                            LoginButtons(coordinator: coordinator)
+                                .frame(maxWidth: 400)
+                            Spacer()
+                        }
                     }
                     .padding([.leading, .trailing], Config.padding)
                     .padding(.top, headerHeight)

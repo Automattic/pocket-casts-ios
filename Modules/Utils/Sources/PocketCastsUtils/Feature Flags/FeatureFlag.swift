@@ -153,6 +153,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 
+    /// Encourage Account Creation
+    case encourageAccountCreation
+
     /// Enable the new notifications types and settings
     case notificationsRevamp
 
@@ -258,6 +261,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .podcastNewformAppsFlyer:
             false
+        case .encourageAccountCreation:
+            true
         case .notificationsRevamp:
             false
         }
