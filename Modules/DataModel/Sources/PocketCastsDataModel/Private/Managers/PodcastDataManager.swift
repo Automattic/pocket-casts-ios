@@ -61,7 +61,8 @@ class PodcastDataManager {
         "refreshAvailable",
         "folderUuid",
         "usedCustomEffectsBefore",
-        "isPrivate"
+        "isPrivate",
+        "fundingURL"
     ]
 
     func setup(dbQueue: PCDBQueue) {
@@ -77,7 +78,6 @@ class PodcastDataManager {
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed(), !includeUnsubscribed { continue }
-
                 allPodcasts.append(podcast)
             }
         }
@@ -673,6 +673,7 @@ class PodcastDataManager {
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
         values.append(podcast.usedCustomEffectsBefore)
         values.append(podcast.isPrivate)
+        values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
 
         if includeIdForWhere {
             values.append(podcast.id)
