@@ -328,7 +328,7 @@ struct PodcastHeaderView_Previews: PreviewProvider {
                 PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Self.makePodcast()))
                 Spacer()
             }
-            .background(theme.primaryUi01)
+            .background(theme.primaryUi02)
             .frame(maxHeight: 400)
         }
     }
