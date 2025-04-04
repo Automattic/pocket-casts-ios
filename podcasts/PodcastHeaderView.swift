@@ -309,8 +309,31 @@ struct CollapseShape: Shape {
 }
 
 struct PodcastHeaderView_Previews: PreviewProvider {
+    struct PreviewContainerView: View {
+        @EnvironmentObject var theme: Theme
+
+        static func makePodcast() -> Podcast {
+            let podcast = Podcast()
+            podcast.title = "Test Podcast"
+            podcast.podcastCategory = "Test"
+            podcast.author = "Test Author"
+            podcast.estimatedNextEpisode = Date.now
+            podcast.podcastHTMLDescription = "<p>Test description</p>"
+            podcast.fundingURL = "https://www.pocketcasts.com"
+            return podcast
+        }
+
+        var body: some View {
+            VStack() {
+                PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Self.makePodcast()))
+                Spacer()
+            }
+            .background(theme.primaryUi01)
+            .frame(maxHeight: 400)
+        }
+    }
     static var previews: some View {
-        PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Podcast()))
+        PreviewContainerView()
             .previewWithAllThemes()
     }
 }
