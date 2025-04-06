@@ -1708,6 +1708,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Daily Reminders
+  internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// New Features & Tips
+  internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
   internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
   /// Notifications On
@@ -1718,6 +1722,10 @@ internal enum L10n {
   }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
+  /// Pocket Casts Offers
+  internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers") }
+  /// Trending & Recommendations
+  internal static var notificationsTrendingAndRecommendations: String { return L10n.tr("Localizable", "notifications_trending_and_recommendations") }
   /// Now Playing
   internal static var nowPlaying: String { return L10n.tr("Localizable", "now_playing") }
   /// Now Playing %1$@

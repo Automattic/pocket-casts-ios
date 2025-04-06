@@ -4833,3 +4833,15 @@
 
 /* Toast message when notifications are enable for podcast. %1$@ argument is the name of the podcast*/
 "notifications_on_for_podcast" = "We’ll notify you with new episodes of %1$@";
+
+/* Settings to control sending of trending and recommendations notifications */
+"notifications_trending_and_recommendations" = "Trending & Recommendations";
+
+/* Settings to control sending of daily reminders notifications*/
+"notifications_daily_reminders" = "Daily Reminders";
+
+/* Settings to control sending of new features and tips notifications */
+"notifications_new_features_tips" = "New Features & Tips";
+
+/* Settings to control sending of pocket casts offers notifications */
+"notifications_pocket_cast_offers" = "Pocket Casts Offers";
