@@ -3,11 +3,14 @@ import Foundation
 enum NotificationType: String {
 
     case onboardingThemes
+    case upnext
 
     var title: String {
         switch self {
         case .onboardingThemes:
             return "Time for a new look"
+        case .upnext:
+            return "Simplify your queue"
         }
     }
 
@@ -15,20 +18,21 @@ enum NotificationType: String {
         switch self {
         case .onboardingThemes:
             return "Browse our themes and find the one that suits your style."
+        case .upnext:
+            return "Build a playback queue and say goodbye to jumping around between episodes."
         }
     }
 
     var identifier: String {
-        switch self {
-        case .onboardingThemes:
-            return self.rawValue
-        }
+        return self.rawValue
     }
 
     var link: String {
         switch self {
         case .onboardingThemes:
             return "pktc://settings/themes"
+        case .upnext:
+            return "pktc://upnext/?location=tab"
         }
     }
 }
@@ -43,6 +47,7 @@ class NotificationsCoordinator {
 
     func setupOnboardingNotifications() {
         scheduleNotification(.onboardingThemes)
+        scheduleNotification(.upnext, timeInterval: 10.seconds)
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds) {
