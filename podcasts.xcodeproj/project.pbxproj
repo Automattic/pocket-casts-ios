@@ -8583,7 +8583,6 @@
 				45ECEF7727E910E300C65030 /* Sources */,
 				45ECEF7827E910E300C65030 /* Frameworks */,
 				45ECEF7927E910E300C65030 /* Resources */,
-				E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */,
 				8BF0BBD5289199D2006BBECF /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -8672,7 +8671,6 @@
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
 				9AB645172D51388400A842C8 /* Embed App Clips */,
-				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
 				C716FF45296F2BE3006B787D /* Modify Plist */,
 			);
 			buildRules = (
@@ -9662,23 +9660,6 @@
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
 		};
-		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -9695,23 +9676,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
