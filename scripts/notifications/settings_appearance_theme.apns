@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Time for a new look",
+      "body": "Browse our themes and find the one that suits your style."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://settings/themes"
+}
