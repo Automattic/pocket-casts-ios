@@ -44,6 +44,9 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     lazy var podcastRatingViewModel: PodcastRatingViewModel = {
         let podcastRatingViewModel = PodcastRatingViewModel()
         podcastRatingViewModel.update(podcast: podcast)
+        podcastRatingViewModel.presentLogin = { [weak self] _ in
+            self?.delegate?.showLogin(message: L10n.ratingLoginRequired)
+        }
         return podcastRatingViewModel
     }()
 
@@ -111,7 +114,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     func subscribeButtonTapped() {
         guard let delegate = delegate else { return }
 
-        if podcast.isSubscribed() {
+        if podcast.isSubscribed() || isSubscribed {
             delegate.unsubscribe()
             // do not switch variable here because there is still a confimation screen
         } else {

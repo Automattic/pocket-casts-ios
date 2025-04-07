@@ -30,6 +30,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     var displayMode = NavDisplayMode.navController
     var closeTapped: (() -> Void)?
 
+    private var backBtnLeadingConstraint: NSLayoutConstraint?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,26 +50,29 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn = UIButton(frame: CGRect(x: 0, y: 21, width: 40, height: 44))
         backBtn.isPointerInteractionEnabled = true
         backBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
-        let backImage = displayMode == .navController ? UIImage(named: "nav-back") : UIImage(named: "episode-close")
+        let backImage = displayMode == .navController ? UIImage(systemName: "chevron.backward") : UIImage(named: "episode-close")
         backBtn.setImage(backImage, for: .normal)
         backBtn.accessibilityLabel = L10n.close
         backBtn.accessibilityIdentifier = "Close"
         fakeNavView.addSubview(backBtn)
         backBtn.translatesAutoresizingMaskIntoConstraints = false
         var margin: CGFloat = 0
-        if FeatureFlag.podcastViewChanges.enabled {
-            backBtn.layer.cornerRadius = 22
+        var buttonSize: CGFloat = 44
+        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+            buttonSize = 32
+            backBtn.layer.cornerRadius = buttonSize / 2
             backBtn.layer.masksToBounds = true
             margin = 16
         }
-        let leftOffset: CGFloat = displayMode == .navController ? margin : 6
+        let leadingOffset: CGFloat = displayMode == .navController ? margin : 6
+        let backBtnLeadingConstraint = backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leadingOffset)
         NSLayoutConstraint.activate([
-            backBtn.widthAnchor.constraint(equalToConstant: 44),
-            backBtn.heightAnchor.constraint(equalToConstant: 44),
-            backBtn.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor, constant: leftOffset),
+            backBtn.widthAnchor.constraint(equalToConstant: buttonSize),
+            backBtn.heightAnchor.constraint(equalToConstant: buttonSize),
+            backBtnLeadingConstraint,
             backBtn.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
         ])
-
+        self.backBtnLeadingConstraint = backBtnLeadingConstraint
         fakeNavTitle = UILabel()
         fakeNavTitle.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         fakeNavTitle.textAlignment = .center
@@ -158,8 +163,21 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private func addButton(_ button: UIButton) {
         button.isPointerInteractionEnabled = true
         fakeNavView.addSubview(button)
-        if FeatureFlag.podcastViewChanges.enabled {
-            button.layer.cornerRadius = 22
+        var buttonSize: CGFloat = 44
+        var imageSize: CGFloat = 24
+        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+            buttonSize = 32
+            imageSize = 20
+            button.imageView?.contentMode = .scaleAspectFit
+            if let imageView = button.imageView {
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                imageView.frame = CGRect(x: 0, y: 0, width: imageSize, height: imageSize)
+                NSLayoutConstraint.activate([
+                    imageView.widthAnchor.constraint(equalToConstant: imageSize),
+                    imageView.heightAnchor.constraint(equalToConstant: imageSize),
+                ])
+            }
+            button.layer.cornerRadius = buttonSize / 2
             button.layer.masksToBounds = true
         }
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -167,8 +185,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             // if there are no other buttons, anchor this one to the edge
             let margin: CGFloat = FeatureFlag.podcastViewChanges.enabled ? 16 : 5
             NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: 44),
-                button.heightAnchor.constraint(equalToConstant: 44),
+                button.widthAnchor.constraint(equalToConstant: buttonSize),
+                button.heightAnchor.constraint(equalToConstant: buttonSize),
                 fakeNavView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
@@ -177,8 +195,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             let margin: CGFloat  = FeatureFlag.podcastViewChanges.enabled ? 8 : 0
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: 44),
-                button.heightAnchor.constraint(equalToConstant: 44),
+                button.widthAnchor.constraint(equalToConstant: buttonSize),
+                button.heightAnchor.constraint(equalToConstant: buttonSize),
                 button.trailingAnchor.constraint(equalTo: previousButton.leadingAnchor, constant: -margin),
                 button.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor)
             ])
@@ -258,10 +276,15 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         if transparent {
             fakeNavView.backgroundColor = .clear
             updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
+            backBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+            backBtnLeadingConstraint?.constant = 16
         } else {
             fakeNavView.backgroundColor = ThemeColor.primaryUi01()
             fakeNavTitle.textColor = AppTheme.mainTextColor()
             updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
+            let config = UIImage.SymbolConfiguration(textStyle: UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedBody"), scale: .large)
+            backBtn.setImage(UIImage(systemName: "chevron.backward")?.withConfiguration(config), for: .normal)
+            backBtnLeadingConstraint?.constant = 6
         }
     }
 

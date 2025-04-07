@@ -45,6 +45,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = "Third-party analytics"
             cell.cellSwitch.isOn = AppTrackingTransparencyController.shared.userGaveConsent()
+            cell.cellSwitch.isEnabled = AppTrackingTransparencyController.shared.userSawPrompt()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openSettings(_:)), for: UIControl.Event.valueChanged)
             return cell
