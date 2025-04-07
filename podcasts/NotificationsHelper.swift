@@ -15,6 +15,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     @objc static let shared = NotificationsHelper()
 
     enum NotificationsCategory: String {
+        case deepLink = "DEEP_LINK"
         case episodes = "ep"
         case podcasts = "po"
     }
@@ -65,10 +66,12 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         // multiple podcast episode actions
         let podcastCategory = UNNotificationCategory(identifier: NotificationsCategory.podcasts.rawValue, actions: [], intentIdentifiers: [], options: [])
 
+        let deepLinkCategory = UNNotificationCategory(identifier: NotificationsCategory.deepLink.rawValue, actions: [], intentIdentifiers: [], options: [])
+
         // register actions
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
-        notificationCenter.setNotificationCategories([episodeCategory, podcastCategory])
+        notificationCenter.setNotificationCategories([episodeCategory, podcastCategory, deepLinkCategory])
 
         notificationCenter.getNotificationSettings { settings in
             guard settings.authorizationStatus == .notDetermined else {
@@ -95,13 +98,15 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
 
     // called when the user taps a notification action, or just the notification itself
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("Response Category: \(response.notification.request.content.categoryIdentifier)")
+        FileLog.shared.addMessage("[Notifications] push notification received with category: \(response.notification.request.content.categoryIdentifier)")
         let categoryIdentifier = response.notification.request.content.categoryIdentifier
         let category = NotificationsCategory(rawValue: categoryIdentifier)
 
         switch category {
         case .episodes, .podcasts, .none:
             handleEpisodeNotification(response: response, completionHandler: completionHandler)
+        case .deepLink:
+            handleDeepLinkNotification(response: response, completionHandler: completionHandler)
         }
 
     }
@@ -193,11 +198,14 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     }
 
     func handleDeepLinkNotification(response: UNNotificationResponse, completionHandler: @escaping () -> Void) {
-        guard let destinationURLString = response.notification.request.content.userInfo["destination_url"] as? String else {
+        guard let destinationURLString = response.notification.request.content.userInfo["destination_url"] as? String,
+              let url = URL(string: destinationURLString)
+        else {
             completionHandler()
             return
         }
-        print("Deep Link Notification:\(destinationURLString)")
+        FileLog.shared.addMessage("[Notifications] push notification received with deep link to:\(destinationURLString)")
+        let _ = UIApplication.shared.delegate?.application?(UIApplication.shared, open: url)
         completionHandler()
     }
 }
