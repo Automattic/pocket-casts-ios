@@ -683,6 +683,7 @@
 		9A11FCB82D94651A00A1EF3E /* AppsFlyerAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */; };
 		9A11FCBB2D9592B300A1EF3E /* PrivacySettingsLegacyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */; };
 		9A11FCBD2D9594FB00A1EF3E /* PrivacySettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBC2D9594F300A1EF3E /* PrivacySettingsDataSource.swift */; };
+		9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */ = {isa = PBXBuildFile; productRef = 9A11FCD32DA410F600A1EF3E /* GoogleCast */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -4159,6 +4160,7 @@
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
+				9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
@@ -8707,6 +8709,7 @@
 				8B1762792B684E7100F44450 /* Kingfisher */,
 				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
 				9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */,
+				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -8895,6 +8898,7 @@
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 				9A11FC912D91CBF300A1EF3E /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */,
+				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -13507,6 +13511,14 @@
 				minimumVersion = 6.16.2;
 			};
 		};
+		9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/google-cast";
+			requirement = {
+				kind = revision;
+				revision = bb93b20e2c0b585f6442fb41463e21cae3ded355;
+			};
+		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -13648,6 +13660,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A11FC912D91CBF300A1EF3E /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */;
 			productName = "AppsFlyerLib-Dynamic";
+		};
+		9A11FCD32DA410F600A1EF3E /* GoogleCast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */;
+			productName = GoogleCast;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -101,6 +101,15 @@
         }
       },
       {
+        "package": "GoogleCast",
+        "repositoryURL": "https://github.com/Automattic/google-cast",
+        "state": {
+          "branch": null,
+          "revision": "bb93b20e2c0b585f6442fb41463e21cae3ded355",
+          "version": null
+        }
+      },
+      {
         "package": "GoogleAppMeasurement",
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
