@@ -22,6 +22,8 @@ protocol NavigationProtocol: AnyObject {
     func navigateToEditFilter(_ filter: EpisodeFilter)
     func navigateToAddFilter()
 
+    func navigateToUpNext(_ animated: Bool)
+
     func navigateToFiles()
     func navigateToAddCustom(_ fileURL: URL)
 

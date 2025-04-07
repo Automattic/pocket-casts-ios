@@ -336,13 +336,19 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/upnext/*") { [weak self] paramDict -> Bool in
             var source: UpNextViewSource = .unknown
-
+            var showFromMiniPlayer: Bool = true
+            if let location = paramDict["location"] as? String, location == "tab" {
+                showFromMiniPlayer = false
+            }
             if let sourceString = paramDict["source"] as? String {
                 Analytics.track(.widgetInteraction, properties: ["action": "up_next"])
                 source = UpNextViewSource(rawValue: sourceString) ?? .unknown
             }
-
-            self?.miniPlayer()?.showUpNext(from: source)
+            if showFromMiniPlayer {
+                self?.miniPlayer()?.showUpNext(from: source)
+            } else {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.upNextPageKey)
+            }
 
             return true
         }

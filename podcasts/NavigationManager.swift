@@ -66,6 +66,8 @@ class NavigationManager {
     static let settingsGeneralKey = "generalSettingsPage"
     static let settingsGeneralRowKey = "generalSettingsRow"
 
+    static let upNextPageKey = "upNextPage"
+
     static let sharedManager = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
@@ -225,6 +227,8 @@ class NavigationManager {
             mainController?.showOnboardingFlow(flow: flow)
         } else if place == NavigationManager.settingsGeneralKey {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
+        } else if place == NavigationManager.upNextPageKey {
+            mainController?.navigateToUpNext(true)
         }
     }
 }
