@@ -288,6 +288,15 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Notifications") {
+                    NotificationsCoordinator.shared.setupOnboardingNotifications()
+                }
+            } header: {
+                Text("Reset Onboarding Notifications")
+            }
+
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
