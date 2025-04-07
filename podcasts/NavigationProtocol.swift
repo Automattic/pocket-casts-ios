@@ -28,7 +28,7 @@ protocol NavigationProtocol: AnyObject {
     func showSubscriptionCancelledAcknowledge()
     func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?, flow: OnboardingFlow.Flow)
     func showPlusMarketingPage()
-    func showSettingsAppearance()
+    func showSettingsAppearance(showThemeSelection: Bool)
     func showPromotionPage(promoCode: String?)
     func showPromotionFinishedAcknowledge()
     func showProfilePage()

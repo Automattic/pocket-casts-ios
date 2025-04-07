@@ -375,6 +375,19 @@ extension AppDelegate {
 
             return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
         }
+
+        setupOnboardingRoutes()
+    }
+
+    func setupOnboardingRoutes() {
+        guard FeatureFlag.notificationsRevamp.enabled else {
+            return
+        }
+        JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [ NavigationManager.settingsAppearanceShowThemeKey: true])
+            return true
+        }
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {

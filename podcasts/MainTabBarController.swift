@@ -449,13 +449,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.filter)
     }
 
-    func showSettingsAppearance() {
+    func showSettingsAppearance(showThemeSelection: Bool = false) {
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
 
             navController.pushViewController(SettingsViewController(), animated: false)
-            navController.pushViewController(AppearanceViewController(), animated: true)
+            let appearanceViewController = AppearanceViewController()
+            navController.pushViewController(appearanceViewController, animated: !showThemeSelection)
+            if showThemeSelection {
+                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
+                    Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+                }
+            }
         }
     }
 

@@ -54,6 +54,7 @@ class NavigationManager {
     static let safariVCUrlKey = "safariVCUrlKey"
 
     static let settingsAppearanceKey = "appearancePage"
+    static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
@@ -174,7 +175,11 @@ class NavigationManager {
                 mainController?.showWhatsNew(whatsNewInfo: whatsNewInfo)
             }
         } else if place == NavigationManager.settingsAppearanceKey {
-            mainController?.showSettingsAppearance()
+            var showThemeSelection = false
+            if let data = data, let showThemeSelectionValue = data[NavigationManager.settingsAppearanceShowThemeKey] as? Bool {
+                showThemeSelection = showThemeSelectionValue
+            }
+            mainController?.showSettingsAppearance(showThemeSelection: showThemeSelection)
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
         }
