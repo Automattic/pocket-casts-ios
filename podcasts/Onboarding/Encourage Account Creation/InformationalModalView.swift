@@ -33,7 +33,7 @@ struct InformationalModalView: View {
             }
             .frame(height: cardHeight + 24.0)
             buttons
-                .padding(.top, isiPad ? 12.0 : 39.0)
+                .padding(.top, isiPad ? 12.0 : 33.0)
                 .if(!isiPad) {
                     $0.padding(.horizontal, 24.0)
                 }
@@ -48,32 +48,32 @@ struct InformationalModalView: View {
     }
 
     private var title: some View {
-        Text("We noticed you’re not logged in")
+        Text(L10n.eacInformationalViewModalTitle)
             .font(size: 22.0, style: .body, weight: .bold)
             .foregroundStyle(theme.primaryText01)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 24.0)
-            .padding(.top, isiPad ? 20.0 : 34.0)
-            .padding(.bottom, 8.0)
+            .padding(.top, isiPad ? 20.0 : 39.0)
+            .padding(.bottom, 6.0)
     }
 
     private var description: some View {
-        Text("Create an account or log in to enjoy\nPocket Casts to the fullest.")
+        Text(L10n.eacInformationalViewModalDescription)
             .font(size: 15.0, style: .body, weight: .medium)
             .foregroundStyle(theme.primaryText02)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 24.0)
-            .padding(.bottom, isiPad ? 20.0 : 24.0)
+            .padding(.bottom, isiPad ? 20.0 : 28.0)
     }
 
     private var buttons: some View {
         VStack(spacing: 16) {
-            Button("Get Started") {
+            Button(L10n.eacInformationalViewModalGetStartedButton) {
                 viewModel.getStarted()
             }
             .buttonStyle(RoundedButtonStyle(theme: theme))
 
-            Button("Login") {
+            Button(L10n.login) {
                 viewModel.getStarted()
             }
             .buttonStyle(SimpleTextButtonStyle(theme: theme))

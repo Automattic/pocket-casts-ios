@@ -8,22 +8,22 @@ enum InformationalFeatureCardItem: String, CaseIterable, Identifiable, Horizonta
     var title: String {
         switch self {
         case .sync:
-            return "Sync across devices"
+            return L10n.eacInformationalCardSyncTitle
         case .backups:
-            return "Reliable backups"
+            return L10n.eacInformationalCardBackupsTitle
         case .recommendation:
-            return "Personalized recommendations"
+            return L10n.eacInformationalCardRecommendationTitle
         }
     }
 
     var text: String {
         switch self {
         case .sync:
-            return "Sync your progress, and shows across all your devices."
+            return L10n.eacInformationalCardSyncDescription
         case .backups:
-            return "Your library and preferences are securely saved."
+            return L10n.eacInformationalCardBackupsDescription
         case .recommendation:
-            return "Get tailored podcast suggestions based on your listening habits."
+            return L10n.eacInformationalCardRecommendationDescription
         }
     }
 

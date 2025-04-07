@@ -863,6 +863,25 @@ internal enum L10n {
   internal static var downloadsRetryFailedDownloads: String { return L10n.tr("Localizable", "downloads_retry_failed_downloads") }
   /// Stop All Downloads
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
+  /// Your library and preferences are securely saved.
+  internal static var eacInformationalCardBackupsDescription: String { return L10n.tr("Localizable", "eac_informational_card_backups_description") }
+  /// Reliable backups
+  internal static var eacInformationalCardBackupsTitle: String { return L10n.tr("Localizable", "eac_informational_card_backups_title") }
+  /// Get tailored podcast suggestions based on your listening habits.
+  internal static var eacInformationalCardRecommendationDescription: String { return L10n.tr("Localizable", "eac_informational_card_recommendation_description") }
+  /// Personalized recommendations
+  internal static var eacInformationalCardRecommendationTitle: String { return L10n.tr("Localizable", "eac_informational_card_recommendation_title") }
+  /// Sync your progress, and shows across all your devices.
+  internal static var eacInformationalCardSyncDescription: String { return L10n.tr("Localizable", "eac_informational_card_sync_description") }
+  /// Sync across devices
+  internal static var eacInformationalCardSyncTitle: String { return L10n.tr("Localizable", "eac_informational_card_sync_title") }
+  /// Create an account or log in to enjoy
+  /// Pocket Casts to the fullest.
+  internal static var eacInformationalViewModalDescription: String { return L10n.tr("Localizable", "eac_informational_view_modal_description") }
+  /// Get Started
+  internal static var eacInformationalViewModalGetStartedButton: String { return L10n.tr("Localizable", "eac_informational_view_modal_get_started_button") }
+  /// We noticed you’re not logged in
+  internal static var eacInformationalViewModalTitle: String { return L10n.tr("Localizable", "eac_informational_view_modal_title") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
   /// Edit clip
@@ -1554,6 +1573,8 @@ internal enum L10n {
   internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title") }
   /// Loading...
   internal static var loading: String { return L10n.tr("Localizable", "loading") }
+  /// Login
+  internal static var login: String { return L10n.tr("Localizable", "login") }
   /// Create an account to sync your listening experience across all your devices.
   internal static var loginSubtitle: String { return L10n.tr("Localizable", "login_subtitle") }
   /// Discover your next favorite podcast

@@ -20,8 +20,9 @@ struct HorizontalCarouselCard: View {
                         .frame(maxWidth: 243.0, minHeight: 152.0, maxHeight: 217.0)
                     Spacer()
                 }
-                .padding(.top, isiPad ? 20.0 : 37.0)
-                .padding(.bottom, isiPad ? 16.0 : 37.0)
+                .padding(.top, isiPad ? 20.0 : 40.0)
+                .padding(.bottom, isiPad ? 16.0 : 24.0)
+                Spacer()
                 text(item.title,
                      size: item.titleSize,
                      weight: .semibold,
@@ -82,7 +83,7 @@ fileprivate enum MockItem: String, CaseIterable, Identifiable, HorizontalCarouse
     }
 
     var image: String {
-        "plus_feature_card_desktop"
+        "informational_card_sync"
     }
 }
 
