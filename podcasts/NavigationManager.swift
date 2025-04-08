@@ -152,6 +152,8 @@ class NavigationManager {
         } else if place == NavigationManager.filterPageKey {
             if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
+            } else {
+                mainController?.navigateToFilter(nil, animated: animated)
             }
         } else if place == NavigationManager.filterAddKey {
             mainController?.navigateToAddFilter()

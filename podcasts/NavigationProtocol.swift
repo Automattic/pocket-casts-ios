@@ -18,7 +18,7 @@ protocol NavigationProtocol: AnyObject {
 
     func navigateToProfile(_ animated: Bool)
 
-    func navigateToFilter(_ filter: EpisodeFilter, animated: Bool)
+    func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
     func navigateToEditFilter(_ filter: EpisodeFilter)
     func navigateToAddFilter()
 

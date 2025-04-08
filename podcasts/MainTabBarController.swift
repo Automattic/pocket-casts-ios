@@ -340,14 +340,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.profile)
     }
 
-    func navigateToFilter(_ filter: EpisodeFilter, animated: Bool) {
-        if !switchToTab(.filter) { return }
+    func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool) {
+        guard switchToTab(.filter) else { return }
 
-        if let index = pcTabs.firstIndex(of: .filter),
-           let navController = viewControllers?[safe: index] as? UINavigationController,
-           let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController {
-            filtersViewController.showFilter(filter)
+        guard let navController = selectedViewController as? UINavigationController else {
+            return
         }
+        navController.popToRootViewController(animated: false)
+
+        guard let filter,
+              let filtersViewController = navController.topViewController as? PlaylistsViewController else {
+            return
+        }
+        filtersViewController.showFilter(filter)
     }
 
     func navigateToEditFilter(_ filter: EpisodeFilter) {
