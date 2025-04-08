@@ -36,7 +36,8 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude),
+            libroFm
         ].compactMap { $0 },
         yearlyFeatures: [
             TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
@@ -47,7 +48,8 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude
+            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
+            libroFm
         ].compactMap { $0 },
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
@@ -80,6 +82,13 @@ extension UpgradeTier {
 
     static var slumber: TierFeature {
         TierFeature(iconName: "plus-feature-slumber", title: FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl)
+    }
+
+    private static var libroFm: TierFeature? {
+        if FeatureFlag.libroFm.enabled {
+            return TierFeature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm)
+        }
+        return nil
     }
 
     func update(header: String) -> Self {

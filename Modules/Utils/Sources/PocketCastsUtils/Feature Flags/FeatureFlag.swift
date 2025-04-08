@@ -156,6 +156,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Encourage Account Creation
     case encourageAccountCreation
 
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -260,6 +263,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .encourageAccountCreation:
             true
+        case .libroFm:
+            false
         }
     }
 
