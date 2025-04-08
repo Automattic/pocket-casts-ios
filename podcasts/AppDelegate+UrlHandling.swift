@@ -400,6 +400,12 @@ extension AppDelegate {
             NavigationManager.sharedManager.navigateTo(NavigationManager.signUpPageKey)
             return true
         }
+
+        JLRoutes.global().addRoute("/settings/import") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.importSteps])
+            return true
+        }
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {

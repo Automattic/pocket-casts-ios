@@ -53,6 +53,8 @@ class NavigationManager {
     static let openUrlInSafariVCKey = "openSafariVCUrlPage"
     static let safariVCUrlKey = "safariVCUrlKey"
 
+    static let settingsPageKey = "settingsPage"
+    static let settingsRowKey = "settingsRow"
     static let settingsAppearanceKey = "appearancePage"
     static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
@@ -68,6 +70,7 @@ class NavigationManager {
 
     static let upNextPageKey = "upNextPage"
     static let signUpPageKey = "signUpPage"
+    static let importPageKey = "importPage"
 
     static let sharedManager = NavigationManager()
 
@@ -232,6 +235,9 @@ class NavigationManager {
             mainController?.navigateToUpNext(true)
         } else if place == NavigationManager.signUpPageKey {
             mainController?.showSignUp()
+        } else if place == NavigationManager.settingsPageKey {
+            let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
+            mainController?.showSettings(row: row)
         }
     }
 }

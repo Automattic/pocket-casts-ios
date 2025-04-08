@@ -3,6 +3,7 @@ import Foundation
 enum NotificationType: String {
 
     case onboardingSignIn
+    case onboardingImport
     case onboardingThemes
     case onboardingUpNext
 
@@ -10,6 +11,8 @@ enum NotificationType: String {
         switch self {
         case .onboardingSignIn:
             return "Your shows, on any device!"
+        case .onboardingImport:
+            return "Easily import your podcasts"
         case .onboardingThemes:
             return "Time for a new look"
         case .onboardingUpNext:
@@ -21,6 +24,8 @@ enum NotificationType: String {
         switch self {
         case .onboardingSignIn:
             return "Create a free account to sync your shows and listen anywhere."
+        case .onboardingImport:
+            return "Switching from another app? Bring all your favorite shows to Pocket Casts."
         case .onboardingThemes:
             return "Browse our themes and find the one that suits your style."
         case .onboardingUpNext:
@@ -36,6 +41,8 @@ enum NotificationType: String {
         switch self {
         case .onboardingSignIn:
             return "pktc://signup"
+        case .onboardingImport:
+            return "pktc://settings/import"
         case .onboardingThemes:
             return "pktc://settings/themes"
         case .onboardingUpNext:
@@ -52,7 +59,7 @@ class NotificationsCoordinator {
 
     }
 
-    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingUpNext, .onboardingThemes]
+    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingImport, .onboardingUpNext, .onboardingThemes]
 
     func setupOnboardingNotifications() {
         let timeIntervalStep: TimeInterval = 5.seconds

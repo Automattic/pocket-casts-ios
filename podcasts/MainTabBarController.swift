@@ -449,6 +449,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.filter)
     }
 
+    func showSettings(row: SettingsViewController.TableRow?) {
+        switchToTab(.profile)
+        guard let navController = selectedViewController as? UINavigationController else { return }
+
+        navController.popViewController(animated: false)
+        let settingViewController = SettingsViewController()
+        navController.pushViewController(settingViewController, animated: row == nil)
+
+        guard let row else { return }
+
+        settingViewController.selectRow(row)
+    }
+
     func showSettingsAppearance(showThemeSelection: Bool = false) {
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
