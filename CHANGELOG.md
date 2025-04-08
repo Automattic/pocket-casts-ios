@@ -7,6 +7,7 @@
 - New podcast page design [#2825](https://github.com/Automattic/pocket-casts-ios/pull/2825)
 - Add Creator Funding Support [#2913](https://github.com/Automattic/pocket-casts-ios/pull/2913)
 - Fix Watch app should pause play during announcements from other apps [#2245](https://github.com/Automattic/pocket-casts-ios/issues/2245)
+- Fix download indicator color in the up next list [#2941](https://github.com/Automattic/pocket-casts-ios/pull/2941)
 
 7.85
 -----

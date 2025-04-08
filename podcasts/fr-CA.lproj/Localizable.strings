@@ -1180,6 +1180,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Démarrez votre essai gratuit</string>
     <key>free_trial_title_label</key>
     <string>Essayez Plus avec une période de gratuité de %1$@</string>
+    <key>funding</key>
+    <string>Financement</string>
     <key>funny_conf_msg</key>
     <string>Ça va vraiment bien avec la couleur de vos yeux ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ podcasts partout avec</string>
     <string>Notifications désactivées</string>
     <key>notifications_on</key>
     <string>Notifications activées</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Nous vous avertirons de la sortie de nouveaux épisodes de %1$@</string>
     <key>notifications_play_now</key>
     <string>Lire maintenant</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Téléverser maintenant</string>
     <key>podcast_uploading</key>
     <string>Téléversement... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Appuyez sur le titre du podcast pour réduire ou développer sa description et ses détails</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Nous avons apporté quelques modifications</string>
     <key>podcast_waiting_upload</key>
     <string>En attente du téléversement</string>
     <key>podcast_yesterday</key>

@@ -1180,6 +1180,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>無料お試しを開始する</string>
     <key>free_trial_title_label</key>
     <string>Plus が今なら%1$@無料</string>
+    <key>funding</key>
+    <string>資金調達</string>
     <key>funny_conf_msg</key>
     <string>あなたの目によくお似合いです ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>通知オフ</string>
     <key>notifications_on</key>
     <string>通知オン</string>
+    <key>notifications_on_for_podcast</key>
+    <string>今後、%1$@ の新しいエピソードをお知らせします</string>
     <key>notifications_play_now</key>
     <string>今すぐ再生</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>今すぐアップロード</string>
     <key>podcast_uploading</key>
     <string>アップロードしています... %1$@が完了</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>ポッドキャストのタイトルをタップすると、説明と詳細を折りたたんだり展開したりできます</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>いくつかの変更を行いました</string>
     <key>podcast_waiting_upload</key>
     <string>アップロード待ち</string>
     <key>podcast_yesterday</key>
