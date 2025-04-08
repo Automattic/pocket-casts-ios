@@ -50,6 +50,12 @@ class NotificationsCoordinator {
         scheduleNotification(.upnext, timeInterval: 10.seconds)
     }
 
+    func cancelOnboardingNotifications() {
+        let onboardingNotifications: [NotificationType] = [.onboardingThemes, .upnext]
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
+    }
+
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds) {
         let content = UNMutableNotificationContent()
         content.title = type.title

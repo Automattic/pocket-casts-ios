@@ -229,7 +229,19 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     }
 
     @objc private func notificationToggled(_ sender: UISwitch) {
-
+        guard let row = Row(rawValue: sender.tag) else {
+            return
+        }
+        switch row {
+        case .dailyReminders:
+            if sender.isOn {
+                NotificationsCoordinator.shared.setupOnboardingNotifications()
+            } else {
+                NotificationsCoordinator.shared.cancelOnboardingNotifications()
+            }
+        default:
+            break
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
