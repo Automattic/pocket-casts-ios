@@ -9,6 +9,8 @@ final class FmdbGrdbTests: XCTestCase {
     var dbQueue: FMDatabaseQueue!
     var dbPool: DatabasePool!
 
+    private let featureFlagMock = FeatureFlagMock()
+
     lazy var isoFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         return formatter
@@ -21,7 +23,17 @@ final class FmdbGrdbTests: XCTestCase {
 
     private func setupDataManagerWithGRDB() throws -> DataManager {
         dbPool = try XCTUnwrap(DatabasePool.newTestDatabase())
-        return DataManager(dbQueue: GRDBQueue(dbPool: dbPool))
+        return grdbDatabaManager(dbPool: dbPool)
+    }
+
+    // We have a check inside DataManager where the queue is closed
+    // if GRDB feature flag is false.
+    // Here we temporarily override this to prevent this behavior.
+    private func grdbDatabaManager(dbPool: DatabasePool) -> DataManager {
+        featureFlagMock.set(.grdb, value: true)
+        let dataManager = DataManager(dbQueue: GRDBQueue(dbPool: dbPool))
+        featureFlagMock.reset()
+        return dataManager
     }
 
     func testGrdbFmdb() throws {
@@ -79,7 +91,7 @@ final class FmdbGrdbTests: XCTestCase {
         let fmdbFromGrdbDataManager = DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
 
         dbPool = try XCTUnwrap(DatabasePool.newTestDatabase(databaseName: "FMDB_copy.sqlite3"))
-        let grdbFromFmdbDataManager = DataManager(dbQueue: GRDBQueue(dbPool: dbPool))
+        let grdbFromFmdbDataManager = grdbDatabaManager(dbPool: dbPool)
 
         let fmdbPodcastReadFromGrdb = fmdbFromGrdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
         let grdbPodcastReadFromFmdb = grdbFromFmdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
