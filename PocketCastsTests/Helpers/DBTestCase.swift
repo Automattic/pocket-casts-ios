@@ -72,4 +72,8 @@ class DBTestCase: XCTestCase {
 
         return (podcastManager, task)
     }
+
+    func cleanDownloadQueue() {
+        downloadManager.removeFromQueue(episode: episode, fireNotification: false, userInitiated: false)
+    }
 }

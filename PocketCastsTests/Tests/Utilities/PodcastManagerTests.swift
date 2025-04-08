@@ -26,5 +26,7 @@ final class PodcastManagerTests: DBTestCase {
         let error = task.error as? NSError
         XCTAssertEqual(error?.domain, NSURLErrorDomain, "Task should be cancelled")
         XCTAssertEqual(error?.code, NSURLErrorCancelled, "Task should be cancelled")
+
+        cleanDownloadQueue()
     }
 }
