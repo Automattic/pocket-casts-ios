@@ -2,7 +2,7 @@ import Foundation
 
 enum NotificationType: String {
 
-    case onboardingSignIn
+    case onboardingSignUp
     case onboardingImport
     case onboardingThemes
     case onboardingUpNext
@@ -11,35 +11,35 @@ enum NotificationType: String {
 
     var title: String {
         switch self {
-        case .onboardingSignIn:
-            return "Your shows, on any device!"
+        case .onboardingSignUp:
+            return L10n.notificationsOnboardingSignupTitle
         case .onboardingImport:
-            return "Easily import your podcasts"
+            return L10n.notificationsOnboardingImportTitle
         case .onboardingThemes:
-            return "Time for a new look"
+            return L10n.notificationsOnboardingThemesTitle
         case .onboardingUpNext:
-            return "Simplify your queue"
+            return L10n.notificationsOnboardingUpnextTitle
         case .onboardingFilters:
-            return "Organize your episodes"
+            return L10n.notificationsOnboardingFiltersTitle
         case .onboardingUpsell:
-            return "Level up your podcast game"
+            return L10n.notificationsOnboardingUpsellTitle
         }
     }
 
     var body: String {
         switch self {
-        case .onboardingSignIn:
-            return "Create a free account to sync your shows and listen anywhere."
+        case .onboardingSignUp:
+            return L10n.notificationsOnboardingSignupBody
         case .onboardingImport:
-            return "Switching from another app? Bring all your favorite shows to Pocket Casts."
+            return L10n.notificationsOnboardingImportBody
         case .onboardingThemes:
-            return "Browse our themes and find the one that suits your style."
+            return L10n.notificationsOnboardingThemesBody
         case .onboardingUpNext:
-            return "Build a playback queue and say goodbye to jumping around between episodes."
+            return L10n.notificationsOnboardingUpnextBody
         case .onboardingFilters:
-            return "Create smart filters to organize your episodes."
+            return L10n.notificationsOnboardingFiltersBody
         case .onboardingUpsell:
-            return "Unlock exclusive features like folders, bookmarks, and more with Plus!"
+            return L10n.notificationsOnboardingUpsellBody
         }
     }
 
@@ -49,7 +49,7 @@ enum NotificationType: String {
 
     var link: String {
         switch self {
-        case .onboardingSignIn:
+        case .onboardingSignUp:
             return "pktc://signup"
         case .onboardingImport:
             return "pktc://settings/import"
@@ -73,7 +73,7 @@ class NotificationsCoordinator {
 
     }
 
-    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
+    private let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
         let timeIntervalStep: TimeInterval = 5.seconds

@@ -4845,3 +4845,39 @@
 
 /* Settings to control sending of pocket casts offers notifications */
 "notifications_pocket_cast_offers" = "Pocket Casts Offers";
+
+/* Notification title for signup onboarding message */
+"notifications_onboarding_signup_title" = "Your shows, on any device!";
+
+/* Notification title for import podcast onboarding message */
+"notifications_onboarding_import_title" = "Easily import your podcasts";
+
+/* Notification title for themes onboarding message */
+"notifications_onboarding_themes_title" = "Time for a new look";
+
+/* Notification title for upnext onboarding message */
+"notifications_onboarding_upnext_title" = "Simplify your queue";
+
+/* Notification title for filters onboarding message */
+"notifications_onboarding_filters_title" = "Organize your episodes";
+
+/* Notification title for upsell onboardingmessage */
+"notifications_onboarding_upsell_title" = "Level up your podcast game";
+
+/* Notification body for signup onboarding message */
+"notifications_onboarding_signup_body" = "Create a free account to sync your shows and listen anywhere.";
+
+/* Notification body for import onboarding message */
+"notifications_onboarding_import_body" = "Easily import your podcasts";
+
+/* Notification body for themes onboarding message */
+"notifications_onboarding_themes_body" = "Time for a new look";
+
+/* Notification body for onboarding to upnext message */
+"notifications_onboarding_upnext_body" = "Simplify your queue";
+
+/* Notification body for onboarding to filters message */
+"notifications_onboarding_filters_body" = "Organize your episodes";
+
+/* Notification body for onboarding to upsell message */
+"notifications_onboarding_upsell_body" = "Level up your podcast game";
