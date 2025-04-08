@@ -73,7 +73,7 @@ struct InformationalModalView: View {
             }
             .buttonStyle(RoundedButtonStyle(theme: theme))
 
-            Button(L10n.login) {
+            Button(L10n.accountLogin) {
                 viewModel.getStarted()
             }
             .buttonStyle(SimpleTextButtonStyle(theme: theme))

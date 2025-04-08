@@ -4872,6 +4872,3 @@
 
 /* Encourage Account Creation: card description for recommendations feature */
 "eac_informational_card_recommendation_description" = "Get tailored podcast suggestions based on your listening habits.";
-
-/* Login button */
-"login" = "Login";
