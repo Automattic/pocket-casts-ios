@@ -33,7 +33,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
                         ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
                             HorizontalCarouselCard(item: item)
                                 .frame(width: cardSize.width)
-                                .frame(height: cardSize.height)
+                                .frame(maxHeight: cardSize.height)
                                 .id(i)
                         }
                     }
@@ -43,13 +43,13 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
                 .safeAreaPadding(.horizontal, hPadding)
                 .scrollPosition(id: $currentIndex)
                 .scrollIndicators(.hidden)
-                .frame(height: cardSize.height)
+                .frame(maxHeight: cardSize.height)
             } else {
                 GeometryReader { proxy in
                     HorizontalCarousel(currentIndex: currentIndexNonOptional, items: items) { item in
                         HorizontalCarouselCard(item: item)
                             .frame(width: cardSize.width)
-                            .frame(height: cardSize.height)
+                            .frame(maxHeight: cardSize.height)
                             .id(item.id)
                     }
                     .carouselItemSpacing(spacing)
@@ -57,7 +57,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
                     .carouselScrollEnabled(true)
                     .padding(.horizontal, hPadding)
                 }
-                .frame(height: cardSize.height)
+                .frame(maxHeight: cardSize.height)
             }
             if showPagination {
                 PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex ?? 0)

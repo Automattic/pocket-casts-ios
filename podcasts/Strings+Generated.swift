@@ -1573,8 +1573,6 @@ internal enum L10n {
   internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title") }
   /// Loading...
   internal static var loading: String { return L10n.tr("Localizable", "loading") }
-  /// Login
-  internal static var login: String { return L10n.tr("Localizable", "login") }
   /// Create an account to sync your listening experience across all your devices.
   internal static var loginSubtitle: String { return L10n.tr("Localizable", "login_subtitle") }
   /// Discover your next favorite podcast
