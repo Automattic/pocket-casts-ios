@@ -7,6 +7,7 @@ enum NotificationType: String {
     case onboardingThemes
     case onboardingUpNext
     case onboardingFilters
+    case onboardingUpsell
 
     var title: String {
         switch self {
@@ -20,6 +21,8 @@ enum NotificationType: String {
             return "Simplify your queue"
         case .onboardingFilters:
             return "Organize your episodes"
+        case .onboardingUpsell:
+            return "Level up your podcast game"
         }
     }
 
@@ -35,6 +38,8 @@ enum NotificationType: String {
             return "Build a playback queue and say goodbye to jumping around between episodes."
         case .onboardingFilters:
             return "Create smart filters to organize your episodes."
+        case .onboardingUpsell:
+            return "Unlock exclusive features like folders, bookmarks, and more with Plus!"
         }
     }
 
@@ -54,6 +59,8 @@ enum NotificationType: String {
             return "pktc://upnext/?location=tab"
         case .onboardingFilters:
             return "pktc://filters"
+        case .onboardingUpsell:
+            return "pktc://upsell"
         }
     }
 }
@@ -66,7 +73,7 @@ class NotificationsCoordinator {
 
     }
 
-    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes]
+    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
         let timeIntervalStep: TimeInterval = 5.seconds
