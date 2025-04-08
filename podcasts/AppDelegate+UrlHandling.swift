@@ -391,7 +391,13 @@ extension AppDelegate {
         }
         JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
             guard self != nil else { return false }
-            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [ NavigationManager.settingsAppearanceShowThemeKey: true])
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [NavigationManager.settingsAppearanceShowThemeKey: true])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/signup") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.signUpPageKey)
             return true
         }
     }

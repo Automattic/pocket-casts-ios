@@ -2,11 +2,14 @@ import Foundation
 
 enum NotificationType: String {
 
+    case onboardingSignIn
     case onboardingThemes
     case upnext
 
     var title: String {
         switch self {
+        case .onboardingSignIn:
+            return "Your shows, on any device!"
         case .onboardingThemes:
             return "Time for a new look"
         case .upnext:
@@ -16,6 +19,8 @@ enum NotificationType: String {
 
     var body: String {
         switch self {
+        case .onboardingSignIn:
+            return "Create a free account to sync your shows and listen anywhere."
         case .onboardingThemes:
             return "Browse our themes and find the one that suits your style."
         case .upnext:
@@ -29,6 +34,8 @@ enum NotificationType: String {
 
     var link: String {
         switch self {
+        case .onboardingSignIn:
+            return "pktc://signup"
         case .onboardingThemes:
             return "pktc://settings/themes"
         case .upnext:
@@ -45,13 +52,18 @@ class NotificationsCoordinator {
 
     }
 
+    private let onboardingNotifications: [NotificationType] = [.onboardingSignIn, .onboardingThemes, .upnext]
+
     func setupOnboardingNotifications() {
-        scheduleNotification(.onboardingThemes)
-        scheduleNotification(.upnext, timeInterval: 10.seconds)
+        let timeIntervalStep: TimeInterval = 5.seconds
+        var timeInterval: TimeInterval = timeIntervalStep
+        onboardingNotifications.forEach { notification in
+            scheduleNotification(notification, timeInterval: timeInterval)
+            timeInterval += timeIntervalStep
+        }
     }
 
     func cancelOnboardingNotifications() {
-        let onboardingNotifications: [NotificationType] = [.onboardingThemes, .upnext]
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }

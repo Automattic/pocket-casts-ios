@@ -38,6 +38,7 @@ protocol NavigationProtocol: AnyObject {
     func showGeneralSettings(row: GeneralSettingsViewController.TableRow?)
     func showRedeemGuestPass(url: URL)
 
+    func showSignUp()
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)
     func showSupporterBundleDetails(bundleUuid: String?)

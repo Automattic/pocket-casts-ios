@@ -520,6 +520,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showSignUp() {
+        switchToTab(.podcasts)
+        selectedViewController?.dismiss(animated: false)
+        if let controller = view.window?.rootViewController {
+            showSubscriptionRequired(controller, source: .unknown, context: nil, flow: .initialOnboarding)
+        }
+    }
+
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController

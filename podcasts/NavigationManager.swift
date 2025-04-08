@@ -67,6 +67,7 @@ class NavigationManager {
     static let settingsGeneralRowKey = "generalSettingsRow"
 
     static let upNextPageKey = "upNextPage"
+    static let signUpPageKey = "signUpPage"
 
     static let sharedManager = NavigationManager()
 
@@ -229,6 +230,8 @@ class NavigationManager {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
         } else if place == NavigationManager.upNextPageKey {
             mainController?.navigateToUpNext(true)
+        } else if place == NavigationManager.signUpPageKey {
+            mainController?.showSignUp()
         }
     }
 }
