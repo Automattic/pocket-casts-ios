@@ -54,6 +54,8 @@ extension DatabasePool {
         case dbFolderPathFailure
     }
 
+    static var currentDatabasePool: DatabasePool?
+
     static func newTestDatabase(databaseName: String? = nil) throws -> DatabasePool? {
         var config = Configuration()
         config.busyMode = .timeout(10)
@@ -68,7 +70,12 @@ extension DatabasePool {
             try FileManager.default.removeItem(atPath: dbPath)
         }
 
-        return try! DatabasePool(path: dbPath, configuration: config)
+        // Close any previous connection
+        try! currentDatabasePool?.close()
+
+        currentDatabasePool = try! DatabasePool(path: dbPath, configuration: config)
+
+        return currentDatabasePool!
     }
 
     static func copyDatabase(toFile: String) throws {
@@ -94,6 +101,6 @@ extension DatabasePool {
 
 extension DataManager {
     static func newTestDataManager() -> DataManager {
-        try! FeatureFlag.grdb.enabled ? DataManager(dbQueue: FMDBQueue(fmdbQueue: FMDatabaseQueue.newTestDatabase()!)) : DataManager(dbQueue: GRDBQueue(dbPool: DatabasePool.newTestDatabase()!))
+        try! FeatureFlag.grdb.enabled ? DataManager(dbQueue: GRDBQueue(dbPool: DatabasePool.newTestDatabase()!)) : DataManager(dbQueue: FMDBQueue(fmdbQueue: FMDatabaseQueue.newTestDatabase()!))
     }
 }
