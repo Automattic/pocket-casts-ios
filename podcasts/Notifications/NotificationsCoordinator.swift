@@ -76,11 +76,14 @@ class NotificationsCoordinator {
     private let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
-        let timeIntervalStep: TimeInterval = 5.seconds
-        var timeInterval: TimeInterval = timeIntervalStep
-        onboardingNotifications.forEach { notification in
-            scheduleNotification(notification, timeInterval: timeInterval)
-            timeInterval += timeIntervalStep
+        NotificationsHelper.shared.registerForPushNotifications { granted in
+            guard granted else { return }
+            let timeIntervalStep: TimeInterval = 5.seconds
+            var timeInterval: TimeInterval = timeIntervalStep
+            self.onboardingNotifications.forEach { notification in
+                self.scheduleNotification(notification, timeInterval: timeInterval)
+                timeInterval += timeIntervalStep
+            }
         }
     }
 

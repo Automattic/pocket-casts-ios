@@ -54,7 +54,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         registerForPushNotifications()
     }
 
-    func registerForPushNotifications() {
+    func registerForPushNotifications(completion: ((Bool) -> ())? = nil) {
         let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.download, options: [])
         let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.notificationsPlayNow, options: [])
         let addQueueFirstAction = UNNotificationAction(identifier: addToQueueFirstActionId, title: L10n.playNext, options: [])
@@ -76,6 +76,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         notificationCenter.getNotificationSettings { settings in
             guard settings.authorizationStatus == .notDetermined else {
                 DispatchQueue.main.async {
+                    completion?(settings.authorizationStatus != .denied)
                     UIApplication.shared.registerForRemoteNotifications()
                 }
                 return
@@ -89,6 +90,9 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                     }
                 } else {
                     Analytics.track(.notificationsOptInDenied)
+                }
+                DispatchQueue.main.async {
+                    completion?(granted)
                 }
             })
 
