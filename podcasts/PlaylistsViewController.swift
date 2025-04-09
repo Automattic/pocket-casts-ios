@@ -74,21 +74,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.setLetterSpacing(-0.2)
     }
 
-    func setupInformationalBanner() {
-        if !informationalBannerCoordinator.shouldShowBanner() {
-            filtersTable.tableHeaderView = nil
-            return
-        }
-        if filtersTable.tableHeaderView != nil {
-            return
-        }
-        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 160)) {
-            UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.filtersTable.tableHeaderView = nil
-            }
-        }
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadFilters()
@@ -171,6 +156,21 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self.newFilterButton.isHidden = false
                 self.loadingIndicator.stopAnimating()
                 self.filtersTable.reloadData()
+            }
+        }
+    }
+
+    private func setupInformationalBanner() {
+        if !informationalBannerCoordinator.shouldShowBanner() {
+            filtersTable.tableHeaderView = nil
+            return
+        }
+        if filtersTable.tableHeaderView != nil {
+            return
+        }
+        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 160)) {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.filtersTable.tableHeaderView = nil
             }
         }
     }
