@@ -69,6 +69,8 @@ class NotificationsCoordinator {
 
     static var shared: NotificationsCoordinator = NotificationsCoordinator()
 
+    var timeIntervalStep: TimeInterval = 24.hours
+
     private init() {
 
     }
@@ -76,18 +78,19 @@ class NotificationsCoordinator {
     private let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
+        Settings.notificationsOnboardingTips = true
         NotificationsHelper.shared.registerForPushNotifications { granted in
             guard granted else { return }
-            let timeIntervalStep: TimeInterval = 5.seconds
-            var timeInterval: TimeInterval = timeIntervalStep
+            var timeInterval: TimeInterval = self.timeIntervalStep
             self.onboardingNotifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
-                timeInterval += timeIntervalStep
+                timeInterval += self.timeIntervalStep
             }
         }
     }
 
     func cancelOnboardingNotifications() {
+        Settings.notificationsOnboardingTips = false
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }
