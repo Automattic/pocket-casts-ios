@@ -47,6 +47,25 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return L10n.notificationsPocketCastOffers
             }
         }
+
+        var value: Bool {
+            switch self {
+            case .newEpisodes:
+                return false
+            case .podcastsChosen:
+                return false
+            case .appBadges:
+                return false
+            case .trendingRecommendations:
+                return false
+            case .dailyReminders:
+                return Settings.notificationsOnboardingTips
+            case .newFeaturesAndTips:
+                return false
+            case .pocketCastsOffers:
+                return false
+            }
+        }
     }
 
     @IBOutlet var settingsTable: UITableView! {
@@ -120,7 +139,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = row.description
-            cell.cellSwitch.isOn = false
+            cell.cellSwitch.isOn = row.value
             cell.cellSwitch.tag = row.rawValue
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)

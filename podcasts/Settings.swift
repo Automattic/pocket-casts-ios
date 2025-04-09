@@ -1433,6 +1433,16 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Notifications
+
+    static var notificationsOnboardingTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.onboardingTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.onboardingTips)
+        }
+    }
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
