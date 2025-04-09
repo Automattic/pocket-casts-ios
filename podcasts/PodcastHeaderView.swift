@@ -38,6 +38,11 @@ struct PodcastHeaderView: View {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
+                    .onTapGesture {
+                        withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
+                            viewModel.toggleExpanded()
+                        }
+                    }
                     .onLongPressGesture {
                         viewModel.podcastArtworkTapped()
                     }
