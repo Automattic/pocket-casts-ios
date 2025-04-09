@@ -4872,3 +4872,24 @@
 
 /* Encourage Account Creation: card description for recommendations feature */
 "eac_informational_card_recommendation_description" = "Get tailored podcast suggestions based on your listening habits.";
+
+/* Encourage Account Creation: title of the button used to start the login flow  */
+"eac_informational_banner_create_account" = "Create a free account";
+
+/* Encourage Account Creation: title for the banner in the filters view */
+"eac_informational_banner_filters_title" = "Keep your filters in sync";
+
+/* Encourage Account Creation: title for the banner in the listening history */
+"eac_informational_banner_listening_history_title" = "Keep track of what you’ve played";
+
+/* Encourage Account Creation: title for the banner in the profile view */
+"eac_informational_banner_profile_title" = "Your shows, on any device";
+
+/* Encourage Account Creation: description for the banner in the filters view */
+"eac_informational_banner_filters_description" = "Create a free account to sync your filters on any device.";
+
+/* Encourage Account Creation: description for the banner in the listening history */
+"eac_informational_banner_listening_history_description" = "Create a free account to sync your listening history everywhere.";
+
+/* Encourage Account Creation: description for the banner in the profile view */
+"eac_informational_banner_profile_description" = "Create a free account to sync your shows and listen anywhere.";

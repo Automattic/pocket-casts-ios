@@ -1433,6 +1433,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Informational Banner
+#if !os(watchOS) && !APPCLIP
+    static func dismissBanner(for type: InformationalBannerType) {
+        UserDefaults.standard.set(true, forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+
+    static func shouldShowBanner(for type: InformationalBannerType) -> Bool {
+        return !UserDefaults.standard.bool(forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+#endif
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

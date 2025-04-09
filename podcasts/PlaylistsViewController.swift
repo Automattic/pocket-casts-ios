@@ -34,6 +34,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     private var firstTimeLoading = true
 
+    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+        let viewModel = InformationalBannerViewModel(bannerType: .filters)
+        return InformationalBannerViewCoordinator(viewModel: viewModel)
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,9 +74,25 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.setLetterSpacing(-0.2)
     }
 
+    func setupInformationalBanner() {
+        if !informationalBannerCoordinator.shouldShowBanner() {
+            filtersTable.tableHeaderView = nil
+            return
+        }
+        if filtersTable.tableHeaderView != nil {
+            return
+        }
+        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 160)) {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.filtersTable.tableHeaderView = nil
+            }
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadFilters()
+        setupInformationalBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {
