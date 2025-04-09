@@ -16,9 +16,8 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> RichExpandableLabel {
         let view: RichExpandableLabel
-        if let cachedView = Self.cache[htmlDescription] {
-            view = cachedView
-            view.removeFromSuperview()
+        if let cachedView = Self.cache[htmlDescription], cachedView.superview == nil {
+            view = cachedView            
         } else {
             view = RichExpandableLabel()
             Self.cache.removeAll()
