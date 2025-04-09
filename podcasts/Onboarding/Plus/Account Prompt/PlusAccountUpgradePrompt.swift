@@ -112,7 +112,8 @@ struct PlusAccountUpgradePrompt: View {
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl) : nil,
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons),
-            FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
+            FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil,
+            libroFmFeature()
         ]
             .compactMap { $0 }),
 
@@ -127,6 +128,13 @@ struct PlusAccountUpgradePrompt: View {
         ]
             .compactMap { $0 }
     ]
+
+    private static func libroFmFeature() -> Feature? {
+        if FeatureFlag.libroFm.enabled {
+            return Feature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm)
+        }
+        return nil
+    }
 
     // MARK: - Model
     private struct Feature: Identifiable, Hashable {
