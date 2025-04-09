@@ -3,7 +3,8 @@ import PocketCastsServer
 
 class InformationalBannerViewCoordinator {
     private var viewModel: InformationalBannerPresenting
-    private var onDismissBanner: (() -> Void)? = nil
+
+    var onDismissBanner: (() -> Void)? = nil
 
     init(viewModel: InformationalBannerPresenting) {
         self.viewModel = viewModel
@@ -52,5 +53,12 @@ class InformationalBannerViewCoordinator {
         headerView.addSubview(bannerView)
         bannerView.anchorToAllSidesOf(view: headerView)
         return headerView
+    }
+
+    func bannerView() -> UIView? {
+        guard let viewModel = viewModel as? InformationalBannerViewModel else {
+            return nil
+        }
+        return InformationalBannerView(viewModel: viewModel).themedUIView
     }
 }

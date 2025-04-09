@@ -3,23 +3,23 @@ import UIKit
 class InformationalProfileBannerCell: ThemeableCell {
     static var identifier = "InformationalBannerIdentifier"
 
-    let viewModel = InformationalBannerViewModel(bannerType: .profile)
+    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+        let viewModel = InformationalBannerViewModel(bannerType: .profile)
+        return InformationalBannerViewCoordinator(viewModel: viewModel)
+    }()
 
     var onCloseBannerTap: ((InformationalProfileBannerCell?) -> Void)? = nil
-    var onCreateFreeAccountTap: ((InformationalProfileBannerCell?) -> Void)? = nil
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        viewModel.onCloseBannerTap = { [weak self] in
+        informationalBannerCoordinator.onDismissBanner = { [weak self] in
             self?.onCloseBannerTap?(self)
         }
 
-        viewModel.onCreateFreeAccountTap = { [weak self] in
-            self?.onCreateFreeAccountTap?(self)
+        guard let bannerView = informationalBannerCoordinator.bannerView() else {
+            return
         }
-
-        let bannerView = InformationalBannerView(viewModel: viewModel).themedUIView
         contentView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
