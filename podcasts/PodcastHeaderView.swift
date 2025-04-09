@@ -61,7 +61,7 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
-            VStack {
+            VStack(spacing: 16) {
                 podcastDescription
                 podcastDetails
                 Spacer().frame(height: 24)
