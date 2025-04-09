@@ -1,6 +1,6 @@
 import Foundation
 
-enum InformationalBannerType: String {
+enum InformationalBannerType: String, CaseIterable {
     case filters
     case listenHistory
     case profile
