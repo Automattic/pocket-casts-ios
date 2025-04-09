@@ -49,6 +49,9 @@ struct OnboardingFlow {
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
+        case .encourageAccountCreation:
+            flowController = InformationalModalViewModel.makeController()
+
         case .initialOnboarding, .loggedOut: fallthrough
         default:
             flowController = LoginCoordinator.make(in: navigationController)
@@ -138,6 +141,8 @@ struct OnboardingFlow {
         case promoCode = "promo_code"
 
         case referralCode = "referral_code"
+
+        case encourageAccountCreation = "encourage_account_creation"
 
         var analyticsDescription: String { rawValue }
 
