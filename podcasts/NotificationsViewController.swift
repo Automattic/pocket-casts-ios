@@ -49,21 +49,15 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         }
 
         var value: Bool {
-            switch self {
-            case .newEpisodes:
-                return false
-            case .podcastsChosen:
-                return false
-            case .appBadges:
-                return false
-            case .trendingRecommendations:
-                return false
-            case .dailyReminders:
-                return Settings.notificationsOnboardingTips
-            case .newFeaturesAndTips:
-                return false
-            case .pocketCastsOffers:
-                return false
+        case .dailyReminders:
+            return Settings.notificationsOnboardingTips
+        case .newEpisodes,
+                 .podcastsChosen, 
+                 .appBadges,
+                 .trendingRecommendations,
+                 .newFeaturesAndTips,
+                 .pocketCastsOffers:
+            return false
             }
         }
     }
