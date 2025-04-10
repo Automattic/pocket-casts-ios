@@ -279,6 +279,9 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Reset Informational Modal Visibility") {
+                    Settings.shouldShowInitialOnboardingFlow = true
+                }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {
                         UserDefaults.standard.set(false, forKey: "kInformational\($0.rawValue.capitalized)Banner")

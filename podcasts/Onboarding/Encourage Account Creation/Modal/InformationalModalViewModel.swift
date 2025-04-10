@@ -47,6 +47,11 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
 }
 
 fileprivate class InformationalModalHostingController<Content>: OnboardingHostingViewController<Content> where Content: View {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? InformationalModalViewModel else { return }
