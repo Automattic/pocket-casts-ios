@@ -35,11 +35,13 @@ class InformationalBannerViewCoordinator {
     func dismissBanner() {
         onDismissBanner?()
         Settings.dismissBanner(for: viewModel.bannerType)
+        Analytics.track(.informationalBannerViewDismissed, properties: ["source": viewModel.bannerType.rawValue.lowerSnakeCased()])
     }
 
     func presentLoginFlow() {
         NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow,
                                                    data: ["flow": OnboardingFlow.Flow.loggedOut])
+        Analytics.track(.informationalBannerViewCreateAccountTap, properties: ["source": viewModel.bannerType.rawValue.lowerSnakeCased()])
     }
 
     func tableHeaderView(size: CGSize, onDismissBanner: @escaping () -> Void) -> UIView? {

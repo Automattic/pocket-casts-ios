@@ -14,7 +14,7 @@ class ListeningHistoryViewController: PCViewController {
     private var searchController: PCSearchBarController?
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let viewModel = InformationalBannerViewModel(bannerType: .listenHistory)
+        let viewModel = InformationalBannerViewModel(bannerType: .listeningHistory)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
