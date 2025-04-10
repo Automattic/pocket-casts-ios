@@ -857,7 +857,7 @@ enum AnalyticsEvent: String {
     case podcastScreenRefreshNewEpisodeFound
     case podcastRefreshEpisodeTooltipShown
     case podcastRefreshEpisodeTooltipDismissed
-    
+
     // MARK: - Encourage Account Creation
     case informationalModalViewShowed
     case informationalModalViewDismissed
