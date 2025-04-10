@@ -301,6 +301,15 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Speed Up Notifications") {
+                    NotificationsCoordinator.shared.timeIntervalStep = 5.seconds
+                }
+            } header: {
+                Text("Notifications")
+            }
+
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")

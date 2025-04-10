@@ -12,6 +12,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
 
+    var isWatchAppInstalled: Bool {
+        return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
+    }
+
     func setup() {
         if !WCSession.isSupported() { return }
 

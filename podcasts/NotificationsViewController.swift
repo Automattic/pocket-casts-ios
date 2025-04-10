@@ -47,6 +47,20 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return L10n.notificationsPocketCastOffers
             }
         }
+
+        var value: Bool {
+            switch self {
+            case .dailyReminders:
+                return Settings.notificationsOnboardingTips
+            case .newEpisodes,
+                 .podcastsChosen,
+                 .appBadges,
+                 .trendingRecommendations,
+                 .newFeaturesAndTips,
+                 .pocketCastsOffers:
+                return false
+            }
+        }
     }
 
     @IBOutlet var settingsTable: UITableView! {
@@ -120,7 +134,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = row.description
-            cell.cellSwitch.isOn = false
+            cell.cellSwitch.isOn = row.value
             cell.cellSwitch.tag = row.rawValue
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)
@@ -229,7 +243,19 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     }
 
     @objc private func notificationToggled(_ sender: UISwitch) {
-
+        guard let row = Row(rawValue: sender.tag) else {
+            return
+        }
+        switch row {
+        case .dailyReminders:
+            if sender.isOn {
+                NotificationsCoordinator.shared.setupOnboardingNotifications()
+            } else {
+                NotificationsCoordinator.shared.cancelOnboardingNotifications()
+            }
+        default:
+            break
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
