@@ -24,14 +24,14 @@ final class InformationalBannerViewModelTests: XCTestCase {
     func testBannerInListenHistory() throws {
         var didCloseButtonTap = false
         var didCreateButtonTap = false
-        let viewModel = InformationalBannerViewModel(bannerType: .listenHistory)
+        let viewModel = InformationalBannerViewModel(bannerType: .listeningHistory)
         viewModel.onCloseBannerTap = {
             didCloseButtonTap = true
         }
         viewModel.onCreateFreeAccountTap = {
             didCreateButtonTap = true
         }
-        XCTAssertEqual(viewModel.bannerType, .listenHistory)
+        XCTAssertEqual(viewModel.bannerType, .listeningHistory)
         viewModel.closeBanner()
         viewModel.createFreeAccount()
         XCTAssertTrue(didCloseButtonTap)
