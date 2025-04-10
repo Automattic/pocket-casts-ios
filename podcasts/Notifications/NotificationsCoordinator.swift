@@ -72,8 +72,10 @@ class NotificationsCoordinator {
 
     var timeIntervalStep: TimeInterval = 24.hours
 
-    private init() {
+    private let notificationCenter: UNUserNotificationCenter
 
+    private init(notificationCenter: UNUserNotificationCenter = .current()) {
+        self.notificationCenter = notificationCenter
     }
 
     private let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
@@ -92,7 +94,6 @@ class NotificationsCoordinator {
 
     func cancelOnboardingNotifications() {
         Settings.notificationsOnboardingTips = false
-        let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }
 
@@ -109,7 +110,6 @@ class NotificationsCoordinator {
 
         // Schedule the request with the system.
         Task {
-            let notificationCenter = UNUserNotificationCenter.current()
             do {
                 try await notificationCenter.add(request)
             } catch {
@@ -117,5 +117,9 @@ class NotificationsCoordinator {
                 FileLog.shared.addMessage("[Notifications Coordinator] Error adding notification: \(error)")
             }
         }
+    }
+
+    func cancelNotification(_ type: NotificationType) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
     }
 }
