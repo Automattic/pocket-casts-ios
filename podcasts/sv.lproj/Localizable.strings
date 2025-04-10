@@ -1180,6 +1180,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Starta kostnadsfri testperiod</string>
     <key>free_trial_title_label</key>
     <string>Prova Plus med %1$@ gratis</string>
+    <key>funding</key>
+    <string>Finansiering</string>
     <key>funny_conf_msg</key>
     <string>Den matchar verkligen dina ögon ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ podcasts med dig</string>
     <string>Aviseringar av</string>
     <key>notifications_on</key>
     <string>Aviseringar på</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Du får ett meddelande om nya avsnitt av %1$@</string>
     <key>notifications_play_now</key>
     <string>Spela upp nu</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Ladda upp nu</string>
     <key>podcast_uploading</key>
     <string>Laddar upp … %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Tryck på podcastens rubrik för att minimera eller expandera dess beskrivning och detaljer</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Vi har gjort några ändringar</string>
     <key>podcast_waiting_upload</key>
     <string>Inväntar uppladdning</string>
     <key>podcast_yesterday</key>

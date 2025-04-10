@@ -830,7 +830,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func fundingTapped() {
         Analytics.track(.podcastScreenFundingTapped)
         guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
-        open(url: url)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
     func manageSubscriptionTapped() {

@@ -1488,7 +1488,7 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>notifications_on</key>
     <string>Notificacions activades</string>
     <key>notifications_on_for_podcast</key>
-    <string>Et notificarem amb nous episodis de %1$@</string>
+    <string>Et notificarem quan hi hagi nous episodis de %1$@</string>
     <key>notifications_play_now</key>
     <string>Reproduir ara</string>
     <key>now_playing</key>
@@ -2073,7 +2073,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>podcast_yesterday</key>
     <string>Ahir</string>
     <key>podcasts_badge_all_unplayed</key>
-    <string>Episodis que no has acabat</string>
+    <string>Episodis sense acabar</string>
     <key>podcasts_badge_latest_episode</key>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>

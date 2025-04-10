@@ -683,6 +683,13 @@
 		9A11FCB82D94651A00A1EF3E /* AppsFlyerAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */; };
 		9A11FCBB2D9592B300A1EF3E /* PrivacySettingsLegacyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */; };
 		9A11FCBD2D9594FB00A1EF3E /* PrivacySettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBC2D9594F300A1EF3E /* PrivacySettingsDataSource.swift */; };
+		9A11FCC02D9DA8B800A1EF3E /* InformationalModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */; };
+		9A11FCC42D9DACF000A1EF3E /* InformationalModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */; };
+		9A11FCC62D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */; };
+		9A11FCC82D9E8EC400A1EF3E /* HorizontalCarouselCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC72D9E8EC400A1EF3E /* HorizontalCarouselCard.swift */; };
+		9A11FCCA2D9E8EF100A1EF3E /* HorizontalCarouselItemRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC92D9E8EF100A1EF3E /* HorizontalCarouselItemRepresentable.swift */; };
+		9A11FCCC2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCCB2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift */; };
+		9A11FCCE2D9EB59F00A1EF3E /* InformationalModal.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A11FCCD2D9EB59F00A1EF3E /* InformationalModal.xcassets */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -2896,6 +2903,13 @@
 		9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapterTests.swift; sourceTree = "<group>"; };
 		9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsLegacyDataSource.swift; sourceTree = "<group>"; };
 		9A11FCBC2D9594F300A1EF3E /* PrivacySettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsDataSource.swift; sourceTree = "<group>"; };
+		9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalModalViewModel.swift; sourceTree = "<group>"; };
+		9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalModalView.swift; sourceTree = "<group>"; };
+		9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalFeatureCardItem.swift; sourceTree = "<group>"; };
+		9A11FCC72D9E8EC400A1EF3E /* HorizontalCarouselCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarouselCard.swift; sourceTree = "<group>"; };
+		9A11FCC92D9E8EF100A1EF3E /* HorizontalCarouselItemRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarouselItemRepresentable.swift; sourceTree = "<group>"; };
+		9A11FCCB2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCarouselCardViewContainer.swift; sourceTree = "<group>"; };
+		9A11FCCD2D9EB59F00A1EF3E /* InformationalModal.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = InformationalModal.xcassets; sourceTree = "<group>"; };
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
@@ -5386,6 +5400,16 @@
 			path = PrivacySettings;
 			sourceTree = "<group>";
 		};
+		9A11FCBE2D9DA8A600A1EF3E /* Encourage Account Creation */ = {
+			isa = PBXGroup;
+			children = (
+				9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */,
+				9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */,
+				9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */,
+			);
+			path = "Encourage Account Creation";
+			sourceTree = "<group>";
+		};
 		9A156AAE2CF61016007BA8D9 /* Cancel Subscription */ = {
 			isa = PBXGroup;
 			children = (
@@ -6885,6 +6909,7 @@
 				4007B056230E38DD008DDCF5 /* What's New */,
 				10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */,
 				102864AA2CED1F990098B2A9 /* CancelSubscription.xcassets */,
+				9A11FCCD2D9EB59F00A1EF3E /* InformationalModal.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -7433,6 +7458,9 @@
 				C7FAFF682942E6A400329B40 /* HighlightedText.swift */,
 				C7CA0558293E8918000E41BD /* HolographicEffect.swift */,
 				C7B7123B29DF49BC00965BF7 /* HorizontalCarousel.swift */,
+				9A11FCCB2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift */,
+				9A11FCC72D9E8EC400A1EF3E /* HorizontalCarouselCard.swift */,
+				9A11FCC92D9E8EF100A1EF3E /* HorizontalCarouselItemRepresentable.swift */,
 				C7B3C6132919F47A00054145 /* HorizontalScrollView.swift */,
 				C7A110F1291F1EC300887A90 /* HTMLTextView.swift */,
 				8B208A5229C933D300AEF951 /* MiniPlayerPaddingModifier.swift */,
@@ -7581,6 +7609,7 @@
 				C72223D5292CAE92006B3B55 /* OnboardingFlow.swift */,
 				C7AF7B982926B307002F0025 /* OnboardingHostingViewController.swift */,
 				C72223D3292C918F006B3B55 /* OnboardingModel.swift */,
+				9A11FCBE2D9DA8A600A1EF3E /* Encourage Account Creation */,
 				C71C04C729243F6D00F2858A /* Import */,
 				C7FF770D291C2CA80082A464 /* Login */,
 				C7DA8D252923DA3000C1B08B /* Models */,
@@ -9141,6 +9170,7 @@
 				BD6B66A4245BC28800CF5245 /* AppIcon-Red-Velvet20x20@2x~ipad.png in Resources */,
 				BDB1DC642316964E00119B81 /* HowToUploadViewController.xib in Resources */,
 				40888F102563792300887D9A /* AppIcon-Round-Pink29x29@3x.png in Resources */,
+				9A11FCCE2D9EB59F00A1EF3E /* InformationalModal.xcassets in Resources */,
 				40888F152563792300887D9A /* AppIcon-Round-Pink29x29~ipad.png in Resources */,
 				BDDA14D9219AFA1E0066441E /* SearchInfoCell.xib in Resources */,
 				4006E31223A88AE600174DEB /* ExpandedCollectionViewController.xib in Resources */,
@@ -10163,6 +10193,7 @@
 				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
+				9A11FCC02D9DA8B800A1EF3E /* InformationalModalViewModel.swift in Sources */,
 				40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */,
 				F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */,
 				4086511B23B1CE8400D7585A /* CreateSiriShortcutCell.swift in Sources */,
@@ -10261,6 +10292,7 @@
 				10756F8B2C5945C00089D34F /* KidsProfileSubmitScreen.swift in Sources */,
 				C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */,
 				40FFAD8A2147831400024FCF /* PlaylistViewController+CollectionView.swift in Sources */,
+				9A11FCC42D9DACF000A1EF3E /* InformationalModalView.swift in Sources */,
 				9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */,
 				BDA1E8161EDD28700098FB9D /* SonosLinkController.swift in Sources */,
 				BD79EACD20D3805900E96572 /* ThemeSecondaryButton.swift in Sources */,
@@ -10375,6 +10407,7 @@
 				FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */,
 				BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */,
 				C7E99F092A5E105600E7CBAF /* MultiSelectRow.swift in Sources */,
+				9A11FCCC2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift in Sources */,
 				40164A5E23CC028D0043907B /* TourSpotlight.swift in Sources */,
 				8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */,
 				BDA681AB220D03930053BEEE /* UserEpisodeManager.swift in Sources */,
@@ -10386,6 +10419,7 @@
 				BDA756DE1BFAE61A0035EE13 /* PlaylistColorChooserCell.swift in Sources */,
 				F5E3DAA72BDD5567002BD4E4 /* PCBundleDoc.swift in Sources */,
 				BDD62976200EC4DF00168DF7 /* EpisodeDetailViewController.swift in Sources */,
+				9A11FCCA2D9E8EF100A1EF3E /* HorizontalCarouselItemRepresentable.swift in Sources */,
 				BD96F4751CC9FEB900AB09B0 /* ForgotPasswordViewController.swift in Sources */,
 				BD023C622251BB4E008A9C6F /* ListHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
@@ -10545,6 +10579,7 @@
 				C7540DE029AE645D00B77D54 /* UIFont+FontStyle.swift in Sources */,
 				8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
+				9A11FCC62D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
 				467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */,
@@ -10788,6 +10823,7 @@
 				BD65E51C1CD9BDE000B90A67 /* OnlineSupportController.swift in Sources */,
 				FF9B6B752D0732D40057A504 /* LogsViewController.swift in Sources */,
 				BDCF60EA22EFECA60051EDB3 /* ThemeableCell.swift in Sources */,
+				9A11FCC82D9E8EC400A1EF3E /* HorizontalCarouselCard.swift in Sources */,
 				F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */,
 				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
