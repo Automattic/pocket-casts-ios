@@ -225,7 +225,7 @@ struct Constants {
         }
 
         enum notifications {
-            static let onboardingTips = "notifications.onboardindTips"
+            static let onboardingTips = "notifications.onboardingTips"
         }
     }
 
