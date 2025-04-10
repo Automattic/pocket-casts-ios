@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
+    private(set) var appInstallState: AppLifecycleAnalytics.AppInstallState?
 
     lazy var whatsNew: WhatsNew = WhatsNew()
 
@@ -38,8 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         addAnalyticsObservers()
         setupAnalytics()
 
-        if let appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded(),
-           appInstallState == .installed {
+        appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
+
+        if let appInstallState, appInstallState == .installed {
             //Never show the podcast feed reload tooltip for fresh install
             Settings.shouldShowPodcastFeeReloadTip = false
             Settings.shouldShowPodcastViewChangesTip = false
