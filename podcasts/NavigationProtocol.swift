@@ -18,9 +18,11 @@ protocol NavigationProtocol: AnyObject {
 
     func navigateToProfile(_ animated: Bool)
 
-    func navigateToFilter(_ filter: EpisodeFilter, animated: Bool)
+    func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
     func navigateToEditFilter(_ filter: EpisodeFilter)
     func navigateToAddFilter()
+
+    func navigateToUpNext(_ animated: Bool)
 
     func navigateToFiles()
     func navigateToAddCustom(_ fileURL: URL)
@@ -28,7 +30,8 @@ protocol NavigationProtocol: AnyObject {
     func showSubscriptionCancelledAcknowledge()
     func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?, flow: OnboardingFlow.Flow)
     func showPlusMarketingPage()
-    func showSettingsAppearance()
+    func showSettings(row: SettingsViewController.TableRow?)
+    func showSettingsAppearance(showThemeSelection: Bool)
     func showPromotionPage(promoCode: String?)
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
@@ -36,6 +39,7 @@ protocol NavigationProtocol: AnyObject {
     func showGeneralSettings(row: GeneralSettingsViewController.TableRow?)
     func showRedeemGuestPass(url: URL)
 
+    func showSignUp()
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)
     func showSupporterBundleDetails(bundleUuid: String?)

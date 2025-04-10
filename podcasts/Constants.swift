@@ -224,6 +224,10 @@ struct Constants {
         enum podcastViewChanges {
             static let showTip = "podcastViewChanges.showtip"
         }
+
+        enum notifications {
+            static let onboardingTips = "notifications.onboardingTips"
+        }
     }
 
     enum Values {
