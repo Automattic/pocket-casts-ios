@@ -18,6 +18,11 @@ extension AppDelegate {
         if FeatureFlag.podcastNewformAppsFlyer.enabled {
             adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
         }
+
+        if FeatureFlag.notificationsRevamp.enabled {
+            adapters.append(NotificationsCoordinator.shared)
+        }
+
         Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }

@@ -78,7 +78,7 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
-    private let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
+    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
         Settings.notificationsOnboardingTips = true
