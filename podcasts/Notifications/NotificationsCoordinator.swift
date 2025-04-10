@@ -113,6 +113,7 @@ class NotificationsCoordinator {
                 try await notificationCenter.add(request)
             } catch {
                 // Handle errors that may occur during add.
+                FileLog.shared.addMessage("[Notifications Coordinator] Error adding notification: \(error)")
             }
         }
     }
