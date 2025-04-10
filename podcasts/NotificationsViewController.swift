@@ -53,7 +53,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             case .dailyReminders:
                 return Settings.notificationsOnboardingTips
             case .newEpisodes,
-                 .podcastsChosen, 
+                 .podcastsChosen,
                  .appBadges,
                  .trendingRecommendations,
                  .newFeaturesAndTips,
