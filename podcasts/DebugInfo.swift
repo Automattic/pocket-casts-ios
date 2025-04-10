@@ -19,7 +19,8 @@ struct DebugInfo {
         Device: \(DeviceUtil.identifier)
         OS: \(DeviceUtil.systemVersion ?? "Unknown")
         Local Time: \(localTime)
-        UTC Time: \(gmtTime)\n
+        UTC Time: \(gmtTime)
+        Watch App Installed: \(WatchManager.shared.isWatchAppInstalled ? "yes" : "no")\n
         """
 
         guard !optOut else { return debugString }
