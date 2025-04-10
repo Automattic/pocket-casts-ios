@@ -67,7 +67,7 @@ struct InformationalBannerViewFilters_Preview: PreviewProvider {
                     .previewLayout(.sizeThatFits)
                     .frame(width: 386, height: 170)
 
-                InformationalBannerView(viewModel: InformationalBannerViewModel(bannerType: .listenHistory))
+                InformationalBannerView(viewModel: InformationalBannerViewModel(bannerType: .listeningHistory))
                     .environmentObject(Theme(previewTheme: .light))
                     .previewLayout(.sizeThatFits)
                     .frame(width: 386, height: 170)

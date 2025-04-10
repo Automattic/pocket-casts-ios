@@ -76,7 +76,7 @@ struct InformationalModalView: View {
             .padding(.bottom, 16.0)
 
             Button(L10n.accountLogin) {
-                viewModel.getStarted()
+                viewModel.login()
             }
             .buttonStyle(SimpleTextButtonStyle(theme: theme))
         }
