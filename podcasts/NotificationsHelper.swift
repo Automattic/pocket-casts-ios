@@ -112,7 +112,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         case .deepLink:
             handleDeepLinkNotification(response: response, completionHandler: completionHandler)
         }
-
     }
 
     private func handleEpisodeNotification(response: UNNotificationResponse, completionHandler: @escaping () -> Void) {
