@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 enum NotificationType: String {
 
