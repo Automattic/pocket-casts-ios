@@ -67,7 +67,7 @@ enum NotificationType: String {
 
 class NotificationsCoordinator {
 
-    static var shared: NotificationsCoordinator = NotificationsCoordinator()
+    static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
     var timeIntervalStep: TimeInterval = 24.hours
 
