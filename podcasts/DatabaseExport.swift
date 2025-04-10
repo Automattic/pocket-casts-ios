@@ -70,8 +70,8 @@ class DatabaseExport {
             let logsFile = exportDirectory.appendingPathComponent("logs.txt", isDirectory: false)
             try fileManager.copyItem(at: URL(fileURLWithPath: logFile), to: logsFile)
 
-            let debugInfoFile = exportDirectory.appendingPathComponent("info.txt", conformingTo: .text)
-            fileManager.createFile(atPath: debugInfoFile.absoluteString, contents: DebugInfo.string(optOut: UserDefaults.standard.debugOptedOut).data(using: .utf8))
+            let debugInfoFile = exportDirectory.appendingPathComponent("info.txt")
+            fileManager.createFile(atPath: debugInfoFile.path, contents: DebugInfo.string(optOut: UserDefaults.standard.debugOptedOut).data(using: .utf8))
 
             // Write the bundle document
             let exportFile = exportDirectory.appendingPathComponent("export", conformingTo: .pcasts)
