@@ -47,6 +47,7 @@ class UpNextSyncTask: ApiBaseTask {
         var syncRequest = Api_UpNextSyncRequest()
         syncRequest.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         syncRequest.version = apiVersion
+        syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
         var upNextChanges = Api_UpNextChanges()
         var latestActionTime: Int64 = 0
         var changes = [Api_UpNextChanges.Change]()
