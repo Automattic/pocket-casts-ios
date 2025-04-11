@@ -7,9 +7,21 @@ struct InformationalBannerView: View {
 
     private var backgroundColor: Color {
         if case .profile = viewModel.bannerType {
+            if case .radioactive = theme.activeTheme {
+                return theme.primaryUi06
+            }
             return theme.primaryUi02Active
         }
-        return theme.primaryUi01
+        switch theme.activeTheme {
+        case .indigo:
+            return theme.primaryUi02Active
+        case .contrastLight:
+            return theme.secondaryUi02
+        case .contrastDark:
+            return theme.primaryUi02Active
+        default:
+            return theme.primaryUi01
+        }
     }
 
     private var paddingBottom: CGFloat {
