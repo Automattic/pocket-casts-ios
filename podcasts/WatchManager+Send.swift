@@ -3,6 +3,8 @@ import WatchConnectivity
 import PocketCastsUtils
 
 extension WatchManager {
+    private static let watchLogFileName = "watch-logs.txt"
+
     /// Requests the Apple Watch log contents.
     /// If anything is returned, it is also saved in a cache so in case any
     /// subsequent call fails, it will return from the cache.
@@ -56,8 +58,14 @@ extension WatchManager {
         }
     }
 
+    func readLogFile() -> String? {
+        let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(Self.watchLogFileName)
+        let contents = try? String(contentsOf: filePath, encoding: .utf8)
+        return contents
+    }
+
     private func saveLog(contents: String) {
-        let filePath = FileManager.default.temporaryDirectory.appendingPathComponent("watch-logs.txt")
+        let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(Self.watchLogFileName)
         let backupPath = FileManager.default.temporaryDirectory.appendingPathComponent("watch-logs-backup.txt")
         let rotator = FileRotator(fileManager: FileManager.default, targetFilePath: filePath.path, backupFilePath: backupPath.path, loggingTo: nil)
         rotator.rotateFile(ifSizeExceeds: 100.kilobytes)
