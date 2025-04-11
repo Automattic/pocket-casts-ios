@@ -1180,6 +1180,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Inizia la prova gratuita</string>
     <key>free_trial_title_label</key>
     <string>Prova Plus con %1$@ gratis</string>
+    <key>funding</key>
+    <string>Finanziamento</string>
     <key>funny_conf_msg</key>
     <string>Si abbina davvero ai tuoi occhi ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ pocast con te</string>
     <string>Notifiche disattivate</string>
     <key>notifications_on</key>
     <string>Notifiche attivate</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Ti invieremo una notifica con i nuovi episodi di %1$@</string>
     <key>notifications_play_now</key>
     <string>Riproduci ora</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Carica ora</string>
     <key>podcast_uploading</key>
     <string>Caricamento in corso... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Tocca il titolo del podcast per comprimere o espandere la descrizione e i dettagli</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Abbiamo apportato alcune modifiche</string>
     <key>podcast_waiting_upload</key>
     <string>In attesa di caricamento</string>
     <key>podcast_yesterday</key>
