@@ -1181,7 +1181,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>free_trial_title_label</key>
     <string>免費試用 Plus %1$@</string>
     <key>funding</key>
-    <string>資金</string>
+    <string>資金狀況</string>
     <key>funny_conf_msg</key>
     <string>跟你的眼睛很搭呢 ✨</string>
     <key>funny_time_not_enough</key>
@@ -1493,7 +1493,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>notifications_on</key>
     <string>開啟通知</string>
     <key>notifications_on_for_podcast</key>
-    <string>我們會在 %1$@ 推出新單集時通知你</string>
+    <string>我們會在「%1$@」推出新單集時通知你</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>now_playing</key>

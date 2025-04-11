@@ -389,6 +389,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
         headerView.layer.zPosition = -1000
+        headerView.isUserInteractionEnabled = false
         return headerView
     }()
 

@@ -2150,6 +2150,8 @@ internal enum L10n {
   internal static var plusFeatureCardTitleWearOs: String { return L10n.tr("Localizable", "plus_feature_card_title_wear_os") }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
+  /// Free audiobook from Libro.fm
+  internal static var plusFeatureLibrofm: String { return L10n.tr("Localizable", "plus_feature_librofm") }
   /// 1 year of exclusive content from Slumber Studios
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
   /// Dream with Slumber Studios content

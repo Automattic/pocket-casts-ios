@@ -159,6 +159,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Encourage Account Creation
     case encourageAccountCreation
 
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
     /// Enable the new notifications types and settings
     case notificationsRevamp
 
@@ -266,6 +269,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .fullScreenLogin:
             true
+        case .libroFm:
+            false
         case .encourageAccountCreation:
             false
         case .notificationsRevamp:

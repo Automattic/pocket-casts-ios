@@ -5,6 +5,8 @@ struct AppsFlyerDataProvider: AnonymousIdentifiable {
     let appleAppID = "414834813"
     let userDefaults: UserDefaults
     let supportedEvents: Set<String> = [
+        "application_installed",
+        "application_opened",
         "user_signed_in",
         "user_account_created",
         "sso_started",
@@ -47,5 +49,9 @@ struct AppsFlyerDataProvider: AnonymousIdentifiable {
         userDefaults: UserDefaults? = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)
     ) {
         self.userDefaults = userDefaults ?? .standard
+    }
+
+    var isNewInstall: Bool {
+        (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .installed
     }
 }

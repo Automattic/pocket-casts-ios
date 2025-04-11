@@ -15,5 +15,7 @@
     <string>Pocket Casts требуется разрешение на сохранение этого изображения в библиотеке фотографий.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts требуется разрешение на сохранение этого изображения в библиотеке фотографий.</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Пользуясь аналитическими данными, мы улучшаем приложение и оцениваем успешность рекламных кампаний.</string>
   </dict>
 </plist>

@@ -1701,6 +1701,9 @@
 /* Message about the exclusive content from Slumber Studios. This is used with our Paywall Experiment. Please don't translate "Slumber Studios". */
 "plus_feature_slumber_new" = "Dream with Slumber Studios content";
 
+/* Message about the exclusive content from Libro.fm. Don't translate Libro.fm */
+"plus_feature_librofm" = "Free audiobook from Libro.fm";
+
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
