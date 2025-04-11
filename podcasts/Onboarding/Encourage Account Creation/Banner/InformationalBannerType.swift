@@ -37,4 +37,15 @@ enum InformationalBannerType: String, CaseIterable {
             return L10n.eacInformationalBannerProfileDescription
         }
     }
+
+    var accessibilityLabel: String {
+        switch self {
+        case .filters:
+            return L10n.eacInformationalBannerFiltersIconAccessibility
+        case .listeningHistory:
+            return L10n.eacInformationalBannerListeningHistoryIconAccessibility
+        case .profile:
+            return L10n.eacInformationalBannerProfileIconAccessibility
+        }
+    }
 }

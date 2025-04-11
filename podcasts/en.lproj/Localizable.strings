@@ -4929,3 +4929,12 @@
 
 /* Encourage Account Creation: description for the banner in the profile view */
 "eac_informational_banner_profile_description" = "Create a free account to sync your shows and listen anywhere.";
+
+/* Encourage Account Creation: accessibility label for the banner in the filters view */
+"eac_informational_banner_filters_icon_accessibility" = "Filters Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the profile view */
+"eac_informational_banner_profile_icon_accessibility" = "Profile Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the listening history view */
+"eac_informational_banner_listening_history_icon_accessibility" = "Listening History Icon";

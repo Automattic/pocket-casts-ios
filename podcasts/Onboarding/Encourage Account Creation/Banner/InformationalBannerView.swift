@@ -41,6 +41,7 @@ struct InformationalBannerView: View {
     var body: some View {
         HStack(alignment: .top) {
             Image(viewModel.bannerType.iconName)
+                .accessibilityLabel(viewModel.bannerType.accessibilityLabel)
                 .foregroundColor(theme.primaryText01)
             VStack(alignment: .leading, spacing: 6) {
                 Text(viewModel.bannerType.title)

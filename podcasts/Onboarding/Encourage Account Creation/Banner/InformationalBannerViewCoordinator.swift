@@ -51,7 +51,6 @@ class InformationalBannerViewCoordinator {
         self.onDismissBanner = onDismissBanner
         let headerView = UIView(frame: CGRect(origin: .zero, size: size))
         let bannerView = InformationalBannerView(viewModel: viewModel).themedUIView
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(bannerView)
         bannerView.anchorToAllSidesOf(view: headerView)
         return headerView

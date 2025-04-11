@@ -21,13 +21,7 @@ class InformationalProfileBannerCell: ThemeableCell {
             return
         }
         contentView.addSubview(bannerView)
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            bannerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bannerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bannerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bannerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        bannerView.anchorToAllSidesOf(view: contentView)
 
         separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         selectionStyle = .none

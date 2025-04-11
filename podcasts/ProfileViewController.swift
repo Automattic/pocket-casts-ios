@@ -341,7 +341,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let row = tableData[indexPath.section][indexPath.row]
-        return row != .kidsProfile || row != .informationalBanner
+        return row != .kidsProfile && row != .informationalBanner
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
