@@ -12,6 +12,20 @@ struct InformationalBannerView: View {
         return theme.primaryUi01
     }
 
+    private var paddingBottom: CGFloat {
+        if case .listeningHistory = viewModel.bannerType {
+            return 0
+        }
+        return 16.0
+    }
+
+    private var paddingTop: CGFloat {
+        if case .listeningHistory = viewModel.bannerType {
+            return 22.0
+        }
+        return 16.0
+    }
+
     var body: some View {
         HStack(alignment: .top) {
             Image(viewModel.bannerType.iconName)
@@ -54,7 +68,9 @@ struct InformationalBannerView: View {
             .padding(.top, 16.0)
             .padding(.trailing, 16.0)
         }
-        .padding(16.0)
+        .padding(.bottom, paddingBottom)
+        .padding(.top, paddingTop)
+        .padding(.horizontal, 16.0)
     }
 }
 
