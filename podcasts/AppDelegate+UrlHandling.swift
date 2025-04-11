@@ -385,10 +385,7 @@ extension AppDelegate {
         setupOnboardingRoutes()
     }
 
-    func setupOnboardingRoutes() {
-        guard FeatureFlag.notificationsRevamp.enabled else {
-            return
-        }
+    func setupOnboardingRoutes() {        
         JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [NavigationManager.settingsAppearanceShowThemeKey: true])
