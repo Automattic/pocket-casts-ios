@@ -4849,33 +4849,6 @@
 /* Settings to control sending of pocket casts offers notifications */
 "notifications_pocket_cast_offers" = "Pocket Casts Offers";
 
-/* Encourage Account Creation: modal title */
-"eac_informational_view_modal_title" = "We noticed you’re not logged in";
-
-/* Encourage Account Creation: modal description */
-"eac_informational_view_modal_description" = "Create an account or log in to enjoy\nPocket Casts to the fullest.";
-
-/* Encourage Account Creation: Get Started button */
-"eac_informational_view_modal_get_started_button" = "Get Started";
-
-/* Encourage Account Creation: card title for sync feature */
-"eac_informational_card_sync_title" = "Sync across devices";
-
-/* Encourage Account Creation: card title for backups feature */
-"eac_informational_card_backups_title" = "Reliable backups";
-
-/* Encourage Account Creation: card title for recommendations feature */
-"eac_informational_card_recommendation_title" = "Personalized recommendations";
-
-/* Encourage Account Creation: card description for sync feature */
-"eac_informational_card_sync_description" = "Sync your progress, and shows across all your devices.";
-
-/* Encourage Account Creation: card description for backups feature */
-"eac_informational_card_backups_description" = "Your library and preferences are securely saved.";
-
-/* Encourage Account Creation: card description for recommendations feature */
-"eac_informational_card_recommendation_description" = "Get tailored podcast suggestions based on your listening habits.";
-
 /* Notification title for signup onboarding message */
 "notifications_onboarding_signup_title" = "Your shows, on any device!";
 
@@ -4911,3 +4884,60 @@
 
 /* Notification body for onboarding to upsell message */
 "notifications_onboarding_upsell_body" = "Level up your podcast game";
+
+/* Encourage Account Creation: modal title */
+"eac_informational_view_modal_title" = "We noticed you’re not logged in";
+
+/* Encourage Account Creation: modal description */
+"eac_informational_view_modal_description" = "Create an account or log in to enjoy\nPocket Casts to the fullest.";
+
+/* Encourage Account Creation: Get Started button */
+"eac_informational_view_modal_get_started_button" = "Get Started";
+
+/* Encourage Account Creation: card title for sync feature */
+"eac_informational_card_sync_title" = "Sync across devices";
+
+/* Encourage Account Creation: card title for backups feature */
+"eac_informational_card_backups_title" = "Reliable backups";
+
+/* Encourage Account Creation: card title for recommendations feature */
+"eac_informational_card_recommendation_title" = "Personalized recommendations";
+
+/* Encourage Account Creation: card description for sync feature */
+"eac_informational_card_sync_description" = "Sync your progress, and shows across all your devices.";
+
+/* Encourage Account Creation: card description for backups feature */
+"eac_informational_card_backups_description" = "Your library and preferences are securely saved.";
+
+/* Encourage Account Creation: card description for recommendations feature */
+"eac_informational_card_recommendation_description" = "Get tailored podcast suggestions based on your listening habits.";
+
+/* Encourage Account Creation: title of the button used to start the login flow  */
+"eac_informational_banner_create_account" = "Create a free account";
+
+/* Encourage Account Creation: title for the banner in the filters view */
+"eac_informational_banner_filters_title" = "Keep your filters in sync";
+
+/* Encourage Account Creation: title for the banner in the listening history */
+"eac_informational_banner_listening_history_title" = "Keep track of what you’ve played";
+
+/* Encourage Account Creation: title for the banner in the profile view */
+"eac_informational_banner_profile_title" = "Your shows, on any device";
+
+/* Encourage Account Creation: description for the banner in the filters view */
+"eac_informational_banner_filters_description" = "Create a free account to sync your filters on any device.";
+
+/* Encourage Account Creation: description for the banner in the listening history */
+"eac_informational_banner_listening_history_description" = "Create a free account to sync your listening history everywhere.";
+
+/* Encourage Account Creation: description for the banner in the profile view */
+"eac_informational_banner_profile_description" = "Create a free account to sync your shows and listen anywhere.";
+
+/* Encourage Account Creation: accessibility label for the banner in the filters view */
+"eac_informational_banner_filters_icon_accessibility" = "Filters Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the profile view */
+"eac_informational_banner_profile_icon_accessibility" = "Profile Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the listening history view */
+"eac_informational_banner_listening_history_icon_accessibility" = "Listening History Icon";

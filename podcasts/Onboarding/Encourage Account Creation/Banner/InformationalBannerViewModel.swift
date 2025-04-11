@@ -1,0 +1,31 @@
+import Foundation
+
+protocol InformationalBannerPresenting {
+    var bannerType: InformationalBannerType { get }
+    var onCloseBannerTap: (() -> Void)? { get set }
+    var onCreateFreeAccountTap: (() -> Void)? { get set }
+
+    func closeBanner()
+    func createFreeAccount()
+}
+
+extension InformationalBannerPresenting {
+    func closeBanner() {
+        onCloseBannerTap?()
+    }
+
+    func createFreeAccount() {
+        onCreateFreeAccountTap?()
+    }
+}
+
+class InformationalBannerViewModel: ObservableObject, InformationalBannerPresenting {
+    let bannerType: InformationalBannerType
+
+    var onCloseBannerTap: (() -> Void)? = nil
+    var onCreateFreeAccountTap: (() -> Void)? = nil
+
+    init(bannerType: InformationalBannerType) {
+        self.bannerType = bannerType
+    }
+}

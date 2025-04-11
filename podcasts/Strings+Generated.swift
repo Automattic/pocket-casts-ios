@@ -863,6 +863,26 @@ internal enum L10n {
   internal static var downloadsRetryFailedDownloads: String { return L10n.tr("Localizable", "downloads_retry_failed_downloads") }
   /// Stop All Downloads
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
+  /// Create a free account
+  internal static var eacInformationalBannerCreateAccount: String { return L10n.tr("Localizable", "eac_informational_banner_create_account") }
+  /// Create a free account to sync your filters on any device.
+  internal static var eacInformationalBannerFiltersDescription: String { return L10n.tr("Localizable", "eac_informational_banner_filters_description") }
+  /// Filters Icon
+  internal static var eacInformationalBannerFiltersIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_filters_icon_accessibility") }
+  /// Keep your filters in sync
+  internal static var eacInformationalBannerFiltersTitle: String { return L10n.tr("Localizable", "eac_informational_banner_filters_title") }
+  /// Create a free account to sync your listening history everywhere.
+  internal static var eacInformationalBannerListeningHistoryDescription: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_description") }
+  /// Listening History Icon
+  internal static var eacInformationalBannerListeningHistoryIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_icon_accessibility") }
+  /// Keep track of what you’ve played
+  internal static var eacInformationalBannerListeningHistoryTitle: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_title") }
+  /// Create a free account to sync your shows and listen anywhere.
+  internal static var eacInformationalBannerProfileDescription: String { return L10n.tr("Localizable", "eac_informational_banner_profile_description") }
+  /// Profile Icon
+  internal static var eacInformationalBannerProfileIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_profile_icon_accessibility") }
+  /// Your shows, on any device
+  internal static var eacInformationalBannerProfileTitle: String { return L10n.tr("Localizable", "eac_informational_banner_profile_title") }
   /// Your library and preferences are securely saved.
   internal static var eacInformationalCardBackupsDescription: String { return L10n.tr("Localizable", "eac_informational_card_backups_description") }
   /// Reliable backups

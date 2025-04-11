@@ -693,12 +693,19 @@
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
+		9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */; };
+		9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */; };
+		9A263EC32DA6601C00E895B6 /* InformationalBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC22DA6601C00E895B6 /* InformationalBannerView.swift */; };
+		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
+		9A263EC72DA6C32F00E895B6 /* InformationalBannerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC62DA6C32F00E895B6 /* InformationalBannerType.swift */; };
+		9A263EC92DA6DEFB00E895B6 /* InformationalBannerViewCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC82DA6DEF700E895B6 /* InformationalBannerViewCoordinatorTests.swift */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
 		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
+		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -2914,12 +2921,19 @@
 		9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansView.swift; sourceTree = "<group>"; };
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
+		9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModelTests.swift; sourceTree = "<group>"; };
+		9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalProfileBannerCell.swift; sourceTree = "<group>"; };
+		9A263EC22DA6601C00E895B6 /* InformationalBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerView.swift; sourceTree = "<group>"; };
+		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
+		9A263EC62DA6C32F00E895B6 /* InformationalBannerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerType.swift; sourceTree = "<group>"; };
+		9A263EC82DA6DEF700E895B6 /* InformationalBannerViewCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinatorTests.swift; sourceTree = "<group>"; };
 		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
 		9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProviderTests.swift; sourceTree = "<group>"; };
 		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
+		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -5058,6 +5072,7 @@
 			isa = PBXGroup;
 			children = (
 				107836242C62814000DA3FF0 /* ABTest */,
+				9A263EBA2DA562CD00E895B6 /* Encourage Account Creation */,
 				10A4F75C2C52C74E0084D783 /* Kids Profile */,
 				FFF024CC2B62AC5F00457373 /* IAP */,
 				C7F4C6642A8EAB0A00483C37 /* Utilities */,
@@ -5405,9 +5420,8 @@
 		9A11FCBE2D9DA8A600A1EF3E /* Encourage Account Creation */ = {
 			isa = PBXGroup;
 			children = (
-				9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */,
-				9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */,
-				9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */,
+				9A821DC92DA5497A0056D860 /* Banner */,
+				9A821DC82DA549740056D860 /* Modal */,
 			);
 			path = "Encourage Account Creation";
 			sourceTree = "<group>";
@@ -5433,12 +5447,43 @@
 			path = "Plans View";
 			sourceTree = "<group>";
 		};
+		9A263EBA2DA562CD00E895B6 /* Encourage Account Creation */ = {
+			isa = PBXGroup;
+			children = (
+				9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */,
+				9A263EC82DA6DEF700E895B6 /* InformationalBannerViewCoordinatorTests.swift */,
+			);
+			path = "Encourage Account Creation";
+			sourceTree = "<group>";
+		};
 		9A509DDE2D14604600E8CEB1 /* Offer View */ = {
 			isa = PBXGroup;
 			children = (
 				9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */,
 			);
 			path = "Offer View";
+			sourceTree = "<group>";
+		};
+		9A821DC82DA549740056D860 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */,
+				9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */,
+				9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */,
+			);
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		9A821DC92DA5497A0056D860 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */,
+				9A263EC62DA6C32F00E895B6 /* InformationalBannerType.swift */,
+				9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */,
+				9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */,
+				9A263EC22DA6601C00E895B6 /* InformationalBannerView.swift */,
+			);
+			path = Banner;
 			sourceTree = "<group>";
 		};
 		BD03B383173A1D68000A419B /* Video Player */ = {
@@ -9858,6 +9903,7 @@
 				10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */,
+				9A263EC92DA6DEFB00E895B6 /* InformationalBannerViewCoordinatorTests.swift in Sources */,
 				9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
 				F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */,
@@ -9870,6 +9916,7 @@
 				FF05C9922C0E044C00E41EB3 /* DBTestCase.swift in Sources */,
 				F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */,
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
+				9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */,
 				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C7F4C6682A8EAB2800483C37 /* PaidFeatureTests.swift in Sources */,
 				C79E1E4028887549008524CB /* PlusUpgradeViewSourceTests.swift in Sources */,
@@ -10206,6 +10253,7 @@
 				4053CE092159E477001C92B1 /* CreateFilterViewController.swift in Sources */,
 				C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */,
 				1099A4AA2CA5A3C1001B96A9 /* Variation+CustomTreatment.swift in Sources */,
+				9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */,
 				BD86D94B217EB5060010FA1B /* FilterSelectionViewController.swift in Sources */,
 				40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */,
 				BD92323123629E1900C1E118 /* PlayerContainerViewController.swift in Sources */,
@@ -10331,6 +10379,7 @@
 				40AF75A324761E920000AD9D /* PodcastHeartView.swift in Sources */,
 				407B9B6223875AA1008E7CA8 /* UpNextViewController+Table.swift in Sources */,
 				BD93F7FD247CB4B600B79E05 /* EpisodeListSearchController+Search.swift in Sources */,
+				9A263EC32DA6601C00E895B6 /* InformationalBannerView.swift in Sources */,
 				BDA156EB187E5EE600F5D412 /* SJMediaMetadataHelper.m in Sources */,
 				C7FF76C0291B4F430082A464 /* ProportionalValue.swift in Sources */,
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
@@ -10392,6 +10441,7 @@
 				BD8E76C61B9E9C03000E20C7 /* AppTheme.swift in Sources */,
 				8BBE19F22BEA98C9009E944B /* ShowInfoCoordinator.swift in Sources */,
 				BDB1E4FE1B8C5C2B009AD30F /* CategorySummaryViewController.swift in Sources */,
+				9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
 				FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */,
 				F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */,
@@ -10459,6 +10509,7 @@
 				F5F8F3182CC314250071DD0E /* IntroStory2024.swift in Sources */,
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
+				9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */,
 				C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */,
 				C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */,
 				BD51481F1B9FE81F0029C6D9 /* StatsViewController.swift in Sources */,
@@ -10744,6 +10795,7 @@
 				FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */,
 				107836232C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift in Sources */,
 				C7A110E6291EF2DF00887A90 /* PlusLandingViewModel.swift in Sources */,
+				9A263EC72DA6C32F00E895B6 /* InformationalBannerType.swift in Sources */,
 				8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */,
 				BD56102D200DA4BC002F2D53 /* Podcast+Formatting.swift in Sources */,
 				BD5294291B564417007A0B1D /* PlaybackItem.swift in Sources */,
