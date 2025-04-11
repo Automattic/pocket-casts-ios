@@ -289,7 +289,7 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Speed Up Notifications") {
-                    NotificationsCoordinator.shared.timeIntervalStep = 15.seconds
+                    NotificationsCoordinator.shared.timeIntervalStep = 60.seconds
                 }
             } header: {
                 Text("Notifications")
