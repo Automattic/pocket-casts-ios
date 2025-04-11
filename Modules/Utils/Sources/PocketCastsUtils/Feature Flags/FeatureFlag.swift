@@ -153,11 +153,17 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 
+    /// Force full screen login on iPhone
+    case fullScreenLogin
+
     /// Encourage Account Creation
     case encourageAccountCreation
 
     /// Enable Libro.fm icons in Paywall
     case libroFm
+
+    /// Enable the new notifications types and settings
+    case notificationsRevamp
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -261,9 +267,13 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .podcastNewformAppsFlyer:
             true
-        case .encourageAccountCreation:
+        case .fullScreenLogin:
             true
         case .libroFm:
+            false
+        case .encourageAccountCreation:
+            false
+        case .notificationsRevamp:
             false
         }
     }
