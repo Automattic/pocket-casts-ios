@@ -174,7 +174,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             false
         case .appsFlyerLogging:
-            true
+            false
         case .endOfYear:
             false
         case .errorLogoutHandling:
