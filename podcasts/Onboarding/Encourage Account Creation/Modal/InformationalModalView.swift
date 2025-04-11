@@ -32,7 +32,8 @@ struct InformationalModalView: View {
                         height: cardHeight
                     ),
                     hPadding: isiPad ? (proxy.size.width - 400) * 0.5 : 24.0,
-                    showPagination: true
+                    showPagination: true,
+                    paginationColor: theme.primaryText01
                 )
             }
             .frame(maxHeight: cardHeight + 24.0)

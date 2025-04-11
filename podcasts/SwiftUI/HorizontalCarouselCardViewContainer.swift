@@ -6,6 +6,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
     private let cardSize: CGSize
     private let hPadding: CGFloat
     private let showPagination: Bool
+    private let paginationColor: Color
 
     @Binding private var currentIndex: Int?
 
@@ -16,13 +17,14 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
         )
     }
 
-    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false) {
+    init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false, paginationColor: Color) {
         self.spacing = spacing
         self.items = items
         self._currentIndex = currentIndex
         self.cardSize = cardSize
         self.hPadding = hPadding
         self.showPagination = showPagination
+        self.paginationColor = paginationColor
     }
 
     var body: some View {
@@ -61,6 +63,7 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
             }
             if showPagination {
                 PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex ?? 0)
+                    .foregroundColor(paginationColor)
                     .padding(.top, 16.0)
             }
         }
@@ -110,5 +113,6 @@ fileprivate enum MockItem: String, CaseIterable, Identifiable, HorizontalCarouse
         currentIndex: .constant(0),
         cardSize: CGSize(width: 313, height: 370),
         hPadding: 24,
-        showPagination: true)
+        showPagination: true,
+        paginationColor: .black)
 }
