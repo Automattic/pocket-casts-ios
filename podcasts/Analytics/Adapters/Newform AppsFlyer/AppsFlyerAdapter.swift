@@ -65,7 +65,17 @@ class AppsFlyerAdapter: AnalyticsAdapter {
                 FileLog.shared.addMessage("AppsFlyer start error: \(error)")
             } else {
                 FileLog.shared.addMessage("AppsFlyer start success: \(params ?? [:])")
+                DispatchQueue.main.async { [weak self] in
+                    self?.trackApplicationInstalledIfNeeded()
+                }
             }
+        }
+    }
+
+    private func trackApplicationInstalledIfNeeded() {
+        if dataProvider.isNewInstall {
+            track(name: "application_installed", properties: nil)
+            track(name: "application_opened", properties: nil)
         }
     }
 }
