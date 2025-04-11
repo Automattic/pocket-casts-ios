@@ -75,6 +75,7 @@ class AppsFlyerAdapter: AnalyticsAdapter {
     private func trackApplicationInstalledIfNeeded() {
         if dataProvider.isNewInstall {
             track(name: "application_installed", properties: nil)
+            track(name: "application_opened", properties: nil)
         }
     }
 }

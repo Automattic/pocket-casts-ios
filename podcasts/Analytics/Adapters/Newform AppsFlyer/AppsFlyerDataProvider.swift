@@ -6,6 +6,7 @@ struct AppsFlyerDataProvider: AnonymousIdentifiable {
     let userDefaults: UserDefaults
     let supportedEvents: Set<String> = [
         "application_installed",
+        "application_opened",
         "user_signed_in",
         "user_account_created",
         "sso_started",
