@@ -28,7 +28,7 @@ extension NotificationType {
         case .onboardingFilters:
             possibleConditions = [.filterCreated]
         case .onboardingUpsell:
-            possibleConditions  = [.plusPromotionShown]
+            possibleConditions  = [.purchaseSuccessful]
         }
         return possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name
