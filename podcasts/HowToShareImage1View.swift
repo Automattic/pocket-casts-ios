@@ -30,7 +30,7 @@ struct HowToShareImage1View: View {
             .opacity(0.7)
             .clipShape(Circle())
             .frame(height: 25)
-            .offset(x: 87, y: 19)
+            .offset(x: 88, y: 19)
             .shadow(color: .black.opacity(0.35), radius: 4.5, y: 2)
         }
         .font(.system(size: 12).weight(.bold))
