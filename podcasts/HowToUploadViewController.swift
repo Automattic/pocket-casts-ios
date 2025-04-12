@@ -61,14 +61,14 @@ class HowToUploadViewController: UIViewController {
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        let hvc = UIHostingController(rootView: HowToShareImage1View().environmentObject(Theme.sharedTheme))
-        guard let subview = hvc.view else { return }
-        addChild(hvc)
-        howToShare1.addSubview(subview)
-        let hvc2 = UIHostingController(rootView: HowToShareImage2View().environmentObject(Theme.sharedTheme))
-        guard let subview2 = hvc2.view else { return }
-        addChild(hvc2)
-        howToShare2.addSubview(subview2)
+        let image1HostVC = UIHostingController(rootView: HowToShareImage1View().environmentObject(Theme.sharedTheme))
+        guard let image1Subview = image1HostVC.view else { return }
+        addChild(image1HostVC)
+        howToShare1.addSubview(image1Subview)
+        let image2HostVC = UIHostingController(rootView: HowToShareImage2View().environmentObject(Theme.sharedTheme))
+        guard let image2Subview = image2HostVC.view else { return }
+        addChild(image2HostVC)
+        howToShare2.addSubview(image2Subview)
     }
 
     @IBAction func doneTapped(_ sender: Any) {
