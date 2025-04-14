@@ -1,6 +1,6 @@
 7.87
 -----
-
+- Add Encourage Account Creation feature [#2905](https://github.com/Automattic/pocket-casts-ios/issues/2905)
 
 7.86
 -----
