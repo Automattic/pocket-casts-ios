@@ -267,7 +267,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .fullScreenLogin:
             true
         case .encourageAccountCreation:
-            false
+            true
         case .notificationsRevamp:
             false
         }
