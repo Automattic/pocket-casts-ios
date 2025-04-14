@@ -15,7 +15,8 @@ extension NotificationsCoordinator: AnalyticsAdapter {
 extension NotificationType {
 
     func checkCancelConditionsForEvent(name: String) -> Bool {
-        var possibleConditions: [AnalyticsEvent] = []
+        var possibleConditions: Set<AnalyticsEvent>
+
         switch self {
         case .onboardingSignUp:
             possibleConditions = [.userSignedIn, .userAccountCreated]
