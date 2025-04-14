@@ -1,1 +1,1 @@
-- New podcast page design [#2825](https://github.com/Automattic/pocket-casts-ios/pull/2825)
+- Add Encourage Account Creation feature [#2905](https://github.com/Automattic/pocket-casts-ios/issues/2905)
