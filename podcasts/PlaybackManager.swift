@@ -911,9 +911,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func silenceRemovalAvailable() -> Bool {
         #if APPCLIP
-        if let episode = currentEpisode() {
-            return !episode.videoPodcast()
-        }
+        return false
         #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
