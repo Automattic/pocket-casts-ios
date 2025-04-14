@@ -86,7 +86,7 @@ extension UpgradeTier {
 
     private static var libroFm: TierFeature? {
         if FeatureFlag.libroFm.enabled {
-            return TierFeature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm)
+            return TierFeature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm.libroFmWithURL)
         }
         return nil
     }

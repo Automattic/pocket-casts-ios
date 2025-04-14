@@ -911,9 +911,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func silenceRemovalAvailable() -> Bool {
         #if APPCLIP
-        if let episode = currentEpisode() {
-            return !episode.videoPodcast()
-        }
+        return false
         #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -2055,10 +2053,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
-
+            #if APPCLIP
             if refreshedEpisode.uuid != currentEpisode()?.uuid {
                 load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
             }
+            #else
+            load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
+            #endif
+
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }
