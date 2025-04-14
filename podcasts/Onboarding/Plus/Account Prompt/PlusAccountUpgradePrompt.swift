@@ -131,7 +131,7 @@ struct PlusAccountUpgradePrompt: View {
 
     private static func libroFmFeature() -> Feature? {
         if FeatureFlag.libroFm.enabled {
-            return Feature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm)
+            return Feature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm.libroFmWithURL)
         }
         return nil
     }
