@@ -1245,9 +1245,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
 
+        #if !os(watchOS)
         if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
             possiblePlayers.append(EffectsPlayer.self)
         }
+        #endif
 
         possiblePlayers.append(DefaultPlayer.self)
 
@@ -2038,10 +2040,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
-
-            if refreshedEpisode.uuid != currentEpisode()?.uuid {
-                load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
-            }
+            load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }
