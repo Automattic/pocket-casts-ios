@@ -272,7 +272,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .libroFm:
             false
         case .encourageAccountCreation:
-            false
+            true
         case .notificationsRevamp:
             false
         }
