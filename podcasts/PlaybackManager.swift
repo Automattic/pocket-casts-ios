@@ -1243,11 +1243,11 @@ class PlaybackManager: ServerPlaybackDelegate {
 
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
-
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
-                possiblePlayers.append(EffectsPlayer.self)
-            }
         #endif
+
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+            possiblePlayers.append(EffectsPlayer.self)
+        }
 
         possiblePlayers.append(DefaultPlayer.self)
 
