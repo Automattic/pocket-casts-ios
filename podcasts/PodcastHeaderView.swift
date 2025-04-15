@@ -187,7 +187,7 @@ struct PodcastHeaderView: View {
             .resizable()
             .frame(width: width, height: height)
             .padding(padding)
-            .foregroundStyle(theme.primaryIcon02Active)
+            .foregroundStyle(theme.primaryIcon03)
     }
 
     private var podcastActions: some View {
@@ -195,6 +195,7 @@ struct PodcastHeaderView: View {
             Spacer()
             followButton
             if !viewModel.isSubscribed, let _ = viewModel.podcast.fundingURL {
+                Spacer().frame(width: 8)
                 fundingButton
             }
             if viewModel.isSubscribed {
@@ -225,7 +226,7 @@ struct PodcastHeaderView: View {
                 .resizable()
                 .frame(width: 24, height: 24)
                 .padding(8)
-                .foregroundStyle(theme.primaryIcon02Active)
+                .foregroundStyle(theme.primaryIcon03)
         }
         .accessibilityLabel(title)
     }
@@ -313,8 +314,31 @@ struct CollapseShape: Shape {
 }
 
 struct PodcastHeaderView_Previews: PreviewProvider {
+    struct PreviewContainerView: View {
+        @EnvironmentObject var theme: Theme
+
+        static func makePodcast() -> Podcast {
+            let podcast = Podcast()
+            podcast.title = "Test Podcast"
+            podcast.podcastCategory = "Test"
+            podcast.author = "Test Author"
+            podcast.estimatedNextEpisode = Date.now
+            podcast.podcastHTMLDescription = "<p>Test description</p>"
+            podcast.fundingURL = "https://www.pocketcasts.com"
+            return podcast
+        }
+
+        var body: some View {
+            VStack() {
+                PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Self.makePodcast()))
+                Spacer()
+            }
+            .background(theme.primaryUi02)
+            .frame(maxHeight: 400)
+        }
+    }
     static var previews: some View {
-        PodcastHeaderView(viewModel: PodcastHeaderViewModel(podcast: Podcast()))
+        PreviewContainerView()
             .previewWithAllThemes()
     }
 }
