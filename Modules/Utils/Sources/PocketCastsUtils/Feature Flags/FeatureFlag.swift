@@ -168,6 +168,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
     case refreshAndSaveWatchLogsOnSend
 
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -279,6 +282,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .notificationsRevamp:
             false
         case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
             true
         }
     }
