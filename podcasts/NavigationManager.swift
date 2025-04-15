@@ -53,7 +53,10 @@ class NavigationManager {
     static let openUrlInSafariVCKey = "openSafariVCUrlPage"
     static let safariVCUrlKey = "safariVCUrlKey"
 
+    static let settingsPageKey = "settingsPage"
+    static let settingsRowKey = "settingsRow"
     static let settingsAppearanceKey = "appearancePage"
+    static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
@@ -64,6 +67,10 @@ class NavigationManager {
 
     static let settingsGeneralKey = "generalSettingsPage"
     static let settingsGeneralRowKey = "generalSettingsRow"
+
+    static let upNextPageKey = "upNextPage"
+    static let signUpPageKey = "signUpPage"
+    static let importPageKey = "importPage"
 
     static let sharedManager = NavigationManager()
 
@@ -145,6 +152,8 @@ class NavigationManager {
         } else if place == NavigationManager.filterPageKey {
             if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
+            } else {
+                mainController?.navigateToFilter(nil, animated: animated)
             }
         } else if place == NavigationManager.filterAddKey {
             mainController?.navigateToAddFilter()
@@ -174,7 +183,11 @@ class NavigationManager {
                 mainController?.showWhatsNew(whatsNewInfo: whatsNewInfo)
             }
         } else if place == NavigationManager.settingsAppearanceKey {
-            mainController?.showSettingsAppearance()
+            var showThemeSelection = false
+            if let data = data, let showThemeSelectionValue = data[NavigationManager.settingsAppearanceShowThemeKey] as? Bool {
+                showThemeSelection = showThemeSelectionValue
+            }
+            mainController?.showSettingsAppearance(showThemeSelection: showThemeSelection)
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
         }
@@ -220,6 +233,13 @@ class NavigationManager {
             mainController?.showOnboardingFlow(flow: flow)
         } else if place == NavigationManager.settingsGeneralKey {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
+        } else if place == NavigationManager.upNextPageKey {
+            mainController?.navigateToUpNext(true)
+        } else if place == NavigationManager.signUpPageKey {
+            mainController?.showSignUp()
+        } else if place == NavigationManager.settingsPageKey {
+            let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
+            mainController?.showSettings(row: row)
         }
     }
 }

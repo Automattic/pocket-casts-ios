@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class NotificationsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate, PodcastSelectionDelegate {
@@ -7,6 +8,60 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private let disclosureCellId = "DisclosureCell"
 
     private let soundOff = 0
+
+    private var sections: [Section] = [.episodes]
+    private var rows: [[Row]] = [[.newEpisodes, .podcastsChosen, .appBadges], [.trendingRecommendations, .dailyReminders], [.newFeaturesAndTips, .pocketCastsOffers]]
+
+    enum Section: Int {
+        case episodes = 0
+        case recommendationsAndReminders
+        case featuresAndOffers
+    }
+
+    enum Row: Int {
+        case newEpisodes
+        case podcastsChosen
+        case appBadges
+
+        case trendingRecommendations
+        case dailyReminders
+
+        case newFeaturesAndTips
+        case pocketCastsOffers
+
+        var description: String {
+            switch self {
+            case .newEpisodes:
+                return L10n.newEpisodes.localizedCapitalized
+            case .podcastsChosen:
+                return L10n.filterChoosePodcasts
+            case .appBadges:
+                return L10n.appBadge
+            case .trendingRecommendations:
+                return L10n.notificationsTrendingAndRecommendations
+            case .dailyReminders:
+                return L10n.notificationsDailyReminders
+            case .newFeaturesAndTips:
+                return L10n.notificationsNewFeaturesTips
+            case .pocketCastsOffers:
+                return L10n.notificationsPocketCastOffers
+            }
+        }
+
+        var value: Bool {
+            switch self {
+            case .dailyReminders:
+                return Settings.notificationsOnboardingTips
+            case .newEpisodes,
+                 .podcastsChosen,
+                 .appBadges,
+                 .trendingRecommendations,
+                 .newFeaturesAndTips,
+                 .pocketCastsOffers:
+                return false
+            }
+        }
+    }
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -30,21 +85,38 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         settingsTable.reloadData()
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return FeatureFlag.notificationsRevamp.enabled ? 3 : 1
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        NotificationsHelper.shared.pushEnabled() ? 3 : 1
+        guard let sectionType = Section(rawValue: section) else {
+            return 0
+        }
+        switch sectionType {
+        case .episodes:
+            return NotificationsHelper.shared.pushEnabled() ? 3 : 1
+        case .featuresAndOffers, .recommendationsAndReminders:
+            return rows[section].count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
+        guard let sectionType = Section(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
+        let row = rows[sectionType.rawValue][indexPath.row]
+        switch row {
+        case .newEpisodes:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.newEpisodes.localizedCapitalized
+            cell.cellLabel.text = row.description
             cell.cellSwitch.isOn = NotificationsHelper.shared.pushEnabled()
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
 
             return cell
-        } else if indexPath.row == 1 {
+        case .podcastsChosen:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
@@ -52,45 +124,69 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             cell.cellSecondaryLabel.text = nil
 
             return cell
-        }
+        case .appBadges:
+            let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
+            cell.cellLabel.text = row.description
+            let badgeChoice = Settings.appBadge
+            cell.cellSecondaryLabel.text =  badgeChoice?.description
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-        cell.cellLabel.text = L10n.appBadge
-        let badgeChoice = Settings.appBadge
-
-        switch badgeChoice {
-        case .totalUnplayed:
-            cell.cellSecondaryLabel.text = L10n.statusUnplayed
-        case .filterCount:
-            cell.cellSecondaryLabel.text = L10n.settingsNotificationsFilterCount
-        case .newSinceLastOpened:
-            cell.cellSecondaryLabel.text = L10n.newEpisodes
+            return cell
         default:
-            cell.cellSecondaryLabel.text = L10n.off
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = row.description
+            cell.cellSwitch.isOn = row.value
+            cell.cellSwitch.tag = row.rawValue
+            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)
+
+            return cell
         }
-        return cell
     }
 
     private var podcastChooserController: PodcastChooserViewController?
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 1 { // choose podcasts for push
-            podcastChooserController = PodcastChooserViewController()
-            podcastChooserController?.analyticsSource = .notifications
-            if let podcastsController = podcastChooserController {
-                podcastsController.delegate = self
-                let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
-                navigationController?.pushViewController(podcastsController, animated: true)
-            }
-        } else if indexPath.row == 2 { // app badge
-            let badgeSettingsChooser = BadgeSettingsViewController(nibName: "BadgeSettingsViewController", bundle: nil)
-            navigationController?.pushViewController(badgeSettingsChooser, animated: true)
+        guard let sectionType = Section(rawValue: indexPath.section)
+        else {
+            return
         }
+        let rowType = rows[indexPath.section][indexPath.row]
+
+        switch sectionType {
+        case .episodes:
+            switch rowType {
+            case .podcastsChosen: // choose podcasts for push
+                podcastChooserController = PodcastChooserViewController()
+                podcastChooserController?.analyticsSource = .notifications
+                if let podcastsController = podcastChooserController {
+                    podcastsController.delegate = self
+                    let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                    podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
+                    navigationController?.pushViewController(podcastsController, animated: true)
+                }
+            case .appBadges: // app badge
+                let badgeSettingsChooser = BadgeSettingsViewController(nibName: "BadgeSettingsViewController", bundle: nil)
+                navigationController?.pushViewController(badgeSettingsChooser, animated: true)
+            default:
+                return
+            }
+        default:
+            return
+        }
+
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        NotificationsHelper.shared.pushEnabled() ? nil : L10n.settingsNotificationsSubtitle
+        guard let sectionType = Section(rawValue: section) else {
+            return nil
+        }
+        switch sectionType {
+        case .episodes:
+            return NotificationsHelper.shared.pushEnabled() ? nil : L10n.settingsNotificationsSubtitle
+        default:
+            return nil
+        }
+
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -146,7 +242,39 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         settingsTable.reloadData()
     }
 
+    @objc private func notificationToggled(_ sender: UISwitch) {
+        guard let row = Row(rawValue: sender.tag) else {
+            return
+        }
+        switch row {
+        case .dailyReminders:
+            if sender.isOn {
+                NotificationsCoordinator.shared.setupOnboardingNotifications()
+            } else {
+                NotificationsCoordinator.shared.cancelOnboardingNotifications()
+            }
+        default:
+            break
+        }
+    }
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+}
+
+extension AppBadge {
+
+    var description: String {
+        switch self {
+        case .totalUnplayed:
+            return L10n.statusUnplayed
+        case .filterCount:
+            return L10n.settingsNotificationsFilterCount
+        case .newSinceLastOpened:
+            return L10n.newEpisodes
+        default:
+            return L10n.off
+        }
     }
 }

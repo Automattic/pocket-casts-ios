@@ -1,7 +1,10 @@
 import Foundation
 import WatchConnectivity
+import PocketCastsUtils
 
 extension WatchManager {
+    private static let watchLogFileName = "watch-logs.txt"
+
     /// Requests the Apple Watch log contents.
     /// If anything is returned, it is also saved in a cache so in case any
     /// subsequent call fails, it will return from the cache.
@@ -39,6 +42,9 @@ extension WatchManager {
             self?.logFileRequestTimedAction.cancelTimer()
             if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
                 self?.cachedLog = logContents
+                if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                    self?.saveLog(contents: logContents)
+                }
                 completion(logContents)
             } else {
                 completion(self?.cachedLog)
@@ -49,6 +55,24 @@ extension WatchManager {
             haveCalledCompletion = true
 
             completion(self?.cachedLog)
+        }
+    }
+
+    func readLogFile() -> String? {
+        let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(Self.watchLogFileName)
+        let contents = try? String(contentsOf: filePath, encoding: .utf8)
+        return contents
+    }
+
+    private func saveLog(contents: String) {
+        let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(Self.watchLogFileName)
+        let backupPath = FileManager.default.temporaryDirectory.appendingPathComponent("watch-logs-backup.txt")
+        let rotator = FileRotator(fileManager: FileManager.default, targetFilePath: filePath.path, backupFilePath: backupPath.path, loggingTo: nil)
+        rotator.rotateFile(ifSizeExceeds: 100.kilobytes)
+        do {
+            try contents.write(to: filePath, atomically: false, encoding: .utf8)
+        } catch let error {
+            FileLog.shared.addMessage("Failed to save cached watch log file: \(error.localizedDescription)")
         }
     }
 }

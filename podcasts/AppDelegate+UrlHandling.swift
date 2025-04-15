@@ -336,13 +336,19 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/upnext/*") { [weak self] paramDict -> Bool in
             var source: UpNextViewSource = .unknown
-
+            var showFromMiniPlayer: Bool = true
+            if let location = paramDict["location"] as? String, location == "tab" {
+                showFromMiniPlayer = false
+            }
             if let sourceString = paramDict["source"] as? String {
                 Analytics.track(.widgetInteraction, properties: ["action": "up_next"])
                 source = UpNextViewSource(rawValue: sourceString) ?? .unknown
             }
-
-            self?.miniPlayer()?.showUpNext(from: source)
+            if showFromMiniPlayer {
+                self?.miniPlayer()?.showUpNext(from: source)
+            } else {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.upNextPageKey)
+            }
 
             return true
         }
@@ -374,6 +380,40 @@ extension AppDelegate {
             }
 
             return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
+        }
+
+        setupOnboardingRoutes()
+    }
+
+    func setupOnboardingRoutes() {
+        JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [NavigationManager.settingsAppearanceShowThemeKey: true])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/signup") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.signUpPageKey)
+            return true
+        }
+
+        JLRoutes.global().addRoute("/settings/import") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.importSteps])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/filters") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey)
+            return true
+        }
+
+        JLRoutes.global().addRoute("/upsell") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.pocketCastsPlus])
+            return true
         }
     }
 
