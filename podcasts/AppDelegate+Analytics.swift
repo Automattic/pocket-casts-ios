@@ -3,12 +3,12 @@ import PocketCastsUtils
 import PocketCastsDataModel
 
 extension AppDelegate {
-    private var shouldRegisterFirstPartyAdapters: Bool {
+    private var shouldRegisterAdapters: Bool {
         UIApplication.shared.isProtectedDataAvailable && !Analytics.shared.adaptersRegistered
     }
 
     func setupAnalytics() {
-        guard shouldRegisterFirstPartyAdapters else {
+        guard shouldRegisterAdapters else {
             return
         }
 
