@@ -1759,11 +1759,11 @@ internal enum L10n {
   internal static func notificationsOnForPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "notifications_on_for_podcast", String(describing: p1))
   }
-  /// Organize your episodes
+  /// Create smart filters to organize your episodes.
   internal static var notificationsOnboardingFiltersBody: String { return L10n.tr("Localizable", "notifications_onboarding_filters_body") }
   /// Organize your episodes
   internal static var notificationsOnboardingFiltersTitle: String { return L10n.tr("Localizable", "notifications_onboarding_filters_title") }
-  /// Easily import your podcasts
+  /// Switching from another app? Bring all your favorite shows to Pocket Casts.
   internal static var notificationsOnboardingImportBody: String { return L10n.tr("Localizable", "notifications_onboarding_import_body") }
   /// Easily import your podcasts
   internal static var notificationsOnboardingImportTitle: String { return L10n.tr("Localizable", "notifications_onboarding_import_title") }
@@ -1771,15 +1771,19 @@ internal enum L10n {
   internal static var notificationsOnboardingSignupBody: String { return L10n.tr("Localizable", "notifications_onboarding_signup_body") }
   /// Your shows, on any device!
   internal static var notificationsOnboardingSignupTitle: String { return L10n.tr("Localizable", "notifications_onboarding_signup_title") }
-  /// Time for a new look
+  /// Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.
+  internal static var notificationsOnboardingStaffPicksBody: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_body") }
+  /// Explore our Staff Picks
+  internal static var notificationsOnboardingStaffPicksTitle: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_title") }
+  /// Browse our themes and find the one that suits your style.
   internal static var notificationsOnboardingThemesBody: String { return L10n.tr("Localizable", "notifications_onboarding_themes_body") }
   /// Time for a new look
   internal static var notificationsOnboardingThemesTitle: String { return L10n.tr("Localizable", "notifications_onboarding_themes_title") }
-  /// Simplify your queue
+  /// Build a playback queue and say goodbye to jumping around between episodes.
   internal static var notificationsOnboardingUpnextBody: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_body") }
   /// Simplify your queue
   internal static var notificationsOnboardingUpnextTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_title") }
-  /// Level up your podcast game
+  /// Unlock exclusive features like folders, bookmarks, and more with Plus!
   internal static var notificationsOnboardingUpsellBody: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_body") }
   /// Level up your podcast game
   internal static var notificationsOnboardingUpsellTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_title") }
