@@ -165,6 +165,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new notifications types and settings
     case notificationsRevamp
 
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -274,6 +277,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
+            false
+        case .podcastsSortChanges:
             false
         }
     }
