@@ -114,7 +114,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     func subscribeButtonTapped() {
         guard let delegate = delegate else { return }
 
-        if podcast.isSubscribed() {
+        if podcast.isSubscribed() || isSubscribed {
             delegate.unsubscribe()
             // do not switch variable here because there is still a confimation screen
         } else {
