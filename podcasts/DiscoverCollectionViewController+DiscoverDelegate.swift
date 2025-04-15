@@ -15,7 +15,13 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
     }
 
     func navigateTo(listID: String) {
-        showItemWith(identifier: listID)
+        if isViewLoaded {
+            showItemWith(identifier: listID)
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {[weak self] in
+                self?.showItemWith(identifier: listID)
+            }
+        }
     }
 
     func invalidate(item: PocketCastsServer.DiscoverItem) {
@@ -88,7 +94,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             }
         })
     }
-    
+
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
