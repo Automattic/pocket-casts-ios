@@ -62,6 +62,29 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         navigationController?.pushViewController(podcastController, animated: true)
     }
 
+    func showItemWith(identifier: String) {
+        guard let items = discoverLayout?.layout, let item = items.first(where: { $0.id == identifier || $0.uuid == identifier}) else {
+            return
+        }
+
+        guard let source = item.source else { return }
+
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+            guard let self, let discoverPodcast = podcastList?.podcasts else { return }
+
+            let podcasts: [DiscoverPodcast]
+            if let itemCount = item.summaryItemCount {
+                podcasts = Array(discoverPodcast[0..<itemCount])
+            } else {
+                podcasts = discoverPodcast
+            }
+
+            DispatchQueue.main.async {
+                self.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+            }
+        })
+    }
+    
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
         if let listId = item.uuid {
             AnalyticsHelper.listShowAllTapped(listId: listId)
