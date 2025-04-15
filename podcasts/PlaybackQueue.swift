@@ -19,6 +19,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: episode.uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -32,6 +33,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -66,6 +68,7 @@ class PlaybackQueue: NSObject {
                 DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
             }
 
+            SyncManager.syncReason = .add
             startSyncTimer()
         }
 
@@ -369,6 +372,8 @@ class PlaybackQueue: NSObject {
         FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
 
         DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
+
+        SyncManager.syncReason = .replace
 
         startSyncTimer()
     }
