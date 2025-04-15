@@ -77,6 +77,8 @@ class PodcastManager: NSObject {
             return dataManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase)
         } else if sortOrder == .dateAddedNewestToOldest {
             return dataManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase)
+        } else if sortOrder == .recentlyPlayed {
+            return dataManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase)
         } else {
             return dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: reloadFromDatabase)
         }

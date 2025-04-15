@@ -269,7 +269,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
+            var sortOption = Settings.homeFolderSortOrder()
+            if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+                Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+                sortOption = Settings.homeFolderSortOrder()
+            }
+            let newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
 
             DispatchQueue.main.sync {
                 if strongSelf.gridLayout != Settings.libraryType() {
@@ -307,7 +312,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption = Settings.homeFolderSortOrder()
+        var sortOption = Settings.homeFolderSortOrder()
+        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+            sortOption = .dateAddedNewestToOldest
+        }
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])

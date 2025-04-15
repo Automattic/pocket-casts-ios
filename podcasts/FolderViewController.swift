@@ -128,7 +128,10 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     @objc private func folderOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption = folder.librarySort()
+        var sortOption = folder.librarySort()
+        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+            sortOption = .dateAddedNewestToOldest
+        }
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOptions()
             Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "sort_by"])
@@ -188,26 +191,46 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     private func showSortOptions() {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        let sortOption = folder.librarySort()
+        var sortOption = folder.librarySort()
+        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+            folder.sortType = Int32(LibrarySort.Old.dateAddedNewestToOldest.rawValue)
+            folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
+            DataManager.sharedManager.save(folder: folder)
+            sortOption = folder.librarySort()
+        }
+
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             self?.changeSortOrder(.titleAtoZ)
         }
-        options.addAction(action: podcastNameAction)
 
         let releaseDateAction = OptionAction(label: LibrarySort.episodeDateNewestToOldest.description, selected: sortOption == .episodeDateNewestToOldest) { [weak self] in
             self?.changeSortOrder(.episodeDateNewestToOldest)
         }
-        options.addAction(action: releaseDateAction)
 
         let subscribedOrder = OptionAction(label: LibrarySort.dateAddedNewestToOldest.description, selected: sortOption == .dateAddedNewestToOldest) { [weak self] in
             self?.changeSortOrder(.dateAddedNewestToOldest)
         }
-        options.addAction(action: subscribedOrder)
 
         let dragAndDropAction = OptionAction(label: LibrarySort.custom.description, selected: sortOption == .custom) { [weak self] in
             self?.changeSortOrder(.custom)
         }
-        options.addAction(action: dragAndDropAction)
+
+        let recentlyPlayedOrder = OptionAction(label: LibrarySort.recentlyPlayed.description, selected: sortOption == .recentlyPlayed) { [weak self] in
+            self?.changeSortOrder(.recentlyPlayed)
+        }
+
+        if FeatureFlag.podcastsSortChanges.enabled {
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: releaseDateAction)
+            options.addAction(action: recentlyPlayedOrder)
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: dragAndDropAction)
+        } else {
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: releaseDateAction)
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: dragAndDropAction)
+        }
 
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
