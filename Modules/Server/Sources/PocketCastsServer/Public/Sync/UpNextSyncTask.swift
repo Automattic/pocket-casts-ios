@@ -6,6 +6,11 @@ import SwiftProtobuf
 class UpNextSyncTask: ApiBaseTask {
     private static let processDataLock = NSObject()
 
+    override func main() {
+        logProtectedDataAvailable()
+        super.main()
+    }
+
     override func apiTokenAcquired(token: String) {
         let trace = TraceManager.shared.beginTracing(eventName: "SERVER_UP_NEXT_SYNC")
         defer { TraceManager.shared.endTracing(trace: trace) }
@@ -25,6 +30,20 @@ class UpNextSyncTask: ApiBaseTask {
             }
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: had issues encoding protobuf \(error.localizedDescription)")
+        }
+    }
+
+    private func logProtectedDataAvailable() {
+        DispatchQueue.main.async {
+            let protectedDataAvailable: String
+            switch UserDefaults.isProtectedDataAvailable() {
+            case .some(let value):
+                protectedDataAvailable = value ? "yes" : "no"
+            case .none:
+                protectedDataAvailable = "unknown"
+            }
+
+            FileLog.shared.addMessage("UpNextSyncTask: Protected data available: \(protectedDataAvailable)")
         }
     }
 
