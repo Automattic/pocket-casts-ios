@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {
@@ -54,7 +55,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.titleAtoZ])
         }
-        options.addAction(action: podcastNameAction)
 
         let releaseDateAction = OptionAction(label: LibrarySort.episodeDateNewestToOldest.description, selected: sortOption == .episodeDateNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
@@ -63,7 +63,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.episodeDateNewestToOldest])
         }
-        options.addAction(action: releaseDateAction)
 
         let subscribedOrder = OptionAction(label: LibrarySort.dateAddedNewestToOldest.description, selected: sortOption == .dateAddedNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
@@ -72,7 +71,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest])
         }
-        options.addAction(action: subscribedOrder)
 
         let dragAndDropAction = OptionAction(label: LibrarySort.custom.description, selected: sortOption == .custom) { [weak self] in
             guard let strongSelf = self else { return }
@@ -81,7 +79,19 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom])
         }
-        options.addAction(action: dragAndDropAction)
+
+        if FeatureFlag.podcastsSortChanges.enabled {
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: releaseDateAction)
+            // TODO: Add action for Recently Played
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: dragAndDropAction)
+        } else {
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: releaseDateAction)
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: dragAndDropAction)
+        }
 
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
