@@ -18,6 +18,7 @@ class NavigationManager {
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
     static let discoverCategoryKey = "discoverCategory"
+    static let discoverListKey = "discoverList"
 
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"

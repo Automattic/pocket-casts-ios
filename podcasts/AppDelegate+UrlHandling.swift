@@ -143,12 +143,16 @@ extension AppDelegate {
         }
 
         // Open to discover
-        JLRoutes.global().addRoute("/discover") { paramDict -> Bool in
+        JLRoutes.global().addRoute("/discover/*") { paramDict -> Bool in
             if let sourceString = paramDict["source"] as? String, sourceString == "widget" {
                 Analytics.track(.widgetInteraction, properties: ["action": "discover"])
             }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+            var data: NSDictionary?
+            if let pathComponents = paramDict[JLRouteWildcardComponentsKey] as? [String], let itemID = pathComponents.first {
+                data = [NavigationManager.discoverListKey: itemID]
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: data)
 
             return true
         }
