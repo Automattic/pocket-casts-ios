@@ -195,6 +195,7 @@ class PlaybackQueue: NSObject {
 
     func overrideAllEpisodesWith(episode: BaseEpisode) {
         FileLog.shared.addMessage("PlaybackQueue: overrideAllEpisodesWith with \(episode.title ?? "Untitled")")
+        DataManager.sharedManager.snapshotUpNext()
         DataManager.sharedManager.deleteAllUpNextEpisodes()
         saveReplaceIfRequired()
 
