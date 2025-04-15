@@ -15,6 +15,10 @@ extension DiscoverViewController: DiscoverDelegate {
         }
     }
 
+    func navigateTo(listID: String) {
+
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         // No-op for this older implementation.
     }

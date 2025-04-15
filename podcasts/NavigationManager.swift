@@ -241,11 +241,20 @@ class NavigationManager {
     }
 
     func navigateToDiscover(data: NSDictionary?, animated: Bool) {
-        guard let data = data, let category = data[NavigationManager.discoverCategoryKey] as? String else {
+        guard let data = data else {
             mainController?.navigateToDiscover(animated)
             return
         }
-        mainController?.navigateToDiscover(category: category, animated: animated)
+
+        if let category = data[NavigationManager.discoverCategoryKey] as? String {
+            mainController?.navigateToDiscover(category: category, animated: animated)
+            return
+        }
+
+        if let listId = data[NavigationManager.discoverListKey] as? String {
+            mainController?.navigateToDiscover(listID: listId, animated: animated)
+            return
+        }
     }
 }
 

@@ -14,6 +14,10 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         }
     }
 
+    func navigateTo(listID: String) {
+        showItemWith(identifier: listID)
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         let context = UICollectionViewLayoutInvalidationContext()
         let item = dataSource.snapshot().itemIdentifiers.first(where: {
