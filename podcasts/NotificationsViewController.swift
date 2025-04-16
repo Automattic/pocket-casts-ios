@@ -54,8 +54,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             switch self {
             case .dailyReminders:
                 return Settings.notificationsOnboardingTips
-            case .newEpisodes,
-                 .podcastsChosen,
+            case .newEpisodes:
+                return NotificationsHelper.shared.pushEnabled()
+            case .podcastsChosen,
                  .appBadges,
                  .trendingRecommendations,
                  .newFeaturesAndTips,
@@ -114,15 +115,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         }
         let row = rows[sectionType.rawValue][indexPath.row]
         switch row {
-        case .newEpisodes:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = row.description
-            cell.cellSwitch.isOn = NotificationsHelper.shared.pushEnabled()
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
-            cell.isLocked = !notificationsDenied
-            return cell
         case .podcastsChosen:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
@@ -242,7 +234,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         Analytics.track(.settingsNotificationsPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
-    @objc private func pushToggled(_ sender: UISwitch) {
+    func episodePushToggled(_ sender: UISwitch) {
         //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
 
         if sender.isOn {
@@ -265,6 +257,8 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return
         }
         switch row {
+        case .newEpisodes:
+                episodePushToggled(sender)
         case .dailyReminders:
             if sender.isOn {
                 NotificationsCoordinator.shared.setupOnboardingNotifications()
