@@ -121,7 +121,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
-
+            cell.isLocked = !notificationsDenied
             return cell
         case .podcastsChosen:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
@@ -129,14 +129,14 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
             cell.cellLabel.text = (podcastsSelected == 0) ? L10n.filterChoosePodcasts : chosenPodcasts
             cell.cellSecondaryLabel.text = nil
-
+            cell.isLocked = !notificationsDenied
             return cell
         case .appBadges:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = row.description
             let badgeChoice = Settings.appBadge
             cell.cellSecondaryLabel.text =  badgeChoice?.description
-
+            cell.isLocked = !notificationsDenied
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
@@ -145,7 +145,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             cell.cellSwitch.tag = row.rawValue
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)
-
+            cell.isLocked = !notificationsDenied
             return cell
         }
     }
@@ -153,7 +153,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private var podcastChooserController: PodcastChooserViewController?
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let sectionType = Section(rawValue: indexPath.section)
+        guard let sectionType = Section(rawValue: indexPath.section), !notificationsDenied
         else {
             return
         }
