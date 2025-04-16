@@ -36,12 +36,12 @@ struct BannerView: View {
             VStack(alignment: .leading, spacing: 8) {
                 if let title = model.title {
                     Text(title)
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.subheadline.weight(.medium))
                         .foregroundColor(theme.primaryText01)
                 }
                 if let message = model.message {
                     Text(message)
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.caption2.weight(.semibold))
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(theme.primaryText02)
@@ -51,7 +51,7 @@ struct BannerView: View {
                         model.onActionTap?()
                     } label: {
                         Text(action)
-                            .font(.system(size: 11, weight: .semibold))
+                            .font(.caption2.weight(.semibold))
                             .foregroundColor(theme.primaryInteractive01)
                     }
                 }
