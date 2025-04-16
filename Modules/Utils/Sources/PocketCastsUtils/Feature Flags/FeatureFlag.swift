@@ -165,6 +165,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new notifications types and settings
     case notificationsRevamp
 
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
     /// Enable the new podcast sorting options
     case podcastsSortChanges
 
@@ -278,6 +284,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .notificationsRevamp:
             false
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
         case .podcastsSortChanges:
             false
         }
