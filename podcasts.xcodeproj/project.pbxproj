@@ -1993,6 +1993,7 @@
 		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
 		FF4D65D02DA81B5B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D65CF2DA81B4B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift */; };
+		FF4D65D22DAEE90D003DC1F0 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
 		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
 		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
@@ -4048,6 +4049,7 @@
 		FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassVC.swift; sourceTree = "<group>"; };
 		FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFilter.swift; sourceTree = "<group>"; };
 		FF4D65CF2DA81B4B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsCoordinator+AnalyticsAdapter.swift"; sourceTree = "<group>"; };
+		FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
 		FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerTableCell.swift; sourceTree = "<group>"; };
 		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
@@ -6196,6 +6198,7 @@
 				BD874EF51C9A428A00F5B2A5 /* GeneralSettingsViewController.swift */,
 				BD874EF61C9A428A00F5B2A5 /* GeneralSettingsViewController.xib */,
 				BD874EF91C9A637200F5B2A5 /* NotificationsViewController.swift */,
+				FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */,
 				BD874EFA1C9A637200F5B2A5 /* NotificationsViewController.xib */,
 				9A11FCB92D95929F00A1EF3E /* PrivacySettings */,
 				BDDA72D01C9B898C003A3BEB /* StorageAndDataUseViewController.swift */,
@@ -10885,6 +10888,7 @@
 				BD98C54B1BA802AA00E85D3B /* DiscoverDisclosureCell.swift in Sources */,
 				F5235EE02C3CCB1D00C98739 /* RoundedCorner.swift in Sources */,
 				4065143E2485EB8E00B7E789 /* LastSupporterPodcastCell.swift in Sources */,
+				FF4D65D22DAEE90D003DC1F0 /* BannerView.swift in Sources */,
 				BDD3579327BCD50D0000D155 /* FolderViewController+CollectionView.swift in Sources */,
 				BDE5B8D81E6401F80039B409 /* EpisodeFileSizeUpdater.swift in Sources */,
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,

@@ -12,6 +12,8 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private var sections: [Section] = [.episodes]
     private var rows: [[Row]] = [[.newEpisodes, .podcastsChosen, .appBadges], [.trendingRecommendations, .dailyReminders], [.newFeaturesAndTips, .pocketCastsOffers]]
 
+    private var notificationsDenied = false
+
     enum Section: Int {
         case episodes = 0
         case recommendationsAndReminders
@@ -77,6 +79,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
 
         Analytics.track(.settingsNotificationsShown)
+
+        settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
+
+        checkNotificationsPermissionBanner()
+        addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(checkNotificationsPermissionBanner))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -176,6 +183,17 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
     }
 
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == 0, notificationsDenied else {
+            return nil
+        }
+        return bannerView
+    }
+
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         guard let sectionType = Section(rawValue: section) else {
             return nil
@@ -260,6 +278,47 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+
+    @objc private func checkNotificationsPermissionBanner() {
+        NotificationsHelper.shared.checkNotificationsDenied() { [weak self] notificationsDenied in
+            guard let self, self.notificationsDenied != notificationsDenied else { return }
+
+            self.notificationsDenied = notificationsDenied
+            DispatchQueue.main.async { [weak self] in
+                self?.settingsTable.reloadData()
+            }
+        }
+    }
+
+    private lazy var bannerView: UIView = {
+        let model = BannerModel.makeNotificationPermissionBanner()
+        let banner = BannerView(model: model).themedUIView
+        banner.translatesAutoresizingMaskIntoConstraints = true
+        return banner
+    }()
+}
+
+extension BannerModel {
+
+    static func makeNotificationPermissionBanner() -> BannerModel {
+        return BannerModel(title: "Allow Push Notifications",
+                           message: "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.",
+                           action: "Go to device settings",
+                           iconName: "settings_notifications",
+                           onActionTap: {
+            var appNotificationSettings = UIApplication.openSettingsURLString
+
+            if #available(iOS 16, *) {
+                appNotificationSettings = UIApplication.openNotificationSettingsURLString
+            } else if #available(iOS 15.4, *) {
+                appNotificationSettings = UIApplicationOpenNotificationSettingsURLString
+            }
+            guard let appSettings = URL(string: appNotificationSettings), UIApplication.shared.canOpenURL(appSettings) else {
+                return
+            }
+            UIApplication.shared.open(appSettings)
+        })
     }
 }
 
