@@ -336,6 +336,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func navigateToDiscover(listID: String, animated: Bool) {
+        switchToTab(.discover)
+        if let index = pcTabs.firstIndex(of: .discover),
+           let navController = viewControllers?[safe: index] as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            if let discoverDelegate = navController.topViewController as? DiscoverDelegate {
+                discoverDelegate.navigateTo(listID: listID)
+            }
+        }
+    }
+
     func navigateToUpNext(_ animated: Bool) {
         switchToTab(.upNext)
     }
