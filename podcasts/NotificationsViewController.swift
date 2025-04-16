@@ -302,9 +302,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 extension BannerModel {
 
     static func makeNotificationPermissionBanner() -> BannerModel {
-        return BannerModel(title: "Allow Push Notifications",
-                           message: "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.",
-                           action: "Go to device settings",
+        return BannerModel(title: L10n.notitificationsPermissionBannerTitle,
+                           message: L10n.notitificationsPermissionBannerMessage,
+                           action: L10n.notitificationsPermissionBannerAction,
                            iconName: "settings_notifications",
                            onActionTap: {
             var appNotificationSettings = UIApplication.openSettingsURLString
