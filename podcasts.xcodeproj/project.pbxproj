@@ -1994,6 +1994,7 @@
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
 		FF4D65D02DA81B5B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D65CF2DA81B4B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift */; };
 		FF4D65D22DAEE90D003DC1F0 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */; };
+		FF4D65D42DAFF0D1003DC1F0 /* UIApplication+OpenStandardURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D65D32DAFF0BC003DC1F0 /* UIApplication+OpenStandardURLs.swift */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
 		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
 		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
@@ -4050,6 +4051,7 @@
 		FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFilter.swift; sourceTree = "<group>"; };
 		FF4D65CF2DA81B4B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsCoordinator+AnalyticsAdapter.swift"; sourceTree = "<group>"; };
 		FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		FF4D65D32DAFF0BC003DC1F0 /* UIApplication+OpenStandardURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenStandardURLs.swift"; sourceTree = "<group>"; };
 		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
 		FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerTableCell.swift; sourceTree = "<group>"; };
 		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
@@ -7383,6 +7385,7 @@
 		BDF9DDDC1B8AE9B900E77B35 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FF4D65D32DAFF0BC003DC1F0 /* UIApplication+OpenStandardURLs.swift */,
 				FF6C9DAF2D916AA000BF2711 /* String+MD5.swift */,
 				FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */,
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
@@ -10898,6 +10901,7 @@
 				9A11FCC82D9E8EC400A1EF3E /* HorizontalCarouselCard.swift in Sources */,
 				F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */,
 				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
+				FF4D65D42DAFF0D1003DC1F0 /* UIApplication+OpenStandardURLs.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
 				463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */,
 				40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */,

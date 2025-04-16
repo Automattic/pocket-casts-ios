@@ -308,17 +308,7 @@ extension BannerModel {
                            action: L10n.notitificationsPermissionBannerAction,
                            iconName: "settings_notifications",
                            onActionTap: {
-            var appNotificationSettings = UIApplication.openSettingsURLString
-
-            if #available(iOS 16, *) {
-                appNotificationSettings = UIApplication.openNotificationSettingsURLString
-            } else if #available(iOS 15.4, *) {
-                appNotificationSettings = UIApplicationOpenNotificationSettingsURLString
-            }
-            guard let appSettings = URL(string: appNotificationSettings), UIApplication.shared.canOpenURL(appSettings) else {
-                return
-            }
-            UIApplication.shared.open(appSettings)
+            UIApplication.shared.openNotificationSettings()
         })
     }
 }
