@@ -180,7 +180,7 @@ extension LibrarySort: AnalyticsDescribable {
         case .custom:
             return L10n.podcastsLibrarySortCustom
         case .recentlyPlayed:
-            return "Recently Played"
+            return L10n.podcastsLibrarySortEpisodeRecentlyPlayed
         }
     }
 
