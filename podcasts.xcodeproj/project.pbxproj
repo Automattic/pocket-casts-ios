@@ -6200,7 +6200,6 @@
 				BD874EF51C9A428A00F5B2A5 /* GeneralSettingsViewController.swift */,
 				BD874EF61C9A428A00F5B2A5 /* GeneralSettingsViewController.xib */,
 				BD874EF91C9A637200F5B2A5 /* NotificationsViewController.swift */,
-				FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */,
 				BD874EFA1C9A637200F5B2A5 /* NotificationsViewController.xib */,
 				9A11FCB92D95929F00A1EF3E /* PrivacySettings */,
 				BDDA72D01C9B898C003A3BEB /* StorageAndDataUseViewController.swift */,
@@ -8241,6 +8240,7 @@
 		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				FF4D65D12DAEE8F8003DC1F0 /* BannerView.swift */,
 				F52ADE462BD9698B00AC647F /* ModalView.swift */,
 				C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */,
 				C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */,
