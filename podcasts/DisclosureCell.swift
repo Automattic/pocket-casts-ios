@@ -35,7 +35,7 @@ class DisclosureCell: ThemeableCell {
 
     var isLocked = true {
         didSet {
-            contentView.isUserInteractionEnabled = isLocked            
+            contentView.isUserInteractionEnabled = isLocked
             contentView.alpha = isLocked ? 1 : 0.3
         }
     }
