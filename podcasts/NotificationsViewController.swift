@@ -271,8 +271,15 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             } else {
                 NotificationsCoordinator.shared.cancelOnboardingNotifications()
             }
+            Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
+        case .trendingRecommendations:
+            Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
+        case .newFeaturesAndTips:
+            Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
+        case .pocketCastsOffers:
+            Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
         default:
-            break
+            return
         }
     }
 
