@@ -85,7 +85,8 @@ class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
-    var timeIntervalStep: TimeInterval = 24.hours
+    var onboardingTimeIntervalStep: TimeInterval = 24.hours
+    var reEngagementTimeIntervalStep: TimeInterval = 1.week
 
     private let notificationCenter: UNUserNotificationCenter
 
@@ -99,10 +100,10 @@ class NotificationsCoordinator {
         Settings.notificationsOnboardingTips = true
         NotificationsHelper.shared.registerForPushNotifications { granted in
             guard granted else { return }
-            var timeInterval: TimeInterval = self.timeIntervalStep
+            var timeInterval: TimeInterval = self.onboardingTimeIntervalStep
             self.onboardingNotifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
-                timeInterval += self.timeIntervalStep
+                timeInterval += self.onboardingTimeIntervalStep
             }
         }
     }
@@ -121,13 +122,13 @@ class NotificationsCoordinator {
     }
 
     func cancelNewFeaturesAndTipsNotifications() {
-        Settings.notificationsNewFeaturesAndTips = true
+        Settings.notificationsNewFeaturesAndTips = false
         cancelNotification(.reengagementWeekly)
     }
 
     func updateReengamentNotifications() {
         cancelNotification(.reengagementWeekly)
-        scheduleNotification(.reengagementWeekly, timeInterval: 1.week, repeats: true)
+        scheduleNotification(.reengagementWeekly, timeInterval: reEngagementTimeIntervalStep, repeats: true)
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {

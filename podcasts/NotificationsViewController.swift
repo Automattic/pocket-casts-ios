@@ -56,10 +56,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return Settings.notificationsOnboardingTips
             case .newEpisodes:
                 return NotificationsHelper.shared.pushEnabled()
+            case .newFeaturesAndTips:
+                return Settings.notificationsNewFeaturesAndTips
             case .podcastsChosen,
                  .appBadges,
                  .trendingRecommendations,
-                 .newFeaturesAndTips,
                  .pocketCastsOffers:
                 return false
             }
