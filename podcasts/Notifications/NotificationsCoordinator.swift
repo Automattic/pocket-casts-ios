@@ -102,8 +102,8 @@ class NotificationsCoordinator {
 
     let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
 
-    func setupOnboardingNotifications() {
-        Settings.notificationsOnboardingTips = true
+    func setupDailyRemindersNotifications() {
+        Settings.notificationsDailyReminders = true
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
             let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
@@ -115,8 +115,8 @@ class NotificationsCoordinator {
         }
     }
 
-    func cancelOnboardingNotifications() {
-        Settings.notificationsOnboardingTips = false
+    func cancelDailyRemainderNotifications() {
+        Settings.notificationsDailyReminders = false
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }
 

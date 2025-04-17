@@ -1446,12 +1446,12 @@ class Settings: NSObject {
 
     // MARK: - Notifications
 
-    static var notificationsOnboardingTips: Bool {
+    static var notificationsDailyReminders: Bool {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.onboardingTips) as? Bool ?? false
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.dailyReminders) as? Bool ?? false
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.onboardingTips)
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.dailyReminders)
         }
     }
 
