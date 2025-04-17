@@ -88,6 +88,11 @@ class NotificationsCoordinator {
     var onboardingTimeIntervalStep: TimeInterval = 24.hours
     var reEngagementTimeIntervalStep: TimeInterval = 1.week
 
+    enum Constants {
+        static let onboardingScheduleHour: Int = 10
+        static let reengagementScheduleHour: Int = 16
+    }
+
     private let notificationCenter: UNUserNotificationCenter
 
     private init(notificationCenter: UNUserNotificationCenter = .current()) {
@@ -98,10 +103,10 @@ class NotificationsCoordinator {
 
     func setupOnboardingNotifications() {
         Settings.notificationsOnboardingTips = true
-        NotificationsHelper.shared.registerForPushNotifications { granted in
-            guard granted else { return }
-            var timeInterval: TimeInterval = self.onboardingTimeIntervalStep
-            self.onboardingNotifications.forEach { notification in
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard let self, granted else { return }
+            var timeInterval: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour) + onboardingTimeIntervalStep
+            onboardingNotifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
                 timeInterval += self.onboardingTimeIntervalStep
             }
@@ -128,7 +133,9 @@ class NotificationsCoordinator {
 
     func updateReengamentNotifications() {
         cancelNotification(.reengagementWeekly)
-        scheduleNotification(.reengagementWeekly, timeInterval: reEngagementTimeIntervalStep, repeats: true)
+        let initialInterval = calculateTimeIntervalToHour(Constants.reengagementScheduleHour) + reEngagementTimeIntervalStep
+        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
+        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
@@ -155,5 +162,12 @@ class NotificationsCoordinator {
 
     func cancelNotification(_ type: NotificationType) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
+    }
+
+    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
+        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
+            return 0
+        }
+        return date.timeIntervalSince(Date.now)
     }
 }
