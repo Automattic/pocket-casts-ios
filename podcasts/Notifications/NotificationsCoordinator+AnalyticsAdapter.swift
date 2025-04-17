@@ -8,6 +8,9 @@ extension NotificationsCoordinator: AnalyticsAdapter {
                 self.cancelNotification(notification)
             }
         }
+        if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
+            self.cancelNotification(.reengagementWeekly)
+        }
     }
 
 }
@@ -18,6 +21,8 @@ extension NotificationType {
         var possibleConditions: Set<AnalyticsEvent>
 
         switch self {
+        case .reengagementWeekly:
+            possibleConditions = [.applicationOpened]
         case .onboardingSignUp:
             possibleConditions = [.userSignedIn, .userAccountCreated]
         case .onboardingImport:
