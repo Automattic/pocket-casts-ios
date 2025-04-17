@@ -23,14 +23,17 @@ extension WatchManager {
             return
         }
 
+        // Hold a local reference so we don't potentially run into a deallocated `self` when the below blocks are run.
+        let cachedLog = self.cachedLog
+
         // since we don't know how long it takes for a send message to timeout, wait only 10 seconds for a watch response before giving up here
         var haveCalledCompletion = false
-        logFileRequestTimedAction.startTimer(for: 5.seconds) { [weak self] in
+        logFileRequestTimedAction.startTimer(for: 5.seconds) { [cachedLog] in
             if haveCalledCompletion { return }
 
             haveCalledCompletion = true
 
-            completion(self?.cachedLog)
+            completion(cachedLog)
         }
 
         // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
@@ -47,14 +50,14 @@ extension WatchManager {
                 }
                 completion(logContents)
             } else {
-                completion(self?.cachedLog)
+                completion(cachedLog)
             }
 
-        }) { [weak self] _ in
+        }) { _ in
             if haveCalledCompletion { return }
             haveCalledCompletion = true
 
-            completion(self?.cachedLog)
+            completion(cachedLog)
         }
     }
 
