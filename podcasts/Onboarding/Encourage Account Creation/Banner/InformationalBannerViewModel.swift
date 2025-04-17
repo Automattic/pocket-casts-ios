@@ -32,8 +32,15 @@ class InformationalBannerViewModel: BannerModel, InformationalBannerPresenting {
             message: bannerType.description,
             action: L10n.eacInformationalBannerCreateAccount,
             iconName: bannerType.iconName,
-            invertedColor: bannerType == .profile,
-            onActionTap: onCloseBannerTap,
-            onCloseTap: onCreateFreeAccountTap)
+            invertedColor: bannerType == .profile)
+        setupBinding()
+    }
+
+    private func setupBinding() {
+        setupBinding { [weak self] in
+            self?.onCreateFreeAccountTap?()
+        } onCloseTap: { [weak self] in
+            self?.onCloseBannerTap?()
+        }
     }
 }
