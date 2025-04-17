@@ -112,14 +112,32 @@ class NotificationsCoordinator {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }
 
-    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds) {
+    func setupNewFeaturesAndTipsNotifications() {
+        Settings.notificationsNewFeaturesAndTips = true
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard granted else { return }
+            self?.updateReengamentNotifications()
+        }
+    }
+
+    func cancelNewFeaturesAndTipsNotifications() {
+        Settings.notificationsNewFeaturesAndTips = true
+        cancelNotification(.reengagementWeekly)
+    }
+
+    func updateReengamentNotifications() {
+        cancelNotification(.reengagementWeekly)
+        scheduleNotification(.reengagementWeekly, timeInterval: 1.week, repeats: true)
+    }
+
+    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
         let content = UNMutableNotificationContent()
         content.title = type.title
         content.body = type.body
         content.categoryIdentifier = NotificationsHelper.NotificationsCategory.deepLink.rawValue
         content.userInfo = ["destination_url": type.link]
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
 
         let request = UNNotificationRequest(identifier: type.identifier, content: content, trigger: trigger)
 

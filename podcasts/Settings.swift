@@ -1455,6 +1455,15 @@ class Settings: NSObject {
         }
     }
 
+    static var notificationsNewFeaturesAndTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newFeaturesAndTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newFeaturesAndTips)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

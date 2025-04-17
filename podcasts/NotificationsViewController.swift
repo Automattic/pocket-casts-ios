@@ -269,6 +269,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         case .trendingRecommendations:
             Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
         case .newFeaturesAndTips:
+            if sender.isOn {
+                NotificationsCoordinator.shared.setupNewFeaturesAndTipsNotifications()
+            } else {
+                NotificationsCoordinator.shared.cancelNewFeaturesAndTipsNotifications()
+            }
             Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
         case .pocketCastsOffers:
             Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
