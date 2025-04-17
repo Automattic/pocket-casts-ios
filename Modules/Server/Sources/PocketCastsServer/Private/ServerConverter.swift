@@ -14,6 +14,8 @@ class ServerConverter {
             return PodcastLibrarySortServer.episodeDateNewestToOldest.rawValue
         case .custom:
             return PodcastLibrarySortServer.custom.rawValue
+        case .recentlyPlayed:
+            return PodcastLibrarySortServer.recentlyPlayed.rawValue
         }
     }
 
@@ -28,14 +30,16 @@ class ServerConverter {
             return PodcastLibrarySortClient.episodeDateNewestToOldest.rawValue
         case .custom:
             return PodcastLibrarySortClient.custom.rawValue
+        case .recentlyPlayed:
+            return PodcastLibrarySortClient.recentlyPlayed.rawValue
         }
     }
 }
 
 enum PodcastLibrarySortClient: Int {
-    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6, recentlyPlayed = 7
 }
 
 enum PodcastLibrarySortServer: Int32 {
-    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3, recentlyPlayed = 4
 }
