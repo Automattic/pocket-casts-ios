@@ -6,6 +6,7 @@ enum NotificationType: String {
     case onboardingSignUp
     case onboardingImport
     case onboardingThemes
+    case onboardingStaffPicks
     case onboardingUpNext
     case onboardingFilters
     case onboardingUpsell
@@ -24,6 +25,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingFiltersTitle
         case .onboardingUpsell:
             return L10n.notificationsOnboardingUpsellTitle
+        case .onboardingStaffPicks:
+            return L10n.notificationsOnboardingStaffPicksTitle
         }
     }
 
@@ -41,6 +44,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingFiltersBody
         case .onboardingUpsell:
             return L10n.notificationsOnboardingUpsellBody
+        case .onboardingStaffPicks:
+            return L10n.notificationsOnboardingStaffPicksBody
         }
     }
 
@@ -62,6 +67,8 @@ enum NotificationType: String {
             return "pktc://filters"
         case .onboardingUpsell:
             return "pktc://upsell"
+        case .onboardingStaffPicks:
+            return "pktc://discover/staff-picks"
         }
     }
 }
@@ -78,7 +85,7 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
-    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
+    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
 
     func setupOnboardingNotifications() {
         Settings.notificationsOnboardingTips = true
