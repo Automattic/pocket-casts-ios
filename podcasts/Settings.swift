@@ -1464,6 +1464,15 @@ class Settings: NSObject {
         }
     }
 
+    static var notificationsRecommendations: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.recommendations) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.recommendations)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

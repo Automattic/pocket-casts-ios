@@ -62,9 +62,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return NotificationsHelper.shared.pushEnabled()
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
+            case .trendingRecommendations:
+                return Settings.notificationsRecommendations
             case .podcastsChosen,
                  .appBadges,
-                 .trendingRecommendations,
                  .pocketCastsOffers:
                 return false
             }
@@ -272,6 +273,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             }
             Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
         case .trendingRecommendations:
+            if sender.isOn {
+                notificationsCoordinator.setupRecommendationsNotifications()
+            } else {
+                notificationsCoordinator.cancelRecommendationsNotifications()
+            }
             Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
         case .newFeaturesAndTips:
             if sender.isOn {

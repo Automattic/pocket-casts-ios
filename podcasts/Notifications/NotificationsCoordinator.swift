@@ -95,11 +95,14 @@ class NotificationsCoordinator {
 
     var onboardingTimeIntervalStep: TimeInterval = 24.hours
     var reEngagementTimeIntervalStep: TimeInterval = 1.week
+    var recommendationsTimeIntervalStep: TimeInterval = 3.days
+
     var ignoreScheduleHours: Bool = false
 
     enum Constants {
         static let onboardingScheduleHour: Int = 10
         static let reengagementScheduleHour: Int = 16
+        static let recommendationsScheduleHour: Int = 14
     }
 
     private let notificationCenter: UNUserNotificationCenter
@@ -147,6 +150,27 @@ class NotificationsCoordinator {
         let initialInterval = timeIntervalToSchedule + reEngagementTimeIntervalStep
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
+    }
+
+    func setupRecommendationsNotifications() {
+        Settings.notificationsRecommendations = true
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard granted else { return }
+            self?.updateRecommendationNotifications()
+        }
+    }
+
+    func cancelRecommendationsNotifications() {
+        Settings.notificationsRecommendations = false
+        cancelNotification(.recommendationsTrending)
+    }
+
+    func updateRecommendationNotifications() {
+        cancelNotification(.recommendationsTrending)
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.recommendationsScheduleHour)
+        let initialInterval = timeIntervalToSchedule + recommendationsTimeIntervalStep
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval, repeats: false)
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval + recommendationsTimeIntervalStep, repeats: true)
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
