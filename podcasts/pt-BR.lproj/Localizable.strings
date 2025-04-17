@@ -1180,6 +1180,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Iniciar teste gratuito</string>
     <key>free_trial_title_label</key>
     <string>Experimente o Plus gratuitamente por %1$@</string>
+    <key>funding</key>
+    <string>Financiamento</string>
     <key>funny_conf_msg</key>
     <string>Combina com seus olhos ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ podcasts com você</string>
     <string>Notificações desativadas</string>
     <key>notifications_on</key>
     <string>Notificações ativadas</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Notificaremos você sobre novos episódios de %1$@</string>
     <key>notifications_play_now</key>
     <string>Reproduzir agora</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Fazer upload agora</string>
     <key>podcast_uploading</key>
     <string>Fazendo upload... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Toque no título do podcast para recolher ou expandir a descrição e os detalhes</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Fizemos algumas alterações</string>
     <key>podcast_waiting_upload</key>
     <string>Aguardando upload</string>
     <key>podcast_yesterday</key>

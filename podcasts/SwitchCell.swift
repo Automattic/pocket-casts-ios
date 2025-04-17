@@ -15,6 +15,7 @@ class SwitchCell: ThemeableCell {
     var isLocked = true {
         didSet {
             cellSwitch.isUserInteractionEnabled = isLocked
+            cellSwitch.isEnabled = isLocked
             contentView.alpha = isLocked ? 1 : 0.3
         }
     }

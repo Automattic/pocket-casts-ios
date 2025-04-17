@@ -19,6 +19,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: episode.uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -32,6 +33,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -66,6 +68,7 @@ class PlaybackQueue: NSObject {
                 DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
             }
 
+            SyncManager.syncReason = .add
             startSyncTimer()
         }
 
@@ -192,8 +195,20 @@ class PlaybackQueue: NSObject {
 
     func overrideAllEpisodesWith(episode: BaseEpisode) {
         FileLog.shared.addMessage("PlaybackQueue: overrideAllEpisodesWith with \(episode.title ?? "Untitled")")
+
+        let upNext = DataManager.sharedManager.allUpNextEpisodes()
+        let shouldRemoveInsteadOfReplace = FeatureFlag.avoidReplaceOnEpisodeSwap.enabled && upNext.count == 1
+
+        if shouldRemoveInsteadOfReplace {
+            if let episode = upNext.first {
+                remove(episode: episode, fireNotification: false)
+            }
+        }
+
         DataManager.sharedManager.deleteAllUpNextEpisodes()
-        saveReplaceIfRequired()
+        if !shouldRemoveInsteadOfReplace {
+            saveReplaceIfRequired()
+        }
 
         pushNewCurrentlyPlaying(episode: episode)
     }
@@ -369,6 +384,8 @@ class PlaybackQueue: NSObject {
         FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
 
         DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
+
+        SyncManager.syncReason = .replace
 
         startSyncTimer()
     }

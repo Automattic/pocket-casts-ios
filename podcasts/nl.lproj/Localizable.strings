@@ -1180,6 +1180,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Gratis proefversie starten</string>
     <key>free_trial_title_label</key>
     <string>Probeer Plus met %1$@ gratis</string>
+    <key>funding</key>
+    <string>Financiering</string>
     <key>funny_conf_msg</key>
     <string>Het past perfect bij je ogen ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@ podcasts mee</string>
     <string>Meldingen uit</string>
     <key>notifications_on</key>
     <string>Meldingen aan</string>
+    <key>notifications_on_for_podcast</key>
+    <string>We sturen je een bericht met nieuwe afleveringen van %1$@</string>
     <key>notifications_play_now</key>
     <string>Nu afspelen</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Nu uploaden!</string>
     <key>podcast_uploading</key>
     <string>Wordt geüpload... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Tik op de podcasttitel om de beschrijving en details in te klappen of uit te vouwen</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>We hebben wat wijzigingen aangebracht</string>
     <key>podcast_waiting_upload</key>
     <string>Wachten op upload</string>
     <key>podcast_yesterday</key>
