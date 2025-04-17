@@ -78,6 +78,7 @@ struct BannerView: View {
             }
             Spacer()
         }
+        .padding()
         .overlay(alignment: .topTrailing) {
             if model.onCloseTap != nil {
                 Button() {
@@ -90,7 +91,6 @@ struct BannerView: View {
                 .padding(8)
             }
         }
-        .padding()
         .background(backgroundColor)
         .cornerRadius(8)
         .background(theme.primaryUi04)
