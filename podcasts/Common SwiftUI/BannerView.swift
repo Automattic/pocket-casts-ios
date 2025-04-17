@@ -107,7 +107,7 @@ struct BannerView: View {
         }
         .background(backgroundColor)
         .cornerRadius(8)
-        .background(theme.primaryUi04)
+        .background(.clear)
         .if(edgeInsets != nil) { content in
             content.padding(edgeInsets ?? EdgeInsets())
         }
