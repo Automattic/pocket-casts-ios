@@ -13,6 +13,8 @@ class GRDBDatabase: PCDatabase {
     }
 
     func executeQuery(_ sql: String, values: [Any]?) throws -> any PCDBResultSet {
+        // Invalid arguments will result in a crash in the application
+        // TODO: when releasing GRDB discuss if we want to make this optional
         let rowCursor = try Row.fetchCursor(database, sql: sql, arguments: StatementArguments(values != nil ? values! : [])!)
         return GRDBResultSet(rowCursor: rowCursor)
     }
@@ -23,6 +25,8 @@ class GRDBDatabase: PCDatabase {
         // However, that's a large change that we want to avoid.
         let filteredValues = values?.map { ($0 as? Date)?.timeIntervalSince1970 ?? $0 }
 
+        // Invalid arguments will result in a crash in the application
+        // TODO: when releasing GRDB discuss if we want to make this optional
         try database.execute(sql: sql, arguments: StatementArguments(filteredValues != nil ? filteredValues! : [])!)
     }
 
