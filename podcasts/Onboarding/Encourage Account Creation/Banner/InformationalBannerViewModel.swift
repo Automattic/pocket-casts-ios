@@ -19,7 +19,7 @@ extension InformationalBannerPresenting {
     }
 }
 
-class InformationalBannerViewModel: ObservableObject, InformationalBannerPresenting {
+class InformationalBannerViewModel: BannerModel, InformationalBannerPresenting {
     let bannerType: InformationalBannerType
 
     var onCloseBannerTap: (() -> Void)? = nil
@@ -27,5 +27,13 @@ class InformationalBannerViewModel: ObservableObject, InformationalBannerPresent
 
     init(bannerType: InformationalBannerType) {
         self.bannerType = bannerType
+        super.init(
+            title: bannerType.title,
+            message: bannerType.description,
+            action: L10n.eacInformationalBannerCreateAccount,
+            iconName: bannerType.iconName,
+            invertedColor: bannerType == .profile,
+            onActionTap: onCloseBannerTap,
+            onCloseTap: onCreateFreeAccountTap)
     }
 }
