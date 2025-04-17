@@ -79,7 +79,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
         guard let source = item.source else { return }
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let self, let discoverPodcast = podcastList?.podcasts else { return }
 
             let podcasts: [DiscoverPodcast]
