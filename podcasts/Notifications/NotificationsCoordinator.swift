@@ -13,6 +13,8 @@ enum NotificationType: String {
 
     case reengagementWeekly
 
+    case recommendationsTrending
+
     var title: String {
         switch self {
         case .onboardingSignUp:
@@ -31,6 +33,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksTitle
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyTitle
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingTitle
         }
     }
 
@@ -52,6 +56,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksBody
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyBody
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingBody
         }
     }
 
@@ -77,6 +83,8 @@ enum NotificationType: String {
             return "pktc://discover/staff-picks"
         case .reengagementWeekly:
             return "pktc://discover"
+        case .recommendationsTrending:
+            return "pktc://discover/trending"
         }
     }
 }
