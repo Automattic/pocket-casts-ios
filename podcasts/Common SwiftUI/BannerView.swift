@@ -98,7 +98,7 @@ struct BannerView: View {
                 Button() {
                     model.onCloseTap?()
                 } label: {
-                    Image("close")
+                    Image("cross-little")
                         .renderingMode(.template)
                         .foregroundColor(theme.primaryIcon02)
                 }
