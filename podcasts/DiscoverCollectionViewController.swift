@@ -1,5 +1,6 @@
 import PocketCastsServer
 import SwiftUI
+import PocketCastsUtils
 
 class DiscoverCollectionViewController: PCViewController {
 
@@ -97,7 +98,7 @@ class DiscoverCollectionViewController: PCViewController {
         }
 
         let itemFilter = shouldInclude ?? { item in
-            item.categoryID == nil
+            item.categoryID == nil && item.shouldShowAuthenticated()
         }
 
         self.discoverLayout = discoverLayout
