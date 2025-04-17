@@ -30,7 +30,7 @@ enum NotificationType: String {
         case .onboardingStaffPicks:
             return L10n.notificationsOnboardingStaffPicksTitle
         case .reengagementWeekly:
-            return "We miss you!"
+            return L10n.notificationsReengagementWeeklyTitle
         }
     }
 
@@ -51,7 +51,7 @@ enum NotificationType: String {
         case .onboardingStaffPicks:
             return L10n.notificationsOnboardingStaffPicksBody
         case .reengagementWeekly:
-            return "It’s been awhile since you’ve listened. Jump back in and enjoy!"
+            return L10n.notificationsReengagementWeeklyBody
         }
     }
 

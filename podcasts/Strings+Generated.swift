@@ -1791,6 +1791,10 @@ internal enum L10n {
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Pocket Casts Offers
   internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers") }
+  /// It’s been awhile since you’ve listened. Jump back in and enjoy!
+  internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
+  /// We miss you!
+  internal static var notificationsReengagementWeeklyTitle: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_title") }
   /// Trending & Recommendations
   internal static var notificationsTrendingAndRecommendations: String { return L10n.tr("Localizable", "notifications_trending_and_recommendations") }
   /// Go to device settings
