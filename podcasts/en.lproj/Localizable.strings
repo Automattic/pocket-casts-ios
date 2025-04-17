@@ -4960,7 +4960,7 @@
 /* Notification title for weekly reengagement message */
 "notifications_reengagement_weekly_title" = "We miss you!";
 
-/* Notification body for for weekly reengagement message */
+/* Notification body for weekly reengagement message */
 "notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
 
 /* Notification title for recommendations trending message */
