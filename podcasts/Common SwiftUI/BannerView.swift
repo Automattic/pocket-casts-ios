@@ -28,6 +28,13 @@ struct BannerView: View {
     @ObservedObject var model: BannerModel
     @EnvironmentObject var theme: Theme
 
+    let edgeInsets: EdgeInsets?
+
+    init(model: BannerModel, edgeInsets: EdgeInsets? = nil) {
+        self.model = model
+        self.edgeInsets = edgeInsets
+    }
+
     private var backgroundColor: Color {
         if model.invertedColor {
             if case .radioactive = theme.activeTheme {
@@ -78,7 +85,9 @@ struct BannerView: View {
             }
             Spacer()
         }
-        .padding()
+        .padding(.leading, model.iconName == nil ? 24 : 16)
+        .padding(.trailing, model.onCloseTap == nil ? 16 : 56)
+        .padding(.vertical, 16)
         .overlay(alignment: .topTrailing) {
             if model.onCloseTap != nil {
                 Button() {
@@ -94,7 +103,12 @@ struct BannerView: View {
         .background(backgroundColor)
         .cornerRadius(8)
         .background(theme.primaryUi04)
-        .padding()
+        .if(edgeInsets != nil) { content in
+            content.padding(edgeInsets ?? EdgeInsets())
+        }
+        .if(edgeInsets == nil) { content in
+            content.padding()
+        }
     }
 }
 
