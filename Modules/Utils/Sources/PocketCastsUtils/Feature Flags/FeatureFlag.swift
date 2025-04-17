@@ -286,7 +286,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .libroFm:
             false
         case .grdb:
+            #if DEBUG
+            true
+            #else
             false
+            #endif
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
