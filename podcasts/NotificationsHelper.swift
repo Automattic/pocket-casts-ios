@@ -20,6 +20,12 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         case podcasts = "po"
     }
 
+    func checkNotificationsDenied(completion: @escaping (Bool) -> ()) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            completion(settings.authorizationStatus == .denied)
+        }
+    }
+
     @objc func pushEnabled() -> Bool {
         if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.notifications

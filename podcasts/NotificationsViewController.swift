@@ -12,6 +12,8 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private var sections: [Section] = [.episodes]
     private var rows: [[Row]] = [[.newEpisodes, .podcastsChosen, .appBadges], [.trendingRecommendations, .dailyReminders], [.newFeaturesAndTips, .pocketCastsOffers]]
 
+    private var notificationsDenied = false
+
     enum Section: Int {
         case episodes = 0
         case recommendationsAndReminders
@@ -52,8 +54,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             switch self {
             case .dailyReminders:
                 return Settings.notificationsOnboardingTips
-            case .newEpisodes,
-                 .podcastsChosen,
+            case .newEpisodes:
+                return NotificationsHelper.shared.pushEnabled()
+            case .podcastsChosen,
                  .appBadges,
                  .trendingRecommendations,
                  .newFeaturesAndTips,
@@ -77,6 +80,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
 
         Analytics.track(.settingsNotificationsShown)
+
+        settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
+
+        checkNotificationsPermissionBanner()
+        addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(checkNotificationsPermissionBanner))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -107,29 +115,20 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         }
         let row = rows[sectionType.rawValue][indexPath.row]
         switch row {
-        case .newEpisodes:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = row.description
-            cell.cellSwitch.isOn = NotificationsHelper.shared.pushEnabled()
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
-
-            return cell
         case .podcastsChosen:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
             cell.cellLabel.text = (podcastsSelected == 0) ? L10n.filterChoosePodcasts : chosenPodcasts
             cell.cellSecondaryLabel.text = nil
-
+            cell.isLocked = !notificationsDenied
             return cell
         case .appBadges:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = row.description
             let badgeChoice = Settings.appBadge
             cell.cellSecondaryLabel.text =  badgeChoice?.description
-
+            cell.isLocked = !notificationsDenied
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
@@ -138,7 +137,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             cell.cellSwitch.tag = row.rawValue
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(notificationToggled(_:)), for: UIControl.Event.valueChanged)
-
+            cell.isLocked = !notificationsDenied
             return cell
         }
     }
@@ -146,7 +145,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     private var podcastChooserController: PodcastChooserViewController?
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let sectionType = Section(rawValue: indexPath.section)
+        guard let sectionType = Section(rawValue: indexPath.section), !notificationsDenied
         else {
             return
         }
@@ -174,6 +173,17 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return
         }
 
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == 0, notificationsDenied else {
+            return nil
+        }
+        return bannerView
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -224,7 +234,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         Analytics.track(.settingsNotificationsPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
-    @objc private func pushToggled(_ sender: UISwitch) {
+    func episodePushToggled(_ sender: UISwitch) {
         //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
 
         if sender.isOn {
@@ -247,19 +257,59 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return
         }
         switch row {
+        case .newEpisodes:
+                episodePushToggled(sender)
         case .dailyReminders:
             if sender.isOn {
                 NotificationsCoordinator.shared.setupOnboardingNotifications()
             } else {
                 NotificationsCoordinator.shared.cancelOnboardingNotifications()
             }
+            Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
+        case .trendingRecommendations:
+            Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
+        case .newFeaturesAndTips:
+            Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
+        case .pocketCastsOffers:
+            Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
         default:
-            break
+            return
         }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
+    }
+
+    @objc private func checkNotificationsPermissionBanner() {
+        NotificationsHelper.shared.checkNotificationsDenied() { [weak self] notificationsDenied in
+            guard let self, self.notificationsDenied != notificationsDenied else { return }
+
+            self.notificationsDenied = notificationsDenied
+            DispatchQueue.main.async { [weak self] in
+                self?.settingsTable.reloadData()
+            }
+        }
+    }
+
+    private lazy var bannerView: UIView = {
+        let model = BannerModel.makeNotificationPermissionBanner()
+        let banner = BannerView(model: model).themedUIView
+        banner.translatesAutoresizingMaskIntoConstraints = true
+        return banner
+    }()
+}
+
+extension BannerModel {
+
+    static func makeNotificationPermissionBanner() -> BannerModel {
+        return BannerModel(title: L10n.notitificationsPermissionBannerTitle,
+                           message: L10n.notitificationsPermissionBannerMessage,
+                           action: L10n.notitificationsPermissionBannerAction,
+                           iconName: "settings_notifications",
+                           onActionTap: {
+            UIApplication.shared.openNotificationSettings()
+        })
     }
 }
 

@@ -28,4 +28,6 @@ protocol DiscoverDelegate: AnyObject {
     func invalidate(item: DiscoverItem)
 
     func navigateTo(category: String)
+
+    func navigateTo(listID: String)
 }
