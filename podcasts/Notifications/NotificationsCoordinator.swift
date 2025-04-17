@@ -76,7 +76,7 @@ enum NotificationType: String {
         case .onboardingStaffPicks:
             return "pktc://discover/staff-picks"
         case .reengagementWeekly:
-            return "pktc://open"
+            return "pktc://discover"
         }
     }
 }
