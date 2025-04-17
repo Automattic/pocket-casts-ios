@@ -6,6 +6,11 @@ import SwiftProtobuf
 class UpNextSyncTask: ApiBaseTask {
     private static let processDataLock = NSObject()
 
+    override func main() {
+        logProtectedDataAvailable()
+        super.main()
+    }
+
     override func apiTokenAcquired(token: String) {
         let trace = TraceManager.shared.beginTracing(eventName: "SERVER_UP_NEXT_SYNC")
         defer { TraceManager.shared.endTracing(trace: trace) }
@@ -28,6 +33,20 @@ class UpNextSyncTask: ApiBaseTask {
         }
     }
 
+    private func logProtectedDataAvailable() {
+        DispatchQueue.main.async {
+            let protectedDataAvailable: String
+            switch UserDefaults.isProtectedDataAvailable() {
+            case .some(let value):
+                protectedDataAvailable = value ? "yes" : "no"
+            case .none:
+                protectedDataAvailable = "unknown"
+            }
+
+            FileLog.shared.addMessage("UpNextSyncTask: Protected data available: \(protectedDataAvailable)")
+        }
+    }
+
     func createUpNextUrlRequest(token: String) -> (urlRequest: URLRequest, latestActionTime: Int64)? {
         guard let url = URL(string: ServerConstants.Urls.api() + "up_next/sync") else { return nil }
 
@@ -47,6 +66,7 @@ class UpNextSyncTask: ApiBaseTask {
         var syncRequest = Api_UpNextSyncRequest()
         syncRequest.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         syncRequest.version = apiVersion
+        syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
         var upNextChanges = Api_UpNextChanges()
         var latestActionTime: Int64 = 0
         var changes = [Api_UpNextChanges.Change]()

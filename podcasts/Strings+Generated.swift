@@ -863,6 +863,45 @@ internal enum L10n {
   internal static var downloadsRetryFailedDownloads: String { return L10n.tr("Localizable", "downloads_retry_failed_downloads") }
   /// Stop All Downloads
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
+  /// Create a free account
+  internal static var eacInformationalBannerCreateAccount: String { return L10n.tr("Localizable", "eac_informational_banner_create_account") }
+  /// Create a free account to sync your filters on any device.
+  internal static var eacInformationalBannerFiltersDescription: String { return L10n.tr("Localizable", "eac_informational_banner_filters_description") }
+  /// Filters Icon
+  internal static var eacInformationalBannerFiltersIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_filters_icon_accessibility") }
+  /// Keep your filters in sync
+  internal static var eacInformationalBannerFiltersTitle: String { return L10n.tr("Localizable", "eac_informational_banner_filters_title") }
+  /// Create a free account to sync your listening history everywhere.
+  internal static var eacInformationalBannerListeningHistoryDescription: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_description") }
+  /// Listening History Icon
+  internal static var eacInformationalBannerListeningHistoryIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_icon_accessibility") }
+  /// Keep track of what you’ve played
+  internal static var eacInformationalBannerListeningHistoryTitle: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_title") }
+  /// Create a free account to sync your shows and listen anywhere.
+  internal static var eacInformationalBannerProfileDescription: String { return L10n.tr("Localizable", "eac_informational_banner_profile_description") }
+  /// Profile Icon
+  internal static var eacInformationalBannerProfileIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_profile_icon_accessibility") }
+  /// Your shows, on any device
+  internal static var eacInformationalBannerProfileTitle: String { return L10n.tr("Localizable", "eac_informational_banner_profile_title") }
+  /// Your library and preferences are securely saved.
+  internal static var eacInformationalCardBackupsDescription: String { return L10n.tr("Localizable", "eac_informational_card_backups_description") }
+  /// Reliable backups
+  internal static var eacInformationalCardBackupsTitle: String { return L10n.tr("Localizable", "eac_informational_card_backups_title") }
+  /// Get tailored podcast suggestions based on your listening habits.
+  internal static var eacInformationalCardRecommendationDescription: String { return L10n.tr("Localizable", "eac_informational_card_recommendation_description") }
+  /// Personalized recommendations
+  internal static var eacInformationalCardRecommendationTitle: String { return L10n.tr("Localizable", "eac_informational_card_recommendation_title") }
+  /// Sync your progress, and shows across all your devices.
+  internal static var eacInformationalCardSyncDescription: String { return L10n.tr("Localizable", "eac_informational_card_sync_description") }
+  /// Sync across devices
+  internal static var eacInformationalCardSyncTitle: String { return L10n.tr("Localizable", "eac_informational_card_sync_title") }
+  /// Create an account or log in to enjoy
+  /// Pocket Casts to the fullest.
+  internal static var eacInformationalViewModalDescription: String { return L10n.tr("Localizable", "eac_informational_view_modal_description") }
+  /// Get Started
+  internal static var eacInformationalViewModalGetStartedButton: String { return L10n.tr("Localizable", "eac_informational_view_modal_get_started_button") }
+  /// We noticed you’re not logged in
+  internal static var eacInformationalViewModalTitle: String { return L10n.tr("Localizable", "eac_informational_view_modal_title") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
   /// Edit clip
@@ -1708,6 +1747,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Daily Reminders
+  internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// New Features & Tips
+  internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
   internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
   /// Notifications On
@@ -1716,8 +1759,46 @@ internal enum L10n {
   internal static func notificationsOnForPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "notifications_on_for_podcast", String(describing: p1))
   }
+  /// Create smart filters to organize your episodes.
+  internal static var notificationsOnboardingFiltersBody: String { return L10n.tr("Localizable", "notifications_onboarding_filters_body") }
+  /// Organize your episodes
+  internal static var notificationsOnboardingFiltersTitle: String { return L10n.tr("Localizable", "notifications_onboarding_filters_title") }
+  /// Switching from another app? Bring all your favorite shows to Pocket Casts.
+  internal static var notificationsOnboardingImportBody: String { return L10n.tr("Localizable", "notifications_onboarding_import_body") }
+  /// Easily import your podcasts
+  internal static var notificationsOnboardingImportTitle: String { return L10n.tr("Localizable", "notifications_onboarding_import_title") }
+  /// Create a free account to sync your shows and listen anywhere.
+  internal static var notificationsOnboardingSignupBody: String { return L10n.tr("Localizable", "notifications_onboarding_signup_body") }
+  /// Your shows, on any device!
+  internal static var notificationsOnboardingSignupTitle: String { return L10n.tr("Localizable", "notifications_onboarding_signup_title") }
+  /// Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.
+  internal static var notificationsOnboardingStaffPicksBody: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_body") }
+  /// Explore our Staff Picks
+  internal static var notificationsOnboardingStaffPicksTitle: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_title") }
+  /// Browse our themes and find the one that suits your style.
+  internal static var notificationsOnboardingThemesBody: String { return L10n.tr("Localizable", "notifications_onboarding_themes_body") }
+  /// Time for a new look
+  internal static var notificationsOnboardingThemesTitle: String { return L10n.tr("Localizable", "notifications_onboarding_themes_title") }
+  /// Build a playback queue and say goodbye to jumping around between episodes.
+  internal static var notificationsOnboardingUpnextBody: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_body") }
+  /// Simplify your queue
+  internal static var notificationsOnboardingUpnextTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_title") }
+  /// Unlock exclusive features like folders, bookmarks, and more with Plus!
+  internal static var notificationsOnboardingUpsellBody: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_body") }
+  /// Level up your podcast game
+  internal static var notificationsOnboardingUpsellTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_title") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
+  /// Pocket Casts Offers
+  internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers") }
+  /// Trending & Recommendations
+  internal static var notificationsTrendingAndRecommendations: String { return L10n.tr("Localizable", "notifications_trending_and_recommendations") }
+  /// Go to device settings
+  internal static var notitificationsPermissionBannerAction: String { return L10n.tr("Localizable", "notitifications_permission_banner_action") }
+  /// To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.
+  internal static var notitificationsPermissionBannerMessage: String { return L10n.tr("Localizable", "notitifications_permission_banner_message") }
+  /// Allow Push Notifications
+  internal static var notitificationsPermissionBannerTitle: String { return L10n.tr("Localizable", "notitifications_permission_banner_title") }
   /// Now Playing
   internal static var nowPlaying: String { return L10n.tr("Localizable", "now_playing") }
   /// Now Playing %1$@
@@ -2099,6 +2180,8 @@ internal enum L10n {
   internal static var plusFeatureCardTitleWearOs: String { return L10n.tr("Localizable", "plus_feature_card_title_wear_os") }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
+  /// Free audiobook from Libro.fm
+  internal static var plusFeatureLibrofm: String { return L10n.tr("Localizable", "plus_feature_librofm") }
   /// 1 year of exclusive content from Slumber Studios
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
   /// Dream with Slumber Studios content

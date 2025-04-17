@@ -13,8 +13,12 @@ then
     exit 1
 fi
 
-brew upgrade protobuf
-brew upgrade swift-protobuf
+if command -v brew &> /dev/null; then
+    brew upgrade protobuf
+    brew upgrade swift-protobuf
+else
+    echo "Brew is not installed. Make sure protoc + protoc-gen-swift is installed."
+fi
 
 protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/api.proto
 protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/files.proto

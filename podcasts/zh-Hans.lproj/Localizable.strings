@@ -1180,6 +1180,8 @@
     <string>开始免费试用</string>
     <key>free_trial_title_label</key>
     <string>免费试用 Plus %1$@</string>
+    <key>funding</key>
+    <string>赞助</string>
     <key>funny_conf_msg</key>
     <string>它真的很配您的双眼 ✨</string>
     <key>funny_time_not_enough</key>
@@ -1490,6 +1492,8 @@
     <string>通知关闭</string>
     <key>notifications_on</key>
     <string>通知开启</string>
+    <key>notifications_on_for_podcast</key>
+    <string>我们会向您通知 %1$@ 的剧集更新</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>now_playing</key>
@@ -2066,6 +2070,10 @@
     <string>立即上传</string>
     <key>podcast_uploading</key>
     <string>正在上传... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>轻点播客标题即可收起或展开其描述和详细信息</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>我们进行了一些更改</string>
     <key>podcast_waiting_upload</key>
     <string>正在等待上传</string>
     <key>podcast_yesterday</key>

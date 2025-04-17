@@ -29,7 +29,12 @@ public class DiscoverServerHandler {
     }
 
     public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
-        let contentPath = "ios/content_v2.json"
+        let contentPath: String
+        if FeatureFlag.recommendations.enabled {
+            contentPath = "ios/content_v3.json"
+        } else {
+            contentPath = "ios/content_v2.json"
+        }
         discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self) { discoverItems, cachedResponse in
             completion(discoverItems, cachedResponse)
         }

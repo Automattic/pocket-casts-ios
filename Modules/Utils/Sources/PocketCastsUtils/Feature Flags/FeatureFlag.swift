@@ -155,8 +155,29 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 
+    /// Force full screen login on iPhone
+    case fullScreenLogin
+
     /// Encourage Account Creation
     case encourageAccountCreation
+
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
+    /// Enable the new notifications types and settings
+    case notificationsRevamp
+
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
+    /// Recommendations including discover v3 support
+    case recommendations
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -259,11 +280,25 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastViewChanges:
             true
         case .podcastNewformAppsFlyer:
+            true
+        case .fullScreenLogin:
+            true
+        case .libroFm:
             false
         case .grdb:
             false
         case .encourageAccountCreation:
             true
+        case .notificationsRevamp:
+            false
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
+        case .podcastsSortChanges:
+            false
+        case .recommendations:
+            false
         }
     }
 

@@ -557,6 +557,10 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
+    case settingsNotificationsTrendingToggle
+    case settingsNotificationsDailyRemindersToggle
+    case settingsNotificationsNewFeaturesToggle
+    case settingsNotificationsOffersToggle
 
     // MARK: - Settings: Appearance
 
@@ -851,10 +855,19 @@ enum AnalyticsEvent: String {
     case settingsSelectPodcastsPodcastToggled
     case settingsSelectPodcastsSelectAllPodcastsToggled
 
-    // MARK: Podcast Feed Reload
+    // MARK: - Podcast Feed Reload
     case podcastScreenRefreshEpisodeList
     case podcastScreenRefreshNoEpisodesFound
     case podcastScreenRefreshNewEpisodeFound
     case podcastRefreshEpisodeTooltipShown
     case podcastRefreshEpisodeTooltipDismissed
+
+    // MARK: - Encourage Account Creation
+    case informationalModalViewShowed
+    case informationalModalViewDismissed
+    case informationalModalViewGetStartedTap
+    case informationalModalViewLoginTap
+    case informationalModalViewCardShowed
+    case informationalBannerViewDismissed
+    case informationalBannerViewCreateAccountTap
 }
