@@ -1793,6 +1793,12 @@ internal enum L10n {
   internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers") }
   /// Trending & Recommendations
   internal static var notificationsTrendingAndRecommendations: String { return L10n.tr("Localizable", "notifications_trending_and_recommendations") }
+  /// Go to device settings
+  internal static var notitificationsPermissionBannerAction: String { return L10n.tr("Localizable", "notitifications_permission_banner_action") }
+  /// To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.
+  internal static var notitificationsPermissionBannerMessage: String { return L10n.tr("Localizable", "notitifications_permission_banner_message") }
+  /// Allow Push Notifications
+  internal static var notitificationsPermissionBannerTitle: String { return L10n.tr("Localizable", "notitifications_permission_banner_title") }
   /// Now Playing
   internal static var nowPlaying: String { return L10n.tr("Localizable", "now_playing") }
   /// Now Playing %1$@

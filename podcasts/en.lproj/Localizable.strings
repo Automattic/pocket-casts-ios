@@ -4947,3 +4947,13 @@
 
 /* Encourage Account Creation: accessibility label for the banner in the listening history view */
 "eac_informational_banner_listening_history_icon_accessibility" = "Listening History Icon";
+
+/* Notification permission banner title*/
+"notitifications_permission_banner_title" = "Allow Push Notifications";
+
+/* Notification permission banner message*/
+"notitifications_permission_banner_message" = "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.";
+
+/* Notification permission banner action*/
+"notitifications_permission_banner_action" = "Go to device settings";
+
