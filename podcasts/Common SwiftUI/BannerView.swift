@@ -8,15 +8,16 @@ class BannerModel: ObservableObject {
     let message: String?
     let action: String?
     let iconName: String?
-
+    let invertedColor: Bool
     let onActionTap: (() -> ())?
     let onCloseTap: (() -> ())?
 
-    init(title: String? = nil, message: String? = nil, action: String? = nil, iconName: String? = nil, onActionTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
+    init(title: String? = nil, message: String? = nil, action: String? = nil, iconName: String? = nil, invertedColor: Bool = false, onActionTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.title = title
         self.message = message
         self.action = action
         self.iconName = iconName
+        self.invertedColor = invertedColor
         self.onActionTap = onActionTap
         self.onCloseTap = onCloseTap
     }
@@ -26,6 +27,25 @@ struct BannerView: View {
 
     @ObservedObject var model: BannerModel
     @EnvironmentObject var theme: Theme
+
+    private var backgroundColor: Color {
+        if model.invertedColor {
+            if case .radioactive = theme.activeTheme {
+                return theme.primaryUi06
+            }
+            return theme.primaryUi02Active
+        }
+        switch theme.activeTheme {
+            case .indigo:
+                return theme.primaryUi02Active
+            case .contrastLight:
+                return theme.secondaryUi02
+            case .contrastDark:
+                return theme.primaryUi02Active
+            default:
+                return theme.primaryUi01
+        }
+    }
 
     var body: some View {
         HStack(alignment: .top) {
@@ -51,7 +71,7 @@ struct BannerView: View {
                         model.onActionTap?()
                     } label: {
                         Text(action)
-                            .font(.caption2.weight(.semibold))
+                            .font(.caption.weight(.semibold))
                             .foregroundColor(theme.primaryInteractive01)
                     }
                 }
@@ -71,7 +91,10 @@ struct BannerView: View {
             }
         }
         .padding()
+        .background(backgroundColor)
+        .cornerRadius(8)
         .background(theme.primaryUi04)
+        .padding()
     }
 }
 
