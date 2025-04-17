@@ -87,6 +87,7 @@ class NotificationsCoordinator {
 
     var onboardingTimeIntervalStep: TimeInterval = 24.hours
     var reEngagementTimeIntervalStep: TimeInterval = 1.week
+    var ignoreScheduleHours: Bool = false
 
     enum Constants {
         static let onboardingScheduleHour: Int = 10
@@ -105,7 +106,8 @@ class NotificationsCoordinator {
         Settings.notificationsOnboardingTips = true
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
-            var timeInterval: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour) + onboardingTimeIntervalStep
+            let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
+            var timeInterval: TimeInterval = timeIntervalToSchedule + onboardingTimeIntervalStep
             onboardingNotifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
                 timeInterval += self.onboardingTimeIntervalStep
@@ -133,7 +135,8 @@ class NotificationsCoordinator {
 
     func updateReengamentNotifications() {
         cancelNotification(.reengagementWeekly)
-        let initialInterval = calculateTimeIntervalToHour(Constants.reengagementScheduleHour) + reEngagementTimeIntervalStep
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.reengagementScheduleHour)
+        let initialInterval = timeIntervalToSchedule + reEngagementTimeIntervalStep
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
     }
@@ -165,6 +168,9 @@ class NotificationsCoordinator {
     }
 
     private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
+        if ignoreScheduleHours {
+            return 1
+        }
         guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
             return 0
         }
