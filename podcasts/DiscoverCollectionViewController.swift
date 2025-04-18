@@ -55,6 +55,7 @@ class DiscoverCollectionViewController: PCViewController {
         reloadData()
 
         setupMiniPlayerObservers()
+        setupLoginObserver()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -287,5 +288,15 @@ extension DiscoverCollectionViewController {
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         collectionView.contentInset = UIEdgeInsets(top: PCSearchBarController.defaultHeight, left: 0, bottom: miniPlayerOffset, right: 0)
         collectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
+    }
+}
+
+// MARK: - Authentication Handling
+extension DiscoverCollectionViewController {
+    fileprivate func setupLoginObserver() {
+        // Add observer for login/logout notification
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
+            self?.reloadData()
+        }
     }
 }
