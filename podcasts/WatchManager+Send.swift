@@ -28,7 +28,7 @@ extension WatchManager {
 
         // since we don't know how long it takes for a send message to timeout, wait only 10 seconds for a watch response before giving up here
         var haveCalledCompletion = false
-        logFileRequestTimedAction.startTimer(for: 5.seconds) { [cachedLog] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.seconds) { [cachedLog] in
             if haveCalledCompletion { return }
 
             haveCalledCompletion = true
