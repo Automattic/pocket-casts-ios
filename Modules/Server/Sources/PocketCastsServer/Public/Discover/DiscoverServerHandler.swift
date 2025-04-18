@@ -10,6 +10,11 @@ public class DiscoverServerHandler {
 
     public static let shared = DiscoverServerHandler()
 
+    private let tokenHelper = {
+        let connection = URLConnection(handler: URLSession.shared)
+        return TokenHelper(urlConnection: connection)
+    }()
+
     public private(set) lazy var discoveryCache: URLCache = {
         let cache = URLCache(memoryCapacity: 1024 * 1024, diskCapacity: 5 * 1024 * 1024, diskPath: "discovery")
         return cache
@@ -101,47 +106,37 @@ public class DiscoverServerHandler {
         .eraseToAnyPublisher()
     }
 
-    private let tokenHelper = {
-        let connection = URLConnection(handler: URLSession.shared)
-        return TokenHelper(urlConnection: connection)
-    }()
+    /// A method to check whether the response from the source URL authenticated successfully.
+    /// - Parameters:
+    ///   - item: An item which is `authenticated == true`
+    /// - Returns: Whether or not the authentication succeeded
+    public func checkSourceAuthentication(for item: DiscoverItem) async -> Bool {
+        // If there's no source URL, consider authentication failed. This shouldn't happen.
+        guard item.authenticated == true, let source = item.source else {
+            return false
+        }
 
-    private func discoverRequest<T>(path: String, type: T.Type, authenticated: Bool?, completion: @escaping (T?, Bool) -> Void) where T: Decodable {
+        return await withCheckedContinuation { continuation in
+            performDiscoverRequest(path: source, authenticated: item.authenticated == true) { data, response, error in
+                let success = response?.extractStatusCode() == 200
+                continuation.resume(returning: success)
+            }
+        }
+    }
+
+    private func performDiscoverRequest(
+        path: String,
+        authenticated: Bool?,
+        completion: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
-        if let cachedResponse = discoveryCache.cachedResponse(for: request) {
-            if let expiryDate = cachedResponse.response.cacheExpiryDate(), expiryDate.timeIntervalSinceNow > 0 {
-                do {
-                    let list = try JSONDecoder().decode(type, from: cachedResponse.data)
-                    completion(list, true)
-
-                    return
-                } catch {
-                    discoveryCache.removeCachedResponse(for: request)
-                }
-            }
-        }
-
-        let completion: (Data?, URLResponse?, Error?) -> Void = { [weak self] data, response, error in
-            guard let data = data, let response = response, error == nil else {
-                completion(nil, false)
-                return
-            }
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-
-                let list = try decoder.decode(type, from: data)
-                completion(list, false)
-
-                // only cache successful responses
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                self?.discoveryCache.storeCachedResponse(responseToCache, for: request)
-            } catch {
-                completion(nil, false)
-            }
+        if let cachedResponse = discoveryCache.cachedResponse(for: request),
+           let expiryDate = cachedResponse.response.cacheExpiryDate(),
+           expiryDate.timeIntervalSinceNow > 0 {
+            completion(cachedResponse.data, cachedResponse.response, nil)
+            return
         }
 
         if FeatureFlag.recommendations.enabled && authenticated == true {
@@ -150,6 +145,62 @@ public class DiscoverServerHandler {
             }
         } else {
             URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+        }
+    }
+
+    private func decodeDiscoverResponse<T>(
+        data: Data,
+        response: URLResponse,
+        cacheRequest: URLRequest,
+        useCache: Bool,
+        type: T.Type
+    ) -> T? where T: Decodable {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        do {
+            let decoded = try decoder.decode(type, from: data)
+            if useCache {
+                let responseToCache = CachedURLResponse(response: response, data: data)
+                discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
+            }
+            return decoded
+        } catch {
+            if useCache {
+                discoveryCache.removeCachedResponse(for: cacheRequest)
+            }
+            return nil
+        }
+    }
+
+    private func discoverRequest<T>(
+        path: String,
+        type: T.Type,
+        authenticated: Bool?,
+        completion: @escaping (T?, Bool) -> Void
+    ) where T: Decodable {
+        let url = ServerHelper.asUrl(path)
+        let request = URLRequest(url: url)
+
+        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error in
+            guard
+                let self = self,
+                let data = data,
+                let response = response,
+                error == nil
+            else {
+                completion(nil, false)
+                return
+            }
+
+            let decoded = self.decodeDiscoverResponse(
+                data: data,
+                response: response,
+                cacheRequest: request,
+                useCache: true,
+                type: type
+            )
+            completion(decoded, false)
         }
     }
 }
