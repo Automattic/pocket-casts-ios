@@ -28,7 +28,9 @@ extension WatchManager {
 
         // since we don't know how long it takes for a send message to timeout, wait only 10 seconds for a watch response before giving up here
         var haveCalledCompletion = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.seconds) { [cachedLog] in
+        logFileRequestTimedTask = Task { [cachedLog] in
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+
             if haveCalledCompletion { return }
 
             haveCalledCompletion = true
@@ -42,7 +44,7 @@ extension WatchManager {
             if haveCalledCompletion { return }
             haveCalledCompletion = true
 
-            self?.logFileRequestTimedAction.cancelTimer()
+            self?.logFileRequestTimedTask?.cancel()
             if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
                 self?.cachedLog = logContents
                 if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
