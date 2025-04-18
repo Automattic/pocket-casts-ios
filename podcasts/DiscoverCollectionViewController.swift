@@ -1,5 +1,6 @@
 import PocketCastsServer
 import SwiftUI
+import PocketCastsUtils
 
 class DiscoverCollectionViewController: PCViewController {
 
@@ -54,6 +55,7 @@ class DiscoverCollectionViewController: PCViewController {
         reloadData()
 
         setupMiniPlayerObservers()
+        setupLoginObserver()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -97,7 +99,7 @@ class DiscoverCollectionViewController: PCViewController {
         }
 
         let itemFilter = shouldInclude ?? { item in
-            item.categoryID == nil
+            item.categoryID == nil && item.shouldShowAuthenticated()
         }
 
         self.discoverLayout = discoverLayout
@@ -286,5 +288,15 @@ extension DiscoverCollectionViewController {
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         collectionView.contentInset = UIEdgeInsets(top: PCSearchBarController.defaultHeight, left: 0, bottom: miniPlayerOffset, right: 0)
         collectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
+    }
+}
+
+// MARK: - Authentication Handling
+extension DiscoverCollectionViewController {
+    fileprivate func setupLoginObserver() {
+        // Add observer for login/logout notification
+        NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
+            self?.reloadData()
+        }
     }
 }
