@@ -401,13 +401,6 @@ class WatchManager: NSObject, WCSessionDelegate {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
             sendStateToWatch()
-            if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                FileLog.shared.addMessage("WatchManager: Start log request on send")
-                requestLogFile(completion: { _ in
-                    // We don't do anything with the log, requesting it will cache and save the contents
-                    FileLog.shared.addMessage("WatchManager: Completed log request on send")
-                })
-            }
         }
     }
 
