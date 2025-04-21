@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsDataModel
 
 class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummaryProtocol, UICollectionViewDataSource, GridLayoutDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -16,6 +17,15 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     private var lastLayedOutWidth = 0 as CGFloat
 
+    private var relatedPodcastID: String? {
+        didSet {
+            relatedPodcastImageView?.setPodcast(uuid: relatedPodcastID ?? "", size: .list)
+
+            if let podcast = DataManager.sharedManager.findPodcast(uuid: relatedPodcastID ?? "") {
+                relatedPodcastLabel?.text = podcast.title
+            }
+        }
+    }
     private var podcasts = [DiscoverPodcast]()
     private weak var delegate: DiscoverDelegate?
     private var item: DiscoverItem?
@@ -87,6 +97,55 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.podcastAdded, object: nil)
     }
 
+    func replaceTitleWithStackView() {
+        let stackView = titleLabel.superview as? UIStackView
+        titleLabel.removeFromSuperview()
+
+        let horizontalStack = horizontalStack()
+        stackView?.insertArrangedSubview(horizontalStack, at: 0)
+    }
+
+    private var relatedPodcastImageView: PodcastImageView?
+    private var relatedPodcastLabel: UILabel?
+
+    func horizontalStack() -> UIStackView {
+        let horizontalStack = UIStackView()
+        horizontalStack.axis = .horizontal
+        horizontalStack.spacing = 12
+        horizontalStack.alignment = .center
+
+        let imageView = PodcastImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 44),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+        ])
+        relatedPodcastImageView = imageView
+
+        let verticalStack = UIStackView()
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 0
+
+        let topLabel = ThemeableLabel()
+        topLabel.font = .systemFont(ofSize: 15, weight: .medium)
+        topLabel.textColor = ThemeColor.primaryText02()
+        topLabel.text = item?.title
+
+        let bottomLabel = ThemeableLabel()
+        bottomLabel.textColor = ThemeColor.primaryText01()
+        bottomLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        relatedPodcastLabel = bottomLabel
+
+        verticalStack.addArrangedSubview(topLabel)
+        verticalStack.addArrangedSubview(bottomLabel)
+
+        horizontalStack.addArrangedSubview(imageView)
+        horizontalStack.addArrangedSubview(verticalStack)
+
+        return horizontalStack
+    }
+
     // MARK: - UICollectionView Methods
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -155,28 +214,60 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         showAllBtn.isHidden = item.expandedStyle == nil
 
         self.item = item
-        titleLabel.text = delegate?.replaceRegionName(string: title)
-        titleLabel.sizeToFit()
+
+        switch item.cellType() {
+        case .largeListWithPodcast:
+            replaceTitleWithStackView()
+        default:
+            titleLabel.text = delegate?.replaceRegionName(string: title)
+            titleLabel.sizeToFit()
+        }
+
         divider.isHidden = true
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
-            guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-            let podcasts: [DiscoverPodcast]
-            if let itemCount = item.summaryItemCount {
-                podcasts = Array(discoverPodcast[0..<itemCount])
-            } else {
-                podcasts = discoverPodcast
-            }
+        switch item.cellType() {
+        case .largeListWithPodcast:
+            DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
+                guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
-            for podcast in podcasts {
-                strongSelf.podcasts.append(podcast)
-            }
+                let podcasts: [DiscoverPodcast]
+                if let itemCount = item.summaryItemCount {
+                    podcasts = Array(discoverPodcast[0..<itemCount])
+                } else {
+                    podcasts = discoverPodcast
+                }
 
-            DispatchQueue.main.async {
-                strongSelf.divider.isHidden = false
-                strongSelf.collectionView.reloadData()
-            }
-        })
+                for podcast in podcasts {
+                    strongSelf.podcasts.append(podcast)
+                }
+
+                DispatchQueue.main.async {
+                    strongSelf.relatedPodcastID = podcastCollection?.featureImage
+                    strongSelf.divider.isHidden = false
+                    strongSelf.collectionView.reloadData()
+                }
+            })
+        default:
+            DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+                guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
+
+                let podcasts: [DiscoverPodcast]
+                if let itemCount = item.summaryItemCount {
+                    podcasts = Array(discoverPodcast[0..<itemCount])
+                } else {
+                    podcasts = discoverPodcast
+                }
+
+                for podcast in podcasts {
+                    strongSelf.podcasts.append(podcast)
+                }
+
+                DispatchQueue.main.async {
+                    strongSelf.divider.isHidden = false
+                    strongSelf.collectionView.reloadData()
+                }
+            })
+        }
     }
 
     // MARK: - IBActions
