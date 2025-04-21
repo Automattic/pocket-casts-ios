@@ -114,6 +114,7 @@ class DiscoverCollectionViewController: PCViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([0])
 
+        loadingTasks.values.forEach { $0.cancel() }
         loadingTasks = [:]
 
         for item in items {
@@ -122,6 +123,7 @@ class DiscoverCollectionViewController: PCViewController {
                     snapshot.appendItems([.loading(uuid)])
                     loadingTasks[uuid] = Task {
                         let isAuthenticated = await checkSourceAuthentication(for: item)
+                        guard Task.isCancelled else { return }
                         self.updateItemInSnapshot(item: item, isAuthenticated: isAuthenticated, region: currentRegion, selectedCategory: selectedCategory)
                     }
                 } else {
