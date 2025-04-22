@@ -112,12 +112,12 @@ public class DiscoverServerHandler {
     /// - Returns: Whether or not the authentication succeeded
     public func checkSourceAuthentication(for item: DiscoverItem) async -> Bool {
         // If there's no source URL, consider authentication failed. This shouldn't happen.
-        guard item.authenticated == true, let source = item.source else {
+        guard item.isAuthenticated, let source = item.source else {
             return false
         }
 
         return await withCheckedContinuation { continuation in
-            performDiscoverRequest(path: source, authenticated: item.authenticated == true) { data, response, error in
+            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { data, response, error in
                 let success = response?.extractStatusCode() == 200
                 continuation.resume(returning: success)
             }
