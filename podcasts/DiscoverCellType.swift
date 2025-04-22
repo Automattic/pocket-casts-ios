@@ -18,6 +18,7 @@ enum DiscoverCellType: CaseIterable {
     case categorySummary
     case singleEpisode
     case categoryPodcasts
+    case largeListWithPodcast
 
     typealias ItemType = DiscoverCellModel
 
@@ -43,6 +44,8 @@ enum DiscoverCellType: CaseIterable {
             SingleEpisodeViewController()
         case .categoryPodcasts:
             CategoryPodcastsViewController(region: region)
+        case .largeListWithPodcast:
+            LargeListSummaryViewController()
         }
     }
 
@@ -87,6 +90,8 @@ extension DiscoverItem {
             return .collectionSummary
         case ("category_podcast_list", _, _):
             return .categoryPodcasts
+        case ("podcast_list", "large_list_with_podcast", _):
+            return .largeListWithPodcast
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
             assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
