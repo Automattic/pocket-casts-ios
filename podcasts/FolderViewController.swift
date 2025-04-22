@@ -199,7 +199,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         }
 
         let sortOption = folder.librarySort()
-        
+
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             self?.changeSortOrder(.titleAtoZ)
         }
