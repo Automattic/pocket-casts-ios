@@ -64,6 +64,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         return queue
     }()
 
+    var recentlyPlayedSortingTip: UIViewController?
+
     var searchController: PCSearchBarController!
 
     lazy var searchResultsController = SearchResultsViewController(source: .podcastsList)
@@ -107,6 +109,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
             "number_of_folders": homeGridDataHelper.numberOfFolders
         ])
+
+        showRecentlyPlayedSortingTipIfNeeded()
     }
 
     override func viewWillLayoutSubviews() {
