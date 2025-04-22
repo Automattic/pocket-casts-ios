@@ -194,6 +194,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
                 DispatchQueue.main.async {
                     strongSelf.relatedPodcastID = podcastCollection?.featureImage
+                    strongSelf.podcastHeaderView?.bottomText = podcastCollection?.title
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
                 }

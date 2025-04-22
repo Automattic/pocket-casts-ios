@@ -53,9 +53,6 @@ class LargeListSummaryCellHeaderView: UIView {
             toggleExtras(hidden: podcastUUID == nil)
             if let uuid = podcastUUID {
                 imageView.setPodcast(uuid: uuid, size: .list)
-                if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) {
-                    bottomLabel.text = podcast.title
-                }
             }
         }
     }
