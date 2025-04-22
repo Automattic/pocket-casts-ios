@@ -19,11 +19,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     private var relatedPodcastID: String? {
         didSet {
-            relatedPodcastImageView?.setPodcast(uuid: relatedPodcastID ?? "", size: .list)
-
-            if let podcast = DataManager.sharedManager.findPodcast(uuid: relatedPodcastID ?? "") {
-                relatedPodcastLabel?.text = podcast.title
-            }
+            podcastHeaderView?.podcastUUID = relatedPodcastID
         }
     }
     private var podcasts = [DiscoverPodcast]()
@@ -37,6 +33,10 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             view.setNeedsLayout()
         }
     }
+
+    private var relatedPodcastImageView: PodcastImageView?
+    private var relatedPodcastLabel: UILabel?
+    private var podcastHeaderView: LargeListSummaryCellHeaderView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,49 +101,12 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         let stackView = titleLabel.superview as? UIStackView
         titleLabel.removeFromSuperview()
 
-        let horizontalStack = horizontalStack()
-        stackView?.insertArrangedSubview(horizontalStack, at: 0)
-    }
+        let headerView = LargeListSummaryCellHeaderView()
+        headerView.topText = item?.title
+        headerView.podcastUUID = relatedPodcastID
+        podcastHeaderView = headerView
 
-    private var relatedPodcastImageView: PodcastImageView?
-    private var relatedPodcastLabel: UILabel?
-
-    func horizontalStack() -> UIStackView {
-        let horizontalStack = UIStackView()
-        horizontalStack.axis = .horizontal
-        horizontalStack.spacing = 12
-        horizontalStack.alignment = .center
-
-        let imageView = PodcastImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 44),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-        ])
-        relatedPodcastImageView = imageView
-
-        let verticalStack = UIStackView()
-        verticalStack.axis = .vertical
-        verticalStack.spacing = 0
-
-        let topLabel = ThemeableLabel()
-        topLabel.font = .systemFont(ofSize: 15, weight: .medium)
-        topLabel.textColor = ThemeColor.primaryText02()
-        topLabel.text = item?.title
-
-        let bottomLabel = ThemeableLabel()
-        bottomLabel.textColor = ThemeColor.primaryText01()
-        bottomLabel.font = .systemFont(ofSize: 22, weight: .bold)
-        relatedPodcastLabel = bottomLabel
-
-        verticalStack.addArrangedSubview(topLabel)
-        verticalStack.addArrangedSubview(bottomLabel)
-
-        horizontalStack.addArrangedSubview(imageView)
-        horizontalStack.addArrangedSubview(verticalStack)
-
-        return horizontalStack
+        stackView?.insertArrangedSubview(headerView, at: 0)
     }
 
     // MARK: - UICollectionView Methods
