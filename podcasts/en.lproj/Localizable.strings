@@ -2001,6 +2001,9 @@
 /* Grid Items will be sorted alphabetically based on name. */
 "podcasts_library_sort_title" = "Name";
 
+/* Grid Items will be sorted based on the recently played date. */
+"podcasts_library_sort_episode_recently_played" = "Recently Played";
+
 /* Presents the podcasts in a list view. */
 "podcasts_list" = "List";
 

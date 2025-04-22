@@ -517,7 +517,7 @@ class EpisodeDataManager {
         episode.lastPlaybackInteractionSyncStatus = syncStatus
         let fields = ["lastPlaybackInteractionDate", "lastPlaybackInteractionSyncStatus"]
         let values = [now, syncStatus, episode.id] as [Any]
-
+        FileLog.shared.console("[Episode Save] Episode id \(episode.id) - title: \(episode.title ?? "no title")")
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
@@ -933,6 +933,7 @@ class EpisodeDataManager {
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                 let idColumn = useId ? "id" : "uuid"
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE \(idColumn) = ?", values: values)
+                FileLog.shared.console("[Episode Save] \(idColumn) - \(setStatement) with values: \(values)")
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save fields error: \(error)")
             }

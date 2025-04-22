@@ -281,6 +281,10 @@ public class DataManager {
         podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
+    public func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
+        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    }
+
     public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }

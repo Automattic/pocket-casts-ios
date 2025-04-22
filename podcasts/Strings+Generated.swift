@@ -2523,6 +2523,8 @@ internal enum L10n {
   internal static var podcastsLibrarySortCustom: String { return L10n.tr("Localizable", "podcasts_library_sort_custom") }
   /// Date Added
   internal static var podcastsLibrarySortDateAdded: String { return L10n.tr("Localizable", "podcasts_library_sort_date_added") }
+  /// Recently Played
+  internal static var podcastsLibrarySortEpisodeRecentlyPlayed: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_recently_played") }
   /// Episode Release Date
   internal static var podcastsLibrarySortEpisodeReleaseDate: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_release_date") }
   /// Name
