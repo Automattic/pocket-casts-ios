@@ -46,9 +46,11 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     func showSortOrderOptions() {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        var sortOption = Settings.homeFolderSortOrder()
-        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+        let sortOption: LibrarySort
+        if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            sortOption = .dateAddedNewestToOldest
+        } else {
             sortOption = Settings.homeFolderSortOrder()
         }
 

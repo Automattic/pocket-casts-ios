@@ -128,9 +128,10 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     @objc private func folderOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        var sortOption = folder.librarySort()
-        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
-            sortOption = .dateAddedNewestToOldest
+        let sortOption: LibrarySort = if !FeatureFlag.podcastsSortChanges.enabled, folder.librarySort() == .recentlyPlayed {
+            .dateAddedNewestToOldest
+        } else {
+            folder.librarySort()
         }
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOptions()
@@ -191,14 +192,14 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     private func showSortOptions() {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        var sortOption = folder.librarySort()
-        if !FeatureFlag.podcastsSortChanges.enabled, sortOption == .recentlyPlayed {
+        if !FeatureFlag.podcastsSortChanges.enabled, folder.librarySort() == .recentlyPlayed {
             folder.sortType = Int32(LibrarySort.Old.dateAddedNewestToOldest.rawValue)
             folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
             DataManager.sharedManager.save(folder: folder)
-            sortOption = folder.librarySort()
         }
 
+        let sortOption = folder.librarySort()
+        
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             self?.changeSortOrder(.titleAtoZ)
         }
