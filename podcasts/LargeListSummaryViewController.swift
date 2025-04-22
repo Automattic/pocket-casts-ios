@@ -181,16 +181,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
                 guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
-                let podcasts: [DiscoverPodcast]
-                if let itemCount = item.summaryItemCount {
-                    podcasts = Array(discoverPodcast[0..<itemCount])
-                } else {
-                    podcasts = discoverPodcast
-                }
-
-                for podcast in podcasts {
-                    strongSelf.podcasts.append(podcast)
-                }
+                strongSelf.appendPodcasts(discoverPodcast, item: item)
 
                 DispatchQueue.main.async {
                     strongSelf.relatedPodcastID = podcastCollection?.featureImage
@@ -203,22 +194,26 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
                 guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-                let podcasts: [DiscoverPodcast]
-                if let itemCount = item.summaryItemCount {
-                    podcasts = Array(discoverPodcast[0..<itemCount])
-                } else {
-                    podcasts = discoverPodcast
-                }
-
-                for podcast in podcasts {
-                    strongSelf.podcasts.append(podcast)
-                }
+                strongSelf.appendPodcasts(discoverPodcast, item: item)
 
                 DispatchQueue.main.async {
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
                 }
             })
+        }
+    }
+
+    private func appendPodcasts(_ discoverPodcast: [DiscoverPodcast], item: DiscoverItem) {
+        let podcasts: [DiscoverPodcast]
+        if let itemCount = item.summaryItemCount {
+            podcasts = Array(discoverPodcast[0..<itemCount])
+        } else {
+            podcasts = discoverPodcast
+        }
+
+        for podcast in podcasts {
+            self.podcasts.append(podcast)
         }
     }
 
