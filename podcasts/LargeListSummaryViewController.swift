@@ -6,7 +6,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     @IBOutlet weak var divider: ThemeDividerView!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
-    @IBOutlet var titleLabel: ThemeableLabel!
+    @IBOutlet var podcastHeaderView: LargeListSummaryCellHeaderView?
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
             showAllBtn.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
@@ -36,7 +36,6 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     private var relatedPodcastImageView: PodcastImageView?
     private var relatedPodcastLabel: UILabel?
-    private var podcastHeaderView: LargeListSummaryCellHeaderView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,18 +94,6 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.podcastDeleted, object: nil)
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.podcastAdded, object: nil)
-    }
-
-    func replaceTitleWithStackView() {
-        let stackView = titleLabel.superview as? UIStackView
-        titleLabel.removeFromSuperview()
-
-        let headerView = LargeListSummaryCellHeaderView()
-        headerView.topText = item?.title
-        headerView.podcastUUID = relatedPodcastID
-        podcastHeaderView = headerView
-
-        stackView?.insertArrangedSubview(headerView, at: 0)
     }
 
     // MARK: - UICollectionView Methods
@@ -180,10 +167,11 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
         switch item.cellType() {
         case .largeListWithPodcast:
-            replaceTitleWithStackView()
+            podcastHeaderView?.topText = item.title
+            podcastHeaderView?.podcastUUID = nil
         default:
-            titleLabel.text = delegate?.replaceRegionName(string: title)
-            titleLabel.sizeToFit()
+            podcastHeaderView?.bottomText = delegate?.replaceRegionName(string: title)
+            podcastHeaderView?.podcastUUID = nil
         }
 
         divider.isHidden = true

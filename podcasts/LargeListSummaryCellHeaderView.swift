@@ -34,6 +34,7 @@ class LargeListSummaryCellHeaderView: UIView {
         let label = ThemeableLabel()
         label.textColor = ThemeColor.primaryText01()
         label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
 
@@ -49,6 +50,7 @@ class LargeListSummaryCellHeaderView: UIView {
 
     var podcastUUID: String? {
         didSet {
+            toggleExtras(hidden: podcastUUID == nil)
             if let uuid = podcastUUID {
                 imageView.setPodcast(uuid: uuid, size: .list)
                 if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) {
@@ -56,6 +58,11 @@ class LargeListSummaryCellHeaderView: UIView {
                 }
             }
         }
+    }
+
+    func toggleExtras(hidden: Bool) {
+        topLabel.isHidden = hidden
+        imageView.isHidden = hidden
     }
 
     override init(frame: CGRect) {
