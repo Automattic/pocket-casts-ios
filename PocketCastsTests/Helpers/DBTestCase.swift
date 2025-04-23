@@ -15,8 +15,7 @@ class DBTestCase: XCTestCase {
     }
 
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        DataManager.newTestDataManager()
     }
 
     private func setupData() throws {
@@ -72,5 +71,9 @@ class DBTestCase: XCTestCase {
         XCTAssertEqual(task.state, URLSessionTask.State.running)
 
         return (podcastManager, task)
+    }
+
+    func cleanDownloadQueue() {
+        downloadManager.removeFromQueue(episode: episode, fireNotification: false, userInitiated: false)
     }
 }

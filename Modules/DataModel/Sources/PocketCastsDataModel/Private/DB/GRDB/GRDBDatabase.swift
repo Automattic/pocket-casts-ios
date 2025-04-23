@@ -1,4 +1,5 @@
 import GRDB
+import Foundation
 
 class GRDBDatabase: PCDatabase {
     private let database: Database
@@ -17,7 +18,12 @@ class GRDBDatabase: PCDatabase {
     }
 
     func executeUpdate(_ sql: String, values: [Any]?) throws {
-        try database.execute(sql: sql, arguments: StatementArguments(values != nil ? values! : [])!)
+        // We want GRDB to save `Date` the same way FMDB does: using `timeIntervalSince1970`
+        // In terms of raw performance changing that on the model layer would be much better.
+        // However, that's a large change that we want to avoid.
+        let filteredValues = values?.map { ($0 as? Date)?.timeIntervalSince1970 ?? $0 }
+
+        try database.execute(sql: sql, arguments: StatementArguments(filteredValues != nil ? filteredValues! : [])!)
     }
 
     func commit() -> Bool {
