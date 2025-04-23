@@ -300,6 +300,9 @@ enum AnalyticsEvent: String {
     case filterAutoDownloadUpdated
     case filterAutoDownloadLimitUpdated
 
+    case episodeRecentlyPlayedSortOptionTooltipShown
+    case episodeRecentlyPlayedSortOptionTooltipDismissed
+
     // MARK: - Podcast screen
 
     case podcastScreenShown
