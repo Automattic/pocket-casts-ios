@@ -6,10 +6,17 @@ struct PodcastTableCellView: View {
     let podcast: Podcast
 
     var body: some View {
-        PodcastImage(uuid: podcast.uuid)
+        HStack {
+            PodcastImage(uuid: podcast.uuid)
+                .frame(width: 48, height: 48)
 
-        Text(podcast.title ?? "")
-            .font(style: .body)
+            VStack {
+                Text(podcast.title ?? "")
+                    .font(style: .body)
+                Text(podcast.author ?? "")
+                    .font(style: .caption)
+            }
+        }
     }
 }
 

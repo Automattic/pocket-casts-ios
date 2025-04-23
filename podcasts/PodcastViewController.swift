@@ -60,6 +60,8 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+    func showEpisodes()
+    func showSimilarShows()
     func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
@@ -76,6 +78,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var listUuid: String?
     var summaryExpanded = false
     var descriptionExpanded = false
+    var currentViewMode: ViewMode = .episodes
+    var similarPodcasts: [Podcast] = []
+
+    enum ViewMode {
+        case episodes
+        case bookmarks
+        case similarShows
+    }
 
     var searchController: EpisodeListSearchController?
 
@@ -1097,13 +1107,38 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         present(hostingController, animated: true, completion: nil)
     }
 
+    func showEpisodes() {
+        currentViewMode = .episodes
+        if let podcast = podcast {
+            loadLocalEpisodes(podcast: podcast, animated: true)
+        }
+        reloadData()
+    }
+
     func showBookmarks() {
+        currentViewMode = .bookmarks
         guard let podcast else { return }
 
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
 
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
+    }
+
+    func showSimilarShows() {
+        currentViewMode = .similarShows
+        guard let podcast else { return }
+
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "similar_shows"])
+
+        // Load similar podcasts
+        Task {
+//            similarPodcasts = await PodcastManager.shared.fetchSimilarPodcasts(for: podcast)
+            similarPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
+            DispatchQueue.main.async { [weak self] in
+                self?.reloadData()
+            }
+        }
     }
 
     // MARK: - Podcast Feed Reload

@@ -3,29 +3,45 @@ import SwiftUI
 /// Displays a fake set of tabs that allows the user to open the bookmarks view from the podcast list
 struct EpisodeBookmarksTabsView: View {
     @EnvironmentObject var theme: Theme
+    @State private var selectedTab: Tab = .episodes
 
     weak var delegate: PodcastActionsDelegate?
+
+    enum Tab {
+        case episodes
+        case bookmarks
+        case similarShows
+    }
 
     var body: some View {
         HStack(spacing: 12) {
             Text(L10n.episodes)
-                .applyStyle(theme: theme, highlighted: true)
+                .buttonize {
+                    selectedTab = .episodes
+                    delegate?.showEpisodes()
+                } customize: { config in
+                    config.label
+                        .applyStyle(theme: theme, highlighted: selectedTab == .episodes)
+                        .applyButtonEffect(isPressed: config.isPressed)
+                }
 
             Text(L10n.bookmarks)
                 .buttonize {
+                    selectedTab = .bookmarks
                     delegate?.showBookmarks()
                 } customize: { config in
                     config.label
-                        .applyStyle(theme: theme)
+                        .applyStyle(theme: theme, highlighted: selectedTab == .bookmarks)
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
             Text(L10n.similarShows)
                 .buttonize {
-                    print("Similar Shows")
+                    selectedTab = .similarShows
+                    delegate?.showSimilarShows()
                 } customize: { config in
                     config.label
-                        .applyStyle(theme: theme)
+                        .applyStyle(theme: theme, highlighted: selectedTab == .similarShows)
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
