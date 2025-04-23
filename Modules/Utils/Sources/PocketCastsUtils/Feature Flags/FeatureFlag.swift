@@ -144,6 +144,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
+    case grdb
+
     /// Enable the generated transcript
     case generatedTranscripts
 
@@ -282,6 +284,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .fullScreenLogin:
             true
         case .libroFm:
+            false
+        case .grdb:
             false
         case .encourageAccountCreation:
             true
