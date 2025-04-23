@@ -174,6 +174,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new podcast sorting options
     case podcastsSortChanges
 
+    /// Recommendations including discover v3 support
+    case recommendations
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -290,6 +293,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .podcastsSortChanges:
             true
+        case .recommendations:
+            false
         }
     }
 

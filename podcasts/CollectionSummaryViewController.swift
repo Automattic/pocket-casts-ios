@@ -80,7 +80,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         guard let source = item.source else { return }
 
         self.item = item
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { [weak self] podcastCollection in
+        DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
             self?.podcastCollection = podcastCollection
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }
 

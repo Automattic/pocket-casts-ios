@@ -29,33 +29,38 @@ public class DiscoverServerHandler {
     }
 
     public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
-        let contentPath = "ios/content_v2.json"
-        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self) { discoverItems, cachedResponse in
+        let contentPath: String
+        if FeatureFlag.recommendations.enabled {
+            contentPath = "ios/content_v3.json"
+        } else {
+            contentPath = "ios/content_v2.json"
+        }
+        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
             completion(discoverItems, cachedResponse)
         }
     }
 
-    public func discoverNetworkList(source: String, completion: @escaping ([PodcastNetwork]?) -> Void) {
-        discoverRequest(path: source, type: [PodcastNetwork].self) { networkList, _ in
+    public func discoverNetworkList(source: String, authenticated: Bool?, completion: @escaping ([PodcastNetwork]?) -> Void) {
+        discoverRequest(path: source, type: [PodcastNetwork].self, authenticated: authenticated) { networkList, _ in
             completion(networkList)
         }
     }
 
-    public func discoverPodcastList(source: String, completion: @escaping (PodcastList?) -> Void) {
-        discoverRequest(path: source, type: PodcastList.self) { podcastList, _ in
+    public func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void) {
+        discoverRequest(path: source, type: PodcastList.self, authenticated: authenticated) { podcastList, _ in
             completion(podcastList)
         }
     }
 
-    public func discoverCategories(source: String, completion: @escaping ([DiscoverCategory]?) -> Void) {
-        discoverRequest(path: source, type: [DiscoverCategory].self) { categories, _ in
+    public func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
+        discoverRequest(path: source, type: [DiscoverCategory].self, authenticated: authenticated) { categories, _ in
             completion(categories)
         }
     }
 
-    public func discoverCategories(source: String) async -> [DiscoverCategory] {
+    public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
         return await withCheckedContinuation { continuation in
-            DiscoverServerHandler.shared.discoverCategories(source: source, completion: { discoverCategories in
+            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated, completion: { discoverCategories in
                 DispatchQueue.main.async {
                     guard let discoverCategories = discoverCategories else {
                         continuation.resume(returning: [])
@@ -67,25 +72,25 @@ public class DiscoverServerHandler {
         }
     }
 
-    public func discoverCategoryDetails(source: String, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
-        discoverRequest(path: source, type: DiscoverCategoryDetails.self) { categoryDetails, _ in
+    public func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
+        discoverRequest(path: source, type: DiscoverCategoryDetails.self, authenticated: authenticated) { categoryDetails, _ in
             completion(categoryDetails)
         }
     }
 
-    public func discoverPodcastCollection(source: String, completion: @escaping (PodcastCollection?) -> Void) {
-        discoverRequest(path: source, type: PodcastCollection.self) { podcastCollection, _ in
+    public func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void) {
+        discoverRequest(path: source, type: PodcastCollection.self, authenticated: authenticated) { podcastCollection, _ in
             completion(podcastCollection)
         }
     }
 
-    public func discoverItem<T>(_ source: String?, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
+    public func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
         guard let source = source else {
             return Fail(error: DiscoverServerError.badRequest).eraseToAnyPublisher()
         }
 
         return Future { [unowned self] promise in
-            self.discoverRequest(path: source, type: type) { discoverList, didError in
+            self.discoverRequest(path: source, type: type, authenticated: authenticated) { discoverList, didError in
                 if !didError, let discoverList = discoverList {
                     promise(.success(discoverList))
                 } else {
@@ -96,7 +101,12 @@ public class DiscoverServerHandler {
         .eraseToAnyPublisher()
     }
 
-    private func discoverRequest<T>(path: String, type: T.Type, completion: @escaping (T?, Bool) -> Void) where T: Decodable {
+    private let tokenHelper = {
+        let connection = URLConnection(handler: URLSession.shared)
+        return TokenHelper(urlConnection: connection)
+    }()
+
+    private func discoverRequest<T>(path: String, type: T.Type, authenticated: Bool?, completion: @escaping (T?, Bool) -> Void) where T: Decodable {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
@@ -113,7 +123,7 @@ public class DiscoverServerHandler {
             }
         }
 
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        let completion: (Data?, URLResponse?, Error?) -> Void = { [weak self] data, response, error in
             guard let data = data, let response = response, error == nil else {
                 completion(nil, false)
                 return
@@ -132,6 +142,14 @@ public class DiscoverServerHandler {
             } catch {
                 completion(nil, false)
             }
-        }.resume()
+        }
+
+        if FeatureFlag.recommendations.enabled && authenticated == true {
+            tokenHelper.callSecureUrl(request: request) { response, data, error in
+                completion(data, response, error)
+            }
+        } else {
+            URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+        }
     }
 }

@@ -9,8 +9,8 @@ class BannerModel: ObservableObject {
     let action: String?
     let iconName: String?
     let invertedColor: Bool
-    let onActionTap: (() -> ())?
-    let onCloseTap: (() -> ())?
+    private(set) var onActionTap: (() -> ())?
+    private(set) var onCloseTap: (() -> ())?
 
     init(title: String? = nil, message: String? = nil, action: String? = nil, iconName: String? = nil, invertedColor: Bool = false, onActionTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.title = title
@@ -18,6 +18,11 @@ class BannerModel: ObservableObject {
         self.action = action
         self.iconName = iconName
         self.invertedColor = invertedColor
+        self.onActionTap = onActionTap
+        self.onCloseTap = onCloseTap
+    }
+
+    func setupBinding(onActionTap: (() -> Void)? = nil, onCloseTap: (() -> Void)? = nil) {
         self.onActionTap = onActionTap
         self.onCloseTap = onCloseTap
     }
@@ -93,7 +98,7 @@ struct BannerView: View {
                 Button() {
                     model.onCloseTap?()
                 } label: {
-                    Image("close")
+                    Image("cross-little")
                         .renderingMode(.template)
                         .foregroundColor(theme.primaryIcon02)
                 }
@@ -102,7 +107,7 @@ struct BannerView: View {
         }
         .background(backgroundColor)
         .cornerRadius(8)
-        .background(theme.primaryUi04)
+        .background(.clear)
         .if(edgeInsets != nil) { content in
             content.padding(edgeInsets ?? EdgeInsets())
         }
