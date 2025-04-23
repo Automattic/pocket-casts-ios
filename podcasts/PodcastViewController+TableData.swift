@@ -153,6 +153,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 let podcast = similarPodcasts[indexPath.row]
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
                 cell.configure(with: podcast)
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
         }
@@ -253,19 +254,38 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table Config
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows {
+            return CGFloat.leastNonzeroMagnitude
+        }
+        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows {
+            return CGFloat.leastNonzeroMagnitude
+        }
+        return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
+            return 16
+        }
+        return CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
+            let footerView = UIView()
+            footerView.backgroundColor = .clear
+            return footerView
+        }
+        return nil
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        PodcastViewController.allEpisodesSection == section ? searchController?.view : nil
+        guard PodcastViewController.allEpisodesSection == section else { return nil }
+        return currentViewMode == .episodes ? searchController?.view : nil
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
