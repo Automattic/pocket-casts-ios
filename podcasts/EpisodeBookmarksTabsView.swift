@@ -27,7 +27,6 @@ struct EpisodeBookmarksTabsView: View {
 
             Text(L10n.bookmarks)
                 .buttonize {
-                    selectedTab = .bookmarks
                     delegate?.showBookmarks()
                 } customize: { config in
                     config.label
