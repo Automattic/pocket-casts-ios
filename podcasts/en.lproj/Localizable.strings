@@ -4960,3 +4960,9 @@
 /* Notification permission banner action*/
 "notitifications_permission_banner_action" = "Go to device settings";
 
+/* Notification title for weekly reengagement message */
+"notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Notification body for weekly reengagement message */
+"notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
+

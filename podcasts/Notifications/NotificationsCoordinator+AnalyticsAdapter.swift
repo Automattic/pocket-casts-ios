@@ -8,8 +8,19 @@ extension NotificationsCoordinator: AnalyticsAdapter {
                 self.cancelNotification(notification)
             }
         }
+        updateReEngagementNotifications(name: name, properties: properties)
     }
 
+    func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
+        // Check if need to cancel an existing notification
+        if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
+            self.cancelNotification(.reengagementWeekly)
+        }
+        let event: AnalyticsEvent = .applicationClosed
+        if event.rawValue.toSnakeCaseFromCamelCase() == name {
+            self.updateReengamentNotifications()
+        }
+    }
 }
 
 extension NotificationType {
@@ -18,6 +29,8 @@ extension NotificationType {
         var possibleConditions: Set<AnalyticsEvent>
 
         switch self {
+        case .reengagementWeekly:
+            possibleConditions = [.applicationOpened]
         case .onboardingSignUp:
             possibleConditions = [.userSignedIn, .userAccountCreated]
         case .onboardingImport:
