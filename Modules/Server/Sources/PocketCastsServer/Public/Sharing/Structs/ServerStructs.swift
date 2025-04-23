@@ -319,6 +319,10 @@ public struct DiscoverItem: Decodable, Equatable {
         self.categoryID = categoryID
         self.authenticated = authenticated
     }
+
+    public var isAuthenticated: Bool {
+        authenticated == true
+    }
 }
 
 public struct CarouselSponsoredPodcast: Decodable, Equatable {

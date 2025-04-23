@@ -14,6 +14,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
     private var notificationsDenied = false
 
+    private lazy var notificationsCoordinator: NotificationsCoordinator = {
+        return NotificationsCoordinator.shared
+    }()
+
     enum Section: Int {
         case episodes = 0
         case recommendationsAndReminders
@@ -53,13 +57,14 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         var value: Bool {
             switch self {
             case .dailyReminders:
-                return Settings.notificationsOnboardingTips
+                return Settings.notificationsDailyReminders
             case .newEpisodes:
                 return NotificationsHelper.shared.pushEnabled()
+            case .newFeaturesAndTips:
+                return Settings.notificationsNewFeaturesAndTips
             case .podcastsChosen,
                  .appBadges,
                  .trendingRecommendations,
-                 .newFeaturesAndTips,
                  .pocketCastsOffers:
                 return false
             }
@@ -261,14 +266,19 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 episodePushToggled(sender)
         case .dailyReminders:
             if sender.isOn {
-                NotificationsCoordinator.shared.setupOnboardingNotifications()
+                notificationsCoordinator.setupDailyRemindersNotifications()
             } else {
-                NotificationsCoordinator.shared.cancelOnboardingNotifications()
+                notificationsCoordinator.cancelDailyRemainderNotifications()
             }
             Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
         case .trendingRecommendations:
             Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
         case .newFeaturesAndTips:
+            if sender.isOn {
+                notificationsCoordinator.setupNewFeaturesAndTipsNotifications()
+            } else {
+                notificationsCoordinator.cancelNewFeaturesAndTipsNotifications()
+            }
             Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
         case .pocketCastsOffers:
             Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
