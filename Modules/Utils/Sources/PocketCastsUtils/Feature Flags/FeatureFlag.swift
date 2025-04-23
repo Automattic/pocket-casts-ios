@@ -289,7 +289,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .avoidReplaceOnEpisodeSwap:
             true
         case .podcastsSortChanges:
-            false
+            true
         }
     }
 
