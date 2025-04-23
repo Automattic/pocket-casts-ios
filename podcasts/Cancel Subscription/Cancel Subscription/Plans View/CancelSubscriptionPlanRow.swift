@@ -12,7 +12,7 @@ struct CancelSubscriptionPlanRow: View {
             HStack {
                 Spacer()
                 Text(L10n.cancelSubscriptionAvailablePlansBestValueBadge)
-                    .font(size: 14.0, style: .body, weight: .regular)
+                    .font(size: 14.0, style: .body, weight: .medium)
                     .foregroundStyle(theme.primaryInteractive02)
                     .frame(height: 24.0)
                     .padding(.horizontal, 16.0)
