@@ -144,6 +144,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
+    case grdb
+
     /// Enable the generated transcript
     case generatedTranscripts
 
@@ -164,6 +166,18 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable the new notifications types and settings
     case notificationsRevamp
+
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
+    /// Recommendations including discover v3 support
+    case recommendations
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -271,9 +285,23 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .libroFm:
             false
+        case .grdb:
+            #if DEBUG
+            true
+            #else
+            false
+            #endif
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
+            false
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
+        case .podcastsSortChanges:
+            true
+        case .recommendations:
             false
         }
     }

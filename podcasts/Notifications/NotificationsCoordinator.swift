@@ -99,7 +99,7 @@ class NotificationsCoordinator {
 
     var ignoreScheduleHours: Bool = false
 
-    enum Constants {
+    private enum Constants {
         static let onboardingScheduleHour: Int = 10
         static let reengagementScheduleHour: Int = 16
         static let recommendationsScheduleHour: Int = 14

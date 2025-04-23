@@ -167,7 +167,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         self.item = item
         titleLabel.text = delegate?.replaceRegionName(string: title)
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
             for podcast in discoverPodcast {
                 strongSelf.podcasts.append(podcast)

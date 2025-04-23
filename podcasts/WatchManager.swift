@@ -38,6 +38,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(autoDownloadChanged), name: Constants.Notifications.watchAutoDownloadSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChapterChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
+
+        cachedLog = WatchManager.shared.readLogFile()
     }
 
     deinit {
@@ -397,7 +399,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
         DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.sendStateToWatch()
+            guard let self else { return }
+            sendStateToWatch()
         }
     }
 

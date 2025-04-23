@@ -26,15 +26,6 @@ class UpNextHistoryModel: ObservableObject {
         }
     }
 
-    func replaceUpNext(entry: Date) {
-        Task {
-            PlaybackManager.shared.endPlayback()
-            dataManager.replaceUpNext(entry: entry)
-            PlaybackManager.shared.queue.bulkOperationDidComplete()
-            PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
-        }
-    }
-
     func reAddMissingItems(entry: Date) {
         Task {
             let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)

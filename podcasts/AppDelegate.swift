@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Never show the podcast feed reload tooltip for fresh install
             Settings.shouldShowPodcastFeeReloadTip = false
             Settings.shouldShowPodcastViewChangesTip = false
+            Settings.shouldShowRecentlyPlayedSortingTip = false
         }
 
         let defaults = UserDefaults.standard

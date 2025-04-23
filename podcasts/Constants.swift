@@ -177,6 +177,8 @@ struct Constants {
 
         static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
 
+        static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
+
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)

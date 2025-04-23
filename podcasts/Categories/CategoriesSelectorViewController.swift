@@ -12,7 +12,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
         lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
             guard let source = self?.item?.source else { return nil }
-            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
+            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: self?.item?.authenticated)
             let popular = categories.filter {
                 guard let id = $0.id else { return false }
                 return self?.item?.popular?.contains(id) == true

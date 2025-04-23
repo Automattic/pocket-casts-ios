@@ -167,7 +167,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         guard let bundles = bundleSubscriptions else { return }
         for bundle in bundles {
             let bundleUrl = ServerHelper.bundleUrl(bundleUuid: bundle.bundleUuid)
-            DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, completion: { podcastCollection in
+            DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
 
                 guard let podcastCollection = podcastCollection else { return }
                 self.bundleInfo[bundle.bundleUuid] = podcastCollection

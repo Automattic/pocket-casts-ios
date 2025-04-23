@@ -80,7 +80,7 @@ public struct EpisodeBasicData {
 }
 
 public enum LibrarySort: Int32, CaseIterable, Codable {
-    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3, recentlyPlayed = 4
 }
 
 public enum LibraryType: Int32, Codable {

@@ -43,7 +43,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         guard let source = item.source else { return }
 
-        DiscoverServerHandler.shared.discoverCategories(source: source, completion: { [weak self] discoverCategories in
+        DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: item.authenticated, completion: { [weak self] discoverCategories in
             DispatchQueue.main.async {
                 guard let strongSelf = self, let discoverCategories = discoverCategories else { return }
 

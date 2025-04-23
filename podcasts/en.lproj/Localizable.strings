@@ -2001,6 +2001,15 @@
 /* Grid Items will be sorted alphabetically based on name. */
 "podcasts_library_sort_title" = "Name";
 
+/* Grid Items will be sorted based on the recently played date. */
+"podcasts_library_sort_episode_recently_played" = "Recently Played";
+
+/* Title of the tooltip that appears in the podcasts view that alerts a new sorting option */
+"podcasts_library_sort_episode_recently_played_tip_title" = "Sort by “Recently Played”";
+
+/* Description of the tooltip that appears in the podcasts view that alerts a new sorting option */
+"podcasts_library_sort_episode_recently_played_tip_description" = "You can now sort by Recently Played and quickly pick up where you left off.";
+
 /* Presents the podcasts in a list view. */
 "podcasts_list" = "List";
 
@@ -4890,6 +4899,21 @@
 
 /* Notification body for onboarding to staff picks message */
 "notifications_onboarding_staff_picks_body" = "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.";
+
+/* Notification permission banner title*/
+"notitifications_permission_banner_title" = "Allow Push Notifications";
+
+/* Notification permission banner message*/
+"notitifications_permission_banner_message" = "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.";
+
+/* Notification permission banner action*/
+"notitifications_permission_banner_action" = "Go to device settings";
+
+/* Notification title for weekly reengagement message */
+"notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Notification body for weekly reengagement message */
+"notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
 
 /* Encourage Account Creation: modal title */
 "eac_informational_view_modal_title" = "We noticed you’re not logged in";

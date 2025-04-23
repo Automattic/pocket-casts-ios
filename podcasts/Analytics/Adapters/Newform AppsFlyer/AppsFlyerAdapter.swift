@@ -14,7 +14,8 @@ class AppsFlyerAdapter: AnalyticsAdapter {
     ) {
         self.dataProvider = dataProvider
         self.appTrackingTransparencyProvider = appTrackingTransparencyProvider
-        setup()
+        appsFlyerSetup()
+        checkUserConsent()
 #if DEBUG
         FileLog.shared.console("AppsFlyer anonymous UUID \(dataProvider.anonymousUUID)")
 #endif
@@ -31,20 +32,20 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         appsFlyer.logEvent(name, withValues: properties)
     }
 
-    private func setup() {
-        guard FeatureFlag.podcastNewformAppsFlyer.enabled else {
-            return
-        }
-        if appTrackingTransparencyProvider.userDeniedConsent() {
-            FileLog.shared.addMessage("AppsFlyer setup not possible as ATT is denied")
-            return
-        }
+    private func appsFlyerSetup() {
         appsFlyer.appsFlyerDevKey = dataProvider.devKey
         appsFlyer.appleAppID = dataProvider.appleAppID
         appsFlyer.customerUserID = dataProvider.anonymousUUID
 #if DEBUG
         appsFlyer.isDebug = FeatureFlag.appsFlyerLogging.enabled
 #endif
+    }
+
+    private func checkUserConsent() {
+        if appTrackingTransparencyProvider.userDeniedConsent() {
+            FileLog.shared.addMessage("AppsFlyer setup not possible as ATT is denied")
+            return
+        }
         let shouldShowPrompt = appTrackingTransparencyProvider.shouldShowPrompt()
         if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {
             start()

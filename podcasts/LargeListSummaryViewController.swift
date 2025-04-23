@@ -158,7 +158,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         titleLabel.text = delegate?.replaceRegionName(string: title)
         titleLabel.sizeToFit()
         divider.isHidden = true
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
             let podcasts: [DiscoverPodcast]
