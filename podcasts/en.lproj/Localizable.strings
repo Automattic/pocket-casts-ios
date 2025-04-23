@@ -4036,6 +4036,9 @@
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
 
+/* Title for the similar shows feature in a Podcast */
+"similar_shows" = "Similar Shows";
+
 /* Autoplay feature announcement title */
 "announcement_autoplay_title" = "Autoplay is here!";
 

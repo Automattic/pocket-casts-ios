@@ -20,6 +20,15 @@ struct EpisodeBookmarksTabsView: View {
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
+            Text(L10n.similarShows)
+                .buttonize {
+                    print("Similar Shows")
+                } customize: { config in
+                    config.label
+                        .applyStyle(theme: theme)
+                        .applyButtonEffect(isPressed: config.isPressed)
+                }
+
             Spacer()
         }
         .font(.subheadline.weight(.medium))
