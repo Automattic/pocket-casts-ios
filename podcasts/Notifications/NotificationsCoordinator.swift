@@ -89,7 +89,7 @@ class NotificationsCoordinator {
     var reEngagementTimeIntervalStep: TimeInterval = 1.week
     var ignoreScheduleHours: Bool = false
 
-    enum Constants {
+    private enum Constants {
         static let onboardingScheduleHour: Int = 10
         static let reengagementScheduleHour: Int = 16
     }
