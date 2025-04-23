@@ -65,6 +65,10 @@ extension DatabasePool {
             throw TestError.dbFolderPathFailure
         }
 
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
         let dbPath = dbFolderPath.appendingPathComponent(databaseName ?? "podcast_testDB_GRDB.sqlite3")
         if databaseName == nil && FileManager.default.fileExists(atPath: dbPath) {
             try FileManager.default.removeItem(atPath: dbPath)
