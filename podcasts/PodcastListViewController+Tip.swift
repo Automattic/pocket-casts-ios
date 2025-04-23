@@ -22,17 +22,16 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
         guard let button = customRightBtn else {
             return nil
         }
-        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let idealSize = CGSizeMake(290, 100)
+        let idealSize = CGSize(width: 300, height: 120)
         let tipView = TipViewStatic(title: L10n.podcastsLibrarySortEpisodeRecentlyPlayedTipTitle,
                                     message: L10n.podcastsLibrarySortEpisodeRecentlyPlayedTipDescription,
                                     showClose: true,
                               onTap: { [weak self] in
             self?.dismissRecentlyPlayedSortingTip()
         })
-            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .frame(maxWidth: idealSize.width, minHeight: idealSize.height)
             .setupDefaultEnvironment()
-        vc.rootView = AnyView(tipView)
+        let vc = UIHostingController(rootView: tipView)
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
@@ -55,14 +54,9 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
     }
 
     private func dismissRecentlyPlayedSortingTip() {
-        guard Settings.shouldShowRecentlyPlayedSortingTip,
-            let recentlyPlayedSortingTip
-        else {
-            return
-        }
         Analytics.track(.episodeRecentlyPlayedSortOptionTooltipDismissed)
         Settings.shouldShowRecentlyPlayedSortingTip = false
-        recentlyPlayedSortingTip.dismiss(animated: true) { [weak self] in
+        recentlyPlayedSortingTip?.dismiss(animated: true) { [weak self] in
             self?.recentlyPlayedSortingTip = nil
         }
     }
