@@ -258,6 +258,7 @@ public class ServerPodcastManager: NSObject {
             tokenHelper.callSecureUrl(request: request) { response, data, error in
                 if let error {
                     continuation.resume(throwing: error)
+                    return
                 }
                 guard let data = data else {
                     continuation.resume(returning: nil)
@@ -266,6 +267,7 @@ public class ServerPodcastManager: NSObject {
 
                 if response?.statusCode == ServerConstants.HttpConstants.notModified {
                     continuation.resume(returning: nil)
+                    return
                 }
 
                 let decoder = JSONDecoder()
@@ -274,8 +276,11 @@ public class ServerPodcastManager: NSObject {
                 do {
                     let decoded = try decoder.decode(PodcastCollection.self, from: data)
                     continuation.resume(returning: decoded)
+                    return
                 } catch let error {
                     print("Failed to decode recommendations \(error.localizedDescription)")
+                    continuation.resume(throwing: error)
+                    return
                 }
             }
         }

@@ -23,6 +23,7 @@ enum PodcastFeedReloadSource {
 }
 
 protocol PodcastActionsDelegate: AnyObject {
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> { get }
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
     func isDescriptionExpanded() -> Bool
@@ -80,6 +81,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
     var similarPodcasts: [String] = []
+    private var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
+        hasSimilarShows.eraseToAnyPublisher()
+    }
 
     enum ViewMode {
         case episodes
@@ -467,6 +472,16 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             self.navigationController?.isNavigationBarHidden = true
         }
         showViewChangesTipIfNeeded()
+
+        // Load recommendations when view appears
+        Task {
+            if let podcast = podcast {
+                let recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+                DispatchQueue.main.async { [weak self] in
+                    self?.hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
+                }
+            }
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
