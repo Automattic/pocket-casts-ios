@@ -51,8 +51,8 @@ class AppsFlyerAdapter: AnalyticsAdapter {
             start()
         } else if shouldShowPrompt {
             FileLog.shared.addMessage("AppsFlyer ATT not determined: wait for user to give consent")
-            appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized in
-                FileLog.shared.addMessage("AppsFlyer ATT auth state changed: authorized \(authorized)")
+            appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized, value in
+                FileLog.shared.addMessage("AppsFlyer ATT auth state changed: \(value) - authorized \(authorized)")
                 if authorized {
                     self?.start()
                 }

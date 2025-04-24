@@ -147,7 +147,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private func showInitialOnboardingIfNeeded() {
         // Show if the user is not logged in and has never seen the prompt before
-        if SyncManager.isUserLoggedIn() || (Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true) {
+        if SyncManager.isUserLoggedIn() {
             return
         }
 
@@ -155,6 +155,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             Task {
                 await AppTrackingTransparencyController.shared.promptConsentAlert()
             }
+        }
+
+        if Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore == true {
+            return
         }
 
         if FeatureFlag.encourageAccountCreation.enabled {
