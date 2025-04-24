@@ -35,6 +35,7 @@ class LargeListSummaryCellHeaderView: UIView {
         label.textColor = ThemeColor.primaryText01()
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.numberOfLines = 0
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         return label
     }()
 
