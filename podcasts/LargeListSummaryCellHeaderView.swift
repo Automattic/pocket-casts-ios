@@ -76,12 +76,17 @@ class LargeListSummaryCellHeaderView: UIView {
         addSubview(horizontalStack)
         horizontalStack.translatesAutoresizingMaskIntoConstraints = false
 
+        // Allow this constraint to break if necessary.
+        // Sometimes, the cell height may fluctuate and cause this constraint to throw warnings
+        let imageWidthAnchor = imageView.widthAnchor.constraint(equalToConstant: 44)
+        imageWidthAnchor.priority = UILayoutPriority(rawValue: 999)
+
         NSLayoutConstraint.activate([
             horizontalStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             horizontalStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             horizontalStack.topAnchor.constraint(equalTo: topAnchor),
             horizontalStack.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 44),
+            imageWidthAnchor,
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
 
