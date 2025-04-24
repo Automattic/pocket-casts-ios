@@ -115,6 +115,7 @@ class NotificationsCoordinator {
 
     func setupDailyRemindersNotifications() {
         Settings.notificationsDailyReminders = true
+        NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
             let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
@@ -133,6 +134,7 @@ class NotificationsCoordinator {
 
     func setupNewFeaturesAndTipsNotifications() {
         Settings.notificationsNewFeaturesAndTips = true
+        NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard granted else { return }
             self?.updateReengamentNotifications()
@@ -154,6 +156,7 @@ class NotificationsCoordinator {
 
     func setupRecommendationsNotifications() {
         Settings.notificationsRecommendations = true
+        NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard granted else { return }
             self?.updateRecommendationNotifications()
