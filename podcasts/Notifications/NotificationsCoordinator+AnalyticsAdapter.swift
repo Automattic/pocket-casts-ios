@@ -3,7 +3,7 @@ import Foundation
 extension NotificationsCoordinator: AnalyticsAdapter {
 
     func track(name: String, properties: [AnyHashable: Any]?) {
-        for notification in onboardingNotifications {
+        for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
                 self.cancelNotification(notification)
             }

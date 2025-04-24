@@ -89,6 +89,23 @@ enum NotificationType: String {
     }
 }
 
+enum NotificationsGroup {
+    case dailyReminders
+    case recommendations
+    case newFeaturesAndTips
+
+    var notifications: [NotificationType] {
+        switch self {
+            case .dailyReminders:
+                return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
+            case .recommendations:
+                return [.recommendationsTrending]
+            case .newFeaturesAndTips:
+                return [.reengagementWeekly]
+        }
+    }
+}
+
 class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
@@ -111,8 +128,6 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
-    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
-
     func setupDailyRemindersNotifications() {
         Settings.notificationsDailyReminders = true
         NotificationsHelper.shared.enablePush()
@@ -120,7 +135,7 @@ class NotificationsCoordinator {
             guard let self, granted else { return }
             let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
             var timeInterval: TimeInterval = timeIntervalToSchedule + onboardingTimeIntervalStep
-            onboardingNotifications.forEach { notification in
+            NotificationsGroup.dailyReminders.notifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
                 timeInterval += self.onboardingTimeIntervalStep
             }
@@ -129,7 +144,7 @@ class NotificationsCoordinator {
 
     func cancelDailyRemainderNotifications() {
         Settings.notificationsDailyReminders = false
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: NotificationsGroup.dailyReminders.notifications.map { $0.identifier })
     }
 
     func setupNewFeaturesAndTipsNotifications() {
