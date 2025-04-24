@@ -1,6 +1,10 @@
 import Foundation
 import PocketCastsDataModel
 
+public struct Recommendations: Decodable {
+    public let uuids: [String]
+}
+
 public class ServerPodcastManager: NSObject {
     private static let maxAutoDownloadSeperationTime = 12.hours
 
@@ -238,6 +242,59 @@ public class ServerPodcastManager: NSObject {
         DataManager.sharedManager.save(episode: episode)
 
         return episode
+    }
+
+    public func loadRecommendations(for podcast: String) async throws -> PodcastCollection? {
+        let url = ServerConstants.Urls.api() + "recommendations/podcast?podcast_uuid=\(podcast)"
+
+        var request = URLRequest(url: URL(string: url)!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+
+        let tokenHelper = TokenHelper(urlConnection: urlConnection)
+
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PodcastCollection?, Error>) in
+            tokenHelper.callSecureUrl(request: request) { response, data, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                }
+                guard let data = data else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+
+                if response?.statusCode == ServerConstants.HttpConstants.notModified {
+                    continuation.resume(returning: nil)
+                }
+
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+
+                do {
+                    let decoded = try decoder.decode(PodcastCollection.self, from: data)
+                    continuation.resume(returning: decoded)
+                } catch let error {
+                    print("Failed to decode recommendations \(error.localizedDescription)")
+                }
+            }
+        }
+//        return withCheckedThrowingContinuation { continuation in
+//            do {
+//                try tokenHelper.callSecureUrl(request: request) { response, data, error in
+//                    guard let data = data else { continuation.resume(returning: nil) }
+//
+//                    if response?.statusCode == ServerConstants.HttpConstants.notModified {
+//                        continuation.resume(returning: nil)
+//                    }
+//                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                        continuation.resume(returning: jsonResponse)
+//                    }
+//                }
+//            } catch error {
+//                continuation.resume(throwing: error)
+//            }
+//        }
     }
 
     private func loadFrom(url: String) -> [String: Any]? {

@@ -79,7 +79,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var summaryExpanded = false
     var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
-    var similarPodcasts: [Podcast] = []
+    var similarPodcasts: [String] = []
 
     enum ViewMode {
         case episodes
@@ -1133,8 +1133,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load similar podcasts
         Task {
-//            similarPodcasts = await PodcastManager.shared.fetchSimilarPodcasts(for: podcast)
-            similarPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
+            //TODO: Pass through Discover podcasts or something so that only the image needs to be loaded
+            similarPodcasts = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)?.podcasts?.map { $0.uuid ?? "" } ?? []
             DispatchQueue.main.async { [weak self] in
                 self?.reloadData()
             }
