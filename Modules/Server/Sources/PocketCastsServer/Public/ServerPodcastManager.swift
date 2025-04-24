@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
-public struct Recommendations: Decodable {
+public struct PodcastRecommendations: Decodable {
     public let uuids: [String]
 }
 

@@ -85,6 +85,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
     }
+    private var recommendations: PodcastCollection?
 
     enum ViewMode {
         case episodes
@@ -476,9 +477,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         // Load recommendations when view appears
         Task {
             if let podcast = podcast {
-                let recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+                recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
                 DispatchQueue.main.async { [weak self] in
-                    self?.hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
+                    guard let self else { return }
+                    hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
                 }
             }
         }
@@ -1146,14 +1148,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": "similar_shows"])
 
-        // Load similar podcasts
-        Task {
-            //TODO: Pass through Discover podcasts or something so that only the image needs to be loaded
-            similarPodcasts = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)?.podcasts?.map { $0.uuid ?? "" } ?? []
-            DispatchQueue.main.async { [weak self] in
-                self?.reloadData()
-            }
-        }
+        // Use the stored recommendations data
+        similarPodcasts = recommendations?.podcasts?.compactMap { $0.uuid } ?? []
+        reloadData()
     }
 
     // MARK: - Podcast Feed Reload
