@@ -305,12 +305,12 @@ struct DeveloperMenu: View {
                 Button("Speed Up Notifications") {
                     NotificationsCoordinator.shared.onboardingTimeIntervalStep = 10.seconds
                     NotificationsCoordinator.shared.reEngagementTimeIntervalStep = 60.seconds
+                    NotificationsCoordinator.shared.recommendationsTimeIntervalStep = 60.seconds
                     NotificationsCoordinator.shared.ignoreScheduleHours = true
                 }
             } header: {
                 Text("Notifications")
             }
-
 
             Section {
                 Text(Bundle.main.identifier)

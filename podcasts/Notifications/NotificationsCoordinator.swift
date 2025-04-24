@@ -13,6 +13,8 @@ enum NotificationType: String {
 
     case reengagementWeekly
 
+    case recommendationsTrending
+
     var title: String {
         switch self {
         case .onboardingSignUp:
@@ -31,6 +33,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksTitle
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyTitle
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingTitle
         }
     }
 
@@ -52,6 +56,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksBody
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyBody
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingBody
         }
     }
 
@@ -77,6 +83,8 @@ enum NotificationType: String {
             return "pktc://discover/staff-picks"
         case .reengagementWeekly:
             return "pktc://discover"
+        case .recommendationsTrending:
+            return "pktc://discover/trending"
         }
     }
 }
@@ -87,11 +95,14 @@ class NotificationsCoordinator {
 
     var onboardingTimeIntervalStep: TimeInterval = 24.hours
     var reEngagementTimeIntervalStep: TimeInterval = 1.week
+    var recommendationsTimeIntervalStep: TimeInterval = 3.days
+
     var ignoreScheduleHours: Bool = false
 
     private enum Constants {
         static let onboardingScheduleHour: Int = 10
         static let reengagementScheduleHour: Int = 16
+        static let recommendationsScheduleHour: Int = 14
     }
 
     private let notificationCenter: UNUserNotificationCenter
@@ -104,6 +115,7 @@ class NotificationsCoordinator {
 
     func setupDailyRemindersNotifications() {
         Settings.notificationsDailyReminders = true
+        NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
             let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
@@ -122,6 +134,7 @@ class NotificationsCoordinator {
 
     func setupNewFeaturesAndTipsNotifications() {
         Settings.notificationsNewFeaturesAndTips = true
+        NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard granted else { return }
             self?.updateReengamentNotifications()
@@ -139,6 +152,28 @@ class NotificationsCoordinator {
         let initialInterval = timeIntervalToSchedule + reEngagementTimeIntervalStep
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
         scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
+    }
+
+    func setupRecommendationsNotifications() {
+        Settings.notificationsRecommendations = true
+        NotificationsHelper.shared.enablePush()
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard granted else { return }
+            self?.updateRecommendationNotifications()
+        }
+    }
+
+    func cancelRecommendationsNotifications() {
+        Settings.notificationsRecommendations = false
+        cancelNotification(.recommendationsTrending)
+    }
+
+    func updateRecommendationNotifications() {
+        cancelNotification(.recommendationsTrending)
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.recommendationsScheduleHour)
+        let initialInterval = timeIntervalToSchedule + recommendationsTimeIntervalStep
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval, repeats: false)
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval + recommendationsTimeIntervalStep, repeats: true)
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {

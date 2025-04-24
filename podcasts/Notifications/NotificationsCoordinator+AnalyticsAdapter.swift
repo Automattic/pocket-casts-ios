@@ -9,6 +9,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
             }
         }
         updateReEngagementNotifications(name: name, properties: properties)
+        updateRecommendationNotifications(name: name, properties: properties)
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
@@ -19,6 +20,14 @@ extension NotificationsCoordinator: AnalyticsAdapter {
         let event: AnalyticsEvent = .applicationClosed
         if event.rawValue.toSnakeCaseFromCamelCase() == name {
             self.updateReengamentNotifications()
+        }
+    }
+
+    func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
+        // Check if need to cancel an existing notification
+        if NotificationType.recommendationsTrending.checkCancelConditionsForEvent(name: name, properties: properties) {
+            self.cancelNotification(.recommendationsTrending)
+            self.updateRecommendationNotifications()
         }
     }
 }
@@ -45,6 +54,8 @@ extension NotificationType {
             possibleConditions  = [.purchaseSuccessful]
         case .onboardingStaffPicks:
             possibleConditions = [.discoverListShowAllTapped]
+        case .recommendationsTrending:
+            possibleConditions = [.discoverListShowAllTapped]
         }
         let eventMatch = possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name
@@ -60,6 +71,11 @@ extension NotificationType {
                 return false
             }
             return listID == "staff-picks"
+        case .recommendationsTrending:
+                guard let properties, let listID = properties["list_id"] as? String else {
+                    return false
+                }
+                return listID == "featured"
         default:
             return true
         }
