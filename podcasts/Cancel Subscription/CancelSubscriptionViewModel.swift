@@ -197,7 +197,7 @@ extension CancelSubscriptionViewModel {
     func cancelSubscriptionTap() {
         Analytics.track(.winbackContinueButtonTap)
 
-        let viewController = CancelConfirmationViewModel.make(in: navigationController)
+        let viewController = CancelConfirmationViewModel.make(in: navigationController, subscriptionViewModel: self)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
@@ -229,6 +229,36 @@ extension CancelSubscriptionViewModel {
         Analytics.track(.winbackOfferClaimedDoneButtonTapped)
 
         navigationController?.dismiss(animated: true)
+    }
+
+    func showWinbackScreen() {
+
+    }
+
+    func showManageSubscriptions() {
+        Task { [weak self] in
+            guard let self else { return }
+            guard let windowScene = await self.navigationController?.view.window?.windowScene else {
+                FileLog.shared.console("[CancelConfirmationViewModel] No window scene available")
+                return
+            }
+            do {
+                try await IAPHelper.shared.showManageSubscriptions(in: windowScene)
+
+                await ApiServerHandler.shared.retrieveSubscriptionStatus()
+
+                await MainActor.run {
+                    if FeatureFlag.winback.enabled {
+                        // To avoid repeating the event tracking,
+                        // I forced passing the `swipe` type
+                        self.didDismiss(type: .swipe)
+                    }
+                    self.navigationController?.dismiss(animated: true)
+                }
+            } catch {
+                FileLog.shared.console("[StoreKit] Error showing manage subscriptions: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
