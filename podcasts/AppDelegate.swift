@@ -6,6 +6,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
+import FacebookCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -34,6 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
+
+        // Facebook AEM Analytics
+        FacebookCore.Settings.shared.appID = ApiCredentials.instagramAppID
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         setupSecrets()
         addAnalyticsObservers()

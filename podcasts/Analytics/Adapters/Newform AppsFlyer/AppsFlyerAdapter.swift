@@ -31,6 +31,16 @@ class AppsFlyerAdapter: AnalyticsAdapter {
             return
         }
         appsFlyer.logEvent(name, withValues: properties)
+        let parameters: [AppEvents.ParameterName: Any]? = properties?.reduce([:]) { (dict, element) in
+            let (key, value) = element
+            var modDict = dict
+            if let keyString = key as? String {
+                let paramName = AppEvents.ParameterName(rawValue: keyString)
+                modDict[paramName] = value
+            }
+            return modDict
+        }
+        FacebookCore.AppEvents.shared.logEvent(AppEvents.Name(name), parameters: parameters ?? [:])
     }
 
     private func appsFlyerSetup() {

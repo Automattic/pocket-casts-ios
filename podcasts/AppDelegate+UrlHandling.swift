@@ -4,6 +4,7 @@ import JLRoutes
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -17,6 +18,12 @@ extension AppDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
         guard let progressViewController = SceneHelper.rootViewController() else { return false }
         return handleOpenUrl(url: url, rootViewController: progressViewController)
     }

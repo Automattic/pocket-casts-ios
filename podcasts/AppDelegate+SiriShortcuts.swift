@@ -4,9 +4,12 @@ import Intents
 import JLRoutes
 import PocketCastsDataModel
 import PocketCastsUtils
+import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        ApplicationDelegate.shared.application(application, continue: userActivity)
+
         handleContinue(userActivity)
 
         return true
