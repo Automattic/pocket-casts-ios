@@ -1,5 +1,6 @@
 import AppsFlyerLib
 import PocketCastsUtils
+import FacebookCore
 
 class AppsFlyerAdapter: AnalyticsAdapter {
     let isThirdPartyAdapter = true
@@ -48,11 +49,13 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         }
         let shouldShowPrompt = appTrackingTransparencyProvider.shouldShowPrompt()
         if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {
+            FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = true
             start()
         } else if shouldShowPrompt {
             FileLog.shared.addMessage("AppsFlyer ATT not determined: wait for user to give consent")
             appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized in
                 FileLog.shared.addMessage("AppsFlyer ATT auth state changed: authorized \(authorized)")
+                FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = authorized
                 if authorized {
                     self?.start()
                 }
