@@ -12,8 +12,8 @@ class GRDBDatabase: PCDatabase {
         self.database = database
     }
 
-    func pragmaUserVersion() -> Int32 {
-        (try? Int32.fetchOne(database, sql: "PRAGMA user_version")) ?? 0
+    func pragmaUserVersion() -> Int32? {
+        try? Int32.fetchOne(database, sql: "PRAGMA user_version")
     }
 
     func executeQuery(_ sql: String, values: [Any]?) throws -> any PCDBResultSet {
