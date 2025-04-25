@@ -284,22 +284,6 @@ public class ServerPodcastManager: NSObject {
                 }
             }
         }
-//        return withCheckedThrowingContinuation { continuation in
-//            do {
-//                try tokenHelper.callSecureUrl(request: request) { response, data, error in
-//                    guard let data = data else { continuation.resume(returning: nil) }
-//
-//                    if response?.statusCode == ServerConstants.HttpConstants.notModified {
-//                        continuation.resume(returning: nil)
-//                    }
-//                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-//                        continuation.resume(returning: jsonResponse)
-//                    }
-//                }
-//            } catch error {
-//                continuation.resume(throwing: error)
-//            }
-//        }
     }
 
     private func loadFrom(url: String) -> [String: Any]? {
