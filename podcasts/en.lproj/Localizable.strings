@@ -4694,7 +4694,7 @@
 "manage_downloads_action" = "Manage downloads";
 
 /* Title of the cancel subscription view, '\n' is a line break format to allow a clean wrapping of text */
-"cancel_subscription_title" = "Before you cancel,\ncheck out these offers";
+"cancel_subscription_title" = "Thinking of leaving?\nLet us help first";
 
 /* Title for the continue button */
 "cancel_subscription_continue_button" = "Continue to Cancellation";
@@ -4734,6 +4734,12 @@
 
 /* Footer of the Available Plans screen accessible from the Cancel Subscription view */
 "cancel_subscription_available_plans_footer" = "Your new plan will activate at the end of your current billing period.";
+
+/* Badge that appears over the best value plan in the available plans list */
+"cancel_subscription_available_plans_best_value_badge" = "Best Value";
+
+/* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
+"iap_product_weekly_pricing_format" = "%1$@/week";
 
 /* Text displayed when the retry screen is visible */
 "cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
