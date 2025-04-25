@@ -26,7 +26,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
+        if sender.state == .began && currentViewMode != .similarShows {
             let touchPoint = sender.location(in: episodesTable)
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
@@ -300,7 +300,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        guard currentViewMode != .similarShows else { return false }
+        return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
@@ -312,7 +313,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        guard indexPath.section == PodcastViewController.allEpisodesSection, episodeAtIndexPath(indexPath) != nil else { return false }
+        guard currentViewMode != .similarShows,
+              indexPath.section == PodcastViewController.allEpisodesSection,
+              episodeAtIndexPath(indexPath) != nil else { return false }
 
         return Settings.multiSelectGestureEnabled()
     }
