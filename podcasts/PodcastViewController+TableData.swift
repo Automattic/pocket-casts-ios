@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
+import PocketCastsServer
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
@@ -235,10 +236,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             } else {
                 let selectedPodcast = similarPodcasts[indexPath.row]
-                if let uuid = selectedPodcast.uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) {
-                    let podcastController = PodcastViewController(podcast: podcast)
-                    navigationController?.pushViewController(podcastController, animated: true)
-                }
+                let info = PodcastInfo(selectedPodcast)
+                let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
+                navigationController?.pushViewController(podcastController, animated: true)
             }
         }
     }
