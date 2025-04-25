@@ -416,11 +416,11 @@ internal enum L10n {
   internal static var cancelSubscriptionNewPlanDescription: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_description") }
   /// Looking for a different plan?
   internal static var cancelSubscriptionNewPlanTitle: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_title") }
-  /// Thanks for choosing Pocket Casts. Billing starts after your free month ends.
+  /// Thanks for choosing Pocket Casts. Your free month will be added to your current subscription.
   internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
   /// Enjoy your free month!
   internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
-  /// Thanks for choosing Pocket Casts. Your discounted plan starts after your current billing period.
+  /// Thanks for choosing Pocket Casts. Your discounted year begins after your current plan ends.
   internal static var cancelSubscriptionOfferYearlySuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_description") }
   /// 50%% off your next year!
   internal static var cancelSubscriptionOfferYearlySuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_title") }
@@ -437,6 +437,24 @@ internal enum L10n {
   /// Before you cancel,
   /// check out these offers
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
+  /// Accept offer
+  internal static var cancelSubscriptionWinbackViewAcceptOfferButton: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_accept_offer_button") }
+  /// Continue with cancellation
+  internal static var cancelSubscriptionWinbackViewContinueCancellationButton: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_continue_cancellation_button") }
+  /// Enjoy one month of Pocket Casts Plus on us! The offer will be added to your current subscription.
+  internal static var cancelSubscriptionWinbackViewDescriptionMontly: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_description_montly") }
+  /// Pay %@ now to lock in a year of Pocket Casts Plus at half price. Your discounted year begins after your current plan ends.
+  internal static func cancelSubscriptionWinbackViewDescriptionYearly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_description_yearly", String(describing: p1))
+  }
+  /// Get your next month free and save %@
+  internal static func cancelSubscriptionWinbackViewTitleMontly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_title_montly", String(describing: p1))
+  }
+  /// Get 50%% off your next year and save %@
+  internal static func cancelSubscriptionWinbackViewTitleYearly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_title_yearly", String(describing: p1))
+  }
   /// Get 50%% off your next year
   internal static var cancelSubscriptionYearlyPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_yearly_promotion_title") }
   /// Canceling...

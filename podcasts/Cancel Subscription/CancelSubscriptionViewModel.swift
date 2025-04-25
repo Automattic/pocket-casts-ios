@@ -232,7 +232,10 @@ extension CancelSubscriptionViewModel {
     }
 
     func showWinbackScreen() {
-
+        let view = CancelSubscriptionWinbackOfferView(viewModel: self).setupDefaultEnvironment()
+        let controller = OnboardingHostingViewController(rootView: view)
+        controller.navBarIsHidden = true
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func showManageSubscriptions() {
