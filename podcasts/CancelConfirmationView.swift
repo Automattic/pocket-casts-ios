@@ -25,7 +25,7 @@ struct CancelConfirmationView: View {
     var body: some View {
         ScrollViewIfNeeded {
             VStack(spacing: Constants.padding.vertical) {
-                let bottomPadding = FeatureFlag.winback.enabled ? 40.0 : 0.0
+                let bottomPadding = FeatureFlag.winback.enabled ? 20.0 : 0.0
                 header
                     .padding(.bottom, bottomPadding)
 
