@@ -1,62 +1,30 @@
-import UIKit
-import SwiftUI
-import PocketCastsDataModel
-import PocketCastsServer
-
-struct PodcastTableCellView: View {
-    @EnvironmentObject var theme: Theme
-
-    let podcast: Podcast
-
-    var body: some View {
-        HStack(spacing: 8) {
-            PodcastImage(uuid: podcast.uuid)
-                .frame(width: 48, height: 48)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-
-            VStack(alignment: .leading) {
-                Text(podcast.title ?? "")
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(theme.primaryText01)
-                Text(podcast.author ?? "")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(theme.primaryText02)
-            }
-
-            Spacer()
-
-            //TODO: Change source to Similar Shows
-            SubscribeButtonView(podcastUuid: podcast.uuid, source: .podcastScreen)
-        }
-    }
-}
-
 final class PodcastTableViewCell: UITableViewCell {
-
     static var reuseIdentifier: String = "PodcastTableViewCell"
+    private var viewModel: PodcastCellViewModel?
 
     override func prepareForReuse() {
         super.prepareForReuse()
-
         contentConfiguration = nil
+        viewModel = nil
     }
 
-    func configure(with uuid: String) {
-        //TODO: Add task to something
-        Task {
-            let podcast = try await load(podcast: uuid)
+    func configure(with viewModel: PodcastCellViewModel) {
+        self.viewModel = viewModel
 
-            if #available(iOS 16.0, *) {
-                self.contentConfiguration = UIHostingConfiguration {
-                    PodcastTableCellView(podcast: podcast)
-                        .environmentObject(Theme.sharedTheme)
-                }
-            } else {
-                let view = PodcastTableCellView(podcast: podcast)
-                let uiView = view.environmentObject(Theme.sharedTheme).uiView
-                contentView.addSubview(uiView)
+        if #available(iOS 16.0, *) {
+            self.contentConfiguration = UIHostingConfiguration {
+                PodcastTableCellView(viewModel: viewModel)
+                    .environmentObject(Theme.sharedTheme)
             }
+        } else {
+            let view = PodcastTableCellView(viewModel: viewModel)
+            let uiView = view.environmentObject(Theme.sharedTheme).uiView
+            contentView.addSubview(uiView)
         }
+    }
+
+    func configure(with discoverPodcast: DiscoverPodcast) {
+        configure(with: PodcastCellViewModel(discoverPodcast: discoverPodcast))
     }
 
     private enum ClientError: Swift.Error {

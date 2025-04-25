@@ -235,7 +235,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             } else {
                 let selectedPodcast = similarPodcasts[indexPath.row]
-                if let podcast = DataManager.sharedManager.findPodcast(uuid: selectedPodcast) {
+                if let uuid = selectedPodcast.uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid) {
                     let podcastController = PodcastViewController(podcast: podcast)
                     navigationController?.pushViewController(podcastController, animated: true)
                 }

@@ -1713,6 +1713,7 @@
 		F53EFEE82CD405DA00F4561B /* YearOverYearCompareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */; };
 		F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
+		F549D3532DBBED7B00451246 /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F549D3522DBBED7B00451246 /* PodcastTableViewCell.swift */; };
 		F54E0F542CC764C0006D4DA2 /* PositionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E0F532CC764C0006D4DA2 /* PositionModifier.swift */; };
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
@@ -1780,7 +1781,7 @@
 		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BA5C9C2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */; };
 		F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */; };
-		F5BDBF502DB9754900AD8DF1 /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BDBF4F2DB9754900AD8DF1 /* PodcastTableViewCell.swift */; };
+		F5BDBF502DB9754900AD8DF1 /* PodcastTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */; };
 		F5BEAEC92DA73CE800541921 /* DebugInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BEAEC82DA73CE000541921 /* DebugInfo.swift */; };
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
 		F5C1FA212D1283F5007CFDF2 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */; };
@@ -3939,6 +3940,7 @@
 		F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearCompareTests.swift; sourceTree = "<group>"; };
 		F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratings2024Story.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
+		F549D3522DBBED7B00451246 /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
 		F54E0F532CC764C0006D4DA2 /* PositionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionModifier.swift; sourceTree = "<group>"; };
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
@@ -3976,7 +3978,7 @@
 		F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewController.swift; sourceTree = "<group>"; };
 		F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerContentConfiguration.swift; sourceTree = "<group>"; };
 		F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+DiscoverDelegate.swift"; sourceTree = "<group>"; };
-		F5BDBF4F2DB9754900AD8DF1 /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
+		F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableCellView.swift; sourceTree = "<group>"; };
 		F5BEAEC82DA73CE000541921 /* DebugInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInfo.swift; sourceTree = "<group>"; };
 		F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ThrowOnNil.swift"; sourceTree = "<group>"; };
 		F5CA25902CC9C30F0013DFF2 /* StoryFooter2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFooter2024.swift; sourceTree = "<group>"; };
@@ -6364,7 +6366,8 @@
 		BD6D417B200C555000CA8993 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				F5BDBF4F2DB9754900AD8DF1 /* PodcastTableViewCell.swift */,
+				F549D3522DBBED7B00451246 /* PodcastTableViewCell.swift */,
+				F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */,
 				FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */,
 				FFF3FCCF2D8B143E009BAF26 /* PodcastHeaderDescriptionView.swift */,
 				FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */,
@@ -10394,7 +10397,7 @@
 				408971AD2512EE1F00783253 /* PodcastBundleCountView.swift in Sources */,
 				8B205C8129E84B6B0069BAF9 /* PageIndicatorView.swift in Sources */,
 				BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */,
-				F5BDBF502DB9754900AD8DF1 /* PodcastTableViewCell.swift in Sources */,
+				F5BDBF502DB9754900AD8DF1 /* PodcastTableCellView.swift in Sources */,
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
@@ -10848,6 +10851,7 @@
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
 				32163E602B1EBDB6009BB16B /* DatabaseExport.swift in Sources */,
 				BD93134F1D795628007A70FC /* SharePodcastsViewController.swift in Sources */,
+				F549D3532DBBED7B00451246 /* PodcastTableViewCell.swift in Sources */,
 				F581ED422CC6F1A200A19860 /* ListeningTime2024Story.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */,

@@ -80,7 +80,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var summaryExpanded = false
     var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
-    var similarPodcasts: [String] = []
+    var similarPodcasts: [DiscoverPodcast] = []
     private var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
@@ -1149,7 +1149,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": "similar_shows"])
 
         // Use the stored recommendations data
-        similarPodcasts = recommendations?.podcasts?.compactMap { $0.uuid } ?? []
+        similarPodcasts = recommendations?.podcasts ?? []
         reloadData()
     }
 
