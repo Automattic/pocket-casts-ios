@@ -364,6 +364,7 @@ public struct PodcastCollection: Decodable {
     public var webUrl: String?
     public var collageImages: [CollageImage]?
     public let headerImage: String?
+    public let featureImage: String?
     public enum CodingKeys: String, CodingKey {
         case webUrl = "web_url"
         case webTitle = "web_title"
@@ -371,6 +372,7 @@ public struct PodcastCollection: Decodable {
         case collageImages = "collage_images"
         case headerImage = "header_image"
         case listId = "list_id"
+        case featureImage = "feature_image"
         case title, description, subtitle, colors, podcasts, author, episodes
     }
 }
