@@ -241,16 +241,16 @@ public class ServerPodcastManager: NSObject {
     }
 
     public func loadRecommendations(for podcastUUID: String) async throws -> PodcastCollection? {
-        var comps = URLComponents(string: ServerConstants.Urls.api())
+        let components = URLComponents(string: ServerConstants.Urls.api())
 
-        guard var comps else {
+        guard var components else {
             assertionFailure("[ServerPodcastManager] Recommendations API URL failed")
             throw URLError(.badURL)
         }
 
-        comps.path += "/recommendations/podcast"
-        comps.queryItems = [URLQueryItem(name: "podcast_uuid", value: podcastUUID)]
-        guard let url = comps.url else {
+        components.path += "/recommendations/podcast"
+        components.queryItems = [URLQueryItem(name: "podcast_uuid", value: podcastUUID)]
+        guard let url = components.url else {
             assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
             throw URLError(.badURL)
         }
@@ -262,35 +262,20 @@ public class ServerPodcastManager: NSObject {
 
         let tokenHelper = TokenHelper(urlConnection: urlConnection)
 
-        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PodcastCollection?, Error>) in
-            tokenHelper.callSecureUrl(request: request) { response, data, error in
-                if let error {
-                    continuation.resume(throwing: error)
-                    return
-                }
-                guard let data = data else {
-                    continuation.resume(returning: nil)
-                    return
-                }
+        let (response, data) = try await tokenHelper.callSecureUrl(request: request)
 
-                if response?.statusCode == ServerConstants.HttpConstants.notModified {
-                    continuation.resume(returning: nil)
-                    return
-                }
-
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-
-                do {
-                    let decoded = try decoder.decode(PodcastCollection.self, from: data)
-                    continuation.resume(returning: decoded)
-                    return
-                } catch let error {
-                    continuation.resume(throwing: error)
-                    return
-                }
-            }
+        if response?.statusCode == ServerConstants.HttpConstants.notModified {
+            return nil
         }
+
+        guard let data = data else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return try decoder.decode(PodcastCollection.self, from: data)
     }
 
     private func loadFrom(url: String) -> [String: Any]? {
