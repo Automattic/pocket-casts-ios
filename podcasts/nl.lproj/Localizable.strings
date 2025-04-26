@@ -787,6 +787,45 @@ Download de app voor de volledige ervaring!</string>
     <string>Mislukte downloads opnieuw proberen</string>
     <key>downloads_stop_all_downloads</key>
     <string>Alle downloads stoppen</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Een gratis account aanmaken</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Maak een gratis account aan om je filters op elk apparaat te synchroniseren.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Pictogram filters</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Houd je filters gesynchroniseerd</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Maak een gratis account aan om je luistergeschiedenis overal te synchroniseren.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Pictogram luistergeschiedenis</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Houd bij wat je hebt afgespeeld</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Pictogram profiel</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Je shows, op elk apparaat</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Je bibliotheek en voorkeuren worden veilig opgeslagen.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Betrouwbare backups</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Ontvang op maat gemaakte podcastsuggesties op basis van je luistergewoonten.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Gepersonaliseerde aanbevelingen</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Synchroniseer je voortgang en laat zien op al je apparaten.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Synchroniseren op verschillende apparaten</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Maak een account aan of log in om te luisteren
+Haal alles uit Pocket Casts.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Aan de slag</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>We hebben gemerkt dat je niet bent ingelogd</string>
     <key>edit</key>
     <string>Bewerken</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@ podcasts mee</string>
     <string>Geen</string>
     <key>not_on_wifi</key>
     <string>Je bent niet verbonden met wifi</string>
+    <key>notifications_daily_reminders</key>
+    <string>Dagelijkse herinneringen</string>
+    <key>notifications_new_features_tips</key>
+    <string>Nieuwe functies en tips</string>
     <key>notifications_off</key>
     <string>Meldingen uit</string>
     <key>notifications_on</key>
     <string>Meldingen aan</string>
     <key>notifications_on_for_podcast</key>
     <string>We sturen je een bericht met nieuwe afleveringen van %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Organiseer je afleveringen</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organiseer je afleveringen</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Importeer je podcasts eenvoudig</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importeer je podcasts eenvoudig</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Je shows, op elk apparaat!</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Tijd voor een nieuwe look</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Tijd voor een nieuwe look</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Vereenvoudig je wachtrij</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Vereenvoudig je wachtrij</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Verbeter je podcastbeleving</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Verbeter je podcastbeleving</string>
     <key>notifications_play_now</key>
     <string>Nu afspelen</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Aanbiedingen Pocket Casts</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Trending en aanbevelingen</string>
     <key>now_playing</key>
     <string>Bezig met afspelen</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@ UPDATES</string>
     <string>Afspelen op Apple Watch en Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>De eeuwige dank van iedereen bij Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Gratis audioboek van Libro.fm </string>
     <key>plus_feature_slumber</key>
     <string>1 jaar lang exclusieve content van Slumber Studios</string>
     <key>plus_feature_slumber_new</key>

@@ -787,6 +787,45 @@
     <string>失敗したダウンロードを再試行</string>
     <key>downloads_stop_all_downloads</key>
     <string>すべてのダウンロードを停止</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>無料アカウントを作成</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>無料アカウントを作成すると、どの端末でもフィルターを同期できます。</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>フィルターアイコン</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>フィルターの同期を維持</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>無料アカウントを作成すると、どこでも聴取履歴を同期できます。</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>聴取履歴アイコン</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>再生内容の追跡を継続</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>プロフィールアイコン</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>あらゆる端末で番組を楽しむ</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>ライブラリと設定が安全に保存されます。</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>信頼できるバックアップ</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>聴取習慣に基づいてカスタマイズされたポッドキャストの提案を受け取ります。</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>パーソナライズされたおすすめ</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>進捗を同期して、すべての端末で表示します。</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>端末間で同期</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>アカウントを作成またはログインして楽しむ
+Pocket Casts を最大限に活用しましょう。</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>開始する</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>ログインしていないようです</string>
     <key>edit</key>
     <string>編集する</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>なし</string>
     <key>not_on_wifi</key>
     <string>Wi-Fi に接続していません</string>
+    <key>notifications_daily_reminders</key>
+    <string>毎日のリマインダー</string>
+    <key>notifications_new_features_tips</key>
+    <string>新機能とヒント</string>
     <key>notifications_off</key>
     <string>通知オフ</string>
     <key>notifications_on</key>
     <string>通知オン</string>
     <key>notifications_on_for_podcast</key>
     <string>今後、%1$@ の新しいエピソードをお知らせします</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>エピソードを整理</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>エピソードを整理</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>ポッドキャストを簡単にインポート</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>ポッドキャストを簡単にインポート</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>あらゆる端末で番組を楽しめます !</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>新しい外観を利用</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>新しい外観を利用</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>キューを簡素化</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>キューを簡素化</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>ポッドキャストゲームをレベルアップ</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>ポッドキャストゲームをレベルアップ</string>
     <key>notifications_play_now</key>
     <string>今すぐ再生</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts オファー</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>トレンドとおすすめ</string>
     <key>now_playing</key>
     <string>再生中</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Apple Watch と Wear OS での再生</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
+    <key>plus_feature_librofm</key>
+    <string>Libro.fm の無料オーディオブック</string>
     <key>plus_feature_slumber</key>
     <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_slumber_new</key>

@@ -787,6 +787,45 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Försök genomföra misslyckade nedladdningar igen</string>
     <key>downloads_stop_all_downloads</key>
     <string>Stoppa alla nedladdningar</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Skapa ett gratis konto</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Skapa ett gratis konto för att synkronisera dina filter på vilken enhet som helst.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Filterikon</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Håll dina filter synkroniserade</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Skapa ett gratis konto för att synkronisera din lyssningshistorik överallt.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Ikon för lyssningshistorik</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Håll koll på vad du har spelat upp</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Profilikon</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Dina shower, på vilken enhet som helst</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Ditt bibliotek och dina inställningar är säkert sparade.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Tillförlitliga säkerhetskopior</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Få skräddarsydda podcastförslag baserat på dina lyssningsvanor.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Personliga rekommendationer</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Synkronisera ditt lyssningsförlopp och dina shower på alla enheter.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Synkronisera mellan enheter</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Skapa ett konto eller logga in för att ta del av
+Pocket Casts till fullo.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Kom igång</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Vi har noterat att du inte är inloggad</string>
     <key>edit</key>
     <string>Redigera</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@ podcasts med dig</string>
     <string>Ingen</string>
     <key>not_on_wifi</key>
     <string>Du har inte tillgång till WiFi</string>
+    <key>notifications_daily_reminders</key>
+    <string>Dagliga påminnelser</string>
+    <key>notifications_new_features_tips</key>
+    <string>Nya funktioner och tips</string>
     <key>notifications_off</key>
     <string>Aviseringar av</string>
     <key>notifications_on</key>
     <string>Aviseringar på</string>
     <key>notifications_on_for_podcast</key>
     <string>Du får ett meddelande om nya avsnitt av %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Organisera dina avsnitt</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organisera dina avsnitt</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Importera enkelt dina podcasts</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importera enkelt dina podcasts</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Dina shower, på vilken enhet som helst.</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Dags för ett nytt utseende</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Dags för ett nytt utseende</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Förenkla din kö</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Förenkla din kö</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Ta ditt podcastlyssnande till nästa nivå</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Ta ditt podcastlyssnande till nästa nivå</string>
     <key>notifications_play_now</key>
     <string>Spela upp nu</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts-erbjudanden</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Trendande och rekommendationer</string>
     <key>now_playing</key>
     <string>Spelar nu upp</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@ UPPDATERINGAR</string>
     <string>Apple Watch- och Wear OS-uppspelning</string>
     <key>plus_feature_gratitude</key>
     <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Gratis ljudbok från Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>1 års exklusivt innehåll från Slumber Studios</string>
     <key>plus_feature_slumber_new</key>

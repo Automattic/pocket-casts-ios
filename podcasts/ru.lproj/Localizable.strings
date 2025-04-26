@@ -787,6 +787,45 @@
     <string>Повторить неудачные скачивания</string>
     <key>downloads_stop_all_downloads</key>
     <string>Остановить все скачивания</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Создать бесплатную учётную запись</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать фильтры на всех устройствах.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Значок «Фильтры»</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Синхронизируйте фильтры</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать журнал прослушивания на всех устройствах.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Значок «История прослушивания»</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Фиксируйте прослушанное</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Значок «Профиль»</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Ваши шоу на любом устройстве</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Ваша библиотека и настройки надёжно сохраняются.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Надёжное резервное копирование</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Получайте индивидуальные рекомендации по подкастам на основе ваших предпочтений.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Индивидуальные рекомендации</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Синхронизируйте журнал прослушивания и шоу на всех устройствах.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Синхронизация на всех устройствах</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Создайте учётную запись или выполните вход
+Pocket Casts на полную мощность.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Начать</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Мы заметили, что вы не вошли в систему</string>
     <key>edit</key>
     <string>Править</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@
     <string>Пусто</string>
     <key>not_on_wifi</key>
     <string>Вы не подключены к WiFi</string>
+    <key>notifications_daily_reminders</key>
+    <string>Ежедневные напоминания</string>
+    <key>notifications_new_features_tips</key>
+    <string>Новые функции и советы</string>
     <key>notifications_off</key>
     <string>Уведомления откл.</string>
     <key>notifications_on</key>
     <string>Уведомления вкл.</string>
     <key>notifications_on_for_podcast</key>
     <string>Мы уведомим вас о новых выпусках %1$@.</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Упорядочивайте выпуски</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Упорядочивайте выпуски</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Импортируйте подкасты без проблем</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Импортируйте подкасты без проблем</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Ваши шоу на любом устройстве!</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Пора освежить дизайн</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Пора освежить дизайн</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Упростите очередь</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Упростите очередь</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Ваши подкасты — ваши правила</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Ваши подкасты — ваши правила</string>
     <key>notifications_play_now</key>
     <string>Воспроизвести</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Предложения Pocket Casts</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Тренды и рекомендации</string>
     <key>now_playing</key>
     <string>Сейчас воспроизводится</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@
     <string>Воспроизведение на Apple Watch и Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>Бесконечная благодарность от всей команды Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Бесплатная аудиокнига от Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
     <key>plus_feature_slumber_new</key>
