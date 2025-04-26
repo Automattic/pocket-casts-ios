@@ -1,4 +1,8 @@
-final class PodcastTableViewCell: UITableViewCell {
+import SwiftUI
+import PocketCastsServer
+import PocketCastsDataModel
+
+final class PodcastTableViewCell: ThemeableCell {
     static var reuseIdentifier: String = "PodcastTableViewCell"
     private var viewModel: PodcastCellViewModel?
 
@@ -9,6 +13,8 @@ final class PodcastTableViewCell: UITableViewCell {
     }
 
     func configure(with viewModel: PodcastCellViewModel) {
+        self.selectedStyle = .primaryUi02Active
+
         self.viewModel = viewModel
 
         if #available(iOS 16.0, *) {
