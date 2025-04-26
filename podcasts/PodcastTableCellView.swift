@@ -24,8 +24,7 @@ struct PodcastTableCellView: View {
 
             Spacer()
 
-            //TODO: Change source to Similar Shows
-            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreen)
+            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreenSimilarShows)
         }
     }
 }
