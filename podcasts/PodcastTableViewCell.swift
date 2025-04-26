@@ -10,6 +10,10 @@ final class PodcastTableViewCell: ThemeableCell {
         super.prepareForReuse()
         contentConfiguration = nil
         viewModel = nil
+        if #available(iOS 16.0, *) {
+        } else {
+            contentView.subviews.forEach { $0.removeFromSuperview() }
+        }
     }
 
     func configure(with viewModel: PodcastCellViewModel) {

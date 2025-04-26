@@ -1,10 +1,6 @@
 import Foundation
 import PocketCastsDataModel
 
-public struct PodcastRecommendations: Decodable {
-    public let uuids: [String]
-}
-
 public class ServerPodcastManager: NSObject {
     private static let maxAutoDownloadSeperationTime = 12.hours
 
@@ -244,10 +240,22 @@ public class ServerPodcastManager: NSObject {
         return episode
     }
 
-    public func loadRecommendations(for podcast: String) async throws -> PodcastCollection? {
-        let url = ServerConstants.Urls.api() + "recommendations/podcast?podcast_uuid=\(podcast)"
+    public func loadRecommendations(for podcastUUID: String) async throws -> PodcastCollection? {
+        var comps = URLComponents(string: ServerConstants.Urls.api())
 
-        var request = URLRequest(url: URL(string: url)!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        guard var comps else {
+            assertionFailure("[ServerPodcastManager] Recommendations API URL failed")
+            throw URLError(.badURL)
+        }
+
+        comps.path += "/recommendations/podcast"
+        comps.queryItems = [URLQueryItem(name: "podcast_uuid", value: podcastUUID)]
+        guard let url = comps.url else {
+            assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
+            throw URLError(.badURL)
+        }
+
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
@@ -278,7 +286,6 @@ public class ServerPodcastManager: NSObject {
                     continuation.resume(returning: decoded)
                     return
                 } catch let error {
-                    print("Failed to decode recommendations \(error.localizedDescription)")
                     continuation.resume(throwing: error)
                     return
                 }

@@ -91,6 +91,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         case episodes
         case bookmarks
         case similarShows
+
+        var analyticsValue: String {
+            switch self {
+            case .episodes: return "episodes"
+            case .bookmarks: return "bookmarks"
+            case .similarShows: return "similar_shows"
+            }
+        }
     }
 
     var searchController: EpisodeListSearchController?
@@ -476,13 +484,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load recommendations when view appears
         Task {
-            if let podcast = podcast {
-                recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
-                }
-            }
+            await loadRecommendations()
         }
     }
 
@@ -1125,32 +1127,18 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showEpisodes() {
-        currentViewMode = .episodes
-        if let podcast = podcast {
-            loadLocalEpisodes(podcast: podcast, animated: true)
-        }
-        reloadData()
+        switchViewMode(to: .episodes)
     }
 
     func showBookmarks() {
-        currentViewMode = .bookmarks
         guard let podcast else { return }
-
-        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
 
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
     }
 
     func showSimilarShows() {
-        currentViewMode = .similarShows
-        guard let podcast else { return }
-
-        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "similar_shows"])
-
-        // Use the stored recommendations data
-        similarPodcasts = recommendations?.podcasts ?? []
-        reloadData()
+        switchViewMode(to: .similarShows)
     }
 
     // MARK: - Podcast Feed Reload
@@ -1392,6 +1380,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func signingProcessCompleted() {
         navigationController?.popToViewController(self, animated: true)
     }
+
+    @MainActor
+    private func loadRecommendations() async {
+        guard let podcast = podcast else { return }
+
+        do {
+            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+            hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
+        } catch {
+            // We won't do anything in the interface here since the Similar Shows button is optional and hidden by default
+            FileLog.shared.addMessage("[PodcastViewController] Failed to load recommendations \(error)")
+        }
+    }
 }
 
 // MARK: - Analytics
@@ -1405,6 +1406,22 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
+    }
+
+    private func switchViewMode(to mode: ViewMode) {
+        currentViewMode = mode
+        switch mode {
+        case .episodes:
+            if let podcast = podcast {
+                loadLocalEpisodes(podcast: podcast, animated: true)
+            }
+        case .similarShows:
+            similarPodcasts = recommendations?.podcasts ?? []
+        case .bookmarks:
+            break // Handled separately
+        }
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
+        reloadData()
     }
 }
 
