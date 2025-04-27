@@ -787,6 +787,45 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Reintentar descargas fallidas</string>
     <key>downloads_stop_all_downloads</key>
     <string>Detener todas las descargas</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Crear una cuenta gratuita</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Crea una cuenta gratuita para sincronizar tus filtros en cualquier dispositivo.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Icono de filtros</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Mantén tus filtros sincronizados</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Crea una cuenta gratuita para sincronizar tu historial de escucha estés donde estés.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Icono del historial de escucha</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Haz un seguimiento de lo que has reproducido</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Crea una cuenta gratuita para sincronizar tus programas y escucharlos estés donde estés.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Icono de perfil</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Tus programas en cualquier dispositivo</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Tu biblioteca y tus preferencias se guardan de forma segura.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Copias de seguridad fiables</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Obtén sugerencias de podcasts personalizadas en función de tus hábitos de escucha.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Recomendaciones personalizadas</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Sincroniza tu progreso y tus programas en todos tus dispositivos.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Sincronización entre dispositivos</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Crea una cuenta o inicia sesión para empezar a disfrutar de
+Pocket Casts al máximo.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Empezar</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Hemos detectado que no has iniciado sesión</string>
     <key>edit</key>
     <string>Editar</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@ pódcast contigo</string>
     <string>Ninguno</string>
     <key>not_on_wifi</key>
     <string>No estás conectado a WiFi</string>
+    <key>notifications_daily_reminders</key>
+    <string>Recordatorios diarios</string>
+    <key>notifications_new_features_tips</key>
+    <string>Nuevas funciones y consejos</string>
     <key>notifications_off</key>
     <string>Notificaciones desactivadas</string>
     <key>notifications_on</key>
     <string>Notificaciones activadas</string>
     <key>notifications_on_for_podcast</key>
     <string>Te enviaremos una notificación cuando haya nuevos episodios de %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Organiza tus episodios</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organiza tus episodios</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Importa fácilmente tus podcasts</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importa fácilmente tus podcasts</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Crea una cuenta gratuita para sincronizar tus programas y escucharlos estés donde estés.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Tus programas en cualquier dispositivo</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Es hora de cambiar de aspecto</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Es hora de cambiar de aspecto</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Simplifica tu cola</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Simplifica tu cola</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Mejora tu experiencia de podcasts</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Mejora tu experiencia de podcasts</string>
     <key>notifications_play_now</key>
     <string>Reproducir ahora</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Ofertas de Pocket Casts</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Tendencias y recomendaciones</string>
     <key>now_playing</key>
     <string>Ahora en reproducción</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@ ACTUALIZACIONES</string>
     <string>Reproducción de Apple Watch y Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>El eterno agradecimiento del equipo de Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Audiolibro gratuito de Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>Un año de contenido exclusivo de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>

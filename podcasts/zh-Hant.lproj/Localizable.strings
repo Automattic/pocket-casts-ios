@@ -787,6 +787,45 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>重試失敗的下載項目</string>
     <key>downloads_stop_all_downloads</key>
     <string>停止所有下載項目</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>建立免費帳號</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>建立免費帳號即可在任何裝置上同步你的篩選條件。</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>篩選條件圖示</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>同步篩選條件</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>建立免費帳號即可隨時隨地同步你的收聽紀錄。</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>收聽紀錄圖示</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>追蹤播放過的內容</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>建立免費帳號即可同步你的節目，隨時隨地收聽。</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>個人檔案圖示</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>透過任何裝置收聽節目</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>你的資料庫與偏好設定都已安全儲存。</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>可靠的備份</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>獲得根據收聽習慣的專屬 Podcast 建議。</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>個人化推薦</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>同步處理你的進度，並在所有裝置上顯示。</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>跨裝置同步</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>建立或登入帳號即可暢聽內容
+將 Pocket Casts 發揮到淋漓盡致。</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>開始使用</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>我們注意到你並未登入</string>
     <key>edit</key>
     <string>編輯</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無</string>
     <key>not_on_wifi</key>
     <string>你並未連上 WiFi</string>
+    <key>notifications_daily_reminders</key>
+    <string>每日提醒</string>
+    <key>notifications_new_features_tips</key>
+    <string>全新功能與秘訣</string>
     <key>notifications_off</key>
     <string>關閉通知</string>
     <key>notifications_on</key>
     <string>開啟通知</string>
     <key>notifications_on_for_podcast</key>
     <string>我們會在「%1$@」推出新單集時通知你</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>整理你的單集</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>整理你的單集</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>輕鬆匯入你的 Podcast</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>輕鬆匯入你的 Podcast</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>建立免費帳號即可同步你的節目，隨時隨地收聽。</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>透過任何裝置收聽節目！</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>是時候換個新形象了</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>是時候換個新形象了</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>簡化你的佇列</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>簡化你的佇列</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>升級你的 Podcast 體驗</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>升級你的 Podcast 體驗</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts 優惠</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>流行趨勢與推薦</string>
     <key>now_playing</key>
     <string>正在播放</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Apple Watch 和 Wear OS 播放</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
+    <key>plus_feature_librofm</key>
+    <string>來自 Libro.fm 的免費有聲書</string>
     <key>plus_feature_slumber</key>
     <string>1 年份的 Slumber Studios 獨家內容</string>
     <key>plus_feature_slumber_new</key>
