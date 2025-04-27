@@ -787,6 +787,45 @@
     <string>重试失败的下载</string>
     <key>downloads_stop_all_downloads</key>
     <string>停止所有下载</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>创建一个免费账户</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>创建一个免费账户，即可在任何设备上同步您的筛选条件。</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>筛选条件图标</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>同步筛选条件</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>创建一个免费账户，即可随时随地同步您的收听历史记录。</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>收听历史记录图标</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>记录播放历史</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>个人资料图标</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>全端畅听节目</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>您的媒体库和首选项设置将得到安全存储。</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>安全备份</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>根据您的收听习惯，获取量身定制的播客推荐。</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>个性化推荐</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>收听进度与节目内容将在所有设备上自动同步。</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>跨设备同步</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>创建账户或登录，即可尽情使用
+Pocket Casts。</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>开始</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>我们注意到您尚未登录</string>
     <key>edit</key>
     <string>编辑</string>
     <key>edit_clip</key>
@@ -1488,14 +1527,46 @@
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
+    <key>notifications_daily_reminders</key>
+    <string>每日提醒</string>
+    <key>notifications_new_features_tips</key>
+    <string>新功能和贴士</string>
     <key>notifications_off</key>
     <string>通知关闭</string>
     <key>notifications_on</key>
     <string>通知开启</string>
     <key>notifications_on_for_podcast</key>
     <string>我们会向您通知 %1$@ 的剧集更新</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>整理您的剧集</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>整理您的剧集</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>轻松导入您的播客</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>轻松导入您的播客</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>全端畅听节目！</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>焕新时刻</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>焕新时刻</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>简化您的队列</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>简化您的队列</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>提升您的播客体验</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>提升您的播客体验</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts 优惠</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>趋势与推荐</string>
     <key>now_playing</key>
     <string>正在播放</string>
     <key>now_playing_item</key>
@@ -1809,6 +1880,8 @@
     <string>Apple Watch 和 Wear OS 播放功能</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 的每个人都对您感激不尽</string>
+    <key>plus_feature_librofm</key>
+    <string>来自 Libro.fm 的免费有声读物</string>
     <key>plus_feature_slumber</key>
     <string>由 Slumber Studios 提供的一年独家内容</string>
     <key>plus_feature_slumber_new</key>

@@ -392,6 +392,8 @@ internal enum L10n {
   internal static var cancelFailed: String { return L10n.tr("Localizable", "cancel_failed") }
   /// Cancel Subscription
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
+  /// Best Value
+  internal static var cancelSubscriptionAvailablePlansBestValueBadge: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_best_value_badge") }
   /// Your new plan will activate at the end of your current billing period.
   internal static var cancelSubscriptionAvailablePlansFooter: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_footer") }
   /// Sorry, but something went wrong fetching your plans.
@@ -430,8 +432,8 @@ internal enum L10n {
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
-  /// Before you cancel,
-  /// check out these offers
+  /// Thinking of leaving?
+  /// Let us help first
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
   /// Get 50%% off your next year
   internal static var cancelSubscriptionYearlyPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_yearly_promotion_title") }
@@ -1473,6 +1475,10 @@ internal enum L10n {
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary") }
+  /// %1$@/week
+  internal static func iapProductWeeklyPricingFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "iap_product_weekly_pricing_format", String(describing: p1))
+  }
   /// Import
   internal static var `import`: String { return L10n.tr("Localizable", "import") }
   /// We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.
