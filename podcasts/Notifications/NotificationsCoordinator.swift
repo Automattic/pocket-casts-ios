@@ -116,18 +116,7 @@ enum NotificationsGroup {
         }
     }
 
-    func setStatus(on: Bool) {
-        switch self {
-            case .dailyReminders:
-                Settings.notificationsDailyReminders = on
-            case .recommendations:
-                Settings.notificationsRecommendations = on
-            case .newFeaturesAndTips:
-                Settings.notificationsNewFeaturesAndTips = on
-        }
-    }
-
-    var status: Bool {
+    var isEnabled: Bool {
         switch self {
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
@@ -135,6 +124,17 @@ enum NotificationsGroup {
                 return Settings.notificationsRecommendations
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
+        }
+    }
+
+    func setEnabled(_ newValue: Bool) {
+        switch self {
+            case .dailyReminders:
+                Settings.notificationsDailyReminders = newValue
+            case .recommendations:
+                Settings.notificationsRecommendations = newValue
+            case .newFeaturesAndTips:
+                Settings.notificationsNewFeaturesAndTips = newValue
         }
     }
 
@@ -174,7 +174,7 @@ class NotificationsCoordinator {
     }
 
     func setupNotifications(for group: NotificationsGroup) {
-        group.setStatus(on: true)
+        group.setEnabled(true)
         NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
             guard let self, granted else { return }
@@ -198,7 +198,7 @@ class NotificationsCoordinator {
     }
 
     func disableNotifications(for group: NotificationsGroup) {
-        group.setStatus(on: false)
+        group.setEnabled(false)
         cancelNotifications(for: group)
     }
 

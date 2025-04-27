@@ -13,7 +13,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
-        guard NotificationsGroup.newFeaturesAndTips.status else {
+        guard NotificationsGroup.newFeaturesAndTips.isEnabled else {
             return
         }
         // Check if need to cancel an existing notification
