@@ -50,6 +50,13 @@ class AppsFlyerAdapter: AnalyticsAdapter {
 #if DEBUG
         appsFlyer.isDebug = FeatureFlag.appsFlyerLogging.enabled
 #endif
+        // Facebook AEM Analytics
+        FacebookCore.Settings.shared.isAutoLogAppEventsEnabled = true
+        FacebookCore.Settings.shared.isAdvertiserIDCollectionEnabled = true
+        FacebookCore.Settings.shared.appID = "APPID_HERE"
+        FacebookCore.Settings.shared.displayName = "DISPLAY_NAME_HERE"
+        FacebookCore.Settings.shared.clientToken = "CLIENT_TOKEN_HERE"
+
         if #available(iOS 18.0, *) {
         } else {
             FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = appTrackingTransparencyProvider.userGaveConsent()
