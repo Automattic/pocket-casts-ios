@@ -36,10 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
-        // Facebook AEM Analytics
-        FacebookCore.Settings.shared.appID = ApiCredentials.instagramAppID
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
@@ -104,6 +100,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
+
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
 
         return true
     }

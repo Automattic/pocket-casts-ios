@@ -50,6 +50,10 @@ class AppsFlyerAdapter: AnalyticsAdapter {
 #if DEBUG
         appsFlyer.isDebug = FeatureFlag.appsFlyerLogging.enabled
 #endif
+        if #available(iOS 18.0, *) {
+        } else {
+            FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = appTrackingTransparencyProvider.userGaveConsent()
+        }
     }
 
     private func checkUserConsent() {
@@ -59,13 +63,11 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         }
         let shouldShowPrompt = appTrackingTransparencyProvider.shouldShowPrompt()
         if !shouldShowPrompt, appTrackingTransparencyProvider.userGaveConsent() {
-            FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = true
             start()
         } else if shouldShowPrompt {
             FileLog.shared.addMessage("AppsFlyer ATT not determined: wait for user to give consent")
             appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] authorized in
                 FileLog.shared.addMessage("AppsFlyer ATT auth state changed: authorized \(authorized)")
-                FacebookCore.Settings.shared.isAdvertiserTrackingEnabled = authorized
                 if authorized {
                     self?.start()
                 }

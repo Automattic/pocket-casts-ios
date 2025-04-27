@@ -8,7 +8,9 @@ import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        ApplicationDelegate.shared.application(application, continue: userActivity)
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(application, continue: userActivity)
+        }
 
         handleContinue(userActivity)
 

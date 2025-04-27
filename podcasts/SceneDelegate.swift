@@ -1,15 +1,18 @@
 import JLRoutes
 import UIKit
 import FacebookCore
+import PocketCastsUtils
 
 class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     var window: UIWindow?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        if let userActivity = connectionOptions.userActivities.first,
-                userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            ApplicationDelegate.shared.application(.shared, continue: userActivity)
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            if let userActivity = connectionOptions.userActivities.first,
+               userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+                ApplicationDelegate.shared.application(.shared, continue: userActivity)
+            }
         }
 
         let window = UIWindow(windowScene: windowScene)
