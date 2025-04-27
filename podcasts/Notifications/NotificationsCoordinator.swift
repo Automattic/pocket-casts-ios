@@ -127,6 +127,17 @@ enum NotificationsGroup {
         }
     }
 
+    var status: Bool {
+        switch self {
+            case .dailyReminders:
+                return Settings.notificationsDailyReminders
+            case .recommendations:
+                return Settings.notificationsRecommendations
+            case .newFeaturesAndTips:
+                return Settings.notificationsNewFeaturesAndTips
+        }
+    }
+
     static var speedUpNotifications: Bool = false
 
     var timeIntervalStep: TimeInterval {

@@ -13,6 +13,9 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
+        guard NotificationsGroup.newFeaturesAndTips.status else {
+            return
+        }
         // Check if need to cancel an existing notification
         if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
             self.cancelNotification(.reengagementWeekly)
