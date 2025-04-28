@@ -2005,6 +2005,15 @@
 /* Grid Items will be sorted alphabetically based on name. */
 "podcasts_library_sort_title" = "Name";
 
+/* Grid Items will be sorted based on the recently played date. */
+"podcasts_library_sort_episode_recently_played" = "Recently Played";
+
+/* Title of the tooltip that appears in the podcasts view that alerts a new sorting option */
+"podcasts_library_sort_episode_recently_played_tip_title" = "Sort by “Recently Played”";
+
+/* Description of the tooltip that appears in the podcasts view that alerts a new sorting option */
+"podcasts_library_sort_episode_recently_played_tip_description" = "You can now sort by Recently Played and quickly pick up where you left off.";
+
 /* Presents the podcasts in a list view. */
 "podcasts_list" = "List";
 
@@ -4689,7 +4698,7 @@
 "manage_downloads_action" = "Manage downloads";
 
 /* Title of the cancel subscription view, '\n' is a line break format to allow a clean wrapping of text */
-"cancel_subscription_title" = "Before you cancel,\ncheck out these offers";
+"cancel_subscription_title" = "Thinking of leaving?\nLet us help first";
 
 /* Title for the continue button */
 "cancel_subscription_continue_button" = "Continue to Cancellation";
@@ -4729,6 +4738,12 @@
 
 /* Footer of the Available Plans screen accessible from the Cancel Subscription view */
 "cancel_subscription_available_plans_footer" = "Your new plan will activate at the end of your current billing period.";
+
+/* Badge that appears over the best value plan in the available plans list */
+"cancel_subscription_available_plans_best_value_badge" = "Best Value";
+
+/* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
+"iap_product_weekly_pricing_format" = "%1$@/week";
 
 /* Text displayed when the retry screen is visible */
 "cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
@@ -4871,23 +4886,44 @@
 /* Notification title for upsell onboardingmessage */
 "notifications_onboarding_upsell_title" = "Level up your podcast game";
 
+/* Notification title for staff picks onboarding message */
+"notifications_onboarding_staff_picks_title" = "Explore our Staff Picks";
+
 /* Notification body for signup onboarding message */
 "notifications_onboarding_signup_body" = "Create a free account to sync your shows and listen anywhere.";
 
 /* Notification body for import onboarding message */
-"notifications_onboarding_import_body" = "Easily import your podcasts";
+"notifications_onboarding_import_body" = "Switching from another app? Bring all your favorite shows to Pocket Casts.";
 
 /* Notification body for themes onboarding message */
-"notifications_onboarding_themes_body" = "Time for a new look";
+"notifications_onboarding_themes_body" = "Browse our themes and find the one that suits your style.";
 
 /* Notification body for onboarding to upnext message */
-"notifications_onboarding_upnext_body" = "Simplify your queue";
+"notifications_onboarding_upnext_body" = "Build a playback queue and say goodbye to jumping around between episodes.";
 
 /* Notification body for onboarding to filters message */
-"notifications_onboarding_filters_body" = "Organize your episodes";
+"notifications_onboarding_filters_body" = "Create smart filters to organize your episodes.";
 
 /* Notification body for onboarding to upsell message */
-"notifications_onboarding_upsell_body" = "Level up your podcast game";
+"notifications_onboarding_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
+
+/* Notification body for onboarding to staff picks message */
+"notifications_onboarding_staff_picks_body" = "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.";
+
+/* Notification permission banner title*/
+"notitifications_permission_banner_title" = "Allow Push Notifications";
+
+/* Notification permission banner message*/
+"notitifications_permission_banner_message" = "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.";
+
+/* Notification permission banner action*/
+"notitifications_permission_banner_action" = "Go to device settings";
+
+/* Notification title for weekly reengagement message */
+"notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Notification body for weekly reengagement message */
+"notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
 
 /* Encourage Account Creation: modal title */
 "eac_informational_view_modal_title" = "We noticed you’re not logged in";
@@ -4945,6 +4981,28 @@
 
 /* Encourage Account Creation: accessibility label for the banner in the listening history view */
 "eac_informational_banner_listening_history_icon_accessibility" = "Listening History Icon";
+
+/* Notification permission banner title*/
+"notitifications_permission_banner_title" = "Allow Push Notifications";
+
+/* Notification permission banner message*/
+"notitifications_permission_banner_message" = "To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.";
+
+/* Notification permission banner action*/
+"notitifications_permission_banner_action" = "Go to device settings";
+
+/* Notification title for weekly reengagement message */
+"notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Notification body for weekly reengagement message */
+"notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
+
+/* Notification title for recommendations trending message */
+"notifications_recommendations_trending_title" = "Trending this week";
+
+/* Notification body for recommendations trending message */
+"notifications_recommendations_trending_body" = "Check out what everyone else is listening this week.";
+
 
 /* MARK: - InfoPlist.strings */
 
