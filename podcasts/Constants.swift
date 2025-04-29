@@ -231,6 +231,7 @@ struct Constants {
             static let dailyReminders = "notifications.dailyReminders"
             static let newFeaturesAndTips = "notifications.newFeaturesAndTips"
             static let recommendations = "notifications.recommendations"
+            static let offers = "notifications.offers"
         }
     }
 

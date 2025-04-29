@@ -15,6 +15,8 @@ enum NotificationType: String {
 
     case recommendationsTrending
 
+    case offers
+
     var title: String {
         switch self {
         case .onboardingSignUp:
@@ -35,6 +37,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
+        case .offers:
+            return L10n.notificationsOnboardingUpsellTitle
         }
     }
 
@@ -58,6 +62,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
+        case .offers:
+            return L10n.notificationsOnboardingUpsellBody
         }
     }
 
@@ -85,6 +91,8 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
+        case .offers:
+            return "pktc://upsell"
         }
     }
 }
@@ -93,6 +101,7 @@ enum NotificationsGroup {
     case dailyReminders
     case recommendations
     case newFeaturesAndTips
+    case offers
 
     var notifications: [NotificationType] {
         switch self {
@@ -102,6 +111,8 @@ enum NotificationsGroup {
                 return [.recommendationsTrending]
             case .newFeaturesAndTips:
                 return [.reengagementWeekly]
+            case .offers:
+                return [.offers]
         }
     }
 
@@ -113,6 +124,8 @@ enum NotificationsGroup {
                 return 14
             case .newFeaturesAndTips:
                 return 16
+            case .offers:
+                return 12
         }
     }
 
@@ -124,6 +137,8 @@ enum NotificationsGroup {
                 return Settings.notificationsRecommendations
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
+            case .offers:
+                return Settings.notificationsOffers
         }
     }
 
@@ -135,6 +150,8 @@ enum NotificationsGroup {
                 Settings.notificationsRecommendations = newValue
             case .newFeaturesAndTips:
                 Settings.notificationsNewFeaturesAndTips = newValue
+            case .offers:
+                Settings.notificationsOffers = newValue
         }
     }
 
@@ -148,6 +165,8 @@ enum NotificationsGroup {
                 return Self.speedUpNotifications ? 60.seconds: 3.days
             case .newFeaturesAndTips:
                 return Self.speedUpNotifications ? 60.seconds: 1.week
+            case .offers:
+                return Self.speedUpNotifications ? 60.seconds: 1.week
         }
     }
 
@@ -155,7 +174,7 @@ enum NotificationsGroup {
         switch self {
             case .dailyReminders:
                 return false
-            case .recommendations, .newFeaturesAndTips:
+            case .recommendations, .newFeaturesAndTips, .offers:
                 return true
         }
     }

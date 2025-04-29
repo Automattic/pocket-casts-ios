@@ -58,6 +58,8 @@ extension NotificationType {
             possibleConditions = [.discoverListShowAllTapped]
         case .recommendationsTrending:
             possibleConditions = [.discoverListShowAllTapped]
+        case .offers:
+            possibleConditions  = [.purchaseSuccessful]
         }
         let eventMatch = possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name
