@@ -105,7 +105,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 case .appBadges:
                     return nil
                 case .pocketCastsOffers:
-                    return nil
+                    return .offers
             }
         }
     }
