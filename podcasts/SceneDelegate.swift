@@ -44,7 +44,9 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        ApplicationDelegate.shared.application(.shared, continue: userActivity)
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(.shared, continue: userActivity)
+        }
         appDelegate()?.handleContinue(userActivity)
     }
 

@@ -3,6 +3,9 @@ import PocketCastsServer
 struct AppsFlyerDataProvider: AnonymousIdentifiable {
     let devKey = ApiCredentials.appsFlyerDevKey
     let appleAppID = "414834813"
+    let fbAppID = ""
+    let fbClientToken = ""
+    let fbAppDisplayName = "Pocket Casts"
     let userDefaults: UserDefaults
     let supportedEvents: Set<String> = [
         "application_installed",
