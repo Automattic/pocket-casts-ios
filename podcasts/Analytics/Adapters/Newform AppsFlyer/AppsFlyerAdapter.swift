@@ -42,11 +42,11 @@ class AppsFlyerAdapter: AnalyticsAdapter {
         appsFlyer.isDebug = FeatureFlag.appsFlyerLogging.enabled
 #endif
         // Facebook AEM Analytics
-        FacebookCore.Settings.shared.isAutoLogAppEventsEnabled = true
-        FacebookCore.Settings.shared.isAdvertiserIDCollectionEnabled = true
         FacebookCore.Settings.shared.appID = dataProvider.fbAppID
         FacebookCore.Settings.shared.displayName = dataProvider.fbAppDisplayName
         FacebookCore.Settings.shared.clientToken = dataProvider.fbClientToken
+        FacebookCore.Settings.shared.isAutoLogAppEventsEnabled = true
+        FacebookCore.Settings.shared.isAdvertiserIDCollectionEnabled = true
 
         setAdvertiserTrackingEnabled()
     }
