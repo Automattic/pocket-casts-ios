@@ -70,6 +70,44 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return false
             }
         }
+
+        var analyticsEvent: AnalyticsEvent {
+            switch self {
+                case .dailyReminders:
+                    return .settingsNotificationsDailyRemindersToggle
+                case .newEpisodes:
+                    return .settingsNotificationsNewEpisodesToggled
+                case .newFeaturesAndTips:
+                    return .settingsNotificationsNewFeaturesToggle
+                case .trendingRecommendations:
+                    return .settingsNotificationsTrendingToggle
+                case .podcastsChosen:
+                    return .settingsNotificationsPodcastsChanged
+                case .appBadges:
+                    return .settingsNotificationsAppBadgeChanged
+                case .pocketCastsOffers:
+                    return .settingsNotificationsOffersToggle
+            }
+        }
+
+        var notificationGroup: NotificationsGroup? {
+            switch self {
+                case .dailyReminders:
+                    return .dailyReminders
+                case .newEpisodes:
+                    return nil
+                case .newFeaturesAndTips:
+                    return .newFeaturesAndTips
+                case .trendingRecommendations:
+                    return .recommendations
+                case .podcastsChosen:
+                    return nil
+                case .appBadges:
+                    return nil
+                case .pocketCastsOffers:
+                    return nil
+            }
+        }
     }
 
     @IBOutlet var settingsTable: UITableView! {
@@ -265,29 +303,14 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         switch row {
         case .newEpisodes:
                 episodePushToggled(sender)
-        case .dailyReminders:
+        case .dailyReminders, .trendingRecommendations, .newFeaturesAndTips, .pocketCastsOffers:
+            guard let notificationGroup = row.notificationGroup else { return }
             if sender.isOn {
-                notificationsCoordinator.setupDailyRemindersNotifications()
+                notificationsCoordinator.setupNotifications(for: notificationGroup)
             } else {
-                notificationsCoordinator.cancelDailyRemainderNotifications()
+                notificationsCoordinator.disableNotifications(for: notificationGroup)
             }
-            Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
-        case .trendingRecommendations:
-            if sender.isOn {
-                notificationsCoordinator.setupRecommendationsNotifications()
-            } else {
-                notificationsCoordinator.cancelRecommendationsNotifications()
-            }
-            Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
-        case .newFeaturesAndTips:
-            if sender.isOn {
-                notificationsCoordinator.setupNewFeaturesAndTipsNotifications()
-            } else {
-                notificationsCoordinator.cancelNewFeaturesAndTipsNotifications()
-            }
-            Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
-        case .pocketCastsOffers:
-            Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
+            Settings.trackValueToggled(row.analyticsEvent, enabled: sender.isOn)
         default:
             return
         }

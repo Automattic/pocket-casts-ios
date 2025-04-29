@@ -303,9 +303,7 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Speed Up Notifications") {
-                    NotificationsCoordinator.shared.onboardingTimeIntervalStep = 10.seconds
-                    NotificationsCoordinator.shared.reEngagementTimeIntervalStep = 60.seconds
-                    NotificationsCoordinator.shared.recommendationsTimeIntervalStep = 60.seconds
+                    NotificationsGroup.speedUpNotifications = true
                     NotificationsCoordinator.shared.ignoreScheduleHours = true
                 }
             } header: {

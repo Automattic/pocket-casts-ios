@@ -3,7 +3,7 @@ import Foundation
 extension NotificationsCoordinator: AnalyticsAdapter {
 
     func track(name: String, properties: [AnyHashable: Any]?) {
-        for notification in onboardingNotifications {
+        for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
                 self.cancelNotification(notification)
             }
@@ -13,21 +13,23 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
+        guard NotificationsGroup.newFeaturesAndTips.isEnabled else {
+            return
+        }
         // Check if need to cancel an existing notification
         if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
             self.cancelNotification(.reengagementWeekly)
         }
         let event: AnalyticsEvent = .applicationClosed
         if event.rawValue.toSnakeCaseFromCamelCase() == name {
-            self.updateReengamentNotifications()
+            updateNotifications(for: .newFeaturesAndTips)
         }
     }
 
     func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
         // Check if need to cancel an existing notification
         if NotificationType.recommendationsTrending.checkCancelConditionsForEvent(name: name, properties: properties) {
-            self.cancelNotification(.recommendationsTrending)
-            self.updateRecommendationNotifications()
+            updateNotifications(for: .recommendations)
         }
     }
 }
