@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import PocketCastsUtils
 
 /// Displays a fake set of tabs that allows the user to open the bookmarks view from the podcast list
 struct PodcastDetailsTabView: View {
@@ -16,6 +17,16 @@ struct PodcastDetailsTabView: View {
     }
 
     var body: some View {
+        if FeatureFlag.recommendations.enabled {
+            ScrollView(.horizontal, showsIndicators: false) {
+                tabs
+            }
+        } else {
+            tabs
+        }
+    }
+
+    @ViewBuilder var tabs: some View {
         HStack(spacing: 12) {
             Text(L10n.episodes)
                 .buttonize {
