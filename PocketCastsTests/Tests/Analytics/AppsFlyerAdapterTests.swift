@@ -67,7 +67,7 @@ fileprivate class AppsFlyerAdapterMock: AnalyticsAdapter {
     }
 
     func setup() {
-        appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] value in
+        appTrackingTransparencyProvider.authorizationStatusUpdated = { [weak self] (value, _) in
             self?.didAuthorize = value
         }
     }
@@ -82,10 +82,10 @@ fileprivate class AppTrackingTransparencyControllerMock: AppTrackingTransparency
 
     var authState: AuthState = .notDetermined {
         didSet {
-            authorizationStatusUpdated?(userGaveConsent())
+            authorizationStatusUpdated?(userGaveConsent(), "")
         }
     }
-    var authorizationStatusUpdated: ((Bool) -> Void)?
+    var authorizationStatusUpdated: ((Bool, String) -> Void)?
 
     func shouldShowPrompt() -> Bool {
         authState == .notDetermined
