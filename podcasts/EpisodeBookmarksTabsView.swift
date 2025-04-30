@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 /// Displays a fake set of tabs that allows the user to open the bookmarks view from the podcast list
-struct EpisodeBookmarksTabsView: View {
+struct PodcastDetailsTabView: View {
     @EnvironmentObject var theme: Theme
     @State private var selectedTab: Tab = .episodes
     @State private var hasSimilarShows = false
@@ -76,7 +76,7 @@ private extension View {
 
 struct EpisodeBookmarksTabsView_Previews: PreviewProvider {
     static var previews: some View {
-        EpisodeBookmarksTabsView()
+        PodcastDetailsTabView()
             .setupDefaultEnvironment()
     }
 }
