@@ -95,6 +95,15 @@ enum NotificationType: String {
             return "pktc://upsell"
         }
     }
+
+    var shouldSend: Bool {
+        switch self {
+            case .onboardingUpsell, .offers:
+                return !SubscriptionHelper.hasActiveSubscription()
+            default:
+                return true
+        }
+    }
 }
 
 enum NotificationsGroup {
@@ -206,6 +215,9 @@ class NotificationsCoordinator {
         let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(group.scheduleHour)
         var timeInterval: TimeInterval = timeIntervalToSchedule + group.timeIntervalStep
         for notification in group.notifications {
+            guard notification.shouldSend else {
+                continue
+            }
             if group.areRepeatable {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
