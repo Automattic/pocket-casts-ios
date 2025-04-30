@@ -1759,6 +1759,10 @@ internal enum L10n {
   internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
   internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
+  /// Unlock exclusive features like folders, bookmarks, and more with Plus!
+  internal static var notificationsOffersUpsellBody: String { return L10n.tr("Localizable", "notifications_offers_upsell_body") }
+  /// Level up your podcast game
+  internal static var notificationsOffersUpsellTitle: String { return L10n.tr("Localizable", "notifications_offers_upsell_title") }
   /// Notifications On
   internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
   /// We’ll notify you with new episodes of %1$@

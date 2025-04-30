@@ -4879,7 +4879,7 @@
 /* Notification title for filters onboarding message */
 "notifications_onboarding_filters_title" = "Organize your episodes";
 
-/* Notification title for upsell onboardingmessage */
+/* Notification title for upsell onboarding message */
 "notifications_onboarding_upsell_title" = "Level up your podcast game";
 
 /* Notification title for staff picks onboarding message */
@@ -4998,4 +4998,11 @@
 
 /* Notification body for recommendations trending message */
 "notifications_recommendations_trending_body" = "Check out what everyone else is listening this week.";
+
+/* Notification title for offer upsell message */
+"notifications_offers_upsell_title" = "Level up your podcast game";
+
+/* Notification body for offer upsell message */
+"notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
+
 

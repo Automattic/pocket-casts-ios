@@ -39,7 +39,7 @@ enum NotificationType: String {
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
         case .upsell:
-            return L10n.notificationsOnboardingUpsellTitle
+            return L10n.notificationsOffersUpsellTitle
         }
     }
 
@@ -64,7 +64,7 @@ enum NotificationType: String {
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
         case .upsell:
-            return L10n.notificationsOnboardingUpsellBody
+            return L10n.notificationsOffersUpsellBody
         }
     }
 
