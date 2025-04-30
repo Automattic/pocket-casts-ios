@@ -248,8 +248,7 @@ public class ServerPodcastManager: NSObject {
             throw URLError(.badURL)
         }
 
-        components.path += "/recommendations/podcast"
-        components.queryItems = [URLQueryItem(name: "podcast_uuid", value: podcastUUID)]
+        components.path += "/recommendations/podcast/\(podcastUUID)"
         guard let url = components.url else {
             assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
             throw URLError(.badURL)
@@ -259,12 +258,9 @@ public class ServerPodcastManager: NSObject {
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        let (data, response) = try await urlConnection.send(request: request)
 
-        let tokenHelper = TokenHelper(urlConnection: urlConnection)
-
-        let (response, data) = try await tokenHelper.callSecureUrl(request: request)
-
-        if response?.statusCode == ServerConstants.HttpConstants.notModified {
+        if (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.notModified {
             return nil
         }
 
