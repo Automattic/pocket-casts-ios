@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsServer
 
 enum NotificationType: String {
 
@@ -130,11 +131,11 @@ enum NotificationsGroup {
             case .dailyReminders:
                 return 10
             case .recommendations:
-                return 14
+                return 11
             case .newFeaturesAndTips:
                 return 16
             case .offers:
-                return 12
+                return 14
         }
     }
 
@@ -175,7 +176,7 @@ enum NotificationsGroup {
             case .newFeaturesAndTips:
                 return Self.speedUpNotifications ? 60.seconds: 1.week
             case .offers:
-                return Self.speedUpNotifications ? 60.seconds: 1.week
+                return Self.speedUpNotifications ? 120.seconds: 2.week
         }
     }
 
