@@ -15,9 +15,11 @@ struct PodcastTableCellView: View {
 
             VStack(alignment: .leading) {
                 Text(viewModel.title ?? "")
+                    .lineLimit(1)
                     .font(.system(size: 15, weight: .medium))
                     .foregroundStyle(theme.primaryText01)
                 Text(viewModel.author ?? "")
+                    .lineLimit(1)
                     .font(.system(size: 14, weight: .medium))
                     .foregroundStyle(theme.primaryText02)
             }
