@@ -58,7 +58,7 @@ extension NotificationType {
             possibleConditions = [.discoverListShowAllTapped]
         case .recommendationsTrending:
             possibleConditions = [.discoverListShowAllTapped]
-        case .offers:
+        case .upsell:
             possibleConditions  = [.purchaseSuccessful]
         }
         let eventMatch = possibleConditions.contains {

@@ -16,7 +16,7 @@ enum NotificationType: String {
 
     case recommendationsTrending
 
-    case offers
+    case upsell
 
     var title: String {
         switch self {
@@ -38,7 +38,7 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
-        case .offers:
+        case .upsell:
             return L10n.notificationsOnboardingUpsellTitle
         }
     }
@@ -63,7 +63,7 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
-        case .offers:
+        case .upsell:
             return L10n.notificationsOnboardingUpsellBody
         }
     }
@@ -92,14 +92,14 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
-        case .offers:
+        case .upsell:
             return "pktc://upsell"
         }
     }
 
     var shouldSend: Bool {
         switch self {
-            case .onboardingUpsell, .offers:
+            case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
             default:
                 return true
@@ -122,7 +122,7 @@ enum NotificationsGroup {
             case .newFeaturesAndTips:
                 return [.reengagementWeekly]
             case .offers:
-                return [.offers]
+                return [.upsell]
         }
     }
 
