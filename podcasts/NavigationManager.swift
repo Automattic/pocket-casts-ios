@@ -18,6 +18,7 @@ class NavigationManager {
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
     static let discoverCategoryKey = "discoverCategory"
+    static let discoverListKey = "discoverList"
 
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
@@ -144,11 +145,7 @@ class NavigationManager {
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
-            guard let data = data, let category = data[NavigationManager.discoverCategoryKey] as? String else {
-                mainController?.navigateToDiscover(animated)
-                return
-            }
-            mainController?.navigateToDiscover(category: category, animated: animated)
+            navigateToDiscover(data: data, animated: animated)
         } else if place == NavigationManager.filterPageKey {
             if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
@@ -240,6 +237,23 @@ class NavigationManager {
         } else if place == NavigationManager.settingsPageKey {
             let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
             mainController?.showSettings(row: row)
+        }
+    }
+
+    func navigateToDiscover(data: NSDictionary?, animated: Bool) {
+        guard let data = data else {
+            mainController?.navigateToDiscover(animated)
+            return
+        }
+
+        if let category = data[NavigationManager.discoverCategoryKey] as? String {
+            mainController?.navigateToDiscover(category: category, animated: animated)
+            return
+        }
+
+        if let listId = data[NavigationManager.discoverListKey] as? String {
+            mainController?.navigateToDiscover(listID: listId, animated: animated)
+            return
         }
     }
 }

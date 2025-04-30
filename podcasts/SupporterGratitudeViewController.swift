@@ -87,7 +87,7 @@ class SupporterGratitudeViewController: PCViewController, SyncSigninDelegate {
 
     private func loadBundleCollection(uuid: String) {
         let bundleUrl = ServerHelper.bundleUrl(bundleUuid: uuid)
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, completion: { podcastCollection in
+        DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
             guard let podcastCollection = podcastCollection else { return }
 
             DispatchQueue.main.async {

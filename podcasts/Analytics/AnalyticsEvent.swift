@@ -300,6 +300,9 @@ enum AnalyticsEvent: String {
     case filterAutoDownloadUpdated
     case filterAutoDownloadLimitUpdated
 
+    case episodeRecentlyPlayedSortOptionTooltipShown
+    case episodeRecentlyPlayedSortOptionTooltipDismissed
+
     // MARK: - Podcast screen
 
     case podcastScreenShown
@@ -557,6 +560,10 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
+    case settingsNotificationsTrendingToggle
+    case settingsNotificationsDailyRemindersToggle
+    case settingsNotificationsNewFeaturesToggle
+    case settingsNotificationsOffersToggle
 
     // MARK: - Settings: Appearance
 
@@ -838,6 +845,7 @@ enum AnalyticsEvent: String {
     case winbackCancelConfirmationCancelButtonTapped
     case winbackAvailablePlansSelectPlan
     case winbackAvailablePlansNewPlanPurchaseSuccessful
+    case winbackWinbackOfferCancelButtonTapped
 
     // MARK: - Champion Dialog
     case pocketCastsChampionDialogShown

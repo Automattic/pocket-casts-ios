@@ -15,6 +15,16 @@ extension DiscoverViewController: DiscoverDelegate {
         }
     }
 
+    func navigateTo(listID: String) {
+        if isViewLoaded {
+            showItemWith(identifier: listID)
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {[weak self] in
+                self?.showItemWith(identifier: listID)
+            }
+        }
+    }
+
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         // No-op for this older implementation.
     }
@@ -48,6 +58,29 @@ extension DiscoverViewController: DiscoverDelegate {
     func show(podcast: Podcast) {
         let podcastController = PodcastViewController(podcast: podcast)
         navigationController?.pushViewController(podcastController, animated: true)
+    }
+
+    func showItemWith(identifier: String) {
+        guard let items = discoverLayout?.layout, let item = items.first(where: { $0.id == identifier || $0.uuid == identifier}) else {
+            return
+        }
+
+        guard let source = item.source else { return }
+
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+            guard let self, let discoverPodcast = podcastList?.podcasts else { return }
+
+            let podcasts: [DiscoverPodcast]
+            if let itemCount = item.summaryItemCount {
+                podcasts = Array(discoverPodcast[0..<itemCount])
+            } else {
+                podcasts = discoverPodcast
+            }
+
+            DispatchQueue.main.async {
+                self.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+            }
+        })
     }
 
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {

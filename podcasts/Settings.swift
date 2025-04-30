@@ -1433,6 +1433,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Recent Played Sorting Tip
+
+    static var shouldShowRecentlyPlayedSortingTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip)
+        }
+    }
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {
@@ -1446,12 +1457,30 @@ class Settings: NSObject {
 
     // MARK: - Notifications
 
-    static var notificationsOnboardingTips: Bool {
+    static var notificationsDailyReminders: Bool {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.onboardingTips) as? Bool ?? false
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.dailyReminders) as? Bool ?? false
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.onboardingTips)
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.dailyReminders)
+        }
+    }
+
+    static var notificationsNewFeaturesAndTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newFeaturesAndTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newFeaturesAndTips)
+        }
+    }
+
+    static var notificationsRecommendations: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.recommendations) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.recommendations)
         }
     }
 

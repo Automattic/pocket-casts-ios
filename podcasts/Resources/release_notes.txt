@@ -1,1 +1,1 @@
-- Add Encourage Account Creation feature [#2905](https://github.com/Automattic/pocket-casts-ios/issues/2905)
+- Add Recenlty Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)

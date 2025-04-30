@@ -177,6 +177,8 @@ struct Constants {
 
         static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
 
+        static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
+
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)
@@ -226,7 +228,9 @@ struct Constants {
         }
 
         enum notifications {
-            static let onboardingTips = "notifications.onboardingTips"
+            static let dailyReminders = "notifications.dailyReminders"
+            static let newFeaturesAndTips = "notifications.newFeaturesAndTips"
+            static let recommendations = "notifications.recommendations"
         }
     }
 

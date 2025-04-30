@@ -70,6 +70,7 @@ struct DeveloperMenu: View {
 
                 Button("Force Reload Discover") {
                     DiscoverServerHandler.shared.discoveryCache.removeAllCachedResponses()
+                    URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
                 }
 
@@ -302,12 +303,14 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Speed Up Notifications") {
-                    NotificationsCoordinator.shared.timeIntervalStep = 60.seconds
+                    NotificationsCoordinator.shared.onboardingTimeIntervalStep = 10.seconds
+                    NotificationsCoordinator.shared.reEngagementTimeIntervalStep = 60.seconds
+                    NotificationsCoordinator.shared.recommendationsTimeIntervalStep = 60.seconds
+                    NotificationsCoordinator.shared.ignoreScheduleHours = true
                 }
             } header: {
                 Text("Notifications")
             }
-
 
             Section {
                 Text(Bundle.main.identifier)

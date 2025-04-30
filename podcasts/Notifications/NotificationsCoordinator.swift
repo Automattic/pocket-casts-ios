@@ -6,9 +6,14 @@ enum NotificationType: String {
     case onboardingSignUp
     case onboardingImport
     case onboardingThemes
+    case onboardingStaffPicks
     case onboardingUpNext
     case onboardingFilters
     case onboardingUpsell
+
+    case reengagementWeekly
+
+    case recommendationsTrending
 
     var title: String {
         switch self {
@@ -24,6 +29,12 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingFiltersTitle
         case .onboardingUpsell:
             return L10n.notificationsOnboardingUpsellTitle
+        case .onboardingStaffPicks:
+            return L10n.notificationsOnboardingStaffPicksTitle
+        case .reengagementWeekly:
+            return L10n.notificationsReengagementWeeklyTitle
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingTitle
         }
     }
 
@@ -41,6 +52,12 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingFiltersBody
         case .onboardingUpsell:
             return L10n.notificationsOnboardingUpsellBody
+        case .onboardingStaffPicks:
+            return L10n.notificationsOnboardingStaffPicksBody
+        case .reengagementWeekly:
+            return L10n.notificationsReengagementWeeklyBody
+        case .recommendationsTrending:
+            return L10n.notificationsRecommendationsTrendingBody
         }
     }
 
@@ -62,6 +79,12 @@ enum NotificationType: String {
             return "pktc://filters"
         case .onboardingUpsell:
             return "pktc://upsell"
+        case .onboardingStaffPicks:
+            return "pktc://discover/staff-picks"
+        case .reengagementWeekly:
+            return "pktc://discover"
+        case .recommendationsTrending:
+            return "pktc://discover/trending"
         }
     }
 }
@@ -70,7 +93,17 @@ class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
-    var timeIntervalStep: TimeInterval = 24.hours
+    var onboardingTimeIntervalStep: TimeInterval = 24.hours
+    var reEngagementTimeIntervalStep: TimeInterval = 1.week
+    var recommendationsTimeIntervalStep: TimeInterval = 3.days
+
+    var ignoreScheduleHours: Bool = false
+
+    private enum Constants {
+        static let onboardingScheduleHour: Int = 10
+        static let reengagementScheduleHour: Int = 16
+        static let recommendationsScheduleHour: Int = 14
+    }
 
     private let notificationCenter: UNUserNotificationCenter
 
@@ -78,33 +111,79 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
-    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingUpsell]
+    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
 
-    func setupOnboardingNotifications() {
-        Settings.notificationsOnboardingTips = true
-        NotificationsHelper.shared.registerForPushNotifications { granted in
-            guard granted else { return }
-            var timeInterval: TimeInterval = self.timeIntervalStep
-            self.onboardingNotifications.forEach { notification in
+    func setupDailyRemindersNotifications() {
+        Settings.notificationsDailyReminders = true
+        NotificationsHelper.shared.enablePush()
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard let self, granted else { return }
+            let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
+            var timeInterval: TimeInterval = timeIntervalToSchedule + onboardingTimeIntervalStep
+            onboardingNotifications.forEach { notification in
                 self.scheduleNotification(notification, timeInterval: timeInterval)
-                timeInterval += self.timeIntervalStep
+                timeInterval += self.onboardingTimeIntervalStep
             }
         }
     }
 
-    func cancelOnboardingNotifications() {
-        Settings.notificationsOnboardingTips = false
+    func cancelDailyRemainderNotifications() {
+        Settings.notificationsDailyReminders = false
         notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
     }
 
-    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds) {
+    func setupNewFeaturesAndTipsNotifications() {
+        Settings.notificationsNewFeaturesAndTips = true
+        NotificationsHelper.shared.enablePush()
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard granted else { return }
+            self?.updateReengamentNotifications()
+        }
+    }
+
+    func cancelNewFeaturesAndTipsNotifications() {
+        Settings.notificationsNewFeaturesAndTips = false
+        cancelNotification(.reengagementWeekly)
+    }
+
+    func updateReengamentNotifications() {
+        cancelNotification(.reengagementWeekly)
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.reengagementScheduleHour)
+        let initialInterval = timeIntervalToSchedule + reEngagementTimeIntervalStep
+        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
+        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
+    }
+
+    func setupRecommendationsNotifications() {
+        Settings.notificationsRecommendations = true
+        NotificationsHelper.shared.enablePush()
+        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
+            guard granted else { return }
+            self?.updateRecommendationNotifications()
+        }
+    }
+
+    func cancelRecommendationsNotifications() {
+        Settings.notificationsRecommendations = false
+        cancelNotification(.recommendationsTrending)
+    }
+
+    func updateRecommendationNotifications() {
+        cancelNotification(.recommendationsTrending)
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.recommendationsScheduleHour)
+        let initialInterval = timeIntervalToSchedule + recommendationsTimeIntervalStep
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval, repeats: false)
+        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval + recommendationsTimeIntervalStep, repeats: true)
+    }
+
+    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
         let content = UNMutableNotificationContent()
         content.title = type.title
         content.body = type.body
         content.categoryIdentifier = NotificationsHelper.NotificationsCategory.deepLink.rawValue
         content.userInfo = ["destination_url": type.link]
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
 
         let request = UNNotificationRequest(identifier: type.identifier, content: content, trigger: trigger)
 
@@ -121,5 +200,15 @@ class NotificationsCoordinator {
 
     func cancelNotification(_ type: NotificationType) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
+    }
+
+    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
+        if ignoreScheduleHours {
+            return 1
+        }
+        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
+            return 0
+        }
+        return date.timeIntervalSince(Date.now)
     }
 }

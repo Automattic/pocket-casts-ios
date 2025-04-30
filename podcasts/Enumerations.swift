@@ -129,7 +129,7 @@ extension LibrarySort.Old: AnalyticsDescribable {
 
 extension LibrarySort: AnalyticsDescribable {
     enum Old: Int {
-        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6, recentlyPlayed = 7
     }
 
     init?(oldValue: Int) {
@@ -149,6 +149,8 @@ extension LibrarySort: AnalyticsDescribable {
             self = .episodeDateNewestToOldest
         case .custom:
             self = .custom
+        case .recentlyPlayed:
+            self = .recentlyPlayed
         }
     }
 
@@ -162,6 +164,8 @@ extension LibrarySort: AnalyticsDescribable {
             return .episodeDateNewestToOldest
         case .custom:
             return .custom
+        case .recentlyPlayed:
+            return .recentlyPlayed
         }
     }
 
@@ -175,6 +179,8 @@ extension LibrarySort: AnalyticsDescribable {
             return L10n.podcastsLibrarySortEpisodeReleaseDate
         case .custom:
             return L10n.podcastsLibrarySortCustom
+        case .recentlyPlayed:
+            return L10n.podcastsLibrarySortEpisodeRecentlyPlayed
         }
     }
 
@@ -188,6 +194,8 @@ extension LibrarySort: AnalyticsDescribable {
             return "episode_release_date"
         case .custom:
             return "drag_and_drop"
+        case .recentlyPlayed:
+            return "episode_recently_played"
         }
     }
 }

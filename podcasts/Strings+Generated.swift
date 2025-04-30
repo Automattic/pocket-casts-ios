@@ -366,17 +366,19 @@ internal enum L10n {
   }
   /// Cancel
   internal static var cancel: String { return L10n.tr("Localizable", "cancel") }
-  /// Yes, Cancel my Subscription
+  /// Cancel my subscription
   internal static var cancelConfirmCancelButtonTitle: String { return L10n.tr("Localizable", "cancel_confirm_cancel_button_title") }
   /// Your folders will be removed and their contents will move back to the Podcasts screen.
   internal static var cancelConfirmItemFolders: String { return L10n.tr("Localizable", "cancel_confirm_item_folders") }
-  /// Access to Pocket Casts Plus features will be locked after this date.
+  /// Your podcasts and listening history will continue to be accessible. 
+  internal static var cancelConfirmItemHistory: String { return L10n.tr("Localizable", "cancel_confirm_item_history") }
+  /// After this date, access to Plus features like bookmarks, shuffle, wearables and more will be removed.
   internal static var cancelConfirmItemPlus: String { return L10n.tr("Localizable", "cancel_confirm_item_plus") }
-  /// All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)
+  /// All files uploaded to your Pocket Casts account will be deleted, but downloads on your mobile devices will remain.
   internal static var cancelConfirmItemUploads: String { return L10n.tr("Localizable", "cancel_confirm_item_uploads") }
   /// You will no longer be able to access Pocket Casts using your web browser, or desktop computer.
   internal static var cancelConfirmItemWebPlayer: String { return L10n.tr("Localizable", "cancel_confirm_item_web_player") }
-  /// Actually, I want to stay
+  /// Keep my subscription
   internal static var cancelConfirmStayButtonTitle: String { return L10n.tr("Localizable", "cancel_confirm_stay_button_title") }
   /// Your current subscription will remain active until %1$@.
   internal static func cancelConfirmSubExpiry(_ p1: Any) -> String {
@@ -384,14 +386,18 @@ internal enum L10n {
   }
   /// your expiration date
   internal static var cancelConfirmSubExpiryDateFallback: String { return L10n.tr("Localizable", "cancel_confirm_sub_expiry_date_fallback") }
-  /// This will change your plan to a free account.
+  /// Canceling will change your plan to a free account.
   internal static var cancelConfirmSubtitle: String { return L10n.tr("Localizable", "cancel_confirm_subtitle") }
+  /// Things you should know before you cancel
+  internal static var cancelConfirmTitle: String { return L10n.tr("Localizable", "cancel_confirm_title") }
   /// Cancel Download
   internal static var cancelDownload: String { return L10n.tr("Localizable", "cancel_download") }
   /// Unable To Cancel
   internal static var cancelFailed: String { return L10n.tr("Localizable", "cancel_failed") }
   /// Cancel Subscription
   internal static var cancelSubscription: String { return L10n.tr("Localizable", "cancel_subscription") }
+  /// Best Value
+  internal static var cancelSubscriptionAvailablePlansBestValueBadge: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_best_value_badge") }
   /// Your new plan will activate at the end of your current billing period.
   internal static var cancelSubscriptionAvailablePlansFooter: String { return L10n.tr("Localizable", "cancel_subscription_available_plans_footer") }
   /// Sorry, but something went wrong fetching your plans.
@@ -412,11 +418,11 @@ internal enum L10n {
   internal static var cancelSubscriptionNewPlanDescription: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_description") }
   /// Looking for a different plan?
   internal static var cancelSubscriptionNewPlanTitle: String { return L10n.tr("Localizable", "cancel_subscription_new_plan_title") }
-  /// Thanks for choosing Pocket Casts. Billing starts after your free month ends.
+  /// Thanks for choosing Pocket Casts. Your free month will be added to your current subscription.
   internal static var cancelSubscriptionOfferSuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_description") }
   /// Enjoy your free month!
   internal static var cancelSubscriptionOfferSuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_success_view_title") }
-  /// Thanks for choosing Pocket Casts. Your discounted plan starts after your current billing period.
+  /// Thanks for choosing Pocket Casts. Your discounted year begins after your current plan ends.
   internal static var cancelSubscriptionOfferYearlySuccessViewDescription: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_description") }
   /// 50%% off your next year!
   internal static var cancelSubscriptionOfferYearlySuccessViewTitle: String { return L10n.tr("Localizable", "cancel_subscription_offer_yearly_success_view_title") }
@@ -430,9 +436,27 @@ internal enum L10n {
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
-  /// Before you cancel,
-  /// check out these offers
+  /// Thinking of leaving?
+  /// Let us help first
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
+  /// Accept offer
+  internal static var cancelSubscriptionWinbackViewAcceptOfferButton: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_accept_offer_button") }
+  /// Continue with cancellation
+  internal static var cancelSubscriptionWinbackViewContinueCancellationButton: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_continue_cancellation_button") }
+  /// Enjoy one month of Pocket Casts Plus on us! The offer will be added to your current subscription.
+  internal static var cancelSubscriptionWinbackViewDescriptionMontly: String { return L10n.tr("Localizable", "cancel_subscription_winback_view_description_montly") }
+  /// Pay %@ now to lock in a year of Pocket Casts Plus at half price. Your discounted year begins after your current plan ends.
+  internal static func cancelSubscriptionWinbackViewDescriptionYearly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_description_yearly", String(describing: p1))
+  }
+  /// Get your next month free and save %@
+  internal static func cancelSubscriptionWinbackViewTitleMontly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_title_montly", String(describing: p1))
+  }
+  /// Get 50%% off your next year and save %@
+  internal static func cancelSubscriptionWinbackViewTitleYearly(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "cancel_subscription_winback_view_title_yearly", String(describing: p1))
+  }
   /// Get 50%% off your next year
   internal static var cancelSubscriptionYearlyPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_yearly_promotion_title") }
   /// Canceling...
@@ -1473,6 +1497,10 @@ internal enum L10n {
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary") }
+  /// %1$@/week
+  internal static func iapProductWeeklyPricingFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "iap_product_weekly_pricing_format", String(describing: p1))
+  }
   /// Import
   internal static var `import`: String { return L10n.tr("Localizable", "import") }
   /// We can import your podcasts from Apple Podcasts by using the built-in Shortcuts app.
@@ -1759,11 +1787,11 @@ internal enum L10n {
   internal static func notificationsOnForPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "notifications_on_for_podcast", String(describing: p1))
   }
-  /// Organize your episodes
+  /// Create smart filters to organize your episodes.
   internal static var notificationsOnboardingFiltersBody: String { return L10n.tr("Localizable", "notifications_onboarding_filters_body") }
   /// Organize your episodes
   internal static var notificationsOnboardingFiltersTitle: String { return L10n.tr("Localizable", "notifications_onboarding_filters_title") }
-  /// Easily import your podcasts
+  /// Switching from another app? Bring all your favorite shows to Pocket Casts.
   internal static var notificationsOnboardingImportBody: String { return L10n.tr("Localizable", "notifications_onboarding_import_body") }
   /// Easily import your podcasts
   internal static var notificationsOnboardingImportTitle: String { return L10n.tr("Localizable", "notifications_onboarding_import_title") }
@@ -1771,15 +1799,19 @@ internal enum L10n {
   internal static var notificationsOnboardingSignupBody: String { return L10n.tr("Localizable", "notifications_onboarding_signup_body") }
   /// Your shows, on any device!
   internal static var notificationsOnboardingSignupTitle: String { return L10n.tr("Localizable", "notifications_onboarding_signup_title") }
-  /// Time for a new look
+  /// Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.
+  internal static var notificationsOnboardingStaffPicksBody: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_body") }
+  /// Explore our Staff Picks
+  internal static var notificationsOnboardingStaffPicksTitle: String { return L10n.tr("Localizable", "notifications_onboarding_staff_picks_title") }
+  /// Browse our themes and find the one that suits your style.
   internal static var notificationsOnboardingThemesBody: String { return L10n.tr("Localizable", "notifications_onboarding_themes_body") }
   /// Time for a new look
   internal static var notificationsOnboardingThemesTitle: String { return L10n.tr("Localizable", "notifications_onboarding_themes_title") }
-  /// Simplify your queue
+  /// Build a playback queue and say goodbye to jumping around between episodes.
   internal static var notificationsOnboardingUpnextBody: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_body") }
   /// Simplify your queue
   internal static var notificationsOnboardingUpnextTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upnext_title") }
-  /// Level up your podcast game
+  /// Unlock exclusive features like folders, bookmarks, and more with Plus!
   internal static var notificationsOnboardingUpsellBody: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_body") }
   /// Level up your podcast game
   internal static var notificationsOnboardingUpsellTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_title") }
@@ -1787,8 +1819,22 @@ internal enum L10n {
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Pocket Casts Offers
   internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers") }
+  /// Check out what everyone else is listening this week.
+  internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body") }
+  /// Trending this week
+  internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title") }
+  /// It’s been awhile since you’ve listened. Jump back in and enjoy!
+  internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
+  /// We miss you!
+  internal static var notificationsReengagementWeeklyTitle: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_title") }
   /// Trending & Recommendations
   internal static var notificationsTrendingAndRecommendations: String { return L10n.tr("Localizable", "notifications_trending_and_recommendations") }
+  /// Go to device settings
+  internal static var notitificationsPermissionBannerAction: String { return L10n.tr("Localizable", "notitifications_permission_banner_action") }
+  /// To get notifications from Pocket Casts, you’ll need to turn them on in your device settings.
+  internal static var notitificationsPermissionBannerMessage: String { return L10n.tr("Localizable", "notitifications_permission_banner_message") }
+  /// Allow Push Notifications
+  internal static var notitificationsPermissionBannerTitle: String { return L10n.tr("Localizable", "notitifications_permission_banner_title") }
   /// Now Playing
   internal static var nowPlaying: String { return L10n.tr("Localizable", "now_playing") }
   /// Now Playing %1$@
@@ -2513,6 +2559,12 @@ internal enum L10n {
   internal static var podcastsLibrarySortCustom: String { return L10n.tr("Localizable", "podcasts_library_sort_custom") }
   /// Date Added
   internal static var podcastsLibrarySortDateAdded: String { return L10n.tr("Localizable", "podcasts_library_sort_date_added") }
+  /// Recently Played
+  internal static var podcastsLibrarySortEpisodeRecentlyPlayed: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_recently_played") }
+  /// You can now sort by Recently Played and quickly pick up where you left off.
+  internal static var podcastsLibrarySortEpisodeRecentlyPlayedTipDescription: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_recently_played_tip_description") }
+  /// Sort by “Recently Played”
+  internal static var podcastsLibrarySortEpisodeRecentlyPlayedTipTitle: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_recently_played_tip_title") }
   /// Episode Release Date
   internal static var podcastsLibrarySortEpisodeReleaseDate: String { return L10n.tr("Localizable", "podcasts_library_sort_episode_release_date") }
   /// Name
