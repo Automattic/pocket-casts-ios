@@ -27,6 +27,21 @@ struct CancelSubscriptionWinbackOfferView: View {
         }
     }
 
+    private var loadingButton: some View {
+        ZStack {
+            Rectangle()
+                .overlay(theme.primaryInteractive01)
+                .cornerRadius(ViewConstants.buttonCornerRadius)
+            ProgressView()
+                .progressViewStyle(
+                    CircularProgressViewStyle(tint: theme.primaryInteractive02)
+                )
+        }
+        .frame(height: 56.0)
+        .padding(.horizontal, 16.0)
+        .padding(.bottom, 16.0)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             Image("cs-winback-offer")
@@ -46,6 +61,7 @@ struct CancelSubscriptionWinbackOfferView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
             Spacer()
+            let isLoading = viewModel.offerPurchasingState == .purchasing
             Button(action: viewModel.claimOffer) {
                 Text(L10n.cancelSubscriptionWinbackViewAcceptOfferButton)
             }
@@ -53,10 +69,16 @@ struct CancelSubscriptionWinbackOfferView: View {
             .frame(height: 56.0)
             .padding(.horizontal, 16.0)
             .padding(.bottom, 16.0)
+            .overlay {
+                if isLoading {
+                    loadingButton
+                }
+            }
             Button(action: showManageSubscriptions) {
                 Text(L10n.cancelSubscriptionWinbackViewContinueCancellationButton)
             }
             .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryInteractive01))
+            .disabled(isLoading)
             .frame(height: 56.0)
             .padding(.horizontal, 16.0)
             .padding(.bottom, 2.0)
