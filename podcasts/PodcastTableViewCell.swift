@@ -29,7 +29,15 @@ final class PodcastTableViewCell: ThemeableCell {
         } else {
             let view = PodcastTableCellView(viewModel: viewModel)
             let uiView = view.environmentObject(Theme.sharedTheme).uiView
+            uiView.translatesAutoresizingMaskIntoConstraints = false
+            uiView.backgroundColor = .clear
             contentView.addSubview(uiView)
+            NSLayoutConstraint.activate([
+                contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
+                contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
+                contentView.layoutMarginsGuide.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
+                contentView.layoutMarginsGuide.topAnchor.constraint(equalTo: uiView.topAnchor)
+            ])
         }
     }
 
