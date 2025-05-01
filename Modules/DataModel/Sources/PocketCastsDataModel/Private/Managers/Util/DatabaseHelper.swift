@@ -4,22 +4,12 @@ import PocketCastsUtils
 
 class DatabaseHelper {
     class func setup(queue: PCDBQueue) {
-        var startingSchemaVersion: Int32 = 0
-
-        queue.inDatabase { db in
+        queue.write { db in
             do {
                 try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
 
-                let rs = try db.executeQuery("PRAGMA user_version", values: nil)
-                if rs.next() { startingSchemaVersion = rs.int(forColumnIndex: 0) }
-                rs.close()
-            } catch {
-                FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
-            }
-        }
+                let startingSchemaVersion = db.pragmaUserVersion() ?? 0
 
-        queue.inDatabase { db in
-            do {
                 var newSchemaVersion = startingSchemaVersion
                 upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
 
@@ -29,27 +19,6 @@ class DatabaseHelper {
             } catch {
                 FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
-        }
-    }
-
-    class func setup(db: PCDatabase) {
-        do {
-            try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
-
-            var startingSchemaVersion: Int32 = 0
-
-            let rs = try db.executeQuery("PRAGMA user_version", values: nil)
-            if rs.next() { startingSchemaVersion = rs.int(forColumnIndex: 0) }
-            rs.close()
-
-            var newSchemaVersion = startingSchemaVersion
-            upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
-
-            if newSchemaVersion != startingSchemaVersion {
-                try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
-            }
-        } catch {
-            FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
         }
     }
 
