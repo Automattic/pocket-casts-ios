@@ -3959,8 +3959,11 @@
 /* Title of a label informing the user they can cancel their subscription at any time */
 "plus_cancel_terms" = "Can be canceled at any time";
 
+/* Title of a view that informs the user what will happen if they cancel their subscription */
+"cancel_confirm_title" = "Things you should know before you cancel";
+
 /* Sub title of a view that informs the user what will happen if they cancel their subscription */
-"cancel_confirm_subtitle" = "This will change your plan to a free account.";
+"cancel_confirm_subtitle" = "Canceling will change your plan to a free account.";
 
 /* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiration */
 "cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
@@ -3969,22 +3972,25 @@
 "cancel_confirm_sub_expiry_date_fallback" = "your expiration date";
 
 /* Title of a list item that informs the user their plus features will be locked if they cancel */
-"cancel_confirm_item_plus" = "Access to Pocket Casts Plus features will be locked after this date.";
+"cancel_confirm_item_plus" = "After this date, access to Plus features like bookmarks, shuffle, wearables and more will be removed.";
 
 /* Title of a list item that informs the user their folders will be removed if they cancel */
 "cancel_confirm_item_folders" = "Your folders will be removed and their contents will move back to the Podcasts screen.";
 
 /* Title of a list item that informs the user uploaded files will be removed if they cancel */
-"cancel_confirm_item_uploads" = "All files uploaded to your Pocket Casts account will be deleted (but downloaded files on your mobile devices will remain)";
+"cancel_confirm_item_uploads" = "All files uploaded to your Pocket Casts account will be deleted, but downloads on your mobile devices will remain.";
 
 /* Title of a list item that informs the user they will no longer be able to access plus on the web if they cancel */
 "cancel_confirm_item_web_player" =  "You will no longer be able to access Pocket Casts using your web browser, or desktop computer.";
 
+/* Title of a list item that informs the user will continue access listening history and podcasts */
+"cancel_confirm_item_history" = "Your podcasts and listening history will continue to be accessible. ";
+
 /* Button title that lets the user stop the cancellation process */
-"cancel_confirm_stay_button_title" =  "Actually, I want to stay";
+"cancel_confirm_stay_button_title" =  "Keep my subscription";
 
 /* Button title that lets the user continue the cancellation process */
-"cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
+"cancel_confirm_cancel_button_title" =  "Cancel my subscription";
 
 /* Label of a button that lets the user login/signup with Apple */
 "social_sign_in_continue_with_apple" = "Continue with Apple";
@@ -4733,6 +4739,24 @@
 /* Title for the claim offer button */
 "cancel_subscription_claim_offer_button" = "Claim offer";
 
+/* Offer view: title for the yearly promotion. The %@ represents the price. */
+"cancel_subscription_winback_view_title_yearly" = "Get 50%% off your next year and save %@";
+
+/* Offer view: title for the monthly promotion. The %@ represents the price. */
+"cancel_subscription_winback_view_title_montly" = "Get your next month free and save %@";
+
+/* Offer view: description for the yearly promotion. The %@ represents the price. */
+"cancel_subscription_winback_view_description_yearly" = "Pay %@ now to lock in a year of Pocket Casts Plus at half price. Your discounted year begins after your current plan ends.";
+
+/* Offer view: description for the monthly promotion. */
+"cancel_subscription_winback_view_description_montly" = "Enjoy one month of Pocket Casts Plus on us! The offer will be added to your current subscription.";
+
+/* Offer view: button used to accept the offer */
+"cancel_subscription_winback_view_accept_offer_button" = "Accept offer";
+
+/* Offer view: button used to prompt the system cancellation view */
+"cancel_subscription_winback_view_continue_cancellation_button" = "Continue with cancellation";
+
 /* Title of the Available Plans screen accessible from the Cancel Subscription view */
 "cancel_subscription_available_plans_title" = "Available Plans";
 
@@ -4755,10 +4779,10 @@
 "cancel_subscription_offer_yearly_success_view_title" = "50%% off your next year!";
 
 /* Description of the success screen when the cancel subscription offer is applied */
-"cancel_subscription_offer_success_view_description" = "Thanks for choosing Pocket Casts. Billing starts after your free month ends.";
+"cancel_subscription_offer_success_view_description" = "Thanks for choosing Pocket Casts. Your free month will be added to your current subscription.";
 
 /* Description of the success screen when the cancel yearly subscription offer is applied */
-"cancel_subscription_offer_yearly_success_view_description" = "Thanks for choosing Pocket Casts. Your discounted plan starts after your current billing period.";
+"cancel_subscription_offer_yearly_success_view_description" = "Thanks for choosing Pocket Casts. Your discounted year begins after your current plan ends.";
 
 /* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
 "referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
