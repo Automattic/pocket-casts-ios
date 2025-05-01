@@ -92,13 +92,31 @@ extension DatabasePool {
             try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
         }
 
-        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB_GRDB.sqlite3")
-        if FileManager.default.fileExists(atPath: dbPath) {
-            if FileManager.default.fileExists(atPath: dbFolderPath.appendingPathComponent(toFile)) {
-                try FileManager.default.removeItem(atPath: dbFolderPath.appendingPathComponent(toFile))
-            }
+        let dbBaseName = "podcast_testDB_GRDB.sqlite3"
+        let dbPath = dbFolderPath.appendingPathComponent(dbBaseName)
+        let destinationBase = (toFile as NSString).deletingPathExtension
+        let destinationExtension = (toFile as NSString).pathExtension
 
-            try FileManager.default.copyItem(at: URL(fileURLWithPath: dbPath), to: URL(fileURLWithPath: dbFolderPath.appendingPathComponent(toFile)))
+        if FileManager.default.fileExists(atPath: dbPath) {
+            let baseFiles = [
+                "",          // Main db file
+                "-shm",      // Shared memory file
+                "-wal"       // Write-ahead log file
+            ]
+
+            for suffix in baseFiles {
+                let sourcePath = dbPath + suffix
+                let destFileName = destinationBase + suffix + (suffix == "" ? ".\(destinationExtension)" : "")
+                let destPath = dbFolderPath.appendingPathComponent(destFileName)
+
+                if FileManager.default.fileExists(atPath: destPath) {
+                    try FileManager.default.removeItem(atPath: destPath)
+                }
+
+                if FileManager.default.fileExists(atPath: sourcePath) {
+                    try FileManager.default.copyItem(atPath: sourcePath, toPath: destPath)
+                }
+            }
         }
     }
 }
