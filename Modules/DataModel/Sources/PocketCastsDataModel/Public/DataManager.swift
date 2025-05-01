@@ -41,8 +41,35 @@ public class DataManager {
             config.busyMode = .timeout(10)
             dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
         } else {
+            let dbPath = DataManager.pathToDb()
+            let walPath = dbPath + "-wal"
+            let shmPath = dbPath + "-shm"
+
+            // Check if WAL files exist
+            let fileManager = FileManager.default
+            let hasWalFiles = fileManager.fileExists(atPath: walPath) || fileManager.fileExists(atPath: shmPath)
+
+            if hasWalFiles {
+                // First open in WAL mode to perform checkpoint
+                let walFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE | SQLITE_OPEN_WAL
+                let walQueue = FMDatabaseQueue(path: dbPath, flags: walFlags)!
+
+                // Perform checkpoint to consolidate WAL
+                walQueue.inDatabase { db in
+                    do {
+                        try db.executeUpdate("PRAGMA wal_checkpoint(FULL);", values: nil)
+                    } catch {
+                        FileLog.shared.addMessage("Failed to perform WAL checkpoint: \(error)")
+                    }
+                }
+
+                // Close WAL connection
+                walQueue.close()
+            }
+
+            // Now open in non-WAL mode
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: dbPath, flags: flags)!)
         }
 
         self.init(dbQueue: dbQueue)
