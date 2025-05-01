@@ -13,14 +13,14 @@ struct PodcastTableCellView: View {
                 .frame(width: 48, height: 48)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(viewModel.title ?? "")
                     .lineLimit(1)
-                    .font(.system(size: 15, weight: .medium))
+                    .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(theme.primaryText01)
                 Text(viewModel.author ?? "")
                     .lineLimit(1)
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.system(size: 14, weight: .regular))
                     .foregroundStyle(theme.primaryText02)
             }
 

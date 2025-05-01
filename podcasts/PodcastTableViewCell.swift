@@ -26,6 +26,8 @@ final class PodcastTableViewCell: ThemeableCell {
                 PodcastTableCellView(viewModel: viewModel)
                     .environmentObject(Theme.sharedTheme)
             }
+            .margins(.horizontal, 16)
+            .margins(.vertical, 8)
         } else {
             let view = PodcastTableCellView(viewModel: viewModel)
             let uiView = view.environmentObject(Theme.sharedTheme).uiView
