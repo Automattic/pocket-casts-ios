@@ -85,7 +85,7 @@ private extension View {
 
 // MARK: - Previews
 
-struct EpisodeBookmarksTabsView_Previews: PreviewProvider {
+struct PodcastDetailsTabView_Previews: PreviewProvider {
     static var previews: some View {
         PodcastDetailsTabView()
             .setupDefaultEnvironment()
