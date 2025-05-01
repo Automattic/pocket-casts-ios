@@ -377,8 +377,6 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Betala %@ nu för ytterligare ett år med 50 %% rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
-    <key>cancel_subscription_title</key>
-    <string>Innan du avslutar, kolla in dessa erbjudanden</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>50 %% rabatt på ditt nästa år.</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ podcasts med dig</string>
     <string>Aviseringar på</string>
     <key>notifications_on_for_podcast</key>
     <string>Du får ett meddelande om nya avsnitt av %1$@</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Organisera dina avsnitt</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organisera dina avsnitt</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Importera enkelt dina podcasts</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importera enkelt dina podcasts</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Dina shower, på vilken enhet som helst.</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>Dags för ett nytt utseende</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Dags för ett nytt utseende</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Förenkla din kö</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Förenkla din kö</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Ta ditt podcastlyssnande till nästa nivå</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Ta ditt podcastlyssnande till nästa nivå</string>
     <key>notifications_play_now</key>

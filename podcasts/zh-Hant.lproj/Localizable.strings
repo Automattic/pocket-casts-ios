@@ -377,8 +377,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>立即支付「%@」，次年即享 50%% 優惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下個月免費使用</string>
-    <key>cancel_subscription_title</key>
-    <string>取消前，不妨看看以下優惠</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>次年享有 50%% 優惠</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>開啟通知</string>
     <key>notifications_on_for_podcast</key>
     <string>我們會在「%1$@」推出新單集時通知你</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>整理你的單集</string>
     <key>notifications_onboarding_filters_title</key>
     <string>整理你的單集</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>輕鬆匯入你的 Podcast</string>
     <key>notifications_onboarding_import_title</key>
     <string>輕鬆匯入你的 Podcast</string>
     <key>notifications_onboarding_signup_body</key>
     <string>建立免費帳號即可同步你的節目，隨時隨地收聽。</string>
     <key>notifications_onboarding_signup_title</key>
     <string>透過任何裝置收聽節目！</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>是時候換個新形象了</string>
     <key>notifications_onboarding_themes_title</key>
     <string>是時候換個新形象了</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>簡化你的佇列</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>簡化你的佇列</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>升級你的 Podcast 體驗</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>升級你的 Podcast 體驗</string>
     <key>notifications_play_now</key>

@@ -377,8 +377,6 @@ Download de app voor de volledige ervaring!</string>
     <string>Betaal nu %@ voor nog een jaar met 50%% korting.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
-    <key>cancel_subscription_title</key>
-    <string>Kijk eens naar deze aanbiedingen voordat je annuleert</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Krijg 50%% korting op je eerste jaar</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ podcasts mee</string>
     <string>Meldingen aan</string>
     <key>notifications_on_for_podcast</key>
     <string>We sturen je een bericht met nieuwe afleveringen van %1$@</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Organiseer je afleveringen</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organiseer je afleveringen</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Importeer je podcasts eenvoudig</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importeer je podcasts eenvoudig</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Je shows, op elk apparaat!</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>Tijd voor een nieuwe look</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Tijd voor een nieuwe look</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Vereenvoudig je wachtrij</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Vereenvoudig je wachtrij</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Verbeter je podcastbeleving</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Verbeter je podcastbeleving</string>
     <key>notifications_play_now</key>

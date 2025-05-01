@@ -377,8 +377,6 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Payez %@ dès maintenant pour profiter d’une année supplémentaire à -50 %%</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtenir votre prochain mois gratuit</string>
-    <key>cancel_subscription_title</key>
-    <string>Avant que vous n’annuliez, jetez un coup d’œil à ces offres</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Obtenir -50 %% sur la prochaine année</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ podcasts partout avec</string>
     <string>Notifications activées</string>
     <key>notifications_on_for_podcast</key>
     <string>Nous vous avertirons de la sortie de nouveaux épisodes de %1$@</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Organiser vos épisodes</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organiser vos épisodes</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Importer facilement vos podcasts</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importer facilement vos podcasts</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Vos émissions, sur tous vos appareils !</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>L’heure est venue d’un nouveau look</string>
     <key>notifications_onboarding_themes_title</key>
     <string>L’heure est venue d’un nouveau look</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Simplifier votre file d’attente</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Simplifier votre file d’attente</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Améliorer votre palette de podcasts</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Améliorer votre palette de podcasts</string>
     <key>notifications_play_now</key>

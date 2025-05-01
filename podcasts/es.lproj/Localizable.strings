@@ -377,8 +377,6 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Paga %@ ahora para obtener un año más al 50 %% de descuento.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Consigue tu próximo mes gratis</string>
-    <key>cancel_subscription_title</key>
-    <string>Antes de que canceles, ¿por qué no echas un vistazo a estas ofertas?</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Consigue un 50 %% de descuento el próximo año</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ pódcast contigo</string>
     <string>Notificaciones activadas</string>
     <key>notifications_on_for_podcast</key>
     <string>Te enviaremos una notificación cuando haya nuevos episodios de %1$@</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Organiza tus episodios</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organiza tus episodios</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Importa fácilmente tus podcasts</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importa fácilmente tus podcasts</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Crea una cuenta gratuita para sincronizar tus programas y escucharlos estés donde estés.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Tus programas en cualquier dispositivo</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>Es hora de cambiar de aspecto</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Es hora de cambiar de aspecto</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Simplifica tu cola</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Simplifica tu cola</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Mejora tu experiencia de podcasts</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Mejora tu experiencia de podcasts</string>
     <key>notifications_play_now</key>
