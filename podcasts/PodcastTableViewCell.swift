@@ -37,8 +37,8 @@ final class PodcastTableViewCell: ThemeableCell {
             NSLayoutConstraint.activate([
                 contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
                 contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-                contentView.layoutMarginsGuide.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-                contentView.layoutMarginsGuide.topAnchor.constraint(equalTo: uiView.topAnchor)
+                contentView.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
+                contentView.topAnchor.constraint(equalTo: uiView.topAnchor)
             ])
         }
     }
