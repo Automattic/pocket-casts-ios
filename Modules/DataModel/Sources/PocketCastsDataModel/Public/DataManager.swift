@@ -32,11 +32,11 @@ public class DataManager {
     public static let sharedManager = DataManager()
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
-    public convenience init() {
+    public convenience init(grdbEnabled: Bool = FeatureFlag.grdb.enabled) {
         DataManager.ensureDbFolderExists()
 
         var dbQueue: PCDBQueue
-        if FeatureFlag.grdb.enabled {
+        if grdbEnabled {
             var config = Configuration()
             config.busyMode = .timeout(10)
             dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
@@ -72,17 +72,17 @@ public class DataManager {
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: dbPath, flags: flags)!)
         }
 
-        self.init(dbQueue: dbQueue)
+        self.init(dbQueue: dbQueue, grdbEnabled: grdbEnabled)
     }
 
     /// Creates a DataManager using the given `PCDBQueue`.
     /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true, grdbEnabled: Bool = FeatureFlag.grdb.enabled) {
         self.dbQueue = dbQueue
 
         DatabaseHelper.setup(queue: dbQueue)
 
-        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
+        if shouldCloseQueueAfterSetup && !grdbEnabled {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
             dbQueue.close()
         }
