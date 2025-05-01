@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsServer
 
 enum NotificationType: String {
 
@@ -14,6 +15,8 @@ enum NotificationType: String {
     case reengagementWeekly
 
     case recommendationsTrending
+
+    case upsell
 
     var title: String {
         switch self {
@@ -35,6 +38,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
+        case .upsell:
+            return L10n.notificationsOffersUpsellTitle
         }
     }
 
@@ -58,6 +63,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
+        case .upsell:
+            return L10n.notificationsOffersUpsellBody
         }
     }
 
@@ -85,6 +92,17 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
+        case .upsell:
+            return "pktc://upsell"
+        }
+    }
+
+    var shouldSend: Bool {
+        switch self {
+            case .onboardingUpsell, .upsell:
+                return !SubscriptionHelper.hasActiveSubscription()
+            default:
+                return true
         }
     }
 }
@@ -93,6 +111,7 @@ enum NotificationsGroup {
     case dailyReminders
     case recommendations
     case newFeaturesAndTips
+    case offers
 
     var notifications: [NotificationType] {
         switch self {
@@ -102,6 +121,8 @@ enum NotificationsGroup {
                 return [.recommendationsTrending]
             case .newFeaturesAndTips:
                 return [.reengagementWeekly]
+            case .offers:
+                return [.upsell]
         }
     }
 
@@ -110,9 +131,11 @@ enum NotificationsGroup {
             case .dailyReminders:
                 return 10
             case .recommendations:
-                return 14
+                return 11
             case .newFeaturesAndTips:
                 return 16
+            case .offers:
+                return 14
         }
     }
 
@@ -124,6 +147,8 @@ enum NotificationsGroup {
                 return Settings.notificationsRecommendations
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
+            case .offers:
+                return Settings.notificationsOffers
         }
     }
 
@@ -135,6 +160,8 @@ enum NotificationsGroup {
                 Settings.notificationsRecommendations = newValue
             case .newFeaturesAndTips:
                 Settings.notificationsNewFeaturesAndTips = newValue
+            case .offers:
+                Settings.notificationsOffers = newValue
         }
     }
 
@@ -148,6 +175,8 @@ enum NotificationsGroup {
                 return Self.speedUpNotifications ? 60.seconds: 3.days
             case .newFeaturesAndTips:
                 return Self.speedUpNotifications ? 60.seconds: 1.week
+            case .offers:
+                return Self.speedUpNotifications ? 120.seconds: 2.week
         }
     }
 
@@ -155,7 +184,7 @@ enum NotificationsGroup {
         switch self {
             case .dailyReminders:
                 return false
-            case .recommendations, .newFeaturesAndTips:
+            case .recommendations, .newFeaturesAndTips, .offers:
                 return true
         }
     }
@@ -187,6 +216,9 @@ class NotificationsCoordinator {
         let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(group.scheduleHour)
         var timeInterval: TimeInterval = timeIntervalToSchedule + group.timeIntervalStep
         for notification in group.notifications {
+            guard notification.shouldSend else {
+                continue
+            }
             if group.areRepeatable {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)

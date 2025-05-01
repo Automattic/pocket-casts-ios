@@ -64,9 +64,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 return Settings.notificationsNewFeaturesAndTips
             case .trendingRecommendations:
                 return Settings.notificationsRecommendations
-            case .podcastsChosen,
-                 .appBadges,
-                 .pocketCastsOffers:
+            case .pocketCastsOffers:
+                return Settings.notificationsOffers
+            case .podcastsChosen, .appBadges:
                 return false
             }
         }
@@ -105,7 +105,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 case .appBadges:
                     return nil
                 case .pocketCastsOffers:
-                    return nil
+                    return .offers
             }
         }
     }
