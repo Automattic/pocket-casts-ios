@@ -32,16 +32,16 @@ public class DataManager {
     public static let sharedManager = DataManager()
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
-    public convenience init(grdbEnabled: Bool = FeatureFlag.grdb.enabled) {
+    public convenience init(grdbEnabled: Bool = FeatureFlag.grdb.enabled, databaseFileName: String? = nil) {
         DataManager.ensureDbFolderExists()
 
         var dbQueue: PCDBQueue
         if grdbEnabled {
             var config = Configuration()
             config.busyMode = .timeout(10)
-            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
+            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(fileName: databaseFileName), configuration: config))
         } else {
-            let dbPath = DataManager.pathToDb()
+            let dbPath = DataManager.pathToDb(fileName: databaseFileName)
             let walPath = dbPath + "-wal"
             let shmPath = dbPath + "-shm"
 
@@ -49,26 +49,8 @@ public class DataManager {
             let fileManager = FileManager.default
             let hasWalFiles = fileManager.fileExists(atPath: walPath) || fileManager.fileExists(atPath: shmPath)
 
-            if hasWalFiles {
-                // First open in WAL mode to perform checkpoint
-                let walFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE | SQLITE_OPEN_WAL
-                let walQueue = FMDatabaseQueue(path: dbPath, flags: walFlags)!
-
-                // Perform checkpoint to consolidate WAL
-                walQueue.inDatabase { db in
-                    do {
-                        try db.executeUpdate("PRAGMA wal_checkpoint(FULL);", values: nil)
-                    } catch {
-                        FileLog.shared.addMessage("Failed to perform WAL checkpoint: \(error)")
-                    }
-                }
-
-                // Close WAL connection
-                walQueue.close()
-            }
-
             // Now open in non-WAL mode
-            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+            let flags = hasWalFiles ? SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE | SQLITE_OPEN_WAL : SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: dbPath, flags: flags)!)
         }
 
@@ -156,6 +138,10 @@ public class DataManager {
         if let sizeString = databaseSize {
             FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
         }
+    }
+
+    public func close() {
+        dbQueue.close()
     }
 
     // MARK: - Up Next
@@ -1038,10 +1024,10 @@ public class DataManager {
 
     // MARK: - Path Related
 
-    public static func pathToDb() -> String {
+    public static func pathToDb(fileName: String? = nil) -> String {
         let folderPath = pathToDbFolder() as NSString
 
-        return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
+        return folderPath.appendingPathComponent(fileName ?? "podcast_newDB.sqlite3")
     }
 
     private static func pathToDbFolder() -> String {
