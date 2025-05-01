@@ -240,6 +240,40 @@ public class ServerPodcastManager: NSObject {
         return episode
     }
 
+    public func loadRecommendations(for podcastUUID: String) async throws -> PodcastCollection? {
+        let components = URLComponents(string: ServerConstants.Urls.api())
+
+        guard var components else {
+            assertionFailure("[ServerPodcastManager] Recommendations API URL failed")
+            throw URLError(.badURL)
+        }
+
+        components.path += "/recommendations/podcast/\(podcastUUID)"
+        guard let url = components.url else {
+            assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
+            throw URLError(.badURL)
+        }
+
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        let (data, response) = try await urlConnection.send(request: request)
+
+        if (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.notModified {
+            return nil
+        }
+
+        guard let data = data else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return try decoder.decode(PodcastCollection.self, from: data)
+    }
+
     private func loadFrom(url: String) -> [String: Any]? {
         let url = ServerHelper.asUrl(url)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)

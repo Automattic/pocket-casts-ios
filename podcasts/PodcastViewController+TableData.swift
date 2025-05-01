@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
+import PocketCastsServer
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
@@ -11,6 +12,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let groupHeadingCellId = "GroupHeading"
 
     func registerCells() {
+        episodesTable.register(PodcastTableViewCell.self, forCellReuseIdentifier: PodcastTableViewCell.reuseIdentifier)
         episodesTable.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.episodeCellId)
         episodesTable.register(UINib(nibName: "PodcastHeadingTableCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.headerCellId)
         episodesTable.register(UINib(nibName: "EpisodeLimitCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.limitCellId)
@@ -25,7 +27,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
+        if sender.state == .began && currentViewMode != .similarShows {
             let touchPoint = sender.location(in: episodesTable)
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
@@ -51,65 +53,110 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table Data
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        loadingPodcastInfo ? 0 : 2
+        if loadingPodcastInfo { return 0 }
+
+        switch currentViewMode {
+        case .episodes:
+            return 2
+        case .bookmarks:
+            return 0 // Bookmarks are shown in a separate controller
+        case .similarShows:
+            return 2 // Keep the same number of sections as episodes
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if loadingPodcastInfo { return 0 }
 
-        return episodeInfo[safe: section]?.elements.count ?? 0
+        switch currentViewMode {
+        case .episodes:
+            return episodeInfo[safe: section]?.elements.count ?? 0
+        case .bookmarks:
+            return 0
+        case .similarShows:
+            if section == PodcastViewController.headerSection {
+                return 1 // Keep the header
+            } else {
+                return similarPodcasts.count
+            }
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == PodcastViewController.headerSection {
-            if FeatureFlag.podcastViewChanges.enabled {
-                let cell = podcastHeaderCell
+        switch currentViewMode {
+        case .episodes:
+            if indexPath.section == PodcastViewController.headerSection {
+                if FeatureFlag.podcastViewChanges.enabled {
+                    let cell = podcastHeaderCell
+                    return cell
+                } else {
+                    let cell = podcastHeadingCell
+                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
+                    cell.buttonsEnabled = !isMultiSelectEnabled
+                    return cell
+                }
+            }
+
+            guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
+                FileLog.shared.addMessage("EpisodeInfo missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+                return UITableViewCell()
+            }
+            if let listEpisode = itemAtRow as? ListEpisode {
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.episodeCellId, for: indexPath) as! EpisodeCell
+                cell.hidesArtwork = true
+
+                if let podcast {
+                    cell.playlist = .podcast(uuid: podcast.uuid)
+                }
+
+                cell.delegate = self
+                cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
+                cell.shouldShowSelect = isMultiSelectEnabled
+                if isMultiSelectEnabled {
+                    cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
+                }
+                return cell
+            } else if let limitPlaceholder = itemAtRow as? EpisodeLimitPlaceholder {
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
+                cell.limitMessage.text = limitPlaceholder.message
+                return cell
+            } else if itemAtRow is NoSearchResultsPlaceholder {
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.noSearchResultsCell, for: indexPath) as! NoSearchResultsCell
+                return cell
+            } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.allArchivedCellId, for: indexPath) as! AllArchivedCell
+                cell.episodesArchivedLabel.text = archivedPlaceholder.message
+                return cell
+            } else if let heading = itemAtRow as? ListHeader {
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
+                cell.heading.text = heading.headerTitle
                 return cell
             } else {
-                let cell = podcastHeadingCell
-                cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
-                cell.buttonsEnabled = !isMultiSelectEnabled
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
                 return cell
             }
-        }
 
-        guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
-            FileLog.shared.addMessage("EpisodeInfo missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+        case .bookmarks:
             return UITableViewCell()
-        }
-        if let listEpisode = itemAtRow as? ListEpisode {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.episodeCellId, for: indexPath) as! EpisodeCell
-            cell.hidesArtwork = true
 
-            if let podcast {
-                cell.playlist = .podcast(uuid: podcast.uuid)
+        case .similarShows:
+            if indexPath.section == PodcastViewController.headerSection {
+                if FeatureFlag.podcastViewChanges.enabled {
+                    let cell = podcastHeaderCell
+                    return cell
+                } else {
+                    let cell = podcastHeadingCell
+                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
+                    cell.buttonsEnabled = !isMultiSelectEnabled
+                    return cell
+                }
+            } else {
+                let podcast = similarPodcasts[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
+                cell.configure(with: podcast)
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                return cell
             }
-
-            cell.delegate = self
-            cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
-            cell.shouldShowSelect = isMultiSelectEnabled
-            if isMultiSelectEnabled {
-                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
-            }
-            return cell
-        } else if let limitPlaceholder = itemAtRow as? EpisodeLimitPlaceholder {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
-            cell.limitMessage.text = limitPlaceholder.message
-            return cell
-        } else if itemAtRow is NoSearchResultsPlaceholder {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.noSearchResultsCell, for: indexPath) as! NoSearchResultsCell
-            return cell
-        } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.allArchivedCellId, for: indexPath) as! AllArchivedCell
-            cell.episodesArchivedLabel.text = archivedPlaceholder.message
-            return cell
-        } else if let heading = itemAtRow as? ListHeader {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
-            cell.heading.text = heading.headerTitle
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.limitCellId, for: indexPath) as! EpisodeLimitCell
-            return cell
         }
     }
 
@@ -146,34 +193,52 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isMultiSelectEnabled, indexPath.section == PodcastViewController.allEpisodesSection {
-            if let listEpisode = episodeInfo[indexPath.section].elements[indexPath.row] as? ListEpisode {
-                if !multiSelectGestureInProgress {
-                    // If the episode is already selected move to the end of the array
-                    selectedEpisodesRemove(uuid: listEpisode.episode.uuid)
-                }
+        switch currentViewMode {
+        case .episodes:
+            if isMultiSelectEnabled, indexPath.section == PodcastViewController.allEpisodesSection {
+                if let listEpisode = episodeInfo[indexPath.section].elements[indexPath.row] as? ListEpisode {
+                    if !multiSelectGestureInProgress {
+                        // If the episode is already selected move to the end of the array
+                        selectedEpisodesRemove(uuid: listEpisode.episode.uuid)
+                    }
 
-                if !multiSelectGestureInProgress || multiSelectGestureInProgress, !selectedEpisodesContains(uuid: listEpisode.episode.uuid) {
-                    selectedEpisodes.append(listEpisode)
-                    // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
-                    if let cell = episodesTable.cellForRow(at: indexPath) as? EpisodeCell? {
-                        cell?.showTick = true
+                    if !multiSelectGestureInProgress || multiSelectGestureInProgress, !selectedEpisodesContains(uuid: listEpisode.episode.uuid) {
+                        selectedEpisodes.append(listEpisode)
+                        // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
+                        if let cell = episodesTable.cellForRow(at: indexPath) as? EpisodeCell? {
+                            cell?.showTick = true
+                        }
                     }
                 }
-            }
-        } else {
-            tableView.deselectRow(at: indexPath, animated: true)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
 
+                if indexPath.section == PodcastViewController.headerSection {
+                    if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
+                        cell.toggleExpanded(delegate: self)
+                    }
+                } else if indexPath.section == PodcastViewController.allEpisodesSection {
+                    guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
+
+                    let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen, playlist: .podcast(uuid: podcast.uuid))
+                    episodeController.modalPresentationStyle = .formSheet
+                    present(episodeController, animated: true, completion: nil)
+                }
+            }
+
+        case .bookmarks:
+            break
+
+        case .similarShows:
             if indexPath.section == PodcastViewController.headerSection {
                 if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
                     cell.toggleExpanded(delegate: self)
                 }
-            } else if indexPath.section == PodcastViewController.allEpisodesSection {
-                guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
-
-                let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen, playlist: .podcast(uuid: podcast.uuid))
-                episodeController.modalPresentationStyle = .formSheet
-                present(episodeController, animated: true, completion: nil)
+            } else {
+                let selectedPodcast = similarPodcasts[indexPath.row]
+                let info = PodcastInfo(selectedPodcast)
+                let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
+                navigationController?.pushViewController(podcastController, animated: true)
             }
         }
     }
@@ -191,19 +256,38 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table Config
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows {
+            return CGFloat.leastNonzeroMagnitude
+        }
+        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows {
+            return CGFloat.leastNonzeroMagnitude
+        }
+        return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        CGFloat.leastNonzeroMagnitude
+        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
+            return 16
+        }
+        return CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
+            let footerView = UIView()
+            footerView.backgroundColor = .clear
+            return footerView
+        }
+        return nil
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        PodcastViewController.allEpisodesSection == section ? searchController?.view : nil
+        guard PodcastViewController.allEpisodesSection == section else { return nil }
+        return currentViewMode == .episodes ? searchController?.view : nil
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -216,7 +300,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
+        guard currentViewMode != .similarShows else { return false }
+        return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
@@ -228,7 +313,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        guard indexPath.section == PodcastViewController.allEpisodesSection, episodeAtIndexPath(indexPath) != nil else { return false }
+        guard currentViewMode != .similarShows,
+              indexPath.section == PodcastViewController.allEpisodesSection,
+              episodeAtIndexPath(indexPath) != nil else { return false }
 
         return Settings.multiSelectGestureEnabled()
     }

@@ -74,7 +74,7 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            EpisodeBookmarksTabsView(delegate: viewModel.delegate)
+            PodcastDetailsTabView(delegate: viewModel.delegate)
         }
         .padding(.horizontal)
     }

@@ -3356,6 +3356,8 @@ internal enum L10n {
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
   /// Not Signed In
   internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
+  /// Similar Shows
+  internal static var similarShows: String { return L10n.tr("Localizable", "similar_shows") }
   /// 1 chapter
   internal static var singleChapter: String { return L10n.tr("Localizable", "single_chapter") }
   /// Set sleep timer to %1$@

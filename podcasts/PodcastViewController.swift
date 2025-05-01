@@ -23,6 +23,7 @@ enum PodcastFeedReloadSource {
 }
 
 protocol PodcastActionsDelegate: AnyObject {
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> { get }
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
     func isDescriptionExpanded() -> Bool
@@ -60,6 +61,8 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+    func showEpisodes()
+    func showSimilarShows()
     func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
@@ -76,6 +79,27 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var listUuid: String?
     var summaryExpanded = false
     var descriptionExpanded = false
+    var currentViewMode: ViewMode = .episodes
+    var similarPodcasts: [DiscoverPodcast] = []
+    private var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
+        hasSimilarShows.eraseToAnyPublisher()
+    }
+    private var recommendations: PodcastCollection?
+
+    enum ViewMode {
+        case episodes
+        case bookmarks
+        case similarShows
+
+        var analyticsValue: String {
+            switch self {
+            case .episodes: return "episodes"
+            case .bookmarks: return "bookmarks"
+            case .similarShows: return "similar_shows"
+            }
+        }
+    }
 
     var searchController: EpisodeListSearchController?
 
@@ -457,6 +481,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             self.navigationController?.isNavigationBarHidden = true
         }
         showViewChangesTipIfNeeded()
+
+        // Load recommendations when view appears
+        if FeatureFlag.recommendations.enabled {
+            Task {
+                await loadRecommendations()
+            }
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1097,13 +1128,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         present(hostingController, animated: true, completion: nil)
     }
 
+    func showEpisodes() {
+        switchViewMode(to: .episodes)
+    }
+
     func showBookmarks() {
         guard let podcast else { return }
 
-        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
-
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
+    }
+
+    func showSimilarShows() {
+        switchViewMode(to: .similarShows)
     }
 
     // MARK: - Podcast Feed Reload
@@ -1345,6 +1382,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func signingProcessCompleted() {
         navigationController?.popToViewController(self, animated: true)
     }
+
+    @MainActor
+    private func loadRecommendations() async {
+        guard let podcast = podcast else { return }
+
+        do {
+            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+            hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
+        } catch {
+            // We won't do anything in the interface here since the Similar Shows button is optional and hidden by default
+            FileLog.shared.addMessage("[PodcastViewController] Failed to load recommendations \(error)")
+        }
+    }
 }
 
 // MARK: - Analytics
@@ -1358,6 +1408,22 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
+    }
+
+    private func switchViewMode(to mode: ViewMode) {
+        currentViewMode = mode
+        switch mode {
+        case .episodes:
+            if let podcast = podcast {
+                loadLocalEpisodes(podcast: podcast, animated: true)
+            }
+        case .similarShows:
+            similarPodcasts = recommendations?.podcasts ?? []
+        case .bookmarks:
+            break // Handled separately
+        }
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
+        reloadData()
     }
 }
 
