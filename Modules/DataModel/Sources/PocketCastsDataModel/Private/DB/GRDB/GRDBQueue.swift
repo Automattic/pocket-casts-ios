@@ -38,6 +38,32 @@ class GRDBQueue: PCDBQueue {
         }
     }
 
+    func read(_ block: (any PCDatabase) -> Void) {
+        withoutActuallyEscaping(block) { block in
+            // This should be a try? to match FMDB behavior
+            // However, while we test GRDB internally we would like any error
+            // to be thrown helping us to discover issues.
+            // TODO: remove once GRDB has been tested.
+            try! dbPool.read { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
+            }
+        }
+    }
+
+    func write(_ block: (any PCDatabase) -> Void) {
+        withoutActuallyEscaping(block) { block in
+            // This should be a try? to match FMDB behavior
+            // However, while we test GRDB internally we would like any error
+            // to be thrown helping us to discover issues.
+            // TODO: remove once GRDB has been tested.
+            try! dbPool.write { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
+            }
+        }
+    }
+
     func close() {
         // This should be a try? to match FMDB behavior
         // However, while we test GRDB internally we would like any error
