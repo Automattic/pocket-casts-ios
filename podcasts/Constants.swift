@@ -228,6 +228,7 @@ struct Constants {
         }
 
         enum notifications {
+            static let newEpisodes = "notifications.newEpisodes"
             static let dailyReminders = "notifications.dailyReminders"
             static let newFeaturesAndTips = "notifications.newFeaturesAndTips"
             static let recommendations = "notifications.recommendations"

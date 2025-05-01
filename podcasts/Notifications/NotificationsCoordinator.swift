@@ -108,6 +108,8 @@ enum NotificationType: String {
 }
 
 enum NotificationsGroup {
+
+    case newEpisodes
     case dailyReminders
     case recommendations
     case newFeaturesAndTips
@@ -115,6 +117,8 @@ enum NotificationsGroup {
 
     var notifications: [NotificationType] {
         switch self {
+            case .newEpisodes:
+                return [] // New Episodes are notifications sent by the server, so they don't need a local implementation
             case .dailyReminders:
                 return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
             case .recommendations:
@@ -141,6 +145,8 @@ enum NotificationsGroup {
 
     var isEnabled: Bool {
         switch self {
+            case .newEpisodes:
+                return Settings.notificationsNewEpisodes
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
             case .recommendations:
@@ -154,6 +160,8 @@ enum NotificationsGroup {
 
     func setEnabled(_ newValue: Bool) {
         switch self {
+            case .newEpisodes:
+                return Settings.notificationsNewEpisodes = newValue
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
@@ -169,6 +177,8 @@ enum NotificationsGroup {
 
     var timeIntervalStep: TimeInterval {
         switch self {
+            case .newEpisodes:
+                return 0
             case .dailyReminders:
                 return Self.speedUpNotifications ? 10.seconds: 24.hours
             case .recommendations:
