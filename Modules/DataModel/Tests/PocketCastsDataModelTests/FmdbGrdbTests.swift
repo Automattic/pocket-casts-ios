@@ -6,9 +6,6 @@ import SQLite3
 @testable import PocketCastsDataModel
 
 final class FmdbGrdbTests: XCTestCase {
-    var dbQueue: FMDatabaseQueue!
-    var dbPool: DatabasePool!
-
     private let featureFlagMock = FeatureFlagMock()
 
     lazy var isoFormatter: ISO8601DateFormatter = {
@@ -17,13 +14,11 @@ final class FmdbGrdbTests: XCTestCase {
     }()
 
     private func setupDataManagerWithFMDB() throws -> DataManager {
-        dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        DataManager(grdbEnabled: false, databaseFileName: "podcast_testDB.sqlite3")
     }
 
     private func setupDataManagerWithGRDB() throws -> DataManager {
-        dbPool = try XCTUnwrap(DatabasePool.newTestDatabase())
-        return grdbDatabaManager(dbPool: dbPool)
+        DataManager(grdbEnabled: true, databaseFileName: "podcast_testDB_GRDB.sqlite3")
     }
 
     // We have a check inside DataManager where the queue is closed
@@ -82,16 +77,14 @@ final class FmdbGrdbTests: XCTestCase {
         // Then read the podcasts and episodes back from FMDB and GRDB and compare them.
         // This ensures that the databases are compatible with each other.
 
-        dbQueue.close()
-        try! dbPool.close()
+        fmdbDataManager.close()
+        grdbDataManager.close()
         try! DatabasePool.copyDatabase(toFile: "GRDB_copy.sqlite3")
         try! FMDatabaseQueue.copyDatabase(toFile: "FMDB_copy.sqlite3")
 
-        dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase(databaseName: "GRDB_copy.sqlite3"))
-        let fmdbFromGrdbDataManager = DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        let fmdbFromGrdbDataManager = DataManager(grdbEnabled: false, databaseFileName: "GRDB_copy.sqlite3")
 
-        dbPool = try XCTUnwrap(DatabasePool.newTestDatabase(databaseName: "FMDB_copy.sqlite3"))
-        let grdbFromFmdbDataManager = grdbDatabaManager(dbPool: dbPool)
+        let grdbFromFmdbDataManager = DataManager(grdbEnabled: true, databaseFileName: "FMDB_copy.sqlite3")
 
         let fmdbPodcastReadFromGrdb = fmdbFromGrdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
         let grdbPodcastReadFromFmdb = grdbFromFmdbDataManager.findPodcast(uuid: "b5363810-adfb-013d-1a6e-0acc26574db2")
