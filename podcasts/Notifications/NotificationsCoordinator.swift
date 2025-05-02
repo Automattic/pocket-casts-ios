@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsServer
+import PocketCastsDataModel
 
 enum NotificationType: String {
 
@@ -107,7 +108,7 @@ enum NotificationType: String {
     }
 }
 
-enum NotificationsGroup {
+enum NotificationsGroup: CaseIterable {
 
     case newEpisodes
     case dailyReminders
@@ -132,6 +133,8 @@ enum NotificationsGroup {
 
     var scheduleHour: Int {
         switch self {
+            case .newEpisodes:
+                return 0 // This is determined by the server
             case .dailyReminders:
                 return 10
             case .recommendations:
@@ -161,7 +164,14 @@ enum NotificationsGroup {
     func setEnabled(_ newValue: Bool) {
         switch self {
             case .newEpisodes:
-                return Settings.notificationsNewEpisodes = newValue
+                if newValue {
+                    // the user has just turned on push, enable it for all their podcasts for simplicity
+                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+                    NotificationsHelper.shared.registerForPushNotifications()
+                } else {
+                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                }
+                Settings.notificationsNewEpisodes = newValue
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
@@ -173,6 +183,7 @@ enum NotificationsGroup {
         }
     }
 
+    // Variable to be used only in debugging/testing to accelarate notifications schedule
     static var speedUpNotifications: Bool = false
 
     var timeIntervalStep: TimeInterval {
@@ -192,10 +203,16 @@ enum NotificationsGroup {
 
     var areRepeatable: Bool {
         switch self {
-            case .dailyReminders:
+            case .dailyReminders, .newEpisodes:
                 return false
             case .recommendations, .newFeaturesAndTips, .offers:
                 return true
+        }
+    }
+
+    static var allDisabled: Bool {
+        Self.allCases.allSatisfy() {
+            $0.isEnabled == false
         }
     }
 }
@@ -242,6 +259,9 @@ class NotificationsCoordinator {
     func disableNotifications(for group: NotificationsGroup) {
         group.setEnabled(false)
         cancelNotifications(for: group)
+        if NotificationsGroup.allDisabled {
+            NotificationsHelper.shared.disablePush()
+        }
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
