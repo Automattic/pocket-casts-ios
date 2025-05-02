@@ -60,7 +60,7 @@ extension NotificationType {
             possibleConditions = [.discoverListShowAllTapped]
         case .upsell:
             possibleConditions = [.purchaseSuccessful]
-        case .newFeature:
+        case .newFeatureSuggestedFolders:
             possibleConditions = [.suggestedFoldersPageShow]
         }
         let eventMatch = possibleConditions.contains {
