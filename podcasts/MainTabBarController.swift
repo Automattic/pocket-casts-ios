@@ -263,7 +263,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard let podcastListController = navController.topViewController as? PodcastListViewController else {
             return
         }
-        
+
         podcastListController.showSuggestedFolders()
     }
 
