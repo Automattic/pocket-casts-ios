@@ -408,6 +408,7 @@ enum PlusUpgradeViewSource: String {
     case upNextShuffle
     case generatedTranscripts
     case onboarding
+    case suggestedFolders = "suggested_folders"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

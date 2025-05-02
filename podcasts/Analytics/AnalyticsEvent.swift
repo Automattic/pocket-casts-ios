@@ -845,6 +845,7 @@ enum AnalyticsEvent: String {
     case winbackCancelConfirmationCancelButtonTapped
     case winbackAvailablePlansSelectPlan
     case winbackAvailablePlansNewPlanPurchaseSuccessful
+    case winbackWinbackOfferCancelButtonTapped
 
     // MARK: - Champion Dialog
     case pocketCastsChampionDialogShown

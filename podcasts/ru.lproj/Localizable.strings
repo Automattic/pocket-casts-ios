@@ -377,8 +377,6 @@
     <string>Уплатите %@ за следующий год со скидкой 50%% прямо сейчас</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
-    <key>cancel_subscription_title</key>
-    <string>Прежде чем окончательно отменить подписку, просмотрите наши предложения</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Получите скидку 50 %% на следующий год</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ Pocket Casts на полную мощность.</string>
     <string>Уведомления вкл.</string>
     <key>notifications_on_for_podcast</key>
     <string>Мы уведомим вас о новых выпусках %1$@.</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Упорядочивайте выпуски</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Упорядочивайте выпуски</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Импортируйте подкасты без проблем</string>
     <key>notifications_onboarding_import_title</key>
     <string>Импортируйте подкасты без проблем</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Ваши шоу на любом устройстве!</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>Пора освежить дизайн</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Пора освежить дизайн</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Упростите очередь</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Упростите очередь</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Ваши подкасты — ваши правила</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Ваши подкасты — ваши правила</string>
     <key>notifications_play_now</key>

@@ -377,8 +377,6 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Zahle jetzt %@ und erhalte für ein weiteres Jahr 50 %% Rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
-    <key>cancel_subscription_title</key>
-    <string>Schau dir diese Angebote an, bevor du kündigst</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>50 %% Rabatt auf das nächste Jahr sichern</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ Podcasts mit</string>
     <string>Benachrichtigungen an</string>
     <key>notifications_on_for_podcast</key>
     <string>Wir benachrichtigen dich, wenn es neue Folgen von %1$@ gibt</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Deine Folgen organisieren</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Deine Folgen organisieren</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Deine Podcasts einfach importieren</string>
     <key>notifications_onboarding_import_title</key>
     <string>Deine Podcasts einfach importieren</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Erstelle ein kostenloses Konto, um deine Shows zu synchronisieren und von überall aus hören zu können.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Deine Shows, auf jedem Gerät!</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>Zeit für einen neuen Look</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Zeit für einen neuen Look</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Deine Warteschlange vereinfachen</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Deine Warteschlange vereinfachen</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Dein Podcast-Erlebnis optimieren</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Dein Podcast-Erlebnis optimieren</string>
     <key>notifications_play_now</key>

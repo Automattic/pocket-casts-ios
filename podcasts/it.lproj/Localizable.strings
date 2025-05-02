@@ -377,8 +377,6 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Paga %@ ora per un ulteriore anno con uno sconto del 50%%</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Ottieni il tuo prossimo mese gratuitamente</string>
-    <key>cancel_subscription_title</key>
-    <string>Prima di annullare, controlla queste offerte</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Ottieni uno sconto del 50%% sul prossimo anno</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ pocast con te</string>
     <string>Notifiche attivate</string>
     <key>notifications_on_for_podcast</key>
     <string>Ti invieremo una notifica con i nuovi episodi di %1$@</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>Organizza gli episodi</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organizza gli episodi</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>Importa i tuoi podcast in modo semplice</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importa i tuoi podcast in modo semplice</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Crea un account gratuito per sincronizzare gli show e ascoltarli ovunque tu sia.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>I tuoi show, su qualsiasi dispositivo.</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>È il momento di un nuovo look</string>
     <key>notifications_onboarding_themes_title</key>
     <string>È il momento di un nuovo look</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>Semplifica la coda</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Semplifica la coda</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>Migliora il livello dei tuoi podcast</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Migliora il livello dei tuoi podcast</string>
     <key>notifications_play_now</key>

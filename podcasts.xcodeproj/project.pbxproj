@@ -694,6 +694,7 @@
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
 		9A1F6F482DB7D10600ADF727 /* PodcastListViewController+Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */; };
+		9A1F6F502DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */; };
 		9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */; };
 		9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */; };
 		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
@@ -1950,6 +1951,7 @@
 		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
+		F5FFC2352DBAF06D0091429C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = F5FFC2342DBAF06D0091429C /* FacebookCore */; };
 		FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */; };
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
@@ -2931,6 +2933,7 @@
 		9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextAnnouncementView.swift; sourceTree = "<group>"; };
 		9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlanRow.swift; sourceTree = "<group>"; };
 		9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastListViewController+Tip.swift"; sourceTree = "<group>"; };
+		9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionWinbackOfferView.swift; sourceTree = "<group>"; };
 		9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModelTests.swift; sourceTree = "<group>"; };
 		9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalProfileBannerCell.swift; sourceTree = "<group>"; };
 		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
@@ -4196,6 +4199,7 @@
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
+				F5FFC2352DBAF06D0091429C /* FacebookCore in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
@@ -5477,6 +5481,7 @@
 		9A509DDE2D14604600E8CEB1 /* Offer View */ = {
 			isa = PBXGroup;
 			children = (
+				9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */,
 				9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */,
 			);
 			path = "Offer View";
@@ -8822,6 +8827,7 @@
 				8B1762792B684E7100F44450 /* Kingfisher */,
 				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
 				9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */,
+				F5FFC2342DBAF06D0091429C /* FacebookCore */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -9010,6 +9016,7 @@
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 				9A11FC912D91CBF300A1EF3E /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */,
+				F5FFC2312DBAF0340091429C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -10825,6 +10832,7 @@
 				BD2F3BAD2366CA5600416633 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
 				408F0B32227A6B540019584D /* IAPHelper.swift in Sources */,
 				FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */,
+				9A1F6F502DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift in Sources */,
 				BD2F3BA02366C01400416633 /* PlayerColorHelper.swift in Sources */,
 				40164A6B23DAAF8B0043907B /* PromotionAcknowledgementViewController.swift in Sources */,
 				10756F852C5944660089D34F /* Podcast+Sortable.swift in Sources */,
@@ -13729,6 +13737,14 @@
 				minimumVersion = 7.1.0;
 			};
 		};
+		F5FFC2312DBAF0340091429C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 18.0.0;
+			};
+		};
 		FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dagronf/SwiftSubtitles";
@@ -13910,6 +13926,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		F5FFC2342DBAF06D0091429C /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5FFC2312DBAF0340091429C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
 		};
 		FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;

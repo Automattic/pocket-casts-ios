@@ -377,8 +377,6 @@
     <string>今すぐ%@を支払うと、もう1年が50%% オフになります。</string>
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
-    <key>cancel_subscription_title</key>
-    <string>キャンセルする前に、これらのオファーを確認しましょう</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>次年度が50%% オフ</string>
     <key>canceling</key>
@@ -1537,28 +1535,18 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>通知オン</string>
     <key>notifications_on_for_podcast</key>
     <string>今後、%1$@ の新しいエピソードをお知らせします</string>
-    <key>notifications_onboarding_filters_body</key>
-    <string>エピソードを整理</string>
     <key>notifications_onboarding_filters_title</key>
     <string>エピソードを整理</string>
-    <key>notifications_onboarding_import_body</key>
-    <string>ポッドキャストを簡単にインポート</string>
     <key>notifications_onboarding_import_title</key>
     <string>ポッドキャストを簡単にインポート</string>
     <key>notifications_onboarding_signup_body</key>
     <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
     <key>notifications_onboarding_signup_title</key>
     <string>あらゆる端末で番組を楽しめます !</string>
-    <key>notifications_onboarding_themes_body</key>
-    <string>新しい外観を利用</string>
     <key>notifications_onboarding_themes_title</key>
     <string>新しい外観を利用</string>
-    <key>notifications_onboarding_upnext_body</key>
-    <string>キューを簡素化</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>キューを簡素化</string>
-    <key>notifications_onboarding_upsell_body</key>
-    <string>ポッドキャストゲームをレベルアップ</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>ポッドキャストゲームをレベルアップ</string>
     <key>notifications_play_now</key>
