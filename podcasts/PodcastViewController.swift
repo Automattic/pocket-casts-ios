@@ -80,12 +80,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var summaryExpanded = false
     var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
-    var similarPodcasts: [DiscoverPodcast] = []
     private var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
     }
-    private var recommendations: PodcastCollection?
+    var recommendations: PodcastCollection?
 
     enum ViewMode {
         case episodes
@@ -234,6 +233,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     static let headerSection = 0
     static let allEpisodesSection = 1
+    static let podrollSection = 1
+    static let similarShowsSection = 2
 
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
@@ -1418,7 +1419,7 @@ private extension PodcastViewController {
                 loadLocalEpisodes(podcast: podcast, animated: true)
             }
         case .similarShows:
-            similarPodcasts = recommendations?.podcasts ?? []
+            break
         case .bookmarks:
             break // Handled separately
         }
