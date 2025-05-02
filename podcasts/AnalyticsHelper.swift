@@ -142,15 +142,22 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_episode_tap", parameters: properties)
     }
 
-    class func listShowAllTapped(listId: String) {
-        let properties = ["list_id": listId]
+    class func listShowAllTapped(listId: String, dateTime: String? = nil) {
+        var properties = ["list_id": listId]
+        if let dateTime {
+            properties["list_datetime"] = dateTime
+        }
         Analytics.track(.discoverListShowAllTapped, properties: properties)
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
-    class func listImpression(listId: String) {
-        Analytics.track(.discoverListImpression, properties: ["list_id": listId])
-        bumpStat("discover_list_impression", parameters: ["list_id": listId])
+    class func listImpression(listId: String, dateTime: String? = nil) {
+        var properties = ["list_id": listId]
+        if let dateTime {
+            properties["list_datetime"] = dateTime
+        }
+        Analytics.track(.discoverListImpression, properties: properties)
+        bumpStat("discover_list_impression", parameters: properties)
     }
 
     class func forceTouchPlay() {

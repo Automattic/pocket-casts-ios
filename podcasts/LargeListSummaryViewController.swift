@@ -23,6 +23,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         }
     }
     private var podcasts = [DiscoverPodcast]()
+    private var datetime: String? // Used to track the generation of recommendations
     private weak var delegate: DiscoverDelegate?
     private var item: DiscoverItem?
 
@@ -84,7 +85,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         super.viewDidAppear(animated)
 
         if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId)
+            AnalyticsHelper.listImpression(listId: listId, dateTime: datetime)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastDeleted, object: nil)
@@ -105,7 +106,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
             cell.onSubscribe = { [weak self] in
                 if let listId = self?.item?.uuid, let podcastUuid = thisPodcast.uuid {
-                    AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
+                    AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: self?.datetime)
                 }
                 delegate.subscribe(podcast: thisPodcast)
             }
@@ -126,7 +127,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         collectionView.deselectItem(at: indexPath, animated: true)
 
         if let listId = item.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: datetime)
         }
     }
 
@@ -186,6 +187,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 DispatchQueue.main.async {
                     strongSelf.relatedPodcastID = podcastCollection?.featureImage
                     strongSelf.podcastHeaderView?.bottomText = podcastCollection?.title
+                    strongSelf.datetime = podcastCollection?.datetime
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
                 }
@@ -222,7 +224,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     @IBAction func showAllTapped(_ sender: Any) {
         guard let delegate = delegate, let item = item else { return }
 
-        delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+        delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil, datetime: datetime)
     }
 
     // MARK: - Page Changed
