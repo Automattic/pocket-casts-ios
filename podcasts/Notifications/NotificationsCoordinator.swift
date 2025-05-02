@@ -101,7 +101,7 @@ enum NotificationType: String {
         case .upsell:
             return "pktc://upsell"
         case .newFeature:
-            return "pktc://suggestedFolders"
+            return "pktc://features/suggestedFolders"
         }
     }
 

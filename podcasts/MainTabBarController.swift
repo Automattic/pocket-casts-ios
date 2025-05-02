@@ -255,6 +255,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         navController.pushViewController(folderController, animated: true)
     }
 
+    func navigateToSuggestedFolders() {
+        guard let navController = selectedViewController as? UINavigationController else { return }
+
+        navController.popToRootViewController(animated: false)
+
+        guard let podcastListController = navController.topViewController as? PodcastListViewController else {
+            return
+        }
+        
+        podcastListController.showSuggestedFolders()
+    }
+
     func navigateToPodcast(_ podcast: Podcast) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
 

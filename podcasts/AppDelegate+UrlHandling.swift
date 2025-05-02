@@ -387,6 +387,7 @@ extension AppDelegate {
         }
 
         setupOnboardingRoutes()
+        setupNewFeaturesRoutes()
     }
 
     func setupOnboardingRoutes() {
@@ -417,6 +418,19 @@ extension AppDelegate {
         JLRoutes.global().addRoute("/upsell") {[weak self] parameters -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.pocketCastsPlus])
+            return true
+        }
+    }
+
+    func setupNewFeaturesRoutes() {
+        JLRoutes.global().addRoute("/features/*") {[weak self] parameters -> Bool in
+            guard self != nil,
+                  let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
+                  let feature = pathComponents.first
+            else {
+                return false
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.featurePageKey, data: [NavigationManager.featureKey: feature])
             return true
         }
     }

@@ -54,6 +54,14 @@ class FoldersCoordinator: NSObject {
         Analytics.track(.podcastsListFolderButtonTapped)
     }
 
+    func showSuggestedFolders(from vc: UIViewController, source: AnalyticsSource = .notifications) {
+        guard FeatureFlag.suggestedFolders.enabled,
+              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts else {
+            return
+        }
+        suggestedFolderCreationFlow(from: vc, source: source)
+    }
+
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
               vc.presentedViewController == nil,
