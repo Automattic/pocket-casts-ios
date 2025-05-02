@@ -5005,4 +5005,9 @@
 /* Notification body for offer upsell message */
 "notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
 
+/* Notification title for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_title" = "Your podcasts organized";
+
+/* Notification body for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_body" = "Try Plus and automatically organize your shows with folders.";
 

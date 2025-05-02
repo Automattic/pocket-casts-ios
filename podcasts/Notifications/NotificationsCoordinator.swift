@@ -18,6 +18,7 @@ enum NotificationType: String {
     case recommendationsTrending
 
     case upsell
+    case newFeature
 
     var title: String {
         switch self {
@@ -41,6 +42,8 @@ enum NotificationType: String {
             return L10n.notificationsRecommendationsTrendingTitle
         case .upsell:
             return L10n.notificationsOffersUpsellTitle
+        case .newFeature:
+            return L10n.notificationsNewFeatureSuggestedFoldersTitle
         }
     }
 
@@ -66,6 +69,8 @@ enum NotificationType: String {
             return L10n.notificationsRecommendationsTrendingBody
         case .upsell:
             return L10n.notificationsOffersUpsellBody
+        case .newFeature:
+            return L10n.notificationsNewFeatureSuggestedFoldersBody
         }
     }
 
@@ -95,6 +100,8 @@ enum NotificationType: String {
             return "pktc://discover/trending"
         case .upsell:
             return "pktc://upsell"
+        case .newFeature:
+            return "pktc://suggestedFolders"
         }
     }
 
@@ -125,7 +132,7 @@ enum NotificationsGroup: CaseIterable {
             case .recommendations:
                 return [.recommendationsTrending]
             case .newFeaturesAndTips:
-                return [.reengagementWeekly]
+                return [.newFeature, .reengagementWeekly]
             case .offers:
                 return [.upsell]
         }
