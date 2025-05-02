@@ -43,8 +43,8 @@ final class PodcastTableViewCell: ThemeableCell {
         }
     }
 
-    func configure(with discoverPodcast: DiscoverPodcast) {
-        configure(with: PodcastCellViewModel(discoverPodcast: discoverPodcast))
+    func configure(with discoverPodcast: DiscoverPodcast, datetime: String?) {
+        configure(with: PodcastCellViewModel(discoverPodcast: discoverPodcast, datetime: datetime))
     }
 
     private enum ClientError: Swift.Error {

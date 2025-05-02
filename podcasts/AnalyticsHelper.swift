@@ -107,14 +107,20 @@ class AnalyticsHelper {
         bumpStat("discover_list_episode_play", parameters: properties)
     }
 
-    class func podcastSubscribedFromList(listId: String, podcastUuid: String) {
-        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+    class func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+        var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        if let listDateTime {
+            properties["list_datetime"] = listDateTime
+        }
         Analytics.track(.discoverListPodcastSubscribed, properties: properties)
         bumpStat("discover_list_podcast_subscribe", parameters: properties)
     }
 
-    class func podcastTappedFromList(listId: String, podcastUuid: String) {
-        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+    class func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+        var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        if let listDateTime {
+            properties["list_datetime"] = listDateTime
+        }
         Analytics.track(.discoverListPodcastTapped, properties: properties)
         bumpStat("discover_list_podcast_tap", parameters: properties)
     }

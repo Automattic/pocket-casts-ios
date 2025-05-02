@@ -273,6 +273,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var isSponsored: Bool?
     public var popular: [Int]?
     public var categoryID: Int?
+    public var dateTime: String?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -281,6 +282,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
         case categoryID = "category_id"
+        case dateTime = "datetime"
         case type, title, source, regions, curated, uuid, popular, id, authenticated
     }
 
@@ -366,6 +368,7 @@ public struct PodcastCollection: Decodable {
     public var collageImages: [CollageImage]?
     public let headerImage: String?
     public let featureImage: String?
+    public let datetime: String?
     public enum CodingKeys: String, CodingKey {
         case webUrl = "web_url"
         case webTitle = "web_title"
@@ -374,7 +377,7 @@ public struct PodcastCollection: Decodable {
         case headerImage = "header_image"
         case listId = "list_id"
         case featureImage = "feature_image"
-        case title, description, subtitle, colors, podcasts, author, episodes, podroll
+        case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
     }
 }
 
