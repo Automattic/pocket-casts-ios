@@ -217,6 +217,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        // Special handling for episodes only to deal with multi gesture
+        guard currentViewMode == .episodes else { return indexPath }
+
         guard indexPath.section == PodcastViewController.allEpisodesSection, episodeAtIndexPath(indexPath) != nil else { return nil }
 
         guard episodesTable.isEditing, !multiSelectGestureInProgress else { return indexPath }
