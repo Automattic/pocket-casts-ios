@@ -15,6 +15,7 @@ enum NotificationType: String {
     case reengagementWeekly
 
     case recommendationsTrending
+    case recommendationsYouMightLike
 
     case upsell
 
@@ -38,6 +39,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeTitle
         case .upsell:
             return L10n.notificationsOffersUpsellTitle
         }
@@ -63,6 +66,8 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeBody
         case .upsell:
             return L10n.notificationsOffersUpsellBody
         }
@@ -92,6 +97,8 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
+        case .recommendationsYouMightLike:
+            return "pktc://discover/recommendations_user"
         case .upsell:
             return "pktc://upsell"
         }
@@ -118,7 +125,7 @@ enum NotificationsGroup {
             case .dailyReminders:
                 return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
             case .recommendations:
-                return [.recommendationsTrending]
+                return [.recommendationsTrending, .recommendationsYouMightLike]
             case .newFeaturesAndTips:
                 return [.reengagementWeekly]
             case .offers:

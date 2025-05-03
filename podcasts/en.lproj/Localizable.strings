@@ -5032,4 +5032,11 @@
 /* Notification body for offer upsell message */
 "notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
 
+/* Notification title for recommendations you might like message */
+"notifications_recommendations_you_might_like_title" = "New recommendations for you";
+
+/* Notification body for recommendations you might like message */
+"notifications_recommendations_you_might_like_body" = "Wondering what to listen to next? Check out these shows!";
+
+
 

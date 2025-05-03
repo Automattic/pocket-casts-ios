@@ -56,7 +56,7 @@ extension NotificationType {
             possibleConditions  = [.purchaseSuccessful]
         case .onboardingStaffPicks:
             possibleConditions = [.discoverListShowAllTapped]
-        case .recommendationsTrending:
+        case .recommendationsTrending, .recommendationsYouMightLike:
             possibleConditions = [.discoverListShowAllTapped]
         case .upsell:
             possibleConditions = [.purchaseSuccessful]
@@ -79,7 +79,12 @@ extension NotificationType {
                 guard let properties, let listID = properties["list_id"] as? String else {
                     return false
                 }
-                return listID == "featured"
+                return listID == "trending"
+        case .recommendationsYouMightLike:
+                guard let properties, let listID = properties["list_id"] as? String else {
+                    return false
+                }
+                return listID == "recommendations_user"
         default:
             return true
         }
