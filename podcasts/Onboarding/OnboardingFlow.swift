@@ -6,7 +6,7 @@ struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
-    private var source: String? = nil
+    private(set) var source: String? = nil
 
     private(set) var accountCreated: ((Bool)->())?
 
