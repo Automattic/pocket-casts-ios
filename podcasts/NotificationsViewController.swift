@@ -59,7 +59,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
             case .newEpisodes:
-                return NotificationsHelper.shared.pushEnabled()
+                return Settings.notificationsNewEpisodes
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
             case .trendingRecommendations:
@@ -95,7 +95,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 case .dailyReminders:
                     return .dailyReminders
                 case .newEpisodes:
-                    return nil
+                    return .newEpisodes
                 case .newFeaturesAndTips:
                     return .newFeaturesAndTips
                 case .trendingRecommendations:
@@ -147,7 +147,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         }
         switch sectionType {
         case .episodes:
-            return NotificationsHelper.shared.pushEnabled() ? 3 : 1
+            return NotificationsGroup.newEpisodes.isEnabled ? 3 : 1
         case .featuresAndOffers, .recommendationsAndReminders:
             return rows[section].count
         }
@@ -278,32 +278,12 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         Analytics.track(.settingsNotificationsPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
-    func episodePushToggled(_ sender: UISwitch) {
-        //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
-
-        if sender.isOn {
-            NotificationsHelper.shared.enablePush()
-            // the user has just turned on push, enable it for all their podcasts for simplicity
-            DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
-            NotificationsHelper.shared.registerForPushNotifications()
-        } else {
-            NotificationsHelper.shared.disablePush()
-            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-        }
-
-        Settings.trackValueToggled(.settingsNotificationsNewEpisodesToggled, enabled: sender.isOn)
-
-        settingsTable.reloadData()
-    }
-
     @objc private func notificationToggled(_ sender: UISwitch) {
         guard let row = Row(rawValue: sender.tag) else {
             return
         }
         switch row {
-        case .newEpisodes:
-                episodePushToggled(sender)
-        case .dailyReminders, .trendingRecommendations, .newFeaturesAndTips, .pocketCastsOffers:
+        case .dailyReminders, .trendingRecommendations, .newFeaturesAndTips, .pocketCastsOffers, .newEpisodes:
             guard let notificationGroup = row.notificationGroup else { return }
             if sender.isOn {
                 notificationsCoordinator.setupNotifications(for: notificationGroup)
@@ -311,6 +291,9 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
                 notificationsCoordinator.disableNotifications(for: notificationGroup)
             }
             Settings.trackValueToggled(row.analyticsEvent, enabled: sender.isOn)
+            if row == .newEpisodes {
+                settingsTable.reloadData()
+            }
         default:
             return
         }
