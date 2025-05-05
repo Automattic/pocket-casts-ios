@@ -4045,6 +4045,8 @@
 /* Title for the similar shows feature in a Podcast */
 "similar_shows" = "Similar Shows";
 
+"podcast_podroll_header" = "Recommended shows by the creator";
+
 /* Autoplay feature announcement title */
 "announcement_autoplay_title" = "Autoplay is here!";
 
