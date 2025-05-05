@@ -108,6 +108,8 @@ enum NotificationType: String {
         switch self {
             case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
+            case .recommendationsYouMightLike:
+                return SyncManager.isUserLoggedIn()
             default:
                 return true
         }
