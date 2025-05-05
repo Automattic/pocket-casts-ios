@@ -110,11 +110,23 @@ enum NotificationType: String {
             case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
             case .newFeatureSuggestedFolders:
-                return Settings.suggestedFoldersUpsellCount == 1 && Settings.appVersion() == "7.88"
+                return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
             default:
                 return true
         }
     }
+
+    var isRepeatable: Bool {
+        switch self {
+            case .reengagementWeekly,
+                 .recommendationsTrending,
+                 .upsell:
+                return true
+            default:
+                return false
+        }
+    }
+
 }
 
 enum NotificationsGroup: CaseIterable {
@@ -210,15 +222,6 @@ enum NotificationsGroup: CaseIterable {
         }
     }
 
-    var areRepeatable: Bool {
-        switch self {
-            case .dailyReminders, .newEpisodes:
-                return false
-            case .recommendations, .newFeaturesAndTips, .offers:
-                return true
-        }
-    }
-
     static var allDisabled: Bool {
         Self.allCases.allSatisfy() {
             $0.isEnabled == false
@@ -255,7 +258,7 @@ class NotificationsCoordinator {
             guard notification.shouldSend else {
                 continue
             }
-            if group.areRepeatable {
+            if notification.isRepeatable {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
             } else {
