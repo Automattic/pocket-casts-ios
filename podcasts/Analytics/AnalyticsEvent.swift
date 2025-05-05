@@ -876,4 +876,9 @@ enum AnalyticsEvent: String {
     case informationalModalViewCardShowed
     case informationalBannerViewDismissed
     case informationalBannerViewCreateAccountTap
+
+    // MARK: - Podroll Information Modal
+    case podcastScreenPodrollInformationModelShown
+    case podcastScreenPodrollPodcastSubscribed
+    case podcastScreenPodrollPodcastTapped
 }

@@ -6,6 +6,7 @@ import PocketCastsServer
 struct PodcastTableCellView: View {
     @EnvironmentObject var theme: Theme
     let viewModel: PodcastCellViewModel
+    let onSubscribe: ((PodcastCellViewModel) -> Void)? = nil
 
     var body: some View {
         HStack(spacing: 8) {
@@ -27,9 +28,7 @@ struct PodcastTableCellView: View {
             Spacer()
 
             SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreenSimilarShows, onSubscribe: {
-                var properties = ["podcast_uuid": viewModel.uuid]
-                properties["list_datetime"] = viewModel.datetime
-                Analytics.track(.podcastScreenSimilarShowSubscribed, properties: properties)
+                onSubscribe?(viewModel)
             })
         }
     }
@@ -40,18 +39,21 @@ struct PodcastCellViewModel {
     let datetime: String?
     let title: String?
     let author: String?
+    let onSubscribe: ((Self) -> Void)?
 
     init(podcast: Podcast, datetime: String?) {
         self.uuid = podcast.uuid
         self.title = podcast.title
         self.author = podcast.author
         self.datetime = datetime
+        self.onSubscribe = nil
     }
 
-    init(discoverPodcast: DiscoverPodcast, datetime: String?) {
+    init(discoverPodcast: DiscoverPodcast, datetime: String?, onSubscribe: ((Self) -> Void)?) {
         self.uuid = discoverPodcast.uuid ?? ""
         self.title = discoverPodcast.title
         self.author = discoverPodcast.author
         self.datetime = datetime
+        self.onSubscribe = onSubscribe
     }
 }
