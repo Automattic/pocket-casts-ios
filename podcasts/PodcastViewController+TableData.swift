@@ -363,7 +363,18 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch similarShowsSectionType(for: section) {
         case .podroll:
-            return PodrollHeaderView()
+            let headerView = PodrollHeaderView()
+            headerView.onTapped = { [weak self] in
+                guard let self = self else { return }
+                BottomSheetSwiftUIWrapper.present(
+                    PodrollInformationModalView(onDismiss: { [weak self] in
+                        self?.presentedViewController?.dismiss(animated: true, completion: nil)
+                    }).environmentObject(Theme.sharedTheme),
+                    autoSize: true,
+                    in: self
+                )
+            }
+            return headerView
         default:
             return nil
         }

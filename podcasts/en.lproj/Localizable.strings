@@ -5034,4 +5034,11 @@
 /* Notification body for offer upsell message */
 "notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
 
+/* Title for modal explaining Creator Picks */
+"creator_pick_modal_title" = "What's a Creator Pick?";
 
+/* Description for modal explaining Creator Picks */
+"creator_pick_modal_description" = "Creator Picks are podcasts recommended by the show's creator using Podroll.";
+
+/* Text used for the "Learn more" link in the modal explaining Creator Picks */
+"creator_pick_modal_learn_more" = "Learn more";

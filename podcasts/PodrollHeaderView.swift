@@ -26,14 +26,18 @@ class PodrollHeaderView: UIView {
         return label
     }()
 
+    var onTapped: (() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        addTapGesture()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+        addTapGesture()
     }
 
     private func setup() {
@@ -52,5 +56,15 @@ class PodrollHeaderView: UIView {
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
+    }
+
+    private func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(headerTapped))
+        self.addGestureRecognizer(tap)
+        self.isUserInteractionEnabled = true
+    }
+
+    @objc private func headerTapped() {
+        onTapped?()
     }
 }

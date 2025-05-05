@@ -593,6 +593,12 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter") }
+  /// Creator Picks are podcasts recommended by the show's creator using Podroll.
+  internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description") }
+  /// Learn more
+  internal static var creatorPickModalLearnMore: String { return L10n.tr("Localizable", "creator_pick_modal_learn_more") }
+  /// What's a Creator Pick?
+  internal static var creatorPickModalTitle: String { return L10n.tr("Localizable", "creator_pick_modal_title") }
   /// Current Email
   internal static var currentEmailPrompt: String { return L10n.tr("Localizable", "current_email_prompt") }
   /// Current Password
