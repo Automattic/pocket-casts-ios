@@ -110,7 +110,7 @@ enum NotificationType: String {
             case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
             case .newFeatureSuggestedFolders:
-                return Settings.suggestedFoldersUpsellCount == 1
+                return Settings.suggestedFoldersUpsellCount == 1 && Settings.appVersion() == "7.88"
             default:
                 return true
         }
