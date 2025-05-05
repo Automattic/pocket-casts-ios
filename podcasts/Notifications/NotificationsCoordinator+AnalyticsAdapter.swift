@@ -27,8 +27,13 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
-        // Check if need to cancel an existing notification
-        if NotificationType.recommendationsTrending.checkCancelConditionsForEvent(name: name, properties: properties) {
+        var shouldUpdateNotifications = false
+        for notification in NotificationsGroup.recommendations.notifications {
+            if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
+                shouldUpdateNotifications = true
+            }
+        }
+        if shouldUpdateNotifications {
             updateNotifications(for: .recommendations)
         }
     }
