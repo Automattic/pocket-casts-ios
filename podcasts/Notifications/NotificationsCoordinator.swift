@@ -260,8 +260,8 @@ class NotificationsCoordinator {
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
             } else {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
-                timeInterval += group.timeIntervalStep
             }
+            timeInterval += group.timeIntervalStep
         }
     }
 
