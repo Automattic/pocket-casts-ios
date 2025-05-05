@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsServer
+import PocketCastsDataModel
 
 enum NotificationType: String {
 
@@ -116,7 +117,9 @@ enum NotificationType: String {
     }
 }
 
-enum NotificationsGroup {
+enum NotificationsGroup: CaseIterable {
+
+    case newEpisodes
     case dailyReminders
     case recommendations
     case newFeaturesAndTips
@@ -124,6 +127,8 @@ enum NotificationsGroup {
 
     var notifications: [NotificationType] {
         switch self {
+            case .newEpisodes:
+                return [] // New Episodes are notifications sent by the server, so they don't need a local implementation
             case .dailyReminders:
                 return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
             case .recommendations:
@@ -137,6 +142,8 @@ enum NotificationsGroup {
 
     var scheduleHour: Int {
         switch self {
+            case .newEpisodes:
+                return 0 // This is determined by the server
             case .dailyReminders:
                 return 10
             case .recommendations:
@@ -150,6 +157,8 @@ enum NotificationsGroup {
 
     var isEnabled: Bool {
         switch self {
+            case .newEpisodes:
+                return Settings.notificationsNewEpisodes
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
             case .recommendations:
@@ -163,6 +172,15 @@ enum NotificationsGroup {
 
     func setEnabled(_ newValue: Bool) {
         switch self {
+            case .newEpisodes:
+                if newValue {
+                    // the user has just turned on push, enable it for all their podcasts for simplicity
+                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+                    NotificationsHelper.shared.registerForPushNotifications()
+                } else {
+                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                }
+                Settings.notificationsNewEpisodes = newValue
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
@@ -174,10 +192,13 @@ enum NotificationsGroup {
         }
     }
 
+    // Variable to be used only in debugging/testing to accelarate notifications schedule
     static var speedUpNotifications: Bool = false
 
     var timeIntervalStep: TimeInterval {
         switch self {
+            case .newEpisodes:
+                return 0
             case .dailyReminders:
                 return Self.speedUpNotifications ? 10.seconds: 24.hours
             case .recommendations:
@@ -191,10 +212,16 @@ enum NotificationsGroup {
 
     var areRepeatable: Bool {
         switch self {
-            case .dailyReminders:
+            case .dailyReminders, .newEpisodes:
                 return false
             case .recommendations, .newFeaturesAndTips, .offers:
                 return true
+        }
+    }
+
+    static var allDisabled: Bool {
+        Self.allCases.allSatisfy() {
+            $0.isEnabled == false
         }
     }
 }
@@ -241,6 +268,9 @@ class NotificationsCoordinator {
     func disableNotifications(for group: NotificationsGroup) {
         group.setEnabled(false)
         cancelNotifications(for: group)
+        if NotificationsGroup.allDisabled {
+            NotificationsHelper.shared.disablePush()
+        }
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
