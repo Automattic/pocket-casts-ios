@@ -44,6 +44,8 @@ struct PodrollInformationModalView: View {
             }
             .padding(.horizontal, 16)
             .handleURLsWithSFSafariView()
+
+            Spacer()
         }
     }
 }
