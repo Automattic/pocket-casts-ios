@@ -11,6 +11,24 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let allArchivedCellId = "AllArchivedCell"
     private static let groupHeadingCellId = "GroupHeading"
 
+    private enum SimilarShowsSection {
+        case header
+        case podroll
+        case podcasts
+    }
+
+    private func similarShowsSectionType(for section: Int) -> SimilarShowsSection {
+        if section == PodcastViewController.headerSection {
+            return .header
+        }
+
+        if section == 1, (recommendations?.podroll?.count ?? 0) > 0 {
+            return .podroll
+        }
+
+        return .podcasts
+    }
+
     func registerCells() {
         episodesTable.register(PodcastTableViewCell.self, forCellReuseIdentifier: PodcastTableViewCell.reuseIdentifier)
         episodesTable.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.episodeCellId)
@@ -61,7 +79,14 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .bookmarks:
             return 0 // Bookmarks are shown in a separate controller
         case .similarShows:
-            return 2 // Keep the same number of sections as episodes
+            var sectionCount = 1 // Always show header section
+            if (recommendations?.podroll?.count ?? 0) > 0 {
+                sectionCount += 1 // Add podroll section if it has content
+            }
+            if (recommendations?.podcasts?.count ?? 0) > 0 {
+                sectionCount += 1 // Add podcasts section if it has content
+            }
+            return sectionCount
         }
     }
 
@@ -74,10 +99,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .bookmarks:
             return 0
         case .similarShows:
-            if section == PodcastViewController.headerSection {
-                return 1 // Keep the header
-            } else {
-                return similarPodcasts.count
+            switch similarShowsSectionType(for: section) {
+            case .header:
+                return 1
+            case .podroll:
+                return recommendations?.podroll?.count ?? 0
+            case .podcasts:
+                return recommendations?.podcasts?.count ?? 0
             }
         }
     }
@@ -140,7 +168,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
 
         case .similarShows:
-            if indexPath.section == PodcastViewController.headerSection {
+            switch similarShowsSectionType(for: indexPath.section) {
+            case .header:
                 if FeatureFlag.podcastViewChanges.enabled {
                     let cell = podcastHeaderCell
                     return cell
@@ -150,11 +179,21 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.buttonsEnabled = !isMultiSelectEnabled
                     return cell
                 }
-            } else {
-                let podcast = similarPodcasts[indexPath.row]
+            case .podroll:
+                guard let podcast = recommendations?.podroll?[indexPath.row] else {
+                    assertionFailure("[PodcastViewController] Similar Shows - Missing podcast")
+                    return UITableViewCell()
+                }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
                 cell.configure(with: podcast)
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                return cell
+            case .podcasts:
+                guard let podcast = recommendations?.podcasts?[indexPath.row] else {
+                    assertionFailure("[PodcastViewController] Similar Shows - Missing podcast")
+                    return UITableViewCell()
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
+                cell.configure(with: podcast)
                 return cell
             }
         }
@@ -178,6 +217,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        // Special handling for episodes only to deal with multi gesture
+        guard currentViewMode == .episodes else { return indexPath }
+
         guard indexPath.section == PodcastViewController.allEpisodesSection, episodeAtIndexPath(indexPath) != nil else { return nil }
 
         guard episodesTable.isEditing, !multiSelectGestureInProgress else { return indexPath }
@@ -230,12 +272,18 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             break
 
         case .similarShows:
-            if indexPath.section == PodcastViewController.headerSection {
+            switch similarShowsSectionType(for: indexPath.section) {
+            case .header:
                 if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
                     cell.toggleExpanded(delegate: self)
                 }
-            } else {
-                let selectedPodcast = similarPodcasts[indexPath.row]
+            case .podroll:
+                guard let selectedPodcast = recommendations?.podroll?[indexPath.row] else { return }
+                let info = PodcastInfo(selectedPodcast)
+                let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
+                navigationController?.pushViewController(podcastController, animated: true)
+            case .podcasts:
+                guard let selectedPodcast = recommendations?.podcasts?[indexPath.row] else { return }
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
                 navigationController?.pushViewController(podcastController, animated: true)
@@ -257,7 +305,16 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if currentViewMode == .similarShows {
-            return CGFloat.leastNonzeroMagnitude
+            switch similarShowsSectionType(for: section) {
+            case .podcasts:
+                if similarShowsSectionType(for: section - 1) == .header {
+                    return 16 // Add additional spacing between header & podcasts
+                }
+            case .podroll:
+                return 40
+            default:
+                return CGFloat.leastNonzeroMagnitude
+            }
         }
         return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
@@ -270,24 +327,39 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
-            return 16
+        if currentViewMode == .similarShows {
+            switch similarShowsSectionType(for: section) {
+            case .podroll:
+                return 24 // Divider between podroll and podcasts
+            default:
+                return CGFloat.leastNonzeroMagnitude
+            }
         }
         return CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if currentViewMode == .similarShows && section == PodcastViewController.headerSection {
-            let footerView = UIView()
-            footerView.backgroundColor = .clear
-            return footerView
+        guard currentViewMode == .similarShows else { return nil }
+
+        switch similarShowsSectionType(for: section) {
+        case .podroll:
+            return dividerView()
+        default:
+            return nil
         }
-        return nil
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard PodcastViewController.allEpisodesSection == section else { return nil }
-        return currentViewMode == .episodes ? searchController?.view : nil
+        guard currentViewMode == .similarShows else {
+            return currentViewMode == .episodes ? searchController?.view : nil
+        }
+
+        switch similarShowsSectionType(for: section) {
+        case .podroll:
+            return PodrollHeaderView()
+        default:
+            return nil
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -327,5 +399,23 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
         multiSelectGestureInProgress = false
+    }
+
+    private func dividerView() -> UIView {
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+
+        let divider = ThemeDividerView()
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        footerView.addSubview(divider)
+
+        NSLayoutConstraint.activate([
+            divider.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 15),
+            divider.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -15),
+            divider.centerYAnchor.constraint(equalTo: footerView.centerYAnchor),
+            divider.heightAnchor.constraint(equalToConstant: 1)
+        ])
+
+        return footerView
     }
 }

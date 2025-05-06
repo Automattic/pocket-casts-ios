@@ -1777,6 +1777,10 @@ internal enum L10n {
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
   /// Daily Reminders
   internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// Try Plus and automatically organize your shows with folders.
+  internal static var notificationsNewFeatureSuggestedFoldersBody: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_body") }
+  /// Your podcasts organized
+  internal static var notificationsNewFeatureSuggestedFoldersTitle: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_title") }
   /// New Features & Tips
   internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
@@ -1833,6 +1837,10 @@ internal enum L10n {
   internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body") }
   /// Trending this week
   internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title") }
+  /// Wondering what to listen to next? Check out these shows!
+  internal static var notificationsRecommendationsYouMightLikeBody: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_body") }
+  /// New recommendations for you
+  internal static var notificationsRecommendationsYouMightLikeTitle: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_title") }
   /// It’s been awhile since you’ve listened. Jump back in and enjoy!
   internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
   /// We miss you!
@@ -2469,6 +2477,8 @@ internal enum L10n {
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download") }
   /// Pause playback
   internal static var podcastPausePlayback: String { return L10n.tr("Localizable", "podcast_pause_playback") }
+  /// Recommended shows by the creator
+  internal static var podcastPodrollHeader: String { return L10n.tr("Localizable", "podcast_podroll_header") }
   /// Queued
   internal static var podcastQueued: String { return L10n.tr("Localizable", "podcast_queued") }
   /// Queued...

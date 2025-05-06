@@ -74,6 +74,9 @@ class NavigationManager {
     static let signUpPageKey = "signUpPage"
     static let importPageKey = "importPage"
 
+    static let featurePageKey = "featurePageKey"
+    static let featureKey = "featureKey"
+
     static let sharedManager = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
@@ -238,6 +241,8 @@ class NavigationManager {
         } else if place == NavigationManager.settingsPageKey {
             let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
             mainController?.showSettings(row: row)
+        } else if place == NavigationManager.featurePageKey {
+            navigateToFeature(data: data, animated: animated)
         }
     }
 
@@ -255,6 +260,15 @@ class NavigationManager {
         if let listId = data[NavigationManager.discoverListKey] as? String {
             mainController?.navigateToDiscover(listID: listId, animated: animated)
             return
+        }
+    }
+
+    func navigateToFeature(data: NSDictionary?, animated: Bool) {
+        guard let feature = data?[NavigationManager.featureKey] as? String else {
+            return
+        }
+        if feature == "suggestedFolders" {
+            mainController?.navigateToSuggestedFolders()
         }
     }
 
