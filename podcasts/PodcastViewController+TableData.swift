@@ -186,7 +186,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
                 cell.configure(with: podcast, datetime: nil) { viewModel in
-                    var properties = ["podcast_uuid": viewModel.uuid]
+                    let properties = ["podcast_uuid": viewModel.uuid]
                     Analytics.track(.podcastScreenPodrollPodcastSubscribed, properties: properties)
                 }
                 return cell
