@@ -53,7 +53,7 @@ class PodrollHeaderView: UIView {
 
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }

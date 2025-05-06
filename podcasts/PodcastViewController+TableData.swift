@@ -320,7 +320,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return 16 // Add additional spacing between header & podcasts
                 }
             case .podroll:
-                return 40
+                return 44
             default:
                 return CGFloat.leastNonzeroMagnitude
             }
