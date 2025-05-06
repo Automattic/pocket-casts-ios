@@ -62,7 +62,7 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func showBookmarks()
     func showEpisodes()
-    func showSimilarShows()
+    func showYouMightLike()
     func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
@@ -90,13 +90,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     enum ViewMode {
         case episodes
         case bookmarks
-        case similarShows
+        case youMightLike
 
         var analyticsValue: String {
             switch self {
             case .episodes: return "episodes"
             case .bookmarks: return "bookmarks"
-            case .similarShows: return "similar_shows"
+            case .youMightLike: return "you_might_like"
             }
         }
     }
@@ -1141,8 +1141,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         present(controller, animated: true)
     }
 
-    func showSimilarShows() {
-        switchViewMode(to: .similarShows)
+    func showYouMightLike() {
+        switchViewMode(to: .youMightLike)
     }
 
     // MARK: - Podcast Feed Reload
@@ -1393,7 +1393,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {
-            // We won't do anything in the interface here since the Similar Shows button is optional and hidden by default
+            // We won't do anything in the interface here since the You Might Like button is optional and hidden by default
             FileLog.shared.addMessage("[PodcastViewController] Failed to load recommendations \(error)")
         }
     }
@@ -1419,7 +1419,7 @@ private extension PodcastViewController {
             if let podcast = podcast {
                 loadLocalEpisodes(podcast: podcast, animated: true)
             }
-        case .similarShows:
+        case .youMightLike:
             break
         case .bookmarks:
             break // Handled separately

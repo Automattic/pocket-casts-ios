@@ -3386,8 +3386,6 @@ internal enum L10n {
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
   /// Not Signed In
   internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
-  /// Similar Shows
-  internal static var similarShows: String { return L10n.tr("Localizable", "similar_shows") }
   /// 1 chapter
   internal static var singleChapter: String { return L10n.tr("Localizable", "single_chapter") }
   /// Set sleep timer to %1$@
@@ -3884,6 +3882,8 @@ internal enum L10n {
   internal static var year: String { return L10n.tr("Localizable", "year") }
   /// Yearly
   internal static var yearly: String { return L10n.tr("Localizable", "yearly") }
+  /// You might like
+  internal static var youMightLike: String { return L10n.tr("Localizable", "you_might_like") }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

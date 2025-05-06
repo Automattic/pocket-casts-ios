@@ -11,13 +11,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let allArchivedCellId = "AllArchivedCell"
     private static let groupHeadingCellId = "GroupHeading"
 
-    private enum SimilarShowsSection {
+    private enum YouMightLikeSection {
         case header
         case podroll
         case podcasts
     }
 
-    private func similarShowsSectionType(for section: Int) -> SimilarShowsSection {
+    private func youMightLikeSectionType(for section: Int) -> YouMightLikeSection {
         if section == PodcastViewController.headerSection {
             return .header
         }
@@ -45,7 +45,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began && currentViewMode != .similarShows {
+        if sender.state == .began && currentViewMode != .youMightLike {
             let touchPoint = sender.location(in: episodesTable)
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
@@ -78,7 +78,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return 2
         case .bookmarks:
             return 0 // Bookmarks are shown in a separate controller
-        case .similarShows:
+        case .youMightLike:
             var sectionCount = 1 // Always show header section
             if (recommendations?.podroll?.count ?? 0) > 0 {
                 sectionCount += 1 // Add podroll section if it has content
@@ -98,8 +98,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return episodeInfo[safe: section]?.elements.count ?? 0
         case .bookmarks:
             return 0
-        case .similarShows:
-            switch similarShowsSectionType(for: section) {
+        case .youMightLike:
+            switch youMightLikeSectionType(for: section) {
             case .header:
                 return 1
             case .podroll:
@@ -167,8 +167,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .bookmarks:
             return UITableViewCell()
 
-        case .similarShows:
-            switch similarShowsSectionType(for: indexPath.section) {
+        case .youMightLike:
+            switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
                 if FeatureFlag.podcastViewChanges.enabled {
                     let cell = podcastHeaderCell
@@ -181,7 +181,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             case .podroll:
                 guard let podcast = recommendations?.podroll?[indexPath.row] else {
-                    assertionFailure("[PodcastViewController] Similar Shows - Missing podcast")
+                    assertionFailure("[PodcastViewController] You Might Like Tab - Missing podroll podcast")
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
@@ -189,7 +189,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             case .podcasts:
                 guard let podcast = recommendations?.podcasts?[indexPath.row] else {
-                    assertionFailure("[PodcastViewController] Similar Shows - Missing podcast")
+                    assertionFailure("[PodcastViewController] You Might Like Tab - Missing podcast")
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
@@ -272,8 +272,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .bookmarks:
             break
 
-        case .similarShows:
-            switch similarShowsSectionType(for: indexPath.section) {
+        case .youMightLike:
+            switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
                 if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
                     cell.toggleExpanded(delegate: self)
@@ -313,10 +313,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table Config
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .similarShows {
-            switch similarShowsSectionType(for: section) {
+        if currentViewMode == .youMightLike {
+            switch youMightLikeSectionType(for: section) {
             case .podcasts:
-                if similarShowsSectionType(for: section - 1) == .header {
+                if youMightLikeSectionType(for: section - 1) == .header {
                     return 16 // Add additional spacing between header & podcasts
                 }
             case .podroll:
@@ -329,15 +329,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .similarShows {
+        if currentViewMode == .youMightLike {
             return CGFloat.leastNonzeroMagnitude
         }
         return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if currentViewMode == .similarShows {
-            switch similarShowsSectionType(for: section) {
+        if currentViewMode == .youMightLike {
+            switch youMightLikeSectionType(for: section) {
             case .podroll:
                 return 24 // Divider between podroll and podcasts
             default:
@@ -348,9 +348,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard currentViewMode == .similarShows else { return nil }
+        guard currentViewMode == .youMightLike else { return nil }
 
-        switch similarShowsSectionType(for: section) {
+        switch youMightLikeSectionType(for: section) {
         case .podroll:
             return dividerView()
         default:
@@ -359,9 +359,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard currentViewMode == .similarShows else { return nil }
+        guard currentViewMode == .youMightLike else { return nil }
 
-        switch similarShowsSectionType(for: section) {
+        switch youMightLikeSectionType(for: section) {
         case .podroll:
             let headerView = PodrollHeaderView()
             headerView.onTapped = { [weak self] in
@@ -390,7 +390,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard currentViewMode != .similarShows else { return false }
+        guard currentViewMode != .youMightLike else { return false }
         return indexPath.section == PodcastViewController.allEpisodesSection && episodeAtIndexPath(indexPath) != nil
     }
 
@@ -403,7 +403,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        guard currentViewMode != .similarShows,
+        guard currentViewMode != .youMightLike,
               indexPath.section == PodcastViewController.allEpisodesSection,
               episodeAtIndexPath(indexPath) != nil else { return false }
 
