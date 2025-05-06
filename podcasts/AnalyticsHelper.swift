@@ -151,11 +151,8 @@ class AnalyticsHelper {
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
-    class func listImpression(listId: String, dateTime: String? = nil) {
+    class func listImpression(listId: String) {
         var properties = ["list_id": listId]
-        if let dateTime {
-            properties["list_datetime"] = dateTime
-        }
         Analytics.track(.discoverListImpression, properties: properties)
         bumpStat("discover_list_impression", parameters: properties)
     }

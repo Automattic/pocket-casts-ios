@@ -85,7 +85,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         super.viewDidAppear(animated)
 
         if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId, dateTime: datetime)
+            AnalyticsHelper.listImpression(listId: listId)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastDeleted, object: nil)
