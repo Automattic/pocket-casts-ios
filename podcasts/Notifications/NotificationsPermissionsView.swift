@@ -2,8 +2,9 @@ import SwiftUI
 
 class NotificationsPermissionsViewModel: ObservableObject {
 
-    func requestPermissions() {
-
+    func setupPermissions() async {
+        let coordinator = NotificationsCoordinator.shared
+        await coordinator.requestAndSetupInitialPermissions()
     }
 
     static func makeController() -> UIViewController {
@@ -48,7 +49,10 @@ struct NotificationsPermissionsView: View {
                 .multilineTextAlignment(.center)
             Spacer()
             Button(action: {
-                viewModel.requestPermissions()
+                Task {
+                    await viewModel.setupPermissions()
+                    dismissAction()
+                }
             }) {
                 Text(L10n.notificationsPermissionsAction)
                 .textStyle(RoundedButton())
