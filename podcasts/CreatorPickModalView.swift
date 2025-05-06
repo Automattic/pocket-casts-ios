@@ -1,11 +1,12 @@
 import SwiftUI
+import PocketCastsServer
 import SafariServices
 
 struct PodrollInformationModalView: View {
     @EnvironmentObject var theme: Theme
     var onDismiss: () -> Void
 
-    let learnMoreURL: String = "https://support.pocketcasts.com/knowledge-base/podroll/"
+    let learnMoreURL: String = ServerConstants.Urls.podrollLearnMore
 
     var body: some View {
         VStack(spacing: 0) {
