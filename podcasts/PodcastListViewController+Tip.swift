@@ -25,7 +25,6 @@ extension PodcastListViewController: UIPopoverPresentationControllerDelegate {
         let idealSize = CGSize(width: 300, height: 120)
         let tipView = TipViewStatic(title: L10n.podcastsLibrarySortEpisodeRecentlyPlayedTipTitle,
                                     message: L10n.podcastsLibrarySortEpisodeRecentlyPlayedTipDescription,
-                                    showClose: true,
                               onTap: { [weak self] in
             self?.dismissRecentlyPlayedSortingTip()
         })
