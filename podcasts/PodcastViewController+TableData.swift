@@ -199,7 +199,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.configure(with: podcast, datetime: recommendations?.datetime, onSubscribe: { viewModel in
                     var properties = ["podcast_uuid": viewModel.uuid]
                     properties["list_datetime"] = viewModel.datetime
-                    Analytics.track(.podcastScreenSimilarShowSubscribed, properties: properties)
+                    Analytics.track(.podcastScreenYouMightLikeSubscribed, properties: properties)
                 })
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
@@ -304,7 +304,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if let uuid = selectedPodcast.uuid {
                     properties["podcast_uuid"] = selectedPodcast.uuid
                 }
-                Analytics.track(.podcastScreenSimilarShowTapped, properties: properties)
+                Analytics.track(.podcastScreenYouMightLikeTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
                 navigationController?.pushViewController(podcastController, animated: true)
