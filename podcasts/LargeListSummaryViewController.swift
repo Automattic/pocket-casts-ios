@@ -183,11 +183,11 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.datetime = podcastCollection?.datetime
 
                 DispatchQueue.main.async {
                     strongSelf.relatedPodcastID = podcastCollection?.featureImage
                     strongSelf.podcastHeaderView?.bottomText = podcastCollection?.title
-                    strongSelf.datetime = podcastCollection?.datetime
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
                 }
@@ -197,6 +197,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.datetime = podcastList?.datetime
 
                 DispatchQueue.main.async {
                     strongSelf.divider.isHidden = false
