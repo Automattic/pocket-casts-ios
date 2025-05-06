@@ -195,9 +195,6 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
                     OnboardingFlow.shared.reset()
                 }
             }
-            if OnboardingFlow.shared.currentFlow == .initialOnboarding {
-                //TODO: handle notifications permission flow
-            }
         }
     }
 

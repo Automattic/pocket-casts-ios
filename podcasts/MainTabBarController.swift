@@ -905,3 +905,12 @@ private extension MainTabBarController {
         }
     }
 }
+
+// MARK: - Notifications
+
+extension MainTabBarController {
+
+    func showNotificationsPermissions() {
+        present(NotificationsPermissionsViewModel.makeController(), animated: true)
+    }
+}

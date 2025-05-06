@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
@@ -255,6 +256,13 @@ class NavigationManager {
             mainController?.navigateToDiscover(listID: listId, animated: animated)
             return
         }
+    }
+
+    func showNotificationsPermissionsModal() {
+        guard FeatureFlag.notificationsRevamp.enabled else {
+            return
+        }
+        mainController?.showNotificationsPermissions()
     }
 }
 
