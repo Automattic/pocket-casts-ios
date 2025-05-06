@@ -19,6 +19,7 @@ enum NotificationType: String {
     case recommendationsYouMightLike
 
     case upsell
+    case newFeatureSuggestedFolders
 
     var title: String {
         switch self {
@@ -44,6 +45,8 @@ enum NotificationType: String {
             return L10n.notificationsRecommendationsYouMightLikeTitle
         case .upsell:
             return L10n.notificationsOffersUpsellTitle
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersTitle
         }
     }
 
@@ -71,6 +74,8 @@ enum NotificationType: String {
             return L10n.notificationsRecommendationsYouMightLikeBody
         case .upsell:
             return L10n.notificationsOffersUpsellBody
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersBody
         }
     }
 
@@ -102,6 +107,8 @@ enum NotificationType: String {
             return "pktc://discover/recommendations_user"
         case .upsell:
             return "pktc://upsell"
+        case .newFeatureSuggestedFolders:
+            return "pktc://features/suggestedFolders"
         }
     }
 
@@ -111,10 +118,25 @@ enum NotificationType: String {
                 return !SubscriptionHelper.hasActiveSubscription()
             case .recommendationsYouMightLike:
                 return SyncManager.isUserLoggedIn()
+            case .newFeatureSuggestedFolders:
+                return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
             default:
                 return true
         }
     }
+
+    var isRepeatable: Bool {
+        switch self {
+            case .reengagementWeekly,
+                 .recommendationsTrending,
+                 .recommendationsYouMightLike,
+                 .upsell:
+                return true
+            default:
+                return false
+        }
+    }
+
 }
 
 enum NotificationsGroup: CaseIterable {
@@ -134,7 +156,7 @@ enum NotificationsGroup: CaseIterable {
             case .recommendations:
                 return [.recommendationsTrending, .recommendationsYouMightLike]
             case .newFeaturesAndTips:
-                return [.reengagementWeekly]
+                return [.newFeatureSuggestedFolders, .reengagementWeekly]
             case .offers:
                 return [.upsell]
         }
@@ -210,15 +232,6 @@ enum NotificationsGroup: CaseIterable {
         }
     }
 
-    var areRepeatable: Bool {
-        switch self {
-            case .dailyReminders, .newEpisodes:
-                return false
-            case .recommendations, .newFeaturesAndTips, .offers:
-                return true
-        }
-    }
-
     static var allDisabled: Bool {
         Self.allCases.allSatisfy() {
             $0.isEnabled == false
@@ -255,7 +268,7 @@ class NotificationsCoordinator {
             guard notification.shouldSend else {
                 continue
             }
-            if group.areRepeatable {
+            if notification.isRepeatable {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
             } else {

@@ -1777,6 +1777,10 @@ internal enum L10n {
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
   /// Daily Reminders
   internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// Try Plus and automatically organize your shows with folders.
+  internal static var notificationsNewFeatureSuggestedFoldersBody: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_body") }
+  /// Your podcasts organized
+  internal static var notificationsNewFeatureSuggestedFoldersTitle: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_title") }
   /// New Features & Tips
   internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
@@ -2467,6 +2471,8 @@ internal enum L10n {
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download") }
   /// Pause playback
   internal static var podcastPausePlayback: String { return L10n.tr("Localizable", "podcast_pause_playback") }
+  /// Recommended shows by the creator
+  internal static var podcastPodrollHeader: String { return L10n.tr("Localizable", "podcast_podroll_header") }
   /// Queued
   internal static var podcastQueued: String { return L10n.tr("Localizable", "podcast_queued") }
   /// Queued...
