@@ -14,7 +14,7 @@ struct PodrollInformationModalView: View {
 
             VStack(spacing: 17) {
                 Spacer().frame(height: 8)
-                Image(systemName: "microphone")
+                Image(systemName: "mic")
                     .resizable()
                     .scaledToFit()
                     .font(.system(size: 32, weight: .heavy))
