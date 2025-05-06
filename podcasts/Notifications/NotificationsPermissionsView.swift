@@ -28,6 +28,7 @@ struct NotificationsPermissionsView: View {
     var body: some View {
         VStack {
             Button(action: {
+                Analytics.track(.notificationsPermissionsNotNow)
                 dismissAction()
             }) {
                 HStack {
@@ -49,6 +50,7 @@ struct NotificationsPermissionsView: View {
                 .multilineTextAlignment(.center)
             Spacer()
             Button(action: {
+                Analytics.track(.notificationsPermissionsAllow)
                 Task {
                     await viewModel.setupPermissions()
                     dismissAction()
@@ -60,6 +62,9 @@ struct NotificationsPermissionsView: View {
         }
         .padding()
         .background(theme.primaryUi01)
+        .onAppear() {
+            Analytics.track(.notificationsPermissionsShow)
+        }
     }
 }
 
