@@ -18,27 +18,44 @@ class NotificationsPermissionsViewModel: ObservableObject {
 
 struct NotificationsPermissionsView: View {
 
+    @Environment(\.dismiss) private var dismissAction
+
     @EnvironmentObject var theme: Theme
 
     @StateObject var viewModel: NotificationsPermissionsViewModel = NotificationsPermissionsViewModel()
 
     var body: some View {
         VStack {
+            Button(action: {
+                dismissAction()
+            }) {
+                HStack {
+                    Spacer()
+                    Text(L10n.eoyNotNow)
+                        .foregroundStyle(theme.primaryInteractive01)
+                        .font(.body.weight(.medium))
+                }
+            }
             Image("notifications_permissions_banner")
-            Text("Stay up to date!")
+            Spacer().frame(height: 24)
+            Text(L10n.notificationsPermissionsTitle)
                 .textStyle(PrimaryText())
                 .font(.largeTitle.bold())
-            Text("Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.")
+            Spacer().frame(height: 16)
+            Text(L10n.notificationsPermissionsBody)
                 .textStyle(SecondaryText())
                 .font(.body)
+                .multilineTextAlignment(.center)
             Spacer()
             Button(action: {
                 viewModel.requestPermissions()
             }) {
-                Text("Allow Notifications")
+                Text(L10n.notificationsPermissionsAction)
                 .textStyle(RoundedButton())
             }
         }
+        .padding()
+        .background(theme.primaryUi01)
     }
 }
 
