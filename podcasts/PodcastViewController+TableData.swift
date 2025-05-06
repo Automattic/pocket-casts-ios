@@ -350,7 +350,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard currentViewMode == .similarShows else { return nil }
+        guard currentViewMode == .similarShows else {
+            return currentViewMode == .episodes ? searchController?.view : nil
+        }
 
         switch similarShowsSectionType(for: section) {
         case .podroll:
