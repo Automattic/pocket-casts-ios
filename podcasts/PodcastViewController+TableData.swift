@@ -185,7 +185,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
-                cell.configure(with: podcast, datetime: nil)
+                cell.configure(with: podcast, datetime: nil) { viewModel in
+                    let properties = ["podcast_uuid": viewModel.uuid]
+                    Analytics.track(.podcastScreenPodrollPodcastSubscribed, properties: properties)
+                }
                 return cell
             case .podcasts:
                 guard let podcast = recommendations?.podcasts?[indexPath.row] else {
@@ -193,7 +196,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
-                cell.configure(with: podcast, datetime: recommendations?.datetime)
+                cell.configure(with: podcast, datetime: recommendations?.datetime, onSubscribe: { viewModel in
+                    var properties = ["podcast_uuid": viewModel.uuid]
+                    properties["list_datetime"] = viewModel.datetime
+                    Analytics.track(.podcastScreenYouMightLikeSubscribed, properties: properties)
+                })
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
@@ -280,6 +287,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             case .podroll:
                 guard let selectedPodcast = recommendations?.podroll?[indexPath.row] else { return }
+                var properties: [String: Any] = [:]
+                if let uuid = selectedPodcast.uuid {
+                    properties["podcast_uuid"] = selectedPodcast.uuid
+                }
+                Analytics.track(.podcastScreenPodrollPodcastTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
                 navigationController?.pushViewController(podcastController, animated: true)
@@ -292,7 +304,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if let uuid = selectedPodcast.uuid {
                     properties["podcast_uuid"] = selectedPodcast.uuid
                 }
-                Analytics.track(.podcastScreenSimilarShowTapped, properties: properties)
+                Analytics.track(.podcastScreenYouMightLikeTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
                 navigationController?.pushViewController(podcastController, animated: true)
@@ -375,6 +387,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     autoSize: true,
                     in: self
                 )
+                Analytics.track(.podcastScreenPodrollInformationModelShown)
             }
             return headerView
         default:
