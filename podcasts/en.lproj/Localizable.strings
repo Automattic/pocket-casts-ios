@@ -4042,8 +4042,8 @@
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
 
-/* Title for the similar shows feature in a Podcast */
-"similar_shows" = "Similar Shows";
+/* Title for the You Might Like tab showing related podcasts in a Podcast */
+"you_might_like" = "You might like";
 
 "podcast_podroll_header" = "Recommended shows by the creator";
 
@@ -5056,3 +5056,12 @@
 
 /* Notifications permissions screen action button text*/
 "notifications_permissions_action" = "Allow Notifications";
+
+/* Title for modal explaining Creator Picks */
+"creator_pick_modal_title" = "What's a Creator Pick?";
+
+/* Description for modal explaining Creator Picks */
+"creator_pick_modal_description" = "Creator Picks are podcasts recommended by the show's creator using Podroll.";
+
+/* Text used for the "Learn more" link in the modal explaining Creator Picks */
+"creator_pick_modal_learn_more" = "Learn more";

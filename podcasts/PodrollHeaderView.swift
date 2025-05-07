@@ -11,7 +11,7 @@ class PodrollHeaderView: UIView {
     }()
 
     private let icon: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "microphone")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold)))
+        let imageView = UIImageView(image: UIImage(systemName: "mic")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold)))
         imageView.tintColor = ThemeColor.primaryText02()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,14 +26,18 @@ class PodrollHeaderView: UIView {
         return label
     }()
 
+    var onTapped: (() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        addTapGesture()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+        addTapGesture()
     }
 
     private func setup() {
@@ -49,8 +53,18 @@ class PodrollHeaderView: UIView {
 
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
+    }
+
+    private func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(headerTapped))
+        self.addGestureRecognizer(tap)
+        self.isUserInteractionEnabled = true
+    }
+
+    @objc private func headerTapped() {
+        onTapped?()
     }
 }

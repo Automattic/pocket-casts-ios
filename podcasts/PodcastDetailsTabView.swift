@@ -13,7 +13,7 @@ struct PodcastDetailsTabView: View {
     enum Tab {
         case episodes
         case bookmarks
-        case similarShows
+        case youMightLike
     }
 
     var body: some View {
@@ -48,13 +48,13 @@ struct PodcastDetailsTabView: View {
                 }
 
             if hasSimilarShows {
-                Text(L10n.similarShows)
+                Text(L10n.youMightLike)
                     .buttonize {
-                        selectedTab = .similarShows
-                        delegate?.showSimilarShows()
+                        selectedTab = .youMightLike
+                        delegate?.showYouMightLike()
                     } customize: { config in
                         config.label
-                            .applyStyle(theme: theme, highlighted: selectedTab == .similarShows)
+                            .applyStyle(theme: theme, highlighted: selectedTab == .youMightLike)
                             .applyButtonEffect(isPressed: config.isPressed)
                     }
             }

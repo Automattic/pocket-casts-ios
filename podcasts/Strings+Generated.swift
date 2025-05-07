@@ -593,6 +593,12 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter") }
+  /// Creator Picks are podcasts recommended by the show's creator using Podroll.
+  internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description") }
+  /// Learn more
+  internal static var creatorPickModalLearnMore: String { return L10n.tr("Localizable", "creator_pick_modal_learn_more") }
+  /// What's a Creator Pick?
+  internal static var creatorPickModalTitle: String { return L10n.tr("Localizable", "creator_pick_modal_title") }
   /// Current Email
   internal static var currentEmailPrompt: String { return L10n.tr("Localizable", "current_email_prompt") }
   /// Current Password
@@ -3394,8 +3400,6 @@ internal enum L10n {
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
   /// Not Signed In
   internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
-  /// Similar Shows
-  internal static var similarShows: String { return L10n.tr("Localizable", "similar_shows") }
   /// 1 chapter
   internal static var singleChapter: String { return L10n.tr("Localizable", "single_chapter") }
   /// Set sleep timer to %1$@
@@ -3892,6 +3896,8 @@ internal enum L10n {
   internal static var year: String { return L10n.tr("Localizable", "year") }
   /// Yearly
   internal static var yearly: String { return L10n.tr("Localizable", "yearly") }
+  /// You might like
+  internal static var youMightLike: String { return L10n.tr("Localizable", "you_might_like") }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

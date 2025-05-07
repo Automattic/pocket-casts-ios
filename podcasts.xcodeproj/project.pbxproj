@@ -1696,6 +1696,7 @@
 		F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
+		F51BAC222DC852C200351B09 /* CreatorPickModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BAC212DC852C200351B09 /* CreatorPickModalView.swift */; };
 		F51D3A0C2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */; };
 		F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */; };
 		F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90732C71A0A100F0A232 /* SharingFooterView.swift */; };
@@ -3930,6 +3931,7 @@
 		F50DF4232DC5851E00E4A01E /* PodrollHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodrollHeaderView.swift; sourceTree = "<group>"; };
 		F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsWhatsNewView.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
+		F51BAC212DC852C200351B09 /* CreatorPickModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorPickModalView.swift; sourceTree = "<group>"; };
 		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
 		F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Crop.swift"; sourceTree = "<group>"; };
 		F51D90732C71A0A100F0A232 /* SharingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingFooterView.swift; sourceTree = "<group>"; };
@@ -6546,6 +6548,7 @@
 				9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */,
 				BD5AE6821FE0E9A20009B8A1 /* PodcastViewController+TableData.swift */,
 				F50DF4232DC5851E00E4A01E /* PodrollHeaderView.swift */,
+				F51BAC212DC852C200351B09 /* CreatorPickModalView.swift */,
 				BDDF8AA5240CE85D009BA263 /* PodcastViewController+Swipe.swift */,
 				BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */,
 				BD01397E2022DBF8001EAF84 /* PodcastViewController+Search.swift */,
@@ -10293,6 +10296,7 @@
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
 				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
+				F51BAC222DC852C200351B09 /* CreatorPickModalView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
 				9A11FCC02D9DA8B800A1EF3E /* InformationalModalViewModel.swift in Sources */,
 				40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */,
