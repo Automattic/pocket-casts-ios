@@ -1111,11 +1111,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
             refreshControl = CustomRefreshControl()
+            refreshControl?.customTintColor = contrastColorForPodcastImage
             refreshControl?.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
             episodesTable.refreshControl = refreshControl
         }
+    }
+
+    var contrastColorForPodcastImage: UIColor {
+        guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: self.podcastUUID, size: .grid) else {
+            return .white
+        }
+        return image.isDark ? .white : .black
     }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {
