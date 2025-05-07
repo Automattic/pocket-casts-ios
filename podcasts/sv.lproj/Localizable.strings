@@ -327,22 +327,28 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Avbryt</string>
     <key>cancel_confirm_item_folders</key>
     <string>Dina mappar kommer att tas bort och deras innehåll kommer att flyttas tillbaka till skärmen Podcasts.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Dina podcasts och din lyssningshistorik kommer fortsätta att vara tillgängliga. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>Åtkomst till Pocket Casts Plus-funktioner kommer att låsas efter detta datum.</string>
+    <string>Efter detta datum kommer åtkomsten till Plus-funktioner som bokmärken, slumpmässig uppspelning, bärbara tillbehör med mera att tas bort.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdade filer på dina mobila enheter kommer att vara kvar)</string>
+    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdningar på dina mobila enheter kommer att vara kvar).</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Din nuvarande prenumeration förblir aktiv till %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>ditt utgångsdatum</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Detta kommer att ändra ditt paket till ett gratiskonto.</string>
+    <string>Om du avslutar ändras ditt paket till ett gratiskonto.</string>
+    <key>cancel_confirm_title</key>
+    <string>Saker du bör veta innan du avslutar</string>
     <key>cancel_download</key>
     <string>Avbryt nedladdning</string>
     <key>cancel_failed</key>
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Mest för pengarna</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>Ditt nya paket kommer att aktiveras i slutet av din nuvarande faktureringsperiod.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Letar du efter ett annat paket?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Tack för att du väljer Pocket Casts. Fakturering startar när din gratismånad har löpt ut.</string>
+    <string>Tack för att du väljer Pocket Casts. Din gratismånad kommer att läggas till i din nuvarande prenumeration.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Njut av din gratismånad!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Tack för att du väljer Pocket Casts. Din rabatterade paketprenumeration startar efter din nuvarande faktureringsperiod.</string>
+    <string>Tack för att du väljer Pocket Casts. Ditt rabatterade år börjar efter att ditt nuvarande paket löper ut.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% rabatt på nästa år.</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,6 +383,21 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Betala %@ nu för ytterligare ett år med 50 %% rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
+    <key>cancel_subscription_title</key>
+    <string>Funderar du på att lämna oss?
+Låt oss hjälpa dig först</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Acceptera erbjudandet</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Fortsätt med annullering</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Få en månad med Pocket Casts Plus utan kostnad! Erbjudandet kommer att läggas till i din nuvarande prenumeration.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Betala %@ nu för att säkra ett år med Pocket Casts Plus till halva priset. Ditt rabatterade år börjar efter att ditt nuvarande paket löper ut.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Få nästa månad gratis och spara %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Få 50 %% rabatt på ditt nästa år och spara %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>50 %% rabatt på ditt nästa år.</string>
     <key>canceling</key>
@@ -1287,6 +1308,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/vecka</string>
     <key>import</key>
     <string>Importera</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1535,26 +1558,54 @@ podcasts med dig</string>
     <string>Aviseringar på</string>
     <key>notifications_on_for_podcast</key>
     <string>Du får ett meddelande om nya avsnitt av %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Skapa smarta filter för att organisera dina avsnitt.</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organisera dina avsnitt</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Byter du från en annan app? Ta med alla dina favoritshower till Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importera enkelt dina podcasts</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Dina shower, på vilken enhet som helst.</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Perfekt mogna podcasts, utvalda just för dig av riktiga, podcastälskande människor.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Utforska redaktionens favoriter</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Bläddra bland våra teman och hitta det som passar din stil.</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Dags för ett nytt utseende</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Bygg en uppspelningskö och säg adjö till att hoppa runt mellan avsnitt.</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Förenkla din kö</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Lås upp exklusiva funktioner som mappar, bokmärken och mycket annat med Plus.</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Ta ditt podcastlyssnande till nästa nivå</string>
     <key>notifications_play_now</key>
     <string>Spela upp nu</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts-erbjudanden</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Kolla in vad alla andra lyssnar på denna vecka.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Trendar denna vecka</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Det var ett tag sedan du lyssnade. Hoppa in igen och njut.</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Vi saknar dig.</string>
     <key>notifications_trending_and_recommendations</key>
     <string>Trendande och rekommendationer</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Gå till enhetens inställningar</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>För att få notiser från Pocket Casts måste du aktivera dem i dina enhetsinställningar.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Tillåt push-notiser</string>
     <key>now_playing</key>
     <string>Spelar nu upp</string>
     <key>now_playing_item</key>
@@ -2165,6 +2216,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Dra och släpp</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Tilläggsdatum</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Senast spelade</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Nu kan du sortera efter "senast spelade" och snabbt fortsätta där du slutade.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Sortera efter "senast spelade"</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Utgivningsdatum</string>
     <key>podcasts_library_sort_title</key>

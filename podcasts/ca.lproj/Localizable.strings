@@ -327,16 +327,20 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Cancel·lar</string>
     <key>cancel_confirm_item_folders</key>
     <string>Les carpetes s'eliminaran i els seus continguts es traslladaran a la pantalla Pòdcast.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Els teus pòdcasts i l'historial d'escolta seguiran sent accessibles.</string>
     <key>cancel_confirm_item_plus</key>
-    <string>L'accés a les funcions de Pocket Casts Plus estarà bloquejat després d'aquesta data.</string>
+    <string>Després d'aquesta data, s'eliminarà l'accés a les funcions Plus com ara els marcadors, la reproducció aleatòria, els dispositius portables i més.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Tots els fitxers pujats al vostre compte de Pocket Casts s'eliminaran (però els fitxers que heu baixat al dispositiu mòbil es mantindran)</string>
+    <string>Tots els fitxers pujats al vostre compte de Pocket Casts s'eliminaran (però els fitxers que heu baixat al dispositiu mòbil es mantindran).</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>La teva subscripció actual estarà activa fins al %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>la data de caducitat</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Això canviarà el teu pla a un compte de franc.</string>
+    <string>La cancel·lació canviarà el teu pla a un compte gratuït.</string>
+    <key>cancel_confirm_title</key>
+    <string>Coses que hauries de saber abans de cancel·lar</string>
     <key>cancel_download</key>
     <string>Cancel·la la descàrrega</string>
     <key>cancel_failed</key>
@@ -366,7 +370,7 @@ Descarrega l'app per a una experiència completa!</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Busques un pla diferent?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Gràcies per triar Pocket Casts. La facturació comença després que acabi el teu mes gratuït.</string>
+    <string>Gràcies per triar Pocket Casts. El mes gratuït s'afegirà a la teva subscripció actual.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Gaudeix del teu mes gratuït!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
@@ -382,6 +386,18 @@ Descarrega l'app per a una experiència completa!</string>
     <key>cancel_subscription_title</key>
     <string>Penses en marxar?
 Deixa'ns ajudar-te primer</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Acceptar l'oferta</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Continuar amb la cancel·lació</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Gaudeix d'un mes de Pocket Casts Plus! L'oferta s'afegirà a la teva subscripció actual.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Paga %@ ara per assegurar un any de Pocket Casts Plus a meitat de preu. El teu any amb descompte comença després que acabi el teu pla actual.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Aconsegueix el teu pròxim mes gratis i estalvia %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Aconsegueix un 50%% de descompte en el teu pròxim any i estalvia %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Aconsegueix un 50%% de descompte en el teu pròxim any</string>
     <key>canceling</key>

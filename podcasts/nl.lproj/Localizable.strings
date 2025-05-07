@@ -327,22 +327,28 @@ Download de app voor de volledige ervaring!</string>
     <string>Annuleer </string>
     <key>cancel_confirm_item_folders</key>
     <string>Je mappen worden verwijderd en hun inhoud wordt teruggezet naar het scherm Podcasts.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Je podcasts en luistergeschiedenis blijven toegankelijk. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>Na deze datum wordt toegang tot Pocket Casts Plus-functies vergrendeld.</string>
+    <string>Na deze datum wordt toegang tot Plus-functies zoals bladwijzers, shuffle, wearables en meer verwijderd.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Alle bestanden die zijn geüpload naar je Pocket Casts-account, worden na een week verwijderd (bestanden die zijn gedownload op je mobiele apparaten blijven behouden)</string>
+    <string>Alle bestanden die zijn geüpload naar je Pocket Casts-account worden verwijderd (bestanden die zijn gedownload op je mobiele apparaten blijven behouden).</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Je huidige abonnement blijft actief tot %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>je vervaldatum</string>
     <key>cancel_confirm_subtitle</key>
     <string>Hierdoor wordt je abonnement aangepast naar een gratis account.</string>
+    <key>cancel_confirm_title</key>
+    <string>Dingen die je moet weten voordat je annuleert</string>
     <key>cancel_download</key>
     <string>Download annuleren</string>
     <key>cancel_failed</key>
     <string>Kan niet annuleren</string>
     <key>cancel_subscription</key>
     <string>Abonnement annuleren</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Beste deal</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>Je nieuwe abonnement wordt aan het einde van je huidige factuurperiode geactiveerd.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@ Download de app voor de volledige ervaring!</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Op zoek naar een ander abonnement?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Bedankt dat je voor Pocket Casts kiest. De facturering begint nadat je gratis maand is afgelopen.</string>
+    <string>Bedankt dat je voor Pocket Casts kiest. Je gratis maand wordt toegevoegd aan je huidige abonnement.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Geniet van een maand gratis toegang!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Bedankt dat je voor Pocket Casts kiest. Je abonnement met korting gaat in na je huidige factuurperiode.</string>
+    <string>Bedankt dat je voor Pocket Casts kiest. Je jaar met korting begint nadat je huidige abonnement is afgelopen.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50%% korting op je eerste jaar!</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,6 +383,21 @@ Download de app voor de volledige ervaring!</string>
     <string>Betaal nu %@ voor nog een jaar met 50%% korting.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Krijg je volgende maand gratis</string>
+    <key>cancel_subscription_title</key>
+    <string>Overweeg je om weg te gaan?
+Laat ons eerst helpen</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Aanbieding accepteren</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Doorgaan met annuleren</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Geniet van een gratis maand Pocket Casts Plus! De aanbieding wordt toegevoegd aan je huidige abonnement.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Betaal nu %@ om een jaar Pocket Casts Plus tegen de helft van de prijs vast te leggen. Je jaar met korting begint nadat je huidige abonnement is afgelopen.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Krijg je volgende maand gratis en bespaar %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Krijg 50%% korting op je volgende jaar en bespaar %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Krijg 50%% korting op je eerste jaar</string>
     <key>canceling</key>
@@ -1287,6 +1308,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/week</string>
     <key>import</key>
     <string>Importeren</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1535,26 +1558,54 @@ podcasts mee</string>
     <string>Meldingen aan</string>
     <key>notifications_on_for_podcast</key>
     <string>We sturen je een bericht met nieuwe afleveringen van %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Maak slimme filters aan om je afleveringen te organiseren.</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Organiseer je afleveringen</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Overstappen van een andere app? Breng al je favoriete shows naar Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importeer je podcasts eenvoudig</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Je shows, op elk apparaat!</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Perfect rijpe podcasts, speciaal voor jou gekozen door echte, podcast-liefhebbende mensen.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Ontdek onze personeelskeuzes</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Blader door onze thema's en vind degene die bij je stijl past.</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Tijd voor een nieuwe look</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Bouw een afspeelwachtrij en zeg vaarwel tegen rondspringen tussen afleveringen.</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Vereenvoudig je wachtrij</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Ontgrendel exclusieve functies zoals mappen, bladwijzers en meer met Plus!</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Verbeter je podcastbeleving</string>
     <key>notifications_play_now</key>
     <string>Nu afspelen</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Aanbiedingen Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Bekijk hier wat anderen deze week te horen krijgen.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Trending deze week</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Het is een tijdje geleden dat je hebt geluisterd. We hopen je snel weer te zien.</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>We missen je!</string>
     <key>notifications_trending_and_recommendations</key>
     <string>Trending en aanbevelingen</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Apparaatinstellingen openen</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Om meldingen van Pocket Casts te ontvangen, moet je ze inschakelen in de instellingen van je apparaat.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Sta berichtgeving toe</string>
     <key>now_playing</key>
     <string>Bezig met afspelen</string>
     <key>now_playing_item</key>
@@ -2165,6 +2216,12 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verslepen</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Datum toegevoegd</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Recent afgespeeld</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Je kan nu sorteren op Recent afgespeeld en snel doorgaan naar waar je gebleven was.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Sorteren op 'Recent afgespeeld'</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Uitgavedatum van aflevering</string>
     <key>podcasts_library_sort_title</key>
