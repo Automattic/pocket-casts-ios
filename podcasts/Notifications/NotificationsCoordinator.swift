@@ -251,6 +251,23 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
+    @discardableResult
+    func requestAndSetupInitialPermissions() async -> Bool {
+        await withCheckedContinuation { continuation in
+            NotificationsHelper.shared.registerForPushNotifications() { granted in
+                guard granted else {
+                    continuation.resume(returning: false)
+                    return
+                }
+                // activate all notifications
+                for group in NotificationsGroup.allCases {
+                    self.setupNotifications(for: group)
+                }
+                continuation.resume(returning: granted)
+            }
+        }
+    }
+
     func setupNotifications(for group: NotificationsGroup) {
         group.setEnabled(true)
         NotificationsHelper.shared.enablePush()

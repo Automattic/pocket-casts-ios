@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
@@ -269,6 +270,13 @@ class NavigationManager {
         if feature == "suggestedFolders" {
             mainController?.navigateToSuggestedFolders()
         }
+    }
+
+    func showNotificationsPermissionsModal() {
+        guard FeatureFlag.notificationsRevamp.enabled else {
+            return
+        }
+        mainController?.showNotificationsPermissions()
     }
 }
 
