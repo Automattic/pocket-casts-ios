@@ -66,7 +66,7 @@ extension NotificationType {
         case .upsell:
             possibleConditions = [.purchaseSuccessful]
         case .newFeatureSuggestedFolders:
-            possibleConditions = [.suggestedFoldersPageShow]
+            possibleConditions = [.suggestedFoldersPageShown]
         }
         let eventMatch = possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name

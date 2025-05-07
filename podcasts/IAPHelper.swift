@@ -548,6 +548,9 @@ private extension IAPHelper {
         var properties: [AnyHashable: Any] = ["product": productId.rawValue,
                                               "offer_type": offerType]
 
+        if let source = OnboardingFlow.shared.source {
+            properties["source"] = source
+        }
         if let error = error {
             properties["error_code"] = error.code
         }

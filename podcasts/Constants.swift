@@ -234,6 +234,10 @@ struct Constants {
             static let recommendations = "notifications.recommendations"
             static let offers = "notifications.offers"
         }
+
+        enum informationalModal {
+            static let hasShownViewModal = "hasShownViewModal"
+        }
     }
 
     enum Values {

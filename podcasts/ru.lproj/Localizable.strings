@@ -327,22 +327,28 @@
     <string>Отмена</string>
     <key>cancel_confirm_item_folders</key>
     <string>Папки будут удалены, а их содержимое перемещено обратно на экран подкастов.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Ваши подкасты и история прослушиваний останутся доступными. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>С этой даты доступ к функциям Pocket Casts Plus будет заблокирован.</string>
+    <string>После этой даты доступ к функциям Plus, таким как «Закладки», «Случайный выбор», «Портативные» и др., будет удалён.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Файлы, загруженные в вашу учётную запись Pocket Casts, будут удалены (однако файлы, загруженные на ваши мобильные устройства, сохранятся)</string>
+    <string>Файлы, загруженные в вашу учётную запись Pocket Casts, будут удалены, но файлы, загруженные на ваши мобильные устройства, сохранятся.</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Ваша текущая подписка будет действовать до %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>срок действия</string>
     <key>cancel_confirm_subtitle</key>
-    <string>При этом ваш тарифный план изменится на бесплатный.</string>
+    <string>При отмене подписки ваш тарифный план изменится на бесплатный.</string>
+    <key>cancel_confirm_title</key>
+    <string>Что следует знать до отмены</string>
     <key>cancel_download</key>
     <string>Отменить скачивание</string>
     <key>cancel_failed</key>
     <string>Не удается отменить</string>
     <key>cancel_subscription</key>
     <string>Отмена подписки</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Оптимальная стоимость</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>Новый тарифный план будет активирован по окончании текущего расчётного периода.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@
     <key>cancel_subscription_new_plan_title</key>
     <string>Хотите перейти на другой тарифный план?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Благодарим за то, что вы выбрали Pocket Casts. По истечении месяца бесплатного пользования вы начнёте получать счета на оплату.</string>
+    <string>Благодарим за то, что вы выбрали Pocket Casts. Бесплатный месяц будет добавлен к вашей текущей подписке.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Пользуйтесь весь месяц бесплатно!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш тарифный план со скидкой начнёт действовать по окончании текущего расчётного периода.</string>
+    <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш годовой тарифный план со скидкой начнёт действовать по истечении срока текущего тарифного плана.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>Скидка 50 %% на следующий год!</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,6 +383,21 @@
     <string>Уплатите %@ за следующий год со скидкой 50%% прямо сейчас</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Следующий месяц бесплатно</string>
+    <key>cancel_subscription_title</key>
+    <string>Собираетесь уйти?
+Сначала позвольте вам помочь</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Принять предложение</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Отменить и продолжить</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Пользуйтесь Pocket Casts Plus бесплатно в течение месяца! Предложение будет добавлено к вашей текущей подписке.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Заплатите %@ сейчас, чтобы в течение года пользоваться Pocket Casts Plus за полцены. Ваш годовой тарифный план со скидкой начнёт действовать по истечении срока текущего тарифного плана.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Пользуйтесь весь следующий месяц бесплатно и сэкономьте %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Получите скидку 50%% на следующий год и сэкономьте %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Получите скидку 50 %% на следующий год</string>
     <key>canceling</key>
@@ -1287,6 +1308,8 @@ Pocket Casts на полную мощность.</string>
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@ в неделю</string>
     <key>import</key>
     <string>Импорт</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1535,26 +1558,54 @@ Pocket Casts на полную мощность.</string>
     <string>Уведомления вкл.</string>
     <key>notifications_on_for_podcast</key>
     <string>Мы уведомим вас о новых выпусках %1$@.</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Создавайте умные фильтры, чтобы упорядочивать выпуски</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Упорядочивайте выпуски</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Переходите из другого приложения? Перенесите все любимые шоу в Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Импортируйте подкасты без проблем</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
     <key>notifications_onboarding_signup_title</key>
     <string>Ваши шоу на любом устройстве!</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Идеальные подкасты, вручную отобранные специально для вас настоящими знатоками и любителями подкастов.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Выбор наших экспертов</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Просмотрите наши темы и найдите ту, которая отвечает вашему стилю.</string>
     <key>notifications_onboarding_themes_title</key>
     <string>Пора освежить дизайн</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Создавайте списки воспроизведения и забудьте о беспорядке в выпусках.</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>Упростите очередь</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Приобретите подписку на Plus и пользуйтесь эксклюзивными функциями, такими как «Папки», «Закладки» и др.</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Ваши подкасты — ваши правила</string>
     <key>notifications_play_now</key>
     <string>Воспроизвести</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Предложения Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Посмотрите, что популярно на этой неделе.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Тренды недели</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Вы уже давно ничего не слушали. Возвращайтесь с удовольствием!</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Мы скучаем по вам!</string>
     <key>notifications_trending_and_recommendations</key>
     <string>Тренды и рекомендации</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Открыть настройки устройства</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Чтобы получать уведомления от Pocket Casts, необходимо включить их в настройках устройства.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Разрешить push-уведомления</string>
     <key>now_playing</key>
     <string>Сейчас воспроизводится</string>
     <key>now_playing_item</key>
@@ -2165,6 +2216,12 @@ Pocket Casts на полную мощность.</string>
     <string>По выбору пользователя</string>
     <key>podcasts_library_sort_date_added</key>
     <string>По дате добавления</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Недавно прослушанные</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Теперь вы можете упорядочивать записи по дате прослушивания и сразу начинать воспроизведение с того места, на котором остановились.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Сортировать по категории «Недавно прослушанные»</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>По дате выхода выпуска</string>
     <key>podcasts_library_sort_title</key>

@@ -327,22 +327,28 @@
     <string>取消</string>
     <key>cancel_confirm_item_folders</key>
     <string>您的文件夹将被删除，并且其中的内容将移回“播客”屏幕。</string>
+    <key>cancel_confirm_item_history</key>
+    <string>您仍可继续访问您的播客和收听历史记录。 </string>
     <key>cancel_confirm_item_plus</key>
-    <string>在此日期后，对 Pocket Casts Plus 功能的访问将被锁定。</string>
+    <string>在此日期之后，Plus 功能（如书签、随机播放、可穿戴设备等）将被停用。</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>上传至您的 Pocket Casts 帐户的文件将会删除（但下载到您移动设备上的文件会保留）</string>
+    <string>上传至您的 Pocket Casts 账户的所有文件都将删除，但您移动设备上的下载文件会保留。</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>您的当前订阅将保持启用状态，直到 %1$@。</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>您的到期日期</string>
     <key>cancel_confirm_subtitle</key>
-    <string>这会将您的套餐更改为免费帐户。</string>
+    <string>取消后，您的套餐将更改为免费账户。</string>
+    <key>cancel_confirm_title</key>
+    <string>取消前的须知事项</string>
     <key>cancel_download</key>
     <string>取消下载</string>
     <key>cancel_failed</key>
     <string>无法取消</string>
     <key>cancel_subscription</key>
     <string>取消订阅</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>最佳价值</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>您的新套餐将在当前计费周期结束时激活。</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@
     <key>cancel_subscription_new_plan_title</key>
     <string>想换个套餐？</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>感谢您选用 Pocket Casts。 免费月结束后开始计费。</string>
+    <string>感谢您选用 Pocket Casts。 您的免费月份将添加到您当前的订阅中。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>享受一个月的免费体验！</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>感谢您选用 Pocket Casts。 您的折扣套餐将在您当前的计费周期结束后开始生效。</string>
+    <string>感谢您选用 Pocket Casts。 您的年度折扣套餐将从您当前的套餐结束后开始计算。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>下一年享 5%% 折优惠！</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,6 +383,21 @@
     <string>现在支付 %@ 即可再享一年 50%% 优惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
+    <key>cancel_subscription_title</key>
+    <string>想要离开？
+不妨先与我们聊聊</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>接受优惠</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>继续取消</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>免费畅享一个月的 Pocket Casts Plus！ 该优惠将添加到您当前的订阅中。</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>现在支付 %@，即可以半价锁定 Pocket Casts Plus 一年使用权。 您的年度折扣套餐将从您当前的套餐结束后开始计算。</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>下个月免费，可节省 %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>下一年获享 50%% 优惠，可节省 %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>下一年获享 5%% 折优惠</string>
     <key>canceling</key>
@@ -1287,6 +1308,8 @@ Pocket Casts。</string>
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/周</string>
     <key>import</key>
     <string>导入</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1535,26 +1558,54 @@ Pocket Casts。</string>
     <string>通知开启</string>
     <key>notifications_on_for_podcast</key>
     <string>我们会向您通知 %1$@ 的剧集更新</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>创建智能筛选条件来整理您的剧集。</string>
     <key>notifications_onboarding_filters_title</key>
     <string>整理您的剧集</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>考虑从其他应用程序迁移过来？ 将您喜爱的所有节目转移到 Pocket Casts。</string>
     <key>notifications_onboarding_import_title</key>
     <string>轻松导入您的播客</string>
     <key>notifications_onboarding_signup_body</key>
     <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
     <key>notifications_onboarding_signup_title</key>
     <string>全端畅听节目！</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>专业播客团队严选推荐，每期内容都恰到好处。</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>探索我们的员工精选</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>浏览我们的主题，找到适合您风格的一款。</string>
     <key>notifications_onboarding_themes_title</key>
     <string>焕新时刻</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>建立播放队列，告别剧集来回切换的烦恼。</string>
     <key>notifications_onboarding_upnext_title</key>
     <string>简化您的队列</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>使用 Plus 解锁文件夹、书签等专享功能！</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>提升您的播客体验</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts 优惠</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>看看其他人本周都在听什么。</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>本周热门话题</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>您已经有一段时间没收听播客了。 回来继续收听，尽情享受吧！</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>我们想念您！</string>
     <key>notifications_trending_and_recommendations</key>
     <string>趋势与推荐</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>转到设备设置</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>要接收 Pocket Casts 发送的通知，您需要在设备设置中启用相关选项。</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>允许推送通知</string>
     <key>now_playing</key>
     <string>正在播放</string>
     <key>now_playing_item</key>
@@ -2165,6 +2216,12 @@ Pocket Casts。</string>
     <string>拖放</string>
     <key>podcasts_library_sort_date_added</key>
     <string>添加日期</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>最近播放</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>您现在可以按“最近播放”排序，并快速接续上次播放进度。</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>按“最近播放”排序</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>剧集发布日期</string>
     <key>podcasts_library_sort_title</key>

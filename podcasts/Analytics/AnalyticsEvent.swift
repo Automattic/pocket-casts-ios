@@ -161,7 +161,7 @@ enum AnalyticsEvent: String {
     case folderChooseRemovedFromFolder
     case folderPodcastModalOptionTapped
 
-    case suggestedFoldersPageShow
+    case suggestedFoldersPageShown
     case suggestedFoldersPageDismissed
     case suggestedFoldersUseSuggestedFoldersTapped
     case suggestedFoldersCreateCustomFolderTapped

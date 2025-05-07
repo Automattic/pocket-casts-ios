@@ -140,12 +140,6 @@ extension AppDelegate {
             }
         }
 
-        if FeatureFlag.encourageAccountCreation.enabled {
-            performUpdateIfRequired(updateKey: "EncourageAccountCreation") {
-                Settings.shouldShowInitialOnboardingFlow = true
-            }
-        }
-
         defaults.synchronize()
     }
 
