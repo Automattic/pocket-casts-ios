@@ -330,6 +330,7 @@ extension BannerModel {
                            action: L10n.notitificationsPermissionBannerAction,
                            iconName: "settings_notifications",
                            onActionTap: {
+            Analytics.track(.notificationsPermissionsOpenSystemSettings)
             UIApplication.shared.openNotificationSettings()
         })
     }

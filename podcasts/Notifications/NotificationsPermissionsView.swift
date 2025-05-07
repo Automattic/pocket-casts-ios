@@ -28,7 +28,7 @@ struct NotificationsPermissionsView: View {
     var body: some View {
         VStack {
             Button(action: {
-                Analytics.track(.notificationsPermissionsNotNow)
+                Analytics.track(.notificationsPermissionsNotNowTapped)
                 dismissAction()
             }) {
                 HStack {
@@ -50,7 +50,7 @@ struct NotificationsPermissionsView: View {
                 .multilineTextAlignment(.center)
             Spacer()
             Button(action: {
-                Analytics.track(.notificationsPermissionsAllow)
+                Analytics.track(.notificationsPermissionsAllowTapped)
                 Task {
                     await viewModel.setupPermissions()
                     dismissAction()
