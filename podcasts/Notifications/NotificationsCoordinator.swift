@@ -1,5 +1,7 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsServer
+import PocketCastsDataModel
 
 enum NotificationType: String {
 
@@ -14,6 +16,10 @@ enum NotificationType: String {
     case reengagementWeekly
 
     case recommendationsTrending
+    case recommendationsYouMightLike
+
+    case upsell
+    case newFeatureSuggestedFolders
 
     var title: String {
         switch self {
@@ -35,6 +41,12 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeTitle
+        case .upsell:
+            return L10n.notificationsOffersUpsellTitle
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersTitle
         }
     }
 
@@ -58,6 +70,12 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeBody
+        case .upsell:
+            return L10n.notificationsOffersUpsellBody
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersBody
         }
     }
 
@@ -85,6 +103,138 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
+        case .recommendationsYouMightLike:
+            return "pktc://discover/recommendations_user"
+        case .upsell:
+            return "pktc://upsell"
+        case .newFeatureSuggestedFolders:
+            return "pktc://features/suggestedFolders"
+        }
+    }
+
+    var shouldSend: Bool {
+        switch self {
+            case .onboardingUpsell, .upsell:
+                return !SubscriptionHelper.hasActiveSubscription()
+            case .recommendationsYouMightLike:
+                return SyncManager.isUserLoggedIn()
+            case .newFeatureSuggestedFolders:
+                return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
+            default:
+                return true
+        }
+    }
+
+    var isRepeatable: Bool {
+        switch self {
+            case .reengagementWeekly,
+                 .recommendationsTrending,
+                 .recommendationsYouMightLike,
+                 .upsell:
+                return true
+            default:
+                return false
+        }
+    }
+
+}
+
+enum NotificationsGroup: CaseIterable {
+
+    case newEpisodes
+    case dailyReminders
+    case recommendations
+    case newFeaturesAndTips
+    case offers
+
+    var notifications: [NotificationType] {
+        switch self {
+            case .newEpisodes:
+                return [] // New Episodes are notifications sent by the server, so they don't need a local implementation
+            case .dailyReminders:
+                return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
+            case .recommendations:
+                return [.recommendationsTrending, .recommendationsYouMightLike]
+            case .newFeaturesAndTips:
+                return [.newFeatureSuggestedFolders, .reengagementWeekly]
+            case .offers:
+                return [.upsell]
+        }
+    }
+
+    var scheduleHour: Int {
+        switch self {
+            case .newEpisodes:
+                return 0 // This is determined by the server
+            case .dailyReminders:
+                return 10
+            case .recommendations:
+                return 11
+            case .newFeaturesAndTips:
+                return 16
+            case .offers:
+                return 14
+        }
+    }
+
+    var isEnabled: Bool {
+        switch self {
+            case .newEpisodes:
+                return Settings.notificationsNewEpisodes
+            case .dailyReminders:
+                return Settings.notificationsDailyReminders
+            case .recommendations:
+                return Settings.notificationsRecommendations
+            case .newFeaturesAndTips:
+                return Settings.notificationsNewFeaturesAndTips
+            case .offers:
+                return Settings.notificationsOffers
+        }
+    }
+
+    func setEnabled(_ newValue: Bool) {
+        switch self {
+            case .newEpisodes:
+                if newValue {
+                    // the user has just turned on push, enable it for all their podcasts for simplicity
+                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+                    NotificationsHelper.shared.registerForPushNotifications()
+                } else {
+                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                }
+                Settings.notificationsNewEpisodes = newValue
+            case .dailyReminders:
+                Settings.notificationsDailyReminders = newValue
+            case .recommendations:
+                Settings.notificationsRecommendations = newValue
+            case .newFeaturesAndTips:
+                Settings.notificationsNewFeaturesAndTips = newValue
+            case .offers:
+                Settings.notificationsOffers = newValue
+        }
+    }
+
+    // Variable to be used only in debugging/testing to accelarate notifications schedule
+    static var speedUpNotifications: Bool = false
+
+    var timeIntervalStep: TimeInterval {
+        switch self {
+            case .newEpisodes:
+                return 0
+            case .dailyReminders:
+                return Self.speedUpNotifications ? 10.seconds: 24.hours
+            case .recommendations:
+                return Self.speedUpNotifications ? 60.seconds: 3.days
+            case .newFeaturesAndTips:
+                return Self.speedUpNotifications ? 60.seconds: 1.week
+            case .offers:
+                return Self.speedUpNotifications ? 120.seconds: 2.week
+        }
+    }
+
+    static var allDisabled: Bool {
+        Self.allCases.allSatisfy() {
+            $0.isEnabled == false
         }
     }
 }
@@ -93,17 +243,7 @@ class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
-    var onboardingTimeIntervalStep: TimeInterval = 24.hours
-    var reEngagementTimeIntervalStep: TimeInterval = 1.week
-    var recommendationsTimeIntervalStep: TimeInterval = 3.days
-
     var ignoreScheduleHours: Bool = false
-
-    private enum Constants {
-        static let onboardingScheduleHour: Int = 10
-        static let reengagementScheduleHour: Int = 16
-        static let recommendationsScheduleHour: Int = 14
-    }
 
     private let notificationCenter: UNUserNotificationCenter
 
@@ -111,69 +251,56 @@ class NotificationsCoordinator {
         self.notificationCenter = notificationCenter
     }
 
-    let onboardingNotifications: [NotificationType] = [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
-
-    func setupDailyRemindersNotifications() {
-        Settings.notificationsDailyReminders = true
-        NotificationsHelper.shared.enablePush()
-        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
-            guard let self, granted else { return }
-            let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.onboardingScheduleHour)
-            var timeInterval: TimeInterval = timeIntervalToSchedule + onboardingTimeIntervalStep
-            onboardingNotifications.forEach { notification in
-                self.scheduleNotification(notification, timeInterval: timeInterval)
-                timeInterval += self.onboardingTimeIntervalStep
+    @discardableResult
+    func requestAndSetupInitialPermissions() async -> Bool {
+        await withCheckedContinuation { continuation in
+            NotificationsHelper.shared.registerForPushNotifications() { granted in
+                guard granted else {
+                    continuation.resume(returning: false)
+                    return
+                }
+                // activate all notifications
+                for group in NotificationsGroup.allCases {
+                    self.setupNotifications(for: group)
+                }
+                continuation.resume(returning: granted)
             }
         }
     }
 
-    func cancelDailyRemainderNotifications() {
-        Settings.notificationsDailyReminders = false
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: onboardingNotifications.map { $0.identifier })
-    }
-
-    func setupNewFeaturesAndTipsNotifications() {
-        Settings.notificationsNewFeaturesAndTips = true
+    func setupNotifications(for group: NotificationsGroup) {
+        group.setEnabled(true)
         NotificationsHelper.shared.enablePush()
         NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
-            guard granted else { return }
-            self?.updateReengamentNotifications()
+            guard let self, granted else { return }
+            updateNotifications(for: group)
         }
     }
 
-    func cancelNewFeaturesAndTipsNotifications() {
-        Settings.notificationsNewFeaturesAndTips = false
-        cancelNotification(.reengagementWeekly)
-    }
-
-    func updateReengamentNotifications() {
-        cancelNotification(.reengagementWeekly)
-        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.reengagementScheduleHour)
-        let initialInterval = timeIntervalToSchedule + reEngagementTimeIntervalStep
-        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval, repeats: false)
-        scheduleNotification(.reengagementWeekly, timeInterval: initialInterval + reEngagementTimeIntervalStep, repeats: true)
-    }
-
-    func setupRecommendationsNotifications() {
-        Settings.notificationsRecommendations = true
-        NotificationsHelper.shared.enablePush()
-        NotificationsHelper.shared.registerForPushNotifications { [weak self] granted in
-            guard granted else { return }
-            self?.updateRecommendationNotifications()
+    func updateNotifications(for group: NotificationsGroup) {
+        cancelNotifications(for: group)
+        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(group.scheduleHour)
+        var timeInterval: TimeInterval = timeIntervalToSchedule + group.timeIntervalStep
+        for notification in group.notifications {
+            guard notification.shouldSend else {
+                continue
+            }
+            if notification.isRepeatable {
+                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
+                scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
+            } else {
+                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
+            }
+            timeInterval += group.timeIntervalStep
         }
     }
 
-    func cancelRecommendationsNotifications() {
-        Settings.notificationsRecommendations = false
-        cancelNotification(.recommendationsTrending)
-    }
-
-    func updateRecommendationNotifications() {
-        cancelNotification(.recommendationsTrending)
-        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(Constants.recommendationsScheduleHour)
-        let initialInterval = timeIntervalToSchedule + recommendationsTimeIntervalStep
-        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval, repeats: false)
-        scheduleNotification(.recommendationsTrending, timeInterval: initialInterval + recommendationsTimeIntervalStep, repeats: true)
+    func disableNotifications(for group: NotificationsGroup) {
+        group.setEnabled(false)
+        cancelNotifications(for: group)
+        if NotificationsGroup.allDisabled {
+            NotificationsHelper.shared.disablePush()
+        }
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
@@ -196,6 +323,10 @@ class NotificationsCoordinator {
                 FileLog.shared.addMessage("[Notifications Coordinator] Error adding notification: \(error)")
             }
         }
+    }
+
+    func cancelNotifications(for group: NotificationsGroup) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: group.notifications.map { $0.identifier })
     }
 
     func cancelNotification(_ type: NotificationType) {

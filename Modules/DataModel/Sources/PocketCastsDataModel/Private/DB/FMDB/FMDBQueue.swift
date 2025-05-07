@@ -26,6 +26,28 @@ final class FMDBQueue: PCDBQueue {
         }
     }
 
+    func read(_ block: (any PCDatabase) -> Void) {
+        // FMDB doesn't have the concept of read or write
+        // This is implemented so we conform to the protocol
+        withoutActuallyEscaping(block) { block in
+            fmdbQueue.inDatabase { db in
+                let dbWrapper = FMDBDatabase(fmdbDatabase: db)
+                block(dbWrapper)
+            }
+        }
+    }
+
+    func write(_ block: (any PCDatabase) -> Void) {
+        // FMDB doesn't have the concept of read or write
+        // This is implemented so we conform to the protocol
+        withoutActuallyEscaping(block) { block in
+            fmdbQueue.inDatabase { db in
+                let dbWrapper = FMDBDatabase(fmdbDatabase: db)
+                block(dbWrapper)
+            }
+        }
+    }
+
     func close() {
         fmdbQueue.close()
     }

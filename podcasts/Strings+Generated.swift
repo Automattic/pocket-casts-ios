@@ -593,6 +593,12 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter") }
+  /// Creator Picks are podcasts recommended by the show's creator using Podroll.
+  internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description") }
+  /// Learn more
+  internal static var creatorPickModalLearnMore: String { return L10n.tr("Localizable", "creator_pick_modal_learn_more") }
+  /// What's a Creator Pick?
+  internal static var creatorPickModalTitle: String { return L10n.tr("Localizable", "creator_pick_modal_title") }
   /// Current Email
   internal static var currentEmailPrompt: String { return L10n.tr("Localizable", "current_email_prompt") }
   /// Current Password
@@ -1777,10 +1783,18 @@ internal enum L10n {
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
   /// Daily Reminders
   internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// Try Plus and automatically organize your shows with folders.
+  internal static var notificationsNewFeatureSuggestedFoldersBody: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_body") }
+  /// Your podcasts organized
+  internal static var notificationsNewFeatureSuggestedFoldersTitle: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_title") }
   /// New Features & Tips
   internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
   internal static var notificationsOff: String { return L10n.tr("Localizable", "notifications_off") }
+  /// Unlock exclusive features like folders, bookmarks, and more with Plus!
+  internal static var notificationsOffersUpsellBody: String { return L10n.tr("Localizable", "notifications_offers_upsell_body") }
+  /// Level up your podcast game
+  internal static var notificationsOffersUpsellTitle: String { return L10n.tr("Localizable", "notifications_offers_upsell_title") }
   /// Notifications On
   internal static var notificationsOn: String { return L10n.tr("Localizable", "notifications_on") }
   /// We’ll notify you with new episodes of %1$@
@@ -1815,6 +1829,12 @@ internal enum L10n {
   internal static var notificationsOnboardingUpsellBody: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_body") }
   /// Level up your podcast game
   internal static var notificationsOnboardingUpsellTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_title") }
+  /// Allow Notifications
+  internal static var notificationsPermissionsAction: String { return L10n.tr("Localizable", "notifications_permissions_action") }
+  /// Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.
+  internal static var notificationsPermissionsBody: String { return L10n.tr("Localizable", "notifications_permissions_body") }
+  /// Stay up to date!
+  internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Pocket Casts Offers
@@ -1823,6 +1843,10 @@ internal enum L10n {
   internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body") }
   /// Trending this week
   internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title") }
+  /// Wondering what to listen to next? Check out these shows!
+  internal static var notificationsRecommendationsYouMightLikeBody: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_body") }
+  /// New recommendations for you
+  internal static var notificationsRecommendationsYouMightLikeTitle: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_title") }
   /// It’s been awhile since you’ve listened. Jump back in and enjoy!
   internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
   /// We miss you!
@@ -2459,6 +2483,8 @@ internal enum L10n {
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download") }
   /// Pause playback
   internal static var podcastPausePlayback: String { return L10n.tr("Localizable", "podcast_pause_playback") }
+  /// Recommended shows by the creator
+  internal static var podcastPodrollHeader: String { return L10n.tr("Localizable", "podcast_podroll_header") }
   /// Queued
   internal static var podcastQueued: String { return L10n.tr("Localizable", "podcast_queued") }
   /// Queued...
@@ -3870,6 +3896,8 @@ internal enum L10n {
   internal static var year: String { return L10n.tr("Localizable", "year") }
   /// Yearly
   internal static var yearly: String { return L10n.tr("Localizable", "yearly") }
+  /// You might like
+  internal static var youMightLike: String { return L10n.tr("Localizable", "you_might_like") }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

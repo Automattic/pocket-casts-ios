@@ -83,9 +83,13 @@ extension DiscoverViewController: DiscoverDelegate {
         })
     }
 
-    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
+    func showExpanded(item: PocketCastsServer.DiscoverItem, podcasts: [PocketCastsServer.DiscoverPodcast], podcastCollection: PocketCastsServer.PodcastCollection?) {
+        showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection, datetime: nil)
+    }
+
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime dateTime: String? = nil) {
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: dateTime)
         } else {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
@@ -111,7 +115,7 @@ extension DiscoverViewController: DiscoverDelegate {
         guard let podcastCollection = podcastCollection else { return }
 
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: podcastCollection.datetime ?? item.dateTime)
         }
 
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)

@@ -137,7 +137,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
     @IBOutlet var bookmarkTabsView: UIStackView!
-    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+    private var tabsViewController: ThemedHostingController<PodcastDetailsTabView>? = nil
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -154,7 +154,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         bookmarkTabsView.removeAllSubviews()
-        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+        let controller = ThemedHostingController(rootView: PodcastDetailsTabView(delegate: delegate))
 
         bookmarkTabsView.addArrangedSubview(controller.view)
         parentController.addChild(controller)

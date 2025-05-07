@@ -257,6 +257,18 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         navController.pushViewController(folderController, animated: true)
     }
 
+    func navigateToSuggestedFolders() {
+        guard let navController = selectedViewController as? UINavigationController else { return }
+
+        navController.popToRootViewController(animated: false)
+
+        guard let podcastListController = navController.topViewController as? PodcastListViewController else {
+            return
+        }
+
+        podcastListController.showSuggestedFolders()
+    }
+
     func navigateToPodcast(_ podcast: Podcast) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
 
@@ -905,5 +917,14 @@ private extension MainTabBarController {
             controller.present(whatsNewViewController, animated: true)
             isShowingWhatsNew = true
         }
+    }
+}
+
+// MARK: - Notifications
+
+extension MainTabBarController {
+
+    func showNotificationsPermissions() {
+        present(NotificationsPermissionsViewModel.makeController(), animated: true)
     }
 }

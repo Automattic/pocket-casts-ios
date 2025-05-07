@@ -302,7 +302,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastsSortChanges:
             true
         case .recommendations:
-            false
+            true
         }
     }
 

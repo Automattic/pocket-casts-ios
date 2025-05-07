@@ -3,7 +3,7 @@ import Foundation
 extension NotificationsCoordinator: AnalyticsAdapter {
 
     func track(name: String, properties: [AnyHashable: Any]?) {
-        for notification in onboardingNotifications {
+        for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
                 self.cancelNotification(notification)
             }
@@ -13,21 +13,28 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
+        guard NotificationsGroup.newFeaturesAndTips.isEnabled else {
+            return
+        }
         // Check if need to cancel an existing notification
         if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
             self.cancelNotification(.reengagementWeekly)
         }
         let event: AnalyticsEvent = .applicationClosed
         if event.rawValue.toSnakeCaseFromCamelCase() == name {
-            self.updateReengamentNotifications()
+            updateNotifications(for: .newFeaturesAndTips)
         }
     }
 
     func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
-        // Check if need to cancel an existing notification
-        if NotificationType.recommendationsTrending.checkCancelConditionsForEvent(name: name, properties: properties) {
-            self.cancelNotification(.recommendationsTrending)
-            self.updateRecommendationNotifications()
+        var shouldUpdateNotifications = false
+        for notification in NotificationsGroup.recommendations.notifications {
+            if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
+                shouldUpdateNotifications = true
+            }
+        }
+        if shouldUpdateNotifications {
+            updateNotifications(for: .recommendations)
         }
     }
 }
@@ -54,8 +61,12 @@ extension NotificationType {
             possibleConditions  = [.purchaseSuccessful]
         case .onboardingStaffPicks:
             possibleConditions = [.discoverListShowAllTapped]
-        case .recommendationsTrending:
+        case .recommendationsTrending, .recommendationsYouMightLike:
             possibleConditions = [.discoverListShowAllTapped]
+        case .upsell:
+            possibleConditions = [.purchaseSuccessful]
+        case .newFeatureSuggestedFolders:
+            possibleConditions = [.suggestedFoldersPageShow]
         }
         let eventMatch = possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name
@@ -75,7 +86,12 @@ extension NotificationType {
                 guard let properties, let listID = properties["list_id"] as? String else {
                     return false
                 }
-                return listID == "featured"
+                return listID == "trending"
+        case .recommendationsYouMightLike:
+                guard let properties, let listID = properties["list_id"] as? String else {
+                    return false
+                }
+                return listID == "recommendations_user"
         default:
             return true
         }

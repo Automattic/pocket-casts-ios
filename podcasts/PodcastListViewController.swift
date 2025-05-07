@@ -311,6 +311,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         return FoldersCoordinator()
     }()
 
+    func showSuggestedFolders() {
+        foldersCoordinator.showSuggestedFolders(from: self)
+    }
+
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         foldersCoordinator.startFolderCreationFlow(from: self)
     }

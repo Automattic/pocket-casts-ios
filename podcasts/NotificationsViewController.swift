@@ -59,15 +59,53 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
             case .newEpisodes:
-                return NotificationsHelper.shared.pushEnabled()
+                return Settings.notificationsNewEpisodes
             case .newFeaturesAndTips:
                 return Settings.notificationsNewFeaturesAndTips
             case .trendingRecommendations:
                 return Settings.notificationsRecommendations
-            case .podcastsChosen,
-                 .appBadges,
-                 .pocketCastsOffers:
+            case .pocketCastsOffers:
+                return Settings.notificationsOffers
+            case .podcastsChosen, .appBadges:
                 return false
+            }
+        }
+
+        var analyticsEvent: AnalyticsEvent {
+            switch self {
+                case .dailyReminders:
+                    return .settingsNotificationsDailyRemindersToggle
+                case .newEpisodes:
+                    return .settingsNotificationsNewEpisodesToggled
+                case .newFeaturesAndTips:
+                    return .settingsNotificationsNewFeaturesToggle
+                case .trendingRecommendations:
+                    return .settingsNotificationsTrendingToggle
+                case .podcastsChosen:
+                    return .settingsNotificationsPodcastsChanged
+                case .appBadges:
+                    return .settingsNotificationsAppBadgeChanged
+                case .pocketCastsOffers:
+                    return .settingsNotificationsOffersToggle
+            }
+        }
+
+        var notificationGroup: NotificationsGroup? {
+            switch self {
+                case .dailyReminders:
+                    return .dailyReminders
+                case .newEpisodes:
+                    return .newEpisodes
+                case .newFeaturesAndTips:
+                    return .newFeaturesAndTips
+                case .trendingRecommendations:
+                    return .recommendations
+                case .podcastsChosen:
+                    return nil
+                case .appBadges:
+                    return nil
+                case .pocketCastsOffers:
+                    return .offers
             }
         }
     }
@@ -109,7 +147,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         }
         switch sectionType {
         case .episodes:
-            return NotificationsHelper.shared.pushEnabled() ? 3 : 1
+            return NotificationsGroup.newEpisodes.isEnabled ? 3 : 1
         case .featuresAndOffers, .recommendationsAndReminders:
             return rows[section].count
         }
@@ -240,54 +278,22 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         Analytics.track(.settingsNotificationsPodcastsChanged, properties: ["number_selected": numberSelected])
     }
 
-    func episodePushToggled(_ sender: UISwitch) {
-        //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
-
-        if sender.isOn {
-            NotificationsHelper.shared.enablePush()
-            // the user has just turned on push, enable it for all their podcasts for simplicity
-            DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
-            NotificationsHelper.shared.registerForPushNotifications()
-        } else {
-            NotificationsHelper.shared.disablePush()
-            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-        }
-
-        Settings.trackValueToggled(.settingsNotificationsNewEpisodesToggled, enabled: sender.isOn)
-
-        settingsTable.reloadData()
-    }
-
     @objc private func notificationToggled(_ sender: UISwitch) {
         guard let row = Row(rawValue: sender.tag) else {
             return
         }
         switch row {
-        case .newEpisodes:
-                episodePushToggled(sender)
-        case .dailyReminders:
+        case .dailyReminders, .trendingRecommendations, .newFeaturesAndTips, .pocketCastsOffers, .newEpisodes:
+            guard let notificationGroup = row.notificationGroup else { return }
             if sender.isOn {
-                notificationsCoordinator.setupDailyRemindersNotifications()
+                notificationsCoordinator.setupNotifications(for: notificationGroup)
             } else {
-                notificationsCoordinator.cancelDailyRemainderNotifications()
+                notificationsCoordinator.disableNotifications(for: notificationGroup)
             }
-            Settings.trackValueToggled(.settingsNotificationsDailyRemindersToggle, enabled: sender.isOn)
-        case .trendingRecommendations:
-            if sender.isOn {
-                notificationsCoordinator.setupRecommendationsNotifications()
-            } else {
-                notificationsCoordinator.cancelRecommendationsNotifications()
+            Settings.trackValueToggled(row.analyticsEvent, enabled: sender.isOn)
+            if row == .newEpisodes {
+                settingsTable.reloadData()
             }
-            Settings.trackValueToggled(.settingsNotificationsTrendingToggle, enabled: sender.isOn)
-        case .newFeaturesAndTips:
-            if sender.isOn {
-                notificationsCoordinator.setupNewFeaturesAndTipsNotifications()
-            } else {
-                notificationsCoordinator.cancelNewFeaturesAndTipsNotifications()
-            }
-            Settings.trackValueToggled(.settingsNotificationsNewFeaturesToggle, enabled: sender.isOn)
-        case .pocketCastsOffers:
-            Settings.trackValueToggled(.settingsNotificationsOffersToggle, enabled: sender.isOn)
         default:
             return
         }
@@ -324,6 +330,7 @@ extension BannerModel {
                            action: L10n.notitificationsPermissionBannerAction,
                            iconName: "settings_notifications",
                            onActionTap: {
+            Analytics.track(.notificationsPermissionsOpenSystemSettings)
             UIApplication.shared.openNotificationSettings()
         })
     }

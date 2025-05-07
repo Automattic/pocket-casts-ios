@@ -325,6 +325,8 @@ enum AnalyticsEvent: String {
     case podcastScreenNotificationsTapped
     case podcastScreenPodcastDetailsLinkTapped
     case podcastScreenCategoryTapped
+    case podcastScreenYouMightLikeTapped
+    case podcastScreenYouMightLikeSubscribed
 
     // MARK: - App Store Review Request
 
@@ -494,6 +496,11 @@ enum AnalyticsEvent: String {
     case notificationsOptInShown
     case notificationsOptInAllowed
     case notificationsOptInDenied
+
+    case notificationsPermissionsShow
+    case notificationsPermissionsAllowTapped
+    case notificationsPermissionsNotNowTapped
+    case notificationsPermissionsOpenSystemSettings
 
     // MARK: - Podcast Settings
 
@@ -874,4 +881,9 @@ enum AnalyticsEvent: String {
     case informationalModalViewCardShowed
     case informationalBannerViewDismissed
     case informationalBannerViewCreateAccountTap
+
+    // MARK: - Podroll Information Modal
+    case podcastScreenPodrollInformationModelShown
+    case podcastScreenPodrollPodcastSubscribed
+    case podcastScreenPodrollPodcastTapped
 }

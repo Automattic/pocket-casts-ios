@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
@@ -72,6 +73,9 @@ class NavigationManager {
     static let upNextPageKey = "upNextPage"
     static let signUpPageKey = "signUpPage"
     static let importPageKey = "importPage"
+
+    static let featurePageKey = "featurePageKey"
+    static let featureKey = "featureKey"
 
     static let sharedManager = NavigationManager()
 
@@ -237,6 +241,8 @@ class NavigationManager {
         } else if place == NavigationManager.settingsPageKey {
             let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
             mainController?.showSettings(row: row)
+        } else if place == NavigationManager.featurePageKey {
+            navigateToFeature(data: data, animated: animated)
         }
     }
 
@@ -255,6 +261,22 @@ class NavigationManager {
             mainController?.navigateToDiscover(listID: listId, animated: animated)
             return
         }
+    }
+
+    func navigateToFeature(data: NSDictionary?, animated: Bool) {
+        guard let feature = data?[NavigationManager.featureKey] as? String else {
+            return
+        }
+        if feature == "suggestedFolders" {
+            mainController?.navigateToSuggestedFolders()
+        }
+    }
+
+    func showNotificationsPermissionsModal() {
+        guard FeatureFlag.notificationsRevamp.enabled else {
+            return
+        }
+        mainController?.showNotificationsPermissions()
     }
 }
 

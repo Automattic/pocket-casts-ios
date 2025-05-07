@@ -2,7 +2,6 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
-
     func navigateTo(category: String) {
         if isViewLoaded {
             NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
@@ -95,9 +94,13 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         })
     }
 
-    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
+    func showExpanded(item: PocketCastsServer.DiscoverItem, podcasts: [PocketCastsServer.DiscoverPodcast], podcastCollection: PocketCastsServer.PodcastCollection?) {
+        showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection, datetime: nil)
+    }
+
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime: String? = nil) {
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: datetime)
         } else {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
@@ -123,7 +126,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         guard let podcastCollection = podcastCollection else { return }
 
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: podcastCollection.datetime)
         }
 
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)

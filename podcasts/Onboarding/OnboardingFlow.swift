@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 struct OnboardingFlow {
     typealias Context = [String: Any]
@@ -71,6 +72,9 @@ struct OnboardingFlow {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
+        if FeatureFlag.notificationsRevamp.enabled, (currentFlow == .initialOnboarding) || (currentFlow == .encourageAccountCreation) {
+            NavigationManager.sharedManager.showNotificationsPermissionsModal()
+        }
         source = nil
         currentFlow = .none
 
