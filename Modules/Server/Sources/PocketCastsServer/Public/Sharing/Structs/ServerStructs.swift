@@ -350,6 +350,7 @@ public struct PodcastList: Decodable {
     public var title: String?
     public var description: String?
     public var podcasts: [DiscoverPodcast]?
+    public let datetime: String?
 }
 
 public struct PodcastCollection: Decodable {

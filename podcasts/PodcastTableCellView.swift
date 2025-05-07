@@ -26,7 +26,7 @@ struct PodcastTableCellView: View {
 
             Spacer()
 
-            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreenSimilarShows, onSubscribe: {
+            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreen, onSubscribe: {
                 var properties = ["podcast_uuid": viewModel.uuid]
                 properties["list_datetime"] = viewModel.datetime
                 Analytics.track(.podcastScreenSimilarShowSubscribed, properties: properties)

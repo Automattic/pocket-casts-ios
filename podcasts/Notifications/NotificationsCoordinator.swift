@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsServer
+import PocketCastsDataModel
 
 enum NotificationType: String {
 
@@ -15,8 +16,10 @@ enum NotificationType: String {
     case reengagementWeekly
 
     case recommendationsTrending
+    case recommendationsYouMightLike
 
     case upsell
+    case newFeatureSuggestedFolders
 
     var title: String {
         switch self {
@@ -38,8 +41,12 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeTitle
         case .upsell:
             return L10n.notificationsOffersUpsellTitle
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersTitle
         }
     }
 
@@ -63,8 +70,12 @@ enum NotificationType: String {
             return L10n.notificationsReengagementWeeklyBody
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
+        case .recommendationsYouMightLike:
+            return L10n.notificationsRecommendationsYouMightLikeBody
         case .upsell:
             return L10n.notificationsOffersUpsellBody
+        case .newFeatureSuggestedFolders:
+            return L10n.notificationsNewFeatureSuggestedFoldersBody
         }
     }
 
@@ -92,8 +103,12 @@ enum NotificationType: String {
             return "pktc://discover"
         case .recommendationsTrending:
             return "pktc://discover/trending"
+        case .recommendationsYouMightLike:
+            return "pktc://discover/recommendations_user"
         case .upsell:
             return "pktc://upsell"
+        case .newFeatureSuggestedFolders:
+            return "pktc://features/suggestedFolders"
         }
     }
 
@@ -101,13 +116,32 @@ enum NotificationType: String {
         switch self {
             case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
+            case .recommendationsYouMightLike:
+                return SyncManager.isUserLoggedIn()
+            case .newFeatureSuggestedFolders:
+                return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
             default:
                 return true
         }
     }
+
+    var isRepeatable: Bool {
+        switch self {
+            case .reengagementWeekly,
+                 .recommendationsTrending,
+                 .recommendationsYouMightLike,
+                 .upsell:
+                return true
+            default:
+                return false
+        }
+    }
+
 }
 
-enum NotificationsGroup {
+enum NotificationsGroup: CaseIterable {
+
+    case newEpisodes
     case dailyReminders
     case recommendations
     case newFeaturesAndTips
@@ -115,12 +149,14 @@ enum NotificationsGroup {
 
     var notifications: [NotificationType] {
         switch self {
+            case .newEpisodes:
+                return [] // New Episodes are notifications sent by the server, so they don't need a local implementation
             case .dailyReminders:
                 return [.onboardingSignUp, .onboardingImport, .onboardingUpNext, .onboardingFilters, .onboardingThemes, .onboardingStaffPicks, .onboardingUpsell]
             case .recommendations:
-                return [.recommendationsTrending]
+                return [.recommendationsTrending, .recommendationsYouMightLike]
             case .newFeaturesAndTips:
-                return [.reengagementWeekly]
+                return [.newFeatureSuggestedFolders, .reengagementWeekly]
             case .offers:
                 return [.upsell]
         }
@@ -128,6 +164,8 @@ enum NotificationsGroup {
 
     var scheduleHour: Int {
         switch self {
+            case .newEpisodes:
+                return 0 // This is determined by the server
             case .dailyReminders:
                 return 10
             case .recommendations:
@@ -141,6 +179,8 @@ enum NotificationsGroup {
 
     var isEnabled: Bool {
         switch self {
+            case .newEpisodes:
+                return Settings.notificationsNewEpisodes
             case .dailyReminders:
                 return Settings.notificationsDailyReminders
             case .recommendations:
@@ -154,6 +194,15 @@ enum NotificationsGroup {
 
     func setEnabled(_ newValue: Bool) {
         switch self {
+            case .newEpisodes:
+                if newValue {
+                    // the user has just turned on push, enable it for all their podcasts for simplicity
+                    DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: true)
+                    NotificationsHelper.shared.registerForPushNotifications()
+                } else {
+                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                }
+                Settings.notificationsNewEpisodes = newValue
             case .dailyReminders:
                 Settings.notificationsDailyReminders = newValue
             case .recommendations:
@@ -165,10 +214,13 @@ enum NotificationsGroup {
         }
     }
 
+    // Variable to be used only in debugging/testing to accelarate notifications schedule
     static var speedUpNotifications: Bool = false
 
     var timeIntervalStep: TimeInterval {
         switch self {
+            case .newEpisodes:
+                return 0
             case .dailyReminders:
                 return Self.speedUpNotifications ? 10.seconds: 24.hours
             case .recommendations:
@@ -180,12 +232,9 @@ enum NotificationsGroup {
         }
     }
 
-    var areRepeatable: Bool {
-        switch self {
-            case .dailyReminders:
-                return false
-            case .recommendations, .newFeaturesAndTips, .offers:
-                return true
+    static var allDisabled: Bool {
+        Self.allCases.allSatisfy() {
+            $0.isEnabled == false
         }
     }
 }
@@ -200,6 +249,23 @@ class NotificationsCoordinator {
 
     private init(notificationCenter: UNUserNotificationCenter = .current()) {
         self.notificationCenter = notificationCenter
+    }
+
+    @discardableResult
+    func requestAndSetupInitialPermissions() async -> Bool {
+        await withCheckedContinuation { continuation in
+            NotificationsHelper.shared.registerForPushNotifications() { granted in
+                guard granted else {
+                    continuation.resume(returning: false)
+                    return
+                }
+                // activate all notifications
+                for group in NotificationsGroup.allCases {
+                    self.setupNotifications(for: group)
+                }
+                continuation.resume(returning: granted)
+            }
+        }
     }
 
     func setupNotifications(for group: NotificationsGroup) {
@@ -219,19 +285,22 @@ class NotificationsCoordinator {
             guard notification.shouldSend else {
                 continue
             }
-            if group.areRepeatable {
+            if notification.isRepeatable {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
                 scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
             } else {
                 scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
-                timeInterval += group.timeIntervalStep
             }
+            timeInterval += group.timeIntervalStep
         }
     }
 
     func disableNotifications(for group: NotificationsGroup) {
         group.setEnabled(false)
         cancelNotifications(for: group)
+        if NotificationsGroup.allDisabled {
+            NotificationsHelper.shared.disablePush()
+        }
     }
 
     func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
