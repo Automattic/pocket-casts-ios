@@ -5034,6 +5034,29 @@
 /* Notification body for offer upsell message */
 "notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
 
+/* Notification title for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_title" = "Your podcasts organized";
+
+/* Notification body for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_body" = "Try Plus and automatically organize your shows with folders.";
+
+/* Notification title for recommendations you might like message */
+"notifications_recommendations_you_might_like_title" = "New recommendations for you";
+
+/* Notification body for recommendations you might like message */
+"notifications_recommendations_you_might_like_body" = "Wondering what to listen to next? Check out these shows!";
+
+
+
+/* Notifications permissions screen title text*/
+"notifications_permissions_title" = "Stay up to date!";
+
+/* Notifications permissions screen body text*/
+"notifications_permissions_body" = "Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.";
+
+/* Notifications permissions screen action button text*/
+"notifications_permissions_action" = "Allow Notifications";
+
 /* Title for modal explaining Creator Picks */
 "creator_pick_modal_title" = "What's a Creator Pick?";
 

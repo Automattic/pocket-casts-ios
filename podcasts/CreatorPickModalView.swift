@@ -1,11 +1,12 @@
 import SwiftUI
+import PocketCastsServer
 import SafariServices
 
 struct PodrollInformationModalView: View {
     @EnvironmentObject var theme: Theme
     var onDismiss: () -> Void
 
-    let learnMoreURL: String = "https://support.pocketcasts.com/knowledge-base/podroll/"
+    let learnMoreURL: String = ServerConstants.Urls.podrollLearnMore
 
     var body: some View {
         VStack(spacing: 0) {
@@ -13,7 +14,7 @@ struct PodrollInformationModalView: View {
 
             VStack(spacing: 17) {
                 Spacer().frame(height: 8)
-                Image(systemName: "microphone")
+                Image(systemName: "mic")
                     .resizable()
                     .scaledToFit()
                     .font(.system(size: 32, weight: .heavy))
@@ -43,6 +44,8 @@ struct PodrollInformationModalView: View {
             }
             .padding(.horizontal, 16)
             .handleURLsWithSFSafariView()
+
+            Spacer()
         }
     }
 }

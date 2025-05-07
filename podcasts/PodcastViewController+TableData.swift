@@ -371,7 +371,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard currentViewMode == .youMightLike else { return nil }
+        guard currentViewMode == .youMightLike else {
+            return currentViewMode == .episodes ? searchController?.view : nil
+        }
 
         switch youMightLikeSectionType(for: section) {
         case .podroll:

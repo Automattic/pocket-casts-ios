@@ -497,6 +497,11 @@ enum AnalyticsEvent: String {
     case notificationsOptInAllowed
     case notificationsOptInDenied
 
+    case notificationsPermissionsShow
+    case notificationsPermissionsAllowTapped
+    case notificationsPermissionsNotNowTapped
+    case notificationsPermissionsOpenSystemSettings
+
     // MARK: - Podcast Settings
 
     case podcastSettingsFeedErrorTapped

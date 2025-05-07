@@ -1783,6 +1783,10 @@ internal enum L10n {
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
   /// Daily Reminders
   internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
+  /// Try Plus and automatically organize your shows with folders.
+  internal static var notificationsNewFeatureSuggestedFoldersBody: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_body") }
+  /// Your podcasts organized
+  internal static var notificationsNewFeatureSuggestedFoldersTitle: String { return L10n.tr("Localizable", "notifications_new_feature_suggested_folders_title") }
   /// New Features & Tips
   internal static var notificationsNewFeaturesTips: String { return L10n.tr("Localizable", "notifications_new_features_tips") }
   /// Notifications Off
@@ -1825,6 +1829,12 @@ internal enum L10n {
   internal static var notificationsOnboardingUpsellBody: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_body") }
   /// Level up your podcast game
   internal static var notificationsOnboardingUpsellTitle: String { return L10n.tr("Localizable", "notifications_onboarding_upsell_title") }
+  /// Allow Notifications
+  internal static var notificationsPermissionsAction: String { return L10n.tr("Localizable", "notifications_permissions_action") }
+  /// Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.
+  internal static var notificationsPermissionsBody: String { return L10n.tr("Localizable", "notifications_permissions_body") }
+  /// Stay up to date!
+  internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title") }
   /// Play Now
   internal static var notificationsPlayNow: String { return L10n.tr("Localizable", "notifications_play_now") }
   /// Pocket Casts Offers
@@ -1833,6 +1843,10 @@ internal enum L10n {
   internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body") }
   /// Trending this week
   internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title") }
+  /// Wondering what to listen to next? Check out these shows!
+  internal static var notificationsRecommendationsYouMightLikeBody: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_body") }
+  /// New recommendations for you
+  internal static var notificationsRecommendationsYouMightLikeTitle: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_title") }
   /// It’s been awhile since you’ve listened. Jump back in and enjoy!
   internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
   /// We miss you!

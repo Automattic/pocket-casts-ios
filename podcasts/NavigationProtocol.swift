@@ -10,6 +10,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
     func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
+    func navigateToSuggestedFolders()
 
     func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?)
 
@@ -54,4 +55,5 @@ protocol NavigationProtocol: AnyObject {
     func showEndOfYearStories()
     func dismissPresentedViewController(completion: (() -> Void)?)
     func showOnboardingFlow(flow: OnboardingFlow.Flow?)
+    func showNotificationsPermissions()
 }

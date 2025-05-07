@@ -1979,6 +1979,8 @@
 		FF0F407C2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
 		FF146C2A2D5F446300D2FCCE /* ThreadSafeDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF146C292D5F445B00D2FCCE /* ThreadSafeDictionaryTests.swift */; };
 		FF146C2C2D674A5400D2FCCE /* SuggestedFoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */; };
+		FF19C3112DC91A3C002B6C41 /* NotificationsPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF19C3102DC91A36002B6C41 /* NotificationsPermissionsView.swift */; };
+		FF19C3132DC93043002B6C41 /* Notifications.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF19C3122DC93043002B6C41 /* Notifications.xcassets */; };
 		FF1D0CB82C9CE11300F600C6 /* ReferralsMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */; };
 		FF1D0CBA2C9DC62200F600C6 /* ReferralsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */; };
 		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
@@ -4049,6 +4051,8 @@
 		FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		FF146C292D5F445B00D2FCCE /* ThreadSafeDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionaryTests.swift; sourceTree = "<group>"; };
 		FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersView.swift; sourceTree = "<group>"; };
+		FF19C3102DC91A36002B6C41 /* NotificationsPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPermissionsView.swift; sourceTree = "<group>"; };
+		FF19C3122DC93043002B6C41 /* Notifications.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Notifications.xcassets; sourceTree = "<group>"; };
 		FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsMessageView.swift; sourceTree = "<group>"; };
 		FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsCoordinator.swift; sourceTree = "<group>"; };
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
@@ -6990,6 +6994,7 @@
 				10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */,
 				102864AA2CED1F990098B2A9 /* CancelSubscription.xcassets */,
 				9A11FCCD2D9EB59F00A1EF3E /* InformationalModal.xcassets */,
+				FF19C3122DC93043002B6C41 /* Notifications.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -8595,6 +8600,7 @@
 		FFE794DB2DA443E8005E4D40 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				FF19C3102DC91A36002B6C41 /* NotificationsPermissionsView.swift */,
 				FF4D65CF2DA81B4B003DC1F0 /* NotificationsCoordinator+AnalyticsAdapter.swift */,
 				FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */,
 			);
@@ -9267,6 +9273,7 @@
 				BDA002C51F7B318B00DCB4AE /* AppIcon-Dark20x20@3x.png in Resources */,
 				BDA002C81F7B318B00DCB4AE /* AppIcon-Dark29x29@2x~ipad.png in Resources */,
 				40888F0B2563792300887D9A /* AppIcon-Round-Pink29x29@2x.png in Resources */,
+				FF19C3132DC93043002B6C41 /* Notifications.xcassets in Resources */,
 				40542E2C2265604700046330 /* AccountViewController.xib in Resources */,
 				BD8139D31FB95C3900DBF0EC /* ProfileViewController.xib in Resources */,
 				40888F142563792300887D9A /* AppIcon-Round-Pink20x20@3x.png in Resources */,
@@ -10337,6 +10344,7 @@
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */,
 				BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */,
+				FF19C3112DC91A3C002B6C41 /* NotificationsPermissionsView.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
 				BD2CB3E32418B48600E2D762 /* ArrayExtension.swift in Sources */,
