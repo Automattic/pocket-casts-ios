@@ -59,6 +59,7 @@ extension AppLifecycleAnalytics {
     enum AppInstallState {
         case installed
         case updated
+        case sameVersion
     }
 
     /// Checks whether we need to track an app install or app update
@@ -87,7 +88,7 @@ extension AppLifecycleAnalytics {
 
         // If the versions are not the same, then record this as an upgrade
         guard lastRunVersion != currentVersion else {
-            return .updated
+            return .sameVersion
         }
 
         analytics.track(.applicationUpdated, properties: ["previous_version": lastRunVersion])

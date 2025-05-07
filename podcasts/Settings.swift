@@ -1484,6 +1484,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Encourage Account Creation
+
+    static var hasShownInformationalViewModal: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

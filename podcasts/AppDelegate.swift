@@ -42,11 +42,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
-        if let appInstallState, appInstallState == .installed {
-            //Never show the podcast feed reload tooltip for fresh install
-            Settings.shouldShowPodcastFeeReloadTip = false
-            Settings.shouldShowPodcastViewChangesTip = false
-            Settings.shouldShowRecentlyPlayedSortingTip = false
+        if let appInstallState {
+            switch appInstallState {
+            case .updated:
+                if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
+                    Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
+                }
+            case .installed:
+                //Never show the podcast feed reload tooltip for fresh install
+                Settings.shouldShowPodcastFeeReloadTip = false
+                Settings.shouldShowPodcastViewChangesTip = false
+                Settings.shouldShowRecentlyPlayedSortingTip = false
+            case .sameVersion:
+                break
+            }
         }
 
         let defaults = UserDefaults.standard
