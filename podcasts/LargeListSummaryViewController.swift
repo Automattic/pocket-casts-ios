@@ -23,6 +23,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         }
     }
     private var podcasts = [DiscoverPodcast]()
+    private var datetime: String? // Used to track the generation of recommendations
     private weak var delegate: DiscoverDelegate?
     private var item: DiscoverItem?
 
@@ -105,7 +106,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
             cell.onSubscribe = { [weak self] in
                 if let listId = self?.item?.uuid, let podcastUuid = thisPodcast.uuid {
-                    AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
+                    AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: self?.datetime)
                 }
                 delegate.subscribe(podcast: thisPodcast)
             }
@@ -126,7 +127,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         collectionView.deselectItem(at: indexPath, animated: true)
 
         if let listId = item.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid, listDateTime: datetime)
         }
     }
 
@@ -182,6 +183,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.datetime = podcastCollection?.datetime
 
                 DispatchQueue.main.async {
                     strongSelf.relatedPodcastID = podcastCollection?.featureImage
@@ -195,6 +197,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
+                strongSelf.datetime = podcastList?.datetime
 
                 DispatchQueue.main.async {
                     strongSelf.divider.isHidden = false
@@ -222,7 +225,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     @IBAction func showAllTapped(_ sender: Any) {
         guard let delegate = delegate, let item = item else { return }
 
-        delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+        delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil, datetime: datetime)
     }
 
     // MARK: - Page Changed

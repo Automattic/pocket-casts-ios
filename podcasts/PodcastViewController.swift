@@ -84,6 +84,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
     }
+
     var recommendations: PodcastCollection?
 
     enum ViewMode {

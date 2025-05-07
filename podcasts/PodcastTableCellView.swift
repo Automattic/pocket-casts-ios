@@ -26,25 +26,32 @@ struct PodcastTableCellView: View {
 
             Spacer()
 
-            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreenSimilarShows)
+            SubscribeButtonView(podcastUuid: viewModel.uuid, source: .podcastScreen, onSubscribe: {
+                var properties = ["podcast_uuid": viewModel.uuid]
+                properties["list_datetime"] = viewModel.datetime
+                Analytics.track(.podcastScreenSimilarShowSubscribed, properties: properties)
+            })
         }
     }
 }
 
 struct PodcastCellViewModel {
     let uuid: String
+    let datetime: String?
     let title: String?
     let author: String?
 
-    init(podcast: Podcast) {
+    init(podcast: Podcast, datetime: String?) {
         self.uuid = podcast.uuid
         self.title = podcast.title
         self.author = podcast.author
+        self.datetime = datetime
     }
 
-    init(discoverPodcast: DiscoverPodcast) {
+    init(discoverPodcast: DiscoverPodcast, datetime: String?) {
         self.uuid = discoverPodcast.uuid ?? ""
         self.title = discoverPodcast.title
         self.author = discoverPodcast.author
+        self.datetime = datetime
     }
 }

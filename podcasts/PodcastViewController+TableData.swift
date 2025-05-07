@@ -185,7 +185,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
-                cell.configure(with: podcast)
+                cell.configure(with: podcast, datetime: nil)
                 return cell
             case .podcasts:
                 guard let podcast = recommendations?.podcasts?[indexPath.row] else {
@@ -193,7 +193,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastTableViewCell.reuseIdentifier, for: indexPath) as! PodcastTableViewCell
-                cell.configure(with: podcast)
+                cell.configure(with: podcast, datetime: recommendations?.datetime)
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 return cell
             }
         }
@@ -284,6 +285,14 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 navigationController?.pushViewController(podcastController, animated: true)
             case .podcasts:
                 guard let selectedPodcast = recommendations?.podcasts?[indexPath.row] else { return }
+                var properties: [String: Any] = [:]
+                if let datetime = recommendations?.datetime {
+                    properties["list_datetime"] = datetime
+                }
+                if let uuid = selectedPodcast.uuid {
+                    properties["podcast_uuid"] = selectedPodcast.uuid
+                }
+                Analytics.track(.podcastScreenSimilarShowTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
                 let podcastController = PodcastViewController(podcastInfo: info, existingImage: nil)
                 navigationController?.pushViewController(podcastController, animated: true)
