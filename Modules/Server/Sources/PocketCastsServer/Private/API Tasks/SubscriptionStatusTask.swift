@@ -34,7 +34,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                 if let expiryDate = SubscriptionHelper.subscriptionRenewalDate() {
                     expiryDateString = expiryDate.description
                 }
-                FileLog.shared.addMessage("Received subscription status paid : \(status.paid), platform : \(status.platform), frequency : \(status.frequency), giftDays : \(status.giftDays), expiryDate : \(expiryDateString)")
+                FileLog.shared.addMessage("Received subscription status paid : \(status.paid), platform : \(status.platform), frequency : \(status.frequency), giftDays : \(status.giftDays), expiryDate : \(expiryDateString), autoRenewing : \(status.autoRenewing)")
                 if originalSubscriptionStatus, !SubscriptionHelper.hasActiveSubscription() {
                     ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
                 }

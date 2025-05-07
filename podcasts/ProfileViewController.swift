@@ -139,6 +139,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         whatsNewDismissed()
         showReferralsHintIfNeeded()
+        
+        present(CancelSubscriptionSurveyViewModel.make(), animated: true)
     }
 
     override func viewDidDisappear(_ animated: Bool) {

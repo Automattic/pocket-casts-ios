@@ -4762,6 +4762,30 @@
 /* Badge that appears over the best value plan in the available plans list */
 "cancel_subscription_available_plans_best_value_badge" = "Best Value";
 
+/* Title of the survey screen that appears when a user cancels the subscription. \n forces Pocket Casts to be on a new line */
+"cancel_subscription_survey_title" = "Thanks for trying\nPocket Casts Plus";
+
+/* Description of the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_description" = "We'd love to know why you canceled. Your feedback helps us improve.";
+
+/* Title of the Send Button in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_submit_feedback" = "Submit feedback";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_better_app" = "I found a better app";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_technical_issue" = "Technical issues";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_cost" = "Cost-related reasons";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_not_enough" = "I don’t use it enough";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_other" = "Other";
+
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
 
