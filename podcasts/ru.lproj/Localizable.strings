@@ -1559,7 +1559,7 @@ Pocket Casts на полную мощность.</string>
     <key>notifications_on_for_podcast</key>
     <string>Мы уведомим вас о новых выпусках %1$@.</string>
     <key>notifications_onboarding_filters_body</key>
-    <string>Создавайте умные фильтры, чтобы упорядочивать выпуски</string>
+    <string>Создавайте умные фильтры, чтобы упорядочивать выпуски.</string>
     <key>notifications_onboarding_filters_title</key>
     <string>Упорядочивайте выпуски</string>
     <key>notifications_onboarding_import_body</key>
