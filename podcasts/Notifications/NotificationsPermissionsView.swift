@@ -63,7 +63,7 @@ struct NotificationsPermissionsView: View {
         .padding()
         .background(theme.primaryUi01)
         .onAppear() {
-            Analytics.track(.notificationsPermissionsShow)
+            Analytics.track(.notificationsPermissionsShown)
         }
     }
 }
