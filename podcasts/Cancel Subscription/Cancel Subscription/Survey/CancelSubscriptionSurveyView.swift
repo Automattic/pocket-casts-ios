@@ -21,6 +21,9 @@ struct CancelSubscriptionSurveyView: View {
                                 .padding(.bottom, 16.0)
                             ForEach(CancelSubscriptionSurveyViewModel.Reason.allCases, id: \.id) { reason in
                                 CancelSubscriptionSurveyRow(reason: reason, selected: reason == viewModel.selectedReason) { reason in
+                                    if viewModel.isLoading {
+                                        return
+                                    }
                                     viewModel.selectedReason = reason
                                     switch reason {
                                     case .other:
@@ -33,6 +36,7 @@ struct CancelSubscriptionSurveyView: View {
                             }
                             if viewModel.selectedReason == .other {
                                 TextEditor(text: $viewModel.additionalText)
+                                    .font(size: 15.0, style: .body, weight: .regular, maxSizeCategory: .extraExtraExtraLarge)
                                     .themedTextField(style: .primaryUi01)
                                     .foregroundStyle(theme.primaryText01)
                                     .focused($isFocused)
@@ -126,7 +130,27 @@ struct CancelSubscriptionSurveyView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
             .opacity(viewModel.canSendFeedback ? 1.0 : 0.6)
+            .overlay {
+                if viewModel.isLoading {
+                    loadingButton
+                }
+            }
         }
+    }
+
+    private var loadingButton: some View {
+        ZStack {
+            Rectangle()
+                .overlay(theme.primaryInteractive01)
+                .cornerRadius(ViewConstants.buttonCornerRadius)
+            ProgressView()
+                .progressViewStyle(
+                    CircularProgressViewStyle(tint: theme.primaryInteractive02)
+                )
+        }
+        .frame(height: 56.0)
+        .padding(.horizontal, 16.0)
+        .padding(.vertical, 16)
     }
 }
 

@@ -7,6 +7,7 @@ struct DeveloperMenu: View {
     @State var showingImporter = false
     @State var showingExporter = false
     @State var showing = false
+    @State var showSurvey = false
 
     var body: some View {
         List {
@@ -310,6 +311,17 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Notifications")
+            }
+
+            Section {
+                Button("Present Cancel Subscription Survey") {
+                    showSurvey = true
+                }
+                .sheet(isPresented: $showSurvey) {
+                    CancelSubscriptionSurveyView(viewModel: CancelSubscriptionSurveyViewModel(navigationController: nil))
+                }
+            } header: {
+                Text("Cancel Subscription Survey")
             }
 
             Section {

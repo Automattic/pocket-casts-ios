@@ -26,8 +26,18 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
         }
     }
 
+    enum LoadingState {
+        case idle
+        case loading
+    }
+
     @Published var selectedReason: Reason?
     @Published var additionalText: String = ""
+    @Published var loadingState: LoadingState = .idle
+
+    var isLoading: Bool {
+        loadingState == .loading
+    }
 
     private weak var navigationController: UINavigationController?
 
@@ -46,19 +56,25 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     }
 
     func sendFeedback() {
-
+        if loadingState == .loading {
+            return
+        }
+        loadingState = .loading
+        Analytics.track(.cancelSubscriptionSurveySubmitButtonTapped)
     }
 
     func dismiss() {
+        Analytics.track(.cancelSubscriptionSurveyDismissed)
         navigationController?.dismiss(animated: true)
     }
 
     func didAppear() {
-
+        Analytics.track(.cancelSubscriptionSurveyShown)
     }
 
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
+        Analytics.track(.cancelSubscriptionSurveyDismissed)
     }
 }
 
