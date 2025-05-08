@@ -243,7 +243,7 @@ enum NotificationsGroup: CaseIterable {
                 return nil
             case .dailyReminders:
                 let weekday = ((todayWeekday + order) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour)
+                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
                 return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             case .recommendations:
                 let weekday = ((todayWeekday + (order*3)) % 8) + 1
@@ -251,11 +251,11 @@ enum NotificationsGroup: CaseIterable {
                 return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             case .newFeaturesAndTips:
                 let weekday = ((todayWeekday + (order)) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour)
+                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
                 return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             case .offers:
                 let weekday = ((todayWeekday + (order)) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour)
+                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
                 return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
     }
@@ -307,19 +307,15 @@ class NotificationsCoordinator {
 
     func updateNotifications(for group: NotificationsGroup) {
         cancelNotifications(for: group)
-        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(group.scheduleHour)
-        var timeInterval: TimeInterval = timeIntervalToSchedule + group.timeIntervalStep
+        var order = 0
         for notification in group.notifications {
-            guard notification.shouldSend else {
+            guard notification.shouldSend,
+                  let trigger = group.trigger(order: order)
+            else {
                 continue
             }
-            if notification.isRepeatable {
-                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
-                scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
-            } else {
-                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
-            }
-            timeInterval += group.timeIntervalStep
+            scheduleNotification(notification, trigger: trigger)
+            order += 1
         }
     }
 
@@ -331,14 +327,14 @@ class NotificationsCoordinator {
         }
     }
 
-    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
+    func scheduleNotification(_ type: NotificationType, trigger: UNNotificationTrigger) {
         let content = UNMutableNotificationContent()
         content.title = type.title
         content.body = type.body
         content.categoryIdentifier = NotificationsHelper.NotificationsCategory.deepLink.rawValue
         content.userInfo = ["destination_url": type.link]
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
+        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
 
         let request = UNNotificationRequest(identifier: type.identifier, content: content, trigger: trigger)
 
