@@ -114,6 +114,8 @@ enum NotificationType: String {
 
     var shouldSend: Bool {
         switch self {
+            case .onboardingSignUp:
+                return !SyncManager.isUserLoggedIn()
             case .onboardingUpsell, .upsell:
                 return !SubscriptionHelper.hasActiveSubscription()
             case .recommendationsYouMightLike:
