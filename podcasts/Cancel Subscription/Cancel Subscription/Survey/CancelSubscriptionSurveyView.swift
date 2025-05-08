@@ -11,95 +11,92 @@ struct CancelSubscriptionSurveyView: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ScrollViewReader { scrollProxy in
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 10) {
-                            header
-                                .padding(.horizontal, 16.0)
-                                .padding(.bottom, 16.0)
-                            ForEach(CancelSubscriptionSurveyViewModel.Reason.allCases, id: \.id) { reason in
-                                CancelSubscriptionSurveyRow(reason: reason, selected: reason == viewModel.selectedReason) { reason in
-                                    if viewModel.isLoading {
-                                        return
-                                    }
-                                    viewModel.selectedReason = reason
-                                    switch reason {
-                                    case .other:
-                                        viewModel.additionalText = ""
-                                        isFocused = true
-                                    default:
-                                        isFocused = false
-                                    }
+        ZStack {
+            ScrollViewReader { scrollProxy in
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        header
+                            .padding(.horizontal, 16.0)
+                            .padding(.bottom, 16.0)
+                        ForEach(CancelSubscriptionSurveyViewModel.Reason.allCases, id: \.id) { reason in
+                            CancelSubscriptionSurveyRow(reason: reason, selected: reason == viewModel.selectedReason) { reason in
+                                if viewModel.isLoading {
+                                    return
+                                }
+                                viewModel.selectedReason = reason
+                                switch reason {
+                                case .other:
+                                    viewModel.additionalText = ""
+                                    isFocused = true
+                                default:
+                                    isFocused = false
                                 }
                             }
-                            if viewModel.selectedReason == .other {
-                                TextEditor(text: $viewModel.additionalText)
-                                    .font(size: 15.0, style: .body, weight: .regular, maxSizeCategory: .extraExtraExtraLarge)
-                                    .themedTextField(style: .primaryUi01)
-                                    .foregroundStyle(theme.primaryText01)
-                                    .focused($isFocused)
-                                    .frame(height: 80.0)
-                                    .padding(.horizontal, 18.0)
-                                Spacer(minLength: 100.0)
-                                    .id("bottom")
-                            } else {
-                                Spacer(minLength: 0)
-                            }
                         }
-                        .frame(minHeight: geometry.size.height)
-                        .id("content")
-                    }
-                    .onChange(of: isFocused) { focused in
-                        withAnimation {
-                            scrollProxy.scrollTo(focused ? "bottom" : "content", anchor: focused ? .bottom : .top)
+                        if viewModel.selectedReason == .other {
+                            TextEditor(text: $viewModel.additionalText)
+                                .font(size: 15.0, style: .body, weight: .regular, maxSizeCategory: .extraExtraExtraLarge)
+                                .themedTextField(style: .primaryUi01)
+                                .foregroundStyle(theme.primaryText01)
+                                .focused($isFocused)
+                                .disabled(viewModel.isLoading)
+                                .frame(height: 80.0)
+                                .padding(.horizontal, 18.0)
                         }
-                    }
-                    .padding(.top, 48)
-                    .modify {
-                        if #available(iOS 16.4, *) {
-                            $0.scrollBounceBehavior(.basedOnSize)
-                        }
-                    }
-                }
-
-                VStack {
-                    HStack {
-                        Button {
-                            viewModel.dismiss()
-                        } label: {
-                            Image("close")
-                                .renderingMode(.template)
-                                .foregroundStyle(theme.primaryField03Active)
-                        }
-                        .frame(width: 32.0, height: 32.0)
-                        .padding(8.0)
                         Spacer()
+                            .frame(minHeight: 105)
+                            .id("bottom")
                     }
-                    Spacer()
+                    .id("content")
                 }
-
-                VStack(spacing: 0) {
-                    Spacer()
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                colors: [theme.primaryUi01.opacity(0), theme.primaryUi01],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                        .frame(height: 16)
-                    button
-                        .frame(height: 88.0)
+                .onChange(of: isFocused) { focused in
+                    withAnimation {
+                        scrollProxy.scrollTo(focused ? "bottom" : "content", anchor: focused ? .bottom : .top)
+                    }
+                }
+                .padding(.top, 48)
+                .modify {
+                    if #available(iOS 16.4, *) {
+                        $0.scrollBounceBehavior(.basedOnSize)
+                    }
                 }
             }
-            .background(
-                AppTheme.color(for: .primaryUi01, theme: theme)
-                    .ignoresSafeArea()
-            )
+
+            VStack {
+                HStack {
+                    Button {
+                        viewModel.dismiss()
+                    } label: {
+                        Image("close")
+                            .renderingMode(.template)
+                            .foregroundStyle(theme.primaryField03Active)
+                    }
+                    .frame(width: 32.0, height: 32.0)
+                    .padding(8.0)
+                    Spacer()
+                }
+                Spacer()
+            }
+
+            VStack(spacing: 0) {
+                Spacer()
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [theme.primaryUi01.opacity(0), theme.primaryUi01],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(height: 16)
+                button
+                    .frame(height: 88.0)
+            }
         }
+        .background(
+            AppTheme.color(for: .primaryUi01, theme: theme)
+                .ignoresSafeArea()
+        )
     }
 
     private var header: some View {
@@ -121,7 +118,10 @@ struct CancelSubscriptionSurveyView: View {
         ZStack {
             Rectangle()
                 .fill(theme.primaryUi01)
-            Button(action: viewModel.sendFeedback) {
+            Button {
+                viewModel.sendFeedback()
+                isFocused = false
+            } label: {
                 Text(L10n.cancelSubscriptionSurveySubmitFeedback)
             }
             .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))

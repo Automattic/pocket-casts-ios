@@ -846,7 +846,7 @@ enum AnalyticsEvent: String {
     case winbackAvailablePlansSelectPlan
     case winbackAvailablePlansNewPlanPurchaseSuccessful
     case winbackWinbackOfferCancelButtonTapped
-    
+
     // MARK: - Cancel Subscription Survey
     case cancelSubscriptionSurveyShown
     case cancelSubscriptionSurveyDismissed
