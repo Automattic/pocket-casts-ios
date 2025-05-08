@@ -571,7 +571,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.podcasts)
         selectedViewController?.dismiss(animated: false)
         if let controller = view.window?.rootViewController {
-            showSubscriptionRequired(controller, source: .unknown, context: nil, flow: .initialOnboarding)
+            showSubscriptionRequired(controller, source: .unknown, context: nil, flow: .none)
         }
     }
 
