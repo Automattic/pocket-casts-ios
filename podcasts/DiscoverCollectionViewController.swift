@@ -111,30 +111,38 @@ class DiscoverCollectionViewController: PCViewController {
         self.discoverLayout = discoverLayout
 
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([0])
 
-        loadingTasks.values.forEach { $0.cancel() }
-        loadingTasks = [:]
+        if FeatureFlag.recommendations.enabled {
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            snapshot.appendSections([0])
 
-        for item in items {
-            let selectedCategory = item.cellType() != .categoriesSelector ? selectedCategory : nil
+            loadingTasks.values.forEach { $0.cancel() }
+            loadingTasks = [:]
 
-            if itemFilter(item) {
-                if item.authenticated == true, let uuid = item.uuid {
-                    snapshot.appendItems([.loading(uuid)])
-                    loadingTasks[uuid] = Task {
-                        let isAuthenticated = await checkSourceAuthentication(for: item)
-                        guard Task.isCancelled else { return }
-                        self.updateItemInSnapshot(item: item, isAuthenticated: isAuthenticated, region: currentRegion, selectedCategory: selectedCategory)
+            for item in items {
+                let selectedCategory = item.cellType() != .categoriesSelector ? selectedCategory : nil
+
+                if itemFilter(item) {
+                    if item.authenticated == true, let uuid = item.uuid {
+                        snapshot.appendItems([.loading(uuid)])
+                        loadingTasks[uuid] = Task {
+                            let isAuthenticated = await checkSourceAuthentication(for: item)
+                            guard Task.isCancelled else { return }
+                            self.updateItemInSnapshot(item: item, isAuthenticated: isAuthenticated, region: currentRegion, selectedCategory: selectedCategory)
+                        }
+                    } else {
+                        snapshot.appendItems([.item(.init(item: item, region: currentRegion, selectedCategory: selectedCategory))])
                     }
-                } else {
-                    snapshot.appendItems([.item(.init(item: item, region: currentRegion, selectedCategory: selectedCategory))])
                 }
             }
-        }
 
-        dataSource.apply(snapshot)
+            dataSource.apply(snapshot)
+        } else {
+            let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, selectedCategory: selectedCategory, itemFilter: itemFilter)
+            if let snapshot {
+                dataSource.apply(snapshot)
+            }
+        }
     }
 
     private func updateItemInSnapshot(item: DiscoverItem, isAuthenticated: Bool, region: String, selectedCategory: DiscoverCategory?) {
