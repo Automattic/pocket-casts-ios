@@ -234,6 +234,32 @@ enum NotificationsGroup: CaseIterable {
         }
     }
 
+    func trigger(order: Int) -> UNNotificationTrigger? {
+        let todayComponents = Calendar.current.dateComponents(in: .current, from: Date.now)
+        let todayWeekday: Int = todayComponents.weekday ?? 1
+
+        switch self {
+            case .newEpisodes:
+                return nil
+            case .dailyReminders:
+                let weekday = ((todayWeekday + order) % 8) + 1
+                let dateComponents = DateComponents(hour: scheduleHour)
+                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            case .recommendations:
+                let weekday = ((todayWeekday + (order*3)) % 8) + 1
+                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
+                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            case .newFeaturesAndTips:
+                let weekday = ((todayWeekday + (order)) % 8) + 1
+                let dateComponents = DateComponents(hour: scheduleHour)
+                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            case .offers:
+                let weekday = ((todayWeekday + (order)) % 8) + 1
+                let dateComponents = DateComponents(hour: scheduleHour)
+                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        }
+    }
+
     static var allDisabled: Bool {
         Self.allCases.allSatisfy() {
             $0.isEnabled == false
