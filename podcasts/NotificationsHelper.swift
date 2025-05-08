@@ -112,6 +112,13 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         let categoryIdentifier = response.notification.request.content.categoryIdentifier
         let category = NotificationsCategory(rawValue: categoryIdentifier)
 
+        var properties: [String: Any] = ["category": categoryIdentifier]
+        let identifier = response.notification.request.identifier
+        if let type = NotificationType(rawValue: identifier) {
+            properties["type"] = type.rawValue
+        }
+        Analytics.track(.notificationOpened, properties: properties)
+
         switch category {
         case .episodes, .podcasts, .none:
             handleEpisodeNotification(response: response, completionHandler: completionHandler)
