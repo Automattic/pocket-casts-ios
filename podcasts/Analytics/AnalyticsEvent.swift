@@ -497,7 +497,7 @@ enum AnalyticsEvent: String {
     case notificationsOptInAllowed
     case notificationsOptInDenied
 
-    case notificationsPermissionsShow
+    case notificationsPermissionsShown
     case notificationsPermissionsAllowTapped
     case notificationsPermissionsNotNowTapped
     case notificationsPermissionsOpenSystemSettings
