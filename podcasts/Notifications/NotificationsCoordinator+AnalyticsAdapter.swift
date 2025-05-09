@@ -5,6 +5,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     func track(name: String, properties: [AnyHashable: Any]?) {
         for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
+                markNotification(notification)
                 self.cancelNotification(notification)
             }
         }

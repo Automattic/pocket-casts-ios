@@ -1501,6 +1501,15 @@ class Settings: NSObject {
         }
     }
 
+    static var notificationsLastTriggerDate: [String: Date] {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.triggerDates) as? [String: Date] ?? [:]
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.triggerDates)
+        }
+    }
+
     // MARK: - Encourage Account Creation
 
     static var hasShownInformationalViewModal: Bool {
