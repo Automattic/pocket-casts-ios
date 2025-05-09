@@ -169,10 +169,10 @@ struct NowPlayingView: View {
                     return
                 }
                 let content = UNMutableNotificationContent()
-                content.title = "Ready for more podcasts?"
-                content.body = "Install Pocket Casts to get the full experience with powerful playback and customization tools."
+                content.title = L10n.notificationsAppClipTitle
+                content.body = L10n.notificationsAppClipBody
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4.hours, repeats: false)
-                let request = UNNotificationRequest(identifier: "au.com.shiftyjelly.podcasts.prototype.Clip", content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: "au.com.shiftyjelly.podcasts.prototype.Clip.reminder", content: content, trigger: trigger)
                 try await notificationCenter.add(request)
             } catch {
                 FileLog.shared.addMessage("App Clip: Notification Sending Error - \(error)")
