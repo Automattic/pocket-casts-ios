@@ -289,7 +289,7 @@ class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
-    var ignoreScheduleHours: Bool = false
+    var debugMode: Bool = false
 
     private let notificationCenter: UNUserNotificationCenter
 
@@ -335,11 +335,13 @@ class NotificationsCoordinator {
             scheduleNotification(notification, trigger: trigger)
             order += 1
         }
-        // Uncomment the line bellow if you need to debug the notification schedules
         printPendingNotifications()
     }
 
-    private func printPendingNotifications() {
+    private func printPendingNotifications() {        
+        guard debugMode else {
+            return
+        }
         Task {
             FileLog.shared.addMessage("\n---- Notification Schedule ----\n")
             let pendingNotifications = await self.notificationCenter.pendingNotificationRequests()
@@ -388,6 +390,7 @@ class NotificationsCoordinator {
 
     func cancelNotifications(for group: NotificationsGroup) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: group.notifications.map { $0.identifier })
+        printPendingNotifications()
     }
 
     func cancelNotification(_ type: NotificationType) {
