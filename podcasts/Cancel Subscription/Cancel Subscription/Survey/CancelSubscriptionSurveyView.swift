@@ -24,13 +24,7 @@ struct CancelSubscriptionSurveyView: View {
                                     return
                                 }
                                 viewModel.selectedReason = reason
-                                switch reason {
-                                case .other:
-                                    viewModel.additionalText = ""
-                                    isFocused = true
-                                default:
-                                    isFocused = false
-                                }
+                                isFocused = reason == .other
                             }
                         }
                         if viewModel.selectedReason == .other {

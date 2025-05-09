@@ -664,6 +664,16 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
     }
 
+    private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
+    static var shouldShowSubscriptionCancelledSurvey: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: subscriptionCancelledSurveyShowedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledSurveyShowedKey)
+        }
+    }
+
     // MARK: Promotion Finished Acknowledgement
 
     class func setPromotionFinishedAcknowledged(_ value: Bool) {

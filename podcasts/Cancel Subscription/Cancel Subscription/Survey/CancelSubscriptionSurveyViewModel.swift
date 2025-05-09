@@ -69,6 +69,7 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     }
 
     func didAppear() {
+        Settings.shouldShowSubscriptionCancelledSurvey = false
         Analytics.track(.cancelSubscriptionSurveyShown)
     }
 

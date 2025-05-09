@@ -139,6 +139,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         whatsNewDismissed()
         showReferralsHintIfNeeded()
+
+        if SubscriptionHelper.hasCancelledSubscription, Settings.shouldShowSubscriptionCancelledSurvey {
+            let presentSurvey = { [weak self] in
+                let controller = CancelSubscriptionSurveyViewModel.make()
+                self?.present(controller, animated: true)
+            }
+            if let referralsTipVC {
+                referralsTipVC.dismiss(animated: false, completion: presentSurvey)
+            } else {
+                presentSurvey()
+            }
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
