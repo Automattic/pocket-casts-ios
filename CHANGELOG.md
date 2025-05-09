@@ -4,7 +4,7 @@
 
 7.88
 -----
-- Add Recenlty Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)
+- Add Recently Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)
 
 7.87
 -----
