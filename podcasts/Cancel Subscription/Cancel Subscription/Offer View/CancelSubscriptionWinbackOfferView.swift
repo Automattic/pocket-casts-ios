@@ -88,7 +88,7 @@ struct CancelSubscriptionWinbackOfferView: View {
                 .ignoresSafeArea()
         )
         .onAppear {
-            Analytics.track(.winbackScreenShown, properties: ["screen": "wiback_offer"])
+            Analytics.track(.winbackScreenShown, properties: ["screen": "winback_offer"])
         }
     }
 
