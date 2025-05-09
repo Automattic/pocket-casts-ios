@@ -246,7 +246,8 @@ enum NotificationsGroup: CaseIterable {
             case .newEpisodes:
                 return nil
             case .dailyReminders:
-                triggerWeekDay = ((todayWeekday + order) % maxWeekDays) + 1
+                let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(scheduleHour)
+                return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order + 1) * timeIntervalStep), repeats: notification.isRepeatable)
             case .recommendations:
                 triggerWeekDay = ((todayWeekday + (order*3)) % maxWeekDays) + 1
             case .newFeaturesAndTips:
@@ -262,6 +263,16 @@ enum NotificationsGroup: CaseIterable {
         Self.allCases.allSatisfy() {
             $0.isEnabled == false
         }
+    }
+
+    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
+        if Self.speedUpNotifications {
+            return 1
+        }
+        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
+            return 0
+        }
+        return date.timeIntervalSince(Date.now)
     }
 }
 
@@ -315,6 +326,7 @@ class NotificationsCoordinator {
             scheduleNotification(notification, trigger: trigger)
             order += 1
         }
+        // Uncomment the line bellow if you need to debug the notification schedules
         printPendingNotifications()
     }
 
@@ -371,15 +383,5 @@ class NotificationsCoordinator {
 
     func cancelNotification(_ type: NotificationType) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
-    }
-
-    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
-        if ignoreScheduleHours {
-            return 1
-        }
-        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
-            return 0
-        }
-        return date.timeIntervalSince(Date.now)
     }
 }
