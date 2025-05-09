@@ -234,30 +234,28 @@ enum NotificationsGroup: CaseIterable {
         }
     }
 
-    func trigger(order: Int) -> UNNotificationTrigger? {
+    func trigger(order: Int, notification: NotificationType) -> UNNotificationTrigger? {
+        if Self.speedUpNotifications {
+            return UNTimeIntervalNotificationTrigger(timeInterval: Double(order + 1) * timeIntervalStep, repeats: notification.isRepeatable)
+        }
         let todayComponents = Calendar.current.dateComponents(in: .current, from: Date.now)
         let todayWeekday: Int = todayComponents.weekday ?? 1
-
+        let maxWeekDays: Int = Calendar.current.weekdaySymbols.count
+        var triggerWeekDay = todayWeekday
         switch self {
             case .newEpisodes:
                 return nil
             case .dailyReminders:
-                let weekday = ((todayWeekday + order) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
-                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                triggerWeekDay = ((todayWeekday + order) % maxWeekDays) + 1
             case .recommendations:
-                let weekday = ((todayWeekday + (order*3)) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
-                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                triggerWeekDay = ((todayWeekday + (order*3)) % maxWeekDays) + 1
             case .newFeaturesAndTips:
-                let weekday = ((todayWeekday + (order)) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
-                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                triggerWeekDay = ((todayWeekday + (order*2)) % maxWeekDays) + 1
             case .offers:
-                let weekday = ((todayWeekday + (order)) % 8) + 1
-                let dateComponents = DateComponents(hour: scheduleHour, weekday: weekday)
-                return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                triggerWeekDay = ((todayWeekday + (order)) % maxWeekDays) + 1
         }
+        let dateComponents = DateComponents(hour: scheduleHour, weekday: triggerWeekDay)
+        return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: notification.isRepeatable)
     }
 
     static var allDisabled: Bool {
@@ -310,12 +308,32 @@ class NotificationsCoordinator {
         var order = 0
         for notification in group.notifications {
             guard notification.shouldSend,
-                  let trigger = group.trigger(order: order)
+                  let trigger = group.trigger(order: order, notification: notification)
             else {
                 continue
             }
             scheduleNotification(notification, trigger: trigger)
             order += 1
+        }
+        printPendingNotifications()
+    }
+
+    private func printPendingNotifications() {
+        Task {
+            print("\n---- Notification Schedule ----\n")
+            let pendingNotifications = await self.notificationCenter.pendingNotificationRequests()
+            for notificationRequest in pendingNotifications {
+                if let calendarTrigger = notificationRequest.trigger as? UNCalendarNotificationTrigger {
+                    let date = calendarTrigger.nextTriggerDate() ?? Date()
+                    print("Notification: \(notificationRequest.identifier) - \(date)\n")
+                }
+                if let intervalTrigger = notificationRequest.trigger as? UNTimeIntervalNotificationTrigger {
+                    let date = intervalTrigger.nextTriggerDate() ?? Date()
+                    print("Notification: \(notificationRequest.identifier) - \(date)\n")
+                }
+
+            }
+            print("\n---- End ----\n")
         }
     }
 
@@ -333,8 +351,6 @@ class NotificationsCoordinator {
         content.body = type.body
         content.categoryIdentifier = NotificationsHelper.NotificationsCategory.deepLink.rawValue
         content.userInfo = ["destination_url": type.link]
-
-        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
 
         let request = UNNotificationRequest(identifier: type.identifier, content: content, trigger: trigger)
 
