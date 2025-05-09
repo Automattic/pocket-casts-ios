@@ -113,7 +113,7 @@ enum NotificationType: String {
     }
 
     var shouldSend: Bool {
-        if NotificationsGroup.dailyReminders.notifications.contains(self), Settings.notificationsLastTriggerDate[self.rawValue] != nil {
+        if !self.isRepeatable, Settings.notificationsLastTriggerDate[self.rawValue] != nil {
             return false
         }
         switch self {
