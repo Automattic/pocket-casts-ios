@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import StoreKit
 import PocketCastsUtils
+import UserNotifications
 
 struct NowPlayingView: View {
 
@@ -30,6 +31,7 @@ struct NowPlayingView: View {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
                             presentAppStoreOverlay = true
                         }
+                        scheduleNotification()
                     }
             case .failed:
                 errorView
@@ -154,6 +156,28 @@ struct NowPlayingView: View {
                 }
             }
         })
+    }
+
+    private func scheduleNotification() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        Task {
+            do {
+                let granted = try await notificationCenter.requestAuthorization(options: [.alert, .sound, .badge])
+                guard granted else {
+                    let settings = await notificationCenter.notificationSettings()
+                    FileLog.shared.addMessage("App Clip: Notification status: \(settings.authorizationStatus)")
+                    return
+                }
+                let content = UNMutableNotificationContent()
+                content.title = "Ready for more podcasts?"
+                content.body = "Install Pocket Casts to get the full experience with powerful playback and customization tools."
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4.hours, repeats: false)
+                let request = UNNotificationRequest(identifier: "au.com.shiftyjelly.podcasts.prototype.Clip", content: content, trigger: trigger)
+                try await notificationCenter.add(request)
+            } catch {
+                FileLog.shared.addMessage("App Clip: Notification Sending Error - \(error)")
+            }
+        }
     }
 }
 
