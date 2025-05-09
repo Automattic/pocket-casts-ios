@@ -258,7 +258,7 @@ enum NotificationsGroup: CaseIterable {
                 // One week from now
                 triggerWeekDay = ((todayWeekday - order - 1) % maxWeekDays)
         }
-        
+
         if triggerWeekDay == 0 {
             triggerWeekDay += 1
         }
@@ -338,7 +338,7 @@ class NotificationsCoordinator {
         printPendingNotifications()
     }
 
-    private func printPendingNotifications() {        
+    private func printPendingNotifications() {
         guard debugMode else {
             return
         }
