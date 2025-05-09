@@ -249,11 +249,18 @@ enum NotificationsGroup: CaseIterable {
                 let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(scheduleHour)
                 return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order) * timeIntervalStep), repeats: notification.isRepeatable)
             case .recommendations:
-                triggerWeekDay = ((todayWeekday + (order*3)) % maxWeekDays) + 1
+                // Follow three days
+                triggerWeekDay = ((todayWeekday + ((order+1)*3)) % maxWeekDays)
             case .newFeaturesAndTips:
-                triggerWeekDay = ((todayWeekday + (order*2)) % maxWeekDays) + 1
+                // Follow two days
+                triggerWeekDay = ((todayWeekday + ((order+1)*2)) % maxWeekDays)
             case .offers:
-                triggerWeekDay = ((todayWeekday + (order)) % maxWeekDays) + 1
+                // One week from now
+                triggerWeekDay = ((todayWeekday - order - 1) % maxWeekDays)
+        }
+        
+        if triggerWeekDay == 0 {
+            triggerWeekDay += 1
         }
         let dateComponents = DateComponents(hour: scheduleHour, weekday: triggerWeekDay)
         return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: notification.isRepeatable)
