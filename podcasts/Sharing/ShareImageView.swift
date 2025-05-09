@@ -192,20 +192,11 @@ struct KidneyShape: Shape {
 extension View {
     func itemProvider() -> NSItemProvider {
         let itemProvider = NSItemProvider()
-        if #available(iOS 16.0, *) {
-            itemProvider.registerDataRepresentation(for: .png) { completion in
-                Task.detached {
-                    await completion(snapshot().pngData(), nil)
-                }
-                return nil
+        itemProvider.registerDataRepresentation(for: .png) { completion in
+            Task.detached {
+                await completion(snapshot().pngData(), nil)
             }
-        } else {
-            itemProvider.registerDataRepresentation(forTypeIdentifier: UTType.png.identifier, visibility: .all) { completion in
-                Task.detached {
-                    await completion(snapshot().pngData(), nil)
-                }
-                return nil
-            }
+            return nil
         }
         return itemProvider
     }

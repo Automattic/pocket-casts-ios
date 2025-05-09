@@ -57,9 +57,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         self.observable = observable
 
         super.init(rootView: CategoriesSelectorView(discoverItemObservable: observable))
-        if #available(iOS 16.0, *) {
-            sizingOptions =  [.intrinsicContentSize]
-        }
+        sizingOptions =  [.intrinsicContentSize]
         view.backgroundColor = nil
 
         self.observable.$selectedCategory
@@ -83,13 +81,5 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 16.0, *) {
-        } else {
-            self.view.invalidateIntrinsicContentSize()
-        }
     }
 }

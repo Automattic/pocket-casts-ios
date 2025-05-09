@@ -1270,11 +1270,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
-        if #available(iOS 16.0, *) {
-            vc.sizingOptions = [.preferredContentSize]
-        } else {
-            vc.preferredContentSize = idealSize
-        }
+        vc.sizingOptions = [.preferredContentSize]
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.down]
@@ -1335,11 +1331,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
-        if #available(iOS 16.0, *) {
-            vc.sizingOptions = [.preferredContentSize]
-        } else {
-            vc.preferredContentSize = idealSize
-        }
+        vc.sizingOptions = [.preferredContentSize]
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.down]

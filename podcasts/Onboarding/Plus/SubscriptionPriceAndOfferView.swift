@@ -87,17 +87,11 @@ private struct OfferStack<Content: View>: View {
     @ViewBuilder let content: () -> Content
 
     var body: some View {
-        if #available(iOS 16.0, *) {
-            ViewThatFits(in: .horizontal) {
-                HStack(spacing: 10) {
-                    content()
-                }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    content()
-                }
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 10) {
+                content()
             }
-        } else {
+
             VStack(alignment: .leading, spacing: 10) {
                 content()
             }

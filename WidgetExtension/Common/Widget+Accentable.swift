@@ -4,11 +4,7 @@ import WidgetKit
 extension View {
     @ViewBuilder
     func backwardWidgetAccentable(_ accentable: Bool = true) -> some View {
-        if #available(iOS 16.0, *) {
-            self.widgetAccentable(accentable)
-        } else {
-            self
-        }
+        self.widgetAccentable(accentable)
     }
 }
 
@@ -42,12 +38,7 @@ extension Image {
 extension EnvironmentValues {
     var isAccentedRenderingMode: Bool {
         get {
-            if #available(iOS 16.0, *) {
-                widgetRenderingMode == .accented
-            }
-            else {
-                self[AccentedWidgetKey.self]
-            }
+            widgetRenderingMode == .accented
         }
     }
 }
