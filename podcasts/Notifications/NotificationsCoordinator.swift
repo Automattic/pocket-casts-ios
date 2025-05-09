@@ -113,6 +113,9 @@ enum NotificationType: String {
     }
 
     var shouldSend: Bool {
+        if !self.isRepeatable, Settings.notificationsLastTriggerDate[self.rawValue] != nil {
+            return false
+        }
         switch self {
             case .onboardingSignUp:
                 return !SyncManager.isUserLoggedIn()
@@ -325,6 +328,12 @@ class NotificationsCoordinator {
                 FileLog.shared.addMessage("[Notifications Coordinator] Error adding notification: \(error)")
             }
         }
+    }
+
+    func markNotification(_ notification: NotificationType) {
+        var notificationDates = Settings.notificationsLastTriggerDate
+        notificationDates[notification.rawValue] = Date.now
+        Settings.notificationsLastTriggerDate = notificationDates
     }
 
     func cancelNotifications(for group: NotificationsGroup) {
