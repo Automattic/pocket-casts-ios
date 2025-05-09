@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "We miss you!",
+      "body": "It’s been awhile since you’ve listened. Jump back in and enjoy!"
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://discover"
+}

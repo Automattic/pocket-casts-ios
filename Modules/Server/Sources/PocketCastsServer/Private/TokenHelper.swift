@@ -22,6 +22,22 @@ class TokenHelper {
         }
     }
 
+    /// Makes an authentication URL request and returns the response and data asynchronously
+    /// - Parameter request: The URLRequest to execute using URLConnection
+    /// - Returns: A tuple containing the HTTPURLResponse and Data
+    /// - Throws: Any error returned from the URLConnection
+    func callSecureUrl(request: URLRequest) async throws -> (HTTPURLResponse?, Data?) {
+        try await withCheckedThrowingContinuation { continuation in
+            performCallSecureUrl(request: request, retryOnUnauthorized: true) { response, data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                continuation.resume(returning: (response, data))
+            }
+        }
+    }
+
     private func performCallSecureUrl(request: URLRequest, retryOnUnauthorized: Bool = true, completion: @escaping ((HTTPURLResponse?, Data?, Error?) -> Void)) {
         var mutableRequest = request
 

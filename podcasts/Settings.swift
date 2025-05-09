@@ -1422,6 +1422,96 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Podcast View Changes Tip
+
+    static var shouldShowPodcastViewChangesTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastViewChanges.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastViewChanges.showTip)
+        }
+    }
+
+    // MARK: - Recent Played Sorting Tip
+
+    static var shouldShowRecentlyPlayedSortingTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip)
+        }
+    }
+
+    // MARK: - Informational Banner
+#if !os(watchOS) && !APPCLIP
+    static func dismissBanner(for type: InformationalBannerType) {
+        UserDefaults.standard.set(true, forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+
+    static func shouldShowBanner(for type: InformationalBannerType) -> Bool {
+        return !UserDefaults.standard.bool(forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+#endif
+
+    // MARK: - Notifications
+    static var notificationsNewEpisodes: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)
+        }
+    }
+
+    static var notificationsDailyReminders: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.dailyReminders) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.dailyReminders)
+        }
+    }
+
+    static var notificationsNewFeaturesAndTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newFeaturesAndTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newFeaturesAndTips)
+        }
+    }
+
+    static var notificationsRecommendations: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.recommendations) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.recommendations)
+        }
+    }
+
+    static var notificationsOffers: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.offers) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.offers)
+        }
+    }
+
+    // MARK: - Encourage Account Creation
+
+    static var hasShownInformationalViewModal: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

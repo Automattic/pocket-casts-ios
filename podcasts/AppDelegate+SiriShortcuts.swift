@@ -4,9 +4,14 @@ import Intents
 import JLRoutes
 import PocketCastsDataModel
 import PocketCastsUtils
+import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(application, continue: userActivity)
+        }
+
         handleContinue(userActivity)
 
         return true
@@ -105,6 +110,7 @@ extension AppDelegate {
 
     func application(_ application: UIApplication, handle: INIntent, completionHandler: (INIntentResponse) -> Void) {
         if let handle = handle as? INPlayMediaIntent {
+            FileLog.shared.addMessage("Handling Siri PlayMediaIntent: \(handle.identifier ?? "unknown")")
             let responseCode = handlePlayMediaIntent(intent: handle)
 
             let response = INPlayMediaIntentResponse(code: responseCode, userActivity: nil)

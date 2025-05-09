@@ -29,6 +29,7 @@ struct CancelSubscriptionOfferSuccessView: View {
                 .padding(.bottom, 21)
             Text(title)
                 .font(size: 28.0, style: .body, weight: .bold)
+                .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText01)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 16.0)

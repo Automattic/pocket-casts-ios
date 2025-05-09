@@ -28,7 +28,7 @@ struct CancelSubscriptionPlansView: View {
                     .font(size: 28.0, style: .body, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
                     .padding(.bottom, 28.0)
-                ForEach(viewModel.pricingInfo.products, id: \.id) { product in
+                ForEach(viewModel.getOrderedProducts(), id: \.id) { product in
                     CancelSubscriptionPlanRow(product: product,
                                               selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
                         viewModel.purchase(product: selectedProduct)
@@ -54,13 +54,13 @@ struct CancelSubscriptionPlansView: View {
                 .padding(.top, 240.0)
                 .padding(.bottom, 16.0)
             Text(L10n.cancelSubscriptionAvailablePlansRetryScreenText)
-                .font(size: 15.0, style: .body, weight: .regular)
+                .font(size: 15.0, style: .body, weight: .medium)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText01)
                 .padding(.bottom, 16.0)
             Button(action: loadProducts) {
                 Text(L10n.tryAgain)
-                    .font(size: 13.0, style: .body, weight: .medium)
+                    .font(size: 15.0, style: .body, weight: .regular)
                     .foregroundStyle(theme.primaryText01)
                     .frame(height: 28.0)
                     .padding(.horizontal, 16.0)

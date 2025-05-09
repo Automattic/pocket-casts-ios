@@ -57,6 +57,7 @@ extension Podcast {
         podcast.folderUuid = rs.string(forColumn: "folderUuid")
         podcast.usedCustomEffectsBefore = rs.bool(forColumn: "usedCustomEffectsBefore")
         podcast.isPrivate = rs.bool(forColumn: "isPrivate")
+        podcast.fundingURL = rs.string(forColumn: "fundingURL")
 
         return podcast
     }

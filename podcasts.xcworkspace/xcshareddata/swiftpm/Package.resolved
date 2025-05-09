@@ -38,6 +38,15 @@
         }
       },
       {
+        "package": "AppsFlyerLib",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/AppsFlyerFramework-Dynamic",
+        "state": {
+          "branch": null,
+          "revision": "4a1439b4601f127e3c118f47bb3230eb28d012e7",
+          "version": "6.16.2"
+        }
+      },
+      {
         "package": "AutomatticTracksiOS",
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
@@ -62,6 +71,15 @@
           "branch": null,
           "revision": "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
           "version": "3.4.0"
+        }
+      },
+      {
+        "package": "Facebook",
+        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "b28dde427715b45a26ebebf697929f4a81b15e04",
+          "version": "18.0.0"
         }
       },
       {
@@ -125,6 +143,15 @@
           "branch": null,
           "revision": "57a1d307f42df690fdef2637f3e5b776da02aad6",
           "version": "7.13.3"
+        }
+      },
+      {
+        "package": "GRDB",
+        "repositoryURL": "https://github.com/groue/GRDB.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "c7205b172f38439e7ee62c208d1d76fa353c0a81",
+          "version": "7.2.0"
         }
       },
       {
@@ -249,8 +276,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "7cfb9cea6d7b85212de4f445dda17b8f5026c4ff",
-          "version": "1.7.0"
+          "revision": "aaa309326c2b8bfb52b7fdfabb1a43820c2e26b2",
+          "version": "1.8.2"
         }
       },
       {

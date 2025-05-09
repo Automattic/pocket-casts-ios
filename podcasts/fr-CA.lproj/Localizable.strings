@@ -327,22 +327,28 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Annuler</string>
     <key>cancel_confirm_item_folders</key>
     <string>Vos dossiers seront supprimés et leur contenu sera retransféré vers l’écran Podcasts.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Vos podcasts et votre historique d’écoute resteront accessibles. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>L’accès aux fonctionnalités de Pocket Casts Plus sera verrouillé après cette date.</string>
+    <string>Après cette date, l’accès aux fonctionnalités Plus comme les signets, la lecture aléatoire, les objets connectés et plus encore sera supprimé.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Tous les fichiers importés sur votre compte Pocket Casts seront supprimés (mais les fichiers téléchargés sur vos appareils mobiles seront conservés).</string>
+    <string>Tous les fichiers chargés sur votre compte Pocket Casts seront supprimés, mais les téléchargements sur vos appareils mobiles seront conservés.</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Votre abonnement actuel restera actif jusqu’au %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>votre date d’expiration</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Votre plan passera à un compte gratuit.</string>
+    <string>L’annulation fera passer votre plan à un compte gratuit.</string>
+    <key>cancel_confirm_title</key>
+    <string>Ce que vous devez savoir avant d’annuler</string>
     <key>cancel_download</key>
     <string>Annuler le téléchargement</string>
     <key>cancel_failed</key>
     <string>Impossible d’annuler</string>
     <key>cancel_subscription</key>
     <string>Annuler l’abonnement</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Meilleur rapport qualité-prix</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>Votre nouveau plan sera activé à la fin de votre période de facturation actuelle.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>À la recherche d’un plan différent ?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Merci d’avoir choisi Pocket Casts. La facturation commence au terme du mois gratuit.</string>
+    <string>Merci d’avoir choisi Pocket Casts. Votre mois gratuit sera ajouté à votre abonnement actuel.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Profitez de votre mois gratuit !</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Merci d’avoir choisi Pocket Casts. La remise sur votre plan débute à la fin de votre période de facturation actuelle.</string>
+    <string>Merci d’avoir choisi Pocket Casts. Votre année de réduction commence après la fin de votre plan actuel.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>-50 %% sur la prochaine année !</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -378,7 +384,20 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtenir votre prochain mois gratuit</string>
     <key>cancel_subscription_title</key>
-    <string>Avant que vous n’annuliez, jetez un coup d’œil à ces offres</string>
+    <string>Vous envisagez de nous quitter ?
+Laissez-nous d’abord vous aider</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Accepter l’offre</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Poursuivre l’annulation</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Profitez d’un mois de Pocket Casts Plus, c’est la maison qui offre ! L’offre sera ajoutée à votre abonnement actuel.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Payez %@ maintenant pour profiter d’une année complète de Pocket Casts Plus à moitié prix. Votre année de réduction commence après la fin de votre plan actuel.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Obtenir votre prochain mois gratuit et économiser %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Obtenir -50 %% sur la prochaine année et économiser %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Obtenir -50 %% sur la prochaine année</string>
     <key>canceling</key>
@@ -787,6 +806,45 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Réessayer les téléchargements échoués</string>
     <key>downloads_stop_all_downloads</key>
     <string>Arrêter tous les téléchargements</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Créer un compte gratuit</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Créez un compte gratuit pour synchroniser vos filtres sur tous vos appareils.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Icône des filtres</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Synchroniser vos filtres</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Créez un compte gratuit pour synchroniser votre historique d’écoute partout.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Icône de l’historique d’écoute</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Garder une trace de ce que vous avez écouté</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Icône de profil</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Vos émissions, sur tous vos appareils</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Votre bibliothèque et vos préférences sont enregistrées en toute sécurité.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Sauvegardes fiables</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Recevez des suggestions de podcasts sur mesure en fonction de vos habitudes d’écoute.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Recommandations personnalisées</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Synchronisez votre progression et elle s’affiche sur tous vos appareils.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Synchroniser entre les appareils</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Créez un compte ou connectez-vous pour profiter pleinement
+de Pocket Casts.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Commencer</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Nous avons remarqué que vous n’êtes pas connecté(e)</string>
     <key>edit</key>
     <string>Modifier</string>
     <key>edit_clip</key>
@@ -1180,6 +1238,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Démarrez votre essai gratuit</string>
     <key>free_trial_title_label</key>
     <string>Essayez Plus avec une période de gratuité de %1$@</string>
+    <key>funding</key>
+    <string>Financement</string>
     <key>funny_conf_msg</key>
     <string>Ça va vraiment bien avec la couleur de vos yeux ✨</string>
     <key>funny_time_not_enough</key>
@@ -1210,6 +1270,12 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Temps pendant lequel vous auriez pu attacher %1$@ lacets de chaussure. Peut-être. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Pendant lequel %1$@ gazouillis ont été publiés. Cui! Cui! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Cette transcription est générée automatiquement et n’est disponible que pour les abonnés Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Abonnez-vous à Plus pour y avoir accès ainsi qu’à d’autres fonctionnalités premium comme les signets et les dossiers.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Cette transcription est générée automatiquement par Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Accéder au balado</string>
     <key>got_it</key>
@@ -1242,6 +1308,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts ».</string>
     <key>how_to_upload_summary</key>
     <string>Voilà! C’est fait. Changez les renseignements de votre choix, appuyez sur Enregistrer et écoutez des balados!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/semaine</string>
     <key>import</key>
     <string>Importer</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1480,12 +1548,64 @@ podcasts partout avec</string>
     <string>Aucun</string>
     <key>not_on_wifi</key>
     <string>Vous n’êtes pas sur Wi-Fi</string>
+    <key>notifications_daily_reminders</key>
+    <string>Rappels quotidiens</string>
+    <key>notifications_new_features_tips</key>
+    <string>Nouvelles fonctionnalités et conseils</string>
     <key>notifications_off</key>
     <string>Notifications désactivées</string>
     <key>notifications_on</key>
     <string>Notifications activées</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Nous vous avertirons de la sortie de nouveaux épisodes de %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Créez des filtres intelligents pour organiser vos épisodes.</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organiser vos épisodes</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Vous changez d’application ? Transférez toutes vos émissions préférées vers Pocket Casts.</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importer facilement vos podcasts</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Vos émissions, sur tous vos appareils !</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Des podcasts mûrs à souhait, choisis rien que pour vous par de vrais humains amoureux des podcasts.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Découvrir les choix de notre équipe</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Parcourez nos thèmes et trouvez celui qui vous correspond.</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>L’heure est venue d’un nouveau look</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Créez une file d’attente de lecture et dites adieu aux sauts entre les épisodes.</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Simplifier votre file d’attente</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Débloquez des fonctionnalités exclusives comme les dossiers, les signets et plus encore avec Plus !</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Améliorer votre palette de podcasts</string>
     <key>notifications_play_now</key>
     <string>Lire maintenant</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Offres Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Découvrez ce que tout le monde écoute cette semaine.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Tendances de la semaine</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Cela fait longtemps que vous n’avez rien écouté. Revenez et profitez !</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Vous nous manquez !</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Tendances et recommandations</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Accéder aux réglages système</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Pour recevoir des notifications de Pocket Casts, vous devez les activer dans les réglages de votre appareil.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Autoriser les notifications push</string>
     <key>now_playing</key>
     <string>En cours de lecture</string>
     <key>now_playing_item</key>
@@ -1500,6 +1620,10 @@ podcasts partout avec</string>
     <string>Désactivé</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Uniquement en Wi-Fi illimité</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>En désactivant cette option, les téléchargements sur les réseaux cellulaires et autres réseaux limités sont autorisés. Vérifiez les réglages de votre réseau pour plus d’informations.</string>
     <key>only_on_wifi</key>
     <string>Uniquement sur Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1795,6 +1919,8 @@ MISES À JOUR</string>
     <string>Lecture sur Apple Watch et Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>L’infinie gratitude de tous les membres de Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Livre audio gratuit provenant de Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>1 an de contenu exclusif de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
@@ -1805,12 +1931,16 @@ MISES À JOUR</string>
     <string>FONCTIONNALITÉS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ d’essai gratuit</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Signets</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Applications Web et de bureau</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Dossiers et favoris</string>
     <key>plus_marketing_folders_description</key>
     <string>Créez des dossiers pour organiser votre collection de podcasts.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Dossiers</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Une expérience sans publicité qui vous permet de profiter encore plus de ce que vous aimez et qui évite ce qui ne vous intéresse pas</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2052,6 +2182,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Téléverser maintenant</string>
     <key>podcast_uploading</key>
     <string>Téléversement... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Appuyez sur le titre du podcast pour réduire ou développer sa description et ses détails</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Nous avons apporté quelques modifications</string>
     <key>podcast_waiting_upload</key>
     <string>En attente du téléversement</string>
     <key>podcast_yesterday</key>
@@ -2082,6 +2216,12 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Glisser-déposer</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Date ajoutée</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Lectures récentes</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Vous pouvez désormais trier par Lectures récentes et reprendre rapidement là où vous en étiez.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Trier par « Lectures récentes »</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Date de sortie de l’épisode</string>
     <key>podcasts_library_sort_title</key>
@@ -2963,6 +3103,20 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>%1$@ par %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Créer un dossier personnalisé</string>
+    <key>suggested_folders_description</key>
+    <string>Nous avons organisé vos podcasts dans des dossiers. Enregistrez maintenant et personnalisez plus tard.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Nous avons organisé vos podcasts dans des dossiers. Enregistrez maintenant et personnalisez plus tard. Tous les dossiers existants seront remplacés.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Remplacer les dossiers</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Accepter les dossiers suggérés écrasera vos dossiers actuels. Cette opération est irréversible.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Remplacer les dossiers existants ?</string>
+    <key>suggested_folders_title</key>
+    <string>Dossiers intelligents</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Utiliser ces dossiers</string>
     <key>support_watch_help_message</key>

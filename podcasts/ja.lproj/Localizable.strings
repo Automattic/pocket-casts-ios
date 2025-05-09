@@ -327,22 +327,28 @@
     <string>キャンセル</string>
     <key>cancel_confirm_item_folders</key>
     <string>フォルダーは消去され、保存されているコンテンツは再びポッドキャスト画面に移動します。</string>
+    <key>cancel_confirm_item_history</key>
+    <string>ポッドキャストと聴取履歴は引き続き利用できます。 </string>
     <key>cancel_confirm_item_plus</key>
-    <string>この日付以降、Pocket Casts Plus の機能が利用できなくなります。</string>
+    <string>この日付以降、ブックマーク、シャッフル、ウェアラブルなどの Plus 機能が利用できなくなります。</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Pocket Casts アカウントにアップロードされたファイルはすべて削除されます (ただし、モバイルデバイスにダウンロードされたファイルは残ります)</string>
+    <string>Pocket Casts アカウントにアップロードされたファイルはすべて削除されます (ただし、モバイルデバイスにダウンロードされたファイルは残ります)。</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>現在のサブスクリプションは%1$@まで有効です。</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>有効期限</string>
     <key>cancel_confirm_subtitle</key>
-    <string>これにより、お客様のプランが無料アカウントに変更されます。</string>
+    <string>解約すると、お客様のプランが無料アカウントに変更されます。</string>
+    <key>cancel_confirm_title</key>
+    <string>解約前に知っておくべきこと</string>
     <key>cancel_download</key>
     <string>ダウンロードをキャンセル</string>
     <key>cancel_failed</key>
     <string>キャンセルできません</string>
     <key>cancel_subscription</key>
     <string>サブスクリプションをキャンセル</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>最もお得</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>新しいプランは現在の請求期間の終了時に有効化されます。</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@
     <key>cancel_subscription_new_plan_title</key>
     <string>別のプランをお探しですか ?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Pocket Casts をお選びいただきありがとうございます。 1か月の無料期間が終わると請求が始まります。</string>
+    <string>Pocket Casts をお選びいただきありがとうございます。 現在のサブスクリプションに1か月の無料期間が追加されます。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>1か月の無料期間をお楽しみください !</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Pocket Casts をお選びいただきありがとうございます。 割引プランは現在の請求期間の後に開始します。</string>
+    <string>Pocket Casts をお選びいただきありがとうございます。 年間割引は現在のプランが終了した後に開始します。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>次年度が50%% オフ !</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -378,7 +384,20 @@
     <key>cancel_subscription_promotion_title</key>
     <string>来月分を無料で利用</string>
     <key>cancel_subscription_title</key>
-    <string>キャンセルする前に、これらのオファーを確認しましょう</string>
+    <string>解約をお考えですか ?
+まずはサポートをご利用ください</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>オファーを受理</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>キャンセルを続行</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Pocket Casts Plus を1か月間無料でお楽しみください。 現在のサブスクリプションにオファーが追加されます。</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>今すぐ%@を支払うと Pocket Casts Plus を1年間半額でご利用いただけます。 年間割引は現在のプランが終了した後に開始します。</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>来月分を無料で利用して%@節約</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>次年度50%% オフを獲得して%@節約</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>次年度が50%% オフ</string>
     <key>canceling</key>
@@ -787,6 +806,45 @@
     <string>失敗したダウンロードを再試行</string>
     <key>downloads_stop_all_downloads</key>
     <string>すべてのダウンロードを停止</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>無料アカウントを作成</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>無料アカウントを作成すると、どの端末でもフィルターを同期できます。</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>フィルターアイコン</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>フィルターの同期を維持</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>無料アカウントを作成すると、どこでも聴取履歴を同期できます。</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>聴取履歴アイコン</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>再生内容の追跡を継続</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>プロフィールアイコン</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>あらゆる端末で番組を楽しむ</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>ライブラリと設定が安全に保存されます。</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>信頼できるバックアップ</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>聴取習慣に基づいてカスタマイズされたポッドキャストの提案を受け取ります。</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>パーソナライズされたおすすめ</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>進捗を同期して、すべての端末で表示します。</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>端末間で同期</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>アカウントを作成またはログインして楽しむ
+Pocket Casts を最大限に活用しましょう。</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>開始する</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>ログインしていないようです</string>
     <key>edit</key>
     <string>編集する</string>
     <key>edit_clip</key>
@@ -1180,6 +1238,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>無料お試しを開始する</string>
     <key>free_trial_title_label</key>
     <string>Plus が今なら%1$@無料</string>
+    <key>funding</key>
+    <string>資金調達</string>
     <key>funny_conf_msg</key>
     <string>あなたの目によくお似合いです ✨</string>
     <key>funny_time_not_enough</key>
@@ -1210,6 +1270,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@本の靴紐が結べるほどの時間です。 おそらく。 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>こちらのトランスクリプトは自動的に生成され、Plus サブスクリプションの登録者のみが利用できます</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Plus サブスクリプションに登録すると、Plus にアクセスし、ブックマークやフォルダーなどのその他のプレミアム機能もご利用いただけます。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>こちらのトランスクリプトは Pocket Casts によって自動的に生成されます。</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
     <key>got_it</key>
@@ -1242,6 +1308,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@ / 週</string>
     <key>import</key>
     <string>インポート</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1480,12 +1548,64 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>なし</string>
     <key>not_on_wifi</key>
     <string>Wi-Fi に接続していません</string>
+    <key>notifications_daily_reminders</key>
+    <string>毎日のリマインダー</string>
+    <key>notifications_new_features_tips</key>
+    <string>新機能とヒント</string>
     <key>notifications_off</key>
     <string>通知オフ</string>
     <key>notifications_on</key>
     <string>通知オン</string>
+    <key>notifications_on_for_podcast</key>
+    <string>今後、%1$@ の新しいエピソードをお知らせします</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>スマートフィルターを作成してエピソードを整理します。</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>エピソードを整理</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>別のアプリから切り替えますか ? お気に入りの番組をすべて Pocket Casts に移行しましょう。</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>ポッドキャストを簡単にインポート</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>あらゆる端末で番組を楽しめます !</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>心からポッドキャストを愛するスタッフが、あなたのために最高のポッドキャストを厳選しました。</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>スタッフのピックアップを確認</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>テーマを閲覧し、自分のスタイルに合ったものを見つけましょう。</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>新しい外観を利用</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>再生キューを作成します。エピソード間を移動する手間はもう必要ありません。</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>キューを簡素化</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Plus でフォルダーやブックマークなどの限定機能を利用しましょう !</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>ポッドキャストゲームをレベルアップ</string>
     <key>notifications_play_now</key>
     <string>今すぐ再生</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts オファー</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>他のユーザーが今週聴いているポッドキャストをチェックしましょう。</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>今週のトレンド</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>しばらくご利用いただいてないようです。 戻ってお楽しみください !</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>ご利用をお待ちしております !</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>トレンドとおすすめ</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>端末設定に移動</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Pocket Casts から通知を受け取るには、端末設定で通知をオンにする必要があります。</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>プッシュ通知を許可する</string>
     <key>now_playing</key>
     <string>再生中</string>
     <key>now_playing_item</key>
@@ -1500,6 +1620,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>従量制課金が行われない Wi-Fi のみ</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>こちらをオフにすることで、携帯ネットワークやその他の従量制課金接続でダウンロードできるようになります。 詳細についてはネットワーク設定を確認してください。</string>
     <key>only_on_wifi</key>
     <string>Wi-Fi 接続中のみ</string>
     <key>opml_import_failed_message</key>
@@ -1795,22 +1919,28 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Apple Watch と Wear OS での再生</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
+    <key>plus_feature_librofm</key>
+    <string>Libro.fm の無料オーディオブック</string>
     <key>plus_feature_slumber</key>
     <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_slumber_new</key>
     <string>「Slumber Studios でぐっすり眠る」のコンテンツ</string>
     <key>plus_feature_themes_icons</key>
-    <string>追加のテーマとアプリアイコン</string>
+    <string>追加のテーマとアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ の無料お試し</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>ブックマーク</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>デスクトップアプリとウェブアプリ</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>フォルダーとブックマーク</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>フォルダー</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>広告非表示の操作環境では気に入ったコンテンツを増やし、気に入らないコンテンツは減らすことができます</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2052,6 +2182,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>今すぐアップロード</string>
     <key>podcast_uploading</key>
     <string>アップロードしています... %1$@が完了</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>ポッドキャストのタイトルをタップすると、説明と詳細を折りたたんだり展開したりできます</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>いくつかの変更を行いました</string>
     <key>podcast_waiting_upload</key>
     <string>アップロード待ち</string>
     <key>podcast_yesterday</key>
@@ -2082,6 +2216,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ドラッグ &amp; ドロップ</string>
     <key>podcasts_library_sort_date_added</key>
     <string>新たに追加した日付順</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>最近再生済み</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>「最近再生済み」で並べ替えて、中断したところをすばやく確認できるようになりました。</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>「最近再生済み」で並べ替え</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>エピソードリリース日</string>
     <key>podcasts_library_sort_title</key>
@@ -2959,6 +3099,20 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>カスタムフォルダーを作成</string>
+    <key>suggested_folders_description</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>ポッドキャストをフォルダーにまとめました。 今すぐ保存して後でカスタマイズできます。 これにより、すべての既存フォルダーが置き換えられます。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>フォルダーを置換</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>おすすめフォルダーを承認すると、現在のフォルダーが上書きされます。 この操作は元に戻すことができません。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>既存のフォルダーを置換しますか ?</string>
+    <key>suggested_folders_title</key>
+    <string>スマートフォルダー</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>これらのフォルダーを使用</string>
     <key>support_watch_help_message</key>

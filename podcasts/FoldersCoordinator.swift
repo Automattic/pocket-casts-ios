@@ -42,7 +42,10 @@ class FoldersCoordinator: NSObject {
     }
 
     func startFolderCreationFlow(from vc: UIViewController) {
-        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded, didPodcastsChanged() {
+        if FeatureFlag.suggestedFolders.enabled,
+           dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+           suggestedFoldersModel.loadingState == .loaded,
+           didPodcastsChanged() {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
@@ -51,8 +54,17 @@ class FoldersCoordinator: NSObject {
         Analytics.track(.podcastsListFolderButtonTapped)
     }
 
+    func showSuggestedFolders(from vc: UIViewController, source: AnalyticsSource = .notifications) {
+        guard FeatureFlag.suggestedFolders.enabled,
+              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts else {
+            return
+        }
+        suggestedFolderCreationFlow(from: vc, source: source)
+    }
+
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
+              vc.presentedViewController == nil,
               !SubscriptionHelper.hasActiveSubscription(),
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
@@ -131,7 +143,7 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders, .createdManualFolder:
                 //Show upsell flow
-                startUpsellFlow(from: vc, source: source)
+                startUpsellFlow(from: vc, source: source, upgradeSource: .suggestedFolders)
                 return
             }
         }
@@ -179,12 +191,12 @@ class FoldersCoordinator: NSObject {
         return folder
     }
 
-    private func startUpsellFlow(from vc: UIViewController, source: AnalyticsSource) {
+    private func startUpsellFlow(from vc: UIViewController, source: AnalyticsSource, upgradeSource: PlusUpgradeViewSource) {
         currentVC = vc
         currentSource = source
         addObservers()
         vc.dismiss(animated: false) {
-            self.navigationManager.showUpsellView(from: vc, source: .folders, flow: .suggestedFolderUpsell)
+            self.navigationManager.showUpsellView(from: vc, source: upgradeSource, flow: .suggestedFolderUpsell)
         }
     }
 
