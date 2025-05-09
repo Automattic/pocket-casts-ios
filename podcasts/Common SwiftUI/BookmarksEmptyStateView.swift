@@ -31,6 +31,7 @@ class DefaultEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
     var title: Color { theme.primaryText01 }
     var message: Color { theme.primaryText02 }
     var button: Color { theme.primaryInteractive01 }
+    var icon: Color { theme.primaryIcon03 }
 }
 
 class PlayerEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
@@ -38,6 +39,7 @@ class PlayerEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
     var title: Color { theme.playerContrast01 }
     var message: Color { theme.playerContrast02 }
     var button: Color { theme.playerContrast01 }
+    var icon: Color { theme.primaryIcon03 }
 }
 
 extension EmptyStateViewStyle where Self == PlayerEmptyStateStyle {

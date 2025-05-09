@@ -1178,6 +1178,8 @@ internal enum L10n {
   internal static var exportPodcastsTitle: String { return L10n.tr("Localizable", "export_podcasts_title") }
   /// Exporting Database...
   internal static var exportingDatabase: String { return L10n.tr("Localizable", "exporting_database") }
+  /// Couldn't load recommendations
+  internal static var failedRecommendations: String { return L10n.tr("Localizable", "failed_recommendations") }
   /// End Tour
   internal static var featureTourEndTour: String { return L10n.tr("Localizable", "feature_tour_end_tour") }
   /// NEW

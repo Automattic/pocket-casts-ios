@@ -80,7 +80,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var summaryExpanded = false
     var descriptionExpanded = false
     var currentViewMode: ViewMode = .episodes
-    private var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
+    var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
+    var isLoadingRecommendations = CurrentValueSubject<Bool, Never>(false)
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
     }
@@ -1396,16 +1397,52 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     @MainActor
-    private func loadRecommendations() async {
+    func loadRecommendations() async {
         guard let podcast = podcast else { return }
+
+        isLoadingRecommendations.send(true)
+        updateEmptyStateVisibility()
 
         do {
             recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+            guard !Task.isCancelled else { return }
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {
             // We won't do anything in the interface here since the You Might Like button is optional and hidden by default
             FileLog.shared.addMessage("[PodcastViewController] Failed to load recommendations \(error)")
+            guard !Task.isCancelled else { return }
+            hasSimilarShows.send(false)
         }
+
+        isLoadingRecommendations.send(false)
+        updateEmptyStateVisibility()
+    }
+
+    private func updateEmptyStateVisibility() {
+        if currentViewMode == .youMightLike {
+            episodesTable.reloadData()
+        }
+    }
+
+    private func switchViewMode(to mode: ViewMode) {
+        currentViewMode = mode
+        switch mode {
+        case .episodes:
+            if let podcast = podcast {
+                loadLocalEpisodes(podcast: podcast, animated: true)
+            }
+        case .youMightLike:
+            updateEmptyStateVisibility()
+            if recommendations == nil {
+                Task {
+                    await loadRecommendations()
+                }
+            }
+        case .bookmarks:
+            break // Handled separately
+        }
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
+        reloadData()
     }
 }
 
@@ -1420,22 +1457,6 @@ extension PodcastViewController: AnalyticsSourceProvider {
 private extension PodcastViewController {
     var podcastUUID: String {
         podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
-    }
-
-    private func switchViewMode(to mode: ViewMode) {
-        currentViewMode = mode
-        switch mode {
-        case .episodes:
-            if let podcast = podcast {
-                loadLocalEpisodes(podcast: podcast, animated: true)
-            }
-        case .youMightLike:
-            break
-        case .bookmarks:
-            break // Handled separately
-        }
-        Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
-        reloadData()
     }
 }
 
