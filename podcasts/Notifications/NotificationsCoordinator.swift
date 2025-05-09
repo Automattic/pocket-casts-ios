@@ -247,7 +247,7 @@ enum NotificationsGroup: CaseIterable {
                 return nil
             case .dailyReminders:
                 let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(scheduleHour)
-                return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order + 1) * timeIntervalStep), repeats: notification.isRepeatable)
+                return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order) * timeIntervalStep), repeats: notification.isRepeatable)
             case .recommendations:
                 triggerWeekDay = ((todayWeekday + (order*3)) % maxWeekDays) + 1
             case .newFeaturesAndTips:
@@ -269,10 +269,12 @@ enum NotificationsGroup: CaseIterable {
         if Self.speedUpNotifications {
             return 1
         }
-        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
+        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime),
+              let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: date)
+        else {
             return 0
         }
-        return date.timeIntervalSince(Date.now)
+        return nextDate.timeIntervalSince(Date.now)
     }
 }
 
@@ -332,20 +334,20 @@ class NotificationsCoordinator {
 
     private func printPendingNotifications() {
         Task {
-            print("\n---- Notification Schedule ----\n")
+            FileLog.shared.addMessage("\n---- Notification Schedule ----\n")
             let pendingNotifications = await self.notificationCenter.pendingNotificationRequests()
             for notificationRequest in pendingNotifications {
                 if let calendarTrigger = notificationRequest.trigger as? UNCalendarNotificationTrigger {
                     let date = calendarTrigger.nextTriggerDate() ?? Date()
-                    print("Notification: \(notificationRequest.identifier) - \(date)\n")
+                    FileLog.shared.addMessage("Notification: \(notificationRequest.identifier) - \(date.formatted())\n")
                 }
                 if let intervalTrigger = notificationRequest.trigger as? UNTimeIntervalNotificationTrigger {
                     let date = intervalTrigger.nextTriggerDate() ?? Date()
-                    print("Notification: \(notificationRequest.identifier) - \(date)\n")
+                    FileLog.shared.addMessage("Notification: \(notificationRequest.identifier) - \(date.formatted())\n")
                 }
 
             }
-            print("\n---- End ----\n")
+            FileLog.shared.addMessage("\n---- End ----\n")
         }
     }
 
