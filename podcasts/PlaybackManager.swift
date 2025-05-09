@@ -894,7 +894,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func silenceRemovalAvailable() -> Bool {
         #if APPCLIP
-        return false
+        if let episode = currentEpisode() {
+            return !episode.videoPodcast()
+        }
         #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -1241,10 +1243,12 @@ class PlaybackManager: ServerPlaybackDelegate {
 
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
+        #endif
 
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
-                possiblePlayers.append(EffectsPlayer.self)
-            }
+        #if !os(watchOS)
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+            possiblePlayers.append(EffectsPlayer.self)
+        }
         #endif
 
         possiblePlayers.append(DefaultPlayer.self)
@@ -2036,14 +2040,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
-            #if APPCLIP
-            if refreshedEpisode.uuid != currentEpisode()?.uuid {
-                load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
-            }
-            #else
             load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
-            #endif
-
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }
