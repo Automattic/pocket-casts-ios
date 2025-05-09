@@ -94,7 +94,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 
         let applicationInstallState = try XCTUnwrap(checkApplicationInstalledOrUpgraded())
 
-        XCTAssertEqual(applicationInstallState, .updated)
+        XCTAssertEqual(applicationInstallState, .sameVersion)
 
         waitForExpectations(timeout: 1)
     }

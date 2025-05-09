@@ -5,6 +5,8 @@ struct CancelSubscriptionView: View {
 
     @ObservedObject var viewModel: CancelSubscriptionViewModel
 
+    private let rows: [CancelSubscriptionOption] = [.availablePlans, .help]
+
     init(viewModel: CancelSubscriptionViewModel) {
         self.viewModel = viewModel
     }
@@ -23,19 +25,9 @@ struct CancelSubscriptionView: View {
                                 .padding(.top, 48.0)
                                 .padding(.horizontal, 34.0)
 
-                            ForEach(CancelSubscriptionOption.allCases, id: \.id) { option in
-                                switch option {
-                                case .promotion:
-                                    if viewModel.canClaimOffer(),
-                                       let price = viewModel.price(),
-                                       let frequency = viewModel.subscriptionFrequency() {
-                                        CancelSubscriptionViewRow(option: .promotion(price: price, frequency: frequency),
-                                                                  viewModel: viewModel)
-                                    }
-                                default:
-                                    CancelSubscriptionViewRow(option: option,
-                                                              viewModel: viewModel)
-                                }
+                            ForEach(rows, id: \.id) { option in
+                                CancelSubscriptionViewRow(option: option,
+                                                          viewModel: viewModel)
                             }
                         }
                     }

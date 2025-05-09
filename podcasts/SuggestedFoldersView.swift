@@ -132,7 +132,7 @@ struct SuggestedFoldersView: View {
         .padding(.horizontal, Constants.margin)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            track(.suggestedFoldersPageShow)
+            track(.suggestedFoldersPageShown)
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {

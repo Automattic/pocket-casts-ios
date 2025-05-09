@@ -12,6 +12,15 @@ final class FMDBDatabase: PCDatabase {
         self.fmdbDatabase = fmdbDatabase
     }
 
+    func pragmaUserVersion() -> Int32? {
+        if let rs = try? fmdbDatabase.executeQuery("PRAGMA user_version", values: nil) {
+            if rs.next() { return rs.int(forColumnIndex: 0) }
+            rs.close()
+        }
+
+        return nil
+    }
+
     func executeQuery(_ sql: String, values: [Any]?) throws -> any PCDBResultSet {
         try fmdbDatabase.executeQuery(sql, values: values)
     }

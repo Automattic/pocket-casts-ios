@@ -5,21 +5,21 @@ protocol FileRotating {
     func rotateFile(ifSizeExceeds: Int)
 }
 
-struct FileRotator: FileRotating {
+public struct FileRotator: FileRotating {
 
     private let fileManager: FileManager
     private let targetFilePath: String
     private let backupFilePath: String
     private let logger: Logger?
 
-    init(fileManager: FileManager = .default, targetFilePath: String, backupFilePath: String, loggingTo logger: Logger? = nil) {
+    public init(fileManager: FileManager = .default, targetFilePath: String, backupFilePath: String, loggingTo logger: Logger? = nil) {
         self.fileManager = fileManager
         self.targetFilePath = targetFilePath
         self.backupFilePath = backupFilePath
         self.logger = logger
     }
 
-    func rotateFile(ifSizeExceeds maxFileSizeInBytes: Int) {
+    public func rotateFile(ifSizeExceeds maxFileSizeInBytes: Int) {
         guard fileManager.fileExists(atPath: targetFilePath) else {
             logger?.debug("Attempted to rotate file at <\(targetFilePath)> but no such file exists. Aborting.")
             return

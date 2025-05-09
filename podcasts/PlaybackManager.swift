@@ -151,7 +151,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
-        FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay)")
+        FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
         let episodeIsChanging = episode.uuid != currentEpisode()?.uuid
 
@@ -680,23 +680,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         uuidOfPlayingList = filter.uuid
     }
 
-    func play(episodes: [BaseEpisode], startingAtEpisode: BaseEpisode) {
-        populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-    }
-
-    func play(podcast: Podcast, startingAtEpisode: Episode) {
-        let episodeSortOrder = podcast.podcastSortOrder
-
-        let orderDirection = (episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest) ? "DESC" : "ASC"
-        let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcastUuid == ? AND archived = 0 AND (playingStatus == \(PlayingStatus.notPlayed.rawValue) OR playingStatus == \(PlayingStatus.inProgress.rawValue)) ORDER BY publishedDate \(orderDirection), addedDate \(orderDirection)", arguments: [podcast.uuid])
-
-        if episodes.count > 0 {
-            populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-        } else {
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-        }
-    }
-
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -911,9 +894,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func silenceRemovalAvailable() -> Bool {
         #if APPCLIP
-        if let episode = currentEpisode() {
-            return !episode.videoPodcast()
-        }
+        return false
         #elseif !os(watchOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -1333,11 +1314,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func setAudioSessionProperties() throws {
         let audioSession = AVAudioSession.sharedInstance()
-        #if os(watchOS)
-            try audioSession.setCategory(.playback, mode: .default, policy: .longFormAudio)
-        #else
-            try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
-        #endif
+        try audioSession.setCategory(.playback, mode: .spokenAudio, policy: .longFormAudio)
     }
 
     private func setAudioSessionVideoProperties() {
@@ -2059,10 +2036,14 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
-
+            #if APPCLIP
             if refreshedEpisode.uuid != currentEpisode()?.uuid {
                 load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
             }
+            #else
+            load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
+            #endif
+
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }

@@ -61,7 +61,8 @@ class PodcastDataManager {
         "refreshAvailable",
         "folderUuid",
         "usedCustomEffectsBefore",
-        "isPrivate"
+        "isPrivate",
+        "fundingURL"
     ]
 
     func setup(dbQueue: PCDBQueue) {
@@ -77,7 +78,6 @@ class PodcastDataManager {
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed(), !includeUnsubscribed { continue }
-
                 allPodcasts.append(podcast)
             }
         }
@@ -147,6 +147,34 @@ class PodcastDataManager {
         return allPodcasts
     }
 
+    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: PCDBQueue) -> [Podcast] {
+        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
+
+        var allPodcasts = [Podcast]()
+        dbQueue.inDatabase { db in
+            do {
+                var values: [Any]?
+                var whereClause = "WHERE p.subscribed = 1"
+                if let inFolderUuid = inFolderUuid {
+                    whereClause += " AND p.folderUuid = ?"
+                    values = [inFolderUuid]
+                }
+                let query = "SELECT DISTINCT p.id, p.* FROM \(DataManager.podcastTableName) p LEFT JOIN \(DataManager.episodeTableName) e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM \(DataManager.episodeTableName) e WHERE e.podcast_id = p.id ORDER BY e.lastPlaybackInteractionDate DESC LIMIT 1) \(whereClause) ORDER BY CASE WHEN e.lastPlaybackInteractionDate IS NULL THEN 1 ELSE 0 END, e.lastPlaybackInteractionDate DESC"
+                let resultSet = try db.executeQuery(query, values: values)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let podcast = self.createPodcastFrom(resultSet: resultSet)
+                    allPodcasts.append(podcast)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.allPodcastsOrderedByLastPlayedEpisodes error: \(error)")
+            }
+        }
+
+        return allPodcasts
+    }
+
     /// Returns 5 random podcasts from the DB
     /// This is here for development purposes.
     func randomPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
@@ -201,6 +229,11 @@ class PodcastDataManager {
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .episodeDateNewestToOldest {
             return allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+        }
+
+        // newest episode release date is a special case we handle at the database level
+        if sortOrder == .recentlyPlayed {
+            return allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // the other 3 cases we do in memory
@@ -673,6 +706,7 @@ class PodcastDataManager {
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
         values.append(podcast.usedCustomEffectsBefore)
         values.append(podcast.isPrivate)
+        values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
 
         if includeIdForWhere {
             values.append(podcast.id)

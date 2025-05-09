@@ -1,37 +1,14 @@
-import PocketCastsDataModel
-import PocketCastsServer
 import UIKit
 
-class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
+class PrivacySettingsLegacyDataSource: NSObject, UITableViewDataSource {
     private let switchCellId = "SwitchCell"
     private let themeableCellId = "ThemeableCell"
     private let themeableCellWithoutSelectionId = "ThemeableCellWithoutSelectionId"
 
-    @IBOutlet var settingsTable: UITableView! {
-        didSet {
-            settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
-            settingsTable.register(ThemeableCell.self, forCellReuseIdentifier: themeableCellId)
-            settingsTable.register(ThemeableCellWithoutSelection.self, forCellReuseIdentifier: themeableCellWithoutSelectionId)
-        }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        title = L10n.settingsPrivacy
-        settingsTable.rowHeight = UITableView.automaticDimension
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        settingsTable.reloadData()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        Analytics.track(.privacySettingsShown)
+    func registerCells(for tableView: UITableView) {
+        tableView.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
+        tableView.register(ThemeableCell.self, forCellReuseIdentifier: themeableCellId)
+        tableView.register(ThemeableCellWithoutSelection.self, forCellReuseIdentifier: themeableCellWithoutSelectionId)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,22 +47,12 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
         }
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.row == 2 else { return }
-
-        NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
-    }
-
     @objc private func pushToggled(_ sender: UISwitch) {
         if sender.isOn {
             Analytics.shared.optInOfAnalytics()
         } else {
             Analytics.shared.optOutOfAnalytics()
         }
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        AppTheme.defaultStatusBarStyle()
     }
 }
 

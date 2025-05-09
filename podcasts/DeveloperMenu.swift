@@ -7,6 +7,7 @@ struct DeveloperMenu: View {
     @State var showingImporter = false
     @State var showingExporter = false
     @State var showing = false
+    @State var showSurvey = false
 
     var body: some View {
         List {
@@ -70,6 +71,7 @@ struct DeveloperMenu: View {
 
                 Button("Force Reload Discover") {
                     DiscoverServerHandler.shared.discoveryCache.removeAllCachedResponses()
+                    URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
                 }
 
@@ -279,12 +281,45 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Reset Informational Modal Visibility") {
+                    Settings.shouldShowInitialOnboardingFlow = true
+                }
+                Button("Reset banners visibility") {
+                    InformationalBannerType.allCases.forEach {
+                        UserDefaults.standard.set(false, forKey: "kInformational\($0.rawValue.capitalized)Banner")
+                    }
+                }
+            } header: {
+                Text("Encourage Account Creation Banners")
+            }
+
+            Section {
                 Button("Reset CTA conditions") {
                     Settings.suggestedFoldersUpsellCount = 0
                     Settings.suggestedFoldersLastUpsellDate = nil
                 }
             } header: {
                 Text("Suggested Folders")
+            }
+
+            Section {
+                Button("Speed Up Notifications") {
+                    NotificationsGroup.speedUpNotifications = true
+                    NotificationsCoordinator.shared.ignoreScheduleHours = true
+                }
+            } header: {
+                Text("Notifications")
+            }
+
+            Section {
+                Button("Present Cancel Subscription Survey") {
+                    showSurvey = true
+                }
+                .sheet(isPresented: $showSurvey) {
+                    CancelSubscriptionSurveyView(viewModel: CancelSubscriptionSurveyViewModel(navigationController: nil))
+                }
+            } header: {
+                Text("Cancel Subscription Survey")
             }
 
             Section {

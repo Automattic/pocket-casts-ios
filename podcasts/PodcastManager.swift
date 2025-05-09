@@ -40,7 +40,7 @@ class PodcastManager: NSObject {
     #if !os(watchOS) && !APPCLIP
         func setNotificationsEnabled(podcast: Podcast, enabled: Bool) {
             if enabled {
-                if !NotificationsHelper.shared.pushEnabled() {
+                if !NotificationsGroup.newEpisodes.isEnabled {
                     // this is the first podcast to enable push, to work around the fact that we defaulted that to on at the data layer, turn it off for every podcast
                     // this means it just ends up being on for this one podcast, not all of them
                     let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
@@ -55,8 +55,7 @@ class PodcastManager: NSObject {
                     if !foundPushOff {
                         dataManager.setPushForAllPodcasts(pushEnabled: false)
                     }
-
-                    NotificationsHelper.shared.enablePush()
+                    NotificationsCoordinator.shared.setupNotifications(for: .newEpisodes)
                 }
             }
 
@@ -77,6 +76,8 @@ class PodcastManager: NSObject {
             return dataManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase)
         } else if sortOrder == .dateAddedNewestToOldest {
             return dataManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase)
+        } else if sortOrder == .recentlyPlayed {
+            return dataManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase)
         } else {
             return dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: reloadFromDatabase)
         }

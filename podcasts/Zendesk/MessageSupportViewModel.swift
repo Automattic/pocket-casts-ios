@@ -43,6 +43,7 @@ class MessageSupportViewModel: ObservableObject {
 
     let attachedLogsView: SupportLogsView
     let config: ZDConfig
+    let isUserSignedIn: Bool
 
     // MARK: Retry
 
@@ -96,11 +97,12 @@ class MessageSupportViewModel: ObservableObject {
 
     // MARK: Init
 
-    init(config: ZDConfig, requesterName: String = "", requesterEmail: String = "", comment: String = "", session: URLSession = URLSession.shared) {
+    init(config: ZDConfig, requesterName: String = "", requesterEmail: String = "", comment: String = "", session: URLSession = URLSession.shared, isUserSignedIn: Bool) {
         self.config = config
         self.requesterName = requesterName
         self.requesterEmail = requesterEmail
         self.comment = comment
+        self.isUserSignedIn = isUserSignedIn
         attachedLogsView = SupportLogsView(SupportLogsViewModel(config))
 
         supportService = ZendeskSupportService(config: config, session: session)

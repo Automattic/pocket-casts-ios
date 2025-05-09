@@ -19,6 +19,12 @@ struct ContentUnavailableConfiguration {
             NoResultsView().environmentObject(Theme.sharedTheme)
         }
     }
+
+    static func empty() -> UIContentConfiguration {
+        UIHostingConfiguration {
+            EmptyView()
+        }
+    }
 }
 
 struct LoadingView: View {
