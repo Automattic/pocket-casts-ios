@@ -240,7 +240,7 @@ enum NotificationsGroup: CaseIterable {
         }
         let calendar = Calendar.current
         let todayWeekday = calendar.component(.weekday, from: Date.now)
-        let maxWeekDays: Int = calendar.weekdaySymbols.count        
+        let maxWeekDays: Int = calendar.weekdaySymbols.count
         switch self {
             case .newEpisodes:
                 return nil
