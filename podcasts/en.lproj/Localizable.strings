@@ -5073,7 +5073,11 @@
 /* Notification body for recommendations you might like message */
 "notifications_recommendations_you_might_like_body" = "Wondering what to listen to next? Check out these shows!";
 
+/* Notification title for App Clip reminder*/
+"notifications_app_clip_title" = "Ready for more podcasts?";
 
+/* Notification body for App Clip reminder*/
+"notifications_app_clip_body" = "Install Pocket Casts to get the full experience with powerful playback and customization tools.";
 
 /* Notifications permissions screen title text*/
 "notifications_permissions_title" = "Stay up to date!";
