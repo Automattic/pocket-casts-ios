@@ -5089,3 +5089,9 @@
 
 /* Text used for the "Learn more" link in the modal explaining Creator Picks */
 "creator_pick_modal_learn_more" = "Learn more";
+
+/* Notification title for reengagement downloads */
+"notifications_reengagement_downloads_title" = "Catch up offline";
+
+/* Notification body for reengagement downloads. %1$@ argument is the numbers of episodes downloaded */
+"notifications_reengagement_downloads_body" = "You have %1$@ new episodes downloaded and ready to go!";

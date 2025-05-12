@@ -1864,6 +1864,12 @@ internal enum L10n {
   internal static var notificationsRecommendationsYouMightLikeBody: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_body") }
   /// New recommendations for you
   internal static var notificationsRecommendationsYouMightLikeTitle: String { return L10n.tr("Localizable", "notifications_recommendations_you_might_like_title") }
+  /// You have %1$@ new episodes downloaded and ready to go!
+  internal static func notificationsReengagementDownloadsBody(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "notifications_reengagement_downloads_body", String(describing: p1))
+  }
+  /// Catch up offline
+  internal static var notificationsReengagementDownloadsTitle: String { return L10n.tr("Localizable", "notifications_reengagement_downloads_title") }
   /// It’s been awhile since you’ve listened. Jump back in and enjoy!
   internal static var notificationsReengagementWeeklyBody: String { return L10n.tr("Localizable", "notifications_reengagement_weekly_body") }
   /// We miss you!

@@ -397,6 +397,7 @@ extension AppDelegate {
 
         setupOnboardingRoutes()
         setupNewFeaturesRoutes()
+        setupProfileRoutes()
     }
 
     func setupOnboardingRoutes() {
@@ -440,6 +441,17 @@ extension AppDelegate {
                 return false
             }
             NavigationManager.sharedManager.navigateTo(NavigationManager.featurePageKey, data: [NavigationManager.featureKey: feature])
+            return true
+        }
+    }
+
+    func setupProfileRoutes() {
+        JLRoutes.global().addRoute("/profile/downloads") {[weak self] parameters -> Bool in
+            guard self != nil
+            else {
+                return false
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [:])
             return true
         }
     }
