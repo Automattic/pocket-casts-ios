@@ -4046,6 +4046,11 @@
 /* Title for an action that allows a user to create a new bookmark */
 "add_bookmark" = "Add Bookmark";
 
+/* Title for the You Might Like tab showing related podcasts in a Podcast */
+"you_might_like" = "You might like";
+
+"podcast_podroll_header" = "Recommended shows by the creator";
+
 /* Autoplay feature announcement title */
 "announcement_autoplay_title" = "Autoplay is here!";
 
@@ -4766,6 +4771,30 @@
 /* Badge that appears over the best value plan in the available plans list */
 "cancel_subscription_available_plans_best_value_badge" = "Best Value";
 
+/* Title of the survey screen that appears when a user cancels the subscription. \n forces Pocket Casts to be on a new line */
+"cancel_subscription_survey_title" = "Thanks for trying\nPocket Casts Plus";
+
+/* Description of the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_description" = "We'd love to know why you canceled. Your feedback helps us improve.";
+
+/* Title of the Send Button in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_submit_feedback" = "Submit feedback";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_better_app" = "I found a better app";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_technical_issue" = "Technical issues";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_cost" = "Cost-related reasons";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_not_enough" = "I don’t use it enough";
+
+/* Option in the in the survey screen that appears when a user cancels the subscription */
+"cancel_subscription_survey_row_other" = "Other";
+
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
 
@@ -4907,7 +4936,7 @@
 /* Notification title for filters onboarding message */
 "notifications_onboarding_filters_title" = "Organize your episodes";
 
-/* Notification title for upsell onboardingmessage */
+/* Notification title for upsell onboarding message */
 "notifications_onboarding_upsell_title" = "Level up your podcast game";
 
 /* Notification title for staff picks onboarding message */
@@ -5027,6 +5056,43 @@
 /* Notification body for recommendations trending message */
 "notifications_recommendations_trending_body" = "Check out what everyone else is listening this week.";
 
+/* Notification title for offer upsell message */
+"notifications_offers_upsell_title" = "Level up your podcast game";
+
+/* Notification body for offer upsell message */
+"notifications_offers_upsell_body" = "Unlock exclusive features like folders, bookmarks, and more with Plus!";
+
+/* Notification title for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_title" = "Your podcasts organized";
+
+/* Notification body for new feature Suggested folders */
+"notifications_new_feature_suggested_folders_body" = "Try Plus and automatically organize your shows with folders.";
+
+/* Notification title for recommendations you might like message */
+"notifications_recommendations_you_might_like_title" = "New recommendations for you";
+
+/* Notification body for recommendations you might like message */
+"notifications_recommendations_you_might_like_body" = "Wondering what to listen to next? Check out these shows!";
+
+
+
+/* Notifications permissions screen title text*/
+"notifications_permissions_title" = "Stay up to date!";
+
+/* Notifications permissions screen body text*/
+"notifications_permissions_body" = "Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.";
+
+/* Notifications permissions screen action button text*/
+"notifications_permissions_action" = "Allow Notifications";
+
+/* Title for modal explaining Creator Picks */
+"creator_pick_modal_title" = "What's a Creator Pick?";
+
+/* Description for modal explaining Creator Picks */
+"creator_pick_modal_description" = "Creator Picks are podcasts recommended by the show's creator using Podroll.";
+
+/* Text used for the "Learn more" link in the modal explaining Creator Picks */
+"creator_pick_modal_learn_more" = "Learn more";
 
 /* MARK: - InfoPlist.strings */
 
