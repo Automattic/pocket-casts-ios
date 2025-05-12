@@ -4047,6 +4047,9 @@
 
 "podcast_podroll_header" = "Recommended shows by the creator";
 
+/* Title shown when recommended podcasts can't be loaded */
+"failed_recommendations" = "Couldn't load recommendations";
+
 /* Autoplay feature announcement title */
 "announcement_autoplay_title" = "Autoplay is here!";
 
