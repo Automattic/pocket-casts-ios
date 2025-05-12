@@ -60,6 +60,7 @@ class NavigationManager {
     static let settingsAppearanceKey = "appearancePage"
     static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
+    static let profileRowKey = "profileRow"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
     static let redeemGuestPassURLKey = "redeemGuestPassURLKey"
@@ -190,7 +191,7 @@ class NavigationManager {
             }
             mainController?.showSettingsAppearance(showThemeSelection: showThemeSelection)
         } else if place == NavigationManager.settingsProfileKey {
-            mainController?.showProfilePage()
+            navigateToProfile(data: data, animated: animated)
         }
         else if place == NavigationManager.settingsHeadphoneKey {
             mainController?.showHeadphoneSettings()
@@ -269,6 +270,15 @@ class NavigationManager {
         }
         if feature == "suggestedFolders" {
             mainController?.navigateToSuggestedFolders()
+        }
+    }
+
+    func navigateToProfile(data: NSDictionary?, animated: Bool) {
+        guard let row = data?[NavigationManager.profileRowKey] as? String else {
+            return
+        }
+        if row == "downloads" {
+            mainController?.navigateToProfile(row: .downloaded, animated: animated)
         }
     }
 

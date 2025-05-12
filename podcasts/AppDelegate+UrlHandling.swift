@@ -446,12 +446,14 @@ extension AppDelegate {
     }
 
     func setupProfileRoutes() {
-        JLRoutes.global().addRoute("/profile/downloads") {[weak self] parameters -> Bool in
-            guard self != nil
+        JLRoutes.global().addRoute("/profile/*") {[weak self] parameters -> Bool in
+            guard self != nil,
+                  let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
+                  let row = pathComponents.first
             else {
                 return false
             }
-            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [:])
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [NavigationManager.profileRowKey: row])
             return true
         }
     }
