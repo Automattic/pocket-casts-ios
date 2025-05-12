@@ -119,11 +119,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         case .youMightLike:
             switch youMightLikeSectionType(for: section) {
-            case .header:
-                return 1
-            case .loading:
-                return 1
-            case .empty:
+            case .header, .loading, .empty:
                 return 1
             case .podroll:
                 return recommendations?.podroll?.count ?? 0
