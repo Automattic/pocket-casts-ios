@@ -1,1 +1,1 @@
-- Add Recenlty Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)
+- Add Recommendations feature to Discover and Podcast pages [#2989](https://github.com/Automattic/pocket-casts-ios/issues/2989)
