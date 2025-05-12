@@ -238,8 +238,9 @@ enum NotificationsGroup: CaseIterable {
         if Self.speedUpNotifications {
             return UNTimeIntervalNotificationTrigger(timeInterval: Double(order + 1) * timeIntervalStep, repeats: notification.isRepeatable)
         }
-        let todayWeekday = Calendar.current.component(.weekday, from: Date.now)
-        let maxWeekDays: Int = Calendar.current.weekdaySymbols.count
+        let calendar = Calendar.current
+        let todayWeekday = calendar.component(.weekday, from: Date.now)
+        let maxWeekDays: Int = calendar.weekdaySymbols.count
         var triggerWeekDay = todayWeekday
         switch self {
             case .newEpisodes:
