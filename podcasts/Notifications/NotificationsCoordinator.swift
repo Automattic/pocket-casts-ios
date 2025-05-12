@@ -240,8 +240,7 @@ enum NotificationsGroup: CaseIterable {
         }
         let calendar = Calendar.current
         let todayWeekday = calendar.component(.weekday, from: Date.now)
-        let maxWeekDays: Int = calendar.weekdaySymbols.count
-        var triggerWeekDay = todayWeekday
+        let maxWeekDays: Int = calendar.weekdaySymbols.count        
         switch self {
             case .newEpisodes:
                 return nil
@@ -250,29 +249,32 @@ enum NotificationsGroup: CaseIterable {
                 return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order) * timeIntervalStep), repeats: notification.isRepeatable)
             case .recommendations:
                 return makeTrigger(
-                    daysFromNow: (order + 1) * 3,
+                    days: (order + 1) * 3,
+                    from: .now,
                     calendar: calendar,
                     repeats: notification.isRepeatable
                 )
 
             case .newFeaturesAndTips:
                 return makeTrigger(
-                    daysFromNow: (order + 1) * 2,
+                    days: (order + 1) * 2,
+                    from: .now,
                     calendar: calendar,
                     repeats: notification.isRepeatable
                 )
 
             case .offers:
                 return makeTrigger(
-                    daysFromNow: (order + 1) * 7,
+                    days: maxWeekDays - order - 1,
+                    from: .now,
                     calendar: calendar,
                     repeats: notification.isRepeatable
                 )
         }
     }
 
-    private func makeTrigger(daysFromNow: Int, calendar: Calendar, repeats: Bool) -> UNCalendarNotificationTrigger? {
-        guard let fireDate = calendar.date(byAdding: .day, value: daysFromNow, to: Date()) else {
+    private func makeTrigger(days: Int, from date: Date = .now, calendar: Calendar, repeats: Bool) -> UNCalendarNotificationTrigger? {
+        guard let fireDate = calendar.date(byAdding: .day, value: days, to: date) else {
             return nil
         }
 
