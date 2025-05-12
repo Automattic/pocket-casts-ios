@@ -238,8 +238,7 @@ enum NotificationsGroup: CaseIterable {
         if Self.speedUpNotifications {
             return UNTimeIntervalNotificationTrigger(timeInterval: Double(order + 1) * timeIntervalStep, repeats: notification.isRepeatable)
         }
-        let todayComponents = Calendar.current.dateComponents(in: .current, from: Date.now)
-        let todayWeekday: Int = todayComponents.weekday ?? 1
+        let todayWeekday = Calendar.current.component(.weekday, from: Date.now)
         let maxWeekDays: Int = Calendar.current.weekdaySymbols.count
         var triggerWeekDay = todayWeekday
         switch self {
@@ -249,21 +248,36 @@ enum NotificationsGroup: CaseIterable {
                 let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(scheduleHour)
                 return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order) * timeIntervalStep), repeats: notification.isRepeatable)
             case .recommendations:
-                // Follow three days
-                triggerWeekDay = ((todayWeekday + ((order+1)*3)) % maxWeekDays)
+                return makeTrigger(
+                    daysFromNow: (order + 1) * 3,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+
             case .newFeaturesAndTips:
-                // Follow two days
-                triggerWeekDay = ((todayWeekday + ((order+1)*2)) % maxWeekDays)
+                return makeTrigger(
+                    daysFromNow: (order + 1) * 2,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+
             case .offers:
-                // One week from now
-                triggerWeekDay = ((todayWeekday - order - 1) % maxWeekDays)
+                return makeTrigger(
+                    daysFromNow: (order + 1) * 7,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+        }
+    }
+
+    private func makeTrigger(daysFromNow: Int, calendar: Calendar, repeats: Bool) -> UNCalendarNotificationTrigger? {
+        guard let fireDate = calendar.date(byAdding: .day, value: daysFromNow, to: Date()) else {
+            return nil
         }
 
-        if triggerWeekDay == 0 {
-            triggerWeekDay += 1
-        }
-        let dateComponents = DateComponents(hour: scheduleHour, weekday: triggerWeekDay)
-        return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: notification.isRepeatable)
+        let weekday = calendar.component(.weekday, from: fireDate)
+        let components = DateComponents(hour: scheduleHour, weekday: weekday)
+        return UNCalendarNotificationTrigger(dateMatching: components, repeats: repeats)
     }
 
     static var allDisabled: Bool {
