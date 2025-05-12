@@ -4,6 +4,8 @@ import UserNotifications
 
 enum AppClipNotification {
     static let appStoreNotificationID = "au.com.shiftyjelly.podcasts.prototype.Clip.reminder"
+
+    static let appAppStoreURL = "itms-apps://itunes.apple.com/app/apple-store/id414834813?mt=8"
 }
 
 class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
@@ -30,7 +32,7 @@ extension AppClipAppDelegate: UNUserNotificationCenterDelegate {
         guard response.notification.request.identifier == AppClipNotification.appStoreNotificationID else {
             return
         }
-        guard let url = URL(string: "itms-apps://itunes.apple.com/app/apple-store/id414834813?mt=8") else {
+        guard let url = URL(string: AppClipNotification.appAppStoreURL) else {
             return
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
