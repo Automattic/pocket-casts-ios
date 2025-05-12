@@ -240,7 +240,7 @@ public class ServerPodcastManager: NSObject {
         return episode
     }
 
-    public func loadRecommendations(for podcastUUID: String) async throws -> PodcastCollection? {
+    public func loadRecommendations(for podcastUUID: String, in region: String?) async throws -> PodcastCollection? {
         let components = URLComponents(string: ServerConstants.Urls.api())
 
         guard var components else {
@@ -248,7 +248,14 @@ public class ServerPodcastManager: NSObject {
             throw URLError(.badURL)
         }
 
-        components.path += "/recommendations/podcast/\(podcastUUID)"
+        components.path += "recommendations/podcast/\(podcastUUID)"
+
+        if let region {
+            components.queryItems = [
+                URLQueryItem(name: "country", value: region)
+            ]
+        }
+
         guard let url = components.url else {
             assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
             throw URLError(.badURL)

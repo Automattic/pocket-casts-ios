@@ -1400,7 +1400,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast else { return }
 
         do {
-            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {
             // We won't do anything in the interface here since the You Might Like button is optional and hidden by default

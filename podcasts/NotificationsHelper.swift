@@ -116,6 +116,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         let identifier = response.notification.request.identifier
         if let type = NotificationType(rawValue: identifier) {
             properties["type"] = type.rawValue
+            NotificationsCoordinator.shared.markNotification(type)
         }
         Analytics.track(.notificationOpened, properties: properties)
 
