@@ -863,7 +863,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func fundingTapped() {
-        Analytics.track(.podcastScreenFundingTapped)
+        Analytics.track(.podcastScreenFundingTapped, properties: ["podcast_uuid": podcast?.uuid ?? ""])
         guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
@@ -1404,7 +1404,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         updateEmptyStateVisibility()
 
         do {
-            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid)
+            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
             guard !Task.isCancelled else { return }
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {

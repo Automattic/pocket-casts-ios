@@ -708,6 +708,9 @@
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
+		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
+		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
+		9A9B83C02DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -2954,6 +2957,9 @@
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
+		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
+		9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyRow.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
@@ -5467,6 +5473,7 @@
 				102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */,
 				9A509DDE2D14604600E8CEB1 /* Offer View */,
 				9A156AAF2CF61025007BA8D9 /* Plans View */,
+				9A9B83B82DCA6649002CE179 /* Survey */,
 			);
 			path = "Cancel Subscription";
 			sourceTree = "<group>";
@@ -5518,6 +5525,16 @@
 				9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		9A9B83B82DCA6649002CE179 /* Survey */ = {
+			isa = PBXGroup;
+			children = (
+				9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */,
+				9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */,
+				9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */,
+			);
+			path = Survey;
 			sourceTree = "<group>";
 		};
 		BD03B383173A1D68000A419B /* Video Player */ = {
@@ -10059,6 +10076,7 @@
 				10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */,
 				BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */,
 				BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */,
+				9A9B83C02DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift in Sources */,
 				BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */,
 				8B5AB48A29018A950018C637 /* EpilogueStory2023.swift in Sources */,
 				C70A444F2A097C3C00F4D77E /* Theme+Plus.swift in Sources */,
@@ -10796,6 +10814,7 @@
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,
 				C713D4F42A04C90500A78468 /* ProfileDataViewModel.swift in Sources */,
 				BD6B1F011CE05159003CE958 /* AnalyticsHelper.swift in Sources */,
+				9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */,
 				FF7F89F12C2C0FD600FC0ED5 /* TranscriptModel.swift in Sources */,
 				C7B3C60E2919DD1700054145 /* ContentSizeReader.swift in Sources */,
 				BD583AF421AE5F9E0048D78D /* EpisodeDateHelper.swift in Sources */,
@@ -10871,6 +10890,7 @@
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
 				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
+				9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */,
 				FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,

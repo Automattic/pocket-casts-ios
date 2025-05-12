@@ -497,10 +497,12 @@ enum AnalyticsEvent: String {
     case notificationsOptInAllowed
     case notificationsOptInDenied
 
-    case notificationsPermissionsShow
+    case notificationsPermissionsShown
     case notificationsPermissionsAllowTapped
     case notificationsPermissionsNotNowTapped
     case notificationsPermissionsOpenSystemSettings
+
+    case notificationOpened
 
     // MARK: - Podcast Settings
 
@@ -853,6 +855,13 @@ enum AnalyticsEvent: String {
     case winbackAvailablePlansSelectPlan
     case winbackAvailablePlansNewPlanPurchaseSuccessful
     case winbackWinbackOfferCancelButtonTapped
+
+    // MARK: - Cancel Subscription Survey
+    case cancelSubscriptionSurveyShown
+    case cancelSubscriptionSurveyDismissed
+    case cancelSubscriptionSurveySubmitButtonTapped
+    case cancelSubscriptionSurveyFeedbackSubmitSuccess
+    case cancelSubscriptionSurveyFeedbackSubmitError
 
     // MARK: - Champion Dialog
     case pocketCastsChampionDialogShown

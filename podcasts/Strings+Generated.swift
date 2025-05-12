@@ -436,6 +436,23 @@ internal enum L10n {
   }
   /// Get your next month free
   internal static var cancelSubscriptionPromotionTitle: String { return L10n.tr("Localizable", "cancel_subscription_promotion_title") }
+  /// We'd love to know why you canceled. Your feedback helps us improve.
+  internal static var cancelSubscriptionSurveyDescription: String { return L10n.tr("Localizable", "cancel_subscription_survey_description") }
+  /// I found a better app
+  internal static var cancelSubscriptionSurveyRowBetterApp: String { return L10n.tr("Localizable", "cancel_subscription_survey_row_better_app") }
+  /// Cost-related reasons
+  internal static var cancelSubscriptionSurveyRowCost: String { return L10n.tr("Localizable", "cancel_subscription_survey_row_cost") }
+  /// I don’t use it enough
+  internal static var cancelSubscriptionSurveyRowNotEnough: String { return L10n.tr("Localizable", "cancel_subscription_survey_row_not_enough") }
+  /// Other
+  internal static var cancelSubscriptionSurveyRowOther: String { return L10n.tr("Localizable", "cancel_subscription_survey_row_other") }
+  /// Technical issues
+  internal static var cancelSubscriptionSurveyRowTechnicalIssue: String { return L10n.tr("Localizable", "cancel_subscription_survey_row_technical_issue") }
+  /// Submit feedback
+  internal static var cancelSubscriptionSurveySubmitFeedback: String { return L10n.tr("Localizable", "cancel_subscription_survey_submit_feedback") }
+  /// Thanks for trying
+  /// Pocket Casts Plus
+  internal static var cancelSubscriptionSurveyTitle: String { return L10n.tr("Localizable", "cancel_subscription_survey_title") }
   /// Thinking of leaving?
   /// Let us help first
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
