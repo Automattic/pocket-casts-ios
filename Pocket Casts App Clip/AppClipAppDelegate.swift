@@ -2,6 +2,10 @@ import Foundation
 import SwiftUI
 import UserNotifications
 
+enum AppClipNotification {
+    static let appStoreNotificationID = "au.com.shiftyjelly.podcasts.prototype.Clip.reminder"
+}
+
 class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -23,6 +27,9 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
 extension AppClipAppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        guard response.notification.request.identifier == AppClipNotification.appStoreNotificationID else {
+            return
+        }
         guard let url = URL(string: "itms-apps://itunes.apple.com/app/apple-store/id414834813?mt=8") else {
             return
         }

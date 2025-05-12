@@ -172,7 +172,7 @@ struct NowPlayingView: View {
                 content.title = L10n.notificationsAppClipTitle
                 content.body = L10n.notificationsAppClipBody
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4.hours, repeats: false)
-                let request = UNNotificationRequest(identifier: "au.com.shiftyjelly.podcasts.prototype.Clip.reminder", content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: AppClipNotification.appStoreNotificationID, content: content, trigger: trigger)
                 try await notificationCenter.add(request)
             } catch {
                 FileLog.shared.addMessage("App Clip: Notification Sending Error - \(error)")
