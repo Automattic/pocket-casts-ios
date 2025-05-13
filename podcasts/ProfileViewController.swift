@@ -40,7 +40,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -371,13 +371,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData[indexPath.section][indexPath.row]
+        navigateToRow(row)
+    }
+
+    func navigateToRow(_ row: TableRow) {
         switch row {
         case .kidsProfile, .informationalBanner:
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self) {
-                tableView.reloadData()
+            ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
+                self?.profileTable.reloadData()
             }
         case .allStats:
             let statsViewController = StatsViewController()
