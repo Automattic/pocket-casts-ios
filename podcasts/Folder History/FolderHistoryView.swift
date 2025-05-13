@@ -8,12 +8,6 @@ struct FolderHistoryView: View {
     @State var presentingEntry = false
     @State var selectedEntry: FolderHistoryManager.PodcastFoldersHistoryEntry?
 
-    init() {
-        if #unavailable(iOS 16.0) {
-            UITableView.appearance().backgroundColor = .clear
-        }
-    }
-
     var body: some View {
         List {
             Section {

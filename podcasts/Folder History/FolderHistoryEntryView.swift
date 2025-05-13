@@ -12,10 +12,6 @@ struct FolderHistoryEntryView: View {
 
     init(entryDate: Date) {
         self.entryDate = entryDate
-
-        if #unavailable(iOS 16.0) {
-            UITableView.appearance().backgroundColor = .clear
-        }
     }
 
     var body: some View {

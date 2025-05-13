@@ -10,10 +10,6 @@ final class PodcastTableViewCell: ThemeableCell {
         super.prepareForReuse()
         contentConfiguration = nil
         viewModel = nil
-        if #available(iOS 16.0, *) {
-        } else {
-            contentView.subviews.forEach { $0.removeFromSuperview() }
-        }
     }
 
     func configure(with viewModel: PodcastCellViewModel) {
@@ -21,26 +17,12 @@ final class PodcastTableViewCell: ThemeableCell {
 
         self.viewModel = viewModel
 
-        if #available(iOS 16.0, *) {
-            self.contentConfiguration = UIHostingConfiguration {
-                PodcastTableCellView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
-            }
-            .margins(.horizontal, 16)
-            .margins(.vertical, 8)
-        } else {
-            let view = PodcastTableCellView(viewModel: viewModel)
-            let uiView = view.environmentObject(Theme.sharedTheme).uiView
-            uiView.translatesAutoresizingMaskIntoConstraints = false
-            uiView.backgroundColor = .clear
-            contentView.addSubview(uiView)
-            NSLayoutConstraint.activate([
-                contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
-                contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-                contentView.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-                contentView.topAnchor.constraint(equalTo: uiView.topAnchor)
-            ])
+        self.contentConfiguration = UIHostingConfiguration {
+            PodcastTableCellView(viewModel: viewModel)
+                .environmentObject(Theme.sharedTheme)
         }
+        .margins(.horizontal, 16)
+        .margins(.vertical, 8)
     }
 
     func configure(with discoverPodcast: DiscoverPodcast, datetime: String?, onSubscribe: ((PodcastCellViewModel) -> Void)?) {
