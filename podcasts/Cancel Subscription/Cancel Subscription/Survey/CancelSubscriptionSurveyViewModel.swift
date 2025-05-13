@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     enum Reason: String, CaseIterable, Identifiable {
@@ -56,11 +57,26 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     }
 
     func sendFeedback() {
+        guard let selectedReason else {
+            return
+        }
         if loadingState == .loading {
             return
         }
         loadingState = .loading
         Analytics.track(.cancelSubscriptionSurveySubmitButtonTapped)
+
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let success = await ApiServerHandler.shared.submitSurveyResult(reason: selectedReason.rawValue, other: additionalText)
+            if success {
+                Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitSuccess)
+            } else {
+                Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitError)
+            }
+            loadingState = .idle
+            dismiss()
+        }
     }
 
     func dismiss() {
