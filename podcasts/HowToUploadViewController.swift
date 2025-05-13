@@ -69,6 +69,7 @@ class HowToUploadViewController: UIViewController {
         guard let image2Subview = image2HostVC.view else { return }
         addChild(image2HostVC)
         howToShare2.addSubview(image2Subview)
+        image2HostVC.didMove(toParent: self)
     }
 
     @IBAction func doneTapped(_ sender: Any) {
