@@ -61,6 +61,7 @@ class NavigationManager {
     static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
     static let profileRowKey = "profileRow"
+    static let profileRowDownloadsKey = "downloads"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
     static let redeemGuestPassURLKey = "redeemGuestPassURLKey"
@@ -277,7 +278,7 @@ class NavigationManager {
         guard let row = data?[NavigationManager.profileRowKey] as? String else {
             return
         }
-        if row == "downloads" {
+        if row == NavigationManager.profileRowDownloadsKey {
             mainController?.navigateToProfile(row: .downloaded, animated: animated)
         }
     }

@@ -446,7 +446,7 @@ extension AppDelegate {
     }
 
     func setupProfileRoutes() {
-        JLRoutes.global().addRoute("/profile/*") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/profile/*") { [weak self] parameters -> Bool in
             guard self != nil,
                   let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
                   let row = pathComponents.first
