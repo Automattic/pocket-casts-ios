@@ -14,6 +14,7 @@ enum NotificationType: String {
     case onboardingUpsell
 
     case reengagementWeekly
+    case reengagementDownloads
 
     case recommendationsTrending
     case recommendationsYouMightLike
@@ -39,6 +40,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksTitle
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyTitle
+        case .reengagementDownloads:
+                return L10n.notificationsReengagementDownloadsTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
         case .recommendationsYouMightLike:
@@ -68,6 +71,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksBody
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyBody
+        case .reengagementDownloads:
+                return L10n.notificationsReengagementDownloadsBody(NotificationsCoordinator.shared.numberOfDownloadsAvailable())
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
         case .recommendationsYouMightLike:
@@ -101,6 +106,8 @@ enum NotificationType: String {
             return "pktc://discover/staff-picks"
         case .reengagementWeekly:
             return "pktc://discover"
+        case .reengagementDownloads:
+            return "pktc://profile/downloads"
         case .recommendationsTrending:
             return "pktc://discover/trending"
         case .recommendationsYouMightLike:
@@ -125,6 +132,8 @@ enum NotificationType: String {
                 return SyncManager.isUserLoggedIn()
             case .newFeatureSuggestedFolders:
                 return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
+            case .reengagementDownloads:
+                return NotificationsCoordinator.shared.numberOfDownloadsAvailable() > 0
             default:
                 return true
         }
@@ -133,6 +142,7 @@ enum NotificationType: String {
     var isRepeatable: Bool {
         switch self {
             case .reengagementWeekly,
+                 .reengagementDownloads,
                  .recommendationsTrending,
                  .recommendationsYouMightLike,
                  .upsell:
@@ -161,7 +171,7 @@ enum NotificationsGroup: CaseIterable {
             case .recommendations:
                 return [.recommendationsTrending, .recommendationsYouMightLike]
             case .newFeaturesAndTips:
-                return [.newFeatureSuggestedFolders, .reengagementWeekly]
+                return [.newFeatureSuggestedFolders, .reengagementWeekly, .reengagementDownloads]
             case .offers:
                 return [.upsell]
         }
@@ -420,5 +430,15 @@ class NotificationsCoordinator {
 
     func cancelNotification(_ type: NotificationType) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
+    }
+
+    private lazy var episodesDataManager: EpisodesDataManager = {
+        return EpisodesDataManager()
+    }()
+
+    func numberOfDownloadsAvailable() -> Int {
+        episodesDataManager.downloadedEpisodes().reduce(0) { partialResult, list in
+            return partialResult + list.elements.count
+        }
     }
 }

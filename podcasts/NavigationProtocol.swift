@@ -18,7 +18,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToDiscover(category: String, animated: Bool)
     func navigateToDiscover(listID: String, animated: Bool)
 
-    func navigateToProfile(_ animated: Bool)
+    func navigateToProfile(row: ProfileViewController.TableRow?, animated: Bool)
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
     func navigateToEditFilter(_ filter: EpisodeFilter)
