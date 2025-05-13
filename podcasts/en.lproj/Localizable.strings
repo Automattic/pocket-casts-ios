@@ -4045,7 +4045,14 @@
 /* Title for the You Might Like tab showing related podcasts in a Podcast */
 "you_might_like" = "You might like";
 
+/* Title shown in the section header for podcast podroll recommendations */
 "podcast_podroll_header" = "Recommended shows by the creator";
+
+/* Title shown in the section header for podcast recommendations */
+"podcast_similar_header" = "Shows similar to \"%@\"";
+
+/* Generic title shown in the section header for podcast recommendations */
+"podcast_similar_generic_header" = "Similar shows";
 
 /* Title shown when recommended podcasts can't be loaded */
 "failed_recommendations" = "Couldn't load recommendations";
