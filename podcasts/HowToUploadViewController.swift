@@ -65,6 +65,7 @@ class HowToUploadViewController: UIViewController {
         guard let image1Subview = image1HostVC.view else { return }
         addChild(image1HostVC)
         howToShare1.addSubview(image1Subview)
+        image1HostVC.didMove(toParent: self)
         let image2HostVC = UIHostingController(rootView: HowToShareImage2View().environmentObject(Theme.sharedTheme))
         guard let image2Subview = image2HostVC.view else { return }
         addChild(image2HostVC)
