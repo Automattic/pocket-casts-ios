@@ -366,6 +366,21 @@ private extension IAPHelper {
         }
     }
 
+    private func checkTrialEligibility(for productID: IAPProductID) async -> Bool? {
+        guard let products = try? await Product.products(for: [productID.rawValue]) else {
+            return nil
+        }
+        guard let product = products.first, let renewableSubscription = product.subscription else {
+            // No renewable subscription is available for this product.
+            return false
+        }
+        if await renewableSubscription.isEligibleForIntroOffer {
+            // The product is eligible for an introductory offer.
+            return  true
+        }
+        return false
+    }
+
     /// Update the trial eligibility if:
     /// - We are not already performing a check
     /// - The feature flag is enabled
@@ -375,7 +390,7 @@ private extension IAPHelper {
     private func updateTrialEligibility() {
         guard
             isCheckingEligibility == false,
-            getFirstFreeTrialProductId() != nil,
+            let productID = getFirstFreeTrialProductId(),
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
@@ -384,12 +399,22 @@ private extension IAPHelper {
         }
 
         isCheckingEligibility = true
-        networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
-            let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
+        if FeatureFlag.newOfferEligibilityCheck.enabled {
+            Task {
+                let isEligible = await self.checkTrialEligibility(for: productID)
+                let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
+                FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+                isEligibleForOffer = eligible
+                isCheckingEligibility = false
+            }
+        } else {
+            networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
+                let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
-            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
-            self?.isEligibleForOffer = eligible
-            self?.isCheckingEligibility = false
+                FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+                self?.isEligibleForOffer = eligible
+                self?.isCheckingEligibility = false
+            }
         }
     }
 }
