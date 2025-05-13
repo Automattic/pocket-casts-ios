@@ -1195,6 +1195,8 @@ internal enum L10n {
   internal static var exportPodcastsTitle: String { return L10n.tr("Localizable", "export_podcasts_title") }
   /// Exporting Database...
   internal static var exportingDatabase: String { return L10n.tr("Localizable", "exporting_database") }
+  /// Couldn't load recommendations
+  internal static var failedRecommendations: String { return L10n.tr("Localizable", "failed_recommendations") }
   /// End Tour
   internal static var featureTourEndTour: String { return L10n.tr("Localizable", "feature_tour_end_tour") }
   /// NEW
@@ -1798,6 +1800,10 @@ internal enum L10n {
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
   internal static var notOnWifi: String { return L10n.tr("Localizable", "not_on_wifi") }
+  /// Install Pocket Casts to get the full experience with powerful playback and customization tools.
+  internal static var notificationsAppClipBody: String { return L10n.tr("Localizable", "notifications_app_clip_body") }
+  /// Ready for more podcasts?
+  internal static var notificationsAppClipTitle: String { return L10n.tr("Localizable", "notifications_app_clip_title") }
   /// Daily Reminders
   internal static var notificationsDailyReminders: String { return L10n.tr("Localizable", "notifications_daily_reminders") }
   /// Try Plus and automatically organize your shows with folders.

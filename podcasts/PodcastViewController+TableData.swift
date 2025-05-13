@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 import PocketCastsServer
+import SwiftUI
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
@@ -10,11 +11,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let noSearchResultsCell = "NoSearchResults"
     private static let allArchivedCellId = "AllArchivedCell"
     private static let groupHeadingCellId = "GroupHeading"
+    private static let emptyStateCellId = "EmptyStateCell"
+    private static let loadingCellId = "LoadingCell"
 
     private enum YouMightLikeSection {
         case header
+        case loading
         case podroll
         case podcasts
+        case empty
     }
 
     private func youMightLikeSectionType(for section: Int) -> YouMightLikeSection {
@@ -22,8 +27,16 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return .header
         }
 
+        if isLoadingRecommendations.value {
+            return .loading
+        }
+
         if section == 1, (recommendations?.podroll?.count ?? 0) > 0 {
             return .podroll
+        }
+
+        if section == 1, (recommendations?.podroll?.count ?? 0) == 0, (recommendations?.podcasts?.count ?? 0) == 0 {
+            return .empty
         }
 
         return .podcasts
@@ -37,6 +50,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         episodesTable.register(UINib(nibName: "AllArchivedCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.allArchivedCellId)
         episodesTable.register(UINib(nibName: "HeadingCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.groupHeadingCellId)
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
+        episodesTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
+        episodesTable.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
     }
 
     func registerLongPress() {
@@ -79,6 +94,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .bookmarks:
             return 0 // Bookmarks are shown in a separate controller
         case .youMightLike:
+            if isLoadingRecommendations.value || !hasSimilarShows.value {
+                return 2 // Header + Loading
+            }
+
             var sectionCount = 1 // Always show header section
             if (recommendations?.podroll?.count ?? 0) > 0 {
                 sectionCount += 1 // Add podroll section if it has content
@@ -100,7 +119,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         case .youMightLike:
             switch youMightLikeSectionType(for: section) {
-            case .header:
+            case .header, .loading, .empty:
                 return 1
             case .podroll:
                 return recommendations?.podroll?.count ?? 0
@@ -179,6 +198,22 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.buttonsEnabled = !isMultiSelectEnabled
                     return cell
                 }
+            case .loading:
+                let cell = tableView.dequeueReusableCell(withIdentifier: LoadingCell.reuseIdentifier, for: indexPath) as! LoadingCell
+                return cell
+            case .empty:
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+                cell.configure(title: L10n.failedRecommendations, icon: {
+                    Image(systemName: "exclamationmark.circle")
+                }, actions: [
+                    .init(title: L10n.tryAgain, action: {
+                        Task { [weak self] in
+                            guard !Task.isCancelled else { return }
+                            await self?.loadRecommendations()
+                        }
+                    })
+                ])
+                return cell
             case .podroll:
                 guard let podcast = recommendations?.podroll?[indexPath.row] else {
                     assertionFailure("[PodcastViewController] You Might Like Tab - Missing podroll podcast")
@@ -285,11 +320,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
                     cell.toggleExpanded(delegate: self)
                 }
+            case .loading, .empty:
+                break // Do nothing for these state cells
             case .podroll:
                 guard let selectedPodcast = recommendations?.podroll?[indexPath.row] else { return }
                 var properties: [String: Any] = [:]
                 if let uuid = selectedPodcast.uuid {
-                    properties["podcast_uuid"] = selectedPodcast.uuid
+                    properties["podcast_uuid"] = uuid
                 }
                 Analytics.track(.podcastScreenPodrollPodcastTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
@@ -302,7 +339,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     properties["list_datetime"] = datetime
                 }
                 if let uuid = selectedPodcast.uuid {
-                    properties["podcast_uuid"] = selectedPodcast.uuid
+                    properties["podcast_uuid"] = uuid
                 }
                 Analytics.track(.podcastScreenYouMightLikeTapped, properties: properties)
                 let info = PodcastInfo(selectedPodcast)
