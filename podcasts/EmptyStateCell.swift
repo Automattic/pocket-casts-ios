@@ -14,36 +14,16 @@ class EmptyStateCell: UITableViewCell {
     }
 
     func configure(title: String, message: String? = nil, icon: (() -> Image)? = nil, actions: [EmptyStateAction] = []) {
-        if #available(iOS 16.0, *) {
-            self.contentConfiguration = UIHostingConfiguration {
-                EmptyStateView(
-                    title: title,
-                    message: message,
-                    icon: icon,
-                    actions: actions,
-                    style: .defaultStyle
-                )
-            }
-            .margins(.horizontal, 16)
-            .margins(.vertical, 8)
-        } else {
-            let view = EmptyStateView(
+        self.contentConfiguration = UIHostingConfiguration {
+            EmptyStateView(
                 title: title,
                 message: message,
                 icon: icon,
                 actions: actions,
                 style: .defaultStyle
             )
-            let uiView = view.uiView
-            uiView.translatesAutoresizingMaskIntoConstraints = false
-            uiView.backgroundColor = .clear
-            contentView.addSubview(uiView)
-            NSLayoutConstraint.activate([
-                contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
-                contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-                contentView.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-                contentView.topAnchor.constraint(equalTo: uiView.topAnchor)
-            ])
         }
+        .margins(.horizontal, 16)
+        .margins(.vertical, 8)
     }
 }
