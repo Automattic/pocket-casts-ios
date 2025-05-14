@@ -305,7 +305,9 @@ struct DeveloperMenu: View {
             Section {
                 Button("Speed Up Notifications") {
                     NotificationsGroup.speedUpNotifications = true
-                    NotificationsCoordinator.shared.ignoreScheduleHours = true
+                }
+                Button("Log Schedule") {
+                    NotificationsCoordinator.shared.debugMode = true
                 }
             } header: {
                 Text("Notifications")

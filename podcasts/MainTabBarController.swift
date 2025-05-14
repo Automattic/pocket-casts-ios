@@ -365,8 +365,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.upNext)
     }
 
-    func navigateToProfile(_ animated: Bool) {
+    func navigateToProfile(row: ProfileViewController.TableRow? = nil, animated: Bool) {
         switchToTab(.profile)
+        guard let navController = selectedViewController as? UINavigationController else {
+            return
+        }
+        navController.popToRootViewController(animated: animated)
+        guard let profileViewController = navController.topViewController as? ProfileViewController,
+            let row else {
+            return
+        }
+        profileViewController.navigateToRow(row)
     }
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool) {
