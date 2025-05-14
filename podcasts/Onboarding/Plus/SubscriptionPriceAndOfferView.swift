@@ -2,6 +2,7 @@ import SwiftUI
 
 /// View to display the price of a subscription and any offer associated.
 struct SubscriptionPriceAndOfferView: View {
+    @Environment(\.sizeCategory) private var sizeCategory
 
     typealias ProductInfo = PlusPricingInfoModel.PlusProductPricingInfo
 
@@ -33,17 +34,17 @@ struct SubscriptionPriceAndOfferView: View {
                 }
             }
 
-            Text(price(for: product))
+            Text(price(for: product, sizeCategory: sizeCategory))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 12)
     }
 
-    private func price(for subscriptionInfo: ProductInfo) -> AttributedString {
+    private func price(for subscriptionInfo: ProductInfo, sizeCategory: ContentSizeCategory) -> AttributedString {
         let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
 
-        let priceFont = UIFont.font(with: .headline, maxSizeCategory: .extraExtraExtraLarge)
-        let periodFont = UIFont.font(with: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+        let priceFont = UIFont.font(with: .headline)
+        let periodFont = UIFont.font(with: .footnote)
 
         // Only show the offer price for the intro discount
         guard let offer = subscriptionInfo.offer, offer.type == .discount else {

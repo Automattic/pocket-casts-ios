@@ -116,6 +116,8 @@ struct UpgradeCard: View {
 
     @Environment(\.openURL) private var openURL
 
+    @Environment(\.sizeCategory) private var sizeCategory
+
     let tier: UpgradeTier
 
     let currentPrice: Binding<PlanFrequency>
