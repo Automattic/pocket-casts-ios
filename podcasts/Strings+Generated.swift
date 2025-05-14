@@ -2546,6 +2546,12 @@ internal enum L10n {
   internal static var podcastShareOpenFile: String { return L10n.tr("Localizable", "podcast_share_open_file") }
   /// Show Archived
   internal static var podcastShowArchived: String { return L10n.tr("Localizable", "podcast_show_archived") }
+  /// Similar shows
+  internal static var podcastSimilarGenericHeader: String { return L10n.tr("Localizable", "podcast_similar_generic_header") }
+  /// Shows similar to "%@"
+  internal static func podcastSimilarHeader(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "podcast_similar_header", String(describing: p1))
+  }
   /// Podcast
   internal static var podcastSingular: String { return L10n.tr("Localizable", "podcast_singular") }
   /// Any day now
