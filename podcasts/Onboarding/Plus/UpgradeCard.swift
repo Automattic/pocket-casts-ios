@@ -138,7 +138,7 @@ struct UpgradeCard: View {
         return theme.primaryText01
     }
 
-    private var termsAndConditionsOpacity: CGFloat {
+    private var termsAndConditionsOpacity: Double {
         if theme.activeTheme == .light {
             return 1.0
         }
