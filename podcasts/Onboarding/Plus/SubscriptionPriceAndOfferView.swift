@@ -9,6 +9,12 @@ struct SubscriptionPriceAndOfferView: View {
     private let product: ProductInfo
     private let mainTextColor: Color
     private let secondaryTextColor: Color
+    private var insets: EdgeInsets {
+        if sizeCategory.isAccessibilityCategory {
+            return EdgeInsets(top: 10, leading: 25, bottom: 10, trailing: 25)
+        }
+        return EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8)
+    }
 
     init(product: ProductInfo, mainTextColor: Color, secondaryTextColor: Color) {
         self.product = product
@@ -26,11 +32,14 @@ struct SubscriptionPriceAndOfferView: View {
                 if let offerDescription = offerDescription(for: product) {
                     Text(offerDescription)
                         .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
-                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                        .padding(insets)
                         .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
                         .textCase(.uppercase)
                         .font(style: .caption2, weight: .semibold)
                         .clipShape(.capsule)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 

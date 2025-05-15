@@ -147,6 +147,10 @@ struct UpgradeCard: View {
         return 0.64
     }
 
+    private var featureSpacing: CGFloat {
+        max(16.0, 16.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
+
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -158,11 +162,12 @@ struct UpgradeCard: View {
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(currentPrice.wrappedValue == .monthly ? tier.monthlyFeatures : tier.yearlyFeatures, id: \.self) { feature in
-                        HStack(spacing: 16) {
+                        HStack(spacing: featureSpacing) {
                             Image(feature.iconName)
                                 .renderingMode(.template)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
+                                .scaleFactor(for: sizeCategory)
                                 .foregroundColor(theme.primaryText01)
                                 .frame(width: 16, height: 16)
                             UnderlineLinkTextView(feature.title)

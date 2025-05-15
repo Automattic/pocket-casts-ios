@@ -62,8 +62,12 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
     }
 
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
+        configuration
+            .label
             .applyButtonFont()
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity)
             .padding()
 
@@ -167,7 +171,7 @@ struct OfferLabel: View {
 
     var body: some View {
         Text(text.localizedUppercase)
-            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
+            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             .multilineTextAlignment(.center)
             .padding([.top, .bottom], 4)
             .padding([.leading, .trailing], 13)

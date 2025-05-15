@@ -164,6 +164,7 @@ struct UpgradeLandingView: View {
         }, label: {
             VStack {
                 Text(purchaseTitle)
+                    .multilineTextAlignment(.center)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
