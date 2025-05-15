@@ -1,4 +1,5 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
@@ -13,25 +14,6 @@ class StarredViewController: PCViewController {
             starredTable.rowHeight = UITableView.automaticDimension
             starredTable.allowsMultipleSelectionDuringEditing = true
             registerLongPress()
-        }
-    }
-
-    @IBOutlet var noEpisodesIcon: UIImageView! {
-        didSet {
-            noEpisodesIcon.tintColor = ThemeColor.primaryIcon02()
-        }
-    }
-
-    @IBOutlet var noEpisodesTitle: ThemeableLabel! {
-        didSet {
-            noEpisodesTitle.text = L10n.profileStarredNoEpisodesTitle
-        }
-    }
-
-    @IBOutlet var noEpisodesDescription: ThemeableLabel! {
-        didSet {
-            noEpisodesDescription.style = .primaryText02
-            noEpisodesDescription.text = L10n.profileStarredNoEpisodesDesc
         }
     }
 
@@ -85,8 +67,18 @@ class StarredViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let title = L10n.profileStarredNoEpisodesTitle
+        let message = L10n.profileStarredNoEpisodesDesc
+        let config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("star_empty") })
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
+
         refreshQueue.maxConcurrentOperationCount = 1
-        title = L10n.statusStarred
+        self.title = L10n.statusStarred
         setupNavBar()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: starredTable)
         if SyncManager.isUserLoggedIn() {
