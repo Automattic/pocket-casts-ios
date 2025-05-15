@@ -1856,6 +1856,10 @@ internal enum L10n {
   internal static var notificationsPermissionsAction: String { return L10n.tr("Localizable", "notifications_permissions_action") }
   /// Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.
   internal static var notificationsPermissionsBody: String { return L10n.tr("Localizable", "notifications_permissions_body") }
+  /// Please allow notifications in your device settings
+  internal static var notificationsPermissionsNeedsAction: String { return L10n.tr("Localizable", "notifications_permissions_needs_action") }
+  /// Open Settings
+  internal static var notificationsPermissionsOpenSettings: String { return L10n.tr("Localizable", "notifications_permissions_open_settings") }
   /// Stay up to date!
   internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title") }
   /// Play Now
