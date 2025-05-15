@@ -917,13 +917,13 @@
 "file_upload_name_required" = "Name required";
 
 /* The description for the screen when there are no files currently uploaded. '\n' is a line break format to allow a clean wrapping of text */
-"file_upload_no_files_description" = "Want to listen to your own files?\nShare them with Pocket Casts, and they’ll appear here";
+"file_upload_no_files_description" = "Upload your own files to Pocket Casts, and listen or watch them anytime.";
 
 /* The helper link describing how to add files to Pocket Casts. */
 "file_upload_no_files_helper" = "How do I do that?";
 
 /* Title for the screen when there are no files currently uploaded */
-"file_upload_no_files_title" = "No Files";
+"file_upload_no_files_title" = "Listen or watch your own files";
 
 /* Prompt to remove the image from the uploaded file. */
 "file_upload_remove_image" = "Remove Image";

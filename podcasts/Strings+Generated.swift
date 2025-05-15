@@ -1229,12 +1229,11 @@ internal enum L10n {
   internal static var fileUploadErrorSubtitle: String { return L10n.tr("Localizable", "file_upload_error_subtitle") }
   /// Name required
   internal static var fileUploadNameRequired: String { return L10n.tr("Localizable", "file_upload_name_required") }
-  /// Want to listen to your own files?
-  /// Share them with Pocket Casts, and they’ll appear here
+  /// Upload your own files to Pocket Casts, and listen or watch them anytime.
   internal static var fileUploadNoFilesDescription: String { return L10n.tr("Localizable", "file_upload_no_files_description") }
   /// How do I do that?
   internal static var fileUploadNoFilesHelper: String { return L10n.tr("Localizable", "file_upload_no_files_helper") }
-  /// No Files
+  /// Listen or watch your own files
   internal static var fileUploadNoFilesTitle: String { return L10n.tr("Localizable", "file_upload_no_files_title") }
   /// Remove Image
   internal static var fileUploadRemoveImage: String { return L10n.tr("Localizable", "file_upload_remove_image") }
