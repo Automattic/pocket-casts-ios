@@ -1413,7 +1413,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         updateEmptyStateVisibility()
 
         do {
-            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
+            var originalRecommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
+            filterCurrentPodcast(from: &originalRecommendations)
+            recommendations = originalRecommendations
             guard !Task.isCancelled else { return }
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {
@@ -1425,6 +1427,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         isLoadingRecommendations.send(false)
         updateEmptyStateVisibility()
+    }
+
+    private func filterCurrentPodcast(from collection: inout PodcastCollection?) {
+        if var podcasts = collection?.podcasts {
+            podcasts = podcasts.filter { $0.uuid != self.podcast?.uuid }
+            collection?.podcasts = podcasts
+        }
     }
 
     private func updateEmptyStateVisibility() {
