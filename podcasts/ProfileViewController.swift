@@ -11,7 +11,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
-    @IBOutlet var lastRefreshTime: UILabel!
+    @IBOutlet var lastRefreshTime: UILabel! {
+        didSet {
+            lastRefreshTime.font = UIFont.font(with: .body)
+        }
+    }
     @IBOutlet var refreshBtn: AnimatedImageButton! {
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
@@ -302,6 +306,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
+        cell.updateImageScale()
         cell.separatorInset = .zero
 
         switch row {
@@ -363,7 +368,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         } else if row == .informationalBanner {
             return 160
         } else {
-            return 70
+            return UITableView.automaticDimension
         }
     }
 
