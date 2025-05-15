@@ -1538,10 +1538,10 @@
 "playback_effects" = "Playback effects";
 
 /* Description for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_desc" = "You haven't starred any episodes yet.";
+"profile_starred_no_episodes_desc" = "Star episodes you love and come back to them at anytime.";
 
 /* Title for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_title" = "Nothing Starred";
+"profile_starred_no_episodes_title" = "Save your favorites";
 
 /* Used next to a setting for how fast audio will play */
 "speed" = "Speed";

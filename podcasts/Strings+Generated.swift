@@ -2686,9 +2686,9 @@ internal enum L10n {
   internal static var profileSendingResetEmailFailed: String { return L10n.tr("Localizable", "profile_sending_reset_email_failed") }
   /// 1 File
   internal static var profileSingleFile: String { return L10n.tr("Localizable", "profile_single_file") }
-  /// You haven't starred any episodes yet.
+  /// Star episodes you love and come back to them at anytime.
   internal static var profileStarredNoEpisodesDesc: String { return L10n.tr("Localizable", "profile_starred_no_episodes_desc") }
-  /// Nothing Starred
+  /// Save your favorites
   internal static var profileStarredNoEpisodesTitle: String { return L10n.tr("Localizable", "profile_starred_no_episodes_title") }
   /// By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
   internal static func purchaseTerms(_ p1: Any, _ p2: Any, _ p3: Any, _ p4: Any) -> String {
