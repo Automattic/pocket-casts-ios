@@ -36,7 +36,7 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             HStack(alignment: .top) {
                 Spacer()
-                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .detail)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
                     .onTapGesture {
                         withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
