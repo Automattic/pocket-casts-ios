@@ -917,14 +917,23 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             return
         }
         let newValue = !podcast.isPushEnabled
-        PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
-        if let title = podcast.title, newValue {
-            message = L10n.notificationsOnForPodcast(title)
-        }
-        Toast.show(message)
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
+        NotificationsHelper.shared.registerForPushNotifications() { granted in
+            guard granted || !newValue else {
+                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
+                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
+                    UIApplication.shared.openNotificationSettings()
+                })])
+                return
+            }
+            PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+            var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
+            if let title = podcast.title, newValue {
+                message = L10n.notificationsOnForPodcast(title)
+            }
+            Toast.show(message)
+        }
     }
 
     func categoryTapped(_ category: String) {
@@ -1404,7 +1413,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         updateEmptyStateVisibility()
 
         do {
-            recommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
+            var originalRecommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
+            filterCurrentPodcast(from: &originalRecommendations)
+            recommendations = originalRecommendations
             guard !Task.isCancelled else { return }
             hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
         } catch {
@@ -1416,6 +1427,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         isLoadingRecommendations.send(false)
         updateEmptyStateVisibility()
+    }
+
+    private func filterCurrentPodcast(from collection: inout PodcastCollection?) {
+        if var podcasts = collection?.podcasts {
+            podcasts = podcasts.filter { $0.uuid != self.podcast?.uuid }
+            collection?.podcasts = podcasts
+        }
     }
 
     private func updateEmptyStateVisibility() {

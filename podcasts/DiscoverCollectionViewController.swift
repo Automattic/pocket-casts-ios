@@ -122,7 +122,7 @@ class DiscoverCollectionViewController: PCViewController {
             for item in items {
                 let selectedCategory = item.cellType() != .categoriesSelector ? selectedCategory : nil
 
-                if itemFilter(item) {
+                if itemFilter(item) && item.regions.contains(currentRegion) {
                     if item.authenticated == true, let uuid = item.uuid {
                         snapshot.appendItems([.loading(uuid)])
                         loadingTasks[uuid] = Task { [weak self] in

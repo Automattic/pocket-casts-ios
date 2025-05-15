@@ -1856,6 +1856,10 @@ internal enum L10n {
   internal static var notificationsPermissionsAction: String { return L10n.tr("Localizable", "notifications_permissions_action") }
   /// Notifications are the best way to keep track of new episodes, get recommendations of new shows and tips about Pocket Casts.
   internal static var notificationsPermissionsBody: String { return L10n.tr("Localizable", "notifications_permissions_body") }
+  /// Please allow notifications in your device settings
+  internal static var notificationsPermissionsNeedsAction: String { return L10n.tr("Localizable", "notifications_permissions_needs_action") }
+  /// Open Settings
+  internal static var notificationsPermissionsOpenSettings: String { return L10n.tr("Localizable", "notifications_permissions_open_settings") }
   /// Stay up to date!
   internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title") }
   /// Play Now
@@ -2546,6 +2550,12 @@ internal enum L10n {
   internal static var podcastShareOpenFile: String { return L10n.tr("Localizable", "podcast_share_open_file") }
   /// Show Archived
   internal static var podcastShowArchived: String { return L10n.tr("Localizable", "podcast_show_archived") }
+  /// Similar shows
+  internal static var podcastSimilarGenericHeader: String { return L10n.tr("Localizable", "podcast_similar_generic_header") }
+  /// Shows similar to "%@"
+  internal static func podcastSimilarHeader(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "podcast_similar_header", String(describing: p1))
+  }
   /// Podcast
   internal static var podcastSingular: String { return L10n.tr("Localizable", "podcast_singular") }
   /// Any day now

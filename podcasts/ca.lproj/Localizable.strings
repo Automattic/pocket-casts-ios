@@ -1548,6 +1548,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Noves funcions i consells</string>
     <key>notifications_off</key>
     <string>Notificacions desactivades</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Fes un salt de nivell en el món dels pòdcasts.</string>
     <key>notifications_on</key>
     <string>Notificacions activades</string>
     <key>notifications_on_for_podcast</key>

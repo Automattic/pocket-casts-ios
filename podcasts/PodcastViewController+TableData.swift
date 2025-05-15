@@ -364,12 +364,17 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if currentViewMode == .youMightLike {
             switch youMightLikeSectionType(for: section) {
-            case .podcasts:
-                if youMightLikeSectionType(for: section - 1) == .header {
-                    return 16 // Add additional spacing between header & podcasts
-                }
             case .podroll:
-                return 44
+                return 34
+            case .podcasts:
+                switch youMightLikeSectionType(for: section - 1) {
+                case .header:
+                    return 16 // Padding between header
+                case .podroll:
+                    return 34
+                default:
+                    return CGFloat.leastNonzeroMagnitude
+                }
             default:
                 return CGFloat.leastNonzeroMagnitude
             }
@@ -384,29 +389,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
     }
 
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if currentViewMode == .youMightLike {
-            switch youMightLikeSectionType(for: section) {
-            case .podroll:
-                return 24 // Divider between podroll and podcasts
-            default:
-                return CGFloat.leastNonzeroMagnitude
-            }
-        }
-        return CGFloat.leastNonzeroMagnitude
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard currentViewMode == .youMightLike else { return nil }
-
-        switch youMightLikeSectionType(for: section) {
-        case .podroll:
-            return dividerView()
-        default:
-            return nil
-        }
-    }
-
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard currentViewMode == .youMightLike else {
             return currentViewMode == .episodes ? searchController?.view : nil
@@ -414,7 +396,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch youMightLikeSectionType(for: section) {
         case .podroll:
-            let headerView = PodrollHeaderView()
+            let image = UIImage(systemName: "mic")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold))
+            let headerView = YouMightLikeSectionHeaderView(image: image, title: L10n.podcastPodrollHeader)
             headerView.onTapped = { [weak self] in
                 guard let self = self else { return }
                 BottomSheetSwiftUIWrapper.present(
@@ -427,16 +410,40 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 Analytics.track(.podcastScreenPodrollInformationModelShown)
             }
             return headerView
+        case .podcasts:
+            if youMightLikeSectionType(for: section - 1) == .podroll {
+                let title: String
+                if let podcastTitle = podcast?.title {
+                    title = L10n.podcastSimilarHeader(podcastTitle)
+                } else {
+                    title = L10n.podcastSimilarGenericHeader
+                }
+                let headerView = YouMightLikeSectionHeaderView(image: UIImage(named: "stacked_squares"), title: title)
+                return headerView
+            }
+            return nil
         default:
             return nil
         }
     }
 
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        if let castView = view as? UITableViewHeaderFooterView {
-            castView.backgroundView?.backgroundColor = UIColor.clear
-            castView.contentView.backgroundColor = UIColor.clear
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if currentViewMode == .youMightLike {
+            switch youMightLikeSectionType(for: section) {
+            case .header:
+                switch youMightLikeSectionType(for: section + 1) {
+                case .podroll:
+                    return 10 // Only the podroll needs extra spacing for the header
+                default:
+                    return CGFloat.leastNonzeroMagnitude
+                }
+            case .podroll:
+                return 15
+            default:
+                return CGFloat.leastNonzeroMagnitude
+            }
         }
+        return CGFloat.leastNonzeroMagnitude
     }
 
     // MARK: - Swipe Actions
@@ -469,23 +476,5 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
         multiSelectGestureInProgress = false
-    }
-
-    private func dividerView() -> UIView {
-        let footerView = UIView()
-        footerView.backgroundColor = .clear
-
-        let divider = ThemeDividerView()
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        footerView.addSubview(divider)
-
-        NSLayoutConstraint.activate([
-            divider.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 15),
-            divider.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -15),
-            divider.centerYAnchor.constraint(equalTo: footerView.centerYAnchor),
-            divider.heightAnchor.constraint(equalToConstant: 1)
-        ])
-
-        return footerView
     }
 }
