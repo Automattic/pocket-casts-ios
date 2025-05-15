@@ -1,11 +1,16 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
 class ListeningHistoryViewController: PCViewController {
-    var episodes = [ArraySection<String, ListEpisode>]()
+    var episodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
     var tempEpisodes = [ArraySection<String, ListEpisode>]()
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
@@ -229,6 +234,27 @@ class ListeningHistoryViewController: PCViewController {
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.listeningHistoryTable.tableHeaderView = nil
             }
+        }
+    }
+
+    private func refreshContentUnavailable() {
+        var config: UIContentConfiguration?
+
+        if episodes.isEmpty {
+            let title = L10n.profileListeningHistoryEmptyTitle
+            let message = L10n.profileListeningHistoryEmptyDescription
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("options-history").renderingMode(.template) }, actions: [
+                .init(title: L10n.goToDiscover, action: {
+                    Analytics.shared.track(.listeningHistoryDiscoverButtonTapped)
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                })
+            ])
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
         }
     }
 }
