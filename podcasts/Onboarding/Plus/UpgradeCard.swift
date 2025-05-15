@@ -124,11 +124,32 @@ struct UpgradeCard: View {
 
     let showPurchaseButton: Bool
 
+    private var subscriptionPriceSecondaryTextColor: Color {
+        if theme.activeTheme == .light {
+            return Color(hex: "#6F7580")
+        }
+        return theme.primaryText02
+    }
+
+    private var termsAndConditionsTextColor: Color {
+        if theme.activeTheme == .light {
+            return Color(hex: "#6F7580")
+        }
+        return theme.primaryText01
+    }
+
+    private var termsAndConditionsOpacity: Double {
+        if theme.activeTheme == .light {
+            return 1.0
+        }
+        return 0.64
+    }
+
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 if let subscriptionInfo {
-                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: theme.primaryText01, secondaryTextColor: subscriptionPriceSecondaryTextColor)
                 } else {
                     SubscriptionBadge(tier: tier.tier)
                         .padding(.bottom, 12)
@@ -152,8 +173,8 @@ struct UpgradeCard: View {
 
                     termsAndConditions
                         .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                        .tint(theme.primaryText01)
-                        .opacity(0.64)
+                        .tint(termsAndConditionsTextColor)
+                        .opacity(termsAndConditionsOpacity)
                     if showPurchaseButton {
                         purchaseButton
                     }
@@ -185,7 +206,7 @@ struct UpgradeCard: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
-        .foregroundColor(theme.primaryText01)
+        .foregroundColor(termsAndConditionsTextColor)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
             case privacyPolicy:
