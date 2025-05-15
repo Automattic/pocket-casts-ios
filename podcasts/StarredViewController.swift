@@ -21,7 +21,7 @@ class StarredViewController: PCViewController {
 
     var episodes = [ListEpisode]() {
         didSet {
-            refreshContentUnavilable()
+            refreshContentUnavailable()
         }
     }
     private let refreshQueue = OperationQueue()
@@ -170,7 +170,7 @@ class StarredViewController: PCViewController {
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
-    private func refreshContentUnavilable() {
+    private func refreshContentUnavailable() {
         var config: UIContentConfiguration?
 
         if episodes.isEmpty {
