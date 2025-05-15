@@ -19,7 +19,11 @@ class StarredViewController: PCViewController {
 
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
 
-    var episodes = [ListEpisode]()
+    var episodes = [ListEpisode]() {
+        didSet {
+            refreshContentUnavilable()
+        }
+    }
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
     var isMultiSelectEnabled: Bool = false {
@@ -66,16 +70,6 @@ class StarredViewController: PCViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let title = L10n.profileStarredNoEpisodesTitle
-        let message = L10n.profileStarredNoEpisodesDesc
-        let config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("star_empty") })
-
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
 
         refreshQueue.maxConcurrentOperationCount = 1
         self.title = L10n.statusStarred
@@ -174,6 +168,22 @@ class StarredViewController: PCViewController {
 
         navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+
+    private func refreshContentUnavilable() {
+        var config: UIContentConfiguration?
+
+        if episodes.isEmpty {
+            let title = L10n.profileStarredNoEpisodesTitle
+            let message = L10n.profileStarredNoEpisodesDesc
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("star_empty") })
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
     }
 }
 
