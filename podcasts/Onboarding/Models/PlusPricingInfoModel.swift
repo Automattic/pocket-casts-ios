@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsServer
+import PocketCastsUtils
 
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
@@ -121,8 +122,13 @@ extension PlusPricingInfoModel {
     func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            purchaseHandler.updateTrialEligibility() { [weak self] in
-                guard let self else { return }
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
                 self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
                 completion?()
             }
@@ -135,8 +141,14 @@ extension PlusPricingInfoModel {
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
             guard let self else { return }
-            purchaseHandler.updateTrialEligibility() { [weak self] in
-                guard let self else { return }
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    priceAvailability = .available
+                    pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
                 priceAvailability = .available
                 pricingInfo = Self.getPricingInfo(from: purchaseHandler)
                 completion?()
