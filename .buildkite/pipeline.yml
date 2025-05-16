@@ -34,7 +34,12 @@ steps:
           queue: "linter"
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
-        command: lint_localized_strings_format
+        command: |
+          if .buildkite/commands/should-skip-job.sh --job-type localization; then
+            exit 0
+          fi
+
+          lint_localized_strings_format
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
