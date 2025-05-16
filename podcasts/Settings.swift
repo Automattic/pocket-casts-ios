@@ -1461,7 +1461,7 @@ class Settings: NSObject {
     // MARK: - Notifications
     static var notificationsNewEpisodes: Bool {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? false
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)
