@@ -121,8 +121,11 @@ extension PlusPricingInfoModel {
     func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
+            purchaseHandler.updateTrialEligibility() { [weak self] in
+                guard let self else { return }
+                self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
+            }
             return
         }
 
@@ -131,13 +134,13 @@ extension PlusPricingInfoModel {
         let notificationCenter = NotificationCenter.default
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
-            guard let self else {
-                return
+            guard let self else { return }
+            purchaseHandler.updateTrialEligibility() { [weak self] in
+                guard let self else { return }
+                priceAvailability = .available
+                pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
             }
-
-            self.priceAvailability = .available
-            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in

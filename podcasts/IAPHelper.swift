@@ -357,7 +357,7 @@ extension IAPHelper {
 
 // MARK: - Trial Eligibility
 
-private extension IAPHelper {
+extension IAPHelper {
     /// Listens for subscription changes
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
@@ -387,7 +387,7 @@ private extension IAPHelper {
     /// - A product has a free trial
     /// - The user doesn't have an active subscription
     /// - The receipt exists
-    private func updateTrialEligibility() {
+    func updateTrialEligibility(completion: (() -> ())? = nil) {
         guard
             isCheckingEligibility == false,
             let productID = getFirstFreeTrialProductId(),
@@ -395,6 +395,9 @@ private extension IAPHelper {
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
         else {
+            DispatchQueue.main.async {
+                completion?()
+            }
             return
         }
 
@@ -406,6 +409,9 @@ private extension IAPHelper {
                 FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
                 isEligibleForOffer = eligible
                 isCheckingEligibility = false
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
         } else {
             networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
@@ -414,6 +420,9 @@ private extension IAPHelper {
                 FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
                 self?.isEligibleForOffer = eligible
                 self?.isCheckingEligibility = false
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
         }
     }
@@ -424,6 +433,7 @@ private extension IAPHelper {
 extension IAPHelper: SKPaymentTransactionObserver {
     func purchaseWasSuccessful(_ productId: IAPProductID) {
         trackPaymentEvent(.purchaseSuccessful, productId: productId)
+        updateTrialEligibility()
     }
 
     func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
