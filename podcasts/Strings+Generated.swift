@@ -902,9 +902,9 @@ internal enum L10n {
   internal static var downloads: String { return L10n.tr("Localizable", "downloads") }
   /// Auto Download Settings
   internal static var downloadsAutoDownload: String { return L10n.tr("Localizable", "downloads_auto_download") }
-  /// Oh no! You’re fresh out of downloads. Download some more and they’ll show up here.
+  /// Save episodes for offline listening and never miss a moment.
   internal static var downloadsNoDownloadsDesc: String { return L10n.tr("Localizable", "downloads_no_downloads_desc") }
-  /// No Downloaded Episodes
+  /// Enjoy offline listening
   internal static var downloadsNoDownloadsTitle: String { return L10n.tr("Localizable", "downloads_no_downloads_title") }
   /// Retry Failed Downloads
   internal static var downloadsRetryFailedDownloads: String { return L10n.tr("Localizable", "downloads_retry_failed_downloads") }

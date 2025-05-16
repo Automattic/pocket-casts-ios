@@ -42,6 +42,7 @@ fileprivate final class HostingView<Content: View>: UIView, UIContentView {
 
         let hostedView: UIView = hostingController.view
         hostedView.translatesAutoresizingMaskIntoConstraints = false
+        hostedView.backgroundColor = .clear
         addSubview(hostedView)
         hostedView.anchorToAllSidesOf(view: self)
     }

@@ -812,10 +812,10 @@
 "downloads_auto_download" = "Auto Download Settings";
 
 /* Title for the empty state when there are no downloads available */
-"downloads_no_downloads_title" = "No Downloaded Episodes";
+"downloads_no_downloads_title" = "Enjoy offline listening";
 
 /* The description for the empty state when there are no downloads available */
-"downloads_no_downloads_desc" = "Oh no! You’re fresh out of downloads. Download some more and they’ll show up here.";
+"downloads_no_downloads_desc" = "Save episodes for offline listening and never miss a moment.";
 
 /* Prompt to allow the user to retry failed downloads. */
 "downloads_retry_failed_downloads" = "Retry Failed Downloads";
