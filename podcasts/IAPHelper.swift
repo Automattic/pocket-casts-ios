@@ -391,6 +391,7 @@ extension IAPHelper {
         guard
             isCheckingEligibility == false,
             let productID = getFirstFreeTrialProductId(),
+            SubscriptionHelper.hasActiveSubscription() == false || FeatureFlag.newOfferEligibilityCheck.enabled,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
         else {
@@ -432,7 +433,9 @@ extension IAPHelper {
 extension IAPHelper: SKPaymentTransactionObserver {
     func purchaseWasSuccessful(_ productId: IAPProductID) {
         trackPaymentEvent(.purchaseSuccessful, productId: productId)
-        updateTrialEligibility()
+        if FeatureFlag.newOfferEligibilityCheck.enabled {
+            updateTrialEligibility()
+        }
     }
 
     func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
