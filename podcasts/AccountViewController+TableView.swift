@@ -35,7 +35,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return 350
         default:
-            return 64
+            return 70
         }
     }
 

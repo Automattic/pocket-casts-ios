@@ -359,6 +359,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = tableData[indexPath.section][indexPath.row]
+        switch row {
+        case .informationalBanner:
+            return 160
+        default:
+            return 70
+        }
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 
