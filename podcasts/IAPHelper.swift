@@ -391,7 +391,6 @@ extension IAPHelper {
         guard
             isCheckingEligibility == false,
             let productID = getFirstFreeTrialProductId(),
-            SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
         else {
