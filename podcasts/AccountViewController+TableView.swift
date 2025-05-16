@@ -24,10 +24,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return upgradePromptViewSize?.height ?? UITableView.automaticDimension
 
-        case .newsletter:
-            return UITableView.automaticDimension
         default:
-            return 64
+            return UITableView.automaticDimension
         }
     }
 
