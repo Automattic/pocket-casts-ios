@@ -36,6 +36,16 @@ struct ToastView<Style: ToastTheme>: View {
     var body: some View {
         wrapperView {
             toastWrapper {
+                if let iconName = style.iconName,
+                   let iconColor = style.iconColor {
+                    Image(iconName)
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .foregroundStyle(iconColor)
+                        .frame(width: 24, height: 24)
+                        .padding(.leading, ToastConstants.padding)
+                }
                 titleView
 
                 Spacer(minLength: 10)

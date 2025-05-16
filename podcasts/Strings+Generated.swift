@@ -453,6 +453,10 @@ internal enum L10n {
   /// Thanks for trying
   /// Pocket Casts Plus
   internal static var cancelSubscriptionSurveyTitle: String { return L10n.tr("Localizable", "cancel_subscription_survey_title") }
+  /// Sorry, something went wrong.
+  internal static var cancelSubscriptionSurveyToastFail: String { return L10n.tr("Localizable", "cancel_subscription_survey_toast_fail") }
+  /// Thanks for your feedback!
+  internal static var cancelSubscriptionSurveyToastSuccess: String { return L10n.tr("Localizable", "cancel_subscription_survey_toast_success") }
   /// Thinking of leaving?
   /// Let us help first
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }

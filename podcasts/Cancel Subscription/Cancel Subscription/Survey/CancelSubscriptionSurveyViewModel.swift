@@ -69,13 +69,26 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
         Task { @MainActor [weak self] in
             guard let self else { return }
             let success = await ApiServerHandler.shared.submitSurveyResult(reason: selectedReason.rawValue, other: additionalText)
+            loadingState = .idle
             if success {
+                Toast.show(
+                    L10n.cancelSubscriptionSurveyToastSuccess,
+                    theme: ToastIconTheme(iconName: "cs-tick", iconColor: Theme.sharedTheme.primaryIcon01)
+                )
                 Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitSuccess)
+                dismiss()
             } else {
+                Toast.show(
+                    L10n.cancelSubscriptionSurveyToastFail,
+                    actions: [
+                        .init(title: L10n.tryAgain) { [weak self] in
+                            self?.sendFeedback()
+                        }
+                    ],
+                    theme: ToastIconTheme(iconName: "cs-yield", iconColor: Theme.sharedTheme.support05)
+                )
                 Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitError)
             }
-            loadingState = .idle
-            dismiss()
         }
     }
 
