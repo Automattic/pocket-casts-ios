@@ -5,6 +5,7 @@ protocol EmptyStateViewStyle: ObservableObject {
     var message: Color { get }
     var icon: Color { get }
     var button: Color { get }
+    var background: Color { get }
 }
 
 struct EmptyStateAction: Identifiable {
@@ -77,6 +78,7 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
         .padding(EmptyConstants.padding)
+        .background(style.background)
     }
 }
 

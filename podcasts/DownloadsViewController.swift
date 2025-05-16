@@ -87,6 +87,7 @@ class DownloadsViewController: PCViewController {
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: downloadsTable)
 
         title = L10n.downloads
+        view.backgroundColor = ThemeColor.primaryUi02()
 
         showManageDownloadsBanner()
 
@@ -182,6 +183,7 @@ class DownloadsViewController: PCViewController {
 
     override func handleThemeChanged() {
         downloadsTable.reloadData()
+        view.backgroundColor = ThemeColor.primaryUi02()
     }
 
     private func addEventObservers() {
