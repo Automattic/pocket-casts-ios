@@ -86,6 +86,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.emptyStateCell, for: indexPath) as! EmptyStateCell
             emptyCell.configure(title: L10n.upNextEmptyTitle, message: L10n.upNextEmptyDescription, icon: { Image("upnext") }, actions: [
                 .init(title: L10n.goToDiscover) {
+                    Analytics.shared.track(.upNextDiscoverButtonTapped)
                     NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                 }
             ])
