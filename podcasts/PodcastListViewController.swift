@@ -20,20 +20,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
-    @IBOutlet var noPodcastsIcon: ThemeableImageView! {
-        didSet {
-            noPodcastsIcon.imageStyle = .primaryIcon01
-        }
-    }
-
-    @IBOutlet var noPodcastsView: UIView!
-    @IBOutlet var noPodcastsMessage: ThemeableLabel! {
-        didSet {
-            noPodcastsMessage.style = .primaryText02
-            noPodcastsMessage.text = L10n.podcastGridNoPodcastsMsg
-        }
-    }
-
     @IBOutlet var podcastsCollectionView: UICollectionView! {
         didSet {
             registerCells()
@@ -41,12 +27,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             if let layout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 layout.sectionHeadersPinToVisibleBounds = true
             }
-        }
-    }
-
-    @IBOutlet var noPodcastsTitle: ThemeableLabel! {
-        didSet {
-            noPodcastsTitle.text = L10n.podcastGridNoPodcastsTitle
         }
     }
 
@@ -292,11 +272,34 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                         strongSelf.gridItems = data
                     })
                 }
-                strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                let shouldHideEmpty = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                strongSelf.refreshContentUnavailable(shouldShow: !shouldHideEmpty)
                 strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
     }
+
+    private func refreshContentUnavailable(shouldShow: Bool) {
+        var config: UIContentConfiguration?
+
+        if shouldShow {
+            let title = L10n.podcastGridNoPodcastsTitle
+            let message = L10n.podcastGridNoPodcastsMsg
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("podcastlist_smallgrid").renderingMode(.template) }, actions: [
+                .init(title: L10n.podcastGridDiscoverPodcasts, action: {
+                    Analytics.shared.track(.podcastsListDiscoverButtonTapped)
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                })
+            ])
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
+    }
+
 
     func showProfileController() {
         let profileViewController = ProfileViewController()
