@@ -36,8 +36,13 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 .init(title: L10n.fileUploadAddFile) {
                     self.addFile()
                 },
-                .init(title: L10n.fileUploadNoFilesHelper) {
-                    self.howTo()
+                .init(id: L10n.fileUploadNoFilesHelper) {
+                    Button(action: {
+                        self.howTo()
+                    }, label: {
+                        Text(L10n.fileUploadNoFilesHelper)
+                            .font(.body)
+                    }).buttonStyle(SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01))
                 }
             ])
         }
