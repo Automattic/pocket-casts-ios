@@ -3755,7 +3755,7 @@ internal enum L10n {
   internal static var upNext: String { return L10n.tr("Localizable", "up_next") }
   /// You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
-  /// Nothing in Up Next
+  /// Curate your listening session
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
   /// Up Next History
   internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }

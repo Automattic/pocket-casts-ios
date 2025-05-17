@@ -1114,8 +1114,6 @@
 		BD93FDAD20159CF600F6EF55 /* FilterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */; };
 		BD93FDAE20159CF600F6EF55 /* FilterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */; };
 		BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9553C5237A7F9E002CB19A /* ShelfActionsViewController+Table.swift */; };
-		BD955FC2219513240094DF1C /* NothingUpNextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD955FC0219513240094DF1C /* NothingUpNextCell.swift */; };
-		BD955FC3219513240094DF1C /* NothingUpNextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD955FC1219513240094DF1C /* NothingUpNextCell.xib */; };
 		BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95ED641BAFA228004335B0 /* CountrySummaryViewController.swift */; };
 		BD95ED671BAFA228004335B0 /* CountrySummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD95ED651BAFA228004335B0 /* CountrySummaryViewController.xib */; };
 		BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95ED681BAFA532004335B0 /* CountryChooserViewController.swift */; };
@@ -3391,8 +3389,6 @@
 		BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNameCell.swift; sourceTree = "<group>"; };
 		BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterNameCell.xib; sourceTree = "<group>"; };
 		BD9553C5237A7F9E002CB19A /* ShelfActionsViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShelfActionsViewController+Table.swift"; sourceTree = "<group>"; };
-		BD955FC0219513240094DF1C /* NothingUpNextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingUpNextCell.swift; sourceTree = "<group>"; };
-		BD955FC1219513240094DF1C /* NothingUpNextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingUpNextCell.xib; sourceTree = "<group>"; };
 		BD95ED641BAFA228004335B0 /* CountrySummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountrySummaryViewController.swift; sourceTree = "<group>"; };
 		BD95ED651BAFA228004335B0 /* CountrySummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountrySummaryViewController.xib; sourceTree = "<group>"; };
 		BD95ED681BAFA532004335B0 /* CountryChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryChooserViewController.swift; sourceTree = "<group>"; };
@@ -4506,8 +4502,6 @@
 				BDBE35DC211D735E00C334B8 /* PlayerCell.xib */,
 				401EBA6723725C6400899F93 /* UpNextNowPlayingCell.swift */,
 				401EBA6823725C6400899F93 /* UpNextNowPlayingCell.xib */,
-				BD955FC0219513240094DF1C /* NothingUpNextCell.swift */,
-				BD955FC1219513240094DF1C /* NothingUpNextCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -9502,7 +9496,6 @@
 				4041FEA8218FF3B80089D4A1 /* AddCell.xib in Resources */,
 				BD6B66A0245BC28800CF5245 /* AppIcon-Red-Velvet20x20@3x.png in Resources */,
 				408426342134CBE60076D82E /* SmallPagedListSummaryViewController.xib in Resources */,
-				BD955FC3219513240094DF1C /* NothingUpNextCell.xib in Resources */,
 				BD6B664B245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20@2x~ipad.png in Resources */,
 				BDA002D71F7B318B00DCB4AE /* AppIcon-Round-Dark20x20@3x.png in Resources */,
 				BD5AE6811FE0CF950009B8A1 /* ListImages.xcassets in Resources */,
@@ -10438,7 +10431,6 @@
 				8BD7A2382C04F0DD00CF84E8 /* UpNextHistoryViewController.swift in Sources */,
 				463538AE26E8F4AE00BA9D35 /* Server+Strings.swift in Sources */,
 				BD674B0B1F68F2BD00AC1B2B /* PlaylistManager.swift in Sources */,
-				BD955FC2219513240094DF1C /* NothingUpNextCell.swift in Sources */,
 				BD6C3F062379236A00C01403 /* ShelfCell.swift in Sources */,
 				BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */,
 				BD8032D52123F0AF00BFBB03 /* SleepTimerButton.swift in Sources */,

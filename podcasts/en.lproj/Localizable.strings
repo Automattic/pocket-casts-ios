@@ -3185,7 +3185,7 @@
 "up_next" = "Up Next";
 
 /* Heading shown when your Up Next list is empty */
-"up_next_empty_title" = "Nothing in Up Next";
+"up_next_empty_title" = "Curate your listening session";
 
 /* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
 "up_next_empty_description" = "You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.";
