@@ -46,4 +46,8 @@ class EmptyStateCell: UITableViewCell {
             ])
         }
     }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+    override func setEditing(_ editing: Bool, animated: Bool) {}
 }
