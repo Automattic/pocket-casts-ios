@@ -7,6 +7,8 @@ struct CancelSubscriptionPlanRow: View {
     var selected: Bool
     let onTap: (PlusPricingInfoModel.PlusProductPricingInfo) -> Void
 
+    @State private var badgeHeight: CGFloat = 0
+
     var badge: some View {
         VStack {
             HStack {
@@ -14,7 +16,7 @@ struct CancelSubscriptionPlanRow: View {
                 Text(L10n.cancelSubscriptionAvailablePlansBestValueBadge)
                     .font(size: 14.0, style: .body, weight: .medium)
                     .foregroundStyle(theme.primaryInteractive02)
-                    .frame(height: 24.0)
+                    .frame(minHeight: 24.0)
                     .padding(.horizontal, 16.0)
                     .background(
                         RoundedRectangle(
@@ -23,9 +25,20 @@ struct CancelSubscriptionPlanRow: View {
                         )
                         .fill(theme.primaryField03Active)
                     )
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear
+                                .onAppear {
+                                    badgeHeight = proxy.size.height
+                                }
+                                .onChange(of: proxy.size.height) {
+                                    badgeHeight = $0
+                                }
+                        }
+                    )
             }
             .padding(.trailing, 12.0)
-            .padding(.top, -12.0)
+            .padding(.top, -badgeHeight * 0.5)
             Spacer()
         }
     }
@@ -56,7 +69,7 @@ struct CancelSubscriptionPlanRow: View {
                 .foregroundStyle(.clear)
                 .background(theme.primaryUi01Active)
                 .cornerRadius(8.0)
-                .frame(height: 64)
+                .frame(minHeight: 64)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8.0)
                         .stroke(theme.primaryField03Active,
@@ -68,13 +81,12 @@ struct CancelSubscriptionPlanRow: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(product.planTitle)
                         .font(size: 18.0, style: .body, weight: .bold)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
                         .foregroundStyle(theme.primaryText01)
                     Text(product.frequencyPrice)
                         .font(size: 15.0, style: .body, weight: .regular)
                         .foregroundStyle(theme.primaryText02)
                 }
+                .padding(.vertical, 10.0)
                 Spacer()
                 if let weeklyPrice = product.formattedWeeklyPrice {
                     Text(weeklyPrice)
@@ -85,7 +97,7 @@ struct CancelSubscriptionPlanRow: View {
             .padding(.horizontal, 16.0)
             if product.isBestValue {
                 badge
-                    .frame(height: 64)
+                    .frame(minHeight: 64)
             }
         }
         .padding(.horizontal, 20.0)
