@@ -551,19 +551,19 @@ private extension IAPHelper {
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {
-                offerType = "free_trial"
+                offerType = IAPOfferType.freeTrial.rawValue
             } else if paymentMode == .payUpFront {
-                offerType = "intro_offer"
+                offerType = IAPOfferType.introOffer.rawValue
             }
         }
         if productId == .yearlyReferral {
-            offerType = "referral"
+            offerType = IAPOfferType.referral.rawValue
         }
         if let discount {
-            if discount.contains(".winback.") {
-                offerType = "winback"
-            } else if discount == "com.pocketcasts.plus.yearly.referral.promo" {
-                offerType = "referral"
+            if discount.contains(".\(IAPOfferType.winback.rawValue).") {
+                offerType = IAPOfferType.winback.rawValue
+            } else if discount == IAPPromotionID.referall {
+                offerType = IAPOfferType.referral.rawValue
             }
         }
 
