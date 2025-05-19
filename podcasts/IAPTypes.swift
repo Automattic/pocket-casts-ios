@@ -25,7 +25,7 @@ enum IAPOfferType: String {
     case freeTrial = "free_trial"
     case introOffer = "intro_offer"
     case referral = "referral"
-    case winback = "winback"    
+    case winback = "winback"
 }
 
 enum Plan {
