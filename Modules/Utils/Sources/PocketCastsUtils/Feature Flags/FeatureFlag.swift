@@ -294,7 +294,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
-            true
+            false
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
