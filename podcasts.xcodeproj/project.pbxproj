@@ -705,6 +705,7 @@
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
+		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
@@ -2956,6 +2957,7 @@
 		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
+		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
@@ -7589,6 +7591,7 @@
 				C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */,
 				C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */,
 				C784DE7C2A590866004D03E7 /* View+Buttonize.swift */,
+				9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 				C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */,
 				C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */,
@@ -10259,6 +10262,7 @@
 				BD21D4A722DEDAE700D5888B /* ThemeableCollectionView.swift in Sources */,
 				8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */,
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
+				9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */,
 				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
 				FF146C2C2D674A5400D2FCCE /* SuggestedFoldersView.swift in Sources */,

@@ -388,7 +388,7 @@ private extension IAPHelper {
             let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
-            self?.isEligibleForOffer = eligible
+            self?.isEligibleForOffer = true
             self?.isCheckingEligibility = false
         }
     }
