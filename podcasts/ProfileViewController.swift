@@ -139,7 +139,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         whatsNewDismissed()
 
-        if SyncManager.isUserLoggedIn(), SubscriptionHelper.hasCancelledSubscription, !Settings.subscriptionCancelledSurveyShown {
+        if FeatureFlag.cancelSubscriptionSurvey.enabled,
+           SyncManager.isUserLoggedIn(),
+           SubscriptionHelper.hasCancelledSubscription,
+           !Settings.subscriptionCancelledSurveyShown {
             let controller = CancelSubscriptionSurveyViewModel.make()
             present(controller, animated: true)
         } else {
