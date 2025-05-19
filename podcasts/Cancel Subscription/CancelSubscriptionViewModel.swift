@@ -251,8 +251,6 @@ extension CancelSubscriptionViewModel {
                 await ApiServerHandler.shared.retrieveSubscriptionStatus()
 
                 await MainActor.run {
-                    Settings.shouldShowSubscriptionCancelledSurvey = SubscriptionHelper.hasCancelledSubscription
-
                     if FeatureFlag.winback.enabled {
                         // To avoid repeating the event tracking,
                         // I forced passing the `swipe` type

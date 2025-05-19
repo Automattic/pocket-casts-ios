@@ -665,7 +665,7 @@ class Settings: NSObject {
     }
 
     private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
-    static var shouldShowSubscriptionCancelledSurvey: Bool {
+    static var subscriptionCancelledSurveyShown: Bool {
         get {
             UserDefaults.standard.bool(forKey: subscriptionCancelledSurveyShowedKey)
         }
