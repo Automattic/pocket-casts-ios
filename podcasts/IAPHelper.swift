@@ -397,16 +397,25 @@ private extension IAPHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IAPHelper: SKPaymentTransactionObserver {
-    func purchaseWasSuccessful(_ productId: IAPProductID) {
-        trackPaymentEvent(.purchaseSuccessful, productId: productId)
+    fileprivate func purchaseWasSuccessful(_ payment: SKPayment) {
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseSuccessful, productId: productId, discount: payment.paymentDiscount?.identifier)
     }
 
-    func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
-        trackPaymentEvent(.purchaseCancelled, productId: productId, error: error)
+    fileprivate func purchaseWasCancelled(_ payment: SKPayment, error: NSError) {
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseCancelled, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
     }
 
-    func purchaseFailed(_ productId: IAPProductID, error: NSError) {
-        trackPaymentEvent(.purchaseFailed, productId: productId, error: error)
+    fileprivate func purchaseFailed(_ payment: SKPayment, error: NSError) {
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseFailed, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -427,6 +436,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
                     hasNewPurchasedReceipt = true
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
+                    purchaseWasSuccessful(transaction.payment)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
@@ -434,10 +444,12 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
                     let userInfo = ["error": e]
 
-                    if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
+                    if e.code == SKError.Code.unknown.rawValue || e.code == SKError.Code.paymentCancelled.rawValue { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled, userInfo: userInfo)
+                        purchaseWasCancelled(transaction.payment, error: e)
                     } else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed, userInfo: userInfo)
+                        purchaseFailed(transaction.payment, error: e)
                     }
                 case .deferred:
                     FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
@@ -534,20 +546,31 @@ private extension SKProductSubscriptionPeriod {
 }
 
 private extension IAPHelper {
-    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, error: NSError? = nil) {
+    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, discount: String?, error: NSError? = nil) {
         let product = getProduct(for: productId)
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {
-                offerType = "free_trial"
+                offerType = IAPOfferType.freeTrial.rawValue
             } else if paymentMode == .payUpFront {
-                offerType = "intro_offer"
+                offerType = IAPOfferType.introOffer.rawValue
+            }
+        }
+        if productId == .yearlyReferral {
+            offerType = IAPOfferType.referral.rawValue
+        }
+        if let discount {
+            if discount.contains(".\(IAPOfferType.winback.rawValue).") {
+                offerType = IAPOfferType.winback.rawValue
+            } else if discount == IAPPromotionID.referall.rawValue {
+                offerType = IAPOfferType.referral.rawValue
             }
         }
 
         var properties: [AnyHashable: Any] = ["product": productId.rawValue,
-                                              "offer_type": offerType]
-
+                                              "offer_type": offerType,
+                                              "tier": productId.subscriptionTier.rawValue.lowercased(),
+                                              "frequency": productId.frequency.rawValue]
         if let source = OnboardingFlow.shared.source {
             properties["source"] = source
         }
