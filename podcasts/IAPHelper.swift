@@ -562,7 +562,7 @@ private extension IAPHelper {
         if let discount {
             if discount.contains(".\(IAPOfferType.winback.rawValue).") {
                 offerType = IAPOfferType.winback.rawValue
-            } else if discount == IAPPromotionID.referall {
+            } else if discount == IAPPromotionID.referall.rawValue {
                 offerType = IAPOfferType.referral.rawValue
             }
         }
