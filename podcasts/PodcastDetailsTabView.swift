@@ -6,7 +6,6 @@ import PocketCastsUtils
 struct PodcastDetailsTabView: View {
     @EnvironmentObject var theme: Theme
     @State private var selectedTab: Tab = .episodes
-    @State private var hasSimilarShows = false
 
     weak var delegate: PodcastActionsDelegate?
 
@@ -47,25 +46,20 @@ struct PodcastDetailsTabView: View {
                         .applyButtonEffect(isPressed: config.isPressed)
                 }
 
-            if hasSimilarShows {
-                Text(L10n.youMightLike)
-                    .buttonize {
-                        selectedTab = .youMightLike
-                        delegate?.showYouMightLike()
-                    } customize: { config in
-                        config.label
-                            .applyStyle(theme: theme, highlighted: selectedTab == .youMightLike)
-                            .applyButtonEffect(isPressed: config.isPressed)
-                    }
-            }
+            Text(L10n.youMightLike)
+                .buttonize {
+                    selectedTab = .youMightLike
+                    delegate?.showYouMightLike()
+                } customize: { config in
+                    config.label
+                        .applyStyle(theme: theme, highlighted: selectedTab == .youMightLike)
+                        .applyButtonEffect(isPressed: config.isPressed)
+                }
 
             Spacer()
         }
         .font(.subheadline.weight(.medium))
         .environment(\.dynamicTypeSize, .large)
-        .onReceive(delegate?.hasSimilarShowsPublisher ?? Just(false).eraseToAnyPublisher()) { hasShows in
-            hasSimilarShows = hasShows
-        }
     }
 }
 

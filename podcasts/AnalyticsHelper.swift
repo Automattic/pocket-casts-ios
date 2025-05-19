@@ -152,7 +152,7 @@ class AnalyticsHelper {
     }
 
     class func listImpression(listId: String) {
-        var properties = ["list_id": listId]
+        let properties = ["list_id": listId]
         Analytics.track(.discoverListImpression, properties: properties)
         bumpStat("discover_list_impression", parameters: properties)
     }

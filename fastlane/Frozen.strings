@@ -4049,7 +4049,17 @@
 /* Title for the You Might Like tab showing related podcasts in a Podcast */
 "you_might_like" = "You might like";
 
+/* Title shown in the section header for podcast podroll recommendations */
 "podcast_podroll_header" = "Recommended shows by the creator";
+
+/* Title shown in the section header for podcast recommendations */
+"podcast_similar_header" = "Shows similar to \"%@\"";
+
+/* Generic title shown in the section header for podcast recommendations */
+"podcast_similar_generic_header" = "Similar shows";
+
+/* Title shown when recommended podcasts can't be loaded */
+"failed_recommendations" = "Couldn't load recommendations";
 
 /* Autoplay feature announcement title */
 "announcement_autoplay_title" = "Autoplay is here!";
@@ -5074,7 +5084,11 @@
 /* Notification body for recommendations you might like message */
 "notifications_recommendations_you_might_like_body" = "Wondering what to listen to next? Check out these shows!";
 
+/* Notification title for App Clip reminder*/
+"notifications_app_clip_title" = "Ready for more podcasts?";
 
+/* Notification body for App Clip reminder*/
+"notifications_app_clip_body" = "Install Pocket Casts to get the full experience with powerful playback and customization tools.";
 
 /* Notifications permissions screen title text*/
 "notifications_permissions_title" = "Stay up to date!";
@@ -5093,6 +5107,19 @@
 
 /* Text used for the "Learn more" link in the modal explaining Creator Picks */
 "creator_pick_modal_learn_more" = "Learn more";
+
+/* Notification title for reengagement downloads */
+"notifications_reengagement_downloads_title" = "Catch up offline";
+
+/* Notification body for reengagement downloads. %1$@ argument is the numbers of episodes downloaded */
+"notifications_reengagement_downloads_body" = "You have %1$@ new episodes downloaded and ready to go!";
+
+/* Notification message to indicate that notification permissions are needed*/
+"notifications_permissions_needs_action" = "Please allow notifications in your device settings";
+
+/* Notification button title to open device notification settings*/
+"notifications_permissions_open_settings" = "Open Settings";
+
 
 /* MARK: - InfoPlist.strings */
 

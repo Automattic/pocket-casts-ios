@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Catch up offline",
+      "body": "You have 3 new episodes downloaded and ready to go!"
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://profile/downloads"
+}

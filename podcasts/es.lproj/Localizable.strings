@@ -3395,5 +3395,7 @@ Con esta función, el trabajo que has hecho para organizar tu página de podcast
     <string>año</string>
     <key>yearly</key>
     <string>Anual</string>
+    <key>you_might_like</key>
+    <string>Puede que te guste</string>
   </dict>
 </plist>

@@ -122,13 +122,15 @@ class DiscoverCollectionViewController: PCViewController {
             for item in items {
                 let selectedCategory = item.cellType() != .categoriesSelector ? selectedCategory : nil
 
-                if itemFilter(item) {
+                if itemFilter(item) && item.regions.contains(currentRegion) {
                     if item.authenticated == true, let uuid = item.uuid {
                         snapshot.appendItems([.loading(uuid)])
-                        loadingTasks[uuid] = Task {
-                            let isAuthenticated = await checkSourceAuthentication(for: item)
-                            guard Task.isCancelled else { return }
+                        loadingTasks[uuid] = Task { [weak self] in
+                            guard let self, !Task.isCancelled else { return }
+                            let isAuthenticated = await self.checkSourceAuthentication(for: item)
+                            guard !Task.isCancelled else { return }
                             self.updateItemInSnapshot(item: item, isAuthenticated: isAuthenticated, region: currentRegion, selectedCategory: selectedCategory)
+                            self.loadingTasks.removeValue(forKey: uuid)
                         }
                     } else {
                         snapshot.appendItems([.item(.init(item: item, region: currentRegion, selectedCategory: selectedCategory))])

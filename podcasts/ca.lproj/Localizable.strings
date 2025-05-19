@@ -1075,13 +1075,13 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <key>filter_auto_add_subtitle_new</key>
     <string>Els nous pòdcasts als quals et subscriguis s'afegiran automàticament</string>
     <key>filter_chips_all_podcasts</key>
-    <string>Tots els teus pòdcasts</string>
+    <string>Tots els pòdcasts</string>
     <key>filter_chips_duration</key>
     <string>Durada</string>
     <key>filter_choose_podcasts</key>
     <string>Triar pòdcasts</string>
     <key>filter_create_add_more</key>
-    <string>Afegeix més paràmetres per a acabar de millor el teu filtre.</string>
+    <string>Afegeix més paràmetres per a millorar el teu filtre.</string>
     <key>filter_create_filter_by</key>
     <string>FILTRAR PER</string>
     <key>filter_create_instructions</key>
@@ -1548,6 +1548,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Noves funcions i consells</string>
     <key>notifications_off</key>
     <string>Notificacions desactivades</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Fes un salt de nivell en el món dels pòdcasts.</string>
     <key>notifications_on</key>
     <string>Notificacions activades</string>
     <key>notifications_on_for_podcast</key>

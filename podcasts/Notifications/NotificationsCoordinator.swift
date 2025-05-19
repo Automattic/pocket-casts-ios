@@ -14,6 +14,7 @@ enum NotificationType: String {
     case onboardingUpsell
 
     case reengagementWeekly
+    case reengagementDownloads
 
     case recommendationsTrending
     case recommendationsYouMightLike
@@ -39,6 +40,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksTitle
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyTitle
+        case .reengagementDownloads:
+                return L10n.notificationsReengagementDownloadsTitle
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingTitle
         case .recommendationsYouMightLike:
@@ -68,6 +71,8 @@ enum NotificationType: String {
             return L10n.notificationsOnboardingStaffPicksBody
         case .reengagementWeekly:
             return L10n.notificationsReengagementWeeklyBody
+        case .reengagementDownloads:
+                return L10n.notificationsReengagementDownloadsBody(NotificationsCoordinator.shared.numberOfDownloadsAvailable())
         case .recommendationsTrending:
             return L10n.notificationsRecommendationsTrendingBody
         case .recommendationsYouMightLike:
@@ -101,6 +106,8 @@ enum NotificationType: String {
             return "pktc://discover/staff-picks"
         case .reengagementWeekly:
             return "pktc://discover"
+        case .reengagementDownloads:
+            return "pktc://profile/downloads"
         case .recommendationsTrending:
             return "pktc://discover/trending"
         case .recommendationsYouMightLike:
@@ -125,6 +132,8 @@ enum NotificationType: String {
                 return SyncManager.isUserLoggedIn()
             case .newFeatureSuggestedFolders:
                 return Settings.suggestedFoldersUpsellCount < 2 && Settings.appVersion() == "7.88"
+            case .reengagementDownloads:
+                return NotificationsCoordinator.shared.numberOfDownloadsAvailable() > 0
             default:
                 return true
         }
@@ -133,6 +142,7 @@ enum NotificationType: String {
     var isRepeatable: Bool {
         switch self {
             case .reengagementWeekly,
+                 .reengagementDownloads,
                  .recommendationsTrending,
                  .recommendationsYouMightLike,
                  .upsell:
@@ -161,7 +171,7 @@ enum NotificationsGroup: CaseIterable {
             case .recommendations:
                 return [.recommendationsTrending, .recommendationsYouMightLike]
             case .newFeaturesAndTips:
-                return [.newFeatureSuggestedFolders, .reengagementWeekly]
+                return [.newFeatureSuggestedFolders, .reengagementWeekly, .reengagementDownloads]
             case .offers:
                 return [.upsell]
         }
@@ -237,10 +247,70 @@ enum NotificationsGroup: CaseIterable {
         }
     }
 
+    func trigger(order: Int, notification: NotificationType) -> UNNotificationTrigger? {
+        if Self.speedUpNotifications {
+            return UNTimeIntervalNotificationTrigger(timeInterval: Double(order + 1) * timeIntervalStep, repeats: notification.isRepeatable)
+        }
+        let calendar = Calendar.current
+        let maxWeekDays: Int = calendar.weekdaySymbols.count
+        switch self {
+            case .newEpisodes:
+                return nil
+            case .dailyReminders:
+                let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(scheduleHour)
+                return UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalToSchedule + (Double(order) * timeIntervalStep), repeats: notification.isRepeatable)
+            case .recommendations:
+                return makeTrigger(
+                    days: (order + 1) * 3,
+                    from: .now,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+
+            case .newFeaturesAndTips:
+                return makeTrigger(
+                    days: (order + 1) * 2,
+                    from: .now,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+
+            case .offers:
+                return makeTrigger(
+                    days: maxWeekDays - order - 1,
+                    from: .now,
+                    calendar: calendar,
+                    repeats: notification.isRepeatable
+                )
+        }
+    }
+
+    private func makeTrigger(days: Int, from date: Date = .now, calendar: Calendar, repeats: Bool) -> UNCalendarNotificationTrigger? {
+        guard let fireDate = calendar.date(byAdding: .day, value: days, to: date) else {
+            return nil
+        }
+
+        let weekday = calendar.component(.weekday, from: fireDate)
+        let components = DateComponents(hour: scheduleHour, weekday: weekday)
+        return UNCalendarNotificationTrigger(dateMatching: components, repeats: repeats)
+    }
+
     static var allDisabled: Bool {
         Self.allCases.allSatisfy() {
             $0.isEnabled == false
         }
+    }
+
+    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
+        if Self.speedUpNotifications {
+            return 1
+        }
+        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime),
+              let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: date)
+        else {
+            return 0
+        }
+        return nextDate.timeIntervalSince(Date.now)
     }
 }
 
@@ -248,7 +318,7 @@ class NotificationsCoordinator {
 
     static let shared: NotificationsCoordinator = NotificationsCoordinator()
 
-    var ignoreScheduleHours: Bool = false
+    var debugMode: Bool = false
 
     private let notificationCenter: UNUserNotificationCenter
 
@@ -284,19 +354,38 @@ class NotificationsCoordinator {
 
     func updateNotifications(for group: NotificationsGroup) {
         cancelNotifications(for: group)
-        let timeIntervalToSchedule: TimeInterval = calculateTimeIntervalToHour(group.scheduleHour)
-        var timeInterval: TimeInterval = timeIntervalToSchedule + group.timeIntervalStep
+        var order = 0
         for notification in group.notifications {
-            guard notification.shouldSend else {
+            guard notification.shouldSend,
+                  let trigger = group.trigger(order: order, notification: notification)
+            else {
                 continue
             }
-            if notification.isRepeatable {
-                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
-                scheduleNotification(notification, timeInterval: timeInterval + group.timeIntervalStep, repeats: true)
-            } else {
-                scheduleNotification(notification, timeInterval: timeInterval, repeats: false)
+            scheduleNotification(notification, trigger: trigger)
+            order += 1
+        }
+        printPendingNotifications()
+    }
+
+    private func printPendingNotifications() {
+        guard debugMode else {
+            return
+        }
+        Task {
+            FileLog.shared.addMessage("\n---- Notification Schedule ----\n")
+            let pendingNotifications = await self.notificationCenter.pendingNotificationRequests()
+            for notificationRequest in pendingNotifications {
+                if let calendarTrigger = notificationRequest.trigger as? UNCalendarNotificationTrigger {
+                    let date = calendarTrigger.nextTriggerDate() ?? Date()
+                    FileLog.shared.addMessage("Notification: \(notificationRequest.identifier) - \(date.formatted())\n")
+                }
+                if let intervalTrigger = notificationRequest.trigger as? UNTimeIntervalNotificationTrigger {
+                    let date = intervalTrigger.nextTriggerDate() ?? Date()
+                    FileLog.shared.addMessage("Notification: \(notificationRequest.identifier) - \(date.formatted())\n")
+                }
+
             }
-            timeInterval += group.timeIntervalStep
+            FileLog.shared.addMessage("\n---- End ----\n")
         }
     }
 
@@ -308,14 +397,12 @@ class NotificationsCoordinator {
         }
     }
 
-    func scheduleNotification(_ type: NotificationType, timeInterval: TimeInterval = 5.seconds, repeats: Bool = false) {
+    func scheduleNotification(_ type: NotificationType, trigger: UNNotificationTrigger) {
         let content = UNMutableNotificationContent()
         content.title = type.title
         content.body = type.body
         content.categoryIdentifier = NotificationsHelper.NotificationsCategory.deepLink.rawValue
         content.userInfo = ["destination_url": type.link]
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
 
         let request = UNNotificationRequest(identifier: type.identifier, content: content, trigger: trigger)
 
@@ -338,19 +425,20 @@ class NotificationsCoordinator {
 
     func cancelNotifications(for group: NotificationsGroup) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: group.notifications.map { $0.identifier })
+        printPendingNotifications()
     }
 
     func cancelNotification(_ type: NotificationType) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [type.identifier])
     }
 
-    private func calculateTimeIntervalToHour(_ hour: Int) -> TimeInterval {
-        if ignoreScheduleHours {
-            return 1
+    private lazy var episodesDataManager: EpisodesDataManager = {
+        return EpisodesDataManager()
+    }()
+
+    func numberOfDownloadsAvailable() -> Int {
+        episodesDataManager.downloadedEpisodes().reduce(0) { partialResult, list in
+            return partialResult + list.elements.count
         }
-        guard let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date.now, matchingPolicy: .nextTime) else {
-            return 0
-        }
-        return date.timeIntervalSince(Date.now)
     }
 }

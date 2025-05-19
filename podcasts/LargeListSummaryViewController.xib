@@ -23,7 +23,7 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fw0-IT-oEE" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="370" height="275"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" alignment="lastBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="X56-LC-Q5n">
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" alignment="lastBaseline" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="X56-LC-Q5n">
                     <rect key="frame" x="16" y="30" width="338" height="20"/>
                     <subviews>
                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CeQ-tP-ch9" customClass="LargeListSummaryCellHeaderView" customModule="podcasts" customModuleProvider="target">
@@ -31,11 +31,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dtr-d4-ivC">
-                            <rect key="frame" x="92" y="0.0" width="176" height="20"/>
+                            <rect key="frame" x="97" y="0.0" width="126" height="20"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-fo-tPV" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="268" y="0.0" width="70" height="20"/>
+                            <rect key="frame" x="228" y="0.0" width="110" height="20"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <state key="normal" title="SHOW ALL">
                                 <color key="titleColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

@@ -77,7 +77,7 @@ extension MainTabBarController {
     }
 
     @objc private func handleProfile() {
-        navigateToProfile(true)
+        navigateToProfile(animated: true)
     }
 
     @objc private func handleDecreaseSpeed() {

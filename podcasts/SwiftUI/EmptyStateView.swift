@@ -1,10 +1,18 @@
 import SwiftUI
 
 protocol EmptyStateViewStyle: ObservableObject {
-    var background: Color { get }
     var title: Color { get }
     var message: Color { get }
+    var icon: Color { get }
     var button: Color { get }
+    var background: Color { get }
+}
+
+struct EmptyStateAction: Identifiable {
+    let title: String
+    let action: () -> Void
+
+    var id: String { title }
 }
 
 /// Displays an informative view when there are no items to display and can be customized to show a custom view instead
@@ -12,34 +20,55 @@ protocol EmptyStateViewStyle: ObservableObject {
 ///
 /// The colors can be customized using EmptyStateViewStyle
 struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
-    @ObservedObject var style: Style
-    let title: () -> Title
-    let message: String
-    let actions: [Action]
+    @ScaledMetric(relativeTo: .headline)
+   private var iconSize = 30
 
-    init(@ViewBuilder title: @escaping () -> Title, message: String, actions: [Action], style: Style) {
+    @ObservedObject var style: Style
+    let icon: (() -> Image)?
+    let title: () -> Title
+    let message: String?
+    let actions: [EmptyStateAction]
+
+    init(
+        @ViewBuilder title: @escaping () -> Title,
+        message: String?,
+        icon: (() -> Image)? = nil,
+        actions: [EmptyStateAction],
+        style: Style
+    ) {
         self.title = title
         self.message = message
+        self.icon = icon
         self.actions = actions
         self.style = style
     }
 
     var body: some View {
         VStack(spacing: EmptyConstants.spacing) {
+
+            if let icon {
+                icon()
+                    .resizable()
+                    .foregroundStyle(style.icon)
+                    .frame(width: iconSize, height: iconSize)
+            }
+
             title()
-                .font(style: .title2, weight: .bold)
+                .font(.headline)
                 .foregroundStyle(style.title)
 
-            Text(message)
-                .multilineTextAlignment(.center)
-                .font(style: .subheadline)
-                .foregroundStyle(style.message)
+            if let message {
+                Text(message)
+                    .multilineTextAlignment(.center)
+                    .font(.subheadline)
+                    .foregroundStyle(style.message)
+            }
 
             HStack {
                 ForEach(actions) { action in
                     Button(action.title) {
                         action.action()
-                    }.buttonStyle(ClickyButton())
+                    }.buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
                 }
             }
             .font(style: .subheadline, weight: .medium)
@@ -48,16 +77,8 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
-        .background(style.background)
-        .cornerRadius(EmptyConstants.cornerRadius)
         .padding(EmptyConstants.padding)
-    }
-
-    struct Action: Identifiable {
-        let title: String
-        let action: () -> Void
-
-        var id: String { title }
+        .background(style.background)
     }
 }
 
@@ -69,9 +90,10 @@ private enum EmptyConstants {
 }
 
 extension EmptyStateView where Title == Text {
-    init(title: String, message: String, actions: [Action], style: Style) {
+    init(title: String, message: String?, icon: (() -> Image)? = nil, actions: [EmptyStateAction], style: Style) {
         self.message = message
         self.actions = actions
+        self.icon = icon
         self.title = {
             Text(title)
         }
@@ -92,6 +114,7 @@ struct EmptyStateView_Previews: PreviewProvider {
         var background: Color { .black }
         var title: Color { .white }
         var message: Color { .white.opacity(0.8) }
+        var icon: Color { .primary }
         var button: Color { .red }
     }
 }
