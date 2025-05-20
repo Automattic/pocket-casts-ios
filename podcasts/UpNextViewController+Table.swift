@@ -238,14 +238,14 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = tableData[indexPath.section]
         if section == .nowPlayingSection { return UpNextViewController.nowPlayingRowHeight }
-        if PlaybackManager.shared.queue.upNextCount() == 0 { return 300 } // Height for empty state cell
+        if PlaybackManager.shared.queue.upNextCount() == 0 { return UpNextViewController.emptyStateRowHeight }
         return UpNextViewController.upNextRowHeight
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = tableData[indexPath.section]
         if section == .nowPlayingSection { return UpNextViewController.nowPlayingRowHeight }
-        if PlaybackManager.shared.queue.upNextCount() == 0 { return 300 } // Height for empty state cell
+        if PlaybackManager.shared.queue.upNextCount() == 0 { return UpNextViewController.emptyStateRowHeight }
         return UpNextViewController.upNextRowHeight
     }
 

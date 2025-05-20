@@ -10,6 +10,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let upNextSection = 1
     static let upNextRowHeight: CGFloat = 72
     static let nowPlayingRowHeight: CGFloat = 72
+    static let emptyStateRowHeight: CGFloat = 300
     static let rearrangeWidth: CGFloat = 60
     static let bottomMargin: CGFloat = 8
 
