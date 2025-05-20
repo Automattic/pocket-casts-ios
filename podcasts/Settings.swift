@@ -1447,6 +1447,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - New Filter Tip
+
+    static var shouldShowNewFilterTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.newFilterTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.newFilterTip)
+        }
+    }
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {

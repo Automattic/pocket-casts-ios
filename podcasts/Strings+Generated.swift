@@ -1342,6 +1342,10 @@ internal enum L10n {
   internal static var filtersDefaultNewReleases: String { return L10n.tr("Localizable", "filters_default_new_releases") }
   /// + New Filter
   internal static var filtersNewFilterButton: String { return L10n.tr("Localizable", "filters_new_filter_button") }
+  /// Create smart filters to organize your episodes. Filter by duration, release date, media type, and more.
+  internal static var filtersTipViewDescription: String { return L10n.tr("Localizable", "filters_tip_view_description") }
+  /// Organize your episodes
+  internal static var filtersTipViewTitle: String { return L10n.tr("Localizable", "filters_tip_view_title") }
   /// Folder
   internal static var folder: String { return L10n.tr("Localizable", "folder") }
   /// Add %1$@ Podcasts
