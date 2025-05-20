@@ -1700,6 +1700,7 @@
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F51BAC222DC852C200351B09 /* CreatorPickModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BAC212DC852C200351B09 /* CreatorPickModalView.swift */; };
+		F51CB0432DDBF489006364A1 /* PlaybackQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51CB0422DDBF465006364A1 /* PlaybackQueueTests.swift */; };
 		F51D3A0C2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */; };
 		F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */; };
 		F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90732C71A0A100F0A232 /* SharingFooterView.swift */; };
@@ -3941,6 +3942,7 @@
 		F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsWhatsNewView.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51BAC212DC852C200351B09 /* CreatorPickModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorPickModalView.swift; sourceTree = "<group>"; };
+		F51CB0422DDBF465006364A1 /* PlaybackQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackQueueTests.swift; sourceTree = "<group>"; };
 		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
 		F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Crop.swift"; sourceTree = "<group>"; };
 		F51D90732C71A0A100F0A232 /* SharingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingFooterView.swift; sourceTree = "<group>"; };
@@ -4739,6 +4741,7 @@
 		45ECEF7C27E910E300C65030 /* PocketCastsTests */ = {
 			isa = PBXGroup;
 			children = (
+				F51CB0422DDBF465006364A1 /* PlaybackQueueTests.swift */,
 				8BA55A1128CA7404002BECC5 /* Extensions */,
 				8B317BA128906C7400A26A13 /* Helpers */,
 				8BF0BBD72891AFA8006BBECF /* Mocks */,
@@ -9998,6 +10001,7 @@
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
 				8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */,
+				F51CB0432DDBF489006364A1 /* PlaybackQueueTests.swift in Sources */,
 				8B2E055028F8579700C2DBDE /* StoriesModelTests.swift in Sources */,
 				C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */,
 				8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */,
