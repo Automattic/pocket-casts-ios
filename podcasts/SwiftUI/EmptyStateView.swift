@@ -3,8 +3,16 @@ import SwiftUI
 protocol EmptyStateViewStyle: ObservableObject {
     var title: Color { get }
     var message: Color { get }
-    var button: Color { get }
     var icon: Color { get }
+    var button: Color { get }
+    var background: Color { get }
+}
+
+struct EmptyStateAction: Identifiable {
+    let title: String
+    let action: () -> Void
+
+    var id: String { title }
 }
 
 /// Displays an informative view when there are no items to display and can be customized to show a custom view instead
@@ -12,6 +20,9 @@ protocol EmptyStateViewStyle: ObservableObject {
 ///
 /// The colors can be customized using EmptyStateViewStyle
 struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
+    @ScaledMetric(relativeTo: .headline)
+   private var iconSize = 30
+
     @ObservedObject var style: Style
     let icon: (() -> Image)?
     let title: () -> Title
@@ -39,17 +50,17 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
                 icon()
                     .resizable()
                     .foregroundStyle(style.icon)
-                    .frame(width: 30, height: 30)
+                    .frame(width: iconSize, height: iconSize)
             }
 
             title()
-                .font(style: .subheadline, weight: .semibold)
+                .font(.headline)
                 .foregroundStyle(style.title)
 
             if let message {
                 Text(message)
                     .multilineTextAlignment(.center)
-                    .font(style: .body)
+                    .font(.subheadline)
                     .foregroundStyle(style.message)
             }
 
@@ -67,14 +78,8 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
         .padding(EmptyConstants.padding)
+        .background(style.background)
     }
-}
-
-struct EmptyStateAction: Identifiable {
-    let title: String
-    let action: () -> Void
-
-    var id: String { title }
 }
 
 private enum EmptyConstants {
@@ -88,11 +93,11 @@ extension EmptyStateView where Title == Text {
     init(title: String, message: String?, icon: (() -> Image)? = nil, actions: [EmptyStateAction], style: Style) {
         self.message = message
         self.actions = actions
+        self.icon = icon
         self.title = {
             Text(title)
         }
         self.style = style
-        self.icon = icon
     }
 }
 
@@ -109,7 +114,7 @@ struct EmptyStateView_Previews: PreviewProvider {
         var background: Color { .black }
         var title: Color { .white }
         var message: Color { .white.opacity(0.8) }
-        var button: Color { .red }
         var icon: Color { .primary }
+        var button: Color { .red }
     }
 }

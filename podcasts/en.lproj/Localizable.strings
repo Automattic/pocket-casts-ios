@@ -463,6 +463,9 @@
 /* A common string used throughout the app. Refers to the Discover tab. */
 "discover" = "Discover";
 
+/* A title for an action to navigate to the Discover section*/
+"go_to_discover" = "Go to Discover";
+
 /* Title for the section that allows the user to explore different podcast categories. */
 "discover_browse_by_category" = "Browse By Category";
 
@@ -812,10 +815,10 @@
 "downloads_auto_download" = "Auto Download Settings";
 
 /* Title for the empty state when there are no downloads available */
-"downloads_no_downloads_title" = "No Downloaded Episodes";
+"downloads_no_downloads_title" = "Enjoy offline listening";
 
 /* The description for the empty state when there are no downloads available */
-"downloads_no_downloads_desc" = "Oh no! You’re fresh out of downloads. Download some more and they’ll show up here.";
+"downloads_no_downloads_desc" = "Save episodes for offline listening and never miss a moment.";
 
 /* Prompt to allow the user to retry failed downloads. */
 "downloads_retry_failed_downloads" = "Retry Failed Downloads";
@@ -1538,10 +1541,16 @@
 "playback_effects" = "Playback effects";
 
 /* Description for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_desc" = "You haven't starred any episodes yet.";
+"profile_starred_no_episodes_desc" = "Star episodes you love and come back to them at anytime.";
 
 /* Title for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_title" = "Nothing Starred";
+"profile_starred_no_episodes_title" = "Save your favorites";
+
+/* Title for the empty state on screen where the user can review the episodes they have listened to */
+"profile_listening_history_empty_title" = "Let’s get you listening!";
+
+/* Description for the empty state on screen where the user can review the episodes they have listened to */
+"profile_listening_history_empty_description" = "Start listening to podcasts and revisit your listening history here.";
 
 /* Used next to a setting for how fast audio will play */
 "speed" = "Speed";
