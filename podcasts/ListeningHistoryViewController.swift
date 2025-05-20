@@ -27,7 +27,7 @@ class ListeningHistoryViewController: PCViewController {
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
-    @IBOutlet var listeningHistoryTable: UITableView! {
+    @IBOutlet var listeningHistoryTable: ThemeableTable! {
         didSet {
             registerCells()
             listeningHistoryTable.estimatedRowHeight = 80
@@ -223,7 +223,8 @@ class ListeningHistoryViewController: PCViewController {
     private func refreshContentUnavailable() {
         var config: UIContentConfiguration?
 
-        listeningHistoryTable.backgroundView = nil
+        listeningHistoryTable.backgroundView = UIView()
+        listeningHistoryTable.themeStyle = .primaryUi04
 
         if episodes.isEmpty {
             if searchController?.searchTextField.text?.isEmpty == false {
@@ -236,6 +237,7 @@ class ListeningHistoryViewController: PCViewController {
                     icon: { Image("profile-download").renderingMode(.template) }
                 )
 
+                listeningHistoryTable.backgroundColor = UIColor(DefaultEmptyStateStyle.defaultStyle.background)
                 listeningHistoryTable.backgroundView = config?.makeContentView()
             } else {
                 // Empty State when not searching
