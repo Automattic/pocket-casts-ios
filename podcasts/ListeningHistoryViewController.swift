@@ -147,7 +147,6 @@ class ListeningHistoryViewController: PCViewController {
             let newData = self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
-//                self.listeningHistoryTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
                     self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
@@ -296,8 +295,6 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
         let oldData = episodes
         let newData = episodesDataManager.searchEpisodes(for: searchTerm)
-
-//        listeningHistoryTable.isHidden = newData.isEmpty
 
         let changeSet = StagedChangeset(source: oldData, target: newData)
         self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
