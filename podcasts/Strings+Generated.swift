@@ -1793,9 +1793,13 @@ internal enum L10n {
   }
   /// Headphone settings
   internal static var noBookmarksButtonTitle: String { return L10n.tr("Localizable", "no_bookmarks_button_title") }
+  /// Get Bookmarks
+  internal static var noBookmarksLockedButtonTitle: String { return L10n.tr("Localizable", "no_bookmarks_locked_button_title") }
+  /// You can save timestamps of important moments in an episode.
+  internal static var noBookmarksLockedMessage: String { return L10n.tr("Localizable", "no_bookmarks_locked_message") }
   /// You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.
   internal static var noBookmarksMessage: String { return L10n.tr("Localizable", "no_bookmarks_message") }
-  /// No bookmarks yet
+  /// Bookmark that moment
   internal static var noBookmarksTitle: String { return L10n.tr("Localizable", "no_bookmarks_title") }
   /// None
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
