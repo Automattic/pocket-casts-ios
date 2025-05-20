@@ -89,7 +89,7 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             .font(style: .subheadline, weight: .medium)
             .foregroundStyle(style.button)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: 400)
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
         .padding(EmptyConstants.padding)
