@@ -432,6 +432,9 @@ extension IAPHelper {
 
 extension IAPHelper: SKPaymentTransactionObserver {
     fileprivate func purchaseWasSuccessful(_ payment: SKPayment) {
+        if FeatureFlag.newOfferEligibilityCheck.enabled {
+            updateTrialEligibility()
+        }
         guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
             return
         }
