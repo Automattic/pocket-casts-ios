@@ -27,7 +27,13 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
 // MARK: - Styles
 
 class DefaultEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
-    var background: Color { theme.primaryUi02 }
+    private let customBackground: Color?
+
+    init(background: Color? = nil) {
+        self.customBackground = background
+    }
+
+    var background: Color { customBackground ?? theme.primaryUi02 }
     var title: Color { theme.primaryText01 }
     var message: Color { theme.primaryText02 }
     var icon: Color { theme.primaryIcon03 }
