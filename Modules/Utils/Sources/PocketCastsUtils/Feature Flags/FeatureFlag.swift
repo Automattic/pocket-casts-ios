@@ -179,6 +179,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Recommendations including discover v3 support
     case recommendations
 
+    /// Ignore server IAP check
+    case newOfferEligibilityCheck
+
+    /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
+    case replaceSpecificEpisode
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -302,6 +308,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastsSortChanges:
             true
         case .recommendations:
+            true
+        case .newOfferEligibilityCheck:
+            true
+        case .replaceSpecificEpisode:
             true
         }
     }

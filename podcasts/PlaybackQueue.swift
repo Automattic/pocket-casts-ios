@@ -207,7 +207,11 @@ class PlaybackQueue: NSObject {
 
         DataManager.sharedManager.deleteAllUpNextEpisodes()
         if !shouldRemoveInsteadOfReplace {
-            saveReplaceIfRequired()
+            if FeatureFlag.replaceSpecificEpisode.enabled {
+                saveReplaceIfRequired(episodeList: [episode.uuid])
+            } else {
+                saveReplaceIfRequired()
+            }
         }
 
         pushNewCurrentlyPlaying(episode: episode)
@@ -373,12 +377,16 @@ class PlaybackQueue: NSObject {
         startSyncTimer()
     }
 
-    private func saveReplaceIfRequired() {
+    private func saveReplaceIfRequired(episodeList: [String]? = nil) {
         if !SyncManager.isUserLoggedIn() { return }
 
         var episodeUuids = [String]()
-        for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
-            episodeUuids.append(playlistEpisode.episodeUuid)
+        if let episodeList {
+            episodeUuids = episodeList
+        } else {
+            for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
+                episodeUuids.append(playlistEpisode.episodeUuid)
+            }
         }
 
         FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")

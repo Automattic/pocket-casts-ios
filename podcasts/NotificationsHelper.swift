@@ -41,7 +41,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             SettingsStore.appSettings.notifications = true
         }
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.pushEnabled)
-        registerForPushNotifications()
     }
 
     func disablePush() {
