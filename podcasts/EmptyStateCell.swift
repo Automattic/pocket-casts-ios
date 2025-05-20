@@ -13,7 +13,7 @@ class EmptyStateCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(title: String, message: String? = nil, icon: (() -> Image)? = nil, actions: [EmptyStateAction] = []) {
+    func configure<Style: EmptyStateViewStyle>(title: String, message: String? = nil, icon: (() -> Image)? = nil, style: Style = DefaultEmptyStateStyle.defaultStyle, actions: [EmptyStateAction] = []) {
         if #available(iOS 16.0, *) {
             self.contentConfiguration = UIHostingConfiguration {
                 EmptyStateView(
@@ -21,7 +21,7 @@ class EmptyStateCell: UITableViewCell {
                     message: message,
                     icon: icon,
                     actions: actions,
-                    style: .defaultStyle
+                    style: style
                 )
             }
             .margins(.horizontal, 16)
@@ -32,7 +32,7 @@ class EmptyStateCell: UITableViewCell {
                 message: message,
                 icon: icon,
                 actions: actions,
-                style: .defaultStyle
+                style: style
             )
             let uiView = view.uiView
             uiView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,4 +46,8 @@ class EmptyStateCell: UITableViewCell {
             ])
         }
     }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+    override func setEditing(_ editing: Bool, animated: Bool) {}
 }
