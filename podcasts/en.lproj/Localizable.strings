@@ -3542,6 +3542,9 @@
 /* Description shown under the title of an empty folder */
 "folder_empty_description" = "Add podcasts to your folder and they’ll appear here.";
 
+/* A button title for the empty folder state which will open the Add Podcasts screen */
+"folder_empty_button_title" = "Add podcasts";
+
 /* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
 "free_trial_title_label" = "Try Plus with %1$@ free";
 

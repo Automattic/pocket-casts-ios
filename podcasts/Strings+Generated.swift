@@ -1379,6 +1379,8 @@ internal enum L10n {
   internal static var folderDeletePromptTitle: String { return L10n.tr("Localizable", "folder_delete_prompt_title") }
   /// Edit Folder
   internal static var folderEdit: String { return L10n.tr("Localizable", "folder_edit") }
+  /// Add podcasts
+  internal static var folderEmptyButtonTitle: String { return L10n.tr("Localizable", "folder_empty_button_title") }
   /// Add podcasts to your folder and they’ll appear here.
   internal static var folderEmptyDescription: String { return L10n.tr("Localizable", "folder_empty_description") }
   /// Your folder is empty
