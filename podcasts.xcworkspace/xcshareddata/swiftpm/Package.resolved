@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
           "branch": null,
-          "revision": "948c7642009237c74ef30dad59f03835416873eb",
-          "version": "3.4.2"
+          "revision": "437f586a62c07c6ceec9baf043237b2afe7ea1ac",
+          "version": "3.5.2"
         }
       },
       {
@@ -222,8 +222,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "08862789e1cbba7a9561bed69832a9306f339cd3",
-          "version": "8.29.1"
+          "revision": "11aee2d3efdd74db8ce51533118500d140210292",
+          "version": "8.51.0"
         }
       },
       {
@@ -249,8 +249,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "ed8c19dab44e285b9463000c3bbb31dcea7790e9",
-          "version": "1.3.0"
+          "revision": "aaa309326c2b8bfb52b7fdfabb1a43820c2e26b2",
+          "version": "1.8.2"
         }
       },
       {
