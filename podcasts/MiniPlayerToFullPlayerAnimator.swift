@@ -141,6 +141,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             artwork = UIImageView()
             artwork?.image = fullPlayerArtwork.image
+            artwork?.contentMode = fullPlayerArtwork.contentMode
 
             containerView.addSubview(artwork ?? UIView())
             artwork?.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
