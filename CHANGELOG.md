@@ -1,6 +1,6 @@
 7.90
 -----
-
+- Fix episode artwork aspect ratio on mini-player [1084](https://github.com/Automattic/pocket-casts-ios/issues/1084)
 
 7.89
 -----
