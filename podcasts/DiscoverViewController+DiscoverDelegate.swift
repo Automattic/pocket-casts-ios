@@ -102,7 +102,7 @@ extension DiscoverViewController: DiscoverDelegate {
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
             let source = replaceRegionCode(string: item.source ?? "")
-            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source)
+            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source, isAuthenticated: item.isAuthenticated)
             listView.title = replaceRegionName(string: item.title?.localized ?? "")
             listView.showFeaturedCell = item.expandedStyle == "ranked_list"
             listView.showRankingNumber = item.expandedStyle == "ranked_list"
