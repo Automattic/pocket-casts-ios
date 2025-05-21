@@ -78,7 +78,7 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var playButtonBackground: Color? { theme.primaryUi01 }
     var playButtonStroke: Color? { theme.primaryText01 }
     var actionBarStyle = ThemedActionBarStyle()
-    var emptyStyle = DefaultEmptyStateStyle()
+    var emptyStyle = DefaultEmptyStateStyle(background: .clear)
 }
 
 // MARK: - Override Themed Style
