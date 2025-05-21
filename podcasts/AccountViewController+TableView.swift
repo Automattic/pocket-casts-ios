@@ -44,7 +44,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch row {
         case .upgradeView:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier, for: indexPath) as! PlusAccountPromptTableCell
+            let cell: PlusAccountPromptTableCell
+            if let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier) as? PlusAccountPromptTableCell {
+                cell = dequeuedCell
+            } else {
+                cell = PlusAccountPromptTableCell(reuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier, model: model)
+            }
             cell.updateParent(self)
             cell.contentSizeUpdated = { [weak self] size in
                 self?.upgradePromptViewSize = size
