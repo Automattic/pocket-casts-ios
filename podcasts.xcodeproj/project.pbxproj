@@ -290,8 +290,6 @@
 		409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C792B22237DD900386495 /* UserEpisodeDetailViewController+Table.swift */; };
 		409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C792D222397BA00386495 /* UserEpisodeActionCell.swift */; };
 		409C7930222397BA00386495 /* UserEpisodeActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C792E222397BA00386495 /* UserEpisodeActionCell.xib */; };
-		409C793722387C0500386495 /* AllArchivedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C793522387C0500386495 /* AllArchivedCell.swift */; };
-		409C793822387C0500386495 /* AllArchivedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C793622387C0500386495 /* AllArchivedCell.xib */; };
 		409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C7939223899A500386495 /* AllArchivedPlaceholder.swift */; };
 		40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0A90A24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift */; };
 		40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */; };
@@ -2548,8 +2546,6 @@
 		409C792B22237DD900386495 /* UserEpisodeDetailViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEpisodeDetailViewController+Table.swift"; sourceTree = "<group>"; };
 		409C792D222397BA00386495 /* UserEpisodeActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEpisodeActionCell.swift; sourceTree = "<group>"; };
 		409C792E222397BA00386495 /* UserEpisodeActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserEpisodeActionCell.xib; sourceTree = "<group>"; };
-		409C793522387C0500386495 /* AllArchivedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedCell.swift; sourceTree = "<group>"; };
-		409C793622387C0500386495 /* AllArchivedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllArchivedCell.xib; sourceTree = "<group>"; };
 		409C7939223899A500386495 /* AllArchivedPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedPlaceholder.swift; sourceTree = "<group>"; };
 		40A0A90A24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadsViewController+MultiSelect.swift"; sourceTree = "<group>"; };
 		40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectHelper.swift; sourceTree = "<group>"; };
@@ -6418,8 +6414,6 @@
 				FFF3FCCF2D8B143E009BAF26 /* PodcastHeaderDescriptionView.swift */,
 				FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */,
 				FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */,
-				409C793522387C0500386495 /* AllArchivedCell.swift */,
-				409C793622387C0500386495 /* AllArchivedCell.xib */,
 				4086511923B1CE8400D7585A /* CreateSiriShortcutCell.swift */,
 				4086511A23B1CE8400D7585A /* CreateSiriShortcutCell.xib */,
 				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
@@ -9638,7 +9632,6 @@
 				BDA002ED1F7B318B00DCB4AE /* AppIcon-Round29x29@3x.png in Resources */,
 				BD0B68752203EFCC002CCE3F /* EpisodeLimitCell.xib in Resources */,
 				8BD5A5082A1F96C200F473C6 /* AppIcon-Pride20x20~ipad.png in Resources */,
-				409C793822387C0500386495 /* AllArchivedCell.xib in Resources */,
 				BD12931622F809F8004608A6 /* AppIcon-Electric-Pink83.5x83.5@2x~ipad.png in Resources */,
 				4030D4622496446000BEC7D9 /* MultiSelectActionController.xib in Resources */,
 				BD6B669D245BC28800CF5245 /* AppIcon-Red-Velvet40x40@2x~ipad.png in Resources */,
@@ -10233,7 +10226,6 @@
 				BDB3BDBD1FE23F3D00FD8D24 /* PodcastChooserViewController.swift in Sources */,
 				BD4FC1DB1FA6E21F0013364F /* PlaylistViewController.swift in Sources */,
 				F57D8F142C66CA230004C4DF /* UnsafeWait.swift in Sources */,
-				409C793722387C0500386495 /* AllArchivedCell.swift in Sources */,
 				FF0F407A2D5E32920036FFE9 /* ThreadSafeDictionary.swift in Sources */,
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,

@@ -9,7 +9,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let headerCellId = "HeaderCell"
     private static let limitCellId = "LimitCell"
     private static let noSearchResultsCell = "NoSearchResults"
-    private static let allArchivedCellId = "AllArchivedCell"
     private static let groupHeadingCellId = "GroupHeading"
     private static let emptyStateCellId = "EmptyStateCell"
     private static let loadingCellId = "LoadingCell"
@@ -47,7 +46,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         episodesTable.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.episodeCellId)
         episodesTable.register(UINib(nibName: "PodcastHeadingTableCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.headerCellId)
         episodesTable.register(UINib(nibName: "EpisodeLimitCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.limitCellId)
-        episodesTable.register(UINib(nibName: "AllArchivedCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.allArchivedCellId)
         episodesTable.register(UINib(nibName: "HeadingCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.groupHeadingCellId)
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
         episodesTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
@@ -171,8 +169,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.noSearchResultsCell, for: indexPath) as! NoSearchResultsCell
                 return cell
             } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
-                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.allArchivedCellId, for: indexPath) as! AllArchivedCell
-                cell.episodesArchivedLabel.text = archivedPlaceholder.message
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+                cell.configure(title: L10n.episodeFilterNoEpisodesTitle, message: archivedPlaceholder.message, icon: {
+                    Image(systemName: "info.circle")
+                }, actions: [
+                    .init(title: L10n.podcastShowArchived, action: { [weak self] in
+                        guard let self else { return }
+                        self.searchController?.showHideArchiveTapped(self)
+                    })
+                ])
                 return cell
             } else if let heading = itemAtRow as? ListHeader {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
