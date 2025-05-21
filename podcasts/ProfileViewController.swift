@@ -11,7 +11,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
-    @IBOutlet var lastRefreshTime: UILabel!
+    @IBOutlet var lastRefreshTime: UILabel! {
+        didSet {
+            lastRefreshTime.font = UIFont.font(with: .body)
+        }
+    }
     @IBOutlet var refreshBtn: AnimatedImageButton! {
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
@@ -40,7 +44,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -311,6 +315,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
+        cell.updateImageScale()
         cell.separatorInset = .zero
 
         switch row {
@@ -363,6 +368,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = tableData[indexPath.section][indexPath.row]
+        switch row {
+        case .informationalBanner:
+            return 160
+        default:
+            return 70
+        }
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 
@@ -372,7 +387,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         } else if row == .informationalBanner {
             return 160
         } else {
-            return 70
+            return UITableView.automaticDimension
         }
     }
 
@@ -380,13 +395,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData[indexPath.section][indexPath.row]
+        navigateToRow(row)
+    }
+
+    func navigateToRow(_ row: TableRow) {
         switch row {
         case .kidsProfile, .informationalBanner:
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self) {
-                tableView.reloadData()
+            ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
+                self?.profileTable.reloadData()
             }
         case .allStats:
             let statsViewController = StatsViewController()

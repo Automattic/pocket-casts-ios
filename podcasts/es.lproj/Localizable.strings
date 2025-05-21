@@ -383,6 +383,23 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Paga %@ ahora para obtener un año más al 50 %% de descuento.</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Consigue tu próximo mes gratis</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Nos gustaría saber por qué has cancelado. Tus comentarios nos ayudan a mejorar.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>He encontrado una aplicación mejor</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Motivos relacionados con los costes</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>No lo uso lo suficiente</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Otros</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Problemas técnicos</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Enviar opinión</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Gracias por probarlo
+Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
     <string>¿Estás pensando en irte?
 Deja que te ayudemos</string>
@@ -524,6 +541,12 @@ Deja que te ayudemos</string>
     <string>Crear clip</string>
     <key>create_filter</key>
     <string>Crear filtro</string>
+    <key>creator_pick_modal_description</key>
+    <string>Las selecciones de los creadores son podcasts recomendados por el creador del programa mediante PodRoll.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Más información</string>
+    <key>creator_pick_modal_title</key>
+    <string>¿Qué son las selecciones de los creadores?</string>
     <key>current_email_prompt</key>
     <string>Correo electrónico actual</string>
     <key>current_password_prompt</key>
@@ -1025,6 +1048,8 @@ que has escuchado dura
     <string>EXPORTAR</string>
     <key>exporting_database</key>
     <string>Exportando base de datos...</string>
+    <key>failed_recommendations</key>
+    <string>No se han podido cargar las recomendaciones</string>
     <key>feature_tour_end_tour</key>
     <string>Finalizar visita</string>
     <key>feature_tour_new</key>
@@ -1548,12 +1573,24 @@ pódcast contigo</string>
     <string>Ninguno</string>
     <key>not_on_wifi</key>
     <string>No estás conectado a la red wifi</string>
+    <key>notifications_app_clip_body</key>
+    <string>Instala Pocket Casts para disfrutar de una experiencia completa con potentes herramientas de reproducción y personalización.</string>
+    <key>notifications_app_clip_title</key>
+    <string>¿Todo listo para más podcasts?</string>
     <key>notifications_daily_reminders</key>
     <string>Recordatorios diarios</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Prueba Plus y organiza automáticamente tus programas en carpetas.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Tus podcasts, organizados</string>
     <key>notifications_new_features_tips</key>
     <string>Nuevas funciones y consejos</string>
     <key>notifications_off</key>
     <string>Notificaciones desactivadas</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Consigue funciones exclusivas como las carpetas, los marcadores y mucho más con Plus.</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Mejora tu experiencia de podcasts</string>
     <key>notifications_on</key>
     <string>Notificaciones activadas</string>
     <key>notifications_on_for_podcast</key>
@@ -1586,6 +1623,16 @@ pódcast contigo</string>
     <string>Consigue funciones exclusivas como las carpetas, los marcadores y mucho más con Plus.</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Mejora tu experiencia de podcasts</string>
+    <key>notifications_permissions_action</key>
+    <string>Permitir notificaciones</string>
+    <key>notifications_permissions_body</key>
+    <string>Las notificaciones son la mejor manera de estar al tanto de los nuevos episodios, obtener recomendaciones de nuevos programas y consejos sobre Pocket Casts.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Permite las notificaciones en los ajustes de tu dispositivo</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Abrir Ajustes</string>
+    <key>notifications_permissions_title</key>
+    <string>Mantente al día</string>
     <key>notifications_play_now</key>
     <string>Reproducir ahora</string>
     <key>notifications_pocket_cast_offers</key>
@@ -1594,6 +1641,14 @@ pódcast contigo</string>
     <string>Echa un vistazo a lo que todo el mundo escucha esta semana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendencias de esta semana</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>¿No sabes qué escuchar a continuación? Echa un vistazo a estos programas.</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Nuevas recomendaciones para ti</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Tienes %1$@ episodios nuevos descargados y listos para escuchar.</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Ponte al día sin conexión</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>Hace tiempo que no escuchas contenido. Vuelve a entrar y disfruta.</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2128,6 +2183,8 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Pausar descarga</string>
     <key>podcast_pause_playback</key>
     <string>Pausar reproducción</string>
+    <key>podcast_podroll_header</key>
+    <string>Programas recomendados por el creador</string>
     <key>podcast_queued</key>
     <string>En cola</string>
     <key>podcast_queuing</key>
@@ -2156,6 +2213,10 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Abrir archivo en…</string>
     <key>podcast_show_archived</key>
     <string>Mostrar elementos archivados</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Programas similares</string>
+    <key>podcast_similar_header</key>
+    <string>Programas similares a «%@»</string>
     <key>podcast_singular</key>
     <string>Podcast</string>
     <key>podcast_soon</key>
@@ -3395,5 +3456,7 @@ Con esta función, el trabajo que has hecho para organizar tu página de podcast
     <string>año</string>
     <key>yearly</key>
     <string>Anual</string>
+    <key>you_might_like</key>
+    <string>Puede que te guste</string>
   </dict>
 </plist>

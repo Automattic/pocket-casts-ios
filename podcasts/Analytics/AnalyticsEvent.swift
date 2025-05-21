@@ -211,6 +211,8 @@ enum AnalyticsEvent: String {
     case listeningHistoryClearConfirmationShown
     case listeningHistoryClearConfirmationDismissed
 
+    case listeningHistoryDiscoverButtonTapped
+
     // MARK: - Uploaded Files
 
     case uploadedFilesShown
@@ -388,6 +390,7 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
     case upNextShuffleEnabled
+    case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
 

@@ -36,9 +36,13 @@ extension ToastTheme where Self == ToastPlayerTheme {
 class ToastDefaultTheme: ThemeObserver, ToastTheme {
     var background: Color { theme.playerContrast01 }
     var title: Color { theme.playerBackground01 }
-    var button: Color { theme.playerHighlight01 }
     var iconColor: Color? { nil }
     var iconName: String? { nil }
+    var button: Color {
+        // If the contrast between the background and highlight color is too low, then we'll switch to interactive 02
+        let contrast = theme.primaryInteractive01.contrast(with: background)
+        return contrast > 2 ? theme.primaryInteractive01 : theme.primaryInteractive02
+    }
 }
 
 extension ToastTheme where Self == ToastDefaultTheme {

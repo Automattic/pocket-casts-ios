@@ -3,13 +3,18 @@ import Foundation
 extension NotificationsCoordinator: AnalyticsAdapter {
 
     func track(name: String, properties: [AnyHashable: Any]?) {
+        updateDailyReminders(name: name, properties: properties)
+        updateReEngagementNotifications(name: name, properties: properties)
+        updateRecommendationNotifications(name: name, properties: properties)
+    }
+
+    func updateDailyReminders(name: String, properties: [AnyHashable: Any]?) {
         for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
+                markNotification(notification)
                 self.cancelNotification(notification)
             }
         }
-        updateReEngagementNotifications(name: name, properties: properties)
-        updateRecommendationNotifications(name: name, properties: properties)
     }
 
     func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
@@ -17,9 +22,12 @@ extension NotificationsCoordinator: AnalyticsAdapter {
             return
         }
         // Check if need to cancel an existing notification
-        if NotificationType.reengagementWeekly.checkCancelConditionsForEvent(name: name, properties: properties) {
-            self.cancelNotification(.reengagementWeekly)
+        for notification in NotificationsGroup.newFeaturesAndTips.notifications {
+            if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
+                cancelNotification(notification)
+            }
         }
+
         let event: AnalyticsEvent = .applicationClosed
         if event.rawValue.toSnakeCaseFromCamelCase() == name {
             updateNotifications(for: .newFeaturesAndTips)
@@ -67,6 +75,8 @@ extension NotificationType {
             possibleConditions = [.purchaseSuccessful]
         case .newFeatureSuggestedFolders:
             possibleConditions = [.suggestedFoldersPageShown]
+        case .reengagementDownloads:
+            possibleConditions = [.downloadsShown]
         }
         let eventMatch = possibleConditions.contains {
             $0.rawValue.toSnakeCaseFromCamelCase() == name

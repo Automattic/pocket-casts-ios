@@ -41,7 +41,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             SettingsStore.appSettings.notifications = true
         }
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.pushEnabled)
-        registerForPushNotifications()
     }
 
     func disablePush() {
@@ -116,6 +115,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         let identifier = response.notification.request.identifier
         if let type = NotificationType(rawValue: identifier) {
             properties["type"] = type.rawValue
+            NotificationsCoordinator.shared.markNotification(type)
         }
         Analytics.track(.notificationOpened, properties: properties)
 

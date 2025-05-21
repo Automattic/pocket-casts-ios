@@ -356,14 +356,17 @@ class Settings: NSObject {
 
     private static let chartRegion = "SJChartRegion"
     class func discoverRegion(discoverLayout: DiscoverLayout) -> String {
+        return convertRegion(userRegion: userRegion(), discoverLayout: discoverLayout)
+    }
+
+    class func userRegion() -> String? {
         var userRegion: String?
         if let savedRegion = UserDefaults.standard.string(forKey: chartRegion) {
             userRegion = savedRegion.lowercased()
         } else if let region = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
             userRegion = region.lowercased()
         }
-
-        return convertRegion(userRegion: userRegion, discoverLayout: discoverLayout)
+        return userRegion
     }
 
     private class func convertRegion(userRegion: String?, discoverLayout: DiscoverLayout) -> String {
@@ -1468,7 +1471,7 @@ class Settings: NSObject {
     // MARK: - Notifications
     static var notificationsNewEpisodes: Bool {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? false
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)
@@ -1508,6 +1511,15 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.offers)
+        }
+    }
+
+    static var notificationsLastTriggerDate: [String: Date] {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.triggerDates) as? [String: Date] ?? [:]
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.triggerDates)
         }
     }
 

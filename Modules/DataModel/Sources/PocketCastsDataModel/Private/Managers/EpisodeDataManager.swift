@@ -652,7 +652,7 @@ class EpisodeDataManager {
 
     func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: PCDBQueue) {
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
-        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "autoDownloadStatus", value: episode.autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
     }
 
     func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: Episode, dbQueue: PCDBQueue) {

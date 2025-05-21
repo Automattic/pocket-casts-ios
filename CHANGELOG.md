@@ -1,10 +1,15 @@
+7.90
+-----
+
+
 7.89
 -----
 - Add Recommendations feature to Discover and Podcast pages [#2989](https://github.com/Automattic/pocket-casts-ios/issues/2989)
+- Fix repeating the episode when skipping forward [#3138](https://github.com/Automattic/pocket-casts-ios/pull/3138)
 
 7.88
 -----
-- Add Recenlty Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)
+- Add Recently Played sorting option for podcasts [#2978](https://github.com/Automattic/pocket-casts-ios/issues/2978)
 
 7.87
 -----
