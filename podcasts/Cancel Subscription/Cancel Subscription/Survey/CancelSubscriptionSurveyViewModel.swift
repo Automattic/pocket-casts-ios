@@ -70,12 +70,12 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
             guard let self else { return }
             let success = await ApiServerHandler.shared.submitSurveyResult(reason: selectedReason.rawValue, other: additionalText)
             loadingState = .idle
+            self.trackSurveyFeedbackSubmit(success: success, reason: selectedReason.rawValue)
             if success {
                 Toast.show(
                     L10n.cancelSubscriptionSurveyToastSuccess,
                     theme: ToastIconTheme(iconName: "cs-tick", iconColor: Theme.sharedTheme.primaryIcon01)
                 )
-                Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitSuccess)
                 dismiss()
             } else {
                 Toast.show(
@@ -87,7 +87,6 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
                     ],
                     theme: ToastIconTheme(iconName: "cs-yield", iconColor: Theme.sharedTheme.support05)
                 )
-                Analytics.track(.cancelSubscriptionSurveyFeedbackSubmitError)
             }
         }
     }
@@ -105,6 +104,13 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
         Analytics.track(.cancelSubscriptionSurveyDismissed)
+    }
+
+    private func trackSurveyFeedbackSubmit(success: Bool, reason: String) {
+        Analytics.track(
+            success ? .cancelSubscriptionSurveyFeedbackSubmitSuccess : .cancelSubscriptionSurveyFeedbackSubmitError,
+            properties: ["reason": reason]
+        )
     }
 }
 
