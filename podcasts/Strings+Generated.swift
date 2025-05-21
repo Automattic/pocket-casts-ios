@@ -453,6 +453,10 @@ internal enum L10n {
   /// Thanks for trying
   /// Pocket Casts Plus
   internal static var cancelSubscriptionSurveyTitle: String { return L10n.tr("Localizable", "cancel_subscription_survey_title") }
+  /// Sorry, something went wrong.
+  internal static var cancelSubscriptionSurveyToastFail: String { return L10n.tr("Localizable", "cancel_subscription_survey_toast_fail") }
+  /// Thanks for your feedback!
+  internal static var cancelSubscriptionSurveyToastSuccess: String { return L10n.tr("Localizable", "cancel_subscription_survey_toast_success") }
   /// Thinking of leaving?
   /// Let us help first
   internal static var cancelSubscriptionTitle: String { return L10n.tr("Localizable", "cancel_subscription_title") }
@@ -1229,12 +1233,11 @@ internal enum L10n {
   internal static var fileUploadErrorSubtitle: String { return L10n.tr("Localizable", "file_upload_error_subtitle") }
   /// Name required
   internal static var fileUploadNameRequired: String { return L10n.tr("Localizable", "file_upload_name_required") }
-  /// Want to listen to your own files?
-  /// Share them with Pocket Casts, and they’ll appear here
+  /// Upload your own files to Pocket Casts, and listen or watch them anytime.
   internal static var fileUploadNoFilesDescription: String { return L10n.tr("Localizable", "file_upload_no_files_description") }
   /// How do I do that?
   internal static var fileUploadNoFilesHelper: String { return L10n.tr("Localizable", "file_upload_no_files_helper") }
-  /// No Files
+  /// Listen or watch your own files
   internal static var fileUploadNoFilesTitle: String { return L10n.tr("Localizable", "file_upload_no_files_title") }
   /// Remove Image
   internal static var fileUploadRemoveImage: String { return L10n.tr("Localizable", "file_upload_remove_image") }
@@ -3755,7 +3758,7 @@ internal enum L10n {
   internal static var upNext: String { return L10n.tr("Localizable", "up_next") }
   /// You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
-  /// Nothing in Up Next
+  /// Curate your listening session
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
   /// Up Next History
   internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }

@@ -9,10 +9,28 @@ protocol EmptyStateViewStyle: ObservableObject {
 }
 
 struct EmptyStateAction: Identifiable {
-    let title: String
-    let action: () -> Void
+    let id: String
+    let view: AnyView
 
-    var id: String { title }
+    init(
+        title: String,
+        action: @escaping () -> Void
+    ) {
+        self.id = title
+        self.view = AnyView(
+            Button(title) {
+                action()
+            }.buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
+        )
+    }
+
+    init<Content: View>(
+        id: String,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.id = id
+        self.view = AnyView(content())
+    }
 }
 
 /// Displays an informative view when there are no items to display and can be customized to show a custom view instead
@@ -64,17 +82,15 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
                     .foregroundStyle(style.message)
             }
 
-            HStack {
+            VStack {
                 ForEach(actions) { action in
-                    Button(action.title) {
-                        action.action()
-                    }.buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
+                    action.view
                 }
             }
             .font(style: .subheadline, weight: .medium)
             .foregroundStyle(style.button)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: 400)
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
         .padding(EmptyConstants.padding)

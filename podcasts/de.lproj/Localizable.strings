@@ -383,6 +383,23 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Zahle jetzt %@ und erhalte für ein weiteres Jahr 50 %% Rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Wir würden gerne wissen, warum du kein Interesse mehr hast. Dein Feedback hilft uns, unser Angebot zu verbessern.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>Ich habe eine bessere App gefunden</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Kostengründe</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>Ich benutze die App zu selten</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Sonstiges</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Technische Probleme</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Feedback übermitteln</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Vielen Dank, dass du die App ausprobiert hast
+Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
     <string>Du denkst darüber nach, zu gehen?
 Lass uns dir zuerst helfen</string>
@@ -524,6 +541,12 @@ Lass uns dir zuerst helfen</string>
     <string>Clip erstellen</string>
     <key>create_filter</key>
     <string>Filter erstellen</string>
+    <key>creator_pick_modal_description</key>
+    <string>Ersteller-Empfehlungen sind Podcasts, die vom Ersteller der Show mithilfe von PodRoll empfohlen werden.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Weitere Informationen</string>
+    <key>creator_pick_modal_title</key>
+    <string>Was ist eine Ersteller-Empfehlung?</string>
     <key>current_email_prompt</key>
     <string>Aktuelle E-Mail-Adresse</string>
     <key>current_password_prompt</key>
@@ -1025,6 +1048,8 @@ Folge dauerte
     <string>EXPORTIEREN</string>
     <key>exporting_database</key>
     <string>Datenbank wird exportiert …</string>
+    <key>failed_recommendations</key>
+    <string>Empfehlungen konnten nicht geladen werden</string>
     <key>feature_tour_end_tour</key>
     <string>Tour beenden</string>
     <key>feature_tour_new</key>
@@ -1548,12 +1573,24 @@ Podcasts mit</string>
     <string>Nichts</string>
     <key>not_on_wifi</key>
     <string>Du hast keine WLAN-Verbindung</string>
+    <key>notifications_app_clip_body</key>
+    <string>Installiere Pocket Casts, um die leistungsstarken Wiedergabetools und Anpassungswerkzeuge zu entdecken. So profitierst du vom bestmöglichen Erlebnis!</string>
+    <key>notifications_app_clip_title</key>
+    <string>Bist du bereit für weitere Podcasts?</string>
     <key>notifications_daily_reminders</key>
     <string>Tägliche Erinnerungen</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Teste Plus, um deine Shows automatisch in Ordnern zu organisieren.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Deine Podcasts, organisiert</string>
     <key>notifications_new_features_tips</key>
     <string>Neue Funktionen und Tipps</string>
     <key>notifications_off</key>
     <string>Benachrichtigungen aus</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Mit Plus kannst du exklusive Funktionen wie Ordner, Lesezeichen und mehr nutzen!</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Dein Podcast-Erlebnis optimieren</string>
     <key>notifications_on</key>
     <string>Benachrichtigungen an</string>
     <key>notifications_on_for_podcast</key>
@@ -1586,6 +1623,16 @@ Podcasts mit</string>
     <string>Mit Plus kannst du exklusive Funktionen wie Ordner, Lesezeichen und mehr nutzen!</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>Dein Podcast-Erlebnis optimieren</string>
+    <key>notifications_permissions_action</key>
+    <string>Benachrichtigungen erlauben</string>
+    <key>notifications_permissions_body</key>
+    <string>Benachrichtigungen sind die beste Möglichkeit, um den Überblick über neue Folgen zu behalten, Empfehlungen zu neuen Shows zu erhalten und Tipps zur Nutzung von Pocket Casts zu erhalten.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Bitte erlaube Benachrichtigungen in deinen Geräteeinstellungen</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Einstellungen öffnen</string>
+    <key>notifications_permissions_title</key>
+    <string>Bleibe auf dem Laufenden!</string>
     <key>notifications_play_now</key>
     <string>Jetzt abspielen</string>
     <key>notifications_pocket_cast_offers</key>
@@ -1594,6 +1641,14 @@ Podcasts mit</string>
     <string>Schau dir an, was alle anderen diese Woche hören.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Aktuelle Wochentrends</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>Du bist dir nicht sicher, was du dir als Nächstes anhören sollst? Dann wirf einen Blick auf diese Shows!</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Neue Empfehlungen für dich</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Du hast %1$@ neue Folge(n) heruntergeladen und kannst jetzt loslegen!</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Offline aufrufen</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>Es ist eine Weile her, dass du Pocket Casts genutzt hast. Komm noch heute zurück und genieße neue spannende Podcast-Folgen!</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2128,6 +2183,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Download anhalten</string>
     <key>podcast_pause_playback</key>
     <string>Wiedergabe anhalten</string>
+    <key>podcast_podroll_header</key>
+    <string>Vom Ersteller empfohlene Shows</string>
     <key>podcast_queued</key>
     <string>In Warteschlange</string>
     <key>podcast_queuing</key>
@@ -2156,6 +2213,10 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Datei öffnen in …</string>
     <key>podcast_show_archived</key>
     <string>Archivierte Folgen anzeigen</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Ähnliche Shows</string>
+    <key>podcast_similar_header</key>
+    <string>Ähnliche Shows wie „%@“</string>
     <key>podcast_singular</key>
     <string>Podcast</string>
     <key>podcast_soon</key>

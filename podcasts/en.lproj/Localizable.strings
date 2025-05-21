@@ -920,13 +920,13 @@
 "file_upload_name_required" = "Name required";
 
 /* The description for the screen when there are no files currently uploaded. '\n' is a line break format to allow a clean wrapping of text */
-"file_upload_no_files_description" = "Want to listen to your own files?\nShare them with Pocket Casts, and they’ll appear here";
+"file_upload_no_files_description" = "Upload your own files to Pocket Casts, and listen or watch them anytime.";
 
 /* The helper link describing how to add files to Pocket Casts. */
 "file_upload_no_files_helper" = "How do I do that?";
 
 /* Title for the screen when there are no files currently uploaded */
-"file_upload_no_files_title" = "No Files";
+"file_upload_no_files_title" = "Listen or watch your own files";
 
 /* Prompt to remove the image from the uploaded file. */
 "file_upload_remove_image" = "Remove Image";
@@ -3185,7 +3185,7 @@
 "up_next" = "Up Next";
 
 /* Heading shown when your Up Next list is empty */
-"up_next_empty_title" = "Nothing in Up Next";
+"up_next_empty_title" = "Curate your listening session";
 
 /* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
 "up_next_empty_description" = "You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.";
@@ -4809,6 +4809,12 @@
 
 /* Option in the in the survey screen that appears when a user cancels the subscription */
 "cancel_subscription_survey_row_other" = "Other";
+
+/* Toast message that appears if the survey submission goes well */
+"cancel_subscription_survey_toast_success" = "Thanks for your feedback!";
+
+/* Toast message that appears if the survey submission goes wrong */
+"cancel_subscription_survey_toast_fail" = "Sorry, something went wrong.";
 
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
