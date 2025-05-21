@@ -1084,6 +1084,12 @@
 /* The title for the auto generated 'New Release' filter. */
 "filters_default_new_releases" = "New Releases";
 
+/* The title shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_title" = "Organize your episodes";
+
+/* The description shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_description" = "Create smart filters to organize your episodes. Filter by duration, release date, media type, and more.";
+
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "It really matches your eyes ✨";
 
@@ -4815,6 +4821,12 @@
 
 /* Option in the in the survey screen that appears when a user cancels the subscription */
 "cancel_subscription_survey_row_other" = "Other";
+
+/* Toast message that appears if the survey submission goes well */
+"cancel_subscription_survey_toast_success" = "Thanks for your feedback!";
+
+/* Toast message that appears if the survey submission goes wrong */
+"cancel_subscription_survey_toast_fail" = "Sorry, something went wrong.";
 
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";

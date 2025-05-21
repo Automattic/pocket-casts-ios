@@ -179,6 +179,8 @@ struct Constants {
 
         static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
 
+        static let newFilterTip = "NewFilterTip"
+
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)

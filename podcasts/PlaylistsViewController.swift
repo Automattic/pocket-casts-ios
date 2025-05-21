@@ -32,6 +32,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
+    var newFilterTip: UIViewController? = nil
+
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
@@ -87,6 +89,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
         Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
+
+        showNewFilterTipIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
