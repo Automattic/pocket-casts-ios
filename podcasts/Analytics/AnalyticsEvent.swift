@@ -283,6 +283,8 @@ enum AnalyticsEvent: String {
     case filterCreated
 
     case filterShown
+    case filterTooltipShown
+    case filterTooltipClosed
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped

@@ -1084,6 +1084,12 @@
 /* The title for the auto generated 'New Release' filter. */
 "filters_default_new_releases" = "New Releases";
 
+/* The title shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_title" = "Organize your episodes";
+
+/* The description shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_description" = "Create smart filters to organize your episodes. Filter by duration, release date, media type, and more.";
+
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "It really matches your eyes ✨";
 
