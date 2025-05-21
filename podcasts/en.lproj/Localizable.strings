@@ -4810,6 +4810,12 @@
 /* Option in the in the survey screen that appears when a user cancels the subscription */
 "cancel_subscription_survey_row_other" = "Other";
 
+/* Toast message that appears if the survey submission goes well */
+"cancel_subscription_survey_toast_success" = "Thanks for your feedback!";
+
+/* Toast message that appears if the survey submission goes wrong */
+"cancel_subscription_survey_toast_fail" = "Sorry, something went wrong.";
+
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
 

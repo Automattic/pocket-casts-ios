@@ -320,6 +320,9 @@ struct DeveloperMenu: View {
                 .sheet(isPresented: $showSurvey) {
                     CancelSubscriptionSurveyView(viewModel: CancelSubscriptionSurveyViewModel(navigationController: nil))
                 }
+                Button("Reset Cancel Subscription Survey visibility") {
+                    Settings.subscriptionCancelledSurveyShown = false
+                }
             } header: {
                 Text("Cancel Subscription Survey")
             }

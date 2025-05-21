@@ -142,7 +142,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
-        showReferralsHintIfNeeded()
+
+        if FeatureFlag.cancelSubscriptionSurvey.enabled,
+           SyncManager.isUserLoggedIn(),
+           SubscriptionHelper.hasCancelledSubscription,
+           !Settings.subscriptionCancelledSurveyShown {
+            let controller = CancelSubscriptionSurveyViewModel.make()
+            present(controller, animated: true)
+        } else {
+            showReferralsHintIfNeeded()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
