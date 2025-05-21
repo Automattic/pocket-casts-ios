@@ -166,7 +166,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.limitMessage.text = limitPlaceholder.message
                 return cell
             } else if itemAtRow is NoSearchResultsPlaceholder {
-                let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.noSearchResultsCell, for: indexPath) as! NoSearchResultsCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+                cell.configure(title: L10n.discoverNoEpisodesFound, message: L10n.discoverNoPodcastsFoundMsg, icon: {
+                    Image(systemName: "info.circle")
+                })
                 return cell
             } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
                 let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
