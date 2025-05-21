@@ -129,6 +129,7 @@ class PodcastImageView: UIView {
         if let imageView = imageView {
             imageView.backgroundColor = UIColor.clear
             imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFit
 
             addSubview(imageView)
             imageView.anchorToAllSidesOf(view: self)
