@@ -46,7 +46,7 @@ class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     }
 
     func upgradeTapped() {
-        Analytics.track(.bookmarksUpgradeButtonTapped, source: bookmarksSource)
+        Analytics.track(.bookmarksGetBookmarksButtonTapped, source: bookmarksSource)
         showUpgrade()
     }
 
