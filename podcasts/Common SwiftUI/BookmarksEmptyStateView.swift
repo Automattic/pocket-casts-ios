@@ -11,7 +11,7 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
     var action: (() -> Void)? = nil
 
     var body: some View {
-        EmptyStateView(title: title, message: message, actions: [
+        EmptyStateView(title: title, message: message, icon: { Image("bookmarks-profile") }, actions: [
             .init(title: actionTitle, action: {
                 guard let action else {
                     viewModel.openHeadphoneSettings()

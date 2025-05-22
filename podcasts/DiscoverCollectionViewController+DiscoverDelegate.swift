@@ -17,7 +17,8 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         if isViewLoaded {
             showItemWith(identifier: listID)
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {[weak self] in
+            loadViewIfNeeded()
+            reloadData { [weak self] in
                 self?.showItemWith(identifier: listID)
             }
         }
@@ -72,7 +73,9 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
     }
 
     func showItemWith(identifier: String) {
-        guard let items = discoverLayout?.layout, let item = items.first(where: { $0.id == identifier || $0.uuid == identifier}) else {
+        guard let items = discoverLayout?.layout,
+              let item = items.first(where: { $0.id == identifier || $0.uuid == identifier})
+        else {
             return
         }
 

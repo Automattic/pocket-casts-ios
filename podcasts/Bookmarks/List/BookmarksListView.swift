@@ -48,6 +48,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// An empty state view that displays instructions
     @ViewBuilder
     private var emptyView: some View {
+        Spacer()
+
         if !feature.isUnlocked {
             BookmarksLockedStateView(style: style.emptyStyle, feature: feature, source: viewModel.analyticsSource)
         }

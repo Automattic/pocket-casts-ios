@@ -3542,6 +3542,9 @@
 /* Description shown under the title of an empty folder */
 "folder_empty_description" = "Add podcasts to your folder and they’ll appear here.";
 
+/* A button title for the empty folder state which will open the Add Podcasts screen */
+"folder_empty_button_title" = "Add podcasts";
+
 /* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
 "free_trial_title_label" = "Try Plus with %1$@ free";
 
@@ -4160,13 +4163,19 @@
 "bookmark_added_button_title" = "View";
 
 /* Title of a message informing the user they don't have any bookmarks yet */
-"no_bookmarks_title" = "No bookmarks yet";
+"no_bookmarks_title" = "Bookmark that moment";
 
 /* Subtitle of a message explaining how to add new bookmarks */
 "no_bookmarks_message" = "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.";
 
 /* Title of a button that takes the user to the headphone settings */
 "no_bookmarks_button_title" = "Headphone settings";
+
+/* Title shown when the bookmarks feature is locked due to account upgrade status */
+"no_bookmarks_locked_message" = "You can save timestamps of important moments in an episode.";
+
+/* Button title shown when the bookmarks feature is locked due to account upgrade status. This will take the user to the upgrade screen. */
+"no_bookmarks_locked_button_title" = "Get Bookmarks";
 
 /* Title of a message when no search results appear */
 "bookmark_search_no_results_title" = "No bookmarks found";
