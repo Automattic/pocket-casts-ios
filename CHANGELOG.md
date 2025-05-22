@@ -1,6 +1,6 @@
 7.90
 -----
-
+- New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
 
 7.89
 -----
