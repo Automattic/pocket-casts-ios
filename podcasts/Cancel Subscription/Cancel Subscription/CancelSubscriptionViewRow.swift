@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CancelSubscriptionViewRow: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.sizeCategory) private var sizeCategory
 
     private let option: CancelSubscriptionOption
     private let viewModel: CancelSubscriptionViewModel
@@ -38,6 +39,9 @@ struct CancelSubscriptionViewRow: View {
     var icon: some View {
         Image(option.icon)
             .renderingMode(.template)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .scaleFactor(for: sizeCategory)
             .foregroundStyle(theme.primaryIcon01)
             .frame(width: 24, height: 24)
     }
@@ -52,13 +56,17 @@ struct CancelSubscriptionViewRow: View {
         }
     }
 
+    private var imageTrailing: CGFloat {
+        max(12.0, 12.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     icon
                         .padding(.leading, 18.0)
-                        .padding(.trailing, 12.0)
+                        .padding(.trailing, imageTrailing)
 
                     VStack(alignment: .leading, spacing: 0) {
                         Text(option.title)

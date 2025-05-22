@@ -383,6 +383,23 @@
     <string>现在支付 %@ 即可再享一年 50%% 优惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>我们很乐意了解您取消订单的原因。 您的反馈有助于我们做出改进。</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>我找到了一款更好的应用程序</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>成本相关原因</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>我用得不够多</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>其他</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>技术问题</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>提交反馈</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>感谢您试用
+Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
     <string>想要离开？
 不妨先与我们聊聊</string>
@@ -524,6 +541,12 @@
     <string>创建片段</string>
     <key>create_filter</key>
     <string>创建过滤器</string>
+    <key>creator_pick_modal_description</key>
+    <string>“创作者精选”是节目创作者使用 Podroll 推荐的播客。</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>了解更多</string>
+    <key>creator_pick_modal_title</key>
+    <string>什么是“创作者精选”？</string>
     <key>current_email_prompt</key>
     <string>当前电子邮件</string>
     <key>current_password_prompt</key>
@@ -1025,6 +1048,8 @@ Pocket Casts。</string>
     <string>导出</string>
     <key>exporting_database</key>
     <string>正在导出数据库…</string>
+    <key>failed_recommendations</key>
+    <string>无法加载推荐内容</string>
     <key>feature_tour_end_tour</key>
     <string>结束浏览</string>
     <key>feature_tour_new</key>
@@ -1548,12 +1573,24 @@ Pocket Casts。</string>
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
+    <key>notifications_app_clip_body</key>
+    <string>安装 Pocket Casts，通过强大的播放和自定义工具获得完整的体验。</string>
+    <key>notifications_app_clip_title</key>
+    <string>准备好收听更多的播客了吗？</string>
     <key>notifications_daily_reminders</key>
     <string>每日提醒</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>试用 Plus，通过文件夹自动整理您的节目。</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>您的播客已整理</string>
     <key>notifications_new_features_tips</key>
     <string>新功能和贴士</string>
     <key>notifications_off</key>
     <string>通知关闭</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>使用 Plus 解锁文件夹、书签等专享功能！</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>提升您的播客体验</string>
     <key>notifications_on</key>
     <string>通知开启</string>
     <key>notifications_on_for_podcast</key>
@@ -1586,6 +1623,16 @@ Pocket Casts。</string>
     <string>使用 Plus 解锁文件夹、书签等专享功能！</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>提升您的播客体验</string>
+    <key>notifications_permissions_action</key>
+    <string>允许通知</string>
+    <key>notifications_permissions_body</key>
+    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 相关提示的最佳方式。</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>请在您的设备设置中允许通知</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>打开设置</string>
+    <key>notifications_permissions_title</key>
+    <string>了解最新动态！</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
@@ -1594,6 +1641,14 @@ Pocket Casts。</string>
     <string>看看其他人本周都在听什么。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本周热门话题</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>不知道接下来该听什么？ 看看这些节目吧！</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>给您的新推荐</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>您已下载 %1$@ 个新剧集，随时可以收看！</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>离线收看</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>您已经有一段时间没收听播客了。 回来继续收听，尽情享受吧！</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2128,6 +2183,8 @@ Pocket Casts。</string>
     <string>暂停下载</string>
     <key>podcast_pause_playback</key>
     <string>暂停播放</string>
+    <key>podcast_podroll_header</key>
+    <string>创作者推荐的节目</string>
     <key>podcast_queued</key>
     <string>在排队</string>
     <key>podcast_queuing</key>
@@ -2156,6 +2213,10 @@ Pocket Casts。</string>
     <string>文件打开方式...</string>
     <key>podcast_show_archived</key>
     <string>显示已存档</string>
+    <key>podcast_similar_generic_header</key>
+    <string>类似节目</string>
+    <key>podcast_similar_header</key>
+    <string>类似于“%@”的节目</string>
     <key>podcast_singular</key>
     <string>播客</string>
     <key>podcast_soon</key>
@@ -3395,5 +3456,7 @@ Pocket Casts。</string>
     <string>年</string>
     <key>yearly</key>
     <string>每年</string>
+    <key>you_might_like</key>
+    <string>您可能会喜欢</string>
   </dict>
 </plist>

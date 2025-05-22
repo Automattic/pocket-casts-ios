@@ -29,7 +29,7 @@ public class DataManager {
 
     private let dbQueue: PCDBQueue
 
-    public static let sharedManager = DataManager()
+    public static internal(set) var sharedManager = DataManager()
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {

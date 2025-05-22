@@ -5,12 +5,12 @@ import UIKit
 
 class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let playerCell = "PlayerCell"
-    static let noUpNextCell = "NothingUpNextCell"
     static let nowPlayingCell = "UpNextNowPlayingCell"
+    static let emptyStateCell = "EmptyStateCell"
     static let upNextSection = 1
     static let upNextRowHeight: CGFloat = 72
-    static let noUpNextRowHeight: CGFloat = 180
     static let nowPlayingRowHeight: CGFloat = 72
+    static let emptyStateRowHeight: CGFloat = 300
     static let rearrangeWidth: CGFloat = 60
     static let bottomMargin: CGFloat = 8
 
@@ -73,8 +73,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet {
             upNextTable.themeOverride = themeOverride
             upNextTable.register(UINib(nibName: "PlayerCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.playerCell)
-            upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
+            upNextTable.register(EmptyStateCell.self, forCellReuseIdentifier: UpNextViewController.emptyStateCell)
             upNextTable.backgroundView = nil
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)

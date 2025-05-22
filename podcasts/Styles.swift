@@ -395,7 +395,7 @@ extension View {
         self.font(size: size,
                   style: style,
                   weight: weight,
-                  maxSizeCategory: .extraExtraLarge)
+                  maxSizeCategory: .accessibilityExtraExtraLarge)
     }
 }
 

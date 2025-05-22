@@ -1,12 +1,21 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
 class ListeningHistoryViewController: PCViewController {
-    var episodes = [ArraySection<String, ListEpisode>]()
-    var tempEpisodes = [ArraySection<String, ListEpisode>]()
+    var episodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
+    var tempEpisodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
 
@@ -18,27 +27,7 @@ class ListeningHistoryViewController: PCViewController {
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
-    @IBOutlet weak var emptyStateView: ThemeableView! {
-        didSet {
-            emptyStateView.isHidden = true
-        }
-    }
-
-    @IBOutlet weak var emptyStateTitle: ThemeableLabel! {
-        didSet {
-            emptyStateTitle.style = .primaryText01
-            emptyStateTitle.text = L10n.listeningHistorySearchNoEpisodesTitle
-        }
-    }
-
-    @IBOutlet weak var emptyStateText: ThemeableLabel! {
-        didSet {
-            emptyStateText.style = .primaryText02
-            emptyStateText.text = L10n.listeningHistorySearchNoEpisodesText
-        }
-    }
-
-    @IBOutlet var listeningHistoryTable: UITableView! {
+    @IBOutlet var listeningHistoryTable: ThemeableTable! {
         didSet {
             registerCells()
             listeningHistoryTable.estimatedRowHeight = 80
@@ -158,7 +147,6 @@ class ListeningHistoryViewController: PCViewController {
             let newData = self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
-                self.listeningHistoryTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
                     self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
@@ -231,6 +219,45 @@ class ListeningHistoryViewController: PCViewController {
             }
         }
     }
+
+    private func refreshContentUnavailable() {
+        var config: UIContentConfiguration?
+
+        listeningHistoryTable.backgroundView = UIView()
+        listeningHistoryTable.themeStyle = .primaryUi04
+
+        if episodes.isEmpty {
+            if searchController?.searchTextField.text?.isEmpty == false {
+                // Empty State when searching
+                let title = L10n.listeningHistorySearchNoEpisodesTitle
+                let message = L10n.listeningHistorySearchNoEpisodesText
+                config = ContentUnavailableConfiguration.emptyState(
+                    title: title,
+                    message: message,
+                    icon: { Image("profile-download").renderingMode(.template) }
+                )
+
+                listeningHistoryTable.backgroundColor = UIColor(DefaultEmptyStateStyle.defaultStyle.background)
+                listeningHistoryTable.backgroundView = config?.makeContentView()
+            } else {
+                // Empty State when not searching
+                let title = L10n.profileListeningHistoryEmptyTitle
+                let message = L10n.profileListeningHistoryEmptyDescription
+                config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("options-history").renderingMode(.template) }, actions: [
+                    .init(title: L10n.goToDiscover, action: {
+                        Analytics.shared.track(.listeningHistoryDiscoverButtonTapped)
+                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                    })
+                ])
+
+                if #available(iOS 17.0, *) {
+                    self.contentUnavailableConfiguration = config
+                } else {
+                    self.setContentUnavailableConfiguration(config)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Analytics
@@ -250,7 +277,6 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
     func searchDidEnd() {
         listeningHistoryTable.isHidden = tempEpisodes.isEmpty
-        emptyStateView.isHidden = true
         episodes = tempEpisodes
         listeningHistoryTable.reloadData()
         tempEpisodes.removeAll()
@@ -260,7 +286,6 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
         Analytics.track(.searchCleared, source: analyticsSource)
 
         listeningHistoryTable.isHidden = tempEpisodes.isEmpty
-        emptyStateView.isHidden = true
         episodes = tempEpisodes
         listeningHistoryTable.reloadData()
     }
@@ -272,9 +297,6 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
         let oldData = episodes
         let newData = episodesDataManager.searchEpisodes(for: searchTerm)
-
-        listeningHistoryTable.isHidden = newData.isEmpty
-        emptyStateView.isHidden = !newData.isEmpty
 
         let changeSet = StagedChangeset(source: oldData, target: newData)
         self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in

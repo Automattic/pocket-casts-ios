@@ -667,6 +667,16 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
     }
 
+    private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
+    static var subscriptionCancelledSurveyShown: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: subscriptionCancelledSurveyShowedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledSurveyShowedKey)
+        }
+    }
+
     // MARK: Promotion Finished Acknowledgement
 
     class func setPromotionFinishedAcknowledged(_ value: Bool) {
@@ -1447,6 +1457,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - New Filter Tip
+
+    static var shouldShowNewFilterTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.newFilterTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.newFilterTip)
+        }
+    }
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {
@@ -1461,7 +1482,7 @@ class Settings: NSObject {
     // MARK: - Notifications
     static var notificationsNewEpisodes: Bool {
         get {
-            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? false
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)

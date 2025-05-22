@@ -1,6 +1,6 @@
 import UIKit
 
-class PodrollHeaderView: UIView {
+class YouMightLikeSectionHeaderView: UIView {
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -11,7 +11,7 @@ class PodrollHeaderView: UIView {
     }()
 
     private let icon: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "mic")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold)))
+        let imageView = UIImageView()
         imageView.tintColor = ThemeColor.primaryText02()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,6 @@ class PodrollHeaderView: UIView {
 
     private let label: UILabel = {
         let label = UILabel()
-        label.text = L10n.podcastPodrollHeader
         label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.textColor = ThemeColor.primaryText02()
         return label
@@ -28,8 +27,10 @@ class PodrollHeaderView: UIView {
 
     var onTapped: (() -> Void)?
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(image: UIImage?, title: String) {
+        super.init(frame: .zero)
+        icon.image = image
+        label.text = title
         setup()
         addTapGesture()
     }
@@ -53,8 +54,8 @@ class PodrollHeaderView: UIView {
 
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
         ])
     }
 

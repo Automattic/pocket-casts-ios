@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsUtils
 import PocketCastsServer
 
 class GeneratedTranscriptsPremiumOverlay: UIViewController {
@@ -73,6 +74,13 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         return blurEffectView
     }()
 
+    private let gradientColor = PlayerColorHelper.playerBackgroundColor01()
+    private lazy var topGradient: GradientView = {
+        let gradientView = GradientView(firstColor: gradientColor, secondColor: gradientColor.withAlphaComponent(0))
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        return gradientView
+    }()
+
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         super.init(nibName: nil, bundle: nil)
@@ -101,6 +109,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.45)
 
         view.addSubview(blurEffectView)
+        view.addSubview(topGradient)
 
         view.addSubview(stackView)
         view.addSubview(badge)
@@ -119,6 +128,10 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
                 blurEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 blurEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
+                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topGradient.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 100.0),
                 stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                 stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
                 stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),

@@ -978,6 +978,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
+            FileLog.shared.addMessage("PlaybackManager: Failed to fetch current episode. Queue will be cleared.")
             endPlayback()
 
             return

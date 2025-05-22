@@ -4,6 +4,11 @@ struct CancelSubscriptionPlansView: View {
     @EnvironmentObject var theme: Theme
 
     @ObservedObject var viewModel: CancelSubscriptionPlansViewModel
+    @Environment(\.sizeCategory) private var sizeCategory
+
+    private var bottomPadding: CGFloat {
+        max(16.0, 16.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
 
     init(viewModel: CancelSubscriptionPlansViewModel) {
         self.viewModel = viewModel
@@ -26,6 +31,7 @@ struct CancelSubscriptionPlansView: View {
                     .padding(.bottom, 16.0)
                 Text(L10n.cancelSubscriptionAvailablePlansTitle)
                     .font(size: 28.0, style: .body, weight: .bold)
+                    .multilineTextAlignment(.center)
                     .foregroundStyle(theme.primaryText01)
                     .padding(.bottom, 28.0)
                 ForEach(viewModel.getOrderedProducts(), id: \.id) { product in
@@ -33,7 +39,7 @@ struct CancelSubscriptionPlansView: View {
                                               selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
                         viewModel.purchase(product: selectedProduct)
                     }
-                                              .padding(.bottom, 16.0)
+                                              .padding(.bottom, bottomPadding)
                 }
                 Text(L10n.cancelSubscriptionAvailablePlansFooter)
                     .font(size: 14.0, style: .body, weight: .regular)

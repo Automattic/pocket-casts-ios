@@ -1,11 +1,16 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
 class DownloadsViewController: PCViewController {
-    var episodes = [ArraySection<String, ListEpisode>]()
+    var episodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
     var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
@@ -16,36 +21,6 @@ class DownloadsViewController: PCViewController {
 
         return queue
     }()
-
-    @IBOutlet var noDownloadsTitle: ThemeableLabel! {
-        didSet {
-            noDownloadsTitle.text = L10n.downloadsNoDownloadsTitle
-        }
-    }
-
-    @IBOutlet var noDownloadsDescription: ThemeableLabel! {
-        didSet {
-            noDownloadsDescription.text = L10n.downloadsNoDownloadsDesc
-        }
-    }
-
-    @IBOutlet var noDownloadsView: ThemeableView! {
-        didSet {
-            noDownloadsView.style = .primaryUi02
-        }
-    }
-
-    @IBOutlet var noEpisodesIcon: UIImageView! {
-        didSet {
-            noEpisodesIcon.tintColor = ThemeColor.primaryIcon02()
-        }
-    }
-
-    @IBOutlet var noEpisodesDescription: ThemeableLabel! {
-        didSet {
-            noEpisodesDescription.style = .primaryText02
-        }
-    }
 
     @IBOutlet var downloadsTable: UITableView! {
         didSet {
@@ -112,6 +87,7 @@ class DownloadsViewController: PCViewController {
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: downloadsTable)
 
         title = L10n.downloads
+        view.backgroundColor = ThemeColor.primaryUi02()
 
         showManageDownloadsBanner()
 
@@ -189,9 +165,25 @@ class DownloadsViewController: PCViewController {
         reloadEpisodes()
     }
 
+    private func refreshContentUnavailable() {
+        var config: UIContentConfiguration?
+
+        if episodes.isEmpty {
+            let title = L10n.downloadsNoDownloadsTitle
+            let message = L10n.downloadsNoDownloadsDesc
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("filter_downloaded") })
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
+    }
+
     override func handleThemeChanged() {
-        noEpisodesIcon.tintColor = ThemeColor.primaryIcon02()
         downloadsTable.reloadData()
+        view.backgroundColor = ThemeColor.primaryUi02()
     }
 
     private func addEventObservers() {
