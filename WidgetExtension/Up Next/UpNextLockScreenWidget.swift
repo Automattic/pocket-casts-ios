@@ -12,7 +12,6 @@ struct UpNextLockScreenWidget: Widget {
     }
 }
 
-@available(iOS 16.0, *)
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) private var family

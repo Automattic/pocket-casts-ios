@@ -46,7 +46,6 @@ struct CategoryButtonStyle: ButtonStyle {
         case rounded
         case circle
 
-        @available(iOS 16.0, *)
         var shape: some Shape {
             switch self {
             case .rounded:

@@ -3,50 +3,26 @@ import SwiftUI
 // Many of these can be replaced with UIContentUnavailableConfigurations in iOS 17
 struct ContentUnavailableConfiguration {
     static func loading() -> UIContentConfiguration {
-        if #available(iOS 16.0, *) {
-            return UIHostingConfiguration {
-                LoadingView().environmentObject(Theme.sharedTheme)
-            }
-        } else {
-            return HostingConfiguration {
-                LoadingView().environmentObject(Theme.sharedTheme)
-            }
+        return UIHostingConfiguration {
+            LoadingView().environmentObject(Theme.sharedTheme)
         }
     }
 
     static func noNetwork(tryAgainHandler: @escaping () -> Void) -> UIContentConfiguration {
-        if #available(iOS 16.0, *) {
-            return UIHostingConfiguration {
-                NoNetworkView(tryAgainHandler: tryAgainHandler).environmentObject(Theme.sharedTheme)
-            }
-        } else {
-            return HostingConfiguration {
-                NoNetworkView(tryAgainHandler: tryAgainHandler).environmentObject(Theme.sharedTheme)
-            }
+        return UIHostingConfiguration {
+            NoNetworkView(tryAgainHandler: tryAgainHandler).environmentObject(Theme.sharedTheme)
         }
     }
 
     static func noResults() -> UIContentConfiguration {
-        if #available(iOS 16.0, *) {
-            return UIHostingConfiguration {
-                NoResultsView().environmentObject(Theme.sharedTheme)
-            }
-        } else {
-            return HostingConfiguration {
-                NoResultsView().environmentObject(Theme.sharedTheme)
-            }
+        return UIHostingConfiguration {
+            NoResultsView().environmentObject(Theme.sharedTheme)
         }
     }
 
     static func empty() -> UIContentConfiguration {
-        if #available(iOS 16.0, *) {
-            return UIHostingConfiguration {
-                EmptyView()
-            }
-        } else {
-            return HostingConfiguration {
-                EmptyView()
-            }
+        return UIHostingConfiguration {
+            EmptyView()
         }
     }
 
@@ -57,18 +33,11 @@ struct ContentUnavailableConfiguration {
         actions: [EmptyStateAction] = [],
         style: Style = DefaultEmptyStateStyle.defaultStyle
     ) -> UIContentConfiguration {
-        if #available(iOS 16.0, *) {
-            return UIHostingConfiguration {
-                EmptyStateView(title: title, message: message, icon: icon, actions: actions, style: style)
-                    .environmentObject(Theme.sharedTheme)
-            }
-            .background(style.background)
-        } else {
-            return HostingConfiguration {
-                EmptyStateView(title: title, message: message, icon: icon, actions: actions, style: style)
-                    .environmentObject(Theme.sharedTheme)
-            }
+        return UIHostingConfiguration {
+            EmptyStateView(title: title, message: message, icon: icon, actions: actions, style: style)
+                .environmentObject(Theme.sharedTheme)
         }
+        .background(style.background)
     }
 }
 
