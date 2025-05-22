@@ -1,7 +1,6 @@
 import Foundation
 import Speech
 import UIKit
-import Ifrit
 
 class TranscriptsViewController: PlayerItemViewController {
 
