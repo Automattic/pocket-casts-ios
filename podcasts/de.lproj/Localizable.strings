@@ -384,13 +384,13 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Dein nächster Monat ist kostenlos</string>
     <key>cancel_subscription_survey_description</key>
-    <string>Wir würden gerne wissen, warum du kein Interesse mehr hast. Dein Feedback hilft uns, unser Angebot zu verbessern.</string>
+    <string>Wir würden gerne wissen, warum du dein Abonnement gekündigt hast. Dein Feedback hilft uns, unser Angebot zu verbessern.</string>
     <key>cancel_subscription_survey_row_better_app</key>
     <string>Ich habe eine bessere App gefunden</string>
     <key>cancel_subscription_survey_row_cost</key>
     <string>Kostengründe</string>
     <key>cancel_subscription_survey_row_not_enough</key>
-    <string>Ich benutze die App zu selten</string>
+    <string>Ich benutze es zu selten</string>
     <key>cancel_subscription_survey_row_other</key>
     <string>Sonstiges</string>
     <key>cancel_subscription_survey_row_technical_issue</key>
@@ -1626,7 +1626,7 @@ Podcasts mit</string>
     <key>notifications_permissions_action</key>
     <string>Benachrichtigungen erlauben</string>
     <key>notifications_permissions_body</key>
-    <string>Benachrichtigungen sind die beste Möglichkeit, um den Überblick über neue Folgen zu behalten, Empfehlungen zu neuen Shows zu erhalten und Tipps zur Nutzung von Pocket Casts zu erhalten.</string>
+    <string>Benachrichtigungen sind die beste Möglichkeit, um den Überblick über neue Folgen zu behalten, Empfehlungen zu neuen Shows zu bekommen und Tipps zur Nutzung von Pocket Casts zu erhalten.</string>
     <key>notifications_permissions_needs_action</key>
     <string>Bitte erlaube Benachrichtigungen in deinen Geräteeinstellungen</string>
     <key>notifications_permissions_open_settings</key>
