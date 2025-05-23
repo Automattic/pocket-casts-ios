@@ -48,8 +48,9 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard podcastCollection != nil else { return CGSize.zero }
-        let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+
+        let headerView: DiscoverCollectionHeader = DiscoverCollectionHeader.fromNib()
+        headerView.populate(podcastCollection: podcastCollection)
 
         return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required, // Width is fixed

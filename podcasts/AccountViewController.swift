@@ -3,11 +3,13 @@ import PocketCastsUtils
 import UIKit
 
 class AccountViewController: UIViewController, ChangeEmailDelegate {
-    enum TableRow { case upgradeView, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
+    enum TableRow { case upgradeView, changeAvatar, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
     var tableData: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
     static let newsletterCellId = "NewsletterCellId"
     static let actionCellId = "AccountActionCellId"
+
+    let model = PlusAccountPromptViewModel()
 
     private var isUsernamePasswordLogin: Bool {
         ServerSettings.syncingPassword() != nil
@@ -18,7 +20,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             tableView.applyInsetForMiniPlayer()
             tableView.register(UINib(nibName: "NewsletterCell", bundle: nil), forCellReuseIdentifier: AccountViewController.newsletterCellId)
             tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: AccountViewController.actionCellId)
-            tableView.register(PlusAccountPromptTableCell.self, forCellReuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier)
         }
     }
 
@@ -32,6 +33,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let viewModel = AccountHeaderViewModel()
 
         viewModel.viewContentSizeChanged = { [weak self] in
+            self?.updatedHeaderContentView.frame = .init(x: 0, y: 0, width: self?.headerViewModel.contentSize?.width ?? 0, height: self?.headerViewModel.contentSize?.height ?? 0)
             self?.tableView.reloadData()
         }
 
@@ -106,7 +108,9 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         } else {
             accountOptions = [upgradeRow, .newsletter].compactMap { $0 }
         }
-
+        if headerViewModel.profile.isLoggedIn {
+            accountOptions.insert(.changeAvatar, safelyAt: 0)
+        }
         if SubscriptionHelper.hasActiveSubscription() {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 

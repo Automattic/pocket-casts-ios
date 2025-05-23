@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
@@ -131,7 +132,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         dismiss(animated: true, completion: nil)
 
         if !filterToEdit.isNew {
-            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "filters"])
+            Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": analyticsSource])
         }
     }
 
@@ -144,9 +145,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     func setSwitchSubtitle() {
         let allSelected = selectedUuids.count == allPodcasts.count
         if allSelected {
-            headerView.subtitleLabel.text = L10n.filterAutoAddSubtitle
+            headerView.subtitleLabel.text = FeatureFlag.useFollowNaming.enabled ? L10n.filterAutoAddSubtitleNew : L10n.filterAutoAddSubtitle
         } else {
-            headerView.subtitleLabel.text = L10n.filterManualAddSubtitle
+            headerView.subtitleLabel.text = FeatureFlag.useFollowNaming.enabled ? L10n.filterManualAddSubtitleNew : L10n.filterManualAddSubtitle
         }
     }
 
@@ -167,6 +168,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
                 selectedUuids.append(podcast.uuid)
             }
         }
+        Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": selectAllSwitch.isOn, "source": analyticsSource])
         setSwitchSubtitle()
         updateRightBarBtn()
         podcastTable.reloadData()
@@ -186,7 +188,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         updateRightBarBtn()
     }
 
-    func didChangePodcasts() {}
+    func didChangePodcasts(numberSelected: Int) {}
 
     // MARK: - TableView data source and delegate
 

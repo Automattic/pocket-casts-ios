@@ -6,6 +6,11 @@ struct StarRatingView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastRatingViewModel
 
+    @State private var dismissAction: RatePodcastViewModel.DismissAction = .default
+
+    // To reload the view after rate and dismiss the rating sheet
+    private var onRate: () -> Void
+
     /// Keeps track of when we appear to determine if we should animate
     private var startDate: Date = .now
 
@@ -16,16 +21,20 @@ struct StarRatingView: View {
         viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeBeforeAnimating
     }
 
-    init(viewModel: PodcastRatingViewModel) {
+    init(viewModel: PodcastRatingViewModel, style: Style = .long, onRate: @escaping () -> Void) {
         self.viewModel = viewModel
+        self.onRate = onRate
+        self.style = style
+    }
+
+    private var style: Style = .short
+    enum Style {
+        case long
+        case short
     }
 
     var body: some View {
-        if FeatureFlag.giveRatings.enabled {
-            starsAndRate
-        } else {
-            onlyStars
-        }
+        starsAndRate
     }
 
     /// A view that returns stars and the "Rate" button
@@ -35,47 +44,68 @@ struct StarRatingView: View {
                 ratingView(rating: viewModel.rating)
                     .frame(height: 16)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
-
-                Spacer()
-
-                Text(L10n.rate)
-                    .font(.system(.callout))
-                    .foregroundStyle(theme.primaryText01)
-                    .buttonize {
-                        viewModel.didTapRating()
+                    .onTapGesture {
+                        viewModel.didTapRating(source: .stars)
                     }
-            }
-            .sheet(isPresented: $viewModel.presentingGiveRatings) {
-                if let podcast = viewModel.podcast {
-                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+                if style == .long {
+                    Spacer()
+
+                    Text(L10n.rate)
+                        .font(.system(.callout))
+                        .foregroundStyle(theme.primaryText01)
+                        .buttonize {
+                            viewModel.didTapRating()
+                        }
                 }
             }
-
-            Rectangle()
-                .foregroundStyle(theme.primaryUi05)
-                .frame(height: 1)
-                .padding(.top, 12)
-                .padding(.bottom, 0)
+            .sheet(isPresented: $viewModel.presentingGiveRatings, onDismiss: {
+                switch dismissAction {
+                case .dismissAndTracking(let event):
+                    Analytics.shared.track(event)
+                default:
+                    break
+                }
+                dismissAction = .default
+            }, content: {
+                if let podcast = viewModel.podcast {
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast, onRate: onRate))
+                }
+            })
+            if style == .long {
+                Rectangle()
+                    .foregroundStyle(theme.primaryUi05)
+                    .frame(height: 1)
+                    .padding(.top, 12)
+                    .padding(.bottom, 0)
+            }
         }
-    }
-
-    // A view that returns only the stars
-    var onlyStars: some View {
-        HStack(alignment: .center) {
-            ratingView(rating: viewModel.rating)
-                .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
-
-            Spacer()
-        }
-        .frame(height: 15)
     }
 
     @ViewBuilder
     private func ratingView(rating: PodcastRating?) -> some View {
         starsView(rating: rating?.average ?? 0)
-        if viewModel.showTotal {
-            labelView(total: rating?.total)
+        labelView(rating: rating)
+    }
+
+    @ViewBuilder
+    private func labelView(rating: PodcastRating?) -> some View {
+        let defaultColor = AppTheme.color(for: .primaryText01, theme: theme)
+        Group {
+            if let rating, viewModel.hasRatings {
+                Text("\(rating.average, specifier: "%.1f")")
+                    .font(size: 15, style: .footnote, weight: .semibold)
+                    .padding([.leading], -2)
+                Text("(\(rating.total.abbreviated))")
+                    .font(size: 15, style: .footnote)
+                    .padding([.leading], -2)
+            } else {
+                Text(L10n.ratingNoRatings)
+                    .font(size: 15, style: .footnote)
+            }
         }
+        .foregroundColor(defaultColor)
+        .padding(.top, 1)
+        .monospacedDigit()
     }
 
     @ViewBuilder
@@ -84,6 +114,8 @@ struct StarRatingView: View {
         let stars = Int(rating)
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
+        let themeStyle = ThemeStyle.primaryUi05Selected
+        let color = AppTheme.color(for: themeStyle, theme: theme)
 
         HStack(spacing: 3) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
@@ -91,18 +123,9 @@ struct StarRatingView: View {
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(theme.filter03)
+                    .foregroundStyle(color)
             }
-        }.foregroundColor(AppTheme.color(for: .filter03, theme: theme))
-    }
-
-    @ViewBuilder
-    private func labelView(total: Int?) -> some View {
-        Text("(\(total?.abbreviated ?? ""))")
-            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-            .font(size: 14, style: .footnote)
-            .padding(.top, 1)
-            .monospacedDigit()
+        }.foregroundColor(color)
     }
 
     private func image(for index: Int, stars: Int, half: Double) -> Image {

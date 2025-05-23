@@ -16,6 +16,7 @@ class EpisodeManager: NSObject {
 
         DataManager.sharedManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
+        #if !APPCLIP
         if shouldArchiveOnCompletion(episode: episode) {
             if let episode = episode as? Episode {
                 archiveEpisode(episode: episode, fireNotification: false, userInitiated: false)
@@ -28,6 +29,7 @@ class EpisodeManager: NSObject {
                 }
             }
         }
+        #endif
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
@@ -81,6 +83,7 @@ class EpisodeManager: NSObject {
         if userEpisodeToMarkAsPlayed.count > 0 {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
 
+            #if !APPCLIP
             userEpisodeToMarkAsPlayed.forEach { userEpisode in
                 // Do this last as it may delete the episode from the database
                 if Settings.userEpisodeRemoveFileAfterPlaying() {
@@ -90,6 +93,7 @@ class EpisodeManager: NSObject {
                     UserEpisodeManager.deleteFromCloud(episode: userEpisode, removeFromPlaybackQueue: false)
                 }
             }
+            #endif
         }
         if let currentEpisode = currentEpisodeToMarkAsPlayed {
             markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
@@ -233,6 +237,14 @@ class EpisodeManager: NSObject {
         analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
     }
 
+    class func removeListeningHistory(episodes: [BaseEpisode]) {
+        for episode in episodes {
+            DataManager.sharedManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
+        }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.listeningHistoryChanged)
+        analyticsHelper.bulkRemoveFromListeningHistory(count: episodes.count)
+    }
+
     class func deleteAllEpisodesInPodcast(id: Int64) {
         let episodes = DataManager.sharedManager.allEpisodesForPodcast(id: id)
         if episodes.count < 1 { return }
@@ -369,6 +381,8 @@ class EpisodeManager: NSObject {
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if episode.downloaded(pathFinder: DownloadManager.shared), !streamingOnly {
             return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+        } else if let episode  = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) {
+            return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
         } else if let episode = episode as? Episode, let url = episode.downloadUrl {
             return URL(string: url)
         } else if let episode = episode as? UserEpisode {
@@ -381,6 +395,7 @@ class EpisodeManager: NSObject {
     }
 
     class func shouldArchiveOnCompletion(episode: BaseEpisode) -> Bool {
+        #if !APPCLIP
         if let episode = episode as? Episode {
             if let podcast = episode.parentPodcast(), podcast.isAutoArchiveOverridden {
                 return podcast.autoArchivePlayedAfterTime == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
@@ -390,6 +405,7 @@ class EpisodeManager: NSObject {
         } else if let _ = episode as? UserEpisode {
             return Settings.userEpisodeRemoveFileAfterPlaying() || Settings.userEpisodeRemoveFromCloudAfterPlaying()
         }
+        #endif
 
         return false
     }
@@ -412,6 +428,12 @@ class EpisodeManager: NSObject {
         for episode in episodes {
             deleteDownloadedFiles(episode: episode)
         }
+    }
+
+    class func hasDownloadedEpisodes() -> Bool {
+        let query = "episodeStatus == \(DownloadStatus.downloaded.rawValue) LIMIT 1"
+        let list = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        return !list.isEmpty
     }
 
     private class func allDownloadedEpisodes() -> [Episode] {

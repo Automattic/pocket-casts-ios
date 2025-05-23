@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 class PlusLandingViewModel: PlusPurchaseModel {
@@ -9,12 +10,15 @@ class PlusLandingViewModel: PlusPurchaseModel {
     var initialProduct: ProductInfo? = nil
     var continuePurchasing: ProductInfo? = nil
     let source: Source
+    let viewSource: PlusUpgradeViewSource
 
-    init(source: Source, config: Config? = nil, purchaseHandler: IAPHelper = .shared) {
-        self.displayedProducts = config?.products ?? [.plus, .patron]
+    init(source: Source, viewSource: PlusUpgradeViewSource = .unknown, config: Config? = nil, purchaseHandler: IAPHelper = .shared) {
+        let plus = UpgradeTier.plus.update(header: viewSource.paywallHeadline())
+        self.displayedProducts = config?.products ?? [plus, .patron]
         self.initialProduct = config?.displayProduct
         self.continuePurchasing = config?.continuePurchasing
         self.source = source
+        self.viewSource = viewSource
 
         super.init(purchaseHandler: purchaseHandler)
 
@@ -25,8 +29,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
-            navigationController?.pushViewController(controller, animated: true)
+            presentLogin(with: product)
             return
         }
 
@@ -50,7 +53,15 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionDismissed)
     }
 
-    func dismissTapped() {
+    func presentLogin(with product: ProductInfo? = nil) {
+        let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func dismissTapped(buttonTapped: Bool = false) {
+        if buttonTapped {
+            OnboardingFlow.shared.track(.plusPromotionNotNowButtonTapped)
+        }
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
         guard source == .accountCreated else {
@@ -62,11 +73,33 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func changedSubscriptionTier(_ index: Int) {
+        let tier = displayedProducts[index]
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionTierChanged, properties: ["value": tier.title.lowercased()])
+    }
+
+    func changedSubscriptionPeriod(_ value: PlanFrequency) {
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
+    }
+
+    func termsOfUseTapped() {
+        OnboardingFlow.shared.track(.plusPromotionTermsAndConditionsTapped)
+    }
+
+    func privacyPolicyTapped() {
+        OnboardingFlow.shared.track(.plusPromotionPrivacyPolicyTapped)
+    }
+
+
     func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
             return nil
         }
         return pricingInfo
+    }
+
+    func showError() {
+        SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
     }
 
     private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
@@ -110,17 +143,13 @@ private extension PlusLandingViewModel {
         purchase(product: product.identifier)
         return
     }
-
-    func showError() {
-        SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
-    }
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil, customTitle: String? = nil) -> UIViewController {
-        let viewModel = PlusLandingViewModel(source: source, config: config)
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, viewSource: PlusUpgradeViewSource, config: PlusLandingViewModel.Config? = nil, customTitle: String? = nil) -> UIViewController {
+        let viewModel = PlusLandingViewModel(source: source, viewSource: viewSource, config: config)
 
-        let view = Self.view(with: viewModel)
+        let view = Self.view(with: viewModel, viewSource: viewSource)
         let controller = PlusHostingViewController(rootView: view)
 
         controller.viewModel = viewModel
@@ -136,8 +165,27 @@ extension PlusLandingViewModel {
     }
 
     @ViewBuilder
-    private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+    private static func view(with viewModel: PlusLandingViewModel, viewSource: PlusUpgradeViewSource) -> some View {
+        if FeatureFlag.upgradeExperiment.enabled, !SubscriptionHelper.hasActiveSubscription(), viewSource.isEligibleForExperiment() {
+            let variant = ABTestProvider.shared.variation(for: .pocketcastsPaywallUpgradeIOSABTest)
+            let customTreatment = variant.getCustomTreatment()
+
+            switch customTreatment {
+            case .featuresTreatment:
+                PlusPaywallContainer(viewModel: viewModel, type: .features)
+            case .reviewsTreatment:
+                PlusPaywallContainer(viewModel: viewModel, type: .reviews)
+            default:
+                defaultPaywall(with: viewModel)
+            }
+        } else {
+            defaultPaywall(with: viewModel, headline: viewSource.paywallHeadline())
+        }
+    }
+
+    @ViewBuilder
+    private static func defaultPaywall(with viewModel: PlusLandingViewModel, headline: String? = nil) -> some View {
+            UpgradeLandingView(viewModel: viewModel)
+                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }

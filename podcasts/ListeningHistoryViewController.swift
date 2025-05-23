@@ -1,16 +1,33 @@
 import DifferenceKit
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class ListeningHistoryViewController: PCViewController {
-    var episodes = [ArraySection<String, ListEpisode>]()
+    var episodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
+    var tempEpisodes = [ArraySection<String, ListEpisode>]() {
+        didSet {
+            refreshContentUnavailable()
+        }
+    }
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
+    private var searchController: PCSearchBarController?
 
-    @IBOutlet var listeningHistoryTable: UITableView! {
+    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+        let viewModel = InformationalBannerViewModel(bannerType: .listeningHistory)
+        return InformationalBannerViewCoordinator(viewModel: viewModel)
+    }()
+
+    @IBOutlet var listeningHistoryTable: ThemeableTable! {
         didSet {
             registerCells()
             listeningHistoryTable.estimatedRowHeight = 80
@@ -51,6 +68,8 @@ class ListeningHistoryViewController: PCViewController {
     @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
         didSet {
             multiSelectFooter.delegate = self
+            multiSelectFooter.getActionsFunc = Settings.listeningHistoryMultiSelectActions
+            multiSelectFooter.setActionsFunc = Settings.updateListeningHistoryMultiSelectActions
         }
     }
 
@@ -66,6 +85,10 @@ class ListeningHistoryViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if FeatureFlag.listeningHistorySearch.enabled {
+            setupSearchController()
+        }
+
         operationQueue.maxConcurrentOperationCount = 1
         title = L10n.listeningHistory
         refreshEpisodes(animated: false)
@@ -73,6 +96,11 @@ class ListeningHistoryViewController: PCViewController {
         setupNavBar()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: listeningHistoryTable)
         Analytics.track(.listeningHistoryShown)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupInformationalBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -90,6 +118,7 @@ class ListeningHistoryViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.listeningHistoryChanged, selector: #selector(refreshEpisodesFromNotification))
     }
 
     @objc private func refreshEpisodesFromNotification() {
@@ -118,7 +147,6 @@ class ListeningHistoryViewController: PCViewController {
             let newData = self.episodesDataManager.listeningHistoryEpisodes()
 
             DispatchQueue.main.sync {
-                self.listeningHistoryTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
                     self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
@@ -141,8 +169,12 @@ class ListeningHistoryViewController: PCViewController {
             self.refreshEpisodes(animated: true)
 
         })
+        optionPicker.setNoActionCallback {
+            Analytics.track(.listeningHistoryClearConfirmationDismissed)
+        }
         optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        Analytics.track(.listeningHistoryClearConfirmationShown)
     }
 
     func setupNavBar() {
@@ -172,6 +204,60 @@ class ListeningHistoryViewController: PCViewController {
 
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
+
+    private func setupInformationalBanner() {
+        if !informationalBannerCoordinator.shouldShowBanner() {
+            listeningHistoryTable.tableHeaderView = nil
+            return
+        }
+        if listeningHistoryTable.tableHeaderView != nil {
+            return
+        }
+        listeningHistoryTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: listeningHistoryTable.bounds.width, height: 150)) {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.listeningHistoryTable.tableHeaderView = nil
+            }
+        }
+    }
+
+    private func refreshContentUnavailable() {
+        var config: UIContentConfiguration?
+
+        listeningHistoryTable.backgroundView = UIView()
+        listeningHistoryTable.themeStyle = .primaryUi04
+
+        if episodes.isEmpty {
+            if searchController?.searchTextField.text?.isEmpty == false {
+                // Empty State when searching
+                let title = L10n.listeningHistorySearchNoEpisodesTitle
+                let message = L10n.listeningHistorySearchNoEpisodesText
+                config = ContentUnavailableConfiguration.emptyState(
+                    title: title,
+                    message: message,
+                    icon: { Image("profile-download").renderingMode(.template) }
+                )
+
+                listeningHistoryTable.backgroundColor = UIColor(DefaultEmptyStateStyle.defaultStyle.background)
+                listeningHistoryTable.backgroundView = config?.makeContentView()
+            } else {
+                // Empty State when not searching
+                let title = L10n.profileListeningHistoryEmptyTitle
+                let message = L10n.profileListeningHistoryEmptyDescription
+                config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("options-history").renderingMode(.template) }, actions: [
+                    .init(title: L10n.goToDiscover, action: {
+                        Analytics.shared.track(.listeningHistoryDiscoverButtonTapped)
+                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                    })
+                ])
+
+                if #available(iOS 17.0, *) {
+                    self.contentUnavailableConfiguration = config
+                } else {
+                    self.setContentUnavailableConfiguration(config)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Analytics
@@ -179,5 +265,73 @@ class ListeningHistoryViewController: PCViewController {
 extension ListeningHistoryViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .listeningHistory
+    }
+}
+
+// MARK: - Analytics
+
+extension ListeningHistoryViewController: PCSearchBarDelegate {
+    func searchDidBegin() {
+        tempEpisodes = episodes
+    }
+
+    func searchDidEnd() {
+        listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        episodes = tempEpisodes
+        listeningHistoryTable.reloadData()
+        tempEpisodes.removeAll()
+    }
+
+    func searchWasCleared() {
+        Analytics.track(.searchCleared, source: analyticsSource)
+
+        listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        episodes = tempEpisodes
+        listeningHistoryTable.reloadData()
+    }
+
+    func searchTermChanged(_ searchTerm: String) { }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        Analytics.track(.searchPerformed, source: analyticsSource)
+
+        let oldData = episodes
+        let newData = episodesDataManager.searchEpisodes(for: searchTerm)
+
+        let changeSet = StagedChangeset(source: oldData, target: newData)
+        self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
+            self.episodes = data
+        })
+        completion()
+    }
+
+    private func setupSearchController() {
+        searchController = PCSearchBarController()
+        searchController?.searchDebounce = 0.2
+
+        guard let searchController else {
+            return
+        }
+
+        searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
+        view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        NSLayoutConstraint.activate([
+            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            topAnchor
+        ])
+
+        searchController.placeholderText = L10n.search
+        searchController.searchControllerTopConstant = topAnchor
+        searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
+        searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+        searchController.searchDelegate = self
+
+        listeningHistoryTable.verticalScrollIndicatorInsets.top = PCSearchBarController.defaultHeight
     }
 }

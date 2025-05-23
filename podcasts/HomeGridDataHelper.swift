@@ -44,7 +44,20 @@ class HomeGridDataHelper {
 
     #if !os(watchOS)
         class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType) -> [HomeGridListItem] {
-            let allPodcasts = orderedBy == .episodeDateNewestToOldest ? PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest) : DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            let allPodcasts: [Podcast]
+            if FeatureFlag.podcastsSortChanges.enabled {
+                switch orderedBy {
+                case .episodeDateNewestToOldest:
+                    allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest)
+                case .recentlyPlayed:
+                    allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
+                default:
+                    allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                }
+            } else {
+                allPodcasts = orderedBy == .episodeDateNewestToOldest ? PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest) : DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            }
+
             let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.sharedTheme.activeTheme) }
 
             // load the required badge information if the supplied badge type needs it
@@ -94,7 +107,19 @@ class HomeGridDataHelper {
     #endif
 
     class func gridItems(orderedBy: LibrarySort) -> [HomeGridItem] {
-        let allPodcasts = orderedBy == .episodeDateNewestToOldest ? PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest) : DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts: [Podcast]
+        if FeatureFlag.podcastsSortChanges.enabled {
+            switch orderedBy {
+            case .episodeDateNewestToOldest:
+                allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest)
+            case .recentlyPlayed:
+                allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
+            default:
+                allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            }
+        } else {
+            allPodcasts = orderedBy == .episodeDateNewestToOldest ? PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest) : DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        }
 
         return gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts)
     }
@@ -120,7 +145,7 @@ class HomeGridDataHelper {
                 return dateAddedSort(item1: item1, item2: item2)
             case .titleAtoZ:
                 return titleSort(item1: item1, item2: item2)
-            case .episodeDateNewestToOldest:
+            case .episodeDateNewestToOldest, .recentlyPlayed:
                 return latestEpisodeSort(item1: item1, item2: item2, sortedPodcasts: sortedPodcasts)
             case .custom:
                 return customSort(item1: item1, item2: item2)
@@ -131,9 +156,11 @@ class HomeGridDataHelper {
     }
 
     private class func titleSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
-        guard let title1 = item1.podcast?.title ?? item1.folder?.name, let title2 = item2.podcast?.title ?? item2.folder?.name else { return false }
-
-        return PodcastSorter.titleSort(title1: title1, title2: title2)
+        guard let item1: Sortable = item1.podcast ?? item1.folder,
+              let item2: Sortable = item2.podcast ?? item2.folder else {
+            return false
+        }
+        return PodcastSorter.sortByNameAndUUID(item1: item1, item2: item2)
     }
 
     private class func customSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {

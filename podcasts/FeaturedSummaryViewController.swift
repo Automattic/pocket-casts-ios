@@ -178,7 +178,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             podcastsToShow = discoverPodcast
@@ -190,7 +190,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             for sponsored in sponsoredPodcasts {
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
-                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { [weak self] podcastList in
+                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
                         guard let podcastList = podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast
@@ -211,8 +211,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             // Add featured podcasts
             self.podcasts = Array(podcastsToShow.prefix(self.maxFeaturedItems))
 
-            // Add sponsored podcasts
-            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+            // Add sponsored podcasts - note that these must be ordered to end up at the proper positions
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd.sorted(by: { $0.key < $1.key }) {
                 self.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
             }
             self.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
@@ -243,6 +243,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     }
 
     private func updateCurrentPage() {
+        guard featuredCollectionView.frame.width != .zero else { return }
         let currentPage = Int(round(featuredCollectionView.contentOffset.x / featuredCollectionView.frame.width))
 
         if currentPage == pageControl.currentPage { return }

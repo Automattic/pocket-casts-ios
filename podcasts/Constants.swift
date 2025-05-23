@@ -7,6 +7,7 @@ struct Constants {
         static let upNextEpisodeAdded = NSNotification.Name(rawValue: "SJUpNextEpisodeAdded")
         static let upNextEpisodeRemoved = NSNotification.Name(rawValue: "SJUpNextEpisodeRemoved")
         static let upNextQueueChanged = NSNotification.Name(rawValue: "SJUpNextChanged")
+        static let upNextShuffleToggle = NSNotification.Name(rawValue: "SJUpNextShuffleToggle")
         static let playbackStarted = NSNotification.Name(rawValue: "SJPlaybackStart")
         static let playbackStarting = NSNotification.Name(rawValue: "SJPlaybackStarting")
         static let playbackPaused = NSNotification.Name(rawValue: "SJPlaybackPaused")
@@ -43,6 +44,7 @@ struct Constants {
         static let followSystemThemeTurnedOn = NSNotification.Name(rawValue: "FollowSystemThemeTurnedOn")
         static let playbackEffectsChanged = NSNotification.Name(rawValue: "SJEffectsChanged")
         static let extraMediaSessionActionsChanged = NSNotification.Name(rawValue: "SJMediaSessionActionsChanged")
+        static let remoteCommandSettingsChanged = NSNotification.Name(rawValue: "SJRemoteCommandSettingsChanged")
         static let currentlyPlayingEpisodeUpdated = NSNotification.Name(rawValue: "SJCurrentlyPlayingEpisodeUpdated")
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
         static let unhideNavBarRequested = NSNotification.Name(rawValue: "SJUnhideNavBar")
@@ -56,6 +58,7 @@ struct Constants {
         static let episodeDownloadStatusChanged = NSNotification.Name(rawValue: "SJEpisodeDownloadChanged")
         static let manyEpisodesChanged = NSNotification.Name(rawValue: "SJManyEpisodesChanged")
         static let episodeTranscriptAvailabilityChanged = NSNotification.Name(rawValue: "SJEpisodeTranscriptAvailabilityChanged")
+        static let listeningHistoryChanged = NSNotification.Name(rawValue: "SJListeningHistoryChanged")
 
         // podcast notifications
         static let podcastUpdated = NSNotification.Name(rawValue: "SJPodcastUpdated")
@@ -96,6 +99,11 @@ struct Constants {
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
+
+        // Gravatar
+        static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
+
+        static let discoverNavigateToCategory = Notification.Name(rawValue: "DiscoverNavigateToCategory")
 
         // Speech to Text
         static let speechToTextAvailable = NSNotification.Name(rawValue: "speechToTextAvailable")
@@ -152,12 +160,13 @@ struct Constants {
 
         static let reviewRequestDates = "reviewRequestDates"
 
-        static let showBadgeFor2023EndOfYear = "showBadgeFor2023EndOfYear"
-        static let modal2023HasBeenShown = "modal2023HasBeenShown"
-        static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
-        static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
+        static let showBadgeForEndOfYear = "showBadgeFor%dEndOfYear"
+        static let modalHasBeenShown = "modal%dHasBeenShown"
+        static let hasSyncedEpisodesForPlayback = "hasSyncedEpisodesForPlayback%d"
+        static let hasSyncedEpisodesForPlaybackAsPlusUser = "hasSyncedEpisodesForPlayback%dAsPlusUser"
         static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
+        static let shouldShowEncourageAccountCreationModal = "shouldShowEncourageAccountCreationModal"
 
         static let autoplay = "autoplay"
 
@@ -168,6 +177,12 @@ struct Constants {
 
         static let sleepTimerFinishedDate = "sleepTimerFinishedDate"
         static let sleepTimerSetting = "sleepTimerSetting"
+
+        static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
+
+        static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
+
+        static let newFilterTip = "NewFilterTip"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
@@ -188,6 +203,46 @@ struct Constants {
 
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+        }
+
+        enum kidsProfile {
+            static let shouldHideBanner = "ShouldHideKidsBannerKey"
+        }
+
+        enum referrals {
+            static let showTip = "referrals.showtip"
+            static let claimURL = "referrals.claimURL"
+        }
+
+        enum manageDownloads {
+            static let lastCheckDate = "manageDownloadsLastCheckDate"
+        }
+
+        enum podcastFeedReload {
+            static let showTip = "podcastFeedReload.showtip"
+        }
+
+        enum suggestedFolders {
+            static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
+            static let upsellCount = "suggestedFolders.upsellCount"
+            static let lastPodcastsUsed = "suggestedFolders.lastPodcastsUsed"
+        }
+
+        enum podcastViewChanges {
+            static let showTip = "podcastViewChanges.showtip"
+        }
+
+        enum notifications {
+            static let newEpisodes = "notifications.newEpisodes"
+            static let dailyReminders = "notifications.dailyReminders"
+            static let newFeaturesAndTips = "notifications.newFeaturesAndTips"
+            static let recommendations = "notifications.recommendations"
+            static let offers = "notifications.offers"
+            static let triggerDates = "notifications.triggerDates"
+        }
+
+        enum informationalModal {
+            static let hasShownViewModal = "hasShownViewModal"
         }
     }
 
@@ -214,6 +269,8 @@ struct Constants {
         public static let offerEligibilityDefaultValue = true
 
         static let bookmarkMaxTitleLength = 100
+
+        static let numberOfEpisodesListenedRequiredToRate = 2
     }
 
     enum Limits {
@@ -284,9 +341,6 @@ struct Constants {
 
         static let addMissingEpisodes = "add_missing_episodes"
         static let addMissingEpisodesDefault: Bool = true
-
-        static let newPlayerTransition = "new_player_transition"
-        static let newPlayerTransitionDefault: Bool = true
 
         static let errorLogoutHandling = "error_logout_handling"
         static let errorLogoutHandlingDefault: Bool = false
@@ -362,6 +416,10 @@ enum PlusUpgradeViewSource: String {
     case endOfYear
     case promoCode
     case promotionFinished
+    case upNextShuffle
+    case generatedTranscripts
+    case onboarding
+    case suggestedFolders = "suggested_folders"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
@@ -380,6 +438,39 @@ enum PlusUpgradeViewSource: String {
         default:
             return "Upgrade to Plus for \(rawValue)"
         }
+    }
+
+    func isEligibleForExperiment() -> Bool {
+        switch self {
+        case .profile, .onboarding:
+            return true
+        default:
+            return false
+        }
+    }
+
+    func paywallHeadline() -> String {
+        switch self {
+        case .folders:
+            return L10n.paywallDynamicHeadlineFolder
+        case .upNextShuffle:
+            return L10n.paywallDynamicHeadlineUpNextShuffle
+        case .themes:
+            return L10n.paywallDynamicHeadlineThemes
+        case .watch:
+            return L10n.paywallDynamicHeadlineWatch
+        case .icons:
+            return L10n.paywallDynamicHeadlineIcons
+        case .files:
+            return L10n.paywallDynamicHeadlineFiles
+        default:
+            return L10n.plusMarketingTitle
+        }
+    }
+
+    static func from(string: String?) -> PlusUpgradeViewSource {
+        guard let string else { return .unknown }
+        return PlusUpgradeViewSource(rawValue: string) ?? .unknown
     }
 }
 

@@ -9,6 +9,8 @@ extension DownloadManager {
     #if os(watchOS)
         func processBackgroundTaskCallback(task: WKURLSessionRefreshBackgroundTask) {
             if task.sessionIdentifier == DownloadManager.cellBackgroundSessionId {
+                // If there was a previous task for the same identifier let's set it to complete
+                pendingWatchBackgroundTask?.setTaskCompletedWithSnapshot(false)
                 pendingWatchBackgroundTask = task
             } else {
                 task.setTaskCompletedWithSnapshot(true)

@@ -1,6 +1,6 @@
-name: Bug report
-description: Report a bug with the Pocket Casts iOS app
-labels: ["bug", "triage"]
+name: 🐞 Bug report
+description: Report a bug if something isn't working as expected in the Pocket Casts iOS app
+labels: ["[Type] Bug"]
 body:
 
     - type: markdown
@@ -31,7 +31,7 @@ body:
       attributes:
           label: Screenshots or screen recording
           description: |
-              If possible, please upload a screenshot or screen recording which demonstrates the bug.
+              Help us see what you see! Please upload a screenshot or screen recording, it really speeds up the fix.
       validations:
           required: false
 
@@ -47,6 +47,6 @@ body:
       attributes:
           label: Device, Operating system, and Pocket Casts app version
           placeholder: |
-              iPhone 14 Pro, iOS 16.5, Pocket Casts 7.49.0
+              iPhone 15 Pro, iOS 17.6.1, Pocket Casts 7.72
       validations:
           required: false

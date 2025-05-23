@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "whatsnew_whatsapp.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -26,6 +26,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var trimSilenceAmount = 0 as Int32
     @objc public var podcastCategory: String?
     @objc public var podcastDescription: String?
+    @objc public var podcastHTMLDescription: String?
     @objc public var sortOrder = 0 as Int32
     @objc public var startFrom = 0 as Int32
     @objc public var skipLast = 0 as Int32
@@ -51,6 +52,9 @@ public class Podcast: NSObject, Identifiable {
     @objc public var showArchived = false
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
+    @objc public var usedCustomEffectsBefore = false
+    @objc public var isPrivate = false
+    @objc public var fundingURL: String?
 
     public var settings: PodcastSettings = PodcastSettings.defaults
 
@@ -100,6 +104,10 @@ public class Podcast: NSObject, Identifiable {
 
     public func latestEpisode() -> Episode? {
         DataManager.sharedManager.findLatestEpisode(podcast: self)
+    }
+
+    public func latestEpisodes(limit: Int = 1) -> [Episode] {
+        DataManager.sharedManager.findLatestEpisodes(podcast: self, limit: limit)
     }
 
     public func isSubscribed() -> Bool {

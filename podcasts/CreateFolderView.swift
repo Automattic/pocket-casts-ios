@@ -3,8 +3,10 @@ import SwiftUI
 
 struct CreateFolderView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject private var pickerModel = PodcastPickerModel()
+    @StateObject private var pickerModel = PodcastPickerModel()
     @ObservedObject private var model = FolderModel()
+
+    var isInsideNavigation: Bool = false
 
     var dismissAction: (String?) -> Void
 
@@ -20,10 +22,14 @@ struct CreateFolderView: View {
     }
 
     var body: some View {
-        if let _ = preselectPodcastUuid {
-            mainBody
+        if isInsideNavigation {
+            insideNavigationBody
         } else {
-            navWrappedBody
+            if let _ = preselectPodcastUuid {
+                mainBody
+            } else {
+                navWrappedBody
+            }
         }
     }
 
@@ -74,6 +80,21 @@ struct CreateFolderView: View {
                 }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+    }
+
+    var insideNavigationBody: some View {
+        mainBody
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        pickerModel.toggleSelectAll()
+                    } label: {
+                        Text(pickerModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll)
+                    }
+                    .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                }
+            }
     }
 
     /// From when the flow was initiated

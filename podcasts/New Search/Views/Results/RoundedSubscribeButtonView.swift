@@ -1,12 +1,13 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct RoundedSubscribeButtonView: View {
     @ObservedObject var model: SubscribeButtonModel
 
-    init(podcastUuid: String, source: AnalyticsSource) {
-        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source)
+    init(podcastUuid: String, source: AnalyticsSource, onSubscribe: (() -> Void)? = nil) {
+        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source, subscribeBlock: onSubscribe)
     }
 
     var body: some View {
@@ -36,8 +37,8 @@ struct SubscribeButtonView: View {
 
     @ObservedObject var model: SubscribeButtonModel
 
-    init(podcastUuid: String, source: AnalyticsSource) {
-        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source)
+    init(podcastUuid: String, source: AnalyticsSource, onSubscribe: (() -> Void)? = nil) {
+        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source, subscribeBlock: onSubscribe)
     }
 
     var body: some View {
@@ -73,15 +74,19 @@ class SubscribeButtonModel: ObservableObject {
     let podcastUuid: String
     let source: AnalyticsSource
 
-    init(podcastUuid: String, source: AnalyticsSource) {
+    let subscribeBlock: (() -> Void)?
+
+    init(podcastUuid: String, source: AnalyticsSource, subscribeBlock: (() -> Void)?) {
         self.podcastUuid = podcastUuid
         self.source = source
+        self.subscribeBlock = subscribeBlock
         isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
     }
 
     func subscribe() {
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: true, completion: nil)
+        ServerPodcastManager.shared.subscribe(to: podcastUuid, completion: nil)
         Analytics.track(.podcastSubscribed, properties: ["source": source, "uuid": podcastUuid])
+        subscribeBlock?()
     }
 
     func checkSubscriptionStatus() {

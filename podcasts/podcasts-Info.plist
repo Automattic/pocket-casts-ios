@@ -969,6 +969,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>instagram-stories</string>
 		<string>org-appextension-feature-password-management</string>
 		<string>fb</string>
 		<string>tweetbot</string>
@@ -1029,6 +1030,8 @@
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use analytics to make the app better and to measure if our ad campaigns are successful.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Pocket Casts needs permission to transcribe audio that is playing to text.</string>
 	<key>NSUserActivityTypes</key>
@@ -1043,6 +1046,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans.ttf</string>
+		<string>Humane-Medium.otf</string>
+		<string>Humane-Bold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

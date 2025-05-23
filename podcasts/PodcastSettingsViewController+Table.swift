@@ -1,6 +1,7 @@
 import IntentsUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -185,7 +186,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             }
         case .unsubscribe:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.destructiveButtonCellId, for: indexPath) as! DestructiveButtonCell
-            cell.buttonTitle.text = L10n.unsubscribe
+            cell.buttonTitle.text = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
             cell.buttonTitle.textColor = ThemeColor.support05()
             return cell
         }
@@ -361,9 +362,19 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     @objc private func notificationChanged(_ sender: UISwitch) {
-        PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: sender.isOn)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         Analytics.track(.podcastSettingsNotificationsToggled, properties: ["enabled": sender.isOn])
+        NotificationsHelper.shared.registerForPushNotifications() { [weak self] granted in
+            guard let self, granted || !sender.isOn else {
+                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
+                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
+                    UIApplication.shared.openNotificationSettings()
+                })])
+                sender.isOn = false
+                return
+            }
+            PodcastManager.shared.setNotificationsEnabled(podcast: self.podcast, enabled: sender.isOn)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        }
     }
 
     private func tableData() -> [[TableRow]] {

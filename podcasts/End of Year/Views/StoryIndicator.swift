@@ -9,12 +9,12 @@ struct StoryIndicator: View {
         GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorBackgroundOpacity))
+                        .opacity(Constants.storyIndicatorBackgroundOpacity)
                         .cornerRadius(Constants.storyIndicatorBorderRadius)
 
                     Rectangle()
                         .frame(width: geometry.size.width * (model.progress - CGFloat(index)).clamped(to: 0.0 ..< 1.0), height: nil, alignment: .leading)
-                        .foregroundColor(Color.white.opacity(Constants.storyIndicatorForegroundOpacity))
+                        .opacity(Constants.storyIndicatorForegroundOpacity)
                         .cornerRadius(Constants.storyIndicatorBorderRadius)
                 }
             }

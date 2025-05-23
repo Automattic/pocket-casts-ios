@@ -127,7 +127,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
             return
         }
 
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: { _ in
+        ServerPodcastManager.shared.subscribe(to: uuid, completion: { _ in
             Analytics.track(.podcastSubscribed, properties: ["source": self.analyticsSource, "uuid": uuid])
             self.subscribeNext(loadingAlert: loadingAlert)
         })

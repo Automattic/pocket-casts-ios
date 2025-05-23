@@ -69,16 +69,15 @@ struct UpgradeLandingView: View {
                                 PlusLabel(title, for: .title2)
                                     .transition(.opacity)
                                     .id("plus_title" + selectedTier.header)
-                                    .minimumScaleFactor(0.5)
-                                    .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
+                                    .multilineTextAlignment(.center)
                                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 
                                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: false)
 
-                                if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
+                                if tiers.count > 1 && !isSmallScreen {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                                         .foregroundColor(.white)
                                         .padding(.top, 27)
@@ -99,6 +98,12 @@ struct UpgradeLandingView: View {
                             if $0 > reader.size.height {
                                 contentIsScrollable = true
                             }
+                        }
+                        .onChange(of: currentPage) { value in
+                            viewModel.changedSubscriptionTier(value)
+                        }
+                        .onChange(of: currentSubscriptionPeriod) { value in
+                            viewModel.changedSubscriptionPeriod(value)
                         }
                     }
                 }
@@ -139,7 +144,7 @@ struct UpgradeLandingView: View {
         HStack(spacing: 0) {
             Spacer()
             Button(viewModel.source == .upsell ? L10n.eoyNotNow : L10n.plusSkip) {
-                viewModel.dismissTapped()
+                viewModel.dismissTapped(buttonTapped: true)
             }
             .foregroundColor(.white)
             .font(style: .body, weight: .medium)
@@ -158,7 +163,8 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: currentSubscriptionPeriod))
         }, label: {
             VStack {
-                Text(selectedTier.buttonLabel)
+                Text(purchaseTitle)
+                    .multilineTextAlignment(.center)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -174,6 +180,18 @@ struct UpgradeLandingView: View {
                 }
             )
         }
+    }
+
+    private var purchaseTitle: String {
+        guard let subscriptionInfo = viewModel.pricingInfo(for: selectedTier, frequency: currentSubscriptionPeriod) else {
+            return selectedTier.buttonLabel
+        }
+
+        if subscriptionInfo.offer?.type == .freeTrial {
+            return L10n.freeTrialStartButton
+        }
+
+        return selectedTier.buttonLabel
     }
 
     private var title: String {
@@ -211,5 +229,13 @@ struct UpgradeLandingView_Previews: PreviewProvider {
 extension String {
     var slumberStudiosWithUrl: String {
         self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
+    }
+
+    var newSlumberStudiosWithUrl: String {
+        self.replacingOccurrences(of: self, with: "[\(self)](https://slumberstudios.com)")
+    }
+
+    var libroFmWithURL: String {
+        self.replacingOccurrences(of: "Libro.fm", with: "[Libro.fm](https://libro.fm)")
     }
 }

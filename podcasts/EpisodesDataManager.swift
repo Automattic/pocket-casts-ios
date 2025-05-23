@@ -84,9 +84,23 @@ class EpisodesDataManager {
         let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest
         switch sortOrder {
         case .titleAtoZ:
-            sortStr = "ORDER BY title ASC, addedDate"
+            sortStr = """
+            ORDER BY (CASE
+            WHEN UPPER(title) LIKE 'THE %' THEN SUBSTR(UPPER(title), 5)
+            WHEN UPPER(title) LIKE 'A %' THEN SUBSTR(UPPER(title), 3)
+            WHEN UPPER(title) LIKE 'AN %' THEN SUBSTR(UPPER(title), 4)
+            ELSE UPPER(title)
+            END) ASC, addedDate
+            """
         case .titleZtoA:
-            sortStr = "ORDER BY title DESC, addedDate"
+            sortStr = """
+            ORDER BY (CASE
+            WHEN UPPER(title) LIKE 'THE %' THEN SUBSTR(UPPER(title), 5)
+            WHEN UPPER(title) LIKE 'A %' THEN SUBSTR(UPPER(title), 3)
+            WHEN UPPER(title) LIKE 'AN %' THEN SUBSTR(UPPER(title), 4)
+            ELSE UPPER(title)
+            END) DESC, addedDate
+            """
         case .newestToOldest:
             sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
         case .oldestToNewest:
@@ -118,7 +132,7 @@ class EpisodesDataManager {
     // MARK: - Downloads
 
     func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
-        let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
+        let query = "( ((downloadTaskId IS NOT NULL AND autoDownloadStatus <> \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) ) OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
         let arguments = [Date().weeksAgo(1)] as [Any]
 
         let newData = EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: arguments, episodeShortKey: { episode -> String in
@@ -134,6 +148,12 @@ class EpisodesDataManager {
         let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
 
         return EpisodeTableHelper.loadSectionedEpisodes(query: query, arguments: nil, episodeShortKey: { episode -> String in
+            episode.shortLastPlaybackInteractionDate()
+        })
+    }
+
+    func searchEpisodes(for search: String) -> [ArraySection<String, ListEpisode>] {
+        return EpisodeTableHelper.searchSectionedEpisodes(for: search, episodeShortKey: { episode -> String in
             episode.shortLastPlaybackInteractionDate()
         })
     }

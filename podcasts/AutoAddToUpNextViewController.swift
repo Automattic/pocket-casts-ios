@@ -90,6 +90,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
                 options.show(statusBarStyle: preferredStatusBarStyle)
             case .selectPodcasts:
                 let podcastSelectViewController = PodcastChooserViewController()
+                podcastSelectViewController.analyticsSource = .autoAdd
                 podcastSelectViewController.delegate = self
                 let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                 podcastSelectViewController.selectedUuids = allPodcasts.filter { $0.autoAddToUpNextOn() }.map(\.uuid)

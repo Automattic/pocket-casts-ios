@@ -26,20 +26,27 @@ class ApiBaseTask: Operation {
     }
 
     func runTaskSynchronously() {
-        if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
-            apiTokenAcquired(token: token)
-        } else if let token = tokenHelper.acquireToken() {
+        if let token = acquiredToken() {
             apiTokenAcquired(token: token)
         } else {
             apiTokenAcquisitionFailed()
         }
     }
 
+    func acquiredToken() -> String? {
+        if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
+            return token
+        } else if let token = tokenHelper.acquireToken() {
+            return token
+        }
+        return nil
+    }
+
     func postToServer(url: String, token: String, data: Data) -> (Data?, Int) {
         return performPostToServer(url: url, token: token, data: data)
     }
 
-    private func performPostToServer(url: String, token: String, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
+    func performPostToServer(url: String, token: String?, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
         let method = "POST"
         var request = createRequest(url: requestUrl, method: method, token: token)
@@ -50,11 +57,13 @@ class ApiBaseTask: Operation {
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
+                    FileLog.shared.addMessage("ApiBaseTask: Retrying 401 unauthorized POST to \(url)")
                     return performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
                 }
 
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
                 KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
+                FileLog.shared.addMessage("ApiBaseTask: Removed syncingV2TokenKey due to 401 unauthorized POST from \(url)")
                 return (nil, httpResponse.statusCode)
             }
 
@@ -85,11 +94,13 @@ class ApiBaseTask: Operation {
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, nil) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
+                    FileLog.shared.addMessage("ApiBaseTask: Retrying 401 unauthorized GET to \(url)")
                     return performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
                 }
 
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
                 KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
+                FileLog.shared.addMessage("ApiBaseTask: Removed syncingV2TokenKey due to 401 unauthorized GET from \(url)")
                 return (nil, httpResponse)
             }
 
@@ -113,6 +124,7 @@ class ApiBaseTask: Operation {
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
                 KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
+                FileLog.shared.addMessage("ApiBaseTask: Removed syncingV2TokenKey due to 401 unauthorized DELETE from \(url)")
                 return (nil, httpResponse.statusCode)
             }
 

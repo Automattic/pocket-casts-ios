@@ -8,9 +8,11 @@ import SwiftUI
 /// avoid blocking the main thread and the share sheet
 /// having a delay when appearing.
 class StoryShareableProvider: UIActivityItemProvider {
-    static var shared: StoryShareableProvider!
+    static var shared: StoryShareableProvider = StoryShareableProvider()
 
     var generatedItem: Any?
+
+    var generatedItemURL: Any?
 
     var view: AnyView?
 
@@ -26,27 +28,48 @@ class StoryShareableProvider: UIActivityItemProvider {
 
     override var item: Any {
         get {
-            generatedItem ?? UIImage()
+            if activityType?.rawValue.contains("instagram") == true {
+                generatedItemURL ?? NSURL()
+            } else {
+                generatedItem ?? UIImage()
+            }
         }
     }
 
     // This method is called when the share sheet appeared
     // So we can go ahead and snapshot the view
     @MainActor
-    func snapshot() {
+    func snapshot(viewModifier: (AnyView) -> some View) {
         guard let view else {
             return
         }
 
-        let snapshot = StoryViewContainer {
-            AnyView(view)
-        }
+        let snapshot = AnyView(view)
+        .modify(viewModifier)
         .environment(\.renderForSharing, true)
-        .frame(width: 370, height: 658)
+        .frame(width: 450, height: 800)
         .snapshot()
 
+        let snapshotURL = save(snapshot: snapshot)
+        generatedItemURL = snapshotURL
         generatedItem = snapshot
         self.view = nil
+    }
+
+    private func save(snapshot: UIImage) -> URL? {
+        guard let imageData = snapshot.pngData() else { return nil }
+
+        let tempDir = FileManager.default.temporaryDirectory
+        let uuid = UUID().uuidString
+        let url = tempDir.appendingPathComponent("pocket-casts-share-image-\(uuid).png")
+
+        do {
+           try imageData.write(to: url)
+        } catch {
+            return nil
+        }
+
+        return url
     }
 }
 

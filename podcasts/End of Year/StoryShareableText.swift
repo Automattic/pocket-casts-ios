@@ -13,35 +13,45 @@ class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
 
     var shareableMetadataProvider = ShareableMetadataProvider()
 
+    private var year: EndOfYear.Year
+
     var hashtags: [String] {
-        ["pocketcasts", "playback2023"]
+        var hashtags = ["pocketcasts"]
+        if let year = year.year {
+            hashtags.append("playback\(year)")
+        }
+        return hashtags
     }
 
     var shareableLink: String {
         return [shortenedURL, longURL, podcastListURL].compactMap { $0 }.first ?? pocketCastsUrl
     }
 
-    init(_ text: String) {
+    init(_ text: String, year: EndOfYear.Year) {
         self.text = text
+        self.year = year
         super.init(placeholderItem: self.text)
     }
 
-    init(_ text: String, podcast: Podcast) {
+    init(_ text: String, podcast: Podcast, year: EndOfYear.Year) {
         self.text = text
+        self.year = year
         super.init(placeholderItem: self.text)
         self.longURL = podcast.shareURL
         requestShortenedURL()
     }
 
-    init(_ text: String, episode: Episode) {
+    init(_ text: String, episode: Episode, year: EndOfYear.Year) {
         self.text = text
+        self.year = year
         super.init(placeholderItem: self.text)
         self.longURL = episode.shareURL
         requestShortenedURL()
     }
 
-    init(_ text: String, podcasts: [Podcast]) {
+    init(_ text: String, podcasts: [Podcast], year: EndOfYear.Year) {
         self.text = text
+        self.year = year
         super.init(placeholderItem: self.text)
         podcastListURL = ""
         createList(from: podcasts)

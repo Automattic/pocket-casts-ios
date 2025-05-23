@@ -39,14 +39,16 @@ public enum ServerConstants {
         }
 
         public static let support = "https://support.pocketcasts.com/ios/"
-        public static let cancelSubscription = "https://support.pocketcasts.com/article/subscription-info/"
+        public static let cancelSubscription = "https://support.pocketcasts.com/knowledge-base/how-to-cancel-a-subscription/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
         public static let privacyPolicy = "https://support.pocketcasts.com/article/privacy-policy/"
         public static let plusInfo = "https://pocketcasts.com/plus/"
         public static let pocketcastsDotCom = "https://pocketcasts.com/"
         public static let automatticDotCom = "https://automattic.com/"
         public static let automatticWorkWithUs = "https://automattic.com/work-with-us/"
-        public static let appStoreReview = "https://itunes.apple.com/app/id414834813?action=write-review"
+        public static let appStore = "https://apps.apple.com/app/id414834813"
+        public static let appStoreReview = "https://apps.apple.com/app/id414834813?action=write-review"
+        public static let podrollLearnMore = "https://support.pocketcasts.com/knowledge-base/podroll/"
     }
 
     private static func production() -> Bool {
@@ -57,6 +59,7 @@ public enum ServerConstants {
         public static let ok = 200
         public static let notModified = 304
         public static let unauthorized = 401
+        public static let forbidden = 403
         public static let notFound = 404
         public static let serverError = 500
         public static let badRequest = 400
@@ -142,6 +145,10 @@ public enum ServerConstants {
 
     public enum Limits {
         static let maxHistoryItems = 100
+#if watchOS
+        static let maxEpisodesToSync = 200
+#else
         static let maxEpisodesToSync = 2000
+#endif
     }
 }

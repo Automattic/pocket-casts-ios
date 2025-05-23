@@ -294,6 +294,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                 self.progressAlert?.showAlert(self, hasProgress: false, completion: {
                     // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
                     SyncManager.clearTokensFromKeyChain()
+                    FileLog.shared.addMessage("SyncSigninViewController.startSignIn clearTokensFromKeyChain")
 
                     self.handleSuccessfulSignIn(username, password: password, userId: userId)
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)

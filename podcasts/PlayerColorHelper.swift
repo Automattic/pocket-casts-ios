@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 struct PlayerColorHelper {
     static func playerBackgroundColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
@@ -16,14 +17,14 @@ struct PlayerColorHelper {
         return ThemeColor.playerBackground02(podcastColor: podcastBackgroundColor, for: theme)
     }
 
-    static func playerHighlightColor01(for theme: Theme.ThemeType,
+    static func playerHighlightColor01(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
         return ThemeColor.playerHighlight01(podcastColor: podcastColor)
     }
 
-    static func playerHighlightColor02(for theme: Theme.ThemeType,
+    static func playerHighlightColor02(for theme: Theme.ThemeType = Theme.sharedTheme.activeTheme,
                                        episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) -> UIColor {
         guard let podcastColor = tint(for: episode, with: theme) else { return UIColor.white }
 
@@ -77,7 +78,7 @@ struct PlayerColorHelper {
         return theme.isDark ? ColorManager.darkThemeTintForPodcast(parentPodcast) : ColorManager.lightThemeTintForPodcast(parentPodcast)
     }
 
-    private static func backgroundColor(for episode: BaseEpisode?) -> UIColor? {
+    static func backgroundColor(for episode: BaseEpisode?) -> UIColor? {
         guard let parentPodcast = (episode as? Episode)?.parentPodcast() else {
             return nil
         }

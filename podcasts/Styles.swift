@@ -138,6 +138,13 @@ struct ThemedDivider: View {
 struct BasicButtonStyle: ButtonStyle {
     let textColor: Color
     let backgroundColor: Color
+    let borderColor: Color?
+
+    init(textColor: Color, backgroundColor: Color, borderColor: Color? = nil) {
+        self.textColor = textColor
+        self.backgroundColor = backgroundColor
+        self.borderColor = borderColor
+    }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -149,21 +156,33 @@ struct BasicButtonStyle: ButtonStyle {
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .modify {
+                if let borderColor {
+                    $0.overlay {
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                            .stroke(borderColor)
+                    }
+                } else {
+                    $0
+                }
+            }
     }
 }
 
 struct RoundedButtonStyle: ButtonStyle {
     @ObservedObject var theme: Theme
     let textColor: ThemeStyle
+    let backgroundColor: Color?
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil) {
         self.theme = theme
         self.textColor = textColor
+        self.backgroundColor = backgroundColor
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let text = AppTheme.color(for: textColor, theme: theme)
-        let background = AppTheme.color(for: .primaryInteractive01, theme: theme)
+        let background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
                             .opacity(configuration.isPressed ? 0.6 : 1)
 
         BasicButtonStyle(textColor: text, backgroundColor: background)
@@ -174,6 +193,12 @@ struct RoundedButtonStyle: ButtonStyle {
 struct RoundedButton: ViewModifier {
     @EnvironmentObject var theme: Theme
 
+    var destructive: Bool
+
+    init(destructive: Bool = false) {
+        self.destructive = destructive
+    }
+
     func body(content: Content) -> some View {
         HStack {
             Spacer()
@@ -183,8 +208,31 @@ struct RoundedButton: ViewModifier {
             Spacer()
         }
         .padding()
-        .background(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+        .background(destructive ? ThemeColor.support05(for: theme.activeTheme).color : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
+        .frame(height: 44)
+    }
+}
+
+
+struct BorderButton: ViewModifier {
+    @EnvironmentObject var theme: Theme
+
+    func body(content: Content) -> some View {
+        HStack {
+            Spacer()
+            content
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+            Spacer()
+        }
+        .padding()
+        .background(ThemeColor.primaryUi01(for: theme.activeTheme).color)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+        )
         .frame(height: 44)
     }
 }
@@ -210,18 +258,21 @@ struct RoundedDarkButton: ButtonStyle {
 
 /// A button that contains a stroke
 struct StrokeButton: ButtonStyle {
-    @ObservedObject var theme: Theme
+    let textColor: Color
+    let backgroundColor: Color
+    let strokeColor: Color
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            .applyButtonFont()
+            .foregroundColor(textColor)
             .frame(maxWidth: .infinity)
             .padding()
+            .background(backgroundColor)
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
-                    .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+                    .stroke(strokeColor, lineWidth: ViewConstants.buttonStrokeWidth)
             )
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
@@ -348,7 +399,7 @@ extension View {
         self.font(size: size,
                   style: style,
                   weight: weight,
-                  maxSizeCategory: .extraExtraLarge)
+                  maxSizeCategory: .accessibilityExtraExtraLarge)
     }
 }
 

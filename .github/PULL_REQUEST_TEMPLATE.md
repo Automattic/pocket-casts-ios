@@ -1,10 +1,16 @@
-Fixes #
+| 📘 Part of: # |  <!-- project issue number, if applicable -->
+|:---:|
 
-Please include a summary of the changes and the related issue.
+Fixes # <!-- issue number, if applicable -->
+
+<!-- Please include a summary of what this PR is changing and why these changes are needed. -->
 
 ## To test
 
-Steps to test your PR.
+<!-- Please include step by step instructions on how to test this PR. -->
+<!-- 1. Tap on the Filters tab -->
+<!-- 2. Tap on a filter -->
+<!-- 3. etc. -->
 
 ## Checklist
 

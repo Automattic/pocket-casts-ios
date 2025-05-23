@@ -9,7 +9,11 @@ import PocketCastsUtils
 class AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
     static var optedOut: Bool {
-        Settings.analyticsOptOut()
+        #if APPCLIP
+        return true
+        #else
+        return Settings.analyticsOptOut()
+        #endif
     }
 
     class func openedCategory(categoryId: Int, region: String) {
@@ -32,8 +36,10 @@ class AnalyticsHelper {
     class func userGuideEmail(feedback: Bool) {
         if feedback {
             userGuideEmailFeedback()
+            Analytics.track(.settingsLeaveFeedback)
         } else {
             userGuideEmailSupport()
+            Analytics.track(.settingsGetSupport)
         }
     }
 
@@ -101,14 +107,20 @@ class AnalyticsHelper {
         bumpStat("discover_list_episode_play", parameters: properties)
     }
 
-    class func podcastSubscribedFromList(listId: String, podcastUuid: String) {
-        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+    class func podcastSubscribedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+        var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        if let listDateTime {
+            properties["list_datetime"] = listDateTime
+        }
         Analytics.track(.discoverListPodcastSubscribed, properties: properties)
         bumpStat("discover_list_podcast_subscribe", parameters: properties)
     }
 
-    class func podcastTappedFromList(listId: String, podcastUuid: String) {
-        let properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+    class func podcastTappedFromList(listId: String, podcastUuid: String, listDateTime: String? = nil) {
+        var properties = ["list_id": listId, "podcast_uuid": podcastUuid]
+        if let listDateTime {
+            properties["list_datetime"] = listDateTime
+        }
         Analytics.track(.discoverListPodcastTapped, properties: properties)
         bumpStat("discover_list_podcast_tap", parameters: properties)
     }
@@ -130,15 +142,19 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_episode_tap", parameters: properties)
     }
 
-    class func listShowAllTapped(listId: String) {
-        let properties = ["list_id": listId]
+    class func listShowAllTapped(listId: String, dateTime: String? = nil) {
+        var properties = ["list_id": listId]
+        if let dateTime {
+            properties["list_datetime"] = dateTime
+        }
         Analytics.track(.discoverListShowAllTapped, properties: properties)
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
     class func listImpression(listId: String) {
-        Analytics.track(.discoverListImpression, properties: ["list_id": listId])
-        bumpStat("discover_list_impression", parameters: ["list_id": listId])
+        let properties = ["list_id": listId]
+        Analytics.track(.discoverListImpression, properties: properties)
+        bumpStat("discover_list_impression", parameters: properties)
     }
 
     class func forceTouchPlay() {
@@ -230,7 +246,7 @@ class AnalyticsHelper {
         logEvent("\(tourName)_tour_cancelled_\(step)", parameters: nil)
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !APPCLIP
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
@@ -307,6 +323,7 @@ class AnalyticsHelper {
                               promotionName: source.promotionName())
         }
 
+        #if !APPCLIP
         static func plusAddToCart(identifier: IAPProductID) {
             guard let product = IAPHelper.shared.getProduct(for: identifier) else {
                 return
@@ -340,6 +357,7 @@ class AnalyticsHelper {
 
             logEvent(AnalyticsEventAddToCart, parameters: parameters)
         }
+        #endif
 
         static func plusPlanPurchased() {
             logEvent(AnalyticsEventPurchase)

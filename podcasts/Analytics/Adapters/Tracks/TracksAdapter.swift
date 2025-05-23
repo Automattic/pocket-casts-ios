@@ -3,12 +3,23 @@ import AutomatticTracksModel
 import Foundation
 import os
 import PocketCastsServer
+#if DEBUG
+import PocketCastsUtils
+#endif
 
-class TracksAdapter: AnalyticsAdapter {
+class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     // Dependencies
-    private let userDefaults: UserDefaults
+    let userDefaults: UserDefaults
+
+    /// Returns a UUID id to use if the user is in a logged out state
+    ///
+    var anonymousUUID: String {
+        generateAnonymousUUID()
+    }
+
     private let subscriptionData: TracksSubscriptionData
     private let notificationCenter: NotificationCenter
+    private let abTestProvider: ABTestProviding
 
     // Config
     private let tracksService: TracksService
@@ -16,43 +27,34 @@ class TracksAdapter: AnalyticsAdapter {
     private enum TracksConfig {
         static let prefix = "pcios"
         static let userKey = "pocketcasts:user_id"
-        static let anonymousUUIDKey = "TracksAnonymousUUID"
-    }
-
-    /// Returns a UUID id to use if the user is in a logged out state
-    ///
-    private var anonymousUUID: String {
-        let key = TracksConfig.anonymousUUIDKey
-
-        // Generate a new UUID if there isn't currently one
-        guard let uuid = userDefaults.string(forKey: key) else {
-            let uuid = UUID().uuidString
-            userDefaults.set(uuid, forKey: key)
-            return uuid
-        }
-
-        return uuid
+        static let platform = "pocketcasts"
     }
 
     deinit {
         notificationCenter.removeObserver(self)
     }
 
-    init(userDefaults: UserDefaults = .standard,
+    init(userDefaults: UserDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard,
          subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
-         notificationCenter: NotificationCenter = .default) {
+         notificationCenter: NotificationCenter = .default,
+         abTestProvider: ABTestProviding = ABTestProvider.shared) {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
+        self.abTestProvider = abTestProvider
 
         let context = TracksContextManager()
         tracksService = TracksService(contextManager: context)
+        tracksService.platform = TracksConfig.platform
         tracksService.eventNamePrefix = TracksConfig.prefix
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
-
+#if DEBUG
+        FileLog.shared.console("TracksAdapter anonymous UUID \(anonymousUUID)")
+#endif
         // Setup the rest of the properties
+        reloadExPlat()
         updateUserProperties()
         addNotificationObservers()
         updateAuthenticationState()
@@ -111,12 +113,22 @@ private extension TracksAdapter {
     }
 
     func updateAuthenticationState() {
-        guard let userId = ServerSettings.userId else {
+        if let userId = ServerSettings.userId {
+            tracksService.switchToAuthenticatedUser(withUsername: nil, userID: userId, skipAliasEventCreation: false)
+        } else {
             tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
-            return
         }
+        reloadABTest()
+    }
 
-        tracksService.switchToAuthenticatedUser(withUsername: nil, userID: userId, skipAliasEventCreation: false)
+    func reloadExPlat() {
+        abTestProvider.reloadExPlat(platform: tracksService.platform, oAuthToken: nil, userAgent: nil, anonId: anonymousUUID)
+    }
+
+    func reloadABTest() {
+        Task { @MainActor [weak self] in
+            await self?.abTestProvider.start()
+        }
     }
 }
 

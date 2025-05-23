@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "playback-24-heart.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

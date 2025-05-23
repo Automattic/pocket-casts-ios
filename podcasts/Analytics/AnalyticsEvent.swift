@@ -8,6 +8,8 @@ enum AnalyticsEvent: String {
     case applicationUpdated
     case applicationClosed
 
+    case appClipOpened
+
     // MARK: - User Lifecycle
 
     case userSignedIn
@@ -32,6 +34,11 @@ enum AnalyticsEvent: String {
     case plusPromotionShown
     case plusPromotionDismissed
     case plusPromotionUpgradeButtonTapped
+    case plusPromotionNotNowButtonTapped
+    case plusPromotionSubscriptionTierChanged
+    case plusPromotionSubscriptionFrequencyChanged
+    case plusPromotionPrivacyPolicyTapped
+    case plusPromotionTermsAndConditionsTapped
 
     // MARK: - Setup Account
 
@@ -87,6 +94,7 @@ enum AnalyticsEvent: String {
     case podcastsListSortOrderChanged
     case podcastsListLayoutChanged
     case podcastsListBadgesChanged
+    case podcastsListDiscoverButtonTapped
 
     // MARK: - Newsletter Opt In
 
@@ -117,6 +125,11 @@ enum AnalyticsEvent: String {
     case accountDetailsCancelTapped
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
+    case accountDetailsChangeAvatar
+
+    // MARK: - Upgrade banner
+
+    case upgradeBannerDismissed
 
     // MARK: - Stats View
 
@@ -148,6 +161,14 @@ enum AnalyticsEvent: String {
     case folderChooseRemovedFromFolder
     case folderPodcastModalOptionTapped
 
+    case suggestedFoldersPageShown
+    case suggestedFoldersPageDismissed
+    case suggestedFoldersUseSuggestedFoldersTapped
+    case suggestedFoldersCreateCustomFolderTapped
+    case suggestedFoldersPreviewFolderTapped
+    case suggestedFoldersReplaceFoldersTapped
+    case suggestedFoldersReplaceFoldersConfirmTapped
+
     // MARK: - Tab Bar Items
 
     case podcastsTabOpened
@@ -161,6 +182,10 @@ enum AnalyticsEvent: String {
     case downloadsShown
     case downloadsOptionsButtonTapped
     case downloadsOptionsModalOptionTapped
+    case freeUpSpaceBannerShown
+    case freeUpSpaceManageDownloadsTapped
+    case freeUpSpaceModalShown
+    case freeUpSpaceMaybeLaterTapped
 
     case downloadsMultiSelectEntered
     case downloadsSelectAllButtonTapped
@@ -183,6 +208,10 @@ enum AnalyticsEvent: String {
     case listeningHistoryMultiSelectExited
 
     case listeningHistoryCleared
+    case listeningHistoryClearConfirmationShown
+    case listeningHistoryClearConfirmationDismissed
+
+    case listeningHistoryDiscoverButtonTapped
 
     // MARK: - Uploaded Files
 
@@ -204,6 +233,11 @@ enum AnalyticsEvent: String {
     case userFileDetailShown
     case userFileDetailDismissed
     case userFileDetailOptionTapped
+    case userFileEditShown
+    case userFileEditDismissed
+    case userFileEditSave
+    case userFileDeleteShown
+    case userFileDeleteDismissed
 
     case userFilePlayPauseButtonTapped
 
@@ -222,6 +256,8 @@ enum AnalyticsEvent: String {
     case playbackSkipForward
     case playbackSeek
 
+    case playbackEffectSettingsViewAppeared
+    case playbackEffectSettingsChanged
     case playbackEffectSpeedChanged
     case playbackEffectTrimSilenceToggled
     case playbackEffectTrimSilenceAmountChanged
@@ -240,14 +276,20 @@ enum AnalyticsEvent: String {
     case filterListEditButtonToggled
     case filterListReordered
 
+    case filterCreateButtonTapped
+
     case filterDeleted
     case filterUpdated
     case filterCreated
 
     case filterShown
+    case filterTooltipShown
+    case filterTooltipClosed
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
+    case filterSelectAllAbove
+    case filterSelectAllBelow
     case filterMultiSelectExited
 
     case filterOptionsButtonTapped
@@ -259,11 +301,18 @@ enum AnalyticsEvent: String {
     case filterSiriShortcutAdded
     case filterSiriShortcutRemoved
 
+    case filterAutoDownloadUpdated
+    case filterAutoDownloadLimitUpdated
+
+    case episodeRecentlyPlayedSortOptionTooltipShown
+    case episodeRecentlyPlayedSortOptionTooltipDismissed
+
     // MARK: - Podcast screen
 
     case podcastScreenShown
     case podcastScreenFolderTapped
     case podcastScreenSettingsTapped
+    case podcastScreenFundingTapped
     case podcastScreenSubscribeTapped
     case podcastScreenUnsubscribeTapped
     case podcastScreenSearchPerformed
@@ -272,13 +321,21 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleArchived
     case podcastScreenShareTapped
     case podcastScreenToggleSummary
+    case podcastScreenPodcastDescriptionTapped
     case podcastsScreenSortOrderChanged
     case podcastsScreenEpisodeGroupingChanged
     case podcastsScreenTabTapped
+    case podcastScreenPodcastDescriptionLinkTapped
+    case podcastScreenNotificationsTapped
+    case podcastScreenPodcastDetailsLinkTapped
+    case podcastScreenCategoryTapped
+    case podcastScreenYouMightLikeTapped
+    case podcastScreenYouMightLikeSubscribed
 
     // MARK: - App Store Review Request
 
     case appStoreReviewRequested
+    case rateUsTapped
 
     // MARK: - Signed out alert
 
@@ -303,6 +360,7 @@ enum AnalyticsEvent: String {
     case discoverListEpisodePlay
     case discoverListPodcastTapped
     case discoverListPodcastSubscribed
+    case discoverListShareTapped
 
     case discoverFeaturedPageChanged
     case discoverSmallListPageChanged
@@ -333,12 +391,16 @@ enum AnalyticsEvent: String {
     case upNextMultiSelectExited
     case upNextQueueReordered
     case upNextDismissed
+    case upNextShuffleEnabled
+    case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
 
     case privacySettingsShown
     case analyticsOptIn
     case analyticsOptOut
+    case analyticsThirdPartyOptIn
+    case analyticsThirdPartyOptOut
 
     // MARK: - Player
 
@@ -359,6 +421,7 @@ enum AnalyticsEvent: String {
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
     case playerSleepTimerRestarted
+    case playerSleepTimerSettingsTapped
 
     // MARK: - Player: Shelf
 
@@ -386,6 +449,7 @@ enum AnalyticsEvent: String {
 
     case episodeUploadQueued
     case episodeUploadFinished
+    case episodeUploadFailed
     case episodeUploadCancelled
     case episodeDeletedFromCloud
 
@@ -408,6 +472,8 @@ enum AnalyticsEvent: String {
     case episodeBulkAddToUpNext
 
     case episodeRemovedFromUpNext
+
+    case episodeRemovedListeningHistory
 
     case podcastShared
 
@@ -435,6 +501,13 @@ enum AnalyticsEvent: String {
     case notificationsOptInShown
     case notificationsOptInAllowed
     case notificationsOptInDenied
+
+    case notificationsPermissionsShown
+    case notificationsPermissionsAllowTapped
+    case notificationsPermissionsNotNowTapped
+    case notificationsPermissionsOpenSystemSettings
+
+    case notificationOpened
 
     // MARK: - Podcast Settings
 
@@ -472,13 +545,18 @@ enum AnalyticsEvent: String {
     case settingsGeneralShown
     case settingsGeneralRowActionChanged
     case settingsGeneralEpisodeGroupingChanged
+    case settingsGeneralEpisodeGroupingApplyToExisting
+    case settingsGeneralEpisodeGroupingDoNotApplyToExisting
     case settingsGeneralArchivedEpisodesChanged
+    case settingsGeneralArchivedEpisodesApplyToExisting
+    case settingsGeneralArchivedEpisodesDoNotApplyToExisting
     case settingsGeneralUpNextSwipeChanged
     case settingsGeneralOpenLinksInBrowserToggled
     case settingsGeneralSkipForwardChanged
     case settingsGeneralSkipBackChanged
     case settingsGeneralKeepScreenAwakeToggled
     case settingsGeneralOpenPlayerAutomaticallyToggled
+    case settingsGeneralDisableLockScreenScrubberToggled
     case settingsGeneralIntelligentPlaybackToggled
     case settingsGeneralPlayUpNextOnTapToggled
     case settingsGeneralRemoteSkipsChaptersToggled
@@ -496,6 +574,10 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
+    case settingsNotificationsTrendingToggle
+    case settingsNotificationsDailyRemindersToggle
+    case settingsNotificationsNewFeaturesToggle
+    case settingsNotificationsOffersToggle
 
     // MARK: - Settings: Appearance
 
@@ -521,6 +603,8 @@ enum AnalyticsEvent: String {
     case settingsAutoDownloadShown
     case settingsAutoDownloadUpNextToggled
     case settingsAutoDownloadNewEpisodesToggled
+    case settingsAutoDownloadOnFollowPodcastToggled
+    case settingsAutoDownloadLimitDownloadsChanged
     case settingsAutoDownloadPodcastsChanged
     case settingsAutoDownloadFiltersChanged
     case settingsAutoDownloadOnlyOnWifiToggled
@@ -564,6 +648,9 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: Help and Feedback
 
     case settingsHelpShown
+    case settingsGetSupport
+    case settingsLeaveFeedback
+    case exportDatabaseTapped
 
     // MARK: - Settings: Import / Export OPML
 
@@ -576,6 +663,13 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: About
 
     case settingsAboutShown
+    case settingsAboutShareWithFriendsTapped
+    case settingsAboutWebsiteTapped
+    case settingsAboutInstagramTapped
+    case settingsAboutTwitterTapped
+    case settingsAboutAutomatticFamilyTapped
+    case settingsAboutLegalAndMoreTapped
+    case settingsAboutWorkWithUsTapped
 
     // MARK: - OPML Import
 
@@ -596,6 +690,7 @@ enum AnalyticsEvent: String {
     case searchFailed
     case searchResultTapped
     case searchListShown
+    case searchCleared
 
     // MARK: - Chromecast
 
@@ -629,6 +724,7 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
     case endOfYearUpsellShown
+    case endOfYearLearnRatingsShown
 
     // MARK: - Welcome View
 
@@ -657,6 +753,11 @@ enum AnalyticsEvent: String {
 
     // MARK: - Ratings
     case ratingStarsTapped
+    case ratingScreenShown
+    case ratingScreenDismissed
+    case ratingScreenSubmitTapped
+    case notAllowedToRateScreenShown
+    case notAllowedToRateScreenDismissed
 
     // MARK: - Patron
     case patronWelcomeAppIconChanged
@@ -669,11 +770,18 @@ enum AnalyticsEvent: String {
     // MARK: - Bookmarks
     case bookmarkCreated
     case bookmarkUpdateTitle
-    case bookmarksUpgradeButtonTapped
+    case bookmarksGetBookmarksButtonTapped
     case bookmarksEmptyGoToHeadphoneSettings
     case bookmarkPlayTapped
     case bookmarksSortByChanged
     case bookmarkDeleted
+    case bookmarkShareTapped
+    case bookmarkEditFormShown
+    case bookmarkEditFormDismissed
+    case bookmarkEditFormSubmitted
+    case bookmarkDeleteFormShown
+    case bookmarkDeleteFormDismissed
+    case bookmarkDeleteFormSubmitted
 
     // MARK: - Headphone Controls
     case settingsHeadphoneControlsShown
@@ -687,4 +795,109 @@ enum AnalyticsEvent: String {
     case deselectChaptersChapterSelected
     case deselectChaptersChapterDeselected
 
+    // MARK: - Kids Profile
+    case kidsProfileBannerSeen
+    case kidsProfileEarlyAccessRequested
+    case kidsProfileBannerDismissed
+    case kidsProfileSendFeedbackTapped
+    case kidsProfileNoThankYouTapped
+    case kidsProfileThankYouForYourInterestSeen
+    case kidsProfileFeedbackFormSeen
+    case kidsProfileFeedbackSent
+
+    // MARK: - Transcript
+
+    case transcriptShown
+    case transcriptError
+    case transcriptDismissed
+    case transcriptSearchShown
+    case transcriptSearchNextResult
+    case transcriptSearchPreviousResult
+    case transcriptGeneratedPaywallShown
+    case transcriptGeneratedPaywallDismissed
+    case transcriptGeneratedPaywallSubscribeTapped
+
+    // MARK: - Widgets
+
+    case widgetInstalled
+    case widgetUninstalled
+    case widgetInteraction
+
+    // MARK: - Share Screen
+    case shareScreenShown
+    case shareScreenPlayTapped
+    case shareScreenPauseTapped
+    case shareScreenClipShared
+    case shareScreenNavigationButtonTapped
+    case shareScreenEditButtonTapped
+    case shareScreenCloseButtonTapped
+
+    // MARK: - Referrals
+
+    case referralTooltipShow
+    case referralTooltipTapped
+    case referralShareScreenShown
+    case referralShareScreenDismissed
+    case referralPassShared
+    case referralClaimScreenShown
+    case referralActivateTapped
+    case referralNotNowTapped
+    case referralUsedScreenShown
+    case referralPassBannerShown
+    case referralPurchaseShown
+    case referralPurchaseSuccess
+    case referralPassBannerHideTapped
+
+    // MARK: - Winback
+    case winbackScreenShown
+    case winbackScreenDismissed
+    case winbackContinueButtonTap
+    case winbackMainScreenRowTap
+    case winbackOfferClaimedDoneButtonTapped
+    case winbackAvailablePlansBackButtonTapped
+    case winbackCancelConfirmationStayButtonTapped
+    case winbackCancelConfirmationCancelButtonTapped
+    case winbackAvailablePlansSelectPlan
+    case winbackAvailablePlansNewPlanPurchaseSuccessful
+    case winbackWinbackOfferCancelButtonTapped
+
+    // MARK: - Cancel Subscription Survey
+    case cancelSubscriptionSurveyShown
+    case cancelSubscriptionSurveyDismissed
+    case cancelSubscriptionSurveySubmitButtonTapped
+    case cancelSubscriptionSurveyFeedbackSubmitSuccess
+    case cancelSubscriptionSurveyFeedbackSubmitError
+
+    // MARK: - Champion Dialog
+    case pocketCastsChampionDialogShown
+    case pocketCastsChampionDialogRateButtonTapped
+
+    // MARK: - Select/Choose Podcasts
+    case settingsSelectPodcastsShown
+    case settingsSelectPodcastsDismissed
+    case settingsSelectPodcastsSelectAllTapped
+    case settingsSelectPodcastsSelectNoneTapped
+    case settingsSelectPodcastsPodcastToggled
+    case settingsSelectPodcastsSelectAllPodcastsToggled
+
+    // MARK: - Podcast Feed Reload
+    case podcastScreenRefreshEpisodeList
+    case podcastScreenRefreshNoEpisodesFound
+    case podcastScreenRefreshNewEpisodeFound
+    case podcastRefreshEpisodeTooltipShown
+    case podcastRefreshEpisodeTooltipDismissed
+
+    // MARK: - Encourage Account Creation
+    case informationalModalViewShowed
+    case informationalModalViewDismissed
+    case informationalModalViewGetStartedTap
+    case informationalModalViewLoginTap
+    case informationalModalViewCardShowed
+    case informationalBannerViewDismissed
+    case informationalBannerViewCreateAccountTap
+
+    // MARK: - Podroll Information Modal
+    case podcastScreenPodrollInformationModelShown
+    case podcastScreenPodrollPodcastSubscribed
+    case podcastScreenPodrollPodcastTapped
 }

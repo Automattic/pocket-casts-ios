@@ -46,20 +46,25 @@ struct AboutView: View {
                         }
                         Section {
                             AboutRow(mainText: L10n.aboutRateUs) {
+                                model.track(action: .rateUs)
                                 openUrl(ServerConstants.Urls.appStoreReview)
                             }
                             AboutRow(mainText: L10n.aboutShareFriends) {
+                                model.track(action: .shareWithFriends)
                                 openShareApp()
                             }
                         }
                         Section {
                             AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
+                                model.track(action: .website)
                                 openUrl(ServerConstants.Urls.pocketcastsDotCom)
                             }
                             AboutRow(mainText: L10n.instagram, secondaryText: L10n.socialHandle) {
+                                model.track(action: .instagram)
                                 SocialsHelper.openInstagram()
                             }
-                            AboutRow(mainText: L10n.twitter, secondaryText: L10n.socialHandle) {
+                            AboutRow(mainText: L10n.xCom, secondaryText: L10n.socialHandle) {
+                                model.track(action: .twitter)
                                 SocialsHelper.openTwitter()
                             }
                         }
@@ -85,6 +90,7 @@ struct AboutView: View {
                             }
                             .frame(height: familyCellHeight)
                             .onTapGesture {
+                                model.track(action: .automatticFamily)
                                 openUrl(ServerConstants.Urls.automatticDotCom)
                             }
                         }
@@ -98,10 +104,20 @@ struct AboutView: View {
                                     .font(.subheadline)
                             }
                             .onTapGesture {
+                                model.track(action: .workWithUs)
                                 openUrl(ServerConstants.Urls.automatticWorkWithUs)
                             }
                         }
                         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
+                        Section {
+                            HStack {
+                                Spacer()
+                                Image("automattic-logo")
+                                    .tint(theme.activeTheme.isDark ? .white : .black)
+                                Spacer()
+                            }
+                        }
+                        .listRowBackground(Color.clear)
                     }
                     .colorScheme(theme.activeTheme.isDark ? .dark : .light)
                 }
@@ -112,7 +128,7 @@ struct AboutView: View {
     }
 
     private func openShareApp() {
-        guard let controller = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController else { return }
+        guard let controller = SceneHelper.rootViewController() else { return }
 
         SharingHelper.shared.shareLinkToApp(fromController: controller)
     }

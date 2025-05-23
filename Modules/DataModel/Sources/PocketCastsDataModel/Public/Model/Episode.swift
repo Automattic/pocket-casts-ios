@@ -90,6 +90,14 @@ public class Episode: NSObject, BaseEpisode {
         return FileManager.default.fileExists(atPath: path)
     }
 
+    public func streamDownloaded(pathFinder: FilePathProtocol) -> Bool {
+        if episodeStatus != DownloadStatus.downloadedForStreaming.rawValue { return false }
+
+        let path = pathFinder.streamingBufferPathForEpisode(self)
+
+        return FileManager.default.fileExists(atPath: path)
+    }
+
     public func bufferedForStreaming() -> Bool {
         episodeStatus == DownloadStatus.downloadedForStreaming.rawValue
     }
@@ -201,6 +209,7 @@ public class Episode: NSObject, BaseEpisode {
         }
 
         public let transcripts: [Transcript]
+        public let pocketCastsTranscripts: [Transcript]?
 
         public struct Transcript: Decodable {
             public let url: String

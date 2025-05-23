@@ -36,6 +36,13 @@ class SkipButton: UIButton {
     private var animationView: LottieAnimationView
     private let skipLabel: UILabel
 
+    private var currentSize: Size = .large
+
+    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
+    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
+    private lazy var skipLabelCenterYAnchor = skipLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Size.large.sizes.topPadding / 2)
+    private lazy var skipLabelXConstraint = skipBack ? trailingAnchor.constraint(equalTo: skipLabel.trailingAnchor, constant: SkipButton.buttonPadding) : skipLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
+
     required init?(coder aDecoder: NSCoder) {
         animationView = LottieAnimationView(name: "skip_button")
         skipLabel = UILabel()
@@ -47,7 +54,7 @@ class SkipButton: UIButton {
         animationView.clipsToBounds = false
 
         skipLabel.textAlignment = .center
-        skipLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        skipLabel.font = UIFont.systemFont(ofSize: Size.large.sizes.fontSize, weight: .medium)
         skipLabel.textColor = UIColor.white
 
         addTarget(self, action: #selector(playAnimation), for: .touchUpInside)
@@ -72,8 +79,8 @@ class SkipButton: UIButton {
 
         let xConstraint = skipBack ? trailingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: SkipButton.buttonPadding) : animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
         NSLayoutConstraint.activate([
-            animationView.heightAnchor.constraint(equalToConstant: 53),
-            animationView.widthAnchor.constraint(equalToConstant: 45),
+            animationHeightAnchor,
+            animationWidthAnchor,
             xConstraint,
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
@@ -81,10 +88,10 @@ class SkipButton: UIButton {
         addSubview(skipLabel)
         skipLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            skipLabel.leadingAnchor.constraint(equalTo: animationView.leadingAnchor),
-            skipLabel.trailingAnchor.constraint(equalTo: animationView.trailingAnchor),
-            skipLabel.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
-            skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: 8)
+            skipLabel.heightAnchor.constraint(equalToConstant: Size.large.sizes.height),
+            skipLabel.widthAnchor.constraint(equalToConstant: Size.large.sizes.width),
+            skipLabelXConstraint,
+            skipLabelCenterYAnchor
         ])
     }
 
@@ -97,5 +104,56 @@ class SkipButton: UIButton {
     @objc private func playAnimation() {
         animationView.currentProgress = 0
         animationView.play()
+    }
+
+    func changeSize(to size: Size) {
+        currentSize = size
+        let sizes = currentSize.sizes
+        animationHeightAnchor.constant = sizes.height
+        animationWidthAnchor.constant = sizes.width
+        skipLabelCenterYAnchor.constant = sizes.topPadding / 2
+
+        let labelScale = UIFont.systemFont(ofSize: sizes.fontSize, weight: .medium).pointSize / skipLabel.font.pointSize
+        skipLabel.transform = .init(scaleX: labelScale, y: labelScale)
+
+        let subtract = currentSize == .small ? (Size.large.sizes.width - Size.small.sizes.width) / 2 : 0
+        skipLabelXConstraint.constant = SkipButton.buttonPadding - subtract
+    }
+
+    // When using UIVIew.animate LottieAnimationView doesn't play nice with it
+    // Here we snapshot the view to provide a smooth animation
+    func prepareForAnimateTransition(withBackground: UIColor?) {
+        guard let lottieView = subviews.first as? LottieAnimationView,
+              let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
+
+        let multiplier = currentSize == .large ? Size.large.sizes.width / Size.large.sizes.height : Size.large.sizes.height / Size.large.sizes.width
+
+        snapshot.translatesAutoresizingMaskIntoConstraints = false
+        snapshot.backgroundColor = withBackground
+        subviews.first?.addSubview(snapshot)
+        NSLayoutConstraint.activate([
+            snapshot.widthAnchor.constraint(equalTo: lottieView.widthAnchor, multiplier: multiplier),
+            snapshot.heightAnchor.constraint(equalTo: lottieView.heightAnchor),
+            snapshot.centerXAnchor.constraint(equalTo: lottieView.centerXAnchor),
+            snapshot.centerYAnchor.constraint(equalTo: lottieView.centerYAnchor)
+        ])
+
+        animationView.clipsToBounds = true
+    }
+
+    func finishedTransition() {
+        guard let lottieView = subviews.first else { return }
+
+        animationView.clipsToBounds = false
+        lottieView.subviews.first?.removeFromSuperview()
+    }
+
+    enum Size {
+        case small
+        case large
+
+        var sizes: (width: CGFloat, height: CGFloat, fontSize: CGFloat, topPadding: CGFloat) {
+            self == .small ? (32, 32, 10, 5) : (45, 53, 14, 8)
+        }
     }
 }

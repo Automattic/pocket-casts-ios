@@ -4,10 +4,14 @@ import Kingfisher
 struct PodcastImage: View {
     let uuid: String
     let size: PodcastThumbnailSize
+    let contentMode: SwiftUI.ContentMode
+    let aspectRatio: CGFloat?
 
-    init(uuid: String, size: PodcastThumbnailSize = .list) {
+    init(uuid: String, size: PodcastThumbnailSize = .list, aspectRatio: CGFloat? = 1, contentMode: SwiftUI.ContentMode = .fit) {
         self.uuid = uuid
         self.size = size
+        self.contentMode = contentMode
+        self.aspectRatio = aspectRatio
     }
 
     var body: some View {
@@ -19,7 +23,7 @@ struct PodcastImage: View {
                 }
             }
             .resizable()
-            .aspectRatio(1, contentMode: .fit)
+            .aspectRatio(aspectRatio, contentMode: contentMode)
             .accessibilityHidden(true)
     }
 }

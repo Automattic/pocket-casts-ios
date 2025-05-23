@@ -49,6 +49,11 @@ extension ServerPodcastManager {
         if let description = podcastJson["description"] as? String {
             podcast.podcastDescription = description
         }
+
+        if let description = podcastJson["description_html"] as? String {
+            podcast.podcastHTMLDescription = description
+        }
+
         if let category = podcastJson["category"] as? String {
             podcast.podcastCategory = category
         }
@@ -69,6 +74,12 @@ extension ServerPodcastManager {
         }
         if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
             podcast.refreshAvailable = refreshAvailable
+        }
+        if let isPrivate = podcastJson["is_private"] as? Bool {
+            podcast.isPrivate = isPrivate
+        }
+        if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
+            podcast.fundingURL = url
         }
 
         DataManager.sharedManager.save(podcast: podcast)
@@ -191,8 +202,9 @@ extension ServerPodcastManager {
         }
     }
 
-    public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool) {
-        guard let latestEpisode = podcast.latestEpisode() else { return }
+    public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool, autoDownloadLimit: Int = 1) {
+        let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
+        guard let latestEpisode = latestEpisodes.first else { return }
 
         // no need to re-save one we already have
         if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return }
@@ -202,21 +214,27 @@ extension ServerPodcastManager {
         DataManager.sharedManager.save(podcast: podcast)
 
         if setDefaults {
-            setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisode: latestEpisode)
+            setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisodes: latestEpisodes, autoDownload: autoDownloadLimit > 0)
         }
     }
 
-    private func setDefaultsAndLoadMetadataForNewlyAddedPodcast(_ podcast: Podcast, latestEpisode: Episode?) {
+    private func setDefaultsAndLoadMetadataForNewlyAddedPodcast(_ podcast: Podcast, latestEpisodes: [Episode], autoDownload: Bool) {
         // if all the podcasts the user currently has are auto download, set this one to be as well
         let autoDownloadQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1 AND autoDownloadSetting = 1"
         let totalQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1"
 
         let autoDownloadCount = DataManager.sharedManager.count(query: autoDownloadQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
-        if totalCount > 0, autoDownloadCount >= totalCount {
+        let shouldTriggerAutoDownload: Bool
+        if FeatureFlag.autoDownloadOnSubscribe.enabled {
+            shouldTriggerAutoDownload = autoDownload
+        } else {
+            shouldTriggerAutoDownload = (totalCount > 0) && (autoDownloadCount >= totalCount)
+        }
+        if shouldTriggerAutoDownload {
             podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
-            if let latestEpisode = latestEpisode {
-                ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisode(episode: latestEpisode)
+            if !latestEpisodes.isEmpty {
+                ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisodes(uuids: latestEpisodes.map(\.uuid))
             }
         } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
@@ -228,7 +246,7 @@ extension ServerPodcastManager {
         DataManager.sharedManager.save(podcast: podcast)
         DataManager.sharedManager.setPushDefaultForNewPodcast(podcast)
         #if !os(watchOS)
-            if let latestEpisode = latestEpisode {
+        if let latestEpisode = latestEpisodes.first {
                 MetadataUpdater.shared.updatedMetadata(episodeUuid: latestEpisode.uuid)
             }
         #endif

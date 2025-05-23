@@ -18,6 +18,8 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             task.setTaskCompletedWithSnapshot(true)
         }
+#elseif APPCLIP
+        //TODO: Check this and see whether anything should be done
 #else
         DispatchQueue.main.async { [weak self] in
             guard let self, let appDelegate = appDelegate(), let backgroundHandler = appDelegate.backgroundSessionCompletionHandler else { return }
@@ -136,7 +138,20 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType)
+    }
+
+    func processEpisode(_ episode: BaseEpisode, downloadedFile location: URL, reportedContentType: String?) {
+        var contentType = reportedContentType
+
+        if FeatureFlag.useMimetypePackage.enabled {
+            contentType = MimetypeHelper.contetType(for: location)
+            if let contentType, contentType != episode.contentType {
+                DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+            }
+        }
+
         let fileSize = FileManager.default.fileSize(of: location) ?? 0
         guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
@@ -146,15 +161,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
+
         do {
-            try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
+            try StorageManager.copyItem(at: location, to: destinationUrl, options: [.overwriteExisting])
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
             dataManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
-
+            dataManager.saveEpisode(downloadStatus: newDownloadStatus, lastDownloadAttemptDate: Date.now, autoDownloadStatus: autoDownloadStatus, episode: episode)
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         } catch {
+            FileLog.shared.addMessage("DownloadManager: Failed to copy downloaded file from location: \(location.absoluteString) to destination:  \(destinationPath) error: \(error)")
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)
         }
     }
@@ -171,7 +188,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let taskId = episode.downloadTaskId ?? episode.uuid
-        downloadingEpisodesCache.removeValue(forKey: taskId)
+        downloadingEpisodesCache[taskId] = nil
     }
 
     private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {

@@ -62,6 +62,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         switch chip {
         case .podcast:
             let filterSettingsVC = PodcastFilterOverlayController(nibName: "PodcastChooserViewController", bundle: nil)
+            filterSettingsVC.analyticsSource = .filters
             filterSettingsVC.filterToEdit = filter
             let navVC = SJUIUtils.navController(for: filterSettingsVC)
             chipActionDelegate?.presentingViewController().present(navVC, animated: true, completion: nil)

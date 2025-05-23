@@ -27,6 +27,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
+    @IBOutlet var richPodcastDescription: RichExpandableLabel! {
+        didSet {
+            richPodcastDescription.delegate = self
+        }
+    }
+
     @IBOutlet var scrollTopBackgroundVIew: UIView!
     @IBOutlet var topPodcastNameSpacer: UIView!
     @IBOutlet var topAuthorSpacer: UIView!
@@ -65,31 +71,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     @IBOutlet var settingsButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var contentViewBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet var supporterHeartView: ThemeableView! {
-        didSet {
-            supporterHeartView.style = .support02
-        }
-    }
-
-    @IBOutlet var supporterHeart: UIImageView!
-    @IBOutlet var supporterBadge: UIImageView!
-    @IBOutlet var supportDetailsView: ThemeableView! {
-        didSet {
-            supportDetailsView.style = .primaryUi06
-        }
-    }
-
-    @IBOutlet var supportMessageHeart: UIImageView!
-    @IBOutlet var supportMessage: ThemeableLabel!
-    @IBOutlet var supportDate: ThemeableLabel! {
-        didSet {
-            supportDate.style = .primaryText02
-        }
-    }
-
-    @IBOutlet var supporterDateImageView: UIImageView!
-    @IBOutlet var manageSupportBtn: ThemeableUIButton!
-
     @IBOutlet var roundedBorder: RoundedBorderView! {
         didSet {
             roundedBorder.cornerRadius = 8
@@ -126,10 +107,9 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
     }
 
-    @IBOutlet var supporterView: UIView!
-    @IBOutlet var supporterLabel: ThemeableLabel! {
+    @IBOutlet var notificationButton: ThemeableUIButton! {
         didSet {
-            supporterLabel.style = .contrast02
+            notificationButton.style = .primaryIcon02
         }
     }
 
@@ -148,7 +128,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             expandButton.isEnabled = buttonsEnabled
             folderButton.isEnabled = buttonsEnabled
             settingsBtn.isEnabled = buttonsEnabled
-            manageSupportBtn.isEnabled = buttonsEnabled
             link.isUserInteractionEnabled = buttonsEnabled
         }
     }
@@ -158,7 +137,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
     @IBOutlet var bookmarkTabsView: UIStackView!
-    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+    private var tabsViewController: ThemedHostingController<PodcastDetailsTabView>? = nil
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        richPodcastDescription.reset()
+    }
 
     private func addBookmarksTabView(parentController: UIViewController) {
         // Make sure the view reappears
@@ -170,7 +154,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         bookmarkTabsView.removeAllSubviews()
-        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+        let controller = ThemedHostingController(rootView: PodcastDetailsTabView(delegate: delegate))
 
         bookmarkTabsView.addArrangedSubview(controller.view)
         parentController.addChild(controller)
@@ -192,53 +176,16 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         podcastName.text = podcast.title
         podcastCategory.text = podcast.podcastCategory?.localized(seperatingWith: \.isNewline)
-        podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
-
+        if FeatureFlag.usePodcastHTMLDescription.enabled {
+            let html = podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+            richPodcastDescription.setRichText(html: html)
+        } else {
+            podcastDescription.setTextKeepingExistingAttributes(text: podcast.podcastDescription)
+        }
         expandButton.tintColor = ThemeColor.contrast03()
         link.textColor = tintColor
 
-        if podcast.isPaid {
-            supporterView.isHidden = false
-            supporterBadge.tintColor = ThemeColor.contrast02()
-            supporterView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-            supporterHeart.tintColor = ThemeColor.primaryInteractive02()
-
-            supportMessage.text = SyncManager.isUserLoggedIn() ? L10n.subscriptionsThankYou : L10n.paidPodcastSupporterOnlyMsg
-            supporterLabel.text = L10n.supporter.localizedUppercase
-            if let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) {
-                let expiryDate = Date(timeIntervalSince1970: subscription.expiryDate)
-                let expiryDateStr = DateFormatHelper.sharedHelper.longLocalizedFormat(expiryDate)
-                supporterDateImageView.image = UIImage(named: "support-date-calendar")
-                if subscription.autoRenewing {
-                    supportDate.text = L10n.nextPaymentFormat(expiryDateStr)
-                    supportMessage.style = .support02
-                    supportMessageHeart.tintColor = ThemeColor.support02()
-                } else {
-                    supportDate.text = podcast.displayableExpiryLanguage(expiryDate: expiryDate)
-                    supportMessage.style = .primaryText02
-                    supportMessageHeart.tintColor = ThemeColor.primaryText02()
-                }
-            } else {
-                supportMessage.style = .primaryText02
-
-                if SyncManager.isUserLoggedIn() {
-                    supportDate.text = L10n.paidPodcastGenericError
-                    manageSupportBtn.setTitle(L10n.paidPodcastManage, for: .normal)
-                } else {
-                    supportDate.text = L10n.paidPodcastSigninPromptTitle
-                    manageSupportBtn.setTitle(L10n.signIn, for: .normal)
-                    supporterBadge.image = UIImage(named: "podcast-supporter-warning")
-                    supporterBadge.tintColor = ThemeColor.contrast02()
-                    supporterLabel.text = L10n.paidPodcastSigninPromptMsg
-                    supporterDateImageView.image = UIImage(named: "podcast-supporter-signin")
-                }
-            }
-        }
-        supportDetailsView.isHidden = !podcast.isPaid
-        supporterHeartView.isHidden = !(podcast.isPaid && podcast.isSubscribed())
-        supporterView.isHidden = !podcast.isPaid
-
-        let folderImage = (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check"
+        let folderImage = SubscriptionHelper.hasActiveSubscription() ? (podcast.folderUuid?.isEmpty ?? true) ? "folder-empty" : "folder-check" : "folder-create"
         folderButton.setImage(UIImage(named: folderImage), for: .normal)
 
         if !isAnimatingToSubscribed {
@@ -251,7 +198,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             topSectionHeightConstraint.constant = tableViewWidth < 350 ? 183 : 203
             expandButton.setExpanded(delegate.isSummaryExpanded(), animated: false)
             podcastDescription.collapsed = !delegate.isDescriptionExpanded()
-
+            richPodcastDescription.collapsed = !delegate.isDescriptionExpanded()
             layoutIfNeeded()
         }
 
@@ -280,7 +227,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            delegate?.refreshArtwork(fromRect: podcastImageView.frame, inView: self)
+            delegate?.refreshArtwork()
         }
     }
 
@@ -289,7 +236,13 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         podcastName.isHidden = !expanded
         podcastCategory.isHidden = !expanded || podcastCategory.text == nil
-        podcastDescription.isHidden = !expanded
+        if FeatureFlag.usePodcastHTMLDescription.enabled {
+            richPodcastDescription.isHidden = !expanded
+            podcastDescription.isHidden = true
+        } else {
+            podcastDescription.isHidden = !expanded
+            richPodcastDescription.isHidden = true
+        }
 
         descriptionInfoSpacer.isHidden = !expanded
         categoryDescriptionSpacer.isHidden = !expanded
@@ -345,33 +298,39 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
 
-        let hasRating = delegate?.podcastRatingViewModel.rating != nil
-        ratingView?.isHidden = !hasRating || !expanded
+        ratingView?.isHidden = !expanded
     }
 
     private func setupButtons() {
         guard let podcast = delegate?.displayedPodcast(), let _ = delegate?.isSummaryExpanded() else { return }
 
+        let subscribedLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
+        let unsubscribedLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+
         subscribeButton.isSelected = podcast.isSubscribed()
-        subscribeButton.accessibilityLabel = podcast.isSubscribed() ? L10n.subscribed : L10n.subscribe
+        subscribeButton.accessibilityLabel = podcast.isSubscribed() ? subscribedLabel : unsubscribedLabel
         subscribeButton.setBackgroundColors()
         if subscribeButton.isSelected {
             folderButton.isHidden = !showFolderButton()
             settingsBtn.isHidden = false
+            notificationButton.isHidden = false
             folderButton.alpha = showFolderButton() ? 1 : 0
             settingsBtn.alpha = 1
             settingsButtonTrailingConstraint.constant = 48
             subscribeButtonWidthConstraint.constant = 32
+            let isNotificationOn = podcast.isPushEnabled
+            notificationButton.setImage( isNotificationOn ? UIImage(named: "podcast-notification-on") : UIImage(named: "podcast-notification-off"), for: .normal)
         } else {
             subscribeButtonWidthConstraint.constant = tableViewWidth < 350 ? 120 : 147
             folderButton.isHidden = true
             settingsBtn.isHidden = true
+            notificationButton.isHidden = true
         }
         layoutIfNeeded()
     }
 
     private func showFolderButton() -> Bool {
-        SubscriptionHelper.hasActiveSubscription()
+        return true
     }
 
     @IBAction func manageSupportTapped(_ sender: Any) {
@@ -392,6 +351,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         delegate?.folderTapped()
     }
 
+    @IBAction func notificationBtnTapped(_ sender: Any) {
+        delegate?.notificationTapped()
+        setupButtons()
+    }
+
     @IBAction func subscribedButtonTapped(_ sender: Any) {
         subscribeButtonTapped()
     }
@@ -404,6 +368,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         delegate.setSummaryExpanded(expanded: willBeExpanded)
         extraContentStackView.alpha = willBeExpanded ? 0 : 1
+        roundedBorder.alpha = willBeExpanded ? 0 : 1
 
         Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
 
@@ -411,6 +376,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if willBeExpanded {
             UIView.animate(withDuration: 0.2, delay: 0.10, options: [], animations: {
                 self.extraContentStackView.alpha = 1
+                self.roundedBorder.alpha = 1
             }, completion: nil)
 
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
@@ -423,6 +389,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         } else {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.extraContentStackView.alpha = 0
+                self.roundedBorder.alpha = 0
                 self.podcastImageHeightConstraint.constant = self.artworkSize()
                 self.updateLayout()
                 self.superview?.layoutIfNeeded()
@@ -434,28 +401,39 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     // MARK: - ExpandableLabelDelegate
 
-    func willExpandLabel(_ label: ExpandableLabel) {
+    func willExpandLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         delegate?.tableView().beginUpdates()
     }
 
-    func didExpandLabel(_ label: ExpandableLabel) {
+    func didExpandLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: true)
     }
 
-    func willCollapseLabel(_ label: ExpandableLabel) {
+    func willCollapseLabel(_ label: UIView) {
+        Analytics.track(.podcastScreenPodcastDescriptionTapped)
         delegate?.tableView().beginUpdates()
     }
 
-    func didCollapseLabel(_ label: ExpandableLabel) {
+    func didCollapseLabel(_ label: UIView) {
         delegate?.tableView().endUpdates()
         delegate?.setDescriptionExpanded(expanded: false)
     }
 
+    func linkTapped(url: URL) {
+        if let uuid = delegate?.displayedPodcast()?.uuid {
+            Analytics.track(.podcastScreenPodcastDescriptionLinkTapped, properties: ["podcast_uuid": uuid])
+        }
+        delegate?.open(url: url)
+    }
+
     @objc private func websiteLinkTapped() {
         guard let website = delegate?.displayedPodcast()?.podcastUrl, let url = URL(string: website) else { return }
-
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if let uuid = delegate?.displayedPodcast()?.uuid {
+            Analytics.track(.podcastScreenPodcastDetailsLinkTapped, properties: ["podcast_uuid": uuid])
+        }
+        delegate?.open(url: url)
     }
 
     private func artworkSize() -> CGFloat {
@@ -483,9 +461,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     private func animateToSubscribed() {
         folderButton.alpha = 0
         settingsBtn.alpha = 0
+        notificationButton.alpha = 0
         folderButton.isHidden = !showFolderButton()
         settingsBtn.isHidden = false
         subscribeButton.isHighlighted = true
+        notificationButton.isHidden = false
         subscribeButton.setBackgroundColors()
         layoutIfNeeded()
         isAnimatingToSubscribed = true
@@ -499,10 +479,11 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
                 self.settingsButtonTrailingConstraint.constant = 48
                 self.folderButton.alpha = self.showFolderButton() ? 1 : 0
                 self.settingsBtn.alpha = 1
+                self.notificationButton.alpha = 1
                 self.layoutIfNeeded()
             }, completion: { _ in
                 self.isAnimatingToSubscribed = false
-                self.subscribeButton.accessibilityLabel = L10n.subscribed
+                self.subscribeButton.accessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
             })
         }
     }

@@ -25,14 +25,13 @@ class ShareViewController: UIViewController {
             return
         }
 
-        let selectorOpenURL = sel_registerName("openURL:")
         let context = NSExtensionContext()
         context.open(url as URL, completionHandler: nil)
         var responder = self as UIResponder?
 
         while responder != nil {
-            if responder?.responds(to: selectorOpenURL) == true {
-                responder?.perform(selectorOpenURL, with: url)
+            if let application = responder as? UIApplication {
+                application.open(url, options: [:], completionHandler: nil)
             }
             responder = responder?.next
         }

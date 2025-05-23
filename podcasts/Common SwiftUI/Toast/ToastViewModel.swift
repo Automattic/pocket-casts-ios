@@ -5,6 +5,11 @@ protocol ToastDelegate: AnyObject {
     func toastDismissed()
 }
 
+enum ToastViewDismissPolicy {
+    case never
+    case interval(TimeInterval)
+}
+
 class ToastViewModel: ObservableObject {
     weak var coordinator: ToastDelegate?
 
@@ -13,7 +18,8 @@ class ToastViewModel: ObservableObject {
 
     let title: String
     let actions: [Toast.Action]
-    let dismissTime: TimeInterval
+    let dismissPolicy: ToastViewDismissPolicy
+    let aboveMiniPlayer: Bool
 
     deinit {
         autoDismissTimer?.invalidate()
@@ -23,11 +29,12 @@ class ToastViewModel: ObservableObject {
     /// When this is true the view should animate out and call `didDismiss`
     @Published var didAutoDismiss = false
 
-    init(coordinator: ToastDelegate, title: String, actions: [Toast.Action]?, dismissTime: TimeInterval) {
+    init(coordinator: ToastDelegate, title: String, actions: [Toast.Action]?, dismissPolicy: ToastViewDismissPolicy, aboveMiniPlayer: Bool = false) {
         self.coordinator = coordinator
         self.title = title
         self.actions = actions ?? []
-        self.dismissTime = dismissTime
+        self.dismissPolicy = dismissPolicy
+        self.aboveMiniPlayer = aboveMiniPlayer
     }
 
     // MARK: - Window Methods
@@ -46,9 +53,14 @@ class ToastViewModel: ObservableObject {
 
     func didAppear() {
         // Start the auto dismiss timer
-        autoDismissTimer = Timer.scheduledTimer(withTimeInterval: dismissTime, repeats: false, block: { [weak self] _ in
-            self?.handleAutoDismiss()
-        })
+        switch dismissPolicy {
+        case .never:
+            return
+        case .interval(let dismissTime):
+            autoDismissTimer = Timer.scheduledTimer(withTimeInterval: dismissTime, repeats: false, block: { [weak self] _ in
+                self?.handleAutoDismiss()
+            })
+        }
     }
 
     // If the toast is already being dismiss, then cancel the timer

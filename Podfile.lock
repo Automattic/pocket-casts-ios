@@ -1,15 +1,10 @@
 PODS:
-  - google-cast-sdk-no-bluetooth (1.0.0)
-  - PulseCore (4.2.4)
-  - PulseUI (4.2.4):
-    - PulseCore (~> 4.2)
+  - google-cast-sdk-no-bluetooth (1.2.0)
   - SwiftGen (6.5.1)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
-  - google-cast-sdk-no-bluetooth (from `https://github.com/shiftyjelly/google-cast.git`)
-  - PulseCore (from `https://github.com/kean/Pulse.git`, tag `4.2.4`)
-  - PulseUI (from `https://github.com/kean/Pulse.git`, tag `4.2.4`)
+  - google-cast-sdk-no-bluetooth (from `https://github.com/Automattic/google-cast`)
   - SwiftGen (~> 6.0)
   - SwiftLint (= 0.54.0)
 
@@ -20,32 +15,18 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   google-cast-sdk-no-bluetooth:
-    :git: https://github.com/shiftyjelly/google-cast.git
-  PulseCore:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-  PulseUI:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
+    :git: https://github.com/Automattic/google-cast
 
 CHECKOUT OPTIONS:
   google-cast-sdk-no-bluetooth:
-    :commit: 3d02e3bf9e4feb044f4ef6b5ec001d06def76f88
-    :git: https://github.com/shiftyjelly/google-cast.git
-  PulseCore:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
-  PulseUI:
-    :git: https://github.com/kean/Pulse.git
-    :tag: 4.2.4
+    :commit: 6992eaf3fe4353e6992a2c35b5a879c490bba2d4
+    :git: https://github.com/Automattic/google-cast
 
 SPEC CHECKSUMS:
-  google-cast-sdk-no-bluetooth: fd144bf43bb76000a8e92b0410ae605937aa83bf
-  PulseCore: a40e40555e355948829a4d3b5f997578098a49c4
-  PulseUI: f7464009d4fca0c88de41f6153d7aef4ae0a906a
+  google-cast-sdk-no-bluetooth: 97f3b1286fa2fa158ec47975b4bb758908a27b2d
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 939ce570484d4733909d71d3cfa9a00c8f5ebc02
+PODFILE CHECKSUM: 49dd9fc25b653a84b641d0aa67009a41103e1bd0
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2

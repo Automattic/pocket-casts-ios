@@ -6,9 +6,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
-#if canImport(Pulse)
-import Pulse
-#endif
+import FacebookCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -28,33 +26,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
+    private(set) var appInstallState: AppLifecycleAnalytics.AppInstallState?
 
     lazy var whatsNew: WhatsNew = WhatsNew()
-
-    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        if FeatureFlag.networkDebugging.enabled {
-            #if canImport(Pulse)
-            URLSessionProxyDelegate.enableAutomaticRegistration()
-            FileLog.shared.publisher.sink { message in
-                LoggerStore.shared.storeMessage(
-                    label: "FileLog",
-                    level: .debug,
-                    message: message
-                )
-            }.store(in: &cancellables)
-            #endif
-        }
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
-        appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
+
+        appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
+
+        if let appInstallState {
+            switch appInstallState {
+            case .updated:
+                if FeatureFlag.notificationsRevamp.enabled {
+                    Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+                }
+                if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
+                    Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
+                }
+            case .installed:
+                //Never show the podcast feed reload tooltip for fresh install
+                Settings.shouldShowPodcastFeeReloadTip = false
+                Settings.shouldShowPodcastViewChangesTip = false
+                Settings.shouldShowRecentlyPlayedSortingTip = false
+            case .sameVersion:
+                break
+            }
+        }
 
         let defaults = UserDefaults.standard
 
@@ -108,6 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
+
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
 
         return true
     }
@@ -296,19 +305,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+            ServerConfig.avoidLogoutInBackground = FeatureFlag.avoidLogoutInBackground.enabled
         }
     }
 
     func updateRemoteFeatureFlags() {
         guard BuildEnvironment.current != .debug else { return }
         do {
-            if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
-                // If the player transition changes we dismiss the full screen player
-                // Otherwise this might lead to crashes or weird behavior
-                appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
-                try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
-            }
-
             if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
                 ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)

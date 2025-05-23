@@ -33,6 +33,7 @@ class PodcastDataManager {
         "trimSilenceAmount",
         "podcastCategory",
         "podcastDescription",
+        "podcastHTMLDescription",
         "sortOrder",
         "startFrom",
         "skipLast",
@@ -59,22 +60,24 @@ class PodcastDataManager {
         "showArchived",
         "refreshAvailable",
         "folderUuid",
+        "usedCustomEffectsBefore",
+        "isPrivate",
+        "fundingURL"
     ]
 
-    func setup(dbQueue: FMDatabaseQueue) {
+    func setup(dbQueue: PCDBQueue) {
         cachePodcasts(dbQueue: dbQueue)
     }
 
     // MARK: - Queries
 
-    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed(), !includeUnsubscribed { continue }
-
                 allPodcasts.append(podcast)
             }
         }
@@ -82,7 +85,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
@@ -99,7 +102,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: PCDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
@@ -116,7 +119,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: PCDBQueue) -> [Podcast] {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
@@ -144,9 +147,37 @@ class PodcastDataManager {
         return allPodcasts
     }
 
+    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: PCDBQueue) -> [Podcast] {
+        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
+
+        var allPodcasts = [Podcast]()
+        dbQueue.inDatabase { db in
+            do {
+                var values: [Any]?
+                var whereClause = "WHERE p.subscribed = 1"
+                if let inFolderUuid = inFolderUuid {
+                    whereClause += " AND p.folderUuid = ?"
+                    values = [inFolderUuid]
+                }
+                let query = "SELECT DISTINCT p.id, p.* FROM \(DataManager.podcastTableName) p LEFT JOIN \(DataManager.episodeTableName) e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM \(DataManager.episodeTableName) e WHERE e.podcast_id = p.id ORDER BY e.lastPlaybackInteractionDate DESC LIMIT 1) \(whereClause) ORDER BY CASE WHEN e.lastPlaybackInteractionDate IS NULL THEN 1 ELSE 0 END, e.lastPlaybackInteractionDate DESC"
+                let resultSet = try db.executeQuery(query, values: values)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let podcast = self.createPodcastFrom(resultSet: resultSet)
+                    allPodcasts.append(podcast)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.allPodcastsOrderedByLastPlayedEpisodes error: \(error)")
+            }
+        }
+
+        return allPodcasts
+    }
+
     /// Returns 5 random podcasts from the DB
     /// This is here for development purposes.
-    func randomPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func randomPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.inDatabase { db in
             do {
@@ -166,7 +197,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allUnsubscribedPodcastUuids(dbQueue: FMDatabaseQueue) -> [String] {
+    func allUnsubscribedPodcastUuids(dbQueue: PCDBQueue) -> [String] {
         var allUnsubscribed = [String]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -179,7 +210,7 @@ class PodcastDataManager {
         return allUnsubscribed
     }
 
-    func allUnsubscribedPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allUnsubscribedPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
         var allUnsubscribed = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -192,12 +223,17 @@ class PodcastDataManager {
         return allUnsubscribed
     }
 
-    func allPodcastsInFolder(folder: Folder, dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPodcastsInFolder(folder: Folder, dbQueue: PCDBQueue) -> [Podcast] {
         let sortOrder = folder.folderSort()
 
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .episodeDateNewestToOldest {
             return allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+        }
+
+        // newest episode release date is a special case we handle at the database level
+        if sortOrder == .recentlyPlayed {
+            return allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // the other 3 cases we do in memory
@@ -219,13 +255,13 @@ class PodcastDataManager {
         return allPodcastsInFolder
     }
 
-    func countOfPodcastsInFolder(folder: Folder?, dbQueue: FMDatabaseQueue) -> Int {
+    func countOfPodcastsInFolder(folder: Folder?, dbQueue: PCDBQueue) -> Int {
         cachedPodcastsQueue.sync {
             cachedPodcasts.values.filter { $0.isSubscribed() && $0.folderUuid == folder?.uuid }.count
         }
     }
 
-    func allPaidPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allPaidPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
         var allPaid = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -238,7 +274,7 @@ class PodcastDataManager {
         return allPaid
     }
 
-    func allUnsynced(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allUnsynced(dbQueue: PCDBQueue) -> [Podcast] {
         var unsyncedPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -251,7 +287,7 @@ class PodcastDataManager {
         return unsyncedPodcasts
     }
 
-    func allOverrideGlobalArchivePodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
+    func allOverrideGlobalArchivePodcasts(dbQueue: PCDBQueue) -> [Podcast] {
         var podcastsOverrideArchive = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -264,7 +300,7 @@ class PodcastDataManager {
         return podcastsOverrideArchive
     }
 
-    func find(uuid: String, includeUnsubscribed: Bool, dbQueue: FMDatabaseQueue) -> Podcast? {
+    func find(uuid: String, includeUnsubscribed: Bool, dbQueue: PCDBQueue) -> Podcast? {
         cachedPodcastsQueue.sync {
             guard let podcast = cachedPodcasts[uuid] else { return nil }
 
@@ -274,7 +310,7 @@ class PodcastDataManager {
         }
     }
 
-    func count(dbQueue: FMDatabaseQueue) -> Int {
+    func count(dbQueue: PCDBQueue) -> Int {
         var count = 0
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts.values {
@@ -287,7 +323,7 @@ class PodcastDataManager {
         return count
     }
 
-    func unfinishedCounts(dbQueue: FMDatabaseQueue) -> [String: Int32] {
+    func unfinishedCounts(dbQueue: PCDBQueue) -> [String: Int32] {
         var counts = [String: Int32]()
         dbQueue.inDatabase { db in
             do {
@@ -311,10 +347,7 @@ class PodcastDataManager {
 
     // MARK: - Updates
 
-    func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
-        // Get the existing podcast to compare if folder is being changed
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
-
+    func save(podcast: Podcast, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 if podcast.id == 0 {
@@ -323,11 +356,6 @@ class PodcastDataManager {
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
-
-                    // If changing folder, log it
-                    if podcast.folderUuid != existingPodcast?.folderUuid {
-                        FileLog.shared.foldersIssue("PodcastDataManager: update \(podcast.title ?? "") folder from \(existingPodcast?.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
-                    }
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
@@ -336,7 +364,7 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: FMDatabaseQueue) {
+    func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 // clear out any that shouldn't be in this folder
@@ -353,24 +381,24 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: FMDatabaseQueue) {
+    func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
+    func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: PCDBQueue) {
         podcast.isPushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
-    func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
+    func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: PCDBQueue) {
         if FeatureFlag.newSettingsStorage.enabled {
             saveSingleSetting("notification", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
         }
         saveSingleValue(name: "pushEnabled", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+    func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
         if FeatureFlag.newSettingsStorage.enabled {
             if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
                 if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
@@ -387,56 +415,56 @@ class PodcastDataManager {
         saveSingleValue(name: "autoAddToUpNext", value: autoAddToUpNext, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func setPodcastImageVersion(podcastUuid: String, version: Int, dbQueue: FMDatabaseQueue) {
+    func setPodcastImageVersion(podcastUuid: String, version: Int, dbQueue: PCDBQueue) {
         saveSingleValue(name: "lastColorDownloadDate", value: NSNull(), podcastUuid: podcastUuid, dbQueue: dbQueue)
         saveSingleValue(name: "colorVersion", value: version, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func savePodcastDownloadSetting(_ setting: AutoDownloadSetting, podcastUuid: String, dbQueue: FMDatabaseQueue) {
+    func savePodcastDownloadSetting(_ setting: AutoDownloadSetting, podcastUuid: String, dbQueue: PCDBQueue) {
         saveSingleValue(name: "autoDownloadSetting", value: setting.rawValue, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
-    func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: FMDatabaseQueue) {
+    func saveAutoArchiveLimit(podcast: Podcast, limit: Int32, dbQueue: PCDBQueue) {
         podcast.autoArchiveEpisodeLimitCount = limit
         podcast.settings.autoArchiveEpisodeLimit = limit
         saveSingleValue(name: "episodeKeepSetting", value: limit, podcastUuid: podcast.uuid, dbQueue: dbQueue)
     }
 
-    func delete(podcast: Podcast, dbQueue: FMDatabaseQueue) {
+    func delete(podcast: Podcast, dbQueue: PCDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.podcastTableName) WHERE uuid = ?", values: [podcast.uuid], methodName: "PodcastDataManager.delete", onQueue: dbQueue)
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func markAllSynced(dbQueue: FMDatabaseQueue) {
+    func markAllSynced(dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: SyncStatus.synced.rawValue, propertyName: "syncStatus", subscribedOnly: false, dbQueue: dbQueue)
     }
 
-    func markAllUnsynced(dbQueue: FMDatabaseQueue) {
+    func markAllUnsynced(dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: SyncStatus.notSynced.rawValue, propertyName: "syncStatus", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: FMDatabaseQueue) {
+    func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: PCDBQueue) {
         let query = "UPDATE \(DataManager.podcastTableName) SET syncStatus = \(SyncStatus.notSynced.rawValue) WHERE subscribed = 1 AND fullSyncLastSyncAt <> ?"
         DataHelper.run(query: query, values: [lastSyncAt], methodName: "PodcastDataManager.markAllUnsyncedWhereLastSyncAtNot", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
+    func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: PCDBQueue) {
         if FeatureFlag.newSettingsStorage.enabled {
             setOnAllPodcasts(value: pushEnabled, settingName: "notification", subscribedOnly: true, dbQueue: dbQueue)
         }
         setOnAllPodcasts(value: pushEnabled, propertyName: "pushEnabled", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+    func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: PCDBQueue) {
         if FeatureFlag.newSettingsStorage.enabled {
             setOnAllPodcasts(value: autoAddToUpNext, settingName: "addToUpNext", subscribedOnly: true, dbQueue: dbQueue)
         }
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: FMDatabaseQueue) {
+    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let uuids = podcasts.map { $0.uuid }
@@ -464,7 +492,7 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: FMDatabaseQueue) {
+    func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
     }
 
@@ -479,7 +507,7 @@ class PodcastDataManager {
         }
     }
 
-    func setOnAllPodcasts<Value: Codable & Equatable>(value: Value, settingName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {
+    func setOnAllPodcasts<Value: Codable & Equatable>(value: Value, settingName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
 
@@ -506,7 +534,7 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {
+    func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 var query = "UPDATE \(DataManager.podcastTableName) SET \(propertyName) = ?"
@@ -522,7 +550,7 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func saveSortOrders(podcasts: [Podcast], dbQueue: FMDatabaseQueue) {
+    func saveSortOrders(podcasts: [Podcast], dbQueue: PCDBQueue) {
         dbQueue.inTransaction { db, _ in
             do {
                 for podcast in podcasts {
@@ -536,38 +564,38 @@ class PodcastDataManager {
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: FMDatabaseQueue) {
+    func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid], methodName: "PodcastDataManager.removeAllPodcastsFromFolder", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func removeAllPodcastsFromAllFolders(dbQueue: FMDatabaseQueue) {
+    func removeAllPodcastsFromAllFolders(dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL", values: nil, methodName: "PodcastDataManager.removeAllPodcastsFromAllFolders", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: FMDatabaseQueue) {
+    func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: grouping.rawValue, propertyName: "episodeGrouping", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func updateAllShowArchived(to showArchived: Bool, dbQueue: FMDatabaseQueue) {
+    func updateAllShowArchived(to showArchived: Bool, dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: showArchived, propertyName: "showArchived", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func setAllPodcastImageVersions(to version: Int, dbQueue: FMDatabaseQueue) {
+    func setAllPodcastImageVersions(to version: Int, dbQueue: PCDBQueue) {
         setOnAllPodcasts(value: NSNull(), propertyName: "lastColorDownloadDate", subscribedOnly: true, dbQueue: dbQueue)
         setOnAllPodcasts(value: version, propertyName: "colorVersion", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: FMDatabaseQueue) {
+    private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: PCDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
         cachePodcasts(dbQueue: dbQueue)
     }
 
-    private func saveSingleSetting<Value: Codable & Equatable>(_ name: String, value: Value, podcastUuid: String, dbQueue: FMDatabaseQueue) {
+    private func saveSingleSetting<Value: Codable & Equatable>(_ name: String, value: Value, podcastUuid: String, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
@@ -595,7 +623,7 @@ class PodcastDataManager {
 
     // MARK: - Caching
 
-    private func cachePodcasts(dbQueue: FMDatabaseQueue) {
+    private func cachePodcasts(dbQueue: PCDBQueue) {
         let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_PODCAST_CACHE")
         defer { TraceManager.shared.endTracing(trace: trace) }
 
@@ -620,7 +648,7 @@ class PodcastDataManager {
 
     // MARK: - Conversion
 
-    private func createPodcastFrom(resultSet rs: FMResultSet) -> Podcast {
+    private func createPodcastFrom(resultSet rs: PCDBResultSet) -> Podcast {
         Podcast.from(resultSet: rs)
     }
 
@@ -649,6 +677,7 @@ class PodcastDataManager {
         values.append(podcast.trimSilenceAmount)
         values.append(DBUtils.nullIfNil(value: podcast.podcastCategory))
         values.append(DBUtils.nullIfNil(value: podcast.podcastDescription))
+        values.append(DBUtils.nullIfNil(value: podcast.podcastHTMLDescription))
         values.append(podcast.sortOrder)
         values.append(podcast.startFrom)
         values.append(podcast.skipLast)
@@ -675,6 +704,9 @@ class PodcastDataManager {
         values.append(podcast.showArchived)
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
+        values.append(podcast.usedCustomEffectsBefore)
+        values.append(podcast.isPrivate)
+        values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
 
         if includeIdForWhere {
             values.append(podcast.id)

@@ -13,9 +13,13 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     private weak var delegate: DiscoverDelegate?
     private static let cellId = "DiscoverCell"
     private static let featuredCellId = "FeaturedTableViewCell"
+    private var source: URL?
 
-    init(podcasts: [DiscoverPodcast]) {
+    init(podcasts: [DiscoverPodcast], source: String?) {
         self.podcasts = podcasts
+        if let source {
+            self.source = URL(string: source)
+        }
 
         super.init(nibName: "PodcastHeaderListViewController", bundle: nil)
     }
@@ -31,6 +35,10 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)
 
+        if source != nil {
+            customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
+        }
+
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: chartsTable)
 
         chartsTable.updateContentInset(multiSelectEnabled: false)
@@ -40,6 +48,13 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         super.viewWillAppear(animated)
 
         chartsTable.reloadData()
+    }
+
+    @objc private func handleShare() {
+        guard let source = source?.deletingPathExtension() else { return }
+        Analytics.track(.discoverListShareTapped)
+        let activityViewController = UIActivityViewController(activityItems: [source], applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 
     // MARK: - UITableView Methods

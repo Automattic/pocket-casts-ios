@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class BundlePodcastCell: ThemeableCell {
@@ -28,8 +29,8 @@ class BundlePodcastCell: ThemeableCell {
             subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
             subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
 
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
 
             NotificationCenter.default.addObserver(self, selector: #selector(podcastWasAdded), name: Constants.Notifications.podcastAdded, object: nil)
         }
@@ -91,9 +92,9 @@ class BundlePodcastCell: ThemeableCell {
         guard let discoverPodcast = discoverPodcast else { return }
 
         if discoverPodcast.iTunesOnly() {
-            ServerPodcastManager.shared.addFromiTunesId(Int(discoverPodcast.iTunesId!)!, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribeFromItunesId(Int(discoverPodcast.iTunesId!)!, completion: nil)
         } else if let uuid = discoverPodcast.uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
         }
     }
 

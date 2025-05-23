@@ -79,6 +79,44 @@ struct Announcements {
             },
             isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
             fullModal: true
+        ),
+
+        // Give Ratings
+        .init(
+            version: "7.70",
+            header: AnyView(GiveRatingsWhatsNewHeader()),
+            title: L10n.ratingWhatsNewTitle,
+            message: L10n.ratingWhatsNewMessage,
+            buttonTitle: L10n.ratingWhatsNewButtonTitle,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: true,
+            fullModal: true
+        ),
+        .init(
+            version: "7.72",
+            header: AnyView(ClipsWhatsNewView()),
+            title: L10n.clipsWhatsNewTitle,
+            message: L10n.clipsWhatsNewMessage,
+            buttonTitle: L10n.clipsWhatsNewButtonTitle,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: true,
+            fullModal: true
+        ),
+        .init(
+            version: "7.77",
+            header: AnyView(UpNextAnnouncementView().setupDefaultEnvironment()),
+            title: L10n.upNextShuffleAnnouncementTitle,
+            message: L10n.upNextShuffleAnnouncementText,
+            buttonTitle: L10n.upNextShuffleAnnouncementButton,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.upNextShuffle.enabled,
+            fullModal: true
         )
     ]
 }

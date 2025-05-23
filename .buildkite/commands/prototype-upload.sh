@@ -1,5 +1,9 @@
 #!/bin/bash -eu
 
+if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type build; then
+  exit 0
+fi
+
 # Sentry CLI needs to be up-to-date
 brew upgrade sentry-cli
 
@@ -9,9 +13,6 @@ buildkite-agent artifact download "artifacts/*.app.dSYM.zip" . --step build_prot
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
-
-echo "--- :cocoapods: Setting up Pods"
-install_cocoapods
 
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply

@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension MainTabBarController {
     func setupKeyboardShortcuts() {
@@ -33,7 +34,10 @@ extension MainTabBarController {
         let discoverCommand = UIKeyCommand(title: L10n.discover, action: #selector(handleDiscover), input: "3", modifierFlags: [.command])
         addKeyCommand(discoverCommand)
 
-        let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "4", modifierFlags: [.command])
+        let upNextCommand = UIKeyCommand(title: L10n.upNext, action: #selector(handleUpNext), input: "4", modifierFlags: [.command])
+        addKeyCommand(upNextCommand)
+
+        let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "5", modifierFlags: [.command])
         addKeyCommand(profileCommand)
 
         let searchCommand = UIKeyCommand(title: L10n.search, action: #selector(handleSearch), input: "f", modifierFlags: [.command])
@@ -68,8 +72,12 @@ extension MainTabBarController {
         navigateToDiscover(true)
     }
 
+    @objc private func handleUpNext() {
+        navigateToUpNext(true)
+    }
+
     @objc private func handleProfile() {
-        navigateToProfile(true)
+        navigateToProfile(animated: true)
     }
 
     @objc private func handleDecreaseSpeed() {

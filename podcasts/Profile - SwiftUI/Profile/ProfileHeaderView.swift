@@ -119,7 +119,13 @@ struct ProfileHeaderView: View {
             .padding(.bottom, Constants.paddingBottomAndSides)
             .padding(.horizontal, Constants.paddingBottomAndSides)
         } contentSizeUpdated: { size in
-            viewModel.contentSizeChanged(size)
+            var adjustedSize = size
+            // There is an issue with this view, that when the iPad multitask mode is used, the size returns zero,
+            // then the associated table view controller set a header size of zero and it never recovers from that
+            if size == .zero {
+                adjustedSize = Constants.minimumSize
+            }
+            viewModel.contentSizeChanged(adjustedSize)
         }
     }
 
@@ -217,6 +223,7 @@ struct ProfileHeaderView: View {
         static let imageSize = 104.0
         static let paddingTop = 30.0
         static let paddingBottomAndSides = 20.0
+        static let minimumSize = CGSize(width: 300, height: Constants.imageSize + Constants.paddingTop + Constants.paddingBottomAndSides + Constants.spacing)
     }
 }
 

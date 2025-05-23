@@ -6,8 +6,12 @@ struct NowPlayingWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+    @Environment(\.widgetFamily) var family
 
     @Environment(\.colorScheme) var colorScheme
+
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
+
     var widgetColorSchemeLight: PCWidgetColorScheme
     var widgetColorSchemeDark: PCWidgetColorScheme
     var widgetColorScheme: PCWidgetColorScheme {
@@ -16,50 +20,127 @@ struct NowPlayingWidgetEntryView: View {
         }
     }
 
+    private var iconAssetName: String {
+        isAccentedRenderingMode ? PCWidgetColorScheme.boldNowPlaying.iconAssetName : widgetColorScheme.iconAssetName
+    }
+
     var body: some View {
         if let playingEpisode = entry.episode {
-            ZStack {
-                if showsWidgetBackground {
-                    Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
-                }
-                VStack(alignment: .leading, spacing: 10) {
-                    artwork(playingEpisode: playingEpisode)
-
-                    episodeTitle(playingEpisode: playingEpisode)
-
-                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
-                }
-                .widgetURL(URL(string: "pktc://last_opened"))
-                .clearBackground()
-                .if(!showsWidgetBackground) { view in
-                    view
-                        .padding(.top)
-                        .padding(.bottom)
-                }
+            switch family {
+            case .systemSmall:
+                smallWidget(playingEpisode: playingEpisode)
+            default:
+                mediumWidget(playingEpisode: playingEpisode)
             }
         }
         else if !showsWidgetBackground {
             nothingPlaying
-        } else {
-            ZStack {
-                Image(CommonWidgetHelper.loadAppIconName())
-                    .resizable()
+        }
+        else {
+            switch family {
+            case .systemSmall:
+                ZStack {
+                    Image(CommonWidgetHelper.loadAppIconName())
+                        .resizable()
+                        .backwardWidgetAccentedDesaturatedRenderingMode()
+                }
+                .widgetURL(URL(string: "pktc://last_opened"))
+                .clearBackground()
+            default:
+                nothingPlayingMedium
             }
-            .widgetURL(URL(string: "pktc://last_opened"))
-            .clearBackground()
         }
     }
 
-    private func artwork(playingEpisode: WidgetEpisode) -> some View {
+    private func smallWidget(playingEpisode: WidgetEpisode) -> some View {
+        ZStack {
+            if showsWidgetBackground, !isAccentedRenderingMode {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+            VStack(alignment: .leading, spacing: 10) {
+                smallArtwork(playingEpisode: playingEpisode)
+
+                episodeTitle(playingEpisode: playingEpisode)
+
+                playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
+            }
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
+            .if(!showsWidgetBackground) { view in
+                view
+                    .padding(.top)
+                    .padding(.bottom)
+            }
+        }
+    }
+
+    private func mediumWidget(playingEpisode: WidgetEpisode) -> some View {
+        ZStack {
+            if showsWidgetBackground, !isAccentedRenderingMode {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+
+            HStack {
+                LargeArtworkView(imageData: playingEpisode.imageData, size: .infinity)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack(alignment: .bottom) {
+                        Text("Now Playing")
+                            .font(.caption)
+                            .textCase(.uppercase)
+                            .padding(topPadding)
+                            .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                            .backwardWidgetAccentable(isAccentedRenderingMode)
+                        Spacer()
+                        Image(iconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
+                            .unredacted()
+                    }
+
+                    podcastTitle(playingEpisode: playingEpisode)
+
+                    episodeTitle(playingEpisode: playingEpisode)
+                    Spacer()
+                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
+                }
+                .frame(maxHeight: 128)
+            }
+            .padding(16)
+
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
+            .if(!showsWidgetBackground) { view in
+                view
+                    .padding(.top)
+                    .padding(.bottom)
+            }
+        }
+    }
+
+    private func smallArtwork(playingEpisode: WidgetEpisode) -> some View {
         HStack(alignment: .top) {
             LargeArtworkView(imageData: playingEpisode.imageData)
                 .frame(width: 64, height: 64)
             Spacer()
-            Image(widgetColorScheme.iconAssetName)
-                .frame(width: 28, height: 28)
+            Image(iconAssetName)
+                .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                 .unredacted()
         }
         .padding(topPadding)
+    }
+
+    private func podcastTitle(playingEpisode: WidgetEpisode) -> some View {
+        Text(playingEpisode.podcastName)
+            .font(.body)
+            .fontWeight(.semibold)
+            .foregroundColor(widgetColorScheme.bottomTextColor)
+            .lineLimit(1)
+            .frame(height: 12, alignment: .center)
+            .layoutPriority(1)
+            .padding(episodeTitlePadding)
+            .backwardWidgetAccentable(isAccentedRenderingMode)
     }
 
     private func episodeTitle(playingEpisode: WidgetEpisode) -> some View {
@@ -71,6 +152,7 @@ struct NowPlayingWidgetEntryView: View {
             .frame(height: 12, alignment: .center)
             .layoutPriority(1)
             .padding(episodeTitlePadding)
+            .backwardWidgetAccentable(isAccentedRenderingMode)
     }
 
     @ViewBuilder
@@ -83,12 +165,14 @@ struct NowPlayingWidgetEntryView: View {
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(widgetColorScheme.topButtonTextColor)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                 } else {
                     Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(widgetColorScheme.topButtonTextColor)
                         .layoutPriority(1)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                 }
             }
             .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
@@ -111,6 +195,61 @@ struct NowPlayingWidgetEntryView: View {
         }
     }
 
+    private var nothingPlayingMedium: some View {
+        ZStack {
+            if showsWidgetBackground, !isAccentedRenderingMode {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+
+            HStack(alignment: .top) {
+                LargeArtworkView(size: .infinity)
+                    .opacity(0.5)
+
+                VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        Spacer()
+                        Image(iconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
+                            .unredacted()
+                    }
+
+                    nothingPlayingText
+                }
+                .frame(maxHeight: 128)
+            }
+            .padding(16)
+        }
+        .widgetURL(URL(string: "pktc://discover?source=widget"))
+        .clearBackground()
+        .if(!showsWidgetBackground) { view in
+            view
+                .padding(.top)
+                .padding(.bottom)
+        }
+    }
+
+    private var nothingPlayingText: some View {
+        Group {
+            Text(L10n.widgetsDiscoverPromptTitle)
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundColor(showsWidgetBackground ? widgetColorScheme.bottomTextColor : Color.primary)
+                .lineLimit(2)
+                .frame(height: 38, alignment: .center)
+                .layoutPriority(1)
+                .padding(episodeTitlePadding)
+                .backwardWidgetAccentable(isAccentedRenderingMode)
+            Text(L10n.widgetsDiscoverPromptMsg)
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundColor(showsWidgetBackground ? widgetColorScheme.bottomTextColor : Color.secondary)
+                .lineLimit(2)
+                .padding(bottomTextPadding)
+                .layoutPriority(1)
+                .backwardWidgetAccentable(isAccentedRenderingMode)
+        }
+    }
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -120,26 +259,14 @@ struct NowPlayingWidgetEntryView: View {
                         .opacity(0.5)
                     Spacer()
                     Image("logo-transparent")
-                        .frame(width: 28, height: 28)
-                }.padding(topPadding)
+                        .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                        .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
+                }
+                .padding(topPadding)
             }
-            Text(L10n.widgetsDiscoverPromptTitle)
-                .font(.footnote)
-                .fontWeight(.semibold)
-                .foregroundColor(Color.primary)
-                .lineLimit(2)
-                .frame(height: 38, alignment: .center)
-                .layoutPriority(1)
-                .padding(episodeTitlePadding)
-
-            Text(L10n.widgetsDiscoverPromptMsg)
-                .font(.caption2)
-                .fontWeight(.medium)
-                .foregroundColor(Color.secondary)
-                .padding(bottomTextPadding)
-                .layoutPriority(1)
+            nothingPlayingText
         }
-        .widgetURL(URL(string: "pktc://discover"))
+        .widgetURL(URL(string: "pktc://discover?source=widget"))
         .clearBackground()
         .if(!showsWidgetBackground) { view in
             view

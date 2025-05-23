@@ -380,6 +380,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateButtonStates()
         updateProgress()
         updateMessageView()
+        updateColors()
     }
 
     @objc private func playbackProgressDidChange() {
@@ -439,7 +440,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
 
         updateButtonStates()
-        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor)
+        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor, buttonBackgroundColor: .clear)
     }
 
     @objc private func starTapped(_ sender: UIButton) {
@@ -449,29 +450,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - Sharing
 
     @objc private func shareTapped(_ sender: UIButton) {
-        guard FeatureFlag.newSharing.enabled == false else {
-            SharingModal.showModal(episode: episode, in: self)
-            return
-        }
-
-        let shareOptions = OptionsPicker(title: nil)
-
-        let sourceRect = sender.superview!.convert(sender.frame, to: view)
-        let shareLinkAction = OptionAction(label: L10n.podcastShareEpisode, icon: nil) { [weak self] in
-            self?.shareLinkToEpisode(sharePosition: false, sourceRect: sourceRect)
-        }
-        shareOptions.addAction(action: shareLinkAction)
-
-        let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: nil) { [weak self] in
-            self?.shareLinkToEpisode(sharePosition: true, sourceRect: sourceRect)
-        }
-        shareOptions.addAction(action: sharePositionAction)
-
-        if let fileAction = episodeFileAction(from: sourceRect) {
-            shareOptions.addAction(action: fileAction)
-        }
-
-        shareOptions.show(statusBarStyle: preferredStatusBarStyle)
+        SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
     }
 
     @objc private func podcastNameTapped() {
@@ -500,9 +479,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         let shareTime = sharePosition ? episode.playedUpTo : 0
 
         let type = shareTime == 0 ? "episode" : "current_position"
-        Analytics.track(.podcastShared, properties: ["type": type, "source": analyticsSource])
 
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
+        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
     }
 
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {

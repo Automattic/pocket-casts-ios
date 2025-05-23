@@ -9,7 +9,7 @@ public class FolderHistoryManager {
 
     /// Saves a list of podcast UUID and folders UUID so it can be
     /// restored later
-    func snapshot(podcastsAndFolders: [String: String], dbQueue: FMDatabaseQueue) {
+    func snapshot(podcastsAndFolders: [String: String], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 db.beginTransaction()
@@ -28,7 +28,7 @@ public class FolderHistoryManager {
     }
 
     /// Return all the available Up Next entries
-    func entries(dbQueue: FMDatabaseQueue) -> [PodcastFoldersHistoryEntry] {
+    func entries(dbQueue: PCDBQueue) -> [PodcastFoldersHistoryEntry] {
         var entries: [PodcastFoldersHistoryEntry] = []
         dbQueue.inDatabase { db in
             do {
@@ -48,7 +48,7 @@ public class FolderHistoryManager {
         return entries
     }
 
-    func podcastsAndFolders(entry: Date, dbQueue: FMDatabaseQueue) -> [String: String] {
+    func podcastsAndFolders(entry: Date, dbQueue: PCDBQueue) -> [String: String] {
         var podcastsAndFolders: [String: String] = [:]
         dbQueue.inDatabase { db in
             do {

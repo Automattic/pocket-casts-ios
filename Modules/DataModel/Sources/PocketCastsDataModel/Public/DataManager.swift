@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 import SQLite3
 
@@ -24,31 +25,37 @@ public class DataManager {
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
+    public let ratings: RatingsDataManager
 
-    private let dbQueue: FMDatabaseQueue
+    private let dbQueue: PCDBQueue
 
-    public static let sharedManager = DataManager()
+    public static internal(set) var sharedManager = DataManager()
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
-        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+        var dbQueue: PCDBQueue
+        if FeatureFlag.grdb.enabled {
+            var config = Configuration()
+            config.busyMode = .timeout(10)
+            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
+        } else {
+            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+        }
 
         self.init(dbQueue: dbQueue)
     }
 
-    /// Creates a DataManager using the given `FMDatabaseQueue`.
+    /// Creates a DataManager using the given `PCDBQueue`.
     /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
 
-        dbQueue.inDatabase { db in
-            DatabaseHelper.setup(db: db)
-        }
+        DatabaseHelper.setup(queue: dbQueue)
 
-        if shouldCloseQueueAfterSetup {
+        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
             dbQueue.close()
         }
@@ -60,6 +67,7 @@ public class DataManager {
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
+        ratings = RatingsDataManager()
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
@@ -279,6 +287,10 @@ public class DataManager {
         podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
+    public func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
+        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    }
+
     public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
@@ -417,8 +429,16 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findEpisodeCount(podcastId: Int64) -> Int {
+        count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcastId])
+    }
+
     public func findPlayedEpisodes(uuids: [String]) -> [String] {
         episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
+    public func findPlayedEpisodesCount(podcastId: Int64) async -> Int {
+        await episodeManager.findPlayedEpisodesCount(podcastId: podcastId, dbQueue: dbQueue)
     }
 
     public func markAllEpisodePlaybackHistorySynced() {
@@ -452,8 +472,16 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
+    public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
+        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
+    }
+
     public func findLatestEpisode(podcast: Podcast) -> Episode? {
         episodeManager.findLatestEpisode(podcast: podcast, dbQueue: dbQueue)
+    }
+
+    public func findLatestEpisodes(podcast: Podcast, limit: Int) -> [Episode] {
+        episodeManager.findLatestEpisodes(podcast: podcast, limit: limit, dbQueue: dbQueue)
     }
 
     public func unsyncedEpisodes(limit: Int) -> [Episode] {
@@ -752,6 +780,10 @@ public class DataManager {
         episodeManager.markAllSynced(episodes: episodes, dbQueue: dbQueue)
     }
 
+    public func markAllSynced(episodeIDs: [String]) {
+        episodeManager.markAllSynced(episodeIDs: episodeIDs, dbQueue: dbQueue)
+    }
+
     public func allEpisodesForPodcast(id: Int64) -> [Episode] {
         episodeManager.allEpisodesForPodcast(id: id, dbQueue: dbQueue)
     }
@@ -954,6 +986,10 @@ public class DataManager {
         folderManager.deleteAllFolders(dbQueue: dbQueue)
     }
 
+    public func deleteAllFoldersAndMarkSync() {
+        folderManager.markAllFolderAsDeleted(syncModified: TimeFormatter.currentUTCTimeInMillis(), dbQueue: dbQueue)
+    }
+
     // MARK: - Advanced
 
     public func count(query: String, values: [Any]?) -> Int {
@@ -965,7 +1001,9 @@ public class DataManager {
                     count = resultSet.long(forColumnIndex: 0)
                 }
                 resultSet.close()
-            } catch {}
+            } catch {
+                FileLog.shared.addMessage("DataManager.count error: \(error)")
+            }
         }
 
         return count
@@ -1073,47 +1111,52 @@ public extension DataManager {
 // MARK: - End of Year stats
 
 public extension DataManager {
-    func isEligibleForEndOfYearStories() -> Bool {
-        endOfYearManager.isEligible(dbQueue: dbQueue)
+    func isEligibleForEndOfYearStories(in year: Int) -> Bool {
+        endOfYearManager.isEligible(in: year, dbQueue: dbQueue)
     }
 
-    func isFullListeningHistory() -> Bool {
-        endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
+    func isFullListeningHistory(in year: Int) -> Bool {
+        endOfYearManager.isFullListeningHistory(in: year, dbQueue: dbQueue)
     }
 
-    func numberOfEpisodes(year: Int32) -> Int {
+    func numberOfEpisodes(year: Int) -> Int {
         endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
-    func listeningTime() -> Double? {
-        endOfYearManager.listeningTime(dbQueue: dbQueue)
+    func listeningTime(in year: Int) -> Double? {
+        endOfYearManager.listeningTime(in: year, dbQueue: dbQueue)
     }
 
-    func listenedCategories() -> [ListenedCategory] {
-        endOfYearManager.listenedCategories(dbQueue: dbQueue)
+    func listenedCategories(in year: Int) -> [ListenedCategory] {
+        endOfYearManager.listenedCategories(in: year, dbQueue: dbQueue)
     }
 
-    func listenedNumbers() -> ListenedNumbers {
-        endOfYearManager.listenedNumbers(dbQueue: dbQueue)
+    func listenedNumbers(in year: Int) -> ListenedNumbers {
+        endOfYearManager.listenedNumbers(in: year, dbQueue: dbQueue)
     }
 
-    func topPodcasts(limit: Int = 5) -> [TopPodcast] {
-        endOfYearManager.topPodcasts(dbQueue: dbQueue, limit: limit)
+    func topPodcasts(in year: Int, limit: Int = 5) -> [TopPodcast] {
+        endOfYearManager.topPodcasts(in: year, dbQueue: dbQueue, limit: limit)
     }
 
-    func longestEpisode() -> Episode? {
-        endOfYearManager.longestEpisode(dbQueue: dbQueue)
+    func longestEpisode(in year: Int) -> Episode? {
+        endOfYearManager.longestEpisode(in: year, dbQueue: dbQueue)
     }
 
-    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+    func episodesThatExist(year: Int, uuids: [String]) -> [String] {
         endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
     }
 
-    func yearOverYearListeningTime() -> YearOverYearListeningTime {
-        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    func yearOverYearListeningTime(in year: Int) -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(in: year, dbQueue: dbQueue)
     }
 
-    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
-        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
+    func episodesStartedAndCompleted(in year: Int) -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
+
+    }
+
+    func summarizedRatings(in year: Int) -> [UInt32: Int]? {
+        endOfYearManager.summarizedRatings(in: year)
     }
 }

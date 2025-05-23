@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "89E4D1A8",
   "nonRenewingSubscriptions" : [
 
@@ -7,7 +17,12 @@
 
   ],
   "settings" : {
+    "_compatibilityTimeRate" : {
+      "3" : 6
+    },
     "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,
@@ -54,7 +69,8 @@
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
-    ]
+    ],
+    "_timeRate" : 1004
   },
   "subscriptionGroups" : [
     {
@@ -92,7 +108,10 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Plus Yearly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -117,7 +136,10 @@
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Plus Monthly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -146,7 +168,10 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Patron Yearly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -171,13 +196,101 @@
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Patron Monthly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+            {
+              "internalID" : "0739BC93",
+              "offerID" : "com.pocketcasts.plus.yearly.referral.promo",
+              "paymentMode" : "free",
+              "referenceName" : "Referral Promotion",
+              "subscriptionPeriod" : "P2M"
+            }
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "60AE4B60",
+          "introductoryOffer" : {
+            "displayPrice" : "0.99",
+            "internalID" : "1574FE23",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P2M"
+          },
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.pocketcasts.plus.yearly.referral",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Plus Yearly Referral",
+          "subscriptionGroupID" : "D129D5D3",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    },
+    {
+      "id" : "5AB2A682",
+      "localizations" : [
+
+      ],
+      "name" : "Pocket Casts Plus - Referrals",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "683D2155",
+          "introductoryOffer" : {
+            "displayPrice" : "0.99",
+            "internalID" : "91A70E60",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P2M"
+          },
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.pocketcasts.plus.yearly.referral_separate",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Plus Year Referral",
+          "subscriptionGroupID" : "5AB2A682",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
+  "subscriptionOffersKeyPair" : {
+    "id" : "98EEF22A",
+    "privateKey" : "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgoBfhzTMV9qRkLiy4sLLnqgmiCbvgo7zY8kK7FqT/t2WgCgYIKoZIzj0DAQehRANCAAR9Yn6Hd5E7Yr+9+AKZSgaWPa1mLrcUmyBxG5mamrr9bSE9JnRu7ppgLyhlh31jJfOyceR5hI5uzznYYmPvaRNg"
+  },
   "version" : {
-    "major" : 3,
+    "major" : 4,
     "minor" : 0
   }
 }

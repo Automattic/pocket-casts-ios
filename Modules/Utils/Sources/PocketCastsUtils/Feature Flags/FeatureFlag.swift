@@ -8,32 +8,14 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether network debugging with Pulse is enabled
-    case networkDebugging
+    /// Whether logging of AppsFlyer events in console are enabled
+    case appsFlyerLogging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Enable show notes using the new endpoint
-    case newShowNotesEndpoint
-
-    /// Enable retrieving episode artwork from the RSS feed
-    case episodeFeedArtwork
-
-    /// Enable chapters to be loaded from the RSS feed
-    case rssChapters
-
-    /// Enable a quicker and more responsive player transition
-    case newPlayerTransition
-
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
-
-    /// Enable the ability to rate podcasts
-    case giveRatings
-
-    /// Enable selecting/deselecting episode chapters
-    case deselectChapters
 
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
@@ -49,11 +31,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable the AVExportSession parallel download of any playing episode
     case streamAndCachePlayingEpisode
-
-    case categoriesRedesign
-
-    /// show UpNext tab on the main tab bar
-    case upNextOnTabBar
 
     /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
@@ -74,10 +51,142 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the Accelerate framework to speed up custom effects
     case accelerateEffects
 
-    case newSharing
+    /// Enables the Kids banner
+    case kidsProfile
 
-    /// Enable the transcripts feature on podcasts episodes
-    case transcripts
+    /// Enable the new Upgrade Experiments
+    case upgradeExperiment
+
+    /// When enabled, we ignore audio interruptions with InterruptionReason set to routeDisconnected
+    /// (introduced in iOS 17 and watchOS 10) because these are not really interruptions as we have
+    /// implemented them previously. If the route is disconnected, audio stops indefinitely
+    /// until a new route connects (for which we'll received a different notification and handle accordingly)
+    /// See: https://github.com/Automattic/pocket-casts-ios/issues/2049
+    case ignoreRouteDisconnectedInterruption
+
+    /// Enable the Referrals feature
+    case referrals
+
+    /// Enables the referrals Send Flow
+    case referralsSend
+
+    /// Enables the referrals Claim Flow
+    case referralsClaim
+
+    /// When accessing Stats, it checks if the local stats are behind remote
+    /// If it is, it updates it
+    /// This is meant to fix an issue for users that were losing stats
+    case syncStats
+
+    /// Enable the refactored discover collection view
+    case discoverCollectionView
+
+    /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
+    /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
+    /// This makes the skip unusable as the player doesn't have its task set yet.
+    /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
+    case playerIsReadyToPlay
+
+    // Shows the searchbar in Listening History view
+    case listeningHistorySearch
+
+    /// Use the Mimetype library to check the file mimetype
+    case useMimetypePackage
+
+    /// Enable the Segmented Control into the Effects Player panel
+    /// to apply the Global or local settings
+    case customPlaybackSettings
+
+    /// Run a vacuum process on the database in order to optimize data fetch
+    case runVacuumOnVersionUpdate
+
+    /// Enable the End of Year 2024 recap
+    case endOfYear2024
+
+    /// Enable the Up Next shuffle button
+    case upNextShuffle
+
+    /// Push two auto downloads on subscribe of a podcast
+    case autoDownloadOnSubscribe
+
+    /// Replace Subscribe/Unsubscribe with Follow/Unfollow
+    case useFollowNaming
+
+    /// Use a cookie to manage `MTAudioProcessingTap` deallocation
+    case useDefaultPlayerTapCookie
+
+    /// Use single update query to mark all episodes selected synced
+    case markAllSyncedInSingleStatement
+
+    /// Enable the winback screen and flow
+    case winback
+
+    /// Show Manage Downloaded episode banner/modal when running in low space in the device
+    case manageDownloadedEpisodes
+
+    /// Uses the episode IDs from the server's response rather than our local database IDs
+    case useSyncResponseEpisodeIDs
+
+    ///Use html description for podcast details
+    case usePodcastHTMLDescription
+
+    /// Disables logout / keychain clearing when errors occur in the background
+    case avoidLogoutInBackground
+
+    case disablePrivateFeedSharing
+
+    /// Enable/Disable the podcast feed reload feature
+    case podcastFeedUpdate
+
+    /// Enable/Disable the use of a thread safe ongoing downloads cache
+    case downloadsThreadSafeCache
+
+    /// Enable Disable the use of suggested folders
+    case suggestedFolders
+
+    case grdb
+
+    /// Enable the generated transcript
+    case generatedTranscripts
+
+    /// Enable the new podcast view
+    case podcastViewChanges
+
+    /// Enable Newform AppsFlyer SDK
+    case podcastNewformAppsFlyer
+
+    /// Force full screen login on iPhone
+    case fullScreenLogin
+
+    /// Encourage Account Creation
+    case encourageAccountCreation
+
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
+    /// Enable the new notifications types and settings
+    case notificationsRevamp
+
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
+    /// Recommendations including discover v3 support
+    case recommendations
+
+    /// Cancel Subscription Survey
+    case cancelSubscriptionSurvey
+
+    /// Ignore server IAP check
+    case newOfferEligibilityCheck
+
+    /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
+    case replaceSpecificEpisode
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -93,23 +202,11 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .firebaseLogging:
             false
-        case .networkDebugging:
+        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
-        case .newShowNotesEndpoint:
-            false
-        case .episodeFeedArtwork:
-            false
-        case .rssChapters:
-            false
-        case .newPlayerTransition:
-            true
         case .errorLogoutHandling:
-            false
-        case .giveRatings:
-            false
-        case .deselectChapters:
             false
         case .newSettingsStorage:
             shouldEnableSyncedSettings
@@ -121,11 +218,7 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .streamAndCachePlayingEpisode:
             true
-        case .categoriesRedesign:
-            true
         case .defaultPlayerFilterCallbackFix:
-            true
-        case .upNextOnTabBar:
             true
         case .downloadFixes:
             true
@@ -135,10 +228,96 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .accelerateEffects:
             true
-        case .newSharing:
+        case .kidsProfile:
             false
-        case .transcripts:
+        case .upgradeExperiment:
             false
+        case .ignoreRouteDisconnectedInterruption:
+            true
+        case .referrals:
+            true
+        case .referralsClaim:
+            true
+        case .referralsSend:
+            true
+        case .syncStats:
+            true
+        case .discoverCollectionView:
+            true
+        case .playerIsReadyToPlay:
+            true
+        case .listeningHistorySearch:
+            true
+        case .useMimetypePackage:
+            true
+        case .customPlaybackSettings:
+            true
+        case .runVacuumOnVersionUpdate:
+            true
+        case .endOfYear2024:
+            false
+        case .upNextShuffle:
+            true
+        case .autoDownloadOnSubscribe:
+            true
+        case .useFollowNaming:
+            true
+        case .useDefaultPlayerTapCookie:
+            true
+        case .markAllSyncedInSingleStatement:
+            true
+        case .winback:
+            true
+        case .manageDownloadedEpisodes:
+			true
+        case .useSyncResponseEpisodeIDs:
+            true
+        case .usePodcastHTMLDescription:
+            true
+        case .avoidLogoutInBackground:
+            true
+        case .disablePrivateFeedSharing:
+            true
+        case .podcastFeedUpdate:
+            true
+        case .downloadsThreadSafeCache:
+            true
+        case .suggestedFolders:
+            true
+        case .generatedTranscripts:
+            true
+        case .podcastViewChanges:
+            true
+        case .podcastNewformAppsFlyer:
+            true
+        case .fullScreenLogin:
+            true
+        case .libroFm:
+            false
+        case .grdb:
+            #if DEBUG
+            true
+            #else
+            false
+            #endif
+        case .encourageAccountCreation:
+            true
+        case .notificationsRevamp:
+            true
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
+        case .podcastsSortChanges:
+            true
+        case .recommendations:
+            true
+        case .cancelSubscriptionSurvey:
+            true
+        case .newOfferEligibilityCheck:
+            true
+        case .replaceSpecificEpisode:
+            true
         }
     }
 
@@ -150,26 +329,18 @@ public enum FeatureFlag: String, CaseIterable {
     /// This should match a Firebase Remote Config Parameter name (key)
     public var remoteKey: String? {
         switch self {
-        case .deselectChapters:
-            "deselect_chapters_enabled"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
         case .newSettingsStorage:
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .newShowNotesEndpoint:
-             "new_show_notes"
-         case .episodeFeedArtwork:
-             "episode_artwork"
-         case .rssChapters:
-             "rss_chapters"
-        case .categoriesRedesign:
-            "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
-        case .upNextOnTabBar:
-            "up_next_on_tab_bar"
+        case .usePodcastHTMLDescription:
+            "use_podcast_html_description"
+        case .podcastViewChanges:
+            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }

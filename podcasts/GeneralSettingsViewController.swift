@@ -8,10 +8,12 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 
+    var scrollToRow: TableRow?
+
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -29,6 +31,10 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         Analytics.track(.settingsGeneralShown)
+
+        if let scrollToRow {
+            self.scrollToRow(scrollToRow)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +46,14 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             // Finish the Autoplay option flow
             AnnouncementFlow.current = .none
+        }
+    }
+
+    private func scrollToRow(_ row: TableRow) {
+        for (sectionIndex, section) in tableData.enumerated() {
+            if let row = section.firstIndex(of: row) {
+                settingsTable.scrollToRow(at: IndexPath(row: row, section: sectionIndex), at: .middle, animated: true)
+            }
         }
     }
 
@@ -278,6 +292,16 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(shakeToRestartSleepTimerToggled(_:)), for: .valueChanged)
 
             return cell
+        case .isLockScreenScrubberDisabled:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralLockScreenDisabled
+            cell.cellSwitch.isOn = !Settings.isLockScreenScrubbingDisabled
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(disableLockScreenScrubberToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -438,9 +462,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingPrompt = OptionsPicker(title: nil)
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
+            Analytics.track(.settingsGeneralEpisodeGroupingApplyToExisting)
             DataManager.sharedManager.updateAllPodcastGrouping(to: grouping)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
+            Analytics.track(.settingsGeneralEpisodeGroupingDoNotApplyToExisting)
             // no need to do anything
         }
         noAction.outline = true
@@ -455,9 +481,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingPrompt = OptionsPicker(title: nil)
 
         let applyToAllAction = OptionAction(label: L10n.settingsGeneralApplyAllConf, icon: nil) {
+            Analytics.track(.settingsGeneralArchivedEpisodesApplyToExisting)
             DataManager.sharedManager.updateAllShowArchived(to: showArchived)
         }
         let noAction = OptionAction(label: L10n.settingsGeneralNoThanks, icon: nil) {
+            Analytics.track(.settingsGeneralArchivedEpisodesDoNotApplyToExisting)
             // no need to do anything
         }
         noAction.outline = true
@@ -539,6 +567,12 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         Settings.shakeToRestartSleepTimer = sender.isOn
 
         Settings.trackValueToggled(.settingsGeneralShakeToResetSleepTimerToggled, enabled: sender.isOn)
+    }
+
+    @objc private func disableLockScreenScrubberToggled(_ sender: UISwitch) {
+        Settings.isLockScreenScrubbingDisabled = !sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralDisableLockScreenScrubberToggled, enabled: !sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

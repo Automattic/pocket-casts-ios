@@ -11,6 +11,7 @@ extension AppDelegate {
         performUpdateIfRequired(updateKey: "v5Run") {
             // these are considered defaults for a new app install
             SyncManager.clearTokensFromKeyChain()
+            FileLog.shared.addMessage("AppDelegate.checkDefaults v5Run clearTokensFromKeyChain")
             ServerSettings.setSkipBackTime(10, syncChange: false)
             ServerSettings.setSkipForwardTime(45, syncChange: false)
 
@@ -22,14 +23,14 @@ extension AppDelegate {
 
             // Disable dark up next theme for new users
             Settings.darkUpNextTheme = false
-
+            Settings.setAutoDownloadOnFollow(true)
             setWhatsNewAcknowledgeToLatest()
         }
 
         performUpdateIfRequired(updateKey: "v6Run") {
             let query = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE autoDownloadSetting == 1 AND subscribed == 1"
             let podcastsWithAutoDownloadOn = dataManager.count(query: query, values: nil)
-            let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0
+            let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0 || FeatureFlag.autoDownloadOnSubscribe.enabled
             Settings.setAutoDownloadEnabled(autoDownloadEnabled)
         }
 
@@ -130,6 +131,12 @@ extension AppDelegate {
             performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
                 SettingsStore.appSettings.importUserDefaults()
                 DataManager.sharedManager.importPodcastSettings()
+            }
+        }
+
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            performUpdateIfRequired(updateKey: "ATTPrompt") {
+                Settings.shouldShowInitialOnboardingFlow = true
             }
         }
 

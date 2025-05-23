@@ -9,6 +9,16 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+    static var isLockScreenScrubbingDisabled: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+            NotificationCenter.default.post(name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
+        }
+    }
+
     static var openLinks: Bool {
         set {
             if FeatureFlag.newSettingsStorage.enabled {
@@ -132,7 +142,10 @@ class Settings: NSObject {
 
     private static let autoDownloadEnabledKey = "AutoDownloadEnabled"
     class func autoDownloadEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
+        guard UserDefaults.standard.object(forKey: Settings.autoDownloadEnabledKey) != nil else {
+            return FeatureFlag.autoDownloadOnSubscribe.enabled
+        }
+        return UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
     class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
@@ -140,6 +153,31 @@ class Settings: NSObject {
 
         guard userInitiated else { return }
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
+    }
+
+    private static let autoDownloadOnFollowKey = "AutoDownloadOnFollow"
+    class func autoDownloadOnFollow() -> Bool {
+        guard UserDefaults.standard.object(forKey: Settings.autoDownloadOnFollowKey) != nil else {
+            return false
+        }
+        return UserDefaults.standard.bool(forKey: Settings.autoDownloadOnFollowKey)
+    }
+
+    class func setAutoDownloadOnFollow(_ allow: Bool, userInitiated: Bool = false) {
+        UserDefaults.standard.set(allow, forKey: Settings.autoDownloadOnFollowKey)
+
+        guard userInitiated else { return }
+        trackValueToggled(.settingsAutoDownloadOnFollowPodcastToggled, enabled: allow)
+    }
+
+    private static let autoDownloadLimitKey = "AutoDownloadLimit"
+    class func autoDownloadLimits() -> AutoDownloadLimit {
+        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
+    }
+
+    class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
+        UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+        trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
     }
 
     class func shouldDeleteWhenPlayed() -> Bool {
@@ -297,18 +335,38 @@ class Settings: NSObject {
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
     }
 
+    static let upNextShuffleKey = "SJUpNextShuffleKey"
+    class func upNextShuffleToggle() {
+        guard FeatureFlag.upNextShuffle.enabled else { return }
+
+        let isOn = upNextShuffleEnabled()
+        UserDefaults.standard.set(!isOn, forKey: Settings.upNextShuffleKey)
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextShuffleToggle)
+    }
+
+    class func upNextShuffleEnabled() -> Bool {
+        if !FeatureFlag.upNextShuffle.enabled || !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+            return false
+        }
+        return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
+    }
+
     // MARK: - Discover Region
 
     private static let chartRegion = "SJChartRegion"
     class func discoverRegion(discoverLayout: DiscoverLayout) -> String {
+        return convertRegion(userRegion: userRegion(), discoverLayout: discoverLayout)
+    }
+
+    class func userRegion() -> String? {
         var userRegion: String?
         if let savedRegion = UserDefaults.standard.string(forKey: chartRegion) {
             userRegion = savedRegion.lowercased()
         } else if let region = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
             userRegion = region.lowercased()
         }
-
-        return convertRegion(userRegion: userRegion, discoverLayout: discoverLayout)
+        return userRegion
     }
 
     private class func convertRegion(userRegion: String?, discoverLayout: DiscoverLayout) -> String {
@@ -609,6 +667,16 @@ class Settings: NSObject {
         UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
     }
 
+    private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
+    static var subscriptionCancelledSurveyShown: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: subscriptionCancelledSurveyShowedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledSurveyShowedKey)
+        }
+    }
+
     // MARK: Promotion Finished Acknowledgement
 
     class func setPromotionFinishedAcknowledged(_ value: Bool) {
@@ -720,7 +788,7 @@ class Settings: NSObject {
     class func playerActions() -> [PlayerAction] {
         let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
 
-        let playerActions: [PlayerAction]
+        var playerActions: [PlayerAction]
 
         if FeatureFlag.newSettingsStorage.enabled {
             playerActions = SettingsStore.appSettings.playerShelf
@@ -736,6 +804,7 @@ class Settings: NSObject {
         } else {
             playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
+
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
@@ -797,6 +866,24 @@ class Settings: NSObject {
     class func updateMultiSelectActions(_ actions: [MultiSelectAction]) {
         let actionInts = actions.map(\.rawValue)
         UserDefaults.standard.set(actionInts, forKey: Settings.multiSelectActionsKey)
+    }
+
+    private static let listeningHistoryMultiSelectActionsKey = "ListeningHistoryMultiSelectActions"
+    class func listeningHistoryMultiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .removeListeningHistory, .markAsPlayed, .star]
+        guard let savedInts = UserDefaults.standard.object(forKey: Settings.listeningHistoryMultiSelectActionsKey) as? [Int32] else {
+            return defaultActions
+        }
+
+        let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
+
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
+    }
+
+    class func updateListeningHistoryMultiSelectActions(_ actions: [MultiSelectAction]) {
+        let actionInts = actions.map(\.rawValue)
+        UserDefaults.standard.set(actionInts, forKey: Settings.listeningHistoryMultiSelectActionsKey)
     }
 
     private static let filesMultiSelectActionsKey = "FilesMultiSelectActionsV2"
@@ -940,45 +1027,45 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeForEndOfYear: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
-        }
-
-        get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
-        }
+    class func showBadgeForEndOfYear(_ year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.showBadgeForEndOfYear, year)
+        return UserDefaults.standard.bool(forKey: key)
     }
 
-    class var endOfYearModalHasBeenShown: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
-        }
-
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
-        }
+    class func setShowBadgeForEndOfYear(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.showBadgeForEndOfYear, year)
+        UserDefaults.standard.set(newValue, forKey: key)
     }
 
-    class var hasSyncedEpisodesForPlayback2023: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
-        }
+    class func hasShownModalForEndOfYear(_ year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.modalHasBeenShown, year)
+        return UserDefaults.standard.bool(forKey: key)
+    }
 
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
-        }
+    class func setHasShownModalForEndOfYear(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.modalHasBeenShown, year)
+        UserDefaults.standard.set(newValue, forKey: key)
+    }
+
+    class func hasSyncedEpisodesForPlayback(year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlayback, year)
+        return UserDefaults.standard.bool(forKey: key)
+    }
+
+    class func setHasSyncedEpisodesForPlayback(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlayback, year)
+        UserDefaults.standard.set(newValue, forKey: key)
+    }
+
+    class func hasSyncedEpisodesForPlaybackAsPlusUser(year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlaybackAsPlusUser, year)
+        return UserDefaults.standard.bool(forKey: key)
     }
 
     /// Whether the user was plus or not by the time the sync happened
-    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
-        }
-
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
-        }
+    class func setHasSyncedEpisodesForPlaybackAsPlusUser(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlaybackAsPlusUser, year)
+        UserDefaults.standard.set(newValue, forKey: key)
     }
 
     class var top5PodcastsListLink: String? {
@@ -1261,6 +1348,203 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Kids Profile
+
+    static var shouldHideBanner: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.kidsProfile.shouldHideBanner)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.kidsProfile.shouldHideBanner)
+        }
+    }
+
+    // MARK: - Referrals Show Tip
+
+    static var shouldShowReferralsTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.referrals.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.showTip)
+        }
+    }
+
+    // MARK: - Referrals Show Tip
+
+    static var referralURL: String? {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.referrals.claimURL) as? String
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.claimURL)
+        }
+    }
+
+    // MARK: - Podcast Feed Reload
+
+    static var shouldShowPodcastFeeReloadTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastFeedReload.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastFeedReload.showTip)
+        }
+    }
+
+    // MARK: - Manage Downloads
+
+    class var manageDownloadsLastCheckDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.manageDownloads.lastCheckDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.manageDownloads.lastCheckDate) as? Date
+        }
+    }
+
+    // MARK: - Smart Folders Upsell display
+    class var suggestedFoldersLastUpsellDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastUpsellDate) as? Date
+        }
+    }
+
+    class var suggestedFoldersUpsellCount: Int {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.upsellCount)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.upsellCount) as? Int ?? 0
+        }
+    }
+
+    class var suggestedFoldersLastPodcastsUsed: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed) as? String
+        }
+    }
+
+    // MARK: - Podcast View Changes Tip
+
+    static var shouldShowPodcastViewChangesTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastViewChanges.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastViewChanges.showTip)
+        }
+    }
+
+    // MARK: - Recent Played Sorting Tip
+
+    static var shouldShowRecentlyPlayedSortingTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip)
+        }
+    }
+
+    // MARK: - New Filter Tip
+
+    static var shouldShowNewFilterTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.newFilterTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.newFilterTip)
+        }
+    }
+
+    // MARK: - Informational Banner
+#if !os(watchOS) && !APPCLIP
+    static func dismissBanner(for type: InformationalBannerType) {
+        UserDefaults.standard.set(true, forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+
+    static func shouldShowBanner(for type: InformationalBannerType) -> Bool {
+        return !UserDefaults.standard.bool(forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+#endif
+
+    // MARK: - Notifications
+    static var notificationsNewEpisodes: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)
+        }
+    }
+
+    static var notificationsDailyReminders: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.dailyReminders) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.dailyReminders)
+        }
+    }
+
+    static var notificationsNewFeaturesAndTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newFeaturesAndTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newFeaturesAndTips)
+        }
+    }
+
+    static var notificationsRecommendations: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.recommendations) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.recommendations)
+        }
+    }
+
+    static var notificationsOffers: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.offers) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.offers)
+        }
+    }
+
+    static var notificationsLastTriggerDate: [String: Date] {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.triggerDates) as? [String: Date] ?? [:]
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.triggerDates)
+        }
+    }
+
+    // MARK: - Encourage Account Creation
+
+    static var hasShownInformationalViewModal: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
@@ -1270,6 +1554,16 @@ class Settings: NSObject {
 
         get {
             UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
+        }
+    }
+
+    class var lastAppVersionThatRunVacuum: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "last_app_version_that_run_vacuum")
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: "last_app_version_that_run_vacuum")
         }
     }
 
@@ -1295,11 +1589,6 @@ class Settings: NSObject {
 
         static var addMissingEpisodes: Bool {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
-            return remote.boolValue
-        }
-
-        static var newPlayerTransition: Bool {
-            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
             return remote.boolValue
         }
 

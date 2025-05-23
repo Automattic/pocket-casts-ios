@@ -12,6 +12,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
 
+    var isWatchAppInstalled: Bool {
+        return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
+    }
+
     func setup() {
         if !WCSession.isSupported() { return }
 
@@ -34,6 +38,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(autoDownloadChanged), name: Constants.Notifications.watchAutoDownloadSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChapterChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
+
+        cachedLog = WatchManager.shared.readLogFile()
     }
 
     deinit {
@@ -79,7 +85,9 @@ class WatchManager: NSObject, WCSessionDelegate {
             }
         } else if WatchConstants.Messages.SkipBackRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
-            PlaybackManager.shared.skipBack()
+            DispatchQueue.main.async {
+                PlaybackManager.shared.skipBack()
+            }
         } else if WatchConstants.Messages.SkipForwardRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
             PlaybackManager.shared.skipForward()
@@ -352,46 +360,62 @@ class WatchManager: NSObject, WCSessionDelegate {
     // MARK: - App Notifications
 
     @objc private func updateWatchData() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func podcastsDidRefresh() {
         // only send the data if the user is not signed in, if they are, then wait for a sync complete
         if !SyncManager.isUserLoggedIn() {
-            sendStateToWatch()
+            sendStateToWatchInBackground()
         }
     }
 
     @objc private func syncCompleted() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func upNextChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func playbackStateChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func episodeStarredChanged(_ notification: Notification) {
         guard let uuid = notification.object as? String, PlaybackManager.shared.queue.contains(episodeUuid: uuid) else { return }
 
         // currently the watch only needs to know if the starred status of something in Up Next changes
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     @objc private func autoDownloadChanged() {
-        sendStateToWatch()
+        sendStateToWatchInBackground()
+    }
+
+    private func sendStateToWatchInBackground() {
+        guard Thread.isMainThread else {
+            sendStateToWatch()
+            return
+        }
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
+            sendStateToWatch()
+        }
     }
 
     private func sendStateToWatch() {
-        if !WCSession.isSupported() { return }
+        guard WCSession.isSupported() else { return }
 
         let session = WCSession.default
 
         // only send data when we have a valid connection
-        if session.activationState != .activated || session.isPaired == false || session.isWatchAppInstalled == false { return }
+        guard session.activationState == .activated,
+              session.isPaired,
+              session.isWatchAppInstalled
+        else {
+            return
+        }
 
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion

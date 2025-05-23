@@ -1,15 +1,16 @@
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 import UIKit
 
 class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let playerCell = "PlayerCell"
-    static let noUpNextCell = "NothingUpNextCell"
     static let nowPlayingCell = "UpNextNowPlayingCell"
+    static let emptyStateCell = "EmptyStateCell"
     static let upNextSection = 1
     static let upNextRowHeight: CGFloat = 72
-    static let noUpNextRowHeight: CGFloat = 180
     static let nowPlayingRowHeight: CGFloat = 72
+    static let emptyStateRowHeight: CGFloat = 300
     static let rearrangeWidth: CGFloat = 60
     static let bottomMargin: CGFloat = 8
 
@@ -30,6 +31,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.updateNavBarButtons()
+                contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()
@@ -50,6 +52,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var changedViaSwipeToRemove = false
 
     let remainingLabel = ThemeableLabel()
+    let shuffleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     let clearQueueButton = UIButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
@@ -70,8 +73,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet {
             upNextTable.themeOverride = themeOverride
             upNextTable.register(UINib(nibName: "PlayerCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.playerCell)
-            upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
+            upNextTable.register(EmptyStateCell.self, forCellReuseIdentifier: UpNextViewController.emptyStateCell)
             upNextTable.backgroundView = nil
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
@@ -131,6 +134,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidBegin), name: .tableViewReorderWillBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidEnd), name: .tableViewReorderDidEnd, object: nil)
 
+        if FeatureFlag.upNextShuffle.enabled, showingInTab {
+            NotificationCenter.default.addObserver(self, selector: #selector(updateShuffleButtonState), name: Constants.Notifications.upNextShuffleToggle, object: nil)
+        }
+
         remainingLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         remainingLabel.adjustsFontSizeToFitWidth = true
         remainingLabel.minimumScaleFactor = 0.8
@@ -138,11 +145,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.style = .primaryText02
         remainingLabel.themeOverride = themeOverride
 
-        clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
-        clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+        setupActionButtonsIfNecessary()
 
         contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
 
@@ -152,6 +155,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavBarButtons()
+        setupActionButtonsIfNecessary()
+        if FeatureFlag.upNextShuffle.enabled {
+            themeDidChange()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -181,11 +188,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func clearQueueTapped() {
         let queueCount = PlaybackManager.shared.queue.upNextCount()
 
-        if queueCount <= Constants.Limits.upNextClearWithoutWarning {
+        if queueCount <= Constants.Limits.upNextClearWithoutWarning && !FeatureFlag.upNextShuffle.enabled {
             performClearAll()
         } else {
             let clearOptions = OptionsPicker(title: nil, themeOverride: themeOverride)
-            let actionLabel = L10n.queueClearEpisodeQueuePlural(queueCount.localized())
+            let actionLabel = actionLabelText(queueCount)
             let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
                 self?.performClearAll()
             })
@@ -197,6 +204,91 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
+    }
+
+    @objc private func shuffleButtonTapped() {
+        FileLog.shared.addMessage("UpNext shuffleButtonTapped: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+            // Edge case where the UpNext is presented by the player container with a free user.
+            // In this case we need to dismiss the UpNext to present the paywall
+            if let mainTabBar = presentingViewController?.presentingViewController, presentingViewController is PlayerContainerViewController {
+                dismiss(animated: true) {
+                    NavigationManager.sharedManager.showUpsellView(from: mainTabBar, source: .upNextShuffle)
+                }
+            } else {
+                NavigationManager.sharedManager.showUpsellView(from: self, source: .upNextShuffle)
+            }
+            return
+        }
+        Settings.upNextShuffleToggle()
+        if !showingInTab {
+            updateShuffleButtonState()
+        }
+        let upNextShuffleEnabled = Settings.upNextShuffleEnabled()
+        if upNextShuffleEnabled {
+            Toast.show(L10n.upNextShuffleToastMessage, aboveMiniPlayer: self.showingInTab ? true : false)
+        }
+        FileLog.shared.addMessage("UpNext shuffleButtonTapped: shuffle enabled: \(upNextShuffleEnabled)")
+        track(.upNextShuffleEnabled, properties: ["value": upNextShuffleEnabled])
+    }
+
+    @objc private func themeDidChange() {
+        FileLog.shared.addMessage("UpNext themeDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
+            shuffleButton.setImage(UIImage(named: "shuffle-plus"), for: .normal)
+            shuffleButton.isSelected = false
+        } else {
+            let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+            let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+            shuffleButton.setImage(unselected, for: .normal)
+            shuffleButton.setImage(selected, for: .selected)
+            updateShuffleButtonState()
+        }
+    }
+
+    @objc private func subscriptionStatusDidChange() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if FeatureFlag.upNextShuffle.enabled {
+                // Update UI
+                FileLog.shared.addMessage("UpNext subscriptionStatusDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
+                setupActionButtonsIfNecessary()
+                themeDidChange()
+                updateNavBarButtons()
+                reloadTable()
+            }
+        }
+    }
+
+    private func setupActionButtonsIfNecessary() {
+        if FeatureFlag.upNextShuffle.enabled {
+            guard shuffleButton.allTargets.isEmpty else { return }
+            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
+            themeDidChange()
+            shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
+        } else {
+            guard clearQueueButton.allTargets.isEmpty else { return }
+            clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
+            clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+            clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+        }
+    }
+
+    @objc private func updateShuffleButtonState() {
+        shuffleButton.isSelected = Settings.upNextShuffleEnabled()
+    }
+
+    private func actionLabelText(_ queueCount: Int) -> String {
+        if FeatureFlag.upNextShuffle.enabled, queueCount == 1 {
+            return L10n.queueClearEpisodeQueueSingular
+        }
+        return L10n.queueClearEpisodeQueuePlural(queueCount.localized())
     }
 
     private func performClearAll() {
@@ -279,7 +371,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
             if showingInTab {
-                navigationItem.leftBarButtonItem = nil
+                if FeatureFlag.upNextShuffle.enabled, PlaybackManager.shared.queue.upNextCount() > 0 {
+                    navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
+                } else {
+                    navigationItem.leftBarButtonItem = nil
+                }
             } else {
                 navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }

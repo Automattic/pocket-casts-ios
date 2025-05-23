@@ -16,6 +16,28 @@ public enum PodcastSorter {
     }
 
     /**
+     A comparison based on the title first. If the comparison result is the `same`, it will compare the items by `uuid`.
+     - Parameter title1 String
+     - Parameter title2 String
+     - Returns true when title1 is alphabetically before title2, false otherwise
+     */
+    public static func sortByNameAndUUID(item1: Sortable, item2: Sortable) -> Bool {
+        guard let title1 = item1.itemTitle, let title2 = item2.itemTitle else {
+            return false
+        }
+        let convertedTitle1 = title1.trimmingThePrefix().convertToPinyinIfNeeded()
+        let convertedTitle2 = title2.trimmingThePrefix().convertToPinyinIfNeeded()
+
+        let result = convertedTitle1.localizedLowercase.compare(convertedTitle2.localizedLowercase)
+        switch result {
+        case .orderedSame:
+            return item1.itemUUID.compare(item2.itemUUID) == .orderedAscending
+        default:
+            return result == .orderedAscending
+        }
+    }
+
+    /**
      A simple integer comparison function
      - Parameter order1 Int32
      - Parameter order2 Int32

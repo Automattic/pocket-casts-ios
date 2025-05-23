@@ -68,8 +68,9 @@ public class ApiServerHandler {
         apiQueue.addOperation(subscriptionStatusTask)
     }
 
-    public func loadStatsRequest(completion: @escaping (RemoteStats?) -> Void) {
+    public func loadStatsRequest(getFullData: Bool = false, completion: @escaping (RemoteStats?) -> Void) {
         let statsOperation = RetrieveStatsTask()
+        statsOperation.getFullStatsData = getFullData
         statsOperation.completion = completion
         apiQueue.addOperation(statsOperation)
     }

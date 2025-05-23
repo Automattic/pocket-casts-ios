@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// Request information about an episode using the show notes endpoint
 public actor ShowInfoDataRetriever {
@@ -21,6 +22,7 @@ public actor ShowInfoDataRetriever {
 
         if let cachedResponse = cache.cachedResponse(for: request),
             let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
+            FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
             return metadata
         }
 
@@ -35,7 +37,7 @@ public actor ShowInfoDataRetriever {
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        var request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
 
         if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
             if let etag = cachedResponse.response.etag {
@@ -47,28 +49,39 @@ public actor ShowInfoDataRetriever {
             }
         }
 
-        let task = Task<Data, Error> {
+        FileLog.shared.addMessage("Show Info: requesting info for podcast \(podcastUuid)")
+
+        let task = Task<Data, Error> { [weak self, request] in
+            guard let self else { throw TaskError.nilSelf }
+
             do {
                 let (data, response) = try await URLSession.shared.data(for: request)
 
                 if response.extractStatusCode() == 200 {
                     let responseToCache = CachedURLResponse(response: response, data: data)
                     cache.storeCachedResponse(responseToCache, for: request)
+                    FileLog.shared.addMessage("Show Info: request succeeded for podcast \(podcastUuid).")
                 } else if let data = cache.cachedResponse(for: request)?.data {
-                    dataRequestMap[podcastUuid] = nil
+                    await setDataRequestMapToNil(for: podcastUuid)
+                    FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid). Returning cached data")
                     return data
                 }
 
-                dataRequestMap[podcastUuid] = nil
+                await setDataRequestMapToNil(for: podcastUuid)
                 return data
             } catch {
-                dataRequestMap[podcastUuid] = nil
+                FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid): \(error.localizedDescription). Returning cached data")
+                await setDataRequestMapToNil(for: podcastUuid)
                 throw error
             }
         }
         dataRequestMap[podcastUuid] = task
 
         return try await task.value
+    }
+
+    private func setDataRequestMapToNil(for podcastUuid: String) {
+        dataRequestMap[podcastUuid] = nil
     }
 
     private func loadEpisodeData(
@@ -95,4 +108,8 @@ public actor ShowInfoDataRetriever {
 
         return nil
     }
+}
+
+public enum TaskError: Error {
+    case nilSelf
 }

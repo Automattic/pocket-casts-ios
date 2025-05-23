@@ -14,6 +14,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         addNotificationObservers()
     }
 
+    func setup() {
+        // Empty method just to ensure that sigleton is initialized
+    }
+
     // MARK: - Star
 
     func star(episode: BaseEpisode) {
@@ -31,6 +35,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     func bulkUnstar(count: Int) {
         bulkEvent(.episodeBulkUnstarred, count: count)
     }
+
 
     // MARK: - Download
 
@@ -87,6 +92,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         bulkEvent(.episodeBulkMarkedAsUnplayed, count: count)
     }
 
+    func bulkRemoveFromListeningHistory(count: Int) {
+        bulkEvent(.episodeRemovedListeningHistory, count: count)
+    }
+
     // MARK: - Archive
 
     func archiveEpisode(_ episode: BaseEpisode) {
@@ -122,6 +131,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
 
     func episodeUploadFinished(episodeUUID: String) {
         episodeEvent(.episodeUploadFinished, uuid: episodeUUID)
+    }
+
+    func episodeUploadFailed(episodeUUID: String) {
+        episodeEvent(.episodeUploadFailed, uuid: episodeUUID)
     }
 
     // MARK: - Up Next
@@ -189,14 +202,20 @@ private extension AnalyticsEpisodeHelper {
                 // Verify that the file has finished uploading
                 guard
                     let episode = DataManager.sharedManager.findUserEpisode(uuid: uuid),
-                    let status = UploadStatus(rawValue: episode.uploadStatus),
-                    status == .uploaded
+                    let status = UploadStatus(rawValue: episode.uploadStatus)
                 else {
                     return
                 }
 
-                self.episodeUploadQueue.remove(uuid)
-                self.episodeUploadFinished(episodeUUID: uuid)
+                switch status {
+                case .uploaded:
+                    self.episodeUploadQueue.remove(uuid)
+                    self.episodeUploadFinished(episodeUUID: uuid)
+                case .uploadFailed:
+                    self.episodeUploadFailed(episodeUUID: uuid)
+                default:
+                    break
+                }
             }
         #endif
     }

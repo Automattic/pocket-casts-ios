@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import UIKit
+import SwiftUI
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     private static let playlistCellId = "PlaylistCell"
@@ -97,5 +98,66 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
 
         Analytics.track(.filterListReordered)
+    }
+}
+
+extension PlaylistsViewController {
+    func showNewFilterTip() {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let idealSize = CGSizeMake(290, 100)
+        let tipView = TipViewStatic(title: L10n.filtersTipViewTitle,
+                                    message: L10n.filtersTipViewDescription,
+                              onTap: { [weak self] in
+            self?.dismissTipView()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        if #available(iOS 16.0, *) {
+            vc.sizingOptions = [.preferredContentSize]
+        } else {
+            vc.preferredContentSize = idealSize
+        }
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = [.up]
+            popoverPresentationController.sourceView = newFilterButton
+            popoverPresentationController.sourceRect = newFilterButton.bounds.offsetBy(dx: 0, dy: 10)
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
+        newFilterTip = vc
+        Analytics.track(.filterTooltipShown)
+        present(vc, animated: true) {
+            Settings.shouldShowNewFilterTip = false
+        }
+    }
+
+    private func dismissTipView() {
+        dismiss(animated: true, completion: nil)
+        Analytics.track(.filterTooltipClosed)
+    }
+
+    func showNewFilterTipIfNeeded() {
+        guard
+            Settings.shouldShowNewFilterTip,
+            newFilterTip == nil
+        else {
+            return
+        }
+        showNewFilterTip()
+    }
+}
+
+extension PlaylistsViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        dismissTipView()
     }
 }

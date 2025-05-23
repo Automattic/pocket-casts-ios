@@ -267,15 +267,17 @@ extension View {
 
 struct PodcastCoverContainer<Content: View>: View {
     private var content: () -> Content
+    private let alignment: Alignment
     private let geometry: GeometryProxy
 
     let topPaddingSmall = 0.03
     let topPaddingLarge = 0.045
     let smallDeviceHeight = 700.0
 
-    init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
+    init(geometry: GeometryProxy, alignment: Alignment = .top, @ViewBuilder _ content: @escaping () -> Content) {
         self.geometry = geometry
         self.content = content
+        self.alignment = alignment
     }
 
     var body: some View {
@@ -283,8 +285,20 @@ struct PodcastCoverContainer<Content: View>: View {
         let padding = geometry.size.height <= smallDeviceHeight ? topPaddingSmall : topPaddingLarge
         let topPadding = geometry.size.height * padding
         VStack(spacing: 0) {
-            content()
-            Spacer()
+            switch alignment {
+            case .top:
+                content()
+                Spacer()
+            case .center:
+                Spacer()
+                content()
+                Spacer()
+            case .bottom:
+                Spacer()
+                content()
+            default:
+                content()
+            }
         }.frame(width: geometry.size.width).padding(.top, topPadding)
     }
 }

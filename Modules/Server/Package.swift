@@ -16,6 +16,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
+        .package(url: "https://github.com/danielebogo/Swime", .branch("master")),
         .package(path: "../DataModel/"),
         .package(path: "../Utils/")
     ],
@@ -24,6 +25,7 @@ let package = Package(
             name: "PocketCastsServer",
             dependencies: [
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
+                .product(name: "Swime", package: "Swime"),
                 .product(name: "PocketCastsDataModel", package: "DataModel"),
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],

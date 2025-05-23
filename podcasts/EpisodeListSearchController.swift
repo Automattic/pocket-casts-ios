@@ -132,6 +132,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let optionPicker = OptionsPicker(title: nil)
 
+        if delegate.shouldDisplayPodcastFeedReloadButton() {
+            let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
+                guard let self = self else { return }
+                self.podcastDelegate?.reloadPodcastFeed(source: .menu)
+            }
+            optionPicker.addAction(action: reloadPodcastFeedAction)
+        }
+
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.podcastDelegate?.enableMultiSelect()
@@ -169,7 +177,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToWifi() {
+            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true
@@ -249,42 +257,13 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let sortOrder = podcast.podcastSortOrder
 
-        if FeatureFlag.newSettingsStorage.enabled {
-            PodcastEpisodeSortOrder.allCases.forEach { order in
-                let newestToOldestAction = OptionAction(label: order.description, selected: sortOrder == order) { [weak self] in
-                    self?.setSortSetting(order)
-                    Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])
-                }
-
-                optionPicker.addAction(action: newestToOldestAction)
-            }
-        } else {
-            let newestToOldestAction = OptionAction(label: PodcastEpisodeSortOrder.newestToOldest.description, selected: sortOrder == PodcastEpisodeSortOrder.newestToOldest) { [weak self] in
-                self?.setSortSetting(.newestToOldest)
-                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.newestToOldest])
+        PodcastEpisodeSortOrder.allCases.forEach { order in
+            let newestToOldestAction = OptionAction(label: order.description, selected: sortOrder == order) { [weak self] in
+                self?.setSortSetting(order)
+                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": order])
             }
 
             optionPicker.addAction(action: newestToOldestAction)
-
-            let oldestToNewestAction = OptionAction(label: PodcastEpisodeSortOrder.oldestToNewest.description, selected: sortOrder == PodcastEpisodeSortOrder.oldestToNewest) { [weak self] in
-                self?.setSortSetting(.oldestToNewest)
-                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.oldestToNewest])
-            }
-            optionPicker.addAction(action: oldestToNewestAction)
-
-            let shortestToLongestAction = OptionAction(label: PodcastEpisodeSortOrder.shortestToLongest.description, selected: sortOrder == PodcastEpisodeSortOrder.shortestToLongest) { [weak self] in
-                self?.setSortSetting(.shortestToLongest)
-                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.shortestToLongest])
-
-            }
-            optionPicker.addAction(action: shortestToLongestAction)
-
-            let longestToShortestAction = OptionAction(label: PodcastEpisodeSortOrder.longestToShortest.description, selected: sortOrder == PodcastEpisodeSortOrder.longestToShortest) { [weak self] in
-                self?.setSortSetting(.longestToShortest)
-                Analytics.track(.podcastsScreenSortOrderChanged, properties: ["sort_by": PodcastEpisodeSortOrder.longestToShortest])
-
-            }
-            optionPicker.addAction(action: longestToShortestAction)
         }
 
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)

@@ -14,12 +14,15 @@ struct LegalAndMore: View {
             List {
                 Section {
                     AboutRow(mainText: L10n.aboutTermsOfService, showChevronIcon: true) {
+                        track(row: "terms_of_service")
                         showTermsOfService = true
                     }
                     AboutRow(mainText: L10n.aboutPrivacyPolicy, showChevronIcon: true) {
+                        track(row: "privacy_policy")
                         showPrivacyPolicy = true
                     }
                     AboutRow(mainText: L10n.aboutAcknowledgements, showChevronIcon: true) {
+                        track(row: "acknowledgements")
                         showAcknowledgements = true
                     }
                 }
@@ -44,6 +47,10 @@ struct LegalAndMore: View {
         ) {}
     }
 
+    private func track(row: String) {
+        Analytics.track(.settingsAboutLegalAndMoreTapped, properties: ["row": row])
+    }
+
     private enum Constants {
         static let termsOfUseURL = URL(string: "https://support.pocketcasts.com/article/terms-of-use-overview/")!
         static let privacyPolicyURL = URL(string: "https://support.pocketcasts.com/article/privacy-policy/")!
@@ -55,7 +62,7 @@ private struct WebView: UIViewControllerRepresentable {
     var url: URL
 
     func makeUIViewController(context: Context) -> OnlineSupportController {
-        OnlineSupportController(url: url)
+        OnlineSupportController(url: url, source: .about)
     }
 
     func updateUIViewController(_ uiViewController: OnlineSupportController, context: Context) {}

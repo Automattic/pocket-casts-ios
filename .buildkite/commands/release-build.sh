@@ -1,20 +1,13 @@
 #!/bin/bash -eu
 
-echo "--- :swift: Installing Swift Package Manager Dependencies"
-install_swiftpm_dependencies
+# Ensure we get the latest commit of the `release/*` branch, especially to get last version bump commit before building the release
+RELEASE_VERSION="${1:?RELEASE_VERSION parameter missing}"
+"$(dirname "${BASH_SOURCE[0]}")/checkout-release-branch.sh" "$RELEASE_VERSION"
 
-echo "--- :rubygems: Setting up Gems"
-install_gems
-
-echo "--- :cocoapods: Setting up Pods"
-install_cocoapods
+"$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
 echo "--- :hammer_and_wrench: Building"
-bundle exec fastlane build_and_upload_app_store_connect \
-  skip_confirm:true \
-  create_release:true \
-  skip_prechecks:true \
-  beta_release:${1:-true} # use first call param, default to true for safety
+bundle exec fastlane build_app_store_connect

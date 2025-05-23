@@ -31,6 +31,14 @@ public enum AutoDownloadSetting: Int32 {
     case off = 0, latest = 1, all = 2
 }
 
+public enum AutoDownloadLimit: Int, CaseIterable {
+    case one = 1
+    case two = 2
+    case three = 3
+    case five = 5
+    case ten = 10
+}
+
 public enum PlayingStatus: Int32 {
     case notPlayed = 1, inProgress = 2, completed = 3, old = 4
 }
@@ -72,7 +80,7 @@ public struct EpisodeBasicData {
 }
 
 public enum LibrarySort: Int32, CaseIterable, Codable {
-    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3, recentlyPlayed = 4
 }
 
 public enum LibraryType: Int32, Codable {
@@ -92,7 +100,7 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case longestToShortest
 
     public enum Old: Int32 {
-        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest, titleAtoZ, titleZtoA
     }
 
     public init(old: Old) {
@@ -105,6 +113,10 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
             self = .shortestToLongest
         case .longestToShortest:
             self = .longestToShortest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        case .titleZtoA:
+            self = .titleZtoA
         }
     }
 
@@ -119,9 +131,9 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
         case .longestToShortest:
             .longestToShortest
         case .titleAtoZ:
-            .newestToOldest
+            .titleAtoZ
         case .titleZtoA:
-            .newestToOldest
+            .titleZtoA
         }
     }
 }
@@ -286,9 +298,11 @@ public enum PlayerAction: String, Codable, Equatable {
     case markPlayed = "played"
     case archive = "archive"
     case addBookmark = "bookmark"
+    case transcript = "transcript"
+    case download = "download"
 }
 
-extension Array: RawRepresentable where Element: RawRepresentable<String> {
+extension Array: @retroactive RawRepresentable where Element: RawRepresentable<String> {
     public typealias RawValue = String
 
     public init?(rawValue: String) {

@@ -151,6 +151,10 @@ class StoriesModelTests: XCTestCase {
 }
 
 class MockStoriesDataSource: StoriesDataSource {
+    var indicatorColor: Color = .white
+
+    var primaryBackgroundColor: Color = .black
+
     var numberOfStories: Int = 2
 
     var didCallStoryForWithStoryNumber: Int?
@@ -177,9 +181,29 @@ class MockStoriesDataSource: StoriesDataSource {
     func refresh() async -> Bool {
         true
     }
+
+    func overlaidShareView() -> AnyView? {
+        nil
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
+    }
+
+    func paywallView() -> AnyView {
+        AnyView(EmptyView())
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        view
+    }
 }
 
 class MockStoriesWithPlusDataSource: StoriesDataSource {
+    var indicatorColor: Color = .white
+
+    var primaryBackgroundColor: Color = .black
+
     var numberOfStories: Int = 4
 
     var didCallStoryForWithStoryNumber: Int?
@@ -211,6 +235,22 @@ class MockStoriesWithPlusDataSource: StoriesDataSource {
 
     func refresh() async -> Bool {
         true
+    }
+
+    func overlaidShareView() -> AnyView? {
+        nil
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
+    }
+
+    func paywallView() -> AnyView {
+        AnyView(EmptyView())
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        view
     }
 }
 

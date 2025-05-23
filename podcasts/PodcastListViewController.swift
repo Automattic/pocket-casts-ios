@@ -14,22 +14,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
             addPodcastBtn.buttonTapped = {
+                Analytics.track(.podcastsListDiscoverButtonTapped)
                 NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
             }
-        }
-    }
-
-    @IBOutlet var noPodcastsIcon: ThemeableImageView! {
-        didSet {
-            noPodcastsIcon.imageStyle = .primaryIcon01
-        }
-    }
-
-    @IBOutlet var noPodcastsView: UIView!
-    @IBOutlet var noPodcastsMessage: ThemeableLabel! {
-        didSet {
-            noPodcastsMessage.style = .primaryText02
-            noPodcastsMessage.text = L10n.podcastGridNoPodcastsMsg
         }
     }
 
@@ -40,12 +27,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             if let layout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 layout.sectionHeadersPinToVisibleBounds = true
             }
-        }
-    }
-
-    @IBOutlet var noPodcastsTitle: ThemeableLabel! {
-        didSet {
-            noPodcastsTitle.text = L10n.podcastGridNoPodcastsTitle
         }
     }
 
@@ -62,6 +43,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         return queue
     }()
+
+    var recentlyPlayedSortingTip: UIViewController?
 
     var searchController: PCSearchBarController!
 
@@ -106,6 +89,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
             "number_of_folders": homeGridDataHelper.numberOfFolders
         ])
+
+        showRecentlyPlayedSortingTipIfNeeded()
     }
 
     override func viewWillLayoutSubviews() {
@@ -148,6 +133,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshGridItems))
+        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshGridItems))
+        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshGridItems))
 
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.folderDeleted, selector: #selector(refreshGridItems))
@@ -203,7 +190,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             imageView.heightAnchor.constraint(equalToConstant: avatarSize),
         ])
 
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+        if EndOfYear.isEligible, EndOfYear.shouldShowBadge {
             let badgeSize = CGFloat(10)
             let badge = makeBadge(size: badgeSize)
             imageView.addSubview(badge)
@@ -216,7 +203,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func updateNavigationButtons() {
-        let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
+        let folderImage = UIImage(named: "folder-create")
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
         navigationItem.leftBarButtonItem = folderButton
@@ -228,7 +215,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y.rounded(.down) > topOffset.rounded(.down) {
             podcastsCollectionView.setContentOffset(CGPoint(x: -horizontalMargin, y: topOffset), animated: true)
         } else {
-            searchController.searchTextField.becomeFirstResponder()
+            // When double-tapping on tab bar, dismiss the search if already active
+            // else give focus to the search field
+            if searchController.cancelButtonShowing {
+                searchController.cancelTapped(self)
+            } else {
+                searchController.searchTextField.becomeFirstResponder()
+            }
         }
     }
 
@@ -260,7 +253,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
+            let sortOption: LibrarySort
+            if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
+                Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+                sortOption = .dateAddedNewestToOldest
+            } else {
+                sortOption = Settings.homeFolderSortOrder()
+            }
+            let newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
 
             DispatchQueue.main.sync {
                 if strongSelf.gridLayout != Settings.libraryType() {
@@ -272,10 +272,34 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                         strongSelf.gridItems = data
                     })
                 }
-                strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                let shouldHideEmpty = newData.count != 0 || SyncManager.isFirstSyncInProgress()
+                strongSelf.refreshContentUnavailable(shouldShow: !shouldHideEmpty)
+                strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
     }
+
+    private func refreshContentUnavailable(shouldShow: Bool) {
+        var config: UIContentConfiguration?
+
+        if shouldShow {
+            let title = L10n.podcastGridNoPodcastsTitle
+            let message = L10n.podcastGridNoPodcastsMsg
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("podcastlist_smallgrid").renderingMode(.template) }, actions: [
+                .init(title: L10n.podcastGridDiscoverPodcasts, action: {
+                    Analytics.shared.track(.podcastsListDiscoverButtonTapped)
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                })
+            ])
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
+    }
+
 
     func showProfileController() {
         let profileViewController = ProfileViewController()
@@ -286,32 +310,26 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         showProfileController()
     }
 
+    private lazy var foldersCoordinator: FoldersCoordinator = {
+        return FoldersCoordinator()
+    }()
+
+    func showSuggestedFolders() {
+        foldersCoordinator.showSuggestedFolders(from: self)
+    }
+
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
-        if !SubscriptionHelper.hasActiveSubscription() {
-            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
-            return
-        }
-
-        let creatFolderView = CreateFolderView { [weak self] folderUuid in
-            if let folderUuid = folderUuid, let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
-                self?.dismiss(animated: true, completion: {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
-                })
-            } else {
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-        let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
-
-        present(hostingController, animated: true, completion: nil)
-        AnalyticsHelper.folderCreated()
-        Analytics.track(.podcastsListFolderButtonTapped)
+        foldersCoordinator.startFolderCreationFlow(from: self)
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption = Settings.homeFolderSortOrder()
+        let sortOption: LibrarySort = if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
+            .dateAddedNewestToOldest
+        } else {
+            Settings.homeFolderSortOrder()
+        }
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])

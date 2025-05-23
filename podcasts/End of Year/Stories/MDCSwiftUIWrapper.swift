@@ -4,6 +4,9 @@ import SwiftUI
 ///
 class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     private let stackView = UIStackView()
+    private var customDetentHeight: CGFloat = 0
+
+    private weak var hostingController: UIHostingController<ContentView>?
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
@@ -34,7 +37,8 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
 
         let hostingController = UIHostingController(
@@ -42,6 +46,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.sharedTheme)
         )
+        addChild(hostingController)
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
 
@@ -50,6 +55,22 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
         } else if let backgroundColor {
             hostingController.view.backgroundColor = backgroundColor
         }
+
+        updatePreferredContentSize()
+    }
+
+    private func updatePreferredContentSize() {
+        hostingController?.view.layoutIfNeeded()
+        stackView.layoutIfNeeded()
+
+        let fittingSize = stackView.systemLayoutSizeFitting(
+            CGSize(width: UIScreen.main.bounds.width, height: UIView.layoutFittingExpandedSize.height),
+            withHorizontalFittingPriority: .fittingSizeLevel,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+
+        customDetentHeight = fittingSize.height
+        preferredContentSize = CGSize(width: fittingSize.width, height: fittingSize.height)
     }
 
     override func loadView() {
@@ -68,9 +89,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        preferredContentSize = .init(width: .zero, height: stackView.frame.height)
-
-        // Reset the alpha
+        updatePreferredContentSize()
         view.alpha = 1
     }
 
@@ -78,15 +97,25 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// Present a SwiftUI us a bottom sheet in the given VC
-    static func present(_ content: ContentView, in viewController: UIViewController) {
+    /// Present a SwiftUI view as a bottom sheet in the given VC. If `autoSize` is `true`, a custom detent will be calculated based on the view size
+    static func present(_ content: ContentView, autoSize: Bool = false, in viewController: UIViewController) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content)
-        wrapperController.presentModally(in: viewController)
+        if autoSize {
+            if #available(iOS 16.0, *) {
+                let customDetent = UISheetPresentationController.Detent.custom { _ in
+                    return wrapperController.customDetentHeight
+                }
+                wrapperController.presentModally(in: viewController, detents: [customDetent])
+            } else {
+                wrapperController.presentModally(in: viewController, detents: [.medium()])
+            }
+        } else {
+            wrapperController.presentModally(in: viewController)
+        }
     }
 }
 
 extension UIViewController {
-
     func presentModally(
         in viewController: UIViewController,
         detents: [UISheetPresentationController.Detent] = [.medium()],
@@ -94,8 +123,14 @@ extension UIViewController {
         showingGrabber: Bool = false
     ) {
         if let sheetController = self.sheetPresentationController {
+            // Create custom detent based on content size
             sheetController.detents = detents
+
             sheetController.prefersGrabberVisible = showingGrabber
+            sheetController.preferredCornerRadius = 10
+
+            // Prevent sheet from being dismissed by dragging down
+            sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
         }
 
         viewController.present(self, animated: true, completion: nil)

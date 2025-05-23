@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 public class StatsManager {
     public static let shared = StatsManager()
@@ -28,6 +29,39 @@ public class StatsManager {
         }
     }
 
+    func updateStatsIfNeeded(savedDynamicSpeed: TimeInterval, savedVariableSpeed: TimeInterval, totalListenedTo: TimeInterval, totalSkipped: TimeInterval, savedAutoSkipping: TimeInterval) {
+        let minimumStatsChangeToUpdate: TimeInterval = 100
+
+        updateQueue.sync {
+            if savedDynamicSpeed - self.savedDynamicSpeed > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedDynamicSpeed from \(self.savedDynamicSpeed) to \(savedDynamicSpeed)")
+                self.savedDynamicSpeed = savedDynamicSpeed
+            }
+
+            if savedVariableSpeed - self.savedVariableSpeed > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedVariableSpeed from \(self.savedVariableSpeed) to \(savedVariableSpeed)")
+                self.savedVariableSpeed = savedVariableSpeed
+            }
+
+            if totalListenedTo - self.totalListenedTo > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing totalListenedTo from \(self.totalListenedTo) to \(totalListenedTo)")
+                self.totalListenedTo = totalListenedTo
+            }
+
+            if totalSkipped - self.totalSkipped > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing totalSkipped from \(self.totalSkipped) to \(totalSkipped)")
+                self.totalSkipped = totalSkipped
+            }
+
+            if savedAutoSkipping - self.savedAutoSkipping > minimumStatsChangeToUpdate {
+                FileLog.shared.addMessage("[StatsManager] Changing savedAutoSkipping from \(self.savedAutoSkipping) to \(savedAutoSkipping)")
+                self.savedAutoSkipping = savedAutoSkipping
+            }
+
+            persistTimes()
+        }
+    }
+
     // MARK: - dynamic speed
 
     public func timeSavedDynamicSpeed() -> TimeInterval {
@@ -36,7 +70,7 @@ public class StatsManager {
 
     public func addTimeSavedDynamicSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedDynamicSpeed += seconds
+            self?.savedDynamicSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -49,7 +83,7 @@ public class StatsManager {
 
     public func addTimeSavedVariableSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedVariableSpeed += seconds
+            self?.savedVariableSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -62,7 +96,7 @@ public class StatsManager {
 
     public func addTotalListeningTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalListenedTo += seconds
+            self?.totalListenedTo += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -75,7 +109,7 @@ public class StatsManager {
 
     public func addSkippedTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalSkipped += seconds
+            self?.totalSkipped += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -88,7 +122,7 @@ public class StatsManager {
 
     public func addAutoSkipTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedAutoSkipping += seconds
+            self?.savedAutoSkipping += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -216,7 +250,7 @@ public class StatsManager {
     }
 
     private func saveTime(_ time: TimeInterval, key: String) {
-        if time < 0 { return }
+        if time < 0, time < timeForKey(key) { return }
 
         UserDefaults.standard.set(time, forKey: key)
     }

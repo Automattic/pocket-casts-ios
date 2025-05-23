@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class ImportExportViewController: PCViewController, UIDocumentInteractionControllerDelegate {
@@ -15,7 +16,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
     @IBOutlet var importPodcastsDescription: ThemeableLabel! {
         didSet {
-            importPodcastsDescription.text = L10n.importPodcastsDescription
+            importPodcastsDescription.text = FeatureFlag.useFollowNaming.enabled ? L10n.importPodcastsDescriptionNew : L10n.importPodcastsDescription
         }
     }
 

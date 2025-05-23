@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "whatsnew_instagram.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,4 +1,6 @@
+#if !APPCLIP
 import Agrume
+#endif
 import AVKit
 import SafariServices
 import UIKit
@@ -37,12 +39,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            episodeName.text = ""
+#endif
             episodeName.style = .playerContrast01
         }
     }
 
     @IBOutlet var podcastName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            podcastName.text = ""
+#endif
             podcastName.style = .playerContrast02
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
@@ -54,6 +62,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var chapterName: ThemeableLabel! {
         didSet {
+#if APPCLIP
+            chapterName.text = ""
+#endif
             chapterName.style = .playerContrast01
 
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(chapterNameTapped))
@@ -148,17 +159,27 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var fillView: UIView!
+
+    @IBOutlet weak var bottomControlsStackView: UIStackView!
+
+    #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
+    #endif
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
+    #if !APPCLIP
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
+    #endif
 
+    #if !APPCLIP
     lazy var upNextViewController: UIViewController = {
         let controller = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         controller.modalPresentationStyle = .pageSheet
 
         return controller
     }()
+    #endif
 
     var lastShelfLoadState = ShelfLoadState()
 
@@ -167,6 +188,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
@@ -176,15 +198,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
+        #endif
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        #if !APPCLIP
         // Show the overflow menu
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
         }
+        #endif
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -193,19 +218,38 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
+    var displayTranscript = false {
+        didSet {
+#if !APPCLIP
+            toggleTranscript()
+#endif
+        }
+    }
+
+    private var playerContainer: PlayerContainerViewController? {
+        parent as? PlayerContainerViewController
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // there's some expensive operations below, so only do them if the bounds has actually changed
+        // there's some expensive operations in resizeControls,
+        // so only do them if the bounds has actually changed
         if lastBoundsAdjustedFor == view.bounds { return }
         lastBoundsAdjustedFor = view.bounds
 
+        resizeControls()
+    }
+
+    private func resizeControls() {
         let screenHeight = view.bounds.height
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = screenHeight > 710 ? 100 : 80
+        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+
+        view.layoutIfNeeded()
     }
 
     override func willBeAddedToPlayer() {
@@ -256,18 +300,24 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let chapters = PlaybackManager.shared.currentChapters()
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
-        if Settings.openLinks {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            present(SFSafariViewController(with: url), animated: true)
-        }
+        #if APPCLIP
+        //TODO: Prompt to install app
+        #else
+            if Settings.openLinks {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                present(SFSafariViewController(with: url), animated: true)
+            }
+        #endif
     }
 
     @objc private func imageTapped() {
+#if !APPCLIP
         guard let artwork = episodeImage.image else { return }
 
         let agrume = Agrume(image: artwork, background: .blurred(.regular))
         agrume.show(from: self)
+#endif
     }
 
     @objc private func videoTapped() {
@@ -320,6 +370,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
 
+    #if !APPCLIP
     @objc func googleCastTapped() {
         shelfButtonTapped(.chromecast)
 
@@ -330,4 +381,66 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         present(navController, animated: true, completion: nil)
     }
+
+    private func toggleTranscript() {
+        let isShowing = displayTranscript
+
+        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition()
+
+        playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+
+        episodeImage.layer.opacity = 1
+
+        if isShowing {
+            playerContainer?.showTranscript()
+        }
+
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
+            guard let self else { return }
+
+            // Hide/show shelf
+            shelfBg.isHidden = isShowing
+            shelfBg.layer.opacity = isShowing ? 0 : 1
+
+            // Show/hide transcript container view
+            playerContainer?.transcriptContainerView.isHidden = false
+            playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 1 : 0
+
+            // Change the stack view that contains the player button
+            bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
+            bottomControlsStackView.spacing = isShowing ? 10 : 30
+
+            // Display/hide the view that will fill the empty space
+            fillView.isHidden = !isShowing
+
+            // Change skip back and forward size
+            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            skipBackBtn.changeSize(to: skipButtonSize)
+            skipFwdBtn.changeSize(to: skipButtonSize)
+            skipBackBtn.layoutIfNeeded()
+            skipFwdBtn.layoutIfNeeded()
+
+            // Ask parent VC to hide/show tabs
+            playerContainer?.scrollView(isEnabled: !isShowing)
+
+            resizeControls()
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+
+            playerContainer?.transcriptContainerView.isHidden = isShowing ? false : true
+
+            if !isShowing {
+                playerContainer?.hideTranscript()
+            } else {
+                episodeImage.layer.opacity = 0
+            }
+
+            playPauseBtn.finishedTransition()
+            skipBackBtn.finishedTransition()
+            skipFwdBtn.finishedTransition()
+        })
+    }
+    #endif
 }

@@ -1,27 +1,10 @@
 import Foundation
-import Speech
 import SwiftSubtitles
+import PocketCastsDataModel
+import PocketCastsUtils
+
+import Speech
 import NaturalLanguage
-
-enum TranscriptFormat: String {
-    case srt = "application/srt"
-    case vtt = "text/vtt"
-    case textHTML = "text/html"
-
-    var fileExtension: String {
-        switch self {
-        case .srt:
-            return "srt"
-        case .vtt:
-            return "vtt"
-        case .textHTML:
-            return "html"
-        }
-    }
-
-    // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
-}
 
 struct TranscriptCue: Sendable {
     let startTime: Double
@@ -33,7 +16,7 @@ struct TranscriptCue: Sendable {
     }
 }
 
-extension NSAttributedString: @unchecked Sendable {
+extension NSAttributedString: @unchecked @retroactive Sendable {
 
 }
 
@@ -41,29 +24,54 @@ class TranscriptModel: @unchecked Sendable {
 
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
+    let type: String
+    let hasJavascript: Bool
 
     lazy var rawText: String = {
         attributedText.string
     }()
 
-    init(attributedText: NSAttributedString, cues: [TranscriptCue]) {
+    init(attributedText: NSAttributedString, cues: [TranscriptCue], type: String, hasJavascript: Bool) {
         self.attributedText = attributedText
         self.cues = cues
+        self.type = type
+        self.hasJavascript = hasJavascript
     }
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
-            return TranscriptModel(attributedText: NSAttributedString(string: transcriptText), cues: [])
+            let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
-        guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
+        let subtitles: Subtitles? = {
+            do {
+                return try Subtitles(content: transcriptText, expectedExtension: format.fileExtension)
+            }
+            catch {
+                FileLog.shared.addMessage("Transcripts Parsing:\(error)")
+                return nil
+            }
+        }()
+        guard let subtitles else {
             return nil
         }
-
+        var previousSpeaker: String = ""
         let resultText = NSMutableAttributedString()
         var cues = [TranscriptCue]()
         for cue in subtitles.cues {
+            if let currentSpeaker = extractSpeaker(from: cue, format: format) {
+                if currentSpeaker != previousSpeaker {
+                    previousSpeaker = currentSpeaker
+                    resultText.append(NSAttributedString(string: "\n\(currentSpeaker)\n", attributes: [.transcriptSpeaker: currentSpeaker]))
+                }
+            }
             let text = cue.text
-            let attributedText = NSAttributedString(string: text + "\n")
+
+            let filteredText: String = ComposeFilter.transcriptFilter.filter(text)
+            if filteredText.trim().isEmpty {
+                continue
+            }
+            let attributedText = NSAttributedString(string: filteredText)
             let startPosition = resultText.length
             let endPosition = attributedText.length
             let range = NSRange(location: startPosition, length: endPosition)
@@ -72,11 +80,45 @@ class TranscriptModel: @unchecked Sendable {
             cues.append(entry)
         }
 
-        return TranscriptModel(attributedText: resultText, cues: cues)
+        return TranscriptModel(attributedText: resultText, cues: cues, type: format.rawValue, hasJavascript: false)
     }
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
+    }
+
+    var isEmtpy: Bool {
+        return attributedText.string.trim().isEmpty
+    }
+
+    private static func extractSpeaker(from cue: Subtitles.Cue, format: TranscriptFormat) -> String? {
+        if let speaker = cue.speaker {
+            return speaker
+        }
+        switch format {
+        case .vtt:
+            return regexMatch(input: cue.text, pattern: "<v (.+?)>", position: 1)
+        case .srt:
+            return regexMatch(input: cue.text, pattern: "^(.+?):", position: 1)
+        default:
+            return nil
+        }
+    }
+
+    private static func regexMatch(input: String, pattern: String, position: Int = 0) -> String? {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [.anchorsMatchLines])
+            let range = NSRange(input.startIndex..., in: input)
+            let results = regex.matches(in: input, range: range)
+            if let result = results.first, result.range.location != NSNotFound, position <= result.numberOfRanges {
+                if let range = Range(result.range(at: position), in: input) {
+                    return String(input[range])
+                }
+            }
+        } catch {
+            return nil
+        }
+        return nil
     }
 
     /// MARK - transcript sync extras:
@@ -91,6 +133,11 @@ class TranscriptModel: @unchecked Sendable {
         }
     }
 }
+
+extension NSAttributedString.Key {
+    static var transcriptSpeaker = NSAttributedString.Key("TranscriptSpeaker")
+}
+
 extension TranscriptModel {
 
     public func firstWord(containing secondsValue: TimeInterval) -> Word? {

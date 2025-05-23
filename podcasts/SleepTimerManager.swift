@@ -1,6 +1,7 @@
 import Foundation
 import CoreMotion
 import PocketCastsUtils
+import AVKit
 
 class SleepTimerManager {
     private var restartSleepTimerIfPlayingAgainWithin: TimeInterval = 5.minutes
@@ -36,6 +37,7 @@ class SleepTimerManager {
 
     func recordSleepTimerFinished() {
         Settings.sleepTimerFinishedDate = .now
+        FileLog.shared.addMessage("Sleep Timer: finished (\(Settings.sleepTimerFinishedDate?.description ?? ""))")
     }
 
     func recordSleepTimerDuration(duration: TimeInterval?, onEpisodeEnd: Bool?) {
@@ -56,13 +58,14 @@ class SleepTimerManager {
             return
         }
 
+        let now = Date.now
         if let sleepTimerFinishedDate = Settings.sleepTimerFinishedDate,
-           Date.now.timeIntervalSince(sleepTimerFinishedDate) <= restartSleepTimerIfPlayingAgainWithin,
+           now.timeIntervalSince(sleepTimerFinishedDate) <= restartSleepTimerIfPlayingAgainWithin,
            let setting = Settings.sleepTimerLastSetting {
             if let duration = setting.duration {
                 PlaybackManager.shared.setSleepTimerInterval(duration)
                 Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": duration])
-                FileLog.shared.addMessage("Sleep Timer: restarting it automatically")
+                FileLog.shared.addMessage("Sleep Timer: restarting it automatically (\(now.description) - \(sleepTimerFinishedDate.description) <= 5 minutes")
             } else if setting.sleepOnEpisodeEnd == true {
                 observePlaybackEndAndReactivateTime()
             }
@@ -125,7 +128,7 @@ class BackgroundShakeObserver {
     var whenShook: (() -> Void)?
 
     init() {
-        #if !os(watchOS)
+        #if !os(watchOS) && !APPCLIP
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sleepTimerChanged), name: Constants.Notifications.sleepTimerChanged, object: nil)

@@ -36,6 +36,16 @@ struct ToastView<Style: ToastTheme>: View {
     var body: some View {
         wrapperView {
             toastWrapper {
+                if let iconName = style.iconName,
+                   let iconColor = style.iconColor {
+                    Image(iconName)
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .foregroundStyle(iconColor)
+                        .frame(width: 24, height: 24)
+                        .padding(.leading, ToastConstants.padding)
+                }
                 titleView
 
                 Spacer(minLength: 10)
@@ -109,10 +119,10 @@ struct ToastView<Style: ToastTheme>: View {
         .shadow(color: .black.opacity(0.3), radius: 10)
 
         // Animates the toast in from the bottom of the screen
+        .miniPlayerSafeAreaInset(multiplier: viewModel.aboveMiniPlayer ? 1.5 : 0)
         .offset(y: isVisible ? 0 : contentSize.height)
         .opacity(isVisible ? 1 : 0)
         .animation(ToastConstants.animation, value: isVisible)
-
         // Calculate the view size and inform the view model
         .background(GeometryReader(content: { proxy in
             Color.clear.onAppear {
@@ -194,7 +204,7 @@ struct ToastView_Previews: PreviewProvider {
         ToastView(viewModel: .init(coordinator: PreviewCoordinator(), title: "Hello World", actions: [
             .init(title: "Tap Me", action: {
                 print("Tapped")
-            })], dismissTime: .infinity), style: .defaultTheme)
+            })], dismissPolicy: .never), style: .defaultTheme)
     }
 
     private class PreviewCoordinator: ToastDelegate {

@@ -95,7 +95,13 @@ class DiscoverViewController: PCViewController {
         if mainScrollView.contentOffset.y.rounded(.down) > defaultOffset.rounded(.down) {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
         } else {
-            searchController.searchTextField.becomeFirstResponder()
+            // When double-tapping on tab bar, dismiss the search if already active
+            // else give focus to the search field
+            if searchController.cancelButtonShowing {
+                searchController.cancelTapped(self)
+            } else {
+                searchController.searchTextField.becomeFirstResponder()
+            }
         }
     }
 

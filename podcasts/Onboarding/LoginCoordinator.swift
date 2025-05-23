@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
@@ -123,6 +124,10 @@ extension LoginCoordinator {
                     Analytics.track(.userSignedIn, properties: ["source": provider])
                 }
 
+                if FeatureFlag.endOfYear2024.enabled {
+                    NotificationCenter.postOnMainThread(notification: .userSignedIn)
+                }
+
                 listenToSync()
             } catch {
                 progressAlert?.hideAlert(false) {
@@ -172,7 +177,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 
     func handleAccountCreated() {
         Analytics.track(.userAccountCreated, properties: ["source": socialAuthProvider ?? "password"])
-
+        OnboardingFlow.shared.accountCreated?(true)
         if OnboardingFlow.shared.currentFlow.shouldDismiss {
             handleDismiss()
             return
@@ -208,6 +213,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 
         let controller = PlusLandingViewModel.make(in: navigationController,
                                                    from: source,
+                                                   viewSource: .onboarding,
                                                    config: .init(continuePurchasing: continuePurchasing))
         navigationController?.setViewControllers([controller], animated: true)
     }
@@ -220,11 +226,14 @@ extension LoginCoordinator {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 
-        let view = LoginLandingView(coordinator: coordinator)
+        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         controller.viewModel = coordinator
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
+        if FeatureFlag.fullScreenLogin.enabled {
+            navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
+        }
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller

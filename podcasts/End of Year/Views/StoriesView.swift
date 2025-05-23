@@ -17,6 +17,8 @@ struct StoriesView: View {
         self.syncProgressModel = syncProgressModel
     }
 
+    @StateObject private var pauseState = PauseState()
+
     @ViewBuilder
     var body: some View {
         if model.isReady {
@@ -41,11 +43,16 @@ struct StoriesView: View {
                 // Manually set the zIndex order to ensure we can change the order when needed
                 model.story(index: model.currentStoryIndex)
                     .zIndex(3)
-                    .ignoresSafeArea(edges: .bottom)
+                    .modify {
+                        if model.overlaidShareView() != nil {
+                            $0.ignoresSafeArea(edges: .bottom)
+                        }
+                    }
                     .environment(\.animated, true)
+                    .environment(\.pauseState, pauseState)
 
                 if model.shouldShowUpsell() {
-                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
+                    model.paywallView().zIndex(6).onAppear {
                         model.pause()
                     }
                 }
@@ -58,13 +65,23 @@ struct StoriesView: View {
             }
 
             header
+                .foregroundStyle(model.indicatorColor)
 
             // Hide the share button if needed
-            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell() {
+            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let shareView = model.overlaidShareView() {
                 VStack {
                     Spacer()
-                    shareButton
+                    shareView
                 }
+            }
+        }
+        .modify {
+            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let footerView = model.footerShareView() {
+                $0.safeAreaInset(edge: .bottom) {
+                    footerView
+                }
+            } else {
+                $0
             }
         }
         .background(Color.black)
@@ -73,7 +90,14 @@ struct StoriesView: View {
             Button(L10n.eoyNotNow) { model.start() }
             Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
         } message: {
-            return Text(L10n.eoyShareThisStoryMessage)
+            Text(L10n.eoyShareThisStoryMessage)
+        }
+        .onChange(of: pauseState.isPaused) { isPaused in
+            if isPaused {
+                model.pause()
+            } else {
+                model.start()
+            }
         }
     }
 
@@ -84,16 +108,17 @@ struct StoriesView: View {
 
             VStack(spacing: 15) {
                 let progress = syncProgressModel.progress
-                CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
+                CircularProgressView(value: progress, stroke: model.indicatorColor, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
-                    .foregroundColor(.white)
+                    .foregroundColor(model.indicatorColor)
                     .font(style: .body)
             }
 
             storySwitcher
             header
         }
+        .background(model.primaryBackgroundColor)
     }
 
     var failed: some View {
@@ -101,13 +126,14 @@ struct StoriesView: View {
             Spacer()
 
             Text(L10n.eoyStoriesFailed)
-                .foregroundColor(.white)
+                .foregroundColor(model.indicatorColor)
 
             storySwitcher
             header
         }
+        .background(model.primaryBackgroundColor)
         .onAppear {
-            Analytics.track(.endOfYearStoriesFailedToLoad)
+            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["year": EndOfYear.currentYear.literalValue])
         }
     }
 
@@ -128,6 +154,7 @@ struct StoriesView: View {
             .padding(.trailing, Constants.storyIndicatorVerticalPadding)
 
             closeButton
+                .foregroundColor(model.indicatorColor)
         }
         .padding(.top, Constants.headerTopPadding)
     }
@@ -204,14 +231,6 @@ struct StoriesView: View {
         )
     }
 
-    var shareButton: some View {
-        Button(L10n.eoyShare) {
-            model.share()
-        }
-        .buttonStyle(ShareButtonStyle())
-        .padding([.leading, .trailing], Constants.shareButtonHorizontalPadding)
-    }
-
     var storiesToPreload: some View {
         ZStack {
             if model.numberOfStoriesToPreload > 0 {
@@ -237,7 +256,6 @@ private extension StoriesView {
         static let closeButtonTopPadding: CGFloat = 5
 
         static let storySwitcherSpacing: CGFloat = 0
-        static let shareButtonHorizontalPadding: CGFloat = 20
 
         static let spaceBetweenShareAndStory: CGFloat = 15
 
@@ -247,38 +265,13 @@ private extension StoriesView {
 
 // MARK: - Custom Buttons
 
-private struct ShareButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            Spacer()
-            Image("share")
-            configuration.label
-            Spacer()
-        }
-        .font(.custom("DM Sans", size: 14, relativeTo: .body).bold())
-        .foregroundColor(Constants.shareButtonColor)
-
-        .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
-
-        .applyButtonEffect(isPressed: configuration.isPressed)
-        .contentShape(Rectangle())
-    }
-
-    private struct Constants {
-        static let shareButtonColor = Color.white
-        static let shareButtonVerticalPadding: CGFloat = 13
-        static let shareButtonCornerRadius: CGFloat = 12
-        static let shareButtonBorderSize: CGFloat = 2
-    }
-}
-
 private struct CloseButtonStyle: ButtonStyle {
     let showButtonShapes: Bool
 
     func makeBody(configuration: Configuration) -> some View {
         Image("eoy-close")
+            .renderingMode(.template)
             .font(style: .body, maxSizeCategory: .extraExtraExtraLarge)
-            .foregroundColor(.white)
             .padding(Constants.closeButtonPadding)
             .background(showButtonShapes ? Color.white.opacity(0.2) : nil)
             .cornerRadius(Constants.closeButtonRadius)
@@ -292,24 +285,10 @@ private struct CloseButtonStyle: ButtonStyle {
     }
 }
 
-struct StoryViewContainer<Content: View>: View {
-    private var content: () -> Content
-
-    init(@ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-    }
-    var body: some View {
-        ZStack {
-            content()
-            StoryLogoView().zIndex(4)
-        }
-    }
-}
-
 // MARK: - Preview Provider
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView(dataSource: EndOfYearStoriesDataSource())
+        StoriesView(dataSource: EndOfYearStoriesDataSource(model: EndOfYear2023StoriesModel()))
     }
 }

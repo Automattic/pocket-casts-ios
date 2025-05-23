@@ -1,3 +1,1 @@
-- WatchOS refactor main screen and app entry point to SwiftUI. [#1800]
-- Playback skipping: Sync export session with download states. [#1819]
-
+- Add Recommendations feature to Discover and Podcast pages [#2989](https://github.com/Automattic/pocket-casts-ios/issues/2989)

@@ -12,7 +12,7 @@ class UpNextChangesDataManager {
 
     // MARK: - Query
 
-    func findReplaceAction(dbQueue: FMDatabaseQueue) -> UpNextChanges? {
+    func findReplaceAction(dbQueue: PCDBQueue) -> UpNextChanges? {
         var replaceAction: UpNextChanges?
         dbQueue.inDatabase { db in
             do {
@@ -30,7 +30,7 @@ class UpNextChangesDataManager {
         return replaceAction
     }
 
-    func findUpdateActions(dbQueue: FMDatabaseQueue) -> [UpNextChanges] {
+    func findUpdateActions(dbQueue: PCDBQueue) -> [UpNextChanges] {
         var allUpdateActions = [UpNextChanges]()
         dbQueue.inDatabase { db in
             do {
@@ -51,23 +51,23 @@ class UpNextChangesDataManager {
 
     // MARK: - Update
 
-    func saveUpNextRemove(episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func saveUpNextRemove(episodeUuid: String, dbQueue: PCDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.remove, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddToTop(episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func saveUpNextAddToTop(episodeUuid: String, dbQueue: PCDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNext, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddToBottom(episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func saveUpNextAddToBottom(episodeUuid: String, dbQueue: PCDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playLast, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveUpNextAddNowPlaying(episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func saveUpNextAddNowPlaying(episodeUuid: String, dbQueue: PCDBQueue) {
         saveUpdate(action: UpNextChanges.Actions.playNow, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    func saveReplace(episodeList: [String], dbQueue: FMDatabaseQueue) {
+    func saveReplace(episodeList: [String], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 // a replace literally replaces everything that came before it, so empty the table out
@@ -85,7 +85,7 @@ class UpNextChangesDataManager {
         }
     }
 
-    private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 // an update replaces any other update that is for the same episode, so delete any that might exist
@@ -105,7 +105,7 @@ class UpNextChangesDataManager {
 
     // MARK: - Delete
 
-    func deleteChangesOlderThan(utcTime: Int64, dbQueue: FMDatabaseQueue) {
+    func deleteChangesOlderThan(utcTime: Int64, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) where utcTime <= ?", values: [utcTime])
@@ -117,7 +117,7 @@ class UpNextChangesDataManager {
 
     // MARK: - Conversion
 
-    private func createFrom(resultSet rs: FMResultSet) -> UpNextChanges {
+    private func createFrom(resultSet rs: PCDBResultSet) -> UpNextChanges {
         let changes = UpNextChanges()
 
         changes.id = rs.longLongInt(forColumn: "id")

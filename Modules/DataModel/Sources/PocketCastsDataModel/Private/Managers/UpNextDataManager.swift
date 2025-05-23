@@ -21,19 +21,19 @@ class UpNextDataManager {
         return queue
     }()
 
-    func setup(dbQueue: FMDatabaseQueue) {
+    func setup(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
     // MARK: - Queries
 
-    func allUpNextPlaylistEpisodes(dbQueue: FMDatabaseQueue) -> [PlaylistEpisode] {
+    func allUpNextPlaylistEpisodes(dbQueue: PCDBQueue) -> [PlaylistEpisode] {
         cachedItemsQueue.sync {
             cachedItems
         }
     }
 
-    func findPlaylistEpisode(uuid: String, dbQueue: FMDatabaseQueue) -> PlaylistEpisode? {
+    func findPlaylistEpisode(uuid: String, dbQueue: PCDBQueue) -> PlaylistEpisode? {
         cachedItemsQueue.sync {
             for episode in cachedItems {
                 if episode.episodeUuid == uuid {
@@ -45,13 +45,13 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeAt(index: Int, dbQueue: FMDatabaseQueue) -> PlaylistEpisode? {
+    func playlistEpisodeAt(index: Int, dbQueue: PCDBQueue) -> PlaylistEpisode? {
         cachedItemsQueue.sync {
             cachedItems[safe: index]
         }
     }
 
-    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: FMDatabaseQueue) -> Int32 {
+    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: PCDBQueue) -> Int32 {
         cachedItemsQueue.sync {
             if bottomOfList {
                 if let lastItem = cachedItems.last {
@@ -63,13 +63,13 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+    func playlistEpisodeCount(dbQueue: PCDBQueue) -> Int {
         cachedItemsQueue.sync {
             cachedItems.count
         }
     }
 
-    func isEpisodePresent(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    func isEpisodePresent(uuid: String, dbQueue: PCDBQueue) -> Bool {
         cachedItemsQueue.sync {
             return allUuids.contains(uuid)
         }
@@ -77,7 +77,7 @@ class UpNextDataManager {
 
     // MARK: - Updates
 
-    func save(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue) {
+    func save(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 // move every episode after this one down one, if there are any
@@ -98,7 +98,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: FMDatabaseQueue) {
+    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let topPosition = playlistEpisodes[0].episodePosition
@@ -126,7 +126,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func delete(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue) {
+    func delete(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", values: [playlistEpisode.id])
@@ -139,7 +139,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodes(dbQueue: FMDatabaseQueue) {
+    func deleteAllUpNextEpisodes(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
@@ -151,7 +151,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: FMDatabaseQueue) {
+    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", values: [episodeUuid])
@@ -163,7 +163,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: FMDatabaseQueue) {
+    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 if uuids.count == 0 {
@@ -179,7 +179,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: FMDatabaseQueue) {
+    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: PCDBQueue) {
         guard uuids.count > 0 else { return }
         dbQueue.inDatabase { db in
             do {
@@ -192,7 +192,7 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
-    func movePlaylistEpisode(from: Int, to: Int, dbQueue: FMDatabaseQueue) {
+    func movePlaylistEpisode(from: Int, to: Int, dbQueue: PCDBQueue) {
         var resortedItems = cachedItems
 
         if from == -1, to == 0 {
@@ -222,13 +222,13 @@ class UpNextDataManager {
 
     // MARK: - Up Next History (Restoring)
 
-    public func refresh(dbQueue: FMDatabaseQueue) {
+    public func refresh(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
     // MARK: - Caching
 
-    private func cacheEpisodes(dbQueue: FMDatabaseQueue) {
+    private func cacheEpisodes(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) ORDER by episodePosition", values: nil)
@@ -253,7 +253,7 @@ class UpNextDataManager {
 
     // MARK: - Ordering
 
-    private func saveOrdering(dbQueue: FMDatabaseQueue) {
+    private func saveOrdering(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
         let sortedItems = cachedItems
         dbQueue.inTransaction { db, _ in
@@ -269,7 +269,7 @@ class UpNextDataManager {
 
     // MARK: - Conversion
 
-    private func createEpisodeFrom(resultSet rs: FMResultSet) -> PlaylistEpisode {
+    private func createEpisodeFrom(resultSet rs: PCDBResultSet) -> PlaylistEpisode {
         let episode = PlaylistEpisode()
 
         episode.id = rs.longLongInt(forColumn: "id")

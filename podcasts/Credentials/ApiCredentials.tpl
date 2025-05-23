@@ -34,4 +34,24 @@ struct ApiCredentials {
     ///
     static let googleSignInSecret = "%{google_sign_in_secret}"
     static let googleSignInServerClientId = "%{google_sign_in_server_client_id}"
+
+    /// Instagram App ID
+    ///
+    static let instagramAppID = "%{instagram_app_id}"
+
+    /// AppsFlyer Dev Key
+    ///
+    static let appsFlyerDevKey = "%{appsflyer_dev_key}"
+    
+    /// A8C Facebook App ID
+    ///
+    static let a8cFBAppID = "%{a8c_fb_app_id}"
+    
+    /// A8C Facebook App Name
+    ///
+    static let a8cFBAppName = "%{a8c_fb_app_name}"
+
+    /// A8C Facebook Client Token
+    ///
+    static let a8cFBClientToken = "%{a8c_fb_client_token}"
 }

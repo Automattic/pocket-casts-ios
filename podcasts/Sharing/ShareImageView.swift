@@ -13,6 +13,7 @@ enum ShareImageStyle: CaseIterable {
     case large
     case medium
     case small
+    case audio
 
     var tabString: String {
         switch self {
@@ -22,6 +23,36 @@ enum ShareImageStyle: CaseIterable {
             return "medium"
         case .small:
             return "small"
+        case .audio:
+            return "audio"
+        }
+    }
+
+    var videoSize: CGSize {
+        CGSize(width: 390, height: 694)
+    }
+
+    var previewSize: CGSize {
+        switch self {
+        case .large:
+            CGSize(width: 292, height: 422)
+        case .medium:
+            CGSize(width: 292, height: 292)
+        case .small:
+            CGSize(width: 324, height: 169)
+        case .audio:
+            CGSize(width: 100, height: 100)
+        }
+    }
+
+    func shareDescription(option: SharingModal.Option) -> String? {
+        switch (option, self) {
+        case (.episode, _), (.podcast, _):
+            L10n.shareDescription
+        case (.clip, .audio):
+            L10n.createAudioClipDescription
+        default:
+            nil
         }
     }
 }
@@ -31,40 +62,77 @@ struct ShareImageView: View {
     let info: ShareImageInfo
     let style: ShareImageStyle
 
+    @Binding var angle: Double
+
     var body: some View {
         ZStack {
-            LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
-            Color.black.opacity(0.2)
             switch style {
             case .large:
+                background()
                 VStack(spacing: 32) {
                     image()
-                        .frame(width: 200, height: 200)
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: 270)
                     text()
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .frame(width: 292, height: 438)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .medium:
+                background()
                 VStack(spacing: 24) {
                     image()
-                        .frame(width: 120, height: 120)
-                    text()
+                        .aspectRatio(1, contentMode: .fit)
+                    text(lineLimit: 1)
                         .frame(alignment: .leading)
+                    PocketCastsLogoPill()
                 }
                 .padding(24)
-                .frame(width: 292, height: 293)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .small:
-                HStack(spacing: 18) {
-                    image()
-                        .frame(width: 120, height: 120)
-                    text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
+                background()
+                ZStack {
+                    HStack(spacing: 18) {
+                        image()
+                            .aspectRatio(1, contentMode: .fit)
+                        text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
+                    }
+                    .padding(24)
+                    Image("family_pc_logo")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(.top, 10)
+                        .padding(.trailing, 10)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
-                .padding(24)
-                .frame(width: 324, height: 169)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
+            case .audio:
+                Image("music")
             }
         }
-        .fixedSize()
+    }
+
+    @ViewBuilder func background() -> some View {
+        ZStack {
+            LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
+            let rotationFactor = sin(Angle(degrees: angle).radians)
+            KidneyShape()
+                .fill(info.gradient.stops.first?.color ?? .black)
+                .blur(radius: 100)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .frame(width: 230, height: 350)
+                .offset(x: -50, y: -20)
+                .rotationEffect(.degrees(180 * rotationFactor))
+            KidneyShape()
+                .fill(.white)
+                .blur(radius: 50)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .frame(width: 300, height: 350)
+                .offset(x: 50, y: 40)
+                .rotationEffect(.degrees(-180 * rotationFactor))
+                .blendMode(.softLight)
+            Color.black.opacity(0.2)
+        }
     }
 
     @ViewBuilder func image() -> some View {
@@ -92,7 +160,36 @@ struct ShareImageView: View {
     }
 }
 
-extension ShareImageView {
+struct KidneyShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.midY))
+        path.addCurve(
+            to: CGPoint(x: rect.maxX, y: rect.midY),
+            control1: CGPoint(x: rect.minX + rect.width * 0.2, y: rect.minY),
+            control2: CGPoint(x: rect.maxX - rect.width * 0.2, y: rect.minY)
+        )
+        path.addCurve(
+            to: CGPoint(x: rect.minX, y: rect.midY),
+            control1: CGPoint(x: rect.maxX, y: rect.maxY),
+            control2: CGPoint(x: rect.minX, y: rect.maxY)
+        )
+
+        // Indentation
+        let indentWidth = rect.width * 0.2
+        let indentHeight = rect.height * 0.3
+        path.move(to: CGPoint(x: rect.midX - indentWidth, y: rect.minY + rect.height * 0.3))
+        path.addCurve(
+            to: CGPoint(x: rect.midX + indentWidth, y: rect.minY + rect.height * 0.3),
+            control1: CGPoint(x: rect.midX - indentWidth / 2, y: rect.minY + indentHeight),
+            control2: CGPoint(x: rect.midX + indentWidth / 2, y: rect.minY + indentHeight)
+        )
+
+        return path
+    }
+}
+
+extension View {
     func itemProvider() -> NSItemProvider {
         let itemProvider = NSItemProvider()
         if #available(iOS 16.0, *) {
@@ -116,13 +213,13 @@ extension ShareImageView {
 let previewInfo = ShareImageInfo(name: "This American Life", title: "Dylan Field, Figma Co-founder, Talks Design, Economy, and life after failed Adobe acquisitions", description: Date().formatted(), artwork: URL(string: "https://static.pocketcasts.com/discover/images/280/3782b780-0bc5-012e-fb02-00163e1b201c.jpg")!, gradient: Gradient(colors: [Color.red, Color(hex: "620603")]))
 
 #Preview("large") {
-    ShareImageView(info: previewInfo, style: .large)
+    ShareImageView(info: previewInfo, style: .large, angle: .constant(0))
 }
 
 #Preview("medium") {
-    ShareImageView(info: previewInfo, style: .medium)
+    ShareImageView(info: previewInfo, style: .medium, angle: .constant(0))
 }
 
 #Preview("small") {
-    ShareImageView(info: previewInfo, style: .small)
+    ShareImageView(info: previewInfo, style: .small, angle: .constant(0))
 }

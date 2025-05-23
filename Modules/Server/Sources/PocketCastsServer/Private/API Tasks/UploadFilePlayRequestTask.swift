@@ -18,14 +18,19 @@ class UploadFilePlayRequestTask: ApiBaseTask {
         do {
             let (response, httpStatus) = getToServer(url: url, token: token)
 
-            guard let responseData = response, httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
-                FileLog.shared.addMessage("Upload file play request failed \(httpStatus?.statusCode ?? -1)")
+            guard let responseData = response else {
+                FileLog.shared.addMessage("Upload file play request missing response data \(httpStatus?.statusCode ?? -1)")
                 completion?(nil)
                 return
             }
 
             do {
                 let playResponse = try Files_FilePlayResponse(serializedData: responseData)
+                guard httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
+                    FileLog.shared.addMessage("Upload file play request failed \(httpStatus?.statusCode ?? -1) with message: \(playResponse.textFormatString())")
+                    completion?(nil)
+                    return
+                }
                 FileLog.shared.addMessage("Upload play response successful)")
                 completion?(URL(string: playResponse.url))
             } catch {

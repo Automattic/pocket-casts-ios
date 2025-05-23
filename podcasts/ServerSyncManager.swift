@@ -67,30 +67,38 @@ class ServerSyncManager: ServerSyncDelegate {
 
     // User Episodes functions
     func deleteFromDevice(userEpisode: UserEpisode) {
+        #if !APPCLIP
         UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
+        #endif
     }
 
     func performActionsAfterSync() {
         PodcastManager.shared.checkForExpiredPodcastsAndCleanup()
-        FilterManager.checkForAutoDownloads()
         PodcastManager.shared.checkForPendingAndAutoDownloads()
+        #if !APPCLIP
+        FilterManager.checkForAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
+        #endif
         DispatchQueue.main.async {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             Theme.sharedTheme.toggleTheme()
+            #if !APPCLIP
             NotificationsHelper.shared.register(checkToken: true)
+            #endif
         }
     }
 
     func cleanupCloudOnlyFiles() {
+        #if !APPCLIP
         UserEpisodeManager.cleanupCloudOnlyFiles()
+        #endif
     }
 
     func autoDownloadUserEpisodes(episodes: [UserEpisode]) {
         let autoDownloadsRequireWifi = ServerSettings.userEpisodeOnlyOnWifi()
-        let isWiFiConnected = NetworkUtils.shared.isConnectedToWifi()
+        let isWiFiConnected = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
 
         for episode in episodes {
             if isWiFiConnected || !autoDownloadsRequireWifi {
@@ -108,7 +116,11 @@ class ServerSyncManager: ServerSyncDelegate {
     // MARK: - Settings
 
     func isPushEnabled() -> Bool {
+        #if APPCLIP
+        false
+        #else
         NotificationsHelper.shared.pushEnabled()
+        #endif
     }
 
     func defaultPodcastGrouping() -> Int32 {
@@ -131,10 +143,13 @@ class ServerSyncManager: ServerSyncDelegate {
         "Pocket Casts/iOS/" + Settings.appVersion()
     }
 
-    func autoDownloadLatestEpisode(episode: Episode) {
+    func autoDownloadLatestEpisodes(uuids: [String]) {
         if Settings.autoDownloadEnabled() {
-            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
-                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
+            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+                for uuid in uuids {
+                    AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: uuid)
+                    DownloadManager.shared.addToQueue(episodeUuid: uuid)
+                }
             }
         }
     }

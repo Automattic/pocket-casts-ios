@@ -35,6 +35,7 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
             navigationController?.pushViewController(controller, animated: true)
 
         case .discover:
+            trackNewsletterOptIn()
             track(.welcomeDiscoverTapped)
             navigationController?.dismiss(animated: true)
             NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
@@ -43,19 +44,22 @@ class WelcomeViewModel: ObservableObject, OnboardingModel {
 
     func doneTapped() {
         saveNewsletterOptIn()
+        trackNewsletterOptIn()
         track(.welcomeDismissed)
         navigationController?.dismiss(animated: true)
     }
 
     private func saveNewsletterOptIn() {
+        ServerSettings.setMarketingOptIn(newsletterOptIn)
+    }
+
+    private func trackNewsletterOptIn() {
         let source: String
         switch displayType {
         case .newAccount: source = "welcome_new_account"
         case .plus: source = "welcome_plus"
         }
-
         Analytics.track(.newsletterOptInChanged, properties: ["enabled": newsletterOptIn, "source": source])
-        ServerSettings.setMarketingOptIn(newsletterOptIn)
     }
 
     // MARK: - Configuration

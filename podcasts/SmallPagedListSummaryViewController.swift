@@ -159,12 +159,15 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     // MARK: - DiscoverSummaryProtocol
 
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
+        podcasts = []
+        self.collectionView.reloadData()
+
         guard let source = delegate?.replaceRegionCode(string: item.source), let title = item.title?.localized else { return }
 
         self.item = item
         titleLabel.text = delegate?.replaceRegionName(string: title)
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
             for podcast in discoverPodcast {
                 strongSelf.podcasts.append(podcast)

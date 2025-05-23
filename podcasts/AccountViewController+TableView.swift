@@ -1,14 +1,13 @@
 import PocketCastsDataModel
+import SafariServices
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard section == 0 else {
-            return UITableView.automaticDimension
-        }
 
-        return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        UITableView.automaticDimension
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -25,10 +24,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return upgradePromptViewSize?.height ?? UITableView.automaticDimension
 
-        case .newsletter:
-            return UITableView.automaticDimension
         default:
-            return 64
+            return UITableView.automaticDimension
         }
     }
 
@@ -38,7 +35,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return 350
         default:
-            return 64
+            return 70
         }
     }
 
@@ -47,7 +44,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch row {
         case .upgradeView:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier, for: indexPath) as! PlusAccountPromptTableCell
+            let cell: PlusAccountPromptTableCell
+            if let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier) as? PlusAccountPromptTableCell {
+                cell = dequeuedCell
+            } else {
+                cell = PlusAccountPromptTableCell(reuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier, model: model)
+            }
             cell.updateParent(self)
             cell.contentSizeUpdated = { [weak self] size in
                 self?.upgradePromptViewSize = size
@@ -81,6 +83,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.counterView.isHidden = true
             }
             cell.showsDisclosureIndicator = true
+            return cell
+        case .changeAvatar:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
+            cell.cellLabel.text = L10n.settingsChangeAvatar
+            cell.cellImage.image = UIImage(named: "settings-avatar")?.withRenderingMode(.alwaysTemplate)
+            cell.iconStyle = .primaryInteractive01
+            cell.counterView.isHidden = true
+            cell.showsDisclosureIndicator = false
             return cell
         case .changeEmail:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
@@ -172,6 +182,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
+        case .changeAvatar:
+            guard let email = headerViewModel.profile.email,
+                  let safariViewController = GravatarSafariViewController(destination: .avatarUpdate(email: email)) else { return }
+            safariViewController.modalPresentationStyle = .automatic
+            present(safariViewController, animated: true)
+            Analytics.track(.accountDetailsChangeAvatar)
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
             changeEmailVC.delegate = self
@@ -186,8 +202,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .deleteAccount:
             deleteAccountTapped()
         case .cancelSubscription:
-            let controller = CancelConfirmationViewModel.make()
-
+            let controller: UIViewController
+            if FeatureFlag.winback.enabled, SubscriptionHelper.subscriptionPlatform() == .iOS {
+                controller = CancelSubscriptionViewModel.make()
+            } else {
+                controller = CancelConfirmationViewModel.make()
+            }
             present(controller, animated: true, completion: nil)
             Analytics.track(.accountDetailsCancelTapped)
         case .privacyPolicy:

@@ -5,18 +5,20 @@ import PocketCastsUtils
 class PlusAccountPromptTableCell: ThemeableCell {
 //    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
 
-    private let model = PlusAccountPromptViewModel()
+    private weak var model: PlusAccountPromptViewModel?
 
     /// Listen for size changes from the view so we can adjust the table size
     var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    init(reuseIdentifier: String?, model: PlusAccountPromptViewModel) {
+        self.model = model
+
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
         let view: UIView
         if FeatureFlag.newAccountUpgradePromptFlow.enabled {
             let _ = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: PlusAccountPromptViewModel.Source.profile.rawValue, context: nil)
-            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .accountScreen)) { [weak self] size in
+            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .accountScreen, viewSource: .profile)) { [weak self] size in
                 self?.contentSizeUpdated?(size)
             }.themedUIView
         } else {
@@ -43,8 +45,8 @@ class PlusAccountPromptTableCell: ThemeableCell {
 
     // Update the model's parent so we can present the modal
     func updateParent(_ controller: UIViewController) {
-        model.parentController = controller
-        model.source = .profile
+        model?.parentController = controller
+        model?.source = .profile
     }
 
     required init?(coder: NSCoder) {

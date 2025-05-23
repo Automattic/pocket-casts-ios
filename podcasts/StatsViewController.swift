@@ -159,6 +159,12 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self?.statsTable.reloadData()
                 self?.requestReviewIfPossible()
             }
+
+            RefreshManager.shared.refreshPodcasts { _ in
+                DispatchQueue.main.async { [weak self] in
+                    self?.statsTable.reloadData()
+                }
+            }
         }
     }
 

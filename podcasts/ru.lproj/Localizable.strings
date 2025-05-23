@@ -153,6 +153,12 @@
     <string>Закладки уже готовы!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Примите участие в бета-тестировании закладок!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Подпишитесь на Plus, и вы сможете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>В рамках подписки на Patron вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>В рамках подписки на Plus вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -167,6 +173,12 @@
     <string>Мечтайте о большем</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
+    <key>app_clip_placholder_message</key>
+    <string>Возможно, он удалён или ссылка не работает.
+Но в Pocket Casts есть ещё много интересного.
+Загрузите приложение, чтобы получить всё!</string>
+    <key>app_clip_placholder_title</key>
+    <string>К сожалению, не удалось найти этот выпуск</string>
     <key>app_icon_classic</key>
     <string>Классический</string>
     <key>app_icon_dark</key>
@@ -213,6 +225,8 @@
     <string>Тема подкаста</string>
     <key>appearance_dark_theme</key>
     <string>Тёмная тема</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Отображать оформление выпусков</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>В некоторых шоу есть специальное оформление отдельных выпусков. Включите эту опцию, и Pocket Casts будет отображать его вместо общего оформления шоу.</string>
     <key>appearance_light_theme</key>
@@ -249,6 +263,18 @@
     <string>Добавлять только в начало</string>
     <key>auto_download_first</key>
     <string>Автоматическое скачивание сначала</string>
+    <key>auto_download_limit_auto_downloads</key>
+    <string>Ограничить автоматические загрузки</string>
+    <key>auto_download_limit_downloads</key>
+    <string>Ограничить загрузки</string>
+    <key>auto_download_limit_number_of_episodes</key>
+    <string>Выпусков: %1$@</string>
+    <key>auto_download_limit_number_of_episodes_show</key>
+    <string>%1$@ последних выпусков программы</string>
+    <key>auto_download_limit_one_episode</key>
+    <string>последний выпуск</string>
+    <key>auto_download_limit_one_episode_show</key>
+    <string>Последний выпуск программы</string>
     <key>auto_download_off_subtitle</key>
     <string>Включите для автоматического скачивания выпусков в этом фильтре</string>
     <key>auto_download_on_plural_format</key>
@@ -301,22 +327,96 @@
     <string>Отмена</string>
     <key>cancel_confirm_item_folders</key>
     <string>Папки будут удалены, а их содержимое перемещено обратно на экран подкастов.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Ваши подкасты и история прослушиваний останутся доступными. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>С этой даты доступ к функциям Pocket Casts Plus будет заблокирован.</string>
+    <string>После этой даты доступ к функциям Plus, таким как «Закладки», «Случайный выбор», «Портативные» и др., будет удалён.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Файлы, загруженные в вашу учётную запись Pocket Casts, будут удалены (однако файлы, загруженные на ваши мобильные устройства, сохранятся)</string>
+    <string>Файлы, загруженные в вашу учётную запись Pocket Casts, будут удалены, но файлы, загруженные на ваши мобильные устройства, сохранятся.</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Ваша текущая подписка будет действовать до %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>срок действия</string>
     <key>cancel_confirm_subtitle</key>
-    <string>При этом ваш тарифный план изменится на бесплатный.</string>
+    <string>При отмене подписки ваш тарифный план изменится на бесплатный.</string>
+    <key>cancel_confirm_title</key>
+    <string>Что следует знать до отмены</string>
     <key>cancel_download</key>
     <string>Отменить скачивание</string>
     <key>cancel_failed</key>
     <string>Не удается отменить</string>
     <key>cancel_subscription</key>
     <string>Отмена подписки</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Оптимальная стоимость</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>Новый тарифный план будет активирован по окончании текущего расчётного периода.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>К сожалению, при получении ваших тарифных планов что-то пошло не так.</string>
+    <key>cancel_subscription_available_plans_title</key>
+    <string>Доступные тарифные планы</string>
+    <key>cancel_subscription_claim_offer_button</key>
+    <string>Воспользоваться предложением</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Продолжить отмену</string>
+    <key>cancel_subscription_generic_error</key>
+    <string>Произошла ошибка. Повторите попытку позже.</string>
+    <key>cancel_subscription_help_description</key>
+    <string>Проблемы с определёнными функциями или неполадки?</string>
+    <key>cancel_subscription_help_title</key>
+    <string>Вам требуется помощь в работе с Pocket Casts?</string>
+    <key>cancel_subscription_new_plan_description</key>
+    <string>Выберите оптимальный тарифный план.</string>
+    <key>cancel_subscription_new_plan_title</key>
+    <string>Хотите перейти на другой тарифный план?</string>
+    <key>cancel_subscription_offer_success_view_description</key>
+    <string>Благодарим за то, что вы выбрали Pocket Casts. Бесплатный месяц будет добавлен к вашей текущей подписке.</string>
+    <key>cancel_subscription_offer_success_view_title</key>
+    <string>Пользуйтесь весь месяц бесплатно!</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>Благодарим за то, что вы выбрали Pocket Casts. Ваш годовой тарифный план со скидкой начнёт действовать по истечении срока текущего тарифного плана.</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>Скидка 50 %% на следующий год!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Сэкономьте %@ в начале следующего расчётного периода.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Уплатите %@ за следующий год со скидкой 50%% прямо сейчас</string>
+    <key>cancel_subscription_promotion_title</key>
+    <string>Следующий месяц бесплатно</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Мы хотели бы знать, почему вы отменили подписку. Ваши отзывы помогают нам совершенствовать сервис.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>У меня есть лучшее приложение</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Причины, связанные с расходами</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>Я редко им пользуюсь</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Другое</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Технические проблемы</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Отправить отзыв</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Спасибо, что попробовали
+Pocket Casts Plus</string>
+    <key>cancel_subscription_title</key>
+    <string>Собираетесь уйти?
+Сначала позвольте вам помочь</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Принять предложение</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Отменить и продолжить</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Пользуйтесь Pocket Casts Plus бесплатно в течение месяца! Предложение будет добавлено к вашей текущей подписке.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Заплатите %@ сейчас, чтобы в течение года пользоваться Pocket Casts Plus за полцены. Ваш годовой тарифный план со скидкой начнёт действовать по истечении срока текущего тарифного плана.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Пользуйтесь весь следующий месяц бесплатно и сэкономьте %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Получите скидку 50%% на следующий год и сэкономьте %@</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>Получите скидку 50 %% на следующий год</string>
     <key>canceling</key>
     <string>Отмена...</string>
     <key>carplay_chapter_count</key>
@@ -327,6 +427,10 @@
     <string>Скорость воспроизведения</string>
     <key>carplay_up_next_queue</key>
     <string>Очередь «Следующие»</string>
+    <key>champion_description</key>
+    <string>Благодарим за то, что вы с нами с самого начала! Если вам нравится наше приложение, мы будем рады получить ваш отзыв.</string>
+    <key>champion_title</key>
+    <string>Вы просто чемпион Pocket Casts!</string>
     <key>change_app_icon</key>
     <string>Изменить значок приложения</string>
     <key>change_bookmark_subtitle</key>
@@ -349,6 +453,8 @@
     <string>Должно быть не менее 6 символов</string>
     <key>chapters</key>
     <string>Главы</string>
+    <key>check_internet_connection</key>
+    <string>Проверьте подключение к Интернету</string>
     <key>chosen_podcasts_plural_format</key>
     <string>Выбрано подкастов: %1$@</string>
     <key>chosen_podcasts_singular</key>
@@ -377,6 +483,28 @@
     <string>Вы уверены, что нужно очистить очередь «Следующие»?</string>
     <key>client_error_token_deauth</key>
     <string>Сбой токена аутентификации</string>
+    <key>clip</key>
+    <string>Клип</string>
+    <key>clip_duration_label</key>
+    <string>Продолжительность: %@</string>
+    <key>clip_loading_label</key>
+    <string>Идёт создание клипа…</string>
+    <key>clip_start_label</key>
+    <string>Начало: %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Конец клипа</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Опции совместного использования медиафайлов</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ формат, %2$@ из %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Начало клипа</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Понятно</string>
+    <key>clips_whats_new_message</key>
+    <string>Теперь вы можете публиковать клипы из ваших любимых фрагментов любого выпуска. Мы также упростили публикацию контента во всех социальных сетях.</string>
+    <key>clips_whats_new_title</key>
+    <string>Теперь можно делиться клипами!</string>
     <key>close</key>
     <string>Закрыть</string>
     <key>color</key>
@@ -405,8 +533,20 @@
     <string>Бесплатно</string>
     <key>create_account_plus_details</key>
     <string>Все разблокировано</string>
+    <key>create_audio_clip_description</key>
+    <string>Создать аудиофайл .m4a</string>
+    <key>create_audio_clip_title</key>
+    <string>Создать аудиофайл</string>
+    <key>create_clip</key>
+    <string>Создать клип</string>
     <key>create_filter</key>
     <string>Создать фильтр</string>
+    <key>creator_pick_modal_description</key>
+    <string>Creator Picks — это подкасты, рекомендованные создателем шоу с помощью Podroll.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Подробнее</string>
+    <key>creator_pick_modal_title</key>
+    <string>Что такое Creator Pick?</string>
     <key>current_email_prompt</key>
     <string>Текущий адрес электронной почты</string>
     <key>current_password_prompt</key>
@@ -421,6 +561,8 @@
     <string>Загрузить в облако</string>
     <key>database_migration</key>
     <string>Мы двигаем туда-сюда биты и байты, чтобы приложение работало быстрее…</string>
+    <key>day</key>
+    <string>день</string>
     <key>day_listened</key>
     <string>день прослушан</string>
     <key>day_saved</key>
@@ -635,6 +777,8 @@
     <string>РЕКЛАМА</string>
     <key>discover_trending</key>
     <string>Популярные</string>
+    <key>discover_unable_to_load</key>
+    <string>Не удалось загрузить Discover</string>
     <key>done</key>
     <string>Готово</string>
     <key>download</key>
@@ -667,6 +811,8 @@
     <string>Вы уверены, что хотите удалить загруженные файлы?</string>
     <key>downloaded_files_conf_message</key>
     <string>При отмене подписки все скачанные файлы этого подкаста будут удалены, продолжить?</string>
+    <key>downloaded_files_conf_message_new</key>
+    <string>При отмене подписки все скачанные файлы этого подкаста будут удалены. Продолжить?</string>
     <key>downloaded_files_conf_plural_format</key>
     <string>Скачано файлов: %1$@</string>
     <key>downloaded_files_conf_singular</key>
@@ -683,10 +829,56 @@
     <string>Повторить неудачные скачивания</string>
     <key>downloads_stop_all_downloads</key>
     <string>Остановить все скачивания</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Создать бесплатную учётную запись</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать фильтры на всех устройствах.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Значок «Фильтры»</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Синхронизируйте фильтры</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать журнал прослушивания на всех устройствах.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Значок «История прослушивания»</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Фиксируйте прослушанное</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Значок «Профиль»</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Ваши шоу на любом устройстве</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Ваша библиотека и настройки надёжно сохраняются.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Надёжное резервное копирование</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Получайте индивидуальные рекомендации по подкастам на основе ваших предпочтений.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Индивидуальные рекомендации</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Синхронизируйте журнал прослушивания и шоу на всех устройствах.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Синхронизация на всех устройствах</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Создайте учётную запись или выполните вход
+Pocket Casts на полную мощность.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Начать</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Мы заметили, что вы не вошли в систему</string>
     <key>edit</key>
     <string>Править</string>
+    <key>edit_clip</key>
+    <string>Редактировать клип</string>
     <key>enable_it_now</key>
     <string>Включить</string>
+    <key>eoy_2024_epilogue_description</key>
+    <string>Не забудьте поделиться с друзьями и рассказать о любимых подкастах и подкастерах</string>
+    <key>eoy_2024_epilogue_title</key>
+    <string>Благодарим за то, что вы слушали вместе с нами в этом году.
+Увидимся в 2025 году!</string>
     <key>eoy_card_description</key>
     <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
     <key>eoy_create_account_to_see</key>
@@ -795,13 +987,13 @@
     <key>eoy_year_completion_rate</key>
     <string>процент завершения</string>
     <key>eoy_year_completion_rate_share_text</key>
-    <string>Мои итоги 2023 года</string>
+    <string>Процент завершения %1$@</string>
     <key>eoy_year_completion_rate_subtitle</key>
     <string>Из %1$@ запущенных выпусков всего вы дослушали до конца %2$@</string>
     <key>eoy_year_completion_rate_title</key>
     <string>Ваш процент завершения в этом году равен %1$@</string>
     <key>eoy_year_over_share_text</key>
-    <string>Время прослушивания в 2023 году по сравнению с 2022 годом</string>
+    <string>Время прослушивания в %1$@ году по сравнению с %2$@ годом</string>
     <key>eoy_year_over_year_subtitle_flat</key>
     <string>Говорят, постоянство — ключ к успеху… или что-то в этом роде!</string>
     <key>eoy_year_over_year_subtitle_went_down</key>
@@ -816,6 +1008,8 @@
     <string>По сравнению с 2022 годом вы стали слушать немного меньше.</string>
     <key>eoy_year_over_year_title_went_up</key>
     <string>По сравнению с 2022 годом ваше время прослушивания возросло сразу на %1$@%</string>
+    <key>eoy_year_ratings_share_text</key>
+    <string>Подкасты (%1$@), которые я оценил(а) в %2$@. Самая частая оценка — %3$@.</string>
     <key>episode</key>
     <string>Выпуск</string>
     <key>episode_count_plural_format</key>
@@ -854,6 +1048,8 @@
     <string>ЭКСПОРТ</string>
     <key>exporting_database</key>
     <string>Экспорт базы данных…</string>
+    <key>failed_recommendations</key>
+    <string>Не удалось загрузить рекомендации</string>
     <key>feature_tour_end_tour</key>
     <string>Завершить ознакомительный тур</string>
     <key>feature_tour_new</key>
@@ -905,6 +1101,8 @@
     <string>Упорядочить файлы</string>
     <key>filter_auto_add_subtitle</key>
     <string>Новые подкасты, на которые вы подписаны, будут добавляться автоматически</string>
+    <key>filter_auto_add_subtitle_new</key>
+    <string>Новые подкасты, на которые вы подписаны, будут добавляться автоматически</string>
     <key>filter_chips_all_podcasts</key>
     <string>Все ваши подкасты</string>
     <key>filter_chips_duration</key>
@@ -921,6 +1119,8 @@
     <string>Нет соответствующих выпусков</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>Ни один текущий выпуск в ваших подписках не соответствует заданным условиям.</string>
+    <key>filter_create_no_episodes_description_explanation_new</key>
+    <string>Ни один текущий выпуск в ваших подкастах не соответствует заданным условиям</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Измените условия или сохраните этот фильтр, если вы предполагаете появление соответствующих выпусков в будущем.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -946,6 +1146,8 @@
     <key>filter_longer_than_label</key>
     <string>Длиннее</string>
     <key>filter_manual_add_subtitle</key>
+    <string>Новые подкасты, на которые вы подписаны, не будут добавляться автоматически</string>
+    <key>filter_manual_add_subtitle_new</key>
     <string>Новые подкасты, на которые вы подписаны, не будут добавляться автоматически</string>
     <key>filter_media_type</key>
     <string>Тип медиафайла</string>
@@ -1045,6 +1247,8 @@
     <string>История папок</string>
     <key>folders_history_explanation</key>
     <string>Список подкастов, удалённых из папок в результате синхронизации.</string>
+    <key>follow</key>
+    <string>Подписаться</string>
     <key>free_trial_detail_label</key>
     <string>Пользуйтесь бесплатно или отмените в любой момент</string>
     <key>free_trial_duration_free</key>
@@ -1059,6 +1263,8 @@
     <string>Запустить бесплатную пробную версию</string>
     <key>free_trial_title_label</key>
     <string>Попробуйте Plus, %1$@ бесплатно</string>
+    <key>funding</key>
+    <string>Финансирование</string>
     <key>funny_conf_msg</key>
     <string>Он очень идет к вашим глазам ✨.</string>
     <key>funny_time_not_enough</key>
@@ -1089,6 +1295,12 @@
     <string>За это время вы могли бы завязать %1$@ шнурков на ботинках. Возможно. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>За это время написано %1$@ твитов. Твит! Твит! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Эта расшифровка создана автоматически и доступна только подписчикам Plus.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Подпишитесь на Plus, чтобы пользоваться ею и другими премиум-функциями, такими как закладки и папки.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Расшифровка автоматически создана Pocket Casts.</string>
     <key>go_to_podcast</key>
     <string>Перейти к подкасту</string>
     <key>got_it</key>
@@ -1121,6 +1333,8 @@
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@ в неделю</string>
     <key>import</key>
     <string>Импорт</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1176,6 +1390,10 @@
     <string>Вы можете импортировать свои подписки на подкасты в Pocket Casts, воспользовавшись распространенным форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
 
 Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение и выберите Pocket Casts.</string>
+    <key>import_podcasts_description_new</key>
+    <string>Вы можете импортировать свои подкасты в Pocket Casts, воспользовавшись распространённым форматом OPML. Экспортируйте файл из другого приложения и откройте его в Pocket Casts.
+
+Примечание. Вам может потребоваться отправить файл OPML самому себе по электронной почте, для этого нажмите и удерживайте вложение, а затем выберите Pocket Casts.</string>
     <key>import_podcasts_title</key>
     <string>ИМПОРТ В POCKET CASTS</string>
     <key>import_subtitle</key>
@@ -1195,16 +1413,58 @@
     <string>Открыть плеер</string>
     <key>keycommand_play_pause</key>
     <string>Воспроизведение/пауза</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Уже скоро</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Запросить ранний доступ </string>
+    <key>kids_profile_banner_text</key>
+    <string>Новый профиль исключительно с детским контентом, не затрагивающий ваши подписки.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Профиль «Дети»</string>
+    <key>kids_profile_submit_error</key>
+    <string>Что-то пошло не так. Попробуйте отправить отзыв ещё раз</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Отправить</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Что бы вы хотели видеть в профиле «Дети» Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Спасибо за ваш отзыв!</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>Нет, спасибо</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Отправить отзыв</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Когда новый профиль «Дети» будет готов, вы получите уведомление в приложении. Желаете сообщить нам, что вы хотели бы увидеть?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Благодарим за проявленный интерес!</string>
+    <key>learn_about_ratings</key>
+    <string>Подробнее об оценках</string>
     <key>learn_more</key>
     <string>Подробнее</string>
     <key>listening_history</key>
     <string>История прослушивания</string>
+    <key>listening_history_remove</key>
+    <string>Удалить из журнала</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>Не удалось найти выпуск по этому запросу. Попробуйте поискать по другому ключевому слову.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Выпуски не найдены</string>
     <key>loading</key>
     <string>Загрузка…</string>
     <key>login_subtitle</key>
     <string>Создайте учётную запись, чтобы синхронизировать и слушать любимый контент на всех устройствах.</string>
     <key>login_title</key>
     <string>Найдите ещё один любимый подкаст</string>
+    <key>logs</key>
+    <string>Журналы</string>
+    <key>logs_no_email_account_configured</key>
+    <string>Для отправки журналов необходимо настроить учётную запись электронной почты на устройстве.</string>
+    <key>manage_downloads_action</key>
+    <string>Управлять скачиваниями</string>
+    <key>manage_downloads_detail</key>
+    <string>Сэкономьте %1$@ — управляйте скачанными выпусками.</string>
+    <key>manage_downloads_title</key>
+    <string>Требуется освободить место?</string>
     <key>mark_played</key>
     <string>Отметить как прослушанный</string>
     <key>mark_played_short</key>
@@ -1313,8 +1573,94 @@
     <string>Пусто</string>
     <key>not_on_wifi</key>
     <string>Вы не подключены к WiFi</string>
+    <key>notifications_app_clip_body</key>
+    <string>Установите Pocket Casts, чтобы пользоваться всеми возможностями мощных инструментов воспроизведения и настройки.</string>
+    <key>notifications_app_clip_title</key>
+    <string>Готовы слушать новые подкасты?</string>
+    <key>notifications_daily_reminders</key>
+    <string>Ежедневные напоминания</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Попробуйте Plus и автоматически распределите свои шоу по папкам.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Организация подкастов</string>
+    <key>notifications_new_features_tips</key>
+    <string>Новые функции и советы</string>
+    <key>notifications_off</key>
+    <string>Уведомления откл.</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Приобретите подписку на Plus и пользуйтесь эксклюзивными функциями, такими как «Папки», «Закладки» и др.</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Ваши подкасты — ваши правила</string>
+    <key>notifications_on</key>
+    <string>Уведомления вкл.</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Мы уведомим вас о новых выпусках %1$@.</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Создавайте умные фильтры, чтобы упорядочивать выпуски.</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Упорядочивайте выпуски</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Переходите из другого приложения? Перенесите все любимые шоу в Pocket Casts.</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Импортируйте подкасты без проблем</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Ваши шоу на любом устройстве!</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Идеальные подкасты, вручную отобранные специально для вас настоящими знатоками и любителями подкастов.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Выбор наших экспертов</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Просмотрите наши темы и найдите ту, которая отвечает вашему стилю.</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Пора освежить дизайн</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Создавайте списки воспроизведения и забудьте о беспорядке в выпусках.</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Упростите очередь</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Приобретите подписку на Plus и пользуйтесь эксклюзивными функциями, такими как «Папки», «Закладки» и др.</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Ваши подкасты — ваши правила</string>
+    <key>notifications_permissions_action</key>
+    <string>Разрешить уведомления</string>
+    <key>notifications_permissions_body</key>
+    <string>Уведомления — лучший способ отслеживать новые выпуски, получать рекомендации новых шоу и советы по Pocket Casts.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Разрешите уведомления в настройках устройства</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Открыть настройки</string>
+    <key>notifications_permissions_title</key>
+    <string>Будьте в курсе событий</string>
     <key>notifications_play_now</key>
     <string>Воспроизвести</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Предложения Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Посмотрите, что популярно на этой неделе.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Тренды недели</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>Раздумываете, что послушать дальше? Взгляните на эти шоу!</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Новые рекомендации для вас</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Вы скачали новые выпуски (%1$@) и можете начинать слушать!</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Слушайте офлайн</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Вы уже давно ничего не слушали. Возвращайтесь с удовольствием!</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Мы скучаем по вам!</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Тренды и рекомендации</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Открыть настройки устройства</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Чтобы получать уведомления от Pocket Casts, необходимо включить их в настройках устройства.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Разрешить push-уведомления</string>
     <key>now_playing</key>
     <string>Сейчас воспроизводится</string>
     <key>now_playing_item</key>
@@ -1329,6 +1675,10 @@
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Только в сетях Wi-Fi без тарификации</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Если отключить этот параметр, то скачивание будет возможно как в сотовых, так и в других платных сетях. Проверьте настройки сети, чтобы узнать дополнительные сведения.</string>
     <key>only_on_wifi</key>
     <string>Только по WiFi</string>
     <key>opml_import_failed_message</key>
@@ -1404,6 +1754,18 @@
     <string>Разблокировка</string>
     <key>pause</key>
     <string>Пауза</string>
+    <key>paywall_dynamic_headline_files</key>
+    <string>Загружайте свои файлы при помощи Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_folder</key>
+    <string>Упорядочивайте ваши подкасты с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_icons</key>
+    <string>Получайте эксклюзивные значки приложений с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_themes</key>
+    <string>Получайте эксклюзивные темы с Pocket Casts Plus и многое другое</string>
+    <key>paywall_dynamic_headline_up_next_shuffle</key>
+    <string>При помощи Pocket Casts Plus можно воспроизводить выпуски в случайном порядке и делать ещё много интересного</string>
+    <key>paywall_dynamic_headline_watch</key>
+    <string>Прослушивайте подкасты через наручные часы при помощи Pocket Casts Plus и многое другое</string>
     <key>phone</key>
     <string>Телефон</string>
     <key>play</key>
@@ -1414,6 +1776,70 @@
     <string>Воспроизвести последний</string>
     <key>play_next</key>
     <string>Воспроизвести следующий</string>
+    <key>playback_2024_completion_rate_description</key>
+    <string>Из %1$@ запущенных выпусков всего вы дослушали до конца %2$@</string>
+    <key>playback_2024_completion_rate_title</key>
+    <string>Ваш процент завершения в этом году равен %1$@</string>
+    <key>playback_2024_description</key>
+    <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели. Поделитесь с друзьями и поблагодарите любимых подкастеров.</string>
+    <key>playback_2024_feature_description</key>
+    <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
+    <key>playback_2024_feature_title</key>
+    <string>Ваша история прослушиваний за 2024 год уже готова!</string>
+    <key>playback_2024_listening_time_description</key>
+    <string>Общее время прослушивания подкастов: %1$@</string>
+    <key>playback_2024_longest_episode_description</key>
+    <string>Это был выпуск «%1$@» подкаста «%2$@»</string>
+    <key>playback_2024_longest_episode_title</key>
+    <string>Самым длинным выпуском, который вы прослушали, стал %1$@</string>
+    <key>playback_2024_plus_upsell_button_title</key>
+    <string>Попробуйте Pocket Casts Plus</string>
+    <key>playback_2024_plus_upsell_description</key>
+    <string>Поддержите Pocket Casts, подписавшись на Plus, и пользуйтесь развёрнутой статистикой и премиум-функциями, например: закладками, папками и предварительным выбором глав!</string>
+    <key>playback_2024_plus_upsell_title</key>
+    <string>И это ещё не всё!</string>
+    <key>playback_2024_ratings_description_1_to_3</key>
+    <string>Благодарим за то, что поделились своим мнением с сообществом авторов</string>
+    <key>playback_2024_ratings_description_4_to_5</key>
+    <string>Ого, сколько %1$@-звёздных оценок! Благодарим за то, что вы выразили признательность своим любимым авторам.</string>
+    <key>playback_2024_ratings_empty_description</key>
+    <string>Знаете ли вы, что теперь можно оценивать шоу? Выразите признательность своим любимым авторам и помогите им стать популярнее!</string>
+    <key>playback_2024_ratings_empty_title</key>
+    <string>Ой! Оценок подкастов ещё нет</string>
+    <key>playback_2024_ratings_title</key>
+    <string>Давайте посмотрим ваши оценки!</string>
+    <key>playback_2024_top_spot_description</key>
+    <string>Вы прослушали %1$@ вып. Прослушано %2$@ из «%3$@»</string>
+    <key>playback_2024_top_spot_title</key>
+    <string>Это ваш любимый подкаст 2024 года</string>
+    <key>playback_2024_view_year</key>
+    <string>Посмотрите свою историю прослушиваний в 2024 году</string>
+    <key>playback_2024_year_over_year_compare_description_down</key>
+    <string>И… как, вам хватает времени на всё остальное?</string>
+    <key>playback_2024_year_over_year_compare_description_same</key>
+    <string>Говорят, постоянство — это ключ к успеху… или что-то в этом роде!</string>
+    <key>playback_2024_year_over_year_compare_description_up</key>
+    <string>Готовы превзойти свой рекорд в 2025 году?</string>
+    <key>playback_2024_year_over_year_compare_title_down_little</key>
+    <string>По сравнению с 2023 годом вы стали слушать немного меньше</string>
+    <key>playback_2024_year_over_year_compare_title_down_lot</key>
+    <string>По сравнению с 2023 годом ваше время прослушивания снизилось сразу на %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_down_over_500</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ меньше времени, слушая подкасты.</string>
+    <key>playback_2024_year_over_year_compare_title_same</key>
+    <string>Вы посвятили прослушиванию примерно столько же времени, сколько и в 2023 году.</string>
+    <key>playback_2024_year_over_year_compare_title_up_above_maximum</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ больше времени, слушая подкасты.</string>
+    <key>playback_2024_year_over_year_compare_title_up_little</key>
+    <string>По сравнению с 2023 годом вы стали слушать немного больше</string>
+    <key>playback_2024_year_over_year_compare_title_up_lot</key>
+    <string>По сравнению с 2023 годом ваше время прослушивания возросло сразу на %1$@</string>
+    <key>playback_2024_year_over_year_compare_title_up_over_500</key>
+    <string>В сравнении с 2023 годом вы провели на %1$@ больше времени, слушая подкасты.</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Все подкасты</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Этот подкаст</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Сильное</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1456,6 +1882,12 @@
     <string>Сокращает длину выпуска, вырезая паузы в разговорах.</string>
     <key>player_effects_trim_silence_progress</key>
     <string>С помощью этой функции вы сэкономили %1$@.</string>
+    <key>player_episode_download_cancelled</key>
+    <string>Скачивание выпуска отменено</string>
+    <key>player_episode_queued_for_download</key>
+    <string>Выпуск в очереди на скачивание</string>
+    <key>player_episode_was_removed</key>
+    <string>Выпуск удалён</string>
     <key>player_error_corrupted_file</key>
     <string>Выпуск может быть поврежден, но вы можете попробовать прослушать его снова.</string>
     <key>player_error_internet_connection</key>
@@ -1498,6 +1930,10 @@
     <string>Разблокировать все функции</string>
     <key>plus_cancel_terms</key>
     <string>Можно отменить в любое время</string>
+    <key>plus_champion</key>
+    <string>Чемпион Pocket Casts</string>
+    <key>plus_champion_message</key>
+    <string>Благодарим за то, что вы с Pocket Casts с самого начала! Вы настоящий чемпион!</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>Облачное хранилище %1$@ ГБ</string>
     <key>plus_discount_yearly_membership</key>
@@ -1508,24 +1944,58 @@
     <string>Спасибо за вашу поддержку, но, к сожалению, это означает, что вы не можете участвовать в этой акции.</string>
     <key>plus_expiration_format</key>
     <string>Истекает %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Сохраняйте ваши любимые фрагменты любого выпуска и возвращайтесь к ним.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Слушайте повсюду: в приложениях для Windows, для macOS и в веб-приложении.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Покажите себя во всей красе. Эксклюзивные значки и темы для наших подписчиков.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Распределите подкасты по папкам и синхронизируйте их на всех устройствах.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Получите годовую подписку на премиум-контент от Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Загрузите аудиофайлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Отправляйтесь на лёгкую пробежку без телефона.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Закладки</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Приложения для ПК и веб-приложения</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Дополнительные темы и значки</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Папки</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Slumber Studios — мы помогаем вам мечтать</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 ГБ дискового пространства</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Воспроизведение на Apple Watch и Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>Бесконечная благодарность от всей команды Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Бесплатная аудиокнига от Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Содержание: Slumber Studios — мы помогаем вам мечтать</string>
     <key>plus_feature_themes_icons</key>
-    <string>Дополнительные темы и значки приложения</string>
+    <string>Дополнительные темы и значки</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Пробный период в течение %1$@</string>
-    <key>plus_lifetime_membership</key>
-    <string>Пожизненное членство</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Закладки</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Приложения для ПК и веб-приложения</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Папки и закладки</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Папки</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Без рекламы у вас будет больше того, что вам нравится, и меньше того, что вам не нравится.</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1540,6 +2010,8 @@
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
     <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Следующий, случайно выбранный элемент</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1602,6 +2074,8 @@
     <string>Не удалось загрузить</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ в год</string>
+    <key>pocket_casts_logo</key>
+    <string>Логотип Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Новостная рассылка Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1670,6 +2144,18 @@
     <string>Не удалось скачать выпуск.</string>
     <key>podcast_failed_upload</key>
     <string>Не удалось загрузить</string>
+    <key>podcast_feed_reload_button</key>
+    <string>Обновить список выпусков</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>Обновление списка выпусков…</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>Новые выпуски!</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>Выпуски не найдены.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Перетащите вниз или откройте это меню, чтобы узнать, что нового.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Свежие выпуски уже скоро!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Найти подкасты</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -1697,6 +2183,8 @@
     <string>Приостановить скачивание</string>
     <key>podcast_pause_playback</key>
     <string>Приостановить воспроизведение</string>
+    <key>podcast_podroll_header</key>
+    <string>Рекомендованные шоу автора</string>
     <key>podcast_queued</key>
     <string>В очереди</string>
     <key>podcast_queuing</key>
@@ -1725,6 +2213,10 @@
     <string>Открыть файл в...</string>
     <key>podcast_show_archived</key>
     <string>Показать архивированные</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Похожие шоу</string>
+    <key>podcast_similar_header</key>
+    <string>Шоу, похожие на «%@»</string>
     <key>podcast_singular</key>
     <string>Подкаст</string>
     <key>podcast_soon</key>
@@ -1751,6 +2243,10 @@
     <string>Загрузить сейчас</string>
     <key>podcast_uploading</key>
     <string>Загрузка... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Коснитесь названия подкаста, чтобы свернуть или развернуть его описание и сведения о нём</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Мы внесли некоторые изменения</string>
     <key>podcast_waiting_upload</key>
     <string>Ожидание загрузки</string>
     <key>podcast_yesterday</key>
@@ -1781,6 +2277,12 @@
     <string>По выбору пользователя</string>
     <key>podcasts_library_sort_date_added</key>
     <string>По дате добавления</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Недавно прослушанные</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Теперь вы можете упорядочивать записи по дате прослушивания и сразу начинать воспроизведение с того места, на котором остановились.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Сортировать по категории «Недавно прослушанные»</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>По дате выхода выпуска</string>
     <key>podcasts_library_sort_title</key>
@@ -1833,6 +2335,8 @@
     <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
+    <key>queue_clear_episode_queue_singular</key>
+    <string>Удалить 1 выпуск</string>
     <key>queue_clear_queue</key>
     <string>ОЧИСТИТЬ ОЧЕРЕДЬ</string>
     <key>queue_for_later</key>
@@ -1845,16 +2349,69 @@
     <string>Оставшееся время %1$@</string>
     <key>rate</key>
     <string>Оценить</string>
+    <key>rate_pocket_casts</key>
+    <string>Оценить Pocket Casts</string>
     <key>rating_error</key>
     <string>Ой! Произошла ошибка.</string>
     <key>rating_listen_to_this_podcast_message</key>
     <string>Только слушатели этого подкаста могут ставить оценки. Прослушайте несколько эпизодов и после этого поставьте оценку. Ждём ваших отзывов!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Сначала прослушайте подкаст</string>
+    <key>rating_login_required</key>
+    <string>Чтобы поставить оценку, необходимо войти в систему</string>
+    <key>rating_no_ratings</key>
+    <string>Нет оценок</string>
     <key>rating_submitted</key>
     <string>Ваша оценка учтена!</string>
+    <key>rating_thank_you</key>
+    <string>Благодарим за оценку!</string>
     <key>rating_title</key>
     <string>Оценить %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Понятно</string>
+    <key>rating_whats_new_message</key>
+    <string>Оцените лучшие подкасты, чтобы авторы знали, как вам важна их работа. Кроме того, ваши оценки помогут остальным найти новые интересные материалы!</string>
+    <key>rating_whats_new_title</key>
+    <string>Уже доступно: оценки подкастов 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Активировать пропуск</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Откройте невероятные возможности прослушивания</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Получите бесплатный гостевой пропуск в Plus на %1$@</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Это предложение действительно только для новых участников. По истечении бесплатного периода будет автоматически списан ежегодный членский взнос в размере %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Получите бесплатный гостевой пропуск на %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Войдите или зарегистрируйтесь, чтобы предъявить ваш гостевой пропуск.</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Гостевой пропуск на %1$@</string>
+    <key>referrals_not_available_to_send</key>
+    <string>В данный момент гостевой пропуск недоступен</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Гостевым пропуском могут воспользоваться только те, у кого нет подписки Plus или Patron, и только один раз. Благодарим за прослушивание!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Это предложение недействительно</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Поделиться гостевым пропуском</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Здравствуйте!
+
+Это %1$@ гостевой пропуск в Pocket Casts Plus — мой любимый плеер подкастов. В нём есть множество уникальных функций, которых больше нет нигде: закладки, папки и многое другое. Надеюсь, вам он тоже понравится!
+</string>
+    <key>referrals_share_pass_message</key>
+    <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Гостевой пропуск Pocket Casts Plus на %1$@</string>
+    <key>referrals_tip_message</key>
+    <string>%1$@ пользования Pocket Casts Plus в подарок!</string>
+    <key>referrals_tip_title</key>
+    <string>Вы можете поделиться пропусками (%1$@)</string>
     <key>refresh_control_fetching_episodes</key>
     <string>ПОИСК НОВЫХ ВЫПУСКОВ ПОДКАСТА</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1925,6 +2482,8 @@
     <string>Поиск подкастов</string>
     <key>search_recent</key>
     <string>Последний поиск</string>
+    <key>search_results</key>
+    <string>%1$@ из %2$@</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -2055,6 +2614,8 @@
     <string>Фильтры не выбраны</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Подкасты не выбраны</string>
+    <key>settings_auto_downloads_on_follow</key>
+    <string>По подписке</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>Выбрано подкастов: %1$@</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2062,7 +2623,7 @@
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Скачивать первые выпуски в фильтре.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Скачивать новые выпуски по мере выхода.</string>
+    <string>Автоматически загружайте новые выпуски, сохраняйте выпуски новых шоу, на которые вы подписаны, и управляйте памятью, устанавливая ограничения на количество сохранённых выпусков.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Скачивать выпуски, добавленные в «Следующие».</string>
     <key>settings_badge_filter_header</key>
@@ -2075,6 +2636,8 @@
     <string>Звук добавления в закладки</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Звук подтверждения при создании закладки с помощью наушников.</string>
+    <key>settings_change_avatar</key>
+    <string>Изменить аватар</string>
     <key>settings_collect_information</key>
     <string>Сбор информации</string>
     <key>settings_collect_information_additional_information</key>
@@ -2171,6 +2734,8 @@
     <string>Поддержка старых версий Bluetooth</string>
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Если ваше устройство Bluetooth или автомобильная стереосистема приостанавливает воспроизведение Pocket Casts или сбрасывает позицию воспроизведения на 0, попробуйте включить эту настройку, чтобы устранить проблему.</string>
+    <key>settings_general_lock_screen_disabled</key>
+    <string>Включить очистку экрана блокировки</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Жест множественного выбора</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2182,7 +2747,7 @@
     <key>settings_general_play_back_actions</key>
     <string>Дополнительные действия при воспроизведении</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Добавляет на экран блокировки телефона и CarPlay отметку воспроизведения и опцию включения в избранное. Примечание: на экране блокировки эта кнопка заменит кнопку перехода назад.</string>
+    <string>Добавляет на экран блокировки телефона возможность оценки (в звездах).</string>
     <key>settings_general_player_header</key>
     <string>ПЛЕЕР</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2367,11 +2932,33 @@
     <string>В режиме «Включено» таймер сна будет перезапущен, если телефон станет двигаться.</string>
     <key>share</key>
     <string>Поделиться</string>
+    <key>share_clip</key>
+    <string>Поделиться клипом</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Ссылка скопирована в буфер обмена</string>
+    <key>share_copy_link</key>
+    <string>Копировать ссылку</string>
     <key>share_current_position</key>
     <string>Текущее положение</string>
+    <key>share_description</key>
+    <string>Выбрать формат и платформу для публикации</string>
+    <key>share_episode</key>
+    <string>Поделиться выпуском</string>
+    <key>share_episode_at</key>
+    <string>Поделиться выпуском в %1$@</string>
+    <key>share_episode_title</key>
+    <string>Поделиться выпуском</string>
+    <key>share_instagram_stories</key>
+    <string>Истории</string>
     <key>share_list_subscribing</key>
     <string>Подписка...</string>
+    <key>share_more_actions</key>
+    <string>Ещё</string>
     <key>share_podcast</key>
+    <string>Поделиться подкастом</string>
+    <key>share_podcast_private_not_available</key>
+    <string>Закрытыми подкастами нельзя поделиться</string>
+    <key>share_podcast_title</key>
     <string>Поделиться подкастом</string>
     <key>share_podcasts_all_selected</key>
     <string>ВЫБРАНО ВСЕ</string>
@@ -2459,6 +3046,10 @@
     <string>Перейти назад</string>
     <key>skip_chapters</key>
     <string>Предварительный выбор глав</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Перейти дальше</string>
     <key>sleep_timer</key>
@@ -2573,6 +3164,22 @@
     <string>%1$@ за %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Создать пользовательскую папку</string>
+    <key>suggested_folders_description</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Мы распределили ваши подкасты по папкам. Сохранить сейчас и настроить позже. Они заменят все нынешние папки.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Заменить папки</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Если вы примете предложенные папки, ваши текущие папки будут заменены. Это действие нельзя отменить.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Заменить существующие папки?</string>
+    <key>suggested_folders_title</key>
+    <string>Умные папки</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Использовать эти папки</string>
     <key>support_watch_help_message</key>
     <string>Если у вас возникли проблемы с приложением Pocket Casts для часов, мы можем отправить журналы с носимого устройства, чтобы помочь вам. Для этого откройте Pocket Casts на часах.</string>
     <key>support_watch_help_opened_app</key>
@@ -2635,6 +3242,18 @@
     <string>Сегодня</string>
     <key>top</key>
     <string>Вверх</string>
+    <key>transcript</key>
+    <string>Расшифровка</string>
+    <key>transcript_error_empty</key>
+    <string>Кажется, эта расшифровка пуста</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>К сожалению, во время анализа этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_not_available</key>
+    <string>К сожалению, в этом выпуске нет расшифровки</string>
+    <key>transcript_error_not_supported</key>
+    <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>
@@ -2645,6 +3264,8 @@
     <string>Попробовать</string>
     <key>unarchive</key>
     <string>Из&amp;nbsp;архива</string>
+    <key>unfollow</key>
+    <string>Отменить подписку</string>
     <key>unknown_duration</key>
     <string>? мин</string>
     <key>unstar</key>
@@ -2663,8 +3284,58 @@
     <string>История Up Next</string>
     <key>up_next_history_explanation</key>
     <string>Список последних обновлений Up Next, вызванных изменениями на других устройствах. Нажмите любую запись, чтобы просмотреть и при желании восстановить выпуски.</string>
+    <key>up_next_shuffle_announcement_button</key>
+    <string>Понятно</string>
+    <key>up_next_shuffle_announcement_text</key>
+    <string>Воспроизводите любой выпуск, не меняя очередности в списке.</string>
+    <key>up_next_shuffle_announcement_title</key>
+    <string>Представляем режим случайного воспроизведения</string>
+    <key>up_next_shuffle_toast_message</key>
+    <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>Скидка 50%% на первый год</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Бесплатный пробный период Plus: %1$@</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Получите Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Читать другие отзывы в App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>Оценка: %1$@ (Отзывов: %2$@K)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Как давний пользователь, я могу сказать, что набор функций и возможности настройки даже в бесплатной версии просто безграничны. Мне нравится, что приложение синхронизируется на всех устройствах, и я могу начать прослушивание с телефона, а затем продолжить при помощи Alexa. Я рекомендую его всем, кто слушает подкасты. А ещё здесь крутая статистика!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>Пользуюсь 8 лет, и за это время отличное приложение стало ещё лучше.</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Я пользуюсь Pocket Casts с 2017 года.
+
+Могу поклясться, что это лучшее приложение для прослушивания подкастов. В нём много полезных функций, и оно активно развивается. Были жалобы на то, что изменился интерфейс, но я не заметил никаких серьёзных изменений.
+
+Приложение может быть настолько простым или сложным, насколько это вам нужно. Так что вы можете либо пользоваться только функцией plug and play, либо настроить пропуск заставок, либо включить любую другую функцию, которая вам нравится.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>Синхронизация просто супер. Не знаю, что там за волшебство, но это приложение определённо лучше всех, которыми я пользовался.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Пользуюсь приложением уже 6 лет или даже больше, начинал на Android, а теперь уже почти год — на iOS. Работает одинаково на обеих платформах. Легко искать и находить новые подкасты, отличный пользовательский интерфейс, можно добавлять подкасты по URL-адресу в RSS-ленте. Приложение в часах тоже работает, но я чаще всего пользуюсь им как кнопкой воспроизведения или паузы. Можно войти с данными учётной записи, чтобы синхронизировать приложение на всех устройствах, но это делать необязательно.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>PC уже много лет остаётся моим любимым приложением. Я пробовал другие приложения для подкастов, но всегда возвращался к PC: это самый простой вариант с лучшим пользовательским интерфейсом и поддержкой. Безусловно, стоит попробовать, особенно если вам надоело ваше нынешнее приложение для подкастов.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>САМОЕ лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>Всё, что нужно любителям подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>Лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Потрясающая штука.</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Работает отлично, легко находить и добавлять новые подкасты.</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Почему люди переходят на версию Plus</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Просто это лучший способ слушать подкасты</string>
     <key>upgrade_to_plan</key>
     <string>Обновить до %1$@</string>
     <key>upgrade_to_plus</key>
@@ -2709,6 +3380,8 @@
 Оба варианта — отличный выбор. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Ничего не воспроизводится</string>
+    <key>watch_play_source</key>
+    <string>Воспроизвести источник</string>
     <key>watch_source_msg</key>
     <string>Подкасты будут воспроизводиться из динамика, к которому подключено выбранное устройство</string>
     <key>watch_source_plus_info</key>
@@ -2727,6 +3400,8 @@
     <string>Эпизоды можно добавлять в очередь для последующего воспроизведения на экране сведений об эпизодах либо посредством их добавления на телефоне.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Очередь пуста</string>
+    <key>week</key>
+    <string>неделя</string>
     <key>welcome_discover_button</key>
     <string>Найти следующий подкаст</string>
     <key>welcome_discover_description</key>
@@ -2766,9 +3441,9 @@
     <key>widgets_app_icon_name</key>
     <string>Иконка</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Проверьте вкладку «Поиск»</string>
+    <string>Испытайте Discover и убедитесь сами</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Хотите услышать больше?</string>
+    <string>Очередь пуста</string>
     <key>widgets_nothing_playing</key>
     <string>Ничего не воспроизводится</string>
     <key>widgets_now_playing_desc</key>
@@ -2781,5 +3456,7 @@
     <string>год</string>
     <key>yearly</key>
     <string>Ежегодно</string>
+    <key>you_might_like</key>
+    <string>Вам может понравиться</string>
   </dict>
 </plist>

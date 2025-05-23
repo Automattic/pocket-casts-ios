@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class CategorySponsoredCell: ThemeableCell {
@@ -39,8 +40,8 @@ class CategorySponsoredCell: ThemeableCell {
             subscribeButton.onImage = UIImage(named: "discover_tick")
             subscribeButton.offImage = UIImage(named: "discover_add")
             subscribeButton.tintColor = ThemeColor.secondaryIcon01()
-            subscribeButton.offAccessibilityLabel = L10n.subscribe
-            subscribeButton.onAccessibilityLabel = L10n.subscribed
+            subscribeButton.offAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe
+            subscribeButton.onAccessibilityLabel = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed
 
             NotificationCenter.default.addObserver(self, selector: #selector(podcastWasAdded), name: Constants.Notifications.podcastAdded, object: nil)
         }
@@ -87,7 +88,7 @@ class CategorySponsoredCell: ThemeableCell {
         guard let discoverPromotion = discoverPromotion else { return }
 
         if let uuid = discoverPromotion.podcast_uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
         }
     }
 
