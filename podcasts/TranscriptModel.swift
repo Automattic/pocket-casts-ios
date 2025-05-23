@@ -79,15 +79,19 @@ class TranscriptModel: @unchecked Sendable {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
     }
 
+    /// MARK - transcript sync extras:
+    var timestamps: [(TimeInterval, TimeInterval)] = []
+
+    var words: [Word] = []
+
     var allSpeechToText: [String] = [] {
         didSet {
             print("$$ \(allSpeechToText.joined(separator: " "))")
             print("$$")
         }
     }
-    var timestamps: [(TimeInterval, TimeInterval)] = []
-
-    var words: [Word] = []
+}
+extension TranscriptModel {
 
     public func firstWord(containing secondsValue: TimeInterval) -> Word? {
         words
