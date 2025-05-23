@@ -126,7 +126,9 @@ extension PlaylistsViewController {
         }
         newFilterTip = vc
         Analytics.track(.filterTooltipShown)
-        present(vc, animated: true)
+        present(vc, animated: true) {
+            Settings.shouldShowNewFilterTip = false
+        }
     }
 
     private func dismissTipView() {
