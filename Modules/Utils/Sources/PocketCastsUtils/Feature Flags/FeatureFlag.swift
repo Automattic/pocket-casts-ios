@@ -303,7 +303,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
-            false
+            true
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
