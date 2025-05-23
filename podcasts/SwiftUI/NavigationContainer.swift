@@ -8,14 +8,8 @@ struct NavigationContainer<Content: View>: View {
 }
 
     var body: some View {
-        if #available(iOS 16.0, *) {
-            NavigationStack {
-                content()
-            }
-        } else {
-            NavigationView {
-                content()
-            }
+        NavigationStack {
+            content()
         }
     }
 }

@@ -223,12 +223,8 @@ extension DiscoverCollectionViewController {
         }
 
         let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
-            if #available(iOS 16.0, *) {
-                supplementaryView.contentConfiguration = UIHostingConfiguration {
-                    EmptyView()
-                }
-            } else {
-                supplementaryView.contentConfiguration = UIListContentConfiguration.plainFooter()
+            supplementaryView.contentConfiguration = UIHostingConfiguration {
+                EmptyView()
             }
         }
 
@@ -237,45 +233,23 @@ extension DiscoverCollectionViewController {
         }
 
         let nonItemRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
-            if #available(iOS 16, *) {
-                let contentConfiguration: UIContentConfiguration
-                switch item {
-                case .loading:
-                    contentConfiguration = ContentUnavailableConfiguration.loading()
-                case .noNetwork:
-                    contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                        self?.reloadData()
-                    }
-                case .noResults:
-                    contentConfiguration = ContentUnavailableConfiguration.noResults()
-                case .empty:
-                    contentConfiguration = ContentUnavailableConfiguration.empty()
-                case .item:
-                    ()
-                    fatalError("Should never happen")
+            let contentConfiguration: UIContentConfiguration
+            switch item {
+            case .loading:
+                contentConfiguration = ContentUnavailableConfiguration.loading()
+            case .noNetwork:
+                contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
+                    self?.reloadData()
                 }
-                cell.contentConfiguration = contentConfiguration
-            } else {
-                let view: any View
-                switch item {
-                case .loading:
-                    view = LoadingView()
-                case .noNetwork:
-                    view = NoNetworkView { [weak self] in
-                        self?.reloadData()
-                    }
-                case .noResults:
-                    view = NoResultsView()
-                case .empty:
-                    view = EmptyView()
-                case .item:
-                    ()
-                    fatalError("Should never happen")
-                }
-                let uiView = view.environmentObject(Theme.sharedTheme).uiView
-                cell.contentView.addSubview(uiView)
-                uiView.anchorToAllSidesOf(view: cell.contentView)
+            case .noResults:
+                contentConfiguration = ContentUnavailableConfiguration.noResults()
+            case .empty:
+                contentConfiguration = ContentUnavailableConfiguration.empty()
+            case .item:
+                ()
+                fatalError("Should never happen")
             }
+            cell.contentConfiguration = contentConfiguration
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in

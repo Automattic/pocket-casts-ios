@@ -48,15 +48,11 @@ struct CategoriesModalPicker: View {
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(background)
                         .listRowSeparatorTint(separator)
-                        .modify {
-                            if #available(iOS 16.0, *) {
-                                $0.alignmentGuide(.listRowSeparatorLeading) { d in
-                                    d[.leading] + Constants.Padding.cell.leading
-                                }
-                                .alignmentGuide(.listRowSeparatorTrailing) { d in
-                                    d[.trailing] - Constants.Padding.cell.trailing
-                                }
-                            }
+                        .alignmentGuide(.listRowSeparatorLeading) { d in
+                            d[.leading] + Constants.Padding.cell.leading
+                        }
+                        .alignmentGuide(.listRowSeparatorTrailing) { d in
+                            d[.trailing] - Constants.Padding.cell.trailing
                         }
                 }
             }

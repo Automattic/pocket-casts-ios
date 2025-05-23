@@ -156,14 +156,8 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.fraction(0.4)])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
+        .presentationDetents([.fraction(0.4)])
+            .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {
