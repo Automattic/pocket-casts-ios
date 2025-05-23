@@ -1626,13 +1626,13 @@ Pocket Casts на полную мощность.</string>
     <key>notifications_permissions_action</key>
     <string>Разрешить уведомления</string>
     <key>notifications_permissions_body</key>
-    <string>Уведомления — лучший способ отслеживать новые выпуски, получать рекомендации новых шоу и советы по Pocket Casts.</string>
+    <string>Уведомления — лучший способ отслеживать новые выпуски, получать рекомендации новых шоу и советы по Pocket Casts.</string>
     <key>notifications_permissions_needs_action</key>
     <string>Разрешите уведомления в настройках устройства</string>
     <key>notifications_permissions_open_settings</key>
     <string>Открыть настройки</string>
     <key>notifications_permissions_title</key>
-    <string>Будьте в курсе событий</string>
+    <string>Будьте в курсе событий!</string>
     <key>notifications_play_now</key>
     <string>Воспроизвести</string>
     <key>notifications_pocket_cast_offers</key>

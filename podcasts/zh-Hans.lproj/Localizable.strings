@@ -384,13 +384,13 @@
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_survey_description</key>
-    <string>我们很乐意了解您取消订单的原因。 您的反馈有助于我们做出改进。</string>
+    <string>我们很想知道您取消订单的原因。 您的反馈有助于我们做出改进。</string>
     <key>cancel_subscription_survey_row_better_app</key>
     <string>我找到了一款更好的应用程序</string>
     <key>cancel_subscription_survey_row_cost</key>
-    <string>成本相关原因</string>
+    <string>费用太高</string>
     <key>cancel_subscription_survey_row_not_enough</key>
-    <string>我用得不够多</string>
+    <string>我不常使用</string>
     <key>cancel_subscription_survey_row_other</key>
     <string>其他</string>
     <key>cancel_subscription_survey_row_technical_issue</key>
@@ -1574,15 +1574,15 @@ Pocket Casts。</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
     <key>notifications_app_clip_body</key>
-    <string>安装 Pocket Casts，通过强大的播放和自定义工具获得完整的体验。</string>
+    <string>安装 Pocket Casts，通过强大的播放功能和自定义工具获得完整的体验。</string>
     <key>notifications_app_clip_title</key>
-    <string>准备好收听更多的播客了吗？</string>
+    <string>准备好收听更多播客了吗？</string>
     <key>notifications_daily_reminders</key>
     <string>每日提醒</string>
     <key>notifications_new_feature_suggested_folders_body</key>
     <string>试用 Plus，通过文件夹自动整理您的节目。</string>
     <key>notifications_new_feature_suggested_folders_title</key>
-    <string>您的播客已整理</string>
+    <string>整理您的播客</string>
     <key>notifications_new_features_tips</key>
     <string>新功能和贴士</string>
     <key>notifications_off</key>
@@ -1626,7 +1626,7 @@ Pocket Casts。</string>
     <key>notifications_permissions_action</key>
     <string>允许通知</string>
     <key>notifications_permissions_body</key>
-    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 相关提示的最佳方式。</string>
+    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 使用技巧的最佳方式。</string>
     <key>notifications_permissions_needs_action</key>
     <string>请在您的设备设置中允许通知</string>
     <key>notifications_permissions_open_settings</key>
@@ -1642,13 +1642,13 @@ Pocket Casts。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本周热门话题</string>
     <key>notifications_recommendations_you_might_like_body</key>
-    <string>不知道接下来该听什么？ 看看这些节目吧！</string>
+    <string>不知道接下来该听什么？ 不妨看看这些节目！</string>
     <key>notifications_recommendations_you_might_like_title</key>
-    <string>给您的新推荐</string>
+    <string>为您推荐的新内容</string>
     <key>notifications_reengagement_downloads_body</key>
-    <string>您已下载 %1$@ 个新剧集，随时可以收看！</string>
+    <string>您已下载 %1$@ 个新剧集，可随时收听！</string>
     <key>notifications_reengagement_downloads_title</key>
-    <string>离线收看</string>
+    <string>离线收听</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>您已经有一段时间没收听播客了。 回来继续收听，尽情享受吧！</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2216,7 +2216,7 @@ Pocket Casts。</string>
     <key>podcast_similar_generic_header</key>
     <string>类似节目</string>
     <key>podcast_similar_header</key>
-    <string>类似于“%@”的节目</string>
+    <string>“%@”的类似节目</string>
     <key>podcast_singular</key>
     <string>播客</string>
     <key>podcast_soon</key>
