@@ -398,7 +398,7 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <key>cancel_subscription_survey_submit_feedback</key>
     <string>Enviar opinión</string>
     <key>cancel_subscription_survey_title</key>
-    <string>Gracias por probarlo
+    <string>Gracias por probar
 Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
     <string>¿Estás pensando en irte?
@@ -1626,7 +1626,7 @@ pódcast contigo</string>
     <key>notifications_permissions_action</key>
     <string>Permitir notificaciones</string>
     <key>notifications_permissions_body</key>
-    <string>Las notificaciones son la mejor manera de estar al tanto de los nuevos episodios, obtener recomendaciones de nuevos programas y consejos sobre Pocket Casts.</string>
+    <string>Las notificaciones son la mejor manera de estar al tanto de los nuevos episodios y de obtener recomendaciones de nuevos programas y consejos sobre Pocket Casts.</string>
     <key>notifications_permissions_needs_action</key>
     <string>Permite las notificaciones en los ajustes de tu dispositivo</string>
     <key>notifications_permissions_open_settings</key>
