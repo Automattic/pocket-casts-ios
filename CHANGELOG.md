@@ -6,6 +6,7 @@
 -----
 - Add Recommendations feature to Discover and Podcast pages [#2989](https://github.com/Automattic/pocket-casts-ios/issues/2989)
 - Fix repeating the episode when skipping forward [#3138](https://github.com/Automattic/pocket-casts-ios/pull/3138)
+- Fix Up Next Queue syncing when an episode is replaced. This could lead to old episodes being added back to the queue. [#3159](https://github.com/Automattic/pocket-casts-ios/pull/3159)
 
 7.88
 -----

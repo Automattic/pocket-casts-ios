@@ -1626,7 +1626,7 @@ podcasts partout avec</string>
     <key>notifications_permissions_action</key>
     <string>Autoriser les notifications</string>
     <key>notifications_permissions_body</key>
-    <string>Les notifications sont le meilleur moyen de suivre les nouveaux épisodes, d’obtenir des recommandations concernant les nouvelles émissions et des conseils relatifs à Pocket Casts.</string>
+    <string>Les notifications sont le meilleur moyen de suivre les nouveaux épisodes, d’obtenir des recommandations de nouvelles émissions et des conseils relatifs à Pocket Casts.</string>
     <key>notifications_permissions_needs_action</key>
     <string>Veuillez autoriser les notifications dans les réglages de votre appareil</string>
     <key>notifications_permissions_open_settings</key>
