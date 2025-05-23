@@ -2018,7 +2018,6 @@
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
-		FF7F89EA2C2979D900FC0ED5 /* TranscriptSyncChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptSyncChanges.swift */; };
 		FF6BBCEE2C53E9D000604A01 /* TranscriptManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */; };
 		FF6BBCF02C53EA1F00604A01 /* sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = FF6BBCEF2C53EA1F00604A01 /* sample.vtt */; };
 		FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
@@ -2045,6 +2044,7 @@
 		FFD044192C4FE9F400CCB192 /* TranscriptModelFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */; };
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDB38302DE0B88200911B51 /* AudioReadSpeechRecognitionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDB382F2DE0B88200911B51 /* AudioReadSpeechRecognitionTask.swift */; };
+		FFDB38312DE0CFE800911B51 /* AudioReadSpeechRecognitionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDB382F2DE0B88200911B51 /* AudioReadSpeechRecognitionTask.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
@@ -4092,7 +4092,6 @@
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceNavigationView.swift; sourceTree = "<group>"; };
 		FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsApp.swift; sourceTree = "<group>"; };
-		FF7F89E92C2979D900FC0ED5 /* TranscriptSyncChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSyncChanges.swift; sourceTree = "<group>"; };
 		FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptManagerTests.swift; sourceTree = "<group>"; };
 		FF6BBCEF2C53EA1F00604A01 /* sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample.vtt; sourceTree = "<group>"; };
 		FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsDataRetriever.swift; sourceTree = "<group>"; };
@@ -8599,7 +8598,6 @@
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
 			isa = PBXGroup;
 			children = (
-				FF7F89E92C2979D900FC0ED5 /* TranscriptSyncChanges.swift */,
 				FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */,
 				9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */,
 				FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */,
@@ -9828,9 +9826,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -9863,9 +9865,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -10170,7 +10176,7 @@
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
 				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
 				BD9324712398BB50004F19A1 /* TourView.swift in Sources */,
-				FF7F89EA2C2979D900FC0ED5 /* TranscriptSyncChanges.swift in Sources */,
+				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				BDC5360A27C88A5700EFCF31 /* FolderPreviewWrapper.swift in Sources */,
 				8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */,
@@ -11330,6 +11336,7 @@
 				F5F509382CEBF1FE007D6E39 /* ThemeableLabel.swift in Sources */,
 				FF0F407C2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */,
 				F5F509562CEBF62D007D6E39 /* DownloadProgress.swift in Sources */,
+				FFDB38312DE0CFE800911B51 /* AudioReadSpeechRecognitionTask.swift in Sources */,
 				F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */,
 				F5ADE2F52CF52AFA00F2CEA7 /* TracksAdapter.swift in Sources */,
 				F5D5F7BB2CEBE7CE001F492D /* NowPlayingView.swift in Sources */,

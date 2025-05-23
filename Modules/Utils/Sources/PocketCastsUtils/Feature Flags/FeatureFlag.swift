@@ -188,6 +188,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
     case replaceSpecificEpisode
 
+    /// If we should try to transcript sync with the audio
+    case transcriptSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -317,6 +320,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOfferEligibilityCheck:
             true
         case .replaceSpecificEpisode:
+            true
+        case .transcriptSync:
             true
         }
     }

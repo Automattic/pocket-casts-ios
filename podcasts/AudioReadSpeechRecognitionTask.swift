@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Speech
 
-class AudioReadSpeechRecognitionTask {
+class AudioReadSpeechRecognitionTask: AudioReaderTask {
     private let maxSilenceAmountToSave = 1000
 
     private var minRMS = 0.005 as Float32
@@ -123,6 +123,7 @@ class AudioReadSpeechRecognitionTask {
         }
 
         if let result {
+            print("$$ SFSpeechRecognition result: \(result.bestTranscription.formattedString)")
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.speechToTextAvailable, userInfo: ["text": result.bestTranscription, "offset": offset])
         }
     }

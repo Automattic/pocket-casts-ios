@@ -4,6 +4,13 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
+protocol AudioReaderTask {
+    func startup()
+    func shutdown()
+    func setTrimSilence(_ trimSilence: TrimSilenceAmount)
+    func seekTo(_ time: TimeInterval, completion: ((Bool) -> Void)?)
+}
+
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
 
@@ -21,7 +28,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var peakLimiter: AVAudioUnitEffect?
 
     private var playBufferManager: PlayBufferManager?
-    private var audioReadTask: AudioReadTask?
+    private var audioReadTask: AudioReaderTask?
     private var audioPlayTask: AudioPlayTask?
     private var audioFile: AVAudioFile?
 
@@ -358,7 +365,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        if FeatureFlag.transcriptSync.enabled {
+            audioReadTask = AudioReadSpeechRecognitionTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        } else {
+            audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        }
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()

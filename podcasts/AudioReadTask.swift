@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-class AudioReadTask {
+class AudioReadTask: AudioReaderTask {
     private let maxSilenceAmountToSave = 1000
 
     private var minRMS = 0.005 as Float32
