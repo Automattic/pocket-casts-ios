@@ -1,6 +1,7 @@
 7.90
 -----
- - New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
+- New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
+- New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
 
 7.89
 -----
