@@ -106,7 +106,7 @@ private enum EmptyConstants {
 }
 
 extension EmptyStateView where Title == Text {
-    init(title: String, message: String?, icon: (() -> Image)? = nil, actions: [EmptyStateAction], style: Style) {
+    init(title: String, message: String?, icon: (() -> Image)? = nil, actions: [EmptyStateAction] = [], style: Style = .defaultStyle) {
         self.message = message
         self.actions = actions
         self.icon = icon

@@ -2,6 +2,7 @@
 -----
 - Drop iOS 15 and watchOS 8 [#2858](https://github.com/Automattic/pocket-casts-ios/issues/2858)
 
+ - New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
 
 7.89
 -----

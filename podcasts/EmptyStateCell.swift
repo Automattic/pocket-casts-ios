@@ -15,13 +15,16 @@ class EmptyStateCell: UITableViewCell {
 
     func configure<Style: EmptyStateViewStyle>(title: String, message: String? = nil, icon: (() -> Image)? = nil, style: Style = DefaultEmptyStateStyle.defaultStyle, actions: [EmptyStateAction] = []) {
         self.contentConfiguration = UIHostingConfiguration {
-            EmptyStateView(
-                title: title,
-                message: message,
-                icon: icon,
-                actions: actions,
-                style: style
-            )
+            VStack {
+                EmptyStateView(
+                    title: title,
+                    message: message,
+                    icon: icon,
+                    actions: actions,
+                    style: style
+                )
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
         }
         .margins(.horizontal, 16)
         .margins(.vertical, 8)
