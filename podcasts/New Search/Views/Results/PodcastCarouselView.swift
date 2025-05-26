@@ -95,16 +95,9 @@ struct PodcastsCarouselView: View {
                 .id(searchResults.podcasts.map { $0.id })
 
             } else if !searchResults.isShowingLocalResultsOnly {
-                VStack(spacing: 2) {
-                    Text(L10n.discoverNoPodcastsFound)
-                        .font(style: .subheadline, weight: .medium)
-
-                    Text(L10n.discoverNoPodcastsFoundMsg)
-                        .font(size: 14, style: .subheadline, weight: .medium)
-                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.all, 10)
+                EmptyStateView(title: L10n.discoverNoPodcastsFound,
+                               message: L10n.discoverNoPodcastsFoundMsg,
+                               icon: { Image(systemName: "info.circle") })
             }
 
             ThemedDivider()
