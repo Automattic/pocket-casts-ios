@@ -10,6 +10,7 @@ class SearchResultsModel: ObservableObject {
 
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
+    @Published var searchError: Error?
 
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
@@ -62,6 +63,7 @@ class SearchResultsModel: ObservableObject {
                     playedEpisodesUUIDs = buildPlayedEpisodesUUIDs(results)
                     episodes = results
                 } catch {
+                    searchError = error
                     analyticsHelper.trackFailed(error)
                 }
 

@@ -43,6 +43,11 @@ struct SearchResultsView: View {
                         .onAppear {
                             identifier += 1
                         }
+                    } else if let error = searchResults.searchError {
+                        EmptyStateView(
+                            title: L10n.discoverSearchFailed,
+                            message: L10n.discoverSearchFailedMsg,
+                            icon: { Image(AppTheme.noConnectionImageName()) })
                     } else if searchResults.episodes.count > 0 {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
                             let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
