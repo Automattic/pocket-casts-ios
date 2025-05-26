@@ -43,7 +43,7 @@ struct SearchResultsView: View {
                         .onAppear {
                             identifier += 1
                         }
-                    } else if let error = searchResults.searchError {
+                    } else if let _ = searchResults.searchError {
                         EmptyStateView(
                             title: L10n.discoverSearchFailed,
                             message: L10n.discoverSearchFailedMsg,
