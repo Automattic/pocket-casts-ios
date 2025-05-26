@@ -37,7 +37,12 @@ struct PodcastsCarouselView: View {
 
     var body: some View {
         Group {
-            if shouldShowLoadingActivity {
+            if let error = searchResults.searchError {
+                EmptyStateView(
+                    title: L10n.discoverSearchFailed,
+                    message: L10n.discoverSearchFailedMsg,
+                    icon: { Image(AppTheme.noConnectionImageName()) })
+            } else if shouldShowLoadingActivity {
                 ZStack(alignment: .center) {
                     ProgressView()
                         .tint(AppTheme.loadingActivityColor().color)
