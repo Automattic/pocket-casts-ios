@@ -7,6 +7,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 import FacebookCore
+import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -39,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
+
+        DataManager.logger = SentryLogger()
 
         appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
@@ -417,5 +420,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
+    }
+}
+
+struct SentryLogger: ErrorLogger {
+    func log(error: Error, context: [String : Any]?) {
+        SentrySDK.capture(error: error) { scope in
+            context?.forEach { key, value in
+                scope.setExtra(value: "\(value)", key: key)
+            }
+        }
     }
 }

@@ -3,9 +3,11 @@ import Foundation
 
 class GRDBQueue: PCDBQueue {
     private let dbPool: DatabasePool
+    private let logger: ErrorLogger?
 
-    init(dbPool: DatabasePool) {
+    init(dbPool: DatabasePool, logger: ErrorLogger? = nil) {
         self.dbPool = dbPool
+        self.logger = logger
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
