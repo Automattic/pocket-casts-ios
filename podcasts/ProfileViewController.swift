@@ -11,11 +11,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
-    @IBOutlet var lastRefreshTime: UILabel! {
-        didSet {
-            lastRefreshTime.font = UIFont.font(with: .body)
-        }
-    }
+    @IBOutlet var lastRefreshTime: UILabel!
     @IBOutlet var refreshBtn: AnimatedImageButton! {
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
