@@ -73,9 +73,13 @@ class TranscriptManager {
 
         guard
             let transcriptURL = URL(string: transcript.url),
-            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL),
-            !transcriptText.isEmpty
+            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL)
         else {
+            throw TranscriptError.failedToLoad
+        }
+
+        let trimmedTranscript = transcriptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTranscript.isEmpty else {
             throw TranscriptError.failedToLoad
         }
 
