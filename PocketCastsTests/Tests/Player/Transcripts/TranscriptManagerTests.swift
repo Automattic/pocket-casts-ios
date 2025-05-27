@@ -26,6 +26,16 @@ final class TranscriptManagerTests: XCTestCase {
         }
     }
 
+    class EmptyMockShowCoordinator: MockShowCoordinator {
+        override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+            guard let transcriptURL = Bundle(for: Self.self).url(forResource: "empty_sample", withExtension: "vtt") else {
+                return (transcripts: [], hasGeneratedTranscripts: false)
+            }
+            let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
+            return (transcripts: [transcript], hasGeneratedTranscripts: false)
+        }
+    }
+
     func testLoadingTranscript() async throws {
         let mockShowCoordinator = MockShowCoordinator()
         let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
@@ -36,4 +46,14 @@ final class TranscriptManagerTests: XCTestCase {
         XCTAssertEqual(model.cues.count, 13)
     }
 
+    func testEmptyLoadingTranscript() async {
+        let mockShowCoordinator = EmptyMockShowCoordinator()
+        let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
+
+        do {
+            _ = try await manager.loadTranscript()
+        } catch {
+            XCTAssertTrue(error is TranscriptError)
+        }
+    }
 }
