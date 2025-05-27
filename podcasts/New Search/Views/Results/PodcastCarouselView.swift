@@ -41,9 +41,9 @@ struct PodcastsCarouselView: View {
                 EmptyStateView(
                     title: L10n.discoverSearchFailed,
                     message: L10n.discoverSearchFailedMsg,
-                    icon: { Image(AppTheme.noConnectionImageName()).renderingMode(.template) },
+                    icon: { Image("no-connection-grey").renderingMode(.template) },
                     actions: [
-                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme)) {
+                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
                             searchResults.search(term: searchResults.currentSearchTerm)
                         }
                     ]
