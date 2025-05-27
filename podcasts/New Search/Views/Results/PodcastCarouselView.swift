@@ -37,7 +37,7 @@ struct PodcastsCarouselView: View {
 
     var body: some View {
         Group {
-            if let _ = searchResults.searchError {
+            if let _ = searchResults.podcastSearchError {
                 EmptyStateView(
                     title: L10n.discoverSearchFailed,
                     message: L10n.discoverSearchFailedMsg,
