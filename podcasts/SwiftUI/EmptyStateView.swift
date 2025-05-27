@@ -12,15 +12,16 @@ struct EmptyStateAction: Identifiable {
     let id: String
     let view: AnyView
 
-    init(
+    init<Style: ButtonStyle>(
         title: String,
+        style: Style = RoundedButtonStyle(theme: .sharedTheme),
         action: @escaping () -> Void
     ) {
         self.id = title
         self.view = AnyView(
             Button(title) {
                 action()
-            }.buttonStyle(RoundedButtonStyle(theme: .sharedTheme))
+            }.buttonStyle(style)
         )
     }
 

@@ -43,7 +43,7 @@ struct PodcastsCarouselView: View {
                     message: L10n.discoverSearchFailedMsg,
                     icon: { Image(AppTheme.noConnectionImageName()).renderingMode(.template) },
                     actions: [
-                        .init(title: L10n.tryAgain) {
+                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme)) {
                             searchResults.search(term: searchResults.currentSearchTerm)
                         }
                     ]
