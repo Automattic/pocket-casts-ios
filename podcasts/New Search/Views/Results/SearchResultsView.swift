@@ -22,7 +22,7 @@ struct SearchResultsView: View {
                     EmptyStateView(
                         title: L10n.discoverSearchFailed,
                         message: L10n.discoverSearchFailedMsg,
-                        icon: { Image(AppTheme.noConnectionImageName()) },
+                        icon: { Image(AppTheme.noConnectionImageName()).renderingMode(.template) },
                         actions: [
                             .init(title: L10n.tryAgain) {
                                 searchResults.search(term: searchResults.currentSearchTerm)
@@ -68,7 +68,7 @@ struct SearchResultsView: View {
                 EmptyStateView(
                     title: L10n.discoverSearchFailed,
                     message: L10n.discoverSearchFailedMsg,
-                    icon: { Image(AppTheme.noConnectionImageName()) },
+                    icon: { Image(AppTheme.noConnectionImageName()).renderingMode(.template) },
                     actions: [
                         .init(title: L10n.tryAgain) {
                             searchResults.search(term: searchResults.currentSearchTerm)
