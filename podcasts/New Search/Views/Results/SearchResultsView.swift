@@ -30,6 +30,7 @@ struct SearchResultsView: View {
                         ]
                     )
                 }
+                .frame(maxHeight: .infinity)
             } else {
                 SearchListView {
                     ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
