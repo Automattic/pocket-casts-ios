@@ -41,7 +41,13 @@ struct PodcastsCarouselView: View {
                 EmptyStateView(
                     title: L10n.discoverSearchFailed,
                     message: L10n.discoverSearchFailedMsg,
-                    icon: { Image(AppTheme.noConnectionImageName()) })
+                    icon: { Image(AppTheme.noConnectionImageName()) },
+                    actions: [
+                        .init(title: L10n.tryAgain) {
+                            searchResults.search(term: searchResults.currentSearchTerm)
+                        }
+                    ]
+                )
             } else if shouldShowLoadingActivity {
                 ZStack(alignment: .center) {
                     ProgressView()

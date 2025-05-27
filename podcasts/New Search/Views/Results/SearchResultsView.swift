@@ -47,7 +47,13 @@ struct SearchResultsView: View {
                         EmptyStateView(
                             title: L10n.discoverSearchFailed,
                             message: L10n.discoverSearchFailedMsg,
-                            icon: { Image(AppTheme.noConnectionImageName()) })
+                            icon: { Image(AppTheme.noConnectionImageName()) },
+                            actions: [
+                                .init(title: L10n.tryAgain) {
+                                    searchResults.search(term: searchResults.currentSearchTerm)
+                                }
+                            ]
+                        )
                     } else if searchResults.episodes.count > 0 {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
                             let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)

@@ -20,6 +20,8 @@ class SearchResultsModel: ObservableObject {
 
     @Published var hideEpisodes = false
 
+    private(set) var currentSearchTerm: String = ""
+
     private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
 
@@ -34,10 +36,14 @@ class SearchResultsModel: ObservableObject {
         episodes = []
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
+        currentSearchTerm = ""
     }
 
     @MainActor
     func search(term: String) {
+        currentSearchTerm = term
+        searchError = nil
+
         if !isShowingLocalResultsOnly {
             clearSearch()
         }
