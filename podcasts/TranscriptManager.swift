@@ -73,7 +73,8 @@ class TranscriptManager {
 
         guard
             let transcriptURL = URL(string: transcript.url),
-            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL)
+            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL),
+            !transcriptText.isEmpty
         else {
             throw TranscriptError.failedToLoad
         }
