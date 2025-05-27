@@ -25,7 +25,7 @@ final class TranscriptManagerTests: XCTestCase {
             return (transcripts: [transcript], hasGeneratedTranscripts: false)
         }
     }
-    
+
     class EmptyMockShowCoordinator: MockShowCoordinator {
         override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "empty_sample", withExtension: "vtt") else {
