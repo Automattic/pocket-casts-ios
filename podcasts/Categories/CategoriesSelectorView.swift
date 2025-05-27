@@ -102,14 +102,8 @@ struct CategoriesPillsView: View {
         .buttonStyle(CategoryButtonStyle())
         .sheet(isPresented: $showingCategories) {
             CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory, region: region)
-                .modify {
-                    if #available(iOS 16.0, *) {
-                        $0.presentationDetents([.medium, .large])
-                            .presentationDragIndicator(.hidden)
-                    } else {
-                        $0
-                    }
-                }
+                .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.hidden)
         }
         .onChange(of: showingCategories) { isShowing in
             if isShowing {

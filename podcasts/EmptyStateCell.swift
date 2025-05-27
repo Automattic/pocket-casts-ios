@@ -14,40 +14,20 @@ class EmptyStateCell: UITableViewCell {
     }
 
     func configure<Style: EmptyStateViewStyle>(title: String, message: String? = nil, icon: (() -> Image)? = nil, style: Style = DefaultEmptyStateStyle.defaultStyle, actions: [EmptyStateAction] = []) {
-        if #available(iOS 16.0, *) {
-            self.contentConfiguration = UIHostingConfiguration {
-                VStack {
-                    EmptyStateView(
-                        title: title,
-                        message: message,
-                        icon: icon,
-                        actions: actions,
-                        style: style
-                    )
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
+        self.contentConfiguration = UIHostingConfiguration {
+            VStack {
+                EmptyStateView(
+                    title: title,
+                    message: message,
+                    icon: icon,
+                    actions: actions,
+                    style: style
+                )
             }
-            .margins(.horizontal, 16)
-            .margins(.vertical, 8)
-        } else {
-            let view = EmptyStateView(
-                title: title,
-                message: message,
-                icon: icon,
-                actions: actions,
-                style: style
-            )
-            let uiView = view.uiView
-            uiView.translatesAutoresizingMaskIntoConstraints = false
-            uiView.backgroundColor = .clear
-            contentView.addSubview(uiView)
-            NSLayoutConstraint.activate([
-                contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
-                contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-                contentView.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-                contentView.topAnchor.constraint(equalTo: uiView.topAnchor)
-            ])
+            .frame(maxWidth: .infinity, alignment: .center)
         }
+        .margins(.horizontal, 16)
+        .margins(.vertical, 8)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}

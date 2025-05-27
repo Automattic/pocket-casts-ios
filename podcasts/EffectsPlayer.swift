@@ -129,8 +129,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             // `AudioReadTask` we convert the mono segments to stereo
             // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
             var format: AVAudioFormat
-            if #available(iOS 16, *),
-               let audioFile = strongSelf.audioFile,
+            if let audioFile = strongSelf.audioFile,
                audioFile.processingFormat.channelCount == 1,
                let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2) {
                 FileLog.shared.addMessage("EffectsPlayer: converting mono to stereo")
