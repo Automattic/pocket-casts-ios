@@ -1,4 +1,5 @@
 import BackgroundTasks
+import AutomatticRemoteLogging
 import Firebase
 import FirebasePerformance
 import Foundation
@@ -7,7 +8,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 import FacebookCore
-import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -424,11 +424,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 struct SentryLogger: ErrorLogger {
-    func log(error: Error, context: [String : Any]?) {
-        SentrySDK.capture(error: error) { scope in
-            context?.forEach { key, value in
-                scope.setExtra(value: "\(value)", key: key)
-            }
-        }
+    func log(error: Error, context: [String: String]?) {
+    #if os(iOS)
+    CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
+    #endif
     }
 }
