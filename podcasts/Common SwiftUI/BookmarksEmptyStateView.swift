@@ -11,7 +11,7 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
     var action: (() -> Void)? = nil
 
     var body: some View {
-        EmptyStateView(title: title, message: message, actions: [
+        EmptyStateView(title: title, message: message, icon: { Image("bookmarks-profile") }, actions: [
             .init(title: actionTitle, action: {
                 guard let action else {
                     viewModel.openHeadphoneSettings()
@@ -27,19 +27,25 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
 // MARK: - Styles
 
 class DefaultEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
-    var background: Color { theme.primaryUi01Active }
+    private let customBackground: Color?
+
+    init(background: Color? = nil) {
+        self.customBackground = background
+    }
+
+    var background: Color { customBackground ?? theme.primaryUi02 }
     var title: Color { theme.primaryText01 }
     var message: Color { theme.primaryText02 }
-    var button: Color { theme.primaryInteractive01 }
     var icon: Color { theme.primaryIcon03 }
+    var button: Color { theme.primaryInteractive01 }
 }
 
 class PlayerEmptyStateStyle: ThemeObserver, EmptyStateViewStyle {
     var background: Color { theme.playerContrast06 }
     var title: Color { theme.playerContrast01 }
     var message: Color { theme.playerContrast02 }
-    var button: Color { theme.playerContrast01 }
     var icon: Color { theme.primaryIcon03 }
+    var button: Color { theme.playerContrast01 }
 }
 
 extension EmptyStateViewStyle where Self == PlayerEmptyStateStyle {

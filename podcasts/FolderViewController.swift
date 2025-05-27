@@ -1,30 +1,12 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     @IBOutlet var mainGrid: UICollectionView! {
         didSet {
             registerCells()
-        }
-    }
-
-    @IBOutlet var emptyFolderView: ThemeableView!
-    @IBOutlet var emptyFolderTitle: ThemeableLabel! {
-        didSet {
-            emptyFolderTitle.text = L10n.folderEmptyTitle
-        }
-    }
-
-    @IBOutlet var emptyFolderDescription: UILabel! {
-        didSet {
-            emptyFolderDescription.text = L10n.folderEmptyDescription
-        }
-    }
-
-    @IBOutlet var emptyFolderImage: ThemeableImageView! {
-        didSet {
-            emptyFolderImage.imageStyle = .primaryIcon01
         }
     }
 
@@ -274,6 +256,28 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         }
 
         mainGrid.reloadData()
-        emptyFolderView.isHidden = podcasts.count > 0
+
+        let shouldShowEmpty = podcasts.isEmpty
+        refreshContentUnavailable(shouldShow: shouldShowEmpty)
+    }
+
+    private func refreshContentUnavailable(shouldShow: Bool) {
+        var config: UIContentConfiguration?
+
+        if shouldShow {
+            let title = L10n.folderEmptyTitle
+            let message = L10n.folderEmptyDescription
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("folder-empty") }, actions: [
+                .init(title: L10n.folderEmptyButtonTitle, action: {
+                    self.addPodcastsTapped(self)
+                })
+            ])
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
     }
 }

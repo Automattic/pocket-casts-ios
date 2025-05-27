@@ -7461,6 +7461,20 @@ struct Api_WinbackResponse: Sendable {
   init() {}
 }
 
+struct Api_UserSubscriptionSurveyRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var reason: String = String()
+
+  var other: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "api"
@@ -18557,6 +18571,44 @@ extension Api_WinbackResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.platform != rhs.platform {return false}
     if lhs.details != rhs.details {return false}
     if lhs.code != rhs.code {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UserSubscriptionSurveyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UserSubscriptionSurveyRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "reason"),
+    2: .same(proto: "other"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.reason) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.other) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.reason.isEmpty {
+      try visitor.visitSingularStringField(value: self.reason, fieldNumber: 1)
+    }
+    if !self.other.isEmpty {
+      try visitor.visitSingularStringField(value: self.other, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UserSubscriptionSurveyRequest, rhs: Api_UserSubscriptionSurveyRequest) -> Bool {
+    if lhs.reason != rhs.reason {return false}
+    if lhs.other != rhs.other {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

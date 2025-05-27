@@ -463,6 +463,9 @@
 /* A common string used throughout the app. Refers to the Discover tab. */
 "discover" = "Discover";
 
+/* A title for an action to navigate to the Discover section*/
+"go_to_discover" = "Go to Discover";
+
 /* Title for the section that allows the user to explore different podcast categories. */
 "discover_browse_by_category" = "Browse By Category";
 
@@ -812,10 +815,10 @@
 "downloads_auto_download" = "Auto Download Settings";
 
 /* Title for the empty state when there are no downloads available */
-"downloads_no_downloads_title" = "No Downloaded Episodes";
+"downloads_no_downloads_title" = "Enjoy offline listening";
 
 /* The description for the empty state when there are no downloads available */
-"downloads_no_downloads_desc" = "Oh no! You’re fresh out of downloads. Download some more and they’ll show up here.";
+"downloads_no_downloads_desc" = "Save episodes for offline listening and never miss a moment.";
 
 /* Prompt to allow the user to retry failed downloads. */
 "downloads_retry_failed_downloads" = "Retry Failed Downloads";
@@ -917,13 +920,13 @@
 "file_upload_name_required" = "Name required";
 
 /* The description for the screen when there are no files currently uploaded. '\n' is a line break format to allow a clean wrapping of text */
-"file_upload_no_files_description" = "Want to listen to your own files?\nShare them with Pocket Casts, and they’ll appear here";
+"file_upload_no_files_description" = "Upload your own files to Pocket Casts, and listen or watch them anytime.";
 
 /* The helper link describing how to add files to Pocket Casts. */
 "file_upload_no_files_helper" = "How do I do that?";
 
 /* Title for the screen when there are no files currently uploaded */
-"file_upload_no_files_title" = "No Files";
+"file_upload_no_files_title" = "Listen or watch your own files";
 
 /* Prompt to remove the image from the uploaded file. */
 "file_upload_remove_image" = "Remove Image";
@@ -1080,6 +1083,12 @@
 
 /* The title for the auto generated 'New Release' filter. */
 "filters_default_new_releases" = "New Releases";
+
+/* The title shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_title" = "Organize your episodes";
+
+/* The description shown in a Tip View when the user hasn't yet added a filter */
+"filters_tip_view_description" = "Create smart filters to organize your episodes. Filter by duration, release date, media type, and more.";
 
 /* Funny confirmation message accompanying several descriptive dialogs */
 "funny_conf_msg" = "It really matches your eyes ✨";
@@ -1538,10 +1547,16 @@
 "playback_effects" = "Playback effects";
 
 /* Description for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_desc" = "You haven't starred any episodes yet.";
+"profile_starred_no_episodes_desc" = "Star episodes you love and come back to them at anytime.";
 
 /* Title for the empty state on screen where the user can review their starred (favorited) podcast episodes */
-"profile_starred_no_episodes_title" = "Nothing Starred";
+"profile_starred_no_episodes_title" = "Save your favorites";
+
+/* Title for the empty state on screen where the user can review the episodes they have listened to */
+"profile_listening_history_empty_title" = "Let’s get you listening!";
+
+/* Description for the empty state on screen where the user can review the episodes they have listened to */
+"profile_listening_history_empty_description" = "Start listening to podcasts and revisit your listening history here.";
 
 /* Used next to a setting for how fast audio will play */
 "speed" = "Speed";
@@ -3176,7 +3191,7 @@
 "up_next" = "Up Next";
 
 /* Heading shown when your Up Next list is empty */
-"up_next_empty_title" = "Nothing in Up Next";
+"up_next_empty_title" = "Curate your listening session";
 
 /* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
 "up_next_empty_description" = "You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.";
@@ -3526,6 +3541,9 @@
 
 /* Description shown under the title of an empty folder */
 "folder_empty_description" = "Add podcasts to your folder and they’ll appear here.";
+
+/* A button title for the empty folder state which will open the Add Podcasts screen */
+"folder_empty_button_title" = "Add podcasts";
 
 /* Upsell dialog title label when a free trial is active, %1$@ refers to the duration of the trial (1 month) */
 "free_trial_title_label" = "Try Plus with %1$@ free";
@@ -4145,13 +4163,19 @@
 "bookmark_added_button_title" = "View";
 
 /* Title of a message informing the user they don't have any bookmarks yet */
-"no_bookmarks_title" = "No bookmarks yet";
+"no_bookmarks_title" = "Bookmark that moment";
 
 /* Subtitle of a message explaining how to add new bookmarks */
 "no_bookmarks_message" = "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.";
 
 /* Title of a button that takes the user to the headphone settings */
 "no_bookmarks_button_title" = "Headphone settings";
+
+/* Title shown when the bookmarks feature is locked due to account upgrade status */
+"no_bookmarks_locked_message" = "You can save timestamps of important moments in an episode.";
+
+/* Button title shown when the bookmarks feature is locked due to account upgrade status. This will take the user to the upgrade screen. */
+"no_bookmarks_locked_button_title" = "Get Bookmarks";
 
 /* Title of a message when no search results appear */
 "bookmark_search_no_results_title" = "No bookmarks found";
@@ -4800,6 +4824,12 @@
 
 /* Option in the in the survey screen that appears when a user cancels the subscription */
 "cancel_subscription_survey_row_other" = "Other";
+
+/* Toast message that appears if the survey submission goes well */
+"cancel_subscription_survey_toast_success" = "Thanks for your feedback!";
+
+/* Toast message that appears if the survey submission goes wrong */
+"cancel_subscription_survey_toast_fail" = "Sorry, something went wrong.";
 
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";

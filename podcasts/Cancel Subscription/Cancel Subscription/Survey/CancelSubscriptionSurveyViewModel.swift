@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     enum Reason: String, CaseIterable, Identifiable {
@@ -56,11 +57,38 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     }
 
     func sendFeedback() {
+        guard let selectedReason else {
+            return
+        }
         if loadingState == .loading {
             return
         }
         loadingState = .loading
         Analytics.track(.cancelSubscriptionSurveySubmitButtonTapped)
+
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let success = await ApiServerHandler.shared.submitSurveyResult(reason: selectedReason.rawValue, other: additionalText)
+            loadingState = .idle
+            self.trackSurveyFeedbackSubmit(success: success, reason: selectedReason.rawValue)
+            if success {
+                Toast.show(
+                    L10n.cancelSubscriptionSurveyToastSuccess,
+                    theme: ToastIconTheme(iconName: "cs-tick", iconColor: Theme.sharedTheme.primaryIcon01)
+                )
+                dismiss()
+            } else {
+                Toast.show(
+                    L10n.cancelSubscriptionSurveyToastFail,
+                    actions: [
+                        .init(title: L10n.tryAgain) { [weak self] in
+                            self?.sendFeedback()
+                        }
+                    ],
+                    theme: ToastIconTheme(iconName: "cs-yield", iconColor: Theme.sharedTheme.support05)
+                )
+            }
+        }
     }
 
     func dismiss() {
@@ -69,12 +97,20 @@ class CancelSubscriptionSurveyViewModel: ObservableObject, OnboardingModel {
     }
 
     func didAppear() {
+        Settings.subscriptionCancelledSurveyShown = true
         Analytics.track(.cancelSubscriptionSurveyShown)
     }
 
     func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
         Analytics.track(.cancelSubscriptionSurveyDismissed)
+    }
+
+    private func trackSurveyFeedbackSubmit(success: Bool, reason: String) {
+        Analytics.track(
+            success ? .cancelSubscriptionSurveyFeedbackSubmitSuccess : .cancelSubscriptionSurveyFeedbackSubmitError,
+            properties: ["reason": reason]
+        )
     }
 }
 

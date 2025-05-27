@@ -13,37 +13,24 @@ class EmptyStateCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(title: String, message: String? = nil, icon: (() -> Image)? = nil, actions: [EmptyStateAction] = []) {
-        if #available(iOS 16.0, *) {
-            self.contentConfiguration = UIHostingConfiguration {
+    func configure<Style: EmptyStateViewStyle>(title: String, message: String? = nil, icon: (() -> Image)? = nil, style: Style = DefaultEmptyStateStyle.defaultStyle, actions: [EmptyStateAction] = []) {
+        self.contentConfiguration = UIHostingConfiguration {
+            VStack {
                 EmptyStateView(
                     title: title,
                     message: message,
                     icon: icon,
                     actions: actions,
-                    style: .defaultStyle
+                    style: style
                 )
             }
-            .margins(.horizontal, 16)
-            .margins(.vertical, 8)
-        } else {
-            let view = EmptyStateView(
-                title: title,
-                message: message,
-                icon: icon,
-                actions: actions,
-                style: .defaultStyle
-            )
-            let uiView = view.uiView
-            uiView.translatesAutoresizingMaskIntoConstraints = false
-            uiView.backgroundColor = .clear
-            contentView.addSubview(uiView)
-            NSLayoutConstraint.activate([
-                contentView.layoutMarginsGuide.leadingAnchor.constraint(equalTo: uiView.leadingAnchor),
-                contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-                contentView.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-                contentView.topAnchor.constraint(equalTo: uiView.topAnchor)
-            ])
+            .frame(maxWidth: .infinity, alignment: .center)
         }
+        .margins(.horizontal, 16)
+        .margins(.vertical, 8)
     }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+    override func setEditing(_ editing: Bool, animated: Bool) {}
 }

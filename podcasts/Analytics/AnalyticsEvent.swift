@@ -211,6 +211,8 @@ enum AnalyticsEvent: String {
     case listeningHistoryClearConfirmationShown
     case listeningHistoryClearConfirmationDismissed
 
+    case listeningHistoryDiscoverButtonTapped
+
     // MARK: - Uploaded Files
 
     case uploadedFilesShown
@@ -281,6 +283,8 @@ enum AnalyticsEvent: String {
     case filterCreated
 
     case filterShown
+    case filterTooltipShown
+    case filterTooltipClosed
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
@@ -388,6 +392,7 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
     case upNextShuffleEnabled
+    case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
 
@@ -765,7 +770,7 @@ enum AnalyticsEvent: String {
     // MARK: - Bookmarks
     case bookmarkCreated
     case bookmarkUpdateTitle
-    case bookmarksUpgradeButtonTapped
+    case bookmarksGetBookmarksButtonTapped
     case bookmarksEmptyGoToHeadphoneSettings
     case bookmarkPlayTapped
     case bookmarksSortByChanged

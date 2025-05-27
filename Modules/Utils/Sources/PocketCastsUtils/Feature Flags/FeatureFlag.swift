@@ -179,6 +179,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Recommendations including discover v3 support
     case recommendations
 
+    /// Cancel Subscription Survey
+    case cancelSubscriptionSurvey
+
     /// Ignore server IAP check
     case newOfferEligibilityCheck
 
@@ -300,7 +303,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
-            false
+            true
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
@@ -308,6 +311,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastsSortChanges:
             true
         case .recommendations:
+            true
+        case .cancelSubscriptionSurvey:
             true
         case .newOfferEligibilityCheck:
             true

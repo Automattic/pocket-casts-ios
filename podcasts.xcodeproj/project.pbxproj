@@ -290,8 +290,6 @@
 		409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C792B22237DD900386495 /* UserEpisodeDetailViewController+Table.swift */; };
 		409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C792D222397BA00386495 /* UserEpisodeActionCell.swift */; };
 		409C7930222397BA00386495 /* UserEpisodeActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C792E222397BA00386495 /* UserEpisodeActionCell.xib */; };
-		409C793722387C0500386495 /* AllArchivedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C793522387C0500386495 /* AllArchivedCell.swift */; };
-		409C793822387C0500386495 /* AllArchivedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C793622387C0500386495 /* AllArchivedCell.xib */; };
 		409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C7939223899A500386495 /* AllArchivedPlaceholder.swift */; };
 		40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0A90A24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift */; };
 		40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */; };
@@ -705,6 +703,7 @@
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
+		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
@@ -1115,8 +1114,6 @@
 		BD93FDAD20159CF600F6EF55 /* FilterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */; };
 		BD93FDAE20159CF600F6EF55 /* FilterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */; };
 		BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9553C5237A7F9E002CB19A /* ShelfActionsViewController+Table.swift */; };
-		BD955FC2219513240094DF1C /* NothingUpNextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD955FC0219513240094DF1C /* NothingUpNextCell.swift */; };
-		BD955FC3219513240094DF1C /* NothingUpNextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD955FC1219513240094DF1C /* NothingUpNextCell.xib */; };
 		BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95ED641BAFA228004335B0 /* CountrySummaryViewController.swift */; };
 		BD95ED671BAFA228004335B0 /* CountrySummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD95ED651BAFA228004335B0 /* CountrySummaryViewController.xib */; };
 		BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95ED681BAFA532004335B0 /* CountryChooserViewController.swift */; };
@@ -1255,8 +1252,6 @@
 		BDADFA072574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDADFA052574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib */; };
 		BDADFF9B2431AA48006497B9 /* EpisodeDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD583AF321AE5F9E0048D78D /* EpisodeDateHelper.swift */; };
 		BDAE54CC230C055600330680 /* NoSearchResultsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAE54CB230C055600330680 /* NoSearchResultsPlaceholder.swift */; };
-		BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */; };
-		BDAE54D0230C063500330680 /* NoSearchResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */; };
 		BDAE72D82138FB32002810A2 /* ActionIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAE72D72138FB32002810A2 /* ActionIconButton.swift */; };
 		BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB002BE211A9E1B00224A55 /* ProgressLine.swift */; };
 		BDB002C1211A9EDD00224A55 /* ProgressLineLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB002C0211A9EDD00224A55 /* ProgressLineLayer.swift */; };
@@ -1718,6 +1713,7 @@
 		F52B4F8E2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */; };
 		F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */; };
 		F53C3E832CC73549004F3581 /* TopSpotStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53C3E822CC73538004F3581 /* TopSpotStory2024.swift */; };
+		F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DDB672DD508CA00A1E890 /* HostingConfiguration.swift */; };
 		F53EFEE82CD405DA00F4561B /* YearOverYearCompareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */; };
 		F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
@@ -1819,6 +1815,7 @@
 		F5EA21F22CC1CD040043C780 /* EndOfYearDeveloperMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F12CC1CD040043C780 /* EndOfYearDeveloperMenuButton.swift */; };
 		F5EA21F42CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */; };
 		F5EA21F82CC1DC370043C780 /* EndOfYear2024StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F72CC1DC370043C780 /* EndOfYear2024StoriesModel.swift */; };
+		F5EB4E6A2DD4525C00197384 /* UIViewController+ContentUnavailableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EB4E692DD4525C00197384 /* UIViewController+ContentUnavailableConfiguration.swift */; };
 		F5F0C9B02CCEA5BE003D295D /* SubscriptionBadge2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F0C9AF2CCEA5B5003D295D /* SubscriptionBadge2024.swift */; };
 		F5F479A62C3EF8AB002B4475 /* PlayheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */; };
 		F5F508F02CEBE94F007D6E39 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
@@ -2548,8 +2545,6 @@
 		409C792B22237DD900386495 /* UserEpisodeDetailViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEpisodeDetailViewController+Table.swift"; sourceTree = "<group>"; };
 		409C792D222397BA00386495 /* UserEpisodeActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEpisodeActionCell.swift; sourceTree = "<group>"; };
 		409C792E222397BA00386495 /* UserEpisodeActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserEpisodeActionCell.xib; sourceTree = "<group>"; };
-		409C793522387C0500386495 /* AllArchivedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedCell.swift; sourceTree = "<group>"; };
-		409C793622387C0500386495 /* AllArchivedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllArchivedCell.xib; sourceTree = "<group>"; };
 		409C7939223899A500386495 /* AllArchivedPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedPlaceholder.swift; sourceTree = "<group>"; };
 		40A0A90A24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadsViewController+MultiSelect.swift"; sourceTree = "<group>"; };
 		40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectHelper.swift; sourceTree = "<group>"; };
@@ -2956,6 +2951,7 @@
 		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
+		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
@@ -3392,8 +3388,6 @@
 		BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNameCell.swift; sourceTree = "<group>"; };
 		BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterNameCell.xib; sourceTree = "<group>"; };
 		BD9553C5237A7F9E002CB19A /* ShelfActionsViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShelfActionsViewController+Table.swift"; sourceTree = "<group>"; };
-		BD955FC0219513240094DF1C /* NothingUpNextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingUpNextCell.swift; sourceTree = "<group>"; };
-		BD955FC1219513240094DF1C /* NothingUpNextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingUpNextCell.xib; sourceTree = "<group>"; };
 		BD95ED641BAFA228004335B0 /* CountrySummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountrySummaryViewController.swift; sourceTree = "<group>"; };
 		BD95ED651BAFA228004335B0 /* CountrySummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountrySummaryViewController.xib; sourceTree = "<group>"; };
 		BD95ED681BAFA532004335B0 /* CountryChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryChooserViewController.swift; sourceTree = "<group>"; };
@@ -3534,8 +3528,6 @@
 		BDADFA042574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoAddToUpNextViewController.swift; sourceTree = "<group>"; };
 		BDADFA052574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoAddToUpNextViewController.xib; sourceTree = "<group>"; };
 		BDAE54CB230C055600330680 /* NoSearchResultsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchResultsPlaceholder.swift; sourceTree = "<group>"; };
-		BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchResultsCell.swift; sourceTree = "<group>"; };
-		BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoSearchResultsCell.xib; sourceTree = "<group>"; };
 		BDAE72D72138FB32002810A2 /* ActionIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionIconButton.swift; sourceTree = "<group>"; };
 		BDB002BE211A9E1B00224A55 /* ProgressLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLine.swift; sourceTree = "<group>"; };
 		BDB002C0211A9EDD00224A55 /* ProgressLineLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLineLayer.swift; sourceTree = "<group>"; };
@@ -3961,6 +3953,7 @@
 		F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorView.swift; sourceTree = "<group>"; };
 		F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDestination.swift; sourceTree = "<group>"; };
 		F53C3E822CC73538004F3581 /* TopSpotStory2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSpotStory2024.swift; sourceTree = "<group>"; };
+		F53DDB672DD508CA00A1E890 /* HostingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingConfiguration.swift; sourceTree = "<group>"; };
 		F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearCompareTests.swift; sourceTree = "<group>"; };
 		F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratings2024Story.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
@@ -4027,6 +4020,7 @@
 		F5EA21F12CC1CD040043C780 /* EndOfYearDeveloperMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearDeveloperMenuButton.swift; sourceTree = "<group>"; };
 		F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023StoriesModel.swift; sourceTree = "<group>"; };
 		F5EA21F72CC1DC370043C780 /* EndOfYear2024StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024StoriesModel.swift; sourceTree = "<group>"; };
+		F5EB4E692DD4525C00197384 /* UIViewController+ContentUnavailableConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ContentUnavailableConfiguration.swift"; sourceTree = "<group>"; };
 		F5F0C9AF2CCEA5B5003D295D /* SubscriptionBadge2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionBadge2024.swift; sourceTree = "<group>"; };
 		F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
 		F5F5092E2CEBEF59007D6E39 /* app-clip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "app-clip-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -4506,8 +4500,6 @@
 				BDBE35DC211D735E00C334B8 /* PlayerCell.xib */,
 				401EBA6723725C6400899F93 /* UpNextNowPlayingCell.swift */,
 				401EBA6823725C6400899F93 /* UpNextNowPlayingCell.xib */,
-				BD955FC0219513240094DF1C /* NothingUpNextCell.swift */,
-				BD955FC1219513240094DF1C /* NothingUpNextCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -5720,6 +5712,8 @@
 				F56035122DCBDB1F00E6F238 /* LoadingCell.swift */,
 				FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */,
 				F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */,
+				F53DDB672DD508CA00A1E890 /* HostingConfiguration.swift */,
+				F5EB4E692DD4525C00197384 /* UIViewController+ContentUnavailableConfiguration.swift */,
 				10DFE9352C5A8D1300957D0A /* ABTest */,
 				C7811D812A9008F500FC68B4 /* Unlockable */,
 				C7BDECAC2A15311000BECF02 /* Haptics */,
@@ -6419,14 +6413,10 @@
 				FFF3FCCF2D8B143E009BAF26 /* PodcastHeaderDescriptionView.swift */,
 				FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */,
 				FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */,
-				409C793522387C0500386495 /* AllArchivedCell.swift */,
-				409C793622387C0500386495 /* AllArchivedCell.xib */,
 				4086511923B1CE8400D7585A /* CreateSiriShortcutCell.swift */,
 				4086511A23B1CE8400D7585A /* CreateSiriShortcutCell.xib */,
 				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
 				BD0B68732203EFCC002CCE3F /* EpisodeLimitCell.xib */,
-				BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */,
-				BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */,
 				BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */,
 				BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */,
 			);
@@ -7589,6 +7579,7 @@
 				C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */,
 				C7BDECAA2A15310800BECF02 /* SwiftUI+Accessibility.swift */,
 				C784DE7C2A590866004D03E7 /* View+Buttonize.swift */,
+				9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */,
 				C73CCBC829C590100075EFFD /* View+UIView.swift */,
 				C7D8AE562A5F6D2600C9EBAF /* ActionBarOverlayView.swift */,
 				C76ECAC12A67612F00D9DB9E /* EmptyStateView.swift */,
@@ -9165,7 +9156,6 @@
 				BD1292CA22F7CD83004608A6 /* AppIcon-Plus76x76~ipad.png in Resources */,
 				40B26ABF213BB29200386173 /* FeaturedTableViewCell.xib in Resources */,
 				BDBD53FC17019B2A0048C8C5 /* InfoPlist.strings in Resources */,
-				BDAE54D0230C063500330680 /* NoSearchResultsCell.xib in Resources */,
 				BD6B66A1245BC28800CF5245 /* AppIcon-Red-Velvet76x76~ipad.png in Resources */,
 				BDA002E01F7B318B00DCB4AE /* AppIcon-Round-Dark40x40~ipad.png in Resources */,
 				BD1292D322F7CD83004608A6 /* AppIcon-Plus20x20@2x.png in Resources */,
@@ -9503,7 +9493,6 @@
 				4041FEA8218FF3B80089D4A1 /* AddCell.xib in Resources */,
 				BD6B66A0245BC28800CF5245 /* AppIcon-Red-Velvet20x20@3x.png in Resources */,
 				408426342134CBE60076D82E /* SmallPagedListSummaryViewController.xib in Resources */,
-				BD955FC3219513240094DF1C /* NothingUpNextCell.xib in Resources */,
 				BD6B664B245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20@2x~ipad.png in Resources */,
 				BDA002D71F7B318B00DCB4AE /* AppIcon-Round-Dark20x20@3x.png in Resources */,
 				BD5AE6811FE0CF950009B8A1 /* ListImages.xcassets in Resources */,
@@ -9640,7 +9629,6 @@
 				BDA002ED1F7B318B00DCB4AE /* AppIcon-Round29x29@3x.png in Resources */,
 				BD0B68752203EFCC002CCE3F /* EpisodeLimitCell.xib in Resources */,
 				8BD5A5082A1F96C200F473C6 /* AppIcon-Pride20x20~ipad.png in Resources */,
-				409C793822387C0500386495 /* AllArchivedCell.xib in Resources */,
 				BD12931622F809F8004608A6 /* AppIcon-Electric-Pink83.5x83.5@2x~ipad.png in Resources */,
 				4030D4622496446000BEC7D9 /* MultiSelectActionController.xib in Resources */,
 				BD6B669D245BC28800CF5245 /* AppIcon-Red-Velvet40x40@2x~ipad.png in Resources */,
@@ -10243,7 +10231,6 @@
 				BDB3BDBD1FE23F3D00FD8D24 /* PodcastChooserViewController.swift in Sources */,
 				BD4FC1DB1FA6E21F0013364F /* PlaylistViewController.swift in Sources */,
 				F57D8F142C66CA230004C4DF /* UnsafeWait.swift in Sources */,
-				409C793722387C0500386495 /* AllArchivedCell.swift in Sources */,
 				FF0F407A2D5E32920036FFE9 /* ThreadSafeDictionary.swift in Sources */,
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,
@@ -10269,6 +10256,7 @@
 				BD21D4A722DEDAE700D5888B /* ThemeableCollectionView.swift in Sources */,
 				8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */,
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
+				9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */,
 				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
 				FF146C2C2D674A5400D2FCCE /* SuggestedFoldersView.swift in Sources */,
@@ -10448,7 +10436,6 @@
 				8BD7A2382C04F0DD00CF84E8 /* UpNextHistoryViewController.swift in Sources */,
 				463538AE26E8F4AE00BA9D35 /* Server+Strings.swift in Sources */,
 				BD674B0B1F68F2BD00AC1B2B /* PlaylistManager.swift in Sources */,
-				BD955FC2219513240094DF1C /* NothingUpNextCell.swift in Sources */,
 				BD6C3F062379236A00C01403 /* ShelfCell.swift in Sources */,
 				BDFFC9B12148E87E0026D875 /* VideoViewController+Seek.swift in Sources */,
 				BD8032D52123F0AF00BFBB03 /* SleepTimerButton.swift in Sources */,
@@ -10599,6 +10586,7 @@
 				BD585C1F2047887700AC842C /* AppDelegate+UrlHandling.swift in Sources */,
 				C713D4FF2A0519BE00A78468 /* ContentSizeGeometryReader.swift in Sources */,
 				F5F8F3182CC314250071DD0E /* IntroStory2024.swift in Sources */,
+				F5EB4E6A2DD4525C00197384 /* UIViewController+ContentUnavailableConfiguration.swift in Sources */,
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
 				F57498D12DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift in Sources */,
@@ -10758,7 +10746,6 @@
 				BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */,
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
-				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
 				10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
 				F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
@@ -10811,6 +10798,7 @@
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
 				FFF17EC62B979B5500E116C8 /* BookmarksProfileListView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
+				F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */,
 				BD27B8C52756F486007A0EA7 /* UIColor+SwiftUI.swift in Sources */,
 				40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */,
 				F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */,
@@ -11598,7 +11586,7 @@
 				INFOPLIST_FILE = "Share Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11642,7 +11630,7 @@
 				INFOPLIST_FILE = "Share Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11685,7 +11673,7 @@
 				INFOPLIST_FILE = "Share Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11776,7 +11764,7 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11800,7 +11788,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11827,7 +11815,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11870,7 +11858,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Staging;
 		};
@@ -11893,7 +11881,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11928,7 +11916,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11966,7 +11954,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12011,7 +11999,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12057,7 +12045,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Staging;
 		};
@@ -12081,7 +12069,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -12116,7 +12104,7 @@
 				INFOPLIST_FILE = "Share Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12154,7 +12142,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12191,7 +12179,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12225,7 +12213,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12263,7 +12251,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12299,7 +12287,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12339,7 +12327,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12379,7 +12367,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = WidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12416,7 +12404,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -12451,7 +12439,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -12487,7 +12475,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -12549,7 +12537,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12587,7 +12575,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12626,7 +12614,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12673,7 +12661,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -12708,7 +12696,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Prototype;
 		};
@@ -12743,7 +12731,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -12759,7 +12747,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12788,7 +12776,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12874,7 +12862,7 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12897,7 +12885,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12923,7 +12911,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12965,7 +12953,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Prototype;
 		};
@@ -12988,7 +12976,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13022,7 +13010,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = PodcastsIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13161,7 +13149,7 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13187,7 +13175,7 @@
 				);
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13227,7 +13215,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -13262,7 +13250,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -13278,7 +13266,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -13307,7 +13295,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

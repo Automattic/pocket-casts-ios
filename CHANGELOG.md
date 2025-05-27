@@ -1,9 +1,17 @@
-7.90
+7.91
 -----
 
 7.89.1
 -----
 - Prevent transcript to crash if the transcript text is empty[#3191](https://github.com/Automattic/pocket-casts-ios/pull/3191)
+
+7.90
+-----
+- Drop iOS 15 and watchOS 8 [#2858](https://github.com/Automattic/pocket-casts-ios/issues/2858)
+
+ - New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
+- New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
+- New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
 
 7.89
 -----

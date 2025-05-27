@@ -9,6 +9,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     static let newsletterCellId = "NewsletterCellId"
     static let actionCellId = "AccountActionCellId"
 
+    let model = PlusAccountPromptViewModel()
+
     private var isUsernamePasswordLogin: Bool {
         ServerSettings.syncingPassword() != nil
     }
@@ -18,7 +20,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             tableView.applyInsetForMiniPlayer()
             tableView.register(UINib(nibName: "NewsletterCell", bundle: nil), forCellReuseIdentifier: AccountViewController.newsletterCellId)
             tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: AccountViewController.actionCellId)
-            tableView.register(PlusAccountPromptTableCell.self, forCellReuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier)
         }
     }
 
