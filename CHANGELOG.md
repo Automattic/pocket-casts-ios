@@ -1,6 +1,9 @@
 7.91
 -----
 
+7.89.1
+-----
+- Prevent transcript to crash if the transcript text is empty[#3191](https://github.com/Automattic/pocket-casts-ios/pull/3191)
 
 7.90
 -----
