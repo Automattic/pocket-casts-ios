@@ -78,11 +78,6 @@ class TranscriptManager {
             throw TranscriptError.failedToLoad
         }
 
-        let trimmedTranscript = transcriptText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedTranscript.isEmpty else {
-            throw TranscriptError.failedToLoad
-        }
-
         let crumb = Breadcrumb()
         crumb.level = SentryLevel.info
         crumb.category = "transcript"
