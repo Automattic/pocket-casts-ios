@@ -11,6 +11,9 @@ class SearchResultsModel: ObservableObject {
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
+    @Published var episodeSearchError: Error?
+    @Published var podcastSearchError: Error?
+
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
 
@@ -18,6 +21,8 @@ class SearchResultsModel: ObservableObject {
     @Published var resultsContainLocalPodcasts = false
 
     @Published var hideEpisodes = false
+
+    private(set) var currentSearchTerm: String = ""
 
     private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
@@ -33,10 +38,15 @@ class SearchResultsModel: ObservableObject {
         episodes = []
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
+        currentSearchTerm = ""
     }
 
     @MainActor
     func search(term: String) {
+        currentSearchTerm = term
+        episodeSearchError = nil
+        podcastSearchError = nil
+
         if !isShowingLocalResultsOnly {
             clearSearch()
         }
@@ -47,6 +57,7 @@ class SearchResultsModel: ObservableObject {
                 let results = try await podcastSearch.search(term: term)
                 show(podcastResults: results)
             } catch {
+                podcastSearchError = error
                 analyticsHelper.trackFailed(error)
             }
 
@@ -62,6 +73,7 @@ class SearchResultsModel: ObservableObject {
                     playedEpisodesUUIDs = buildPlayedEpisodesUUIDs(results)
                     episodes = results
                 } catch {
+                    episodeSearchError = error
                     analyticsHelper.trackFailed(error)
                 }
 
