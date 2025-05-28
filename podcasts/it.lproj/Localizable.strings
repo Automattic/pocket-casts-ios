@@ -821,10 +821,6 @@ Prima vorremmo aiutarti</string>
     <string>Download</string>
     <key>downloads_auto_download</key>
     <string>Impostazioni di download automatico</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Oh no! Hai appena terminato i download. Scarica altri elementi e verranno visualizzati qui.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Nessun episodio scaricato</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Riprova i download non riusciti</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ che hai ascoltato è stato
     <string>Rimuovi alcuni file e riprova.</string>
     <key>file_upload_name_required</key>
     <string>Nome richiesto</string>
-    <key>file_upload_no_files_description</key>
-    <string>Vuoi ascoltare i tuoi file?
-Condividili con Pocket Cast e verranno visualizzati qui</string>
     <key>file_upload_no_files_helper</key>
     <string>Come devo fare?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Nessun file</string>
     <key>file_upload_remove_image</key>
     <string>Rimuovi immagine</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Abbonati a Plus per accedere a questa funzionalità e ad altre funzionalità Premium come segnalibri e cartelle.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Questa trascrizione è stata generata automaticamente da Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Vai a Scopri</string>
     <key>go_to_podcast</key>
     <string>Vai al podcast</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ pocast con te</string>
     <string>Impostazioni delle cuffie</string>
     <key>no_bookmarks_message</key>
     <string>Puoi salvare data e ora degli episodi dal menu delle azioni nel lettore o configurando un'azione con le cuffie.</string>
-    <key>no_bookmarks_title</key>
-    <string>Ancora nessun segnalibro</string>
     <key>none</key>
     <string>Nessuna</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Impossibile inviare l'email di reimpostazione, riprova più tardi.</string>
     <key>profile_single_file</key>
     <string>1 file</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Non hai ancora aggiunto episodi ai preferiti.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Nessun preferito</string>
     <key>purchase_terms</key>
     <string>Continuando, accetti %1$@l'Informativa sulla privacy%2$@ e i %3$@Termini di servizio%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Prossimo</string>
     <key>up_next_empty_description</key>
     <string>Puoi mettere in coda gli episodi per la riproduzione successiva scorrendo verso destra sulle righe degli episodi o toccando l'icona sulla scheda di un episodio.</string>
-    <key>up_next_empty_title</key>
-    <string>Nessun elemento in Prossimo</string>
     <key>up_next_history</key>
     <string>Cronologia Up Next</string>
     <key>up_next_history_explanation</key>

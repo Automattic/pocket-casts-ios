@@ -821,10 +821,6 @@ Pocket Casts Plus</string>
     <string>ダウンロード</string>
     <key>downloads_auto_download</key>
     <string>自動ダウンロード設定</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>ご注意ください。 ダウンロード数が足りていません。 あと数回ダウンロードするとここに表示されます。</string>
-    <key>downloads_no_downloads_title</key>
-    <string>ダウンロード済みのエピソードがありません</string>
     <key>downloads_retry_failed_downloads</key>
     <string>失敗したダウンロードを再試行</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>いくつかファイルを削除し、もう一度試してください。</string>
     <key>file_upload_name_required</key>
     <string>名前は必須項目です</string>
-    <key>file_upload_no_files_description</key>
-    <string>自身のファイルを聴きたい場合は、
-Pocket Casts で共有すればここに表示されるようになります</string>
     <key>file_upload_no_files_helper</key>
     <string>どのようにすればよいですか ?</string>
-    <key>file_upload_no_files_title</key>
-    <string>ファイルなし</string>
     <key>file_upload_remove_image</key>
     <string>画像を削除</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Plus サブスクリプションに登録すると、Plus にアクセスし、ブックマークやフォルダーなどのその他のプレミアム機能もご利用いただけます。</string>
     <key>generated_transcripts_overlay_title</key>
     <string>こちらのトランスクリプトは Pocket Casts によって自動的に生成されます。</string>
+    <key>go_to_discover</key>
+    <string>「見つける」に移動</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ヘッドフォン設定</string>
     <key>no_bookmarks_message</key>
     <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
-    <key>no_bookmarks_title</key>
-    <string>まだブックマークはありません</string>
     <key>none</key>
     <string>なし</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>リセット用メールの送信に失敗しました。後ほど、もう一度お試しください。</string>
     <key>profile_single_file</key>
     <string>1件のファイル</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>星を付けているエピソードがありません。</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>星付きのエピソードがありません</string>
     <key>purchase_terms</key>
     <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3274,8 +3261,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソード</string>
     <key>up_next_empty_description</key>
     <string>エピソード行を右にスワイプするか、エピソードカードのアイコンをタップすることで、次に再生するエピソードを待機リストに追加できます。</string>
-    <key>up_next_empty_title</key>
-    <string>次のエピソードには何もありません</string>
     <key>up_next_history</key>
     <string>「次に再生」履歴</string>
     <key>up_next_history_explanation</key>

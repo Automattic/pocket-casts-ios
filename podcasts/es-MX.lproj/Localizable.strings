@@ -821,10 +821,6 @@ Deja que te ayudemos</string>
     <string>Descargas</string>
     <key>downloads_auto_download</key>
     <string>Configuración de descarga automática</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>¡Oh, no! No tienes más descargas. Descarga algunos más y aparecerán aquí.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>No hay episodios descargados</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Reintentar descargas fallidas</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ que has escuchado dura
     <string>Elimina algunos archivos y vuelve a intentarlo.</string>
     <key>file_upload_name_required</key>
     <string>Se requiere un nombre</string>
-    <key>file_upload_no_files_description</key>
-    <string>¿Quieres escuchar tus propios archivos?
-Compártelos con Pocket Casts y aparecerán aquí.</string>
     <key>file_upload_no_files_helper</key>
     <string>¿Cómo lo hago?</string>
-    <key>file_upload_no_files_title</key>
-    <string>No hay archivos</string>
     <key>file_upload_remove_image</key>
     <string>Eliminar imagen</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>Suscríbete a Plus para acceder a esta función y a otras funciones Premium, como los marcadores y las carpetas.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Pocket Casts genera automáticamente esta transcripción.</string>
+    <key>go_to_discover</key>
+    <string>Ir a Descubrir</string>
     <key>go_to_podcast</key>
     <string>Ir a podcast</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ pódcast contigo</string>
     <string>Ajustes de los auriculares</string>
     <key>no_bookmarks_message</key>
     <string>Para guardar las marcas de tiempo de los episodios, ve al menú de acciones del reproductor o configura una acción con los auriculares.</string>
-    <key>no_bookmarks_title</key>
-    <string>Todavía no hay marcadores</string>
     <key>none</key>
     <string>Ninguno</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>No se pudo enviar el correo electrónico de restablecimiento, inténtalo de nuevo más tarde.</string>
     <key>profile_single_file</key>
     <string>1 archivo</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Aún no has destacado ningún episodio.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Nada destacado</string>
     <key>purchase_terms</key>
     <string>Si continúas, aceptas nuestra %1$@Política de privacidad%2$@ y los %3$@términos y condiciones%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>A continuación</string>
     <key>up_next_empty_description</key>
     <string>Puedes poner los episodios en cola para reproducirlos a continuación deslizando los episodios de las filas hacia la derecha o tocando el icono en una tarjeta de episodio.</string>
-    <key>up_next_empty_title</key>
-    <string>Ningún episodio en A continuación</string>
     <key>up_next_history</key>
     <string>Historial de Próximamente</string>
     <key>up_next_history_explanation</key>

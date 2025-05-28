@@ -821,10 +821,6 @@ Deixe a gente ajudar você primeiro</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Configurações de download automático</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Ah, não! Não há nada baixado. Faça download de algum conteúdo e ele aparecerá aqui.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Nenhum episódio baixado</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Tentar fazer download novamente</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ que você ouviu foi
     <string>Remova alguns arquivos e tente novamente.</string>
     <key>file_upload_name_required</key>
     <string>O nome é obrigatório</string>
-    <key>file_upload_no_files_description</key>
-    <string>Quer ouvir seus próprios arquivos?
-Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <key>file_upload_no_files_helper</key>
     <string>Como fazer isso?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Nenhum arquivo</string>
     <key>file_upload_remove_image</key>
     <string>Remover imagem</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Assine o Plus para ter acesso a essa e outras funcionalidades premium, como favoritos e pastas.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Esta transcrição é gerada automaticamente pelo Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Ir para Explorar</string>
     <key>go_to_podcast</key>
     <string>Acessar podcast</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ podcasts com você</string>
     <string>Configurações do headset</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
-    <key>no_bookmarks_title</key>
-    <string>Ainda sem favoritos</string>
     <key>none</key>
     <string>Nenhum</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Falha ao enviar e-mail de redefinição, tente novamente mais tarde.</string>
     <key>profile_single_file</key>
     <string>1 arquivo</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Você ainda não favoritou nenhum episódio.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Nenhum favorito</string>
     <key>purchase_terms</key>
     <string>Ao continuar, você concorda com a %1$@Política de privacidade%2$@ e os %3$@Termos de serviço%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Próximos</string>
     <key>up_next_empty_description</key>
     <string>Você pode enfileirar os episódios para serem reproduzidos em seguida arrastando para a direita nas linhas de episódios ou tocando no ícone no cartão de um episódio.</string>
-    <key>up_next_empty_title</key>
-    <string>Nada na fila de Próximos</string>
     <key>up_next_history</key>
     <string>Histórico de Próximos</string>
     <key>up_next_history_explanation</key>

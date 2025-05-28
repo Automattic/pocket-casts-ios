@@ -44,7 +44,7 @@ class AnimatedImageButton: UIView {
 
     private var lastCGRectRendered = CGRect.zero
 
-    private let textFont = UIFont.font(with: .body, weight: .medium)
+    private let textFont = UIFont.systemFont(ofSize: 15, weight: .medium)
 
     override var intrinsicContentSize: CGSize {
         var labelSize = (buttonTitle as NSString).size(withAttributes: [.font: textFont])
