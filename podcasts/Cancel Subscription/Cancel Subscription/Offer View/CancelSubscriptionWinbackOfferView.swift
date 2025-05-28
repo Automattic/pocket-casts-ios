@@ -37,49 +37,52 @@ struct CancelSubscriptionWinbackOfferView: View {
                     CircularProgressViewStyle(tint: theme.primaryInteractive02)
                 )
         }
-        .frame(height: 56.0)
-        .padding(.horizontal, 16.0)
-        .padding(.bottom, 16.0)
+        .frame(minHeight: 56.0)
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            Image("cs-winback-offer")
-                .renderingMode(.template)
-                .foregroundColor(theme.primaryInteractive01)
-                .frame(width: 162, height: 162)
-                .padding(.top, 70)
-            Text(title)
-                .font(size: 28.0, style: .body, weight: .bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(theme.primaryText01)
-                .padding(.horizontal, 18.0)
-                .padding(.bottom, 8.0)
-            Text(description)
-                .font(size: 18.0, style: .body, weight: .regular)
-                .foregroundStyle(theme.primaryText02)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 24)
-            Spacer()
-            let isLoading = viewModel.offerPurchasingState == .purchasing
-            Button(action: viewModel.claimOffer) {
-                Text(L10n.cancelSubscriptionWinbackViewAcceptOfferButton)
-            }
-            .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
-            .frame(height: 56.0)
-            .padding(.horizontal, 16.0)
-            .padding(.bottom, 16.0)
-            .overlay {
-                if isLoading {
-                    loadingButton
+        VStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    Image("cs-winback-offer")
+                        .renderingMode(.template)
+                        .foregroundColor(theme.primaryInteractive01)
+                        .frame(width: 162, height: 162)
+                        .padding(.top, 70)
+                    Text(title)
+                        .font(size: 28.0, style: .body, weight: .bold)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(theme.primaryText01)
+                        .padding(.horizontal, 18.0)
+                        .padding(.bottom, 8.0)
+                    Text(description)
+                        .font(size: 18.0, style: .body, weight: .regular)
+                        .foregroundStyle(theme.primaryText02)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
                 }
             }
-            Button(action: showManageSubscriptions) {
-                Text(L10n.cancelSubscriptionWinbackViewContinueCancellationButton)
+            VStack(spacing: 16.0) {
+                Spacer()
+                    .frame(height: 16.0)
+                let isLoading = viewModel.offerPurchasingState == .purchasing
+                Button(action: viewModel.claimOffer) {
+                    Text(L10n.cancelSubscriptionWinbackViewAcceptOfferButton)
+                }
+                .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
+                .frame(minHeight: 56.0)
+                .overlay {
+                    if isLoading {
+                        loadingButton
+                    }
+                }
+                Button(action: showManageSubscriptions) {
+                    Text(L10n.cancelSubscriptionWinbackViewContinueCancellationButton)
+                }
+                .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryInteractive01))
+                .disabled(isLoading)
+                .frame(minHeight: 56.0)
             }
-            .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryInteractive01))
-            .disabled(isLoading)
-            .frame(height: 56.0)
             .padding(.horizontal, 16.0)
             .padding(.bottom, 2.0)
         }

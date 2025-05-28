@@ -383,6 +383,23 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>立即支付「%@」，次年即享 50%% 優惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下個月免費使用</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>我們想知道你取消的原因。 你的意見回饋有助於我們改善服務。</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>我找到更好的應用程式</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>費用方面的原因</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>使用的次數不多</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>其他</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>技術問題</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>送出意見回饋</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>謝謝你試用
+Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
     <string>想離開嗎？
 先讓我們伸出援手</string>
@@ -524,6 +541,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立片段</string>
     <key>create_filter</key>
     <string>建立篩選器</string>
+    <key>creator_pick_modal_description</key>
+    <string>「創作者精選」列出由節目創作者使用 Podroll 推薦的 Podcast。</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>深入了解</string>
+    <key>creator_pick_modal_title</key>
+    <string>什麼是「創作者精選」？</string>
     <key>current_email_prompt</key>
     <string>目前的電子郵件地址</string>
     <key>current_password_prompt</key>
@@ -798,10 +821,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>下載</string>
     <key>downloads_auto_download</key>
     <string>自動下載設定</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>糟糕！ 你剛完成下載。下載更多檔案，這些檔案會顯示於此處。</string>
-    <key>downloads_no_downloads_title</key>
-    <string>沒有已下載的單集</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重試失敗的下載項目</string>
     <key>downloads_stop_all_downloads</key>
@@ -1025,6 +1044,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>匯出</string>
     <key>exporting_database</key>
     <string>正在匯出資料庫...</string>
+    <key>failed_recommendations</key>
+    <string>無法載入推薦內容</string>
     <key>feature_tour_end_tour</key>
     <string>結束導覽</string>
     <key>feature_tour_new</key>
@@ -1055,13 +1076,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>請移除一些檔案並再試一次。</string>
     <key>file_upload_name_required</key>
     <string>名稱為必填</string>
-    <key>file_upload_no_files_description</key>
-    <string>想聽聽自己的檔案嗎？
-與 Pocket Casts 共用，就會出現在這裡</string>
     <key>file_upload_no_files_helper</key>
     <string>我該怎麼做？</string>
-    <key>file_upload_no_files_title</key>
-    <string>沒有檔案</string>
     <key>file_upload_remove_image</key>
     <string>移除圖片</string>
     <key>file_upload_save</key>
@@ -1276,6 +1292,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>訂閱 Plus 即可存取逐字稿和其他進階版功能，例如書籤和資料夾。</string>
     <key>generated_transcripts_overlay_title</key>
     <string>本逐字稿由 Pocket Casts 自動生成。</string>
+    <key>go_to_discover</key>
+    <string>開始探索</string>
     <key>go_to_podcast</key>
     <string>前往 Podcast 節目</string>
     <key>got_it</key>
@@ -1542,18 +1560,28 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>耳機設定</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
-    <key>no_bookmarks_title</key>
-    <string>目前還沒有書籤</string>
     <key>none</key>
     <string>無</string>
     <key>not_on_wifi</key>
     <string>你並未連上 WiFi</string>
+    <key>notifications_app_clip_body</key>
+    <string>安裝 Pocket Casts 即可使用強大的播放和自訂工具，享受完整體驗。</string>
+    <key>notifications_app_clip_title</key>
+    <string>準備好收到更多 Podcast 通知了嗎？</string>
     <key>notifications_daily_reminders</key>
     <string>每日提醒</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>試用 Plus 並自動使用資料夾整理你的節目資料。</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>你的 Podcast 整理好了</string>
     <key>notifications_new_features_tips</key>
     <string>全新功能與秘訣</string>
     <key>notifications_off</key>
     <string>關閉通知</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>透過 Plus 解鎖資料夾、書籤等獨家功能！</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>升級你的 Podcast 體驗</string>
     <key>notifications_on</key>
     <string>開啟通知</string>
     <key>notifications_on_for_podcast</key>
@@ -1586,6 +1614,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>透過 Plus 解鎖資料夾、書籤等獨家功能！</string>
     <key>notifications_onboarding_upsell_title</key>
     <string>升級你的 Podcast 體驗</string>
+    <key>notifications_permissions_action</key>
+    <string>允許通知</string>
+    <key>notifications_permissions_body</key>
+    <string>允許「通知」，用最佳方式追蹤新單集、取得新節目推薦和 Pocket Casts 秘訣。</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>請在裝置設定中允許通知</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>開啟設定</string>
+    <key>notifications_permissions_title</key>
+    <string>掌握最新內容！</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
@@ -1594,6 +1632,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>查看其他人這週都在聽什麼。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本週熱播</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>還不知道接下來要聽什麼嗎？ 不妨試試這些節目！</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>適合你的全新推薦內容</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>你已下載 %1$@ 個新單集，準備就緒！</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>離線追蹤</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>距離你上次收聽已經有一段時間了。 重新加入並盡情暢聽！</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2128,6 +2174,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>暫停下載</string>
     <key>podcast_pause_playback</key>
     <string>暫停播放</string>
+    <key>podcast_podroll_header</key>
+    <string>由創作者推薦的節目</string>
     <key>podcast_queued</key>
     <string>已排入佇列</string>
     <key>podcast_queuing</key>
@@ -2156,6 +2204,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>開啟檔案的位置...</string>
     <key>podcast_show_archived</key>
     <string>顯示已封存項目</string>
+    <key>podcast_similar_generic_header</key>
+    <string>類似節目</string>
+    <key>podcast_similar_header</key>
+    <string>類似《%@》的節目</string>
     <key>podcast_singular</key>
     <string>Podcast 節目</string>
     <key>podcast_soon</key>
@@ -2266,10 +2318,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無法傳送重設電子郵件，請稍後再試一次。</string>
     <key>profile_single_file</key>
     <string>1 個檔案</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>你尚未將任何單集加上星號。</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>沒有加上星號的項目</string>
     <key>purchase_terms</key>
     <string>繼續即表示你同意我們的%1$@隱私權政策%2$@和%3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3217,8 +3265,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>接下來播放</string>
     <key>up_next_empty_description</key>
     <string>你可以在節目佇列向右撥動，或點選節目卡圖示，將接下來要播放的節目排入佇列。</string>
-    <key>up_next_empty_title</key>
-    <string>「接下來播放」中沒有任何節目</string>
     <key>up_next_history</key>
     <string>「接下來播放」紀錄</string>
     <key>up_next_history_explanation</key>
@@ -3395,5 +3441,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>年</string>
     <key>yearly</key>
     <string>每年</string>
+    <key>you_might_like</key>
+    <string>你可能喜歡</string>
   </dict>
 </plist>

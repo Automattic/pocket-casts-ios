@@ -821,10 +821,6 @@ Deixa'ns ajudar-te primer</string>
     <string>Descàrregues</string>
     <key>downloads_auto_download</key>
     <string>Configuració de la descàrrega automàtica</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Vaja! No tens més descàrregues. Descarrega'ns alguns més i apareixeran aquí.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>No hi ha episodis descarregats</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Reintentar les descàrregues fallides</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,13 +1072,8 @@ Ens veiem el 2024!</string>
     <string>Esborra alguns arxius i prova-ho de nou.</string>
     <key>file_upload_name_required</key>
     <string>El nom és necessari</string>
-    <key>file_upload_no_files_description</key>
-    <string>Vols escoltar els teus propis fitxers?
-Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <key>file_upload_no_files_helper</key>
     <string>Com ho faig?</string>
-    <key>file_upload_no_files_title</key>
-    <string>No hi ha arxius</string>
     <key>file_upload_remove_image</key>
     <string>Esborrar la imatge</string>
     <key>file_upload_save</key>
@@ -1297,6 +1288,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Subscriu-te a Plus per accedir a aquesta funció i a altres Premium, com ara els marcadors i les carpetes.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Pocket Casts genera automàticament aquesta transcripció.</string>
+    <key>go_to_discover</key>
+    <string>Ves a Descobrir</string>
     <key>go_to_podcast</key>
     <string>Anar al pòdcast</string>
     <key>got_it</key>
@@ -1561,8 +1554,6 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Configuració dels auriculars</string>
     <key>no_bookmarks_message</key>
     <string>Per a desar marcadors dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
-    <key>no_bookmarks_title</key>
-    <string>Encara no hi ha marcadors</string>
     <key>none</key>
     <string>Cap</string>
     <key>not_on_wifi</key>
@@ -2320,10 +2311,6 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>No s'ha pogut enviar el correu electrònic de recuperació. Intenta-ho més tard.</string>
     <key>profile_single_file</key>
     <string>1 arxiu</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Encara no has destacat cap capítol.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>No hi ha res destacat</string>
     <key>purchase_terms</key>
     <string>Si segueixes, acceptes la %1$@política de privacitat%2$@ i els %3$@termes i condicions%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3270,8 +3257,6 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Tot seguit</string>
     <key>up_next_empty_description</key>
     <string>Pots posar episodis a la cua perquè es reprodueixin aquí si llisques cap a la dreta les files dels episodis o bé si toques la icona a la targeta de l'episodi.</string>
-    <key>up_next_empty_title</key>
-    <string>No hi ha res a la cua</string>
     <key>up_next_history</key>
     <string>Historial de «Tot seguit»</string>
     <key>up_next_history_explanation</key>

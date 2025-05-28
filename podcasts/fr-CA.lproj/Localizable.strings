@@ -821,10 +821,6 @@ Laissez-nous d’abord vous aider</string>
     <string>Téléchargements</string>
     <key>downloads_auto_download</key>
     <string>Paramètres du téléchargement automatique</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Oh non! Vous n’avez plus de téléchargements. Téléchargez des fichiers et ils seront affichés ici.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Aucun épisode téléchargé</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Réessayer les téléchargements échoués</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ que vous avez écouté était
     <string>Retirez certains fichiers et réessayez.</string>
     <key>file_upload_name_required</key>
     <string>Nom obligatoire</string>
-    <key>file_upload_no_files_description</key>
-    <string>Voulez-vous écouter vos propres fichiers?
-Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <key>file_upload_no_files_helper</key>
     <string>Comment dois-je m’y prendre?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Aucun fichier</string>
     <key>file_upload_remove_image</key>
     <string>Retirer l’image</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Abonnez-vous à Plus pour y avoir accès ainsi qu’à d’autres fonctionnalités premium comme les signets et les dossiers.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Cette transcription est générée automatiquement par Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Aller à Découvrir</string>
     <key>go_to_podcast</key>
     <string>Accéder au balado</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ podcasts partout avec</string>
     <string>Réglages des écouteurs</string>
     <key>no_bookmarks_message</key>
     <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
-    <key>no_bookmarks_title</key>
-    <string>Aucun signet pour l’instant</string>
     <key>none</key>
     <string>Aucun</string>
     <key>not_on_wifi</key>
@@ -1626,7 +1617,7 @@ podcasts partout avec</string>
     <key>notifications_permissions_action</key>
     <string>Autoriser les notifications</string>
     <key>notifications_permissions_body</key>
-    <string>Les notifications sont le meilleur moyen de suivre les nouveaux épisodes, d’obtenir des recommandations concernant les nouvelles émissions et des conseils relatifs à Pocket Casts.</string>
+    <string>Les notifications sont le meilleur moyen de suivre les nouveaux épisodes, d’obtenir des recommandations de nouvelles émissions et des conseils relatifs à Pocket Casts.</string>
     <key>notifications_permissions_needs_action</key>
     <string>Veuillez autoriser les notifications dans les réglages de votre appareil</string>
     <key>notifications_permissions_open_settings</key>
@@ -2327,10 +2318,6 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Échec de l’envoi du courriel de réinitialisation. Veuillez réessayer plus tard.</string>
     <key>profile_single_file</key>
     <string>1 fichier</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Vous n’avez ajouté aucun épisode à vos favoris pour le moment.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Aucun épisode favori</string>
     <key>purchase_terms</key>
     <string>En continuant, vous acceptez notre %1$@politique de confidentialité%2$@ et nos %3$@conditions d’utilisation%4$@.</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Prochains épisodes</string>
     <key>up_next_empty_description</key>
     <string>Vous pouvez mettre des épisodes dans la file d’attente de lecture en balayant la ligne de l’épisode vers la droite ou en appuyant sur l’icône dans la fiche d’un épisode.</string>
-    <key>up_next_empty_title</key>
-    <string>Aucun épisode dans Prochains épisodes</string>
     <key>up_next_history</key>
     <string>Historique de la file d’attente</string>
     <key>up_next_history_explanation</key>

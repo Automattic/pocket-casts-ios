@@ -283,6 +283,8 @@ enum AnalyticsEvent: String {
     case filterCreated
 
     case filterShown
+    case filterTooltipShown
+    case filterTooltipClosed
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
@@ -768,7 +770,7 @@ enum AnalyticsEvent: String {
     // MARK: - Bookmarks
     case bookmarkCreated
     case bookmarkUpdateTitle
-    case bookmarksUpgradeButtonTapped
+    case bookmarksGetBookmarksButtonTapped
     case bookmarksEmptyGoToHeadphoneSettings
     case bookmarkPlayTapped
     case bookmarksSortByChanged

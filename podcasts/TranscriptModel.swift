@@ -25,6 +25,10 @@ struct TranscriptModel: Sendable {
     let hasJavascript: Bool
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
+        let trimmedTranscript = transcriptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTranscript.isEmpty else {
+            return nil
+        }
         if format == .textHTML {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))

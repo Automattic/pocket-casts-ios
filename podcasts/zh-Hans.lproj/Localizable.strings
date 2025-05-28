@@ -384,13 +384,13 @@
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
     <key>cancel_subscription_survey_description</key>
-    <string>我们很乐意了解您取消订单的原因。 您的反馈有助于我们做出改进。</string>
+    <string>我们很想知道您取消订单的原因。 您的反馈有助于我们做出改进。</string>
     <key>cancel_subscription_survey_row_better_app</key>
     <string>我找到了一款更好的应用程序</string>
     <key>cancel_subscription_survey_row_cost</key>
-    <string>成本相关原因</string>
+    <string>费用太高</string>
     <key>cancel_subscription_survey_row_not_enough</key>
-    <string>我用得不够多</string>
+    <string>我不常使用</string>
     <key>cancel_subscription_survey_row_other</key>
     <string>其他</string>
     <key>cancel_subscription_survey_row_technical_issue</key>
@@ -821,10 +821,6 @@ Pocket Casts Plus</string>
     <string>下载</string>
     <key>downloads_auto_download</key>
     <string>自动下载设置</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>糟糕！ 下载文件没有了。 下载更多文件，这些文件将显示在此处。</string>
-    <key>downloads_no_downloads_title</key>
-    <string>没有已下载剧集</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重试失败的下载</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ Pocket Casts。</string>
     <string>删除一些文件并重试。</string>
     <key>file_upload_name_required</key>
     <string>必须填写名称</string>
-    <key>file_upload_no_files_description</key>
-    <string>想要收听您自己的文件？
-与 Pocket Casts 共享这些文件，它们将显示在这里</string>
     <key>file_upload_no_files_helper</key>
     <string>我该怎么做？</string>
-    <key>file_upload_no_files_title</key>
-    <string>无文件</string>
     <key>file_upload_remove_image</key>
     <string>删除图片</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Pocket Casts。</string>
     <string>订阅 Plus 以使用此功能和其他高级功能（如书签和文件夹）。</string>
     <key>generated_transcripts_overlay_title</key>
     <string>此文字转录稿由 Pocket Casts 自动生成。</string>
+    <key>go_to_discover</key>
+    <string>前往探索</string>
     <key>go_to_podcast</key>
     <string>转至播客</string>
     <key>got_it</key>
@@ -1567,22 +1560,20 @@ Pocket Casts。</string>
     <string>耳机设置</string>
     <key>no_bookmarks_message</key>
     <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
-    <key>no_bookmarks_title</key>
-    <string>尚无书签</string>
     <key>none</key>
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
     <key>notifications_app_clip_body</key>
-    <string>安装 Pocket Casts，通过强大的播放和自定义工具获得完整的体验。</string>
+    <string>安装 Pocket Casts，通过强大的播放功能和自定义工具获得完整的体验。</string>
     <key>notifications_app_clip_title</key>
-    <string>准备好收听更多的播客了吗？</string>
+    <string>准备好收听更多播客了吗？</string>
     <key>notifications_daily_reminders</key>
     <string>每日提醒</string>
     <key>notifications_new_feature_suggested_folders_body</key>
     <string>试用 Plus，通过文件夹自动整理您的节目。</string>
     <key>notifications_new_feature_suggested_folders_title</key>
-    <string>您的播客已整理</string>
+    <string>整理您的播客</string>
     <key>notifications_new_features_tips</key>
     <string>新功能和贴士</string>
     <key>notifications_off</key>
@@ -1626,7 +1617,7 @@ Pocket Casts。</string>
     <key>notifications_permissions_action</key>
     <string>允许通知</string>
     <key>notifications_permissions_body</key>
-    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 相关提示的最佳方式。</string>
+    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 使用技巧的最佳方式。</string>
     <key>notifications_permissions_needs_action</key>
     <string>请在您的设备设置中允许通知</string>
     <key>notifications_permissions_open_settings</key>
@@ -1642,13 +1633,13 @@ Pocket Casts。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本周热门话题</string>
     <key>notifications_recommendations_you_might_like_body</key>
-    <string>不知道接下来该听什么？ 看看这些节目吧！</string>
+    <string>不知道接下来该听什么？ 不妨看看这些节目！</string>
     <key>notifications_recommendations_you_might_like_title</key>
-    <string>给您的新推荐</string>
+    <string>为您推荐的新内容</string>
     <key>notifications_reengagement_downloads_body</key>
-    <string>您已下载 %1$@ 个新剧集，随时可以收看！</string>
+    <string>您已下载 %1$@ 个新剧集，可随时收听！</string>
     <key>notifications_reengagement_downloads_title</key>
-    <string>离线收看</string>
+    <string>离线收听</string>
     <key>notifications_reengagement_weekly_body</key>
     <string>您已经有一段时间没收听播客了。 回来继续收听，尽情享受吧！</string>
     <key>notifications_reengagement_weekly_title</key>
@@ -2216,7 +2207,7 @@ Pocket Casts。</string>
     <key>podcast_similar_generic_header</key>
     <string>类似节目</string>
     <key>podcast_similar_header</key>
-    <string>类似于“%@”的节目</string>
+    <string>“%@”的类似节目</string>
     <key>podcast_singular</key>
     <string>播客</string>
     <key>podcast_soon</key>
@@ -2327,10 +2318,6 @@ Pocket Casts。</string>
     <string>无法发送重置电子邮件，请稍后重试。</string>
     <key>profile_single_file</key>
     <string>1 个文件</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>您尚未对任何剧集进行评分。</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>未对任何内容进行评分</string>
     <key>purchase_terms</key>
     <string>继续即表示，您同意我们的%1$@隐私政策%2$@以及%3$@条款和条件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Pocket Casts。</string>
     <string>接下来播放</string>
     <key>up_next_empty_description</key>
     <string>您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。</string>
-    <key>up_next_empty_title</key>
-    <string>“接下来播放”列表无内容</string>
     <key>up_next_history</key>
     <string>“即将播出”历史</string>
     <key>up_next_history_explanation</key>

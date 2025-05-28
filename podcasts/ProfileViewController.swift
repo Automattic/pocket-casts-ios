@@ -138,7 +138,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
-        showReferralsHintIfNeeded()
+
+        if FeatureFlag.cancelSubscriptionSurvey.enabled,
+           SyncManager.isUserLoggedIn(),
+           SubscriptionHelper.hasCancelledSubscription,
+           !Settings.subscriptionCancelledSurveyShown {
+            let controller = CancelSubscriptionSurveyViewModel.make()
+            present(controller, animated: true)
+        } else {
+            showReferralsHintIfNeeded()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -302,6 +311,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
+        cell.updateImageScale()
         cell.separatorInset = .zero
 
         switch row {
@@ -354,17 +364,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
-
-        if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            row == .kidsProfile || row == .referralsClaim {
-            return UITableView.automaticDimension
-        } else if row == .informationalBanner {
+        switch row {
+        case .informationalBanner:
             return 160
-        } else {
+        default:
             return 70
         }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

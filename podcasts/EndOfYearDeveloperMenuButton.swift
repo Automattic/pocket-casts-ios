@@ -35,11 +35,7 @@ struct EndOfYearDeveloperMenuButton: View {
                 }
                 .padding()
             }
-            .modify {
-                if #available(iOS 16, *) {
-                    $0.presentationDetents([.medium])
-                }
-            }
+            .presentationDetents([.medium])
         }
     }
 }

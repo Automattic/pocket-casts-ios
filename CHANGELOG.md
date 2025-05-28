@@ -1,11 +1,24 @@
+7.91
+-----
+
 7.90
 -----
+- Drop iOS 15 and watchOS 8 [#2858](https://github.com/Automattic/pocket-casts-ios/issues/2858)
+- New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
+- New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
+- New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
+- Fix UI glitch when expanding the player for podcasts with landscape artwork [#2086](https://github.com/Automattic/pocket-casts-ios/issues/2086)
 - Fix episode artwork aspect ratio on mini-player [1084](https://github.com/Automattic/pocket-casts-ios/issues/1084)
+
+7.89.1
+-----
+- Prevent transcript to crash if the transcript text is empty[#3191](https://github.com/Automattic/pocket-casts-ios/pull/3191)
 
 7.89
 -----
 - Add Recommendations feature to Discover and Podcast pages [#2989](https://github.com/Automattic/pocket-casts-ios/issues/2989)
 - Fix repeating the episode when skipping forward [#3138](https://github.com/Automattic/pocket-casts-ios/pull/3138)
+- Fix Up Next Queue syncing when an episode is replaced. This could lead to old episodes being added back to the queue. [#3159](https://github.com/Automattic/pocket-casts-ios/pull/3159)
 
 7.88
 -----
