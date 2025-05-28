@@ -821,10 +821,6 @@ Lass uns dir zuerst helfen</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Einstellungen für automatischen Download</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Oje, du hast keine Downloads mehr. Wenn du weitere Folgen herunterlädst, erscheinen sie hier.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Keine heruntergeladenen Folgen</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Fehlgeschlagene Downloads erneut starten</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ Folge dauerte
     <string>Entferne ein paar Dateien und versuche es erneut.</string>
     <key>file_upload_name_required</key>
     <string>Name erforderlich</string>
-    <key>file_upload_no_files_description</key>
-    <string>Möchtest du deine eigenen Dateien anhören?
-Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <key>file_upload_no_files_helper</key>
     <string>Wie geht das?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Keine Dateien</string>
     <key>file_upload_remove_image</key>
     <string>Bild entfernen</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Werde Plus-Abonnent, um Zugriff auf das Transkript und andere Premium-Funktionen wie Lesezeichen und Ordner zu erhalten.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Dieses Transkript wird automatisch von Pocket Casts generiert.</string>
+    <key>go_to_discover</key>
+    <string>„Entdecken“ aufrufen</string>
     <key>go_to_podcast</key>
     <string>Zum Podcast</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ Podcasts mit</string>
     <string>Kopfhörereinstellungen</string>
     <key>no_bookmarks_message</key>
     <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
-    <key>no_bookmarks_title</key>
-    <string>Noch keine Lesezeichen</string>
     <key>none</key>
     <string>Nichts</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Die E-Mail zum Zurücksetzen konnte nicht gesendet werden. Bitte versuche es später erneut.</string>
     <key>profile_single_file</key>
     <string>1 Datei</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Du hast noch keine Folgen mit Stern markiert.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Nichts mit Stern markiert</string>
     <key>purchase_terms</key>
     <string>Indem du fortfährst, erklärst du dich mit unserer %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Warteschlange</string>
     <key>up_next_empty_description</key>
     <string>Du kannst eine Folge zur Warteschlange hinzufügen, indem du in der Folgenliste nach rechts wischst oder in einer Folgenkarte das Warteschlangen-Icon antippst.</string>
-    <key>up_next_empty_title</key>
-    <string>Die Warteschlange ist leer.</string>
     <key>up_next_history</key>
     <string>Verlauf „Als Nächstes“</string>
     <key>up_next_history_explanation</key>

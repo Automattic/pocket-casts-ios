@@ -821,10 +821,6 @@ Pocket Casts Plus</string>
     <string>Скачивания</string>
     <key>downloads_auto_download</key>
     <string>Настройки автоматического скачивания</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>О нет! У вас совсем закончились загрузки. Скачайте файлы, и они появятся здесь.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Нет скачанных выпусков</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Повторить неудачные скачивания</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удалите некоторые файлы и попробуйте снова.</string>
     <key>file_upload_name_required</key>
     <string>Необходимо указать имя</string>
-    <key>file_upload_no_files_description</key>
-    <string>Хотите слушать собственные файлы?
-Поделитесь ими с Pocket Casts, и они появятся здесь</string>
     <key>file_upload_no_files_helper</key>
     <string>Как это сделать?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Нет файлов</string>
     <key>file_upload_remove_image</key>
     <string>Удалить изображение</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Pocket Casts на полную мощность.</string>
     <string>Подпишитесь на Plus, чтобы пользоваться ею и другими премиум-функциями, такими как закладки и папки.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Расшифровка автоматически создана Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Перейти к рекомендациям</string>
     <key>go_to_podcast</key>
     <string>Перейти к подкасту</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ Pocket Casts на полную мощность.</string>
     <string>Настройки наушников</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
-    <key>no_bookmarks_title</key>
-    <string>Пока нет закладок</string>
     <key>none</key>
     <string>Пусто</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Pocket Casts на полную мощность.</string>
     <string>Не удалось отправить письмо для сброса, повторите попытку позже.</string>
     <key>profile_single_file</key>
     <string>1 файл</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Вы не добавили в избранное ни одного выпуска.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Ничего не добавлено в избранное</string>
     <key>purchase_terms</key>
     <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Pocket Casts на полную мощность.</string>
     <string>Следующие</string>
     <key>up_next_empty_description</key>
     <string>Вы можете поместить выпуски в очередь для последующего воспроизведения, проведя пальцем вправо по строкам выпусков или коснувшись значка на карточке выпуска.</string>
-    <key>up_next_empty_title</key>
-    <string>Очередь пуста</string>
     <key>up_next_history</key>
     <string>История Up Next</string>
     <key>up_next_history_explanation</key>

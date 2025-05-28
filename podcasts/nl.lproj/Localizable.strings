@@ -821,10 +821,6 @@ Laat ons eerst helpen</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Instellingen automatisch downloaden</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>O nee! Je hebt geen downloads meer. Download meer afleveringen en ze verschijnen hier.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Geen gedownloade afleveringen</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Mislukte downloads opnieuw proberen</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ waar je naar hebt geluisterd was
     <string>Verwijder wat bestanden en probeer het nogmaals.</string>
     <key>file_upload_name_required</key>
     <string>Naam verplicht</string>
-    <key>file_upload_no_files_description</key>
-    <string>Wil je naar je eigen bestanden luisteren?
-Deel ze met Pocket Casts en ze verschijnen hier</string>
     <key>file_upload_no_files_helper</key>
     <string>Hoe doe ik dit?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Geen bestanden</string>
     <key>file_upload_remove_image</key>
     <string>Afbeelding verwijderen</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Abonneer je op Plus om er toegang tot te krijgen en tot andere Premium-functies zoals bladwijzers en mappen.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Deze transcriptie is automatisch gegenereerd door Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Ga naar Ontdekken</string>
     <key>go_to_podcast</key>
     <string>Naar podcast</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ podcasts mee</string>
     <string>Instellingen koptelefoon</string>
     <key>no_bookmarks_message</key>
     <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
-    <key>no_bookmarks_title</key>
-    <string>Nog geen bladwijzers</string>
     <key>none</key>
     <string>Geen</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verzenden van e-mail voor opnieuw instellen mislukt, probeer het later opnieuw.</string>
     <key>profile_single_file</key>
     <string>1 bestand</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Je hebt nog geen aflevering aan favorieten toegevoegd.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Geen favorieten</string>
     <key>purchase_terms</key>
     <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Hierna</string>
     <key>up_next_empty_description</key>
     <string>U kunt afleveringen in de wachtrij zetten door naar rechts te swipen in afleveringrijen of door op het pictogram op een afleveringkaart te tikken.</string>
-    <key>up_next_empty_title</key>
-    <string>Niets in Hierna</string>
     <key>up_next_history</key>
     <string>Geschiedenis van Hierna</string>
     <key>up_next_history_explanation</key>
