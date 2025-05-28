@@ -32,6 +32,7 @@ struct BannerView: View {
 
     @ObservedObject var model: BannerModel
     @EnvironmentObject var theme: Theme
+    @Environment(\.sizeCategory) private var sizeCategory
 
     let edgeInsets: EdgeInsets?
 
@@ -63,7 +64,11 @@ struct BannerView: View {
         HStack(alignment: .top) {
             if let iconName = model.iconName {
                 Image(iconName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleFactor(for: sizeCategory)
                     .foregroundColor(theme.primaryIcon03)
+                    .frame(width: 24, height: 24)
             }
             VStack(alignment: .leading, spacing: 8) {
                 if let title = model.title {
@@ -100,7 +105,11 @@ struct BannerView: View {
                 } label: {
                     Image("cross-little")
                         .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaleFactor(for: sizeCategory)
                         .foregroundColor(theme.primaryIcon02)
+                        .frame(width: 24, height: 24)
                 }
                 .padding(8)
             }
