@@ -1,6 +1,6 @@
 7.91
 -----
-
+- Fix UI glitch when expanding the player for podcasts with landscape artwork [#2086](https://github.com/Automattic/pocket-casts-ios/issues/2086)
 
 7.90
 -----
