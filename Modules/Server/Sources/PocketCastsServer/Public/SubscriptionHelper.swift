@@ -6,12 +6,14 @@ open class SubscriptionHelper: NSObject {
 
     public static var hasCancelledSubscription: Bool {
         let renewing = SubscriptionHelper.hasRenewingSubscription()
-        let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
+        let giftDays = SubscriptionHelper.subscriptionGiftDays()
 
-        if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate > Date() {
+        if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate > Date(), giftDays == 0 {
             return !renewing
         }
-        return !renewing && timeToSubscriptionExpiry < 0
+
+        let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
+        return !renewing && timeToSubscriptionExpiry < 0 && giftDays == 0
     }
 
     /// Returns the users active subscription tier or .none if they don't currently have one
