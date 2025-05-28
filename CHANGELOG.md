@@ -4,6 +4,7 @@
 7.89.1
 -----
 - Prevent transcript to crash if the transcript text is empty[#3191](https://github.com/Automattic/pocket-casts-ios/pull/3191)
+- Fix UI glitch when expanding the player for podcasts with landscape artwork [#2086](https://github.com/Automattic/pocket-casts-ios/issues/2086)
 
 7.90
 -----
