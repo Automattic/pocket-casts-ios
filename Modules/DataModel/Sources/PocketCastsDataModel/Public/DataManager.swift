@@ -42,6 +42,7 @@ public class DataManager {
             var config = Configuration()
             config.busyMode = .timeout(10)
             dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config), logger: Self.logger)
+            DataManager.setDatabaseFileProtectionToNone()
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
@@ -1160,5 +1161,24 @@ public extension DataManager {
 
     func summarizedRatings(in year: Int) -> [UInt32: Int]? {
         endOfYearManager.summarizedRatings(in: year)
+    }
+}
+
+// MARK: - GRDB: Database protection
+
+extension DataManager {
+    // This is the implementation of SQLITE_OPEN_FILEPROTECTION_NONE
+    // for GRDB, which we need to handle manually.
+    static func setDatabaseFileProtectionToNone() {
+        let dbPath = DataManager.pathToDb()
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: dbPath) {
+            if let attributes = try? fileManager.attributesOfItem(atPath: dbPath),
+               let currentProtection = attributes[.protectionKey] as? FileProtectionType,
+               currentProtection != .none {
+                // Only set the attribute if it's not already .none
+                try? fileManager.setAttributes([.protectionKey: FileProtectionType.none], ofItemAtPath: dbPath)
+            }
+        }
     }
 }
