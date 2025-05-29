@@ -2,11 +2,12 @@ import UIKit
 import PocketCastsUtils
 import PocketCastsServer
 
-class GeneratedTranscriptsPremiumOverlay: UIViewController {
+class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvider {
     var dismissTranscript: (() -> Void)?
     var purchaseSuccessfull: (() -> Void)?
 
     private let playbackManager: PlaybackManager
+    let analyticsSource: AnalyticsSource
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -81,8 +82,9 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
         return gradientView
     }()
 
-    init(playbackManager: PlaybackManager) {
+    init(playbackManager: PlaybackManager, analyticsSource: AnalyticsSource = .player) {
         self.playbackManager = playbackManager
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -175,6 +177,6 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController {
               let podcast = playbackManager.currentPodcast else {
             return
         }
-        Analytics.track(event, properties: ["episode_uuid": episode.uuid, "podcast_uuid": podcast.uuid])
+        Analytics.track(event, properties: ["episode_uuid": episode.uuid, "podcast_uuid": podcast.uuid, "source": analyticsSource.rawValue])
     }
 }

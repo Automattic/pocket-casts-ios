@@ -816,6 +816,9 @@ enum AnalyticsEvent: String {
     case transcriptGeneratedPaywallShown
     case transcriptGeneratedPaywallDismissed
     case transcriptGeneratedPaywallSubscribeTapped
+    case episodeDetailTranscriptCardShown
+    case episodeDetailTranscriptCardTapped
+    case episodeTranscriptShown
 
     // MARK: - Widgets
 
