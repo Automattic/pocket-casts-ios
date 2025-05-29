@@ -52,11 +52,9 @@ final class FMDBQueue: PCDBQueue {
                 }
             }
         } else {
-            withoutActuallyEscaping(block) { block in
-                fmdbQueue.inDatabase { db in
-                    let dbWrapper = FMDBDatabase(fmdbDatabase: db)
-                    block(dbWrapper)
-                }
+            fmdbQueue.inDatabase { db in
+                let dbWrapper = FMDBDatabase(fmdbDatabase: db)
+                block(dbWrapper)
             }
         }
     }
