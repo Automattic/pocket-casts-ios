@@ -1,9 +1,10 @@
 import Foundation
 import SwiftUI
 import PocketCastsUtils
+import MessageUI
 import UniformTypeIdentifiers
 
-class LogsViewModel: NSObject, ObservableObject {
+class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDelegate {
     @Published var logs = ""
     var presenter: UIViewController?
 
@@ -35,6 +36,28 @@ class LogsViewModel: NSObject, ObservableObject {
         try? data.write(to: tempURL)
         return tempURL
     }
+
+    func mailLogs() {
+        guard MFMailComposeViewController.canSendMail() else {
+            Toast.show(L10n.logsNoEmailAccountConfigured)
+            return
+        }
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        mailVC.setSubject("iOS Logs \(Settings.appVersion())")
+        mailVC.setToRecipients(["support@pocketcasts.com"])
+        mailVC.setMessageBody("Please find attached my logs", isHTML: false)
+        if let data = logs.data(using: .utf8) {
+            mailVC.addAttachmentData(data, mimeType: UTType.plainText.preferredMIMEType ?? "plain/text", fileName: "logs.txt")
+        }
+        presenter?.present(mailVC, animated: true)
+    }
+
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                                       didFinishWith result: MFMailComposeResult,
+                               error: Error?) {
+        presenter?.dismiss(animated: true)
+    }
 }
 
 struct LogsView: View {
@@ -48,16 +71,25 @@ struct LogsView: View {
             Spacer()
         }
         .navigationTitle(L10n.logs)
-        .toolbar(content: {
-            if let url = model.shareURL {
-                ToolbarItem(placement: .navigationBarTrailing) {
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if MFMailComposeViewController.canSendMail() {
+                    Button(action: {
+                        model.mailLogs()
+                    }, label: {
+                        Image(systemName: "envelope")
+                            .bold()
+                    })
+                }
+                if let url = model.shareURL {
                     ShareLink(item: url, preview: SharePreview("logs.txt")) {
-                        Image(systemName: "square.and.arrow.up").bold()
+                        Image(systemName: "square.and.arrow.up")
+                            .bold()
                     }
-                    .foregroundStyle(theme.primaryIcon01)
                 }
             }
-        })
+        }
+        .foregroundStyle(theme.primaryIcon01)
         .applyDefaultThemeOptions()
         .ignoresSafeArea()
         .task {
