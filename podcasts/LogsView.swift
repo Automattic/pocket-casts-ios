@@ -1,9 +1,9 @@
 import Foundation
 import SwiftUI
 import PocketCastsUtils
-import MessageUI
+import UniformTypeIdentifiers
 
-class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDelegate {
+class LogsViewModel: NSObject, ObservableObject {
     @Published var logs = ""
     var presenter: UIViewController?
 
@@ -18,29 +18,23 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
         }
     }
 
-    func mailLogs() {
-        guard MFMailComposeViewController.canSendMail() else {
-            Toast.show(L10n.logsNoEmailAccountConfigured)
-            return
-        }
-        let mailVC = MFMailComposeViewController()
-        mailVC.mailComposeDelegate = self
+    var shareURL: URL? {
+        guard let data = logs.data(using: .utf8) else { return nil }
+        let date = Date()
+        let components = Calendar.current.dateComponents(in: .current, from: date)
 
-        mailVC.setSubject("iOS Logs \(Settings.appVersion())")
-        mailVC.setToRecipients(["support@pocketcasts.com"])
-        mailVC.setMessageBody("Please find attached my logs", isHTML: false)
-        if let data = logs.data(using: .utf8) {
-            mailVC.addAttachmentData(data, mimeType: UTType.plainText.preferredMIMEType ?? "plain/text", fileName: "logs.txt")
-        }
-        presenter?.present(mailVC, animated: true)
+        let dateString = String(format: "%04d-%02d-%02d-%02d-%02d-%02d",
+            components.year ?? 0,
+            components.month ?? 0,
+            components.day ?? 0,
+            components.hour ?? 0,
+            components.minute ?? 0,
+            components.second ?? 0
+        )
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("pocketcasts-logs-\(dateString).txt")
+        try? data.write(to: tempURL)
+        return tempURL
     }
-
-    func mailComposeController(_ controller: MFMailComposeViewController,
-                                       didFinishWith result: MFMailComposeResult,
-                               error: Error?) {
-        presenter?.dismiss(animated: true)
-    }
-
 }
 
 struct LogsView: View {
@@ -55,12 +49,13 @@ struct LogsView: View {
         }
         .navigationTitle(L10n.logs)
         .toolbar(content: {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    model.mailLogs()
-                }, label: {
-                    Image("mail")
-                })
+            if let url = model.shareURL {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ShareLink(item: url, preview: SharePreview("logs.txt")) {
+                        Image(systemName: "square.and.arrow.up").bold()
+                    }
+                    .foregroundStyle(theme.primaryIcon01)
+                }
             }
         })
         .applyDefaultThemeOptions()
