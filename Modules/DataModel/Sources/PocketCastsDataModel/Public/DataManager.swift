@@ -31,6 +31,8 @@ public class DataManager {
 
     public static internal(set) var sharedManager = DataManager()
 
+    public static var logger: ErrorLogger?
+
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {
         DataManager.ensureDbFolderExists()
@@ -39,7 +41,7 @@ public class DataManager {
         if FeatureFlag.grdb.enabled {
             var config = Configuration()
             config.busyMode = .timeout(10)
-            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config))
+            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config), logger: Self.logger)
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
