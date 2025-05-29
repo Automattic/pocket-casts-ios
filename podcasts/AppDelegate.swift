@@ -1,4 +1,5 @@
 import BackgroundTasks
+import AutomatticRemoteLogging
 import Firebase
 import FirebasePerformance
 import Foundation
@@ -39,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
+
+        DataManager.logger = SentryLogger()
 
         appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
@@ -417,5 +420,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
+    }
+}
+
+struct SentryLogger: ErrorLogger {
+    func log(error: Error, context: [String: String]?) {
+    #if os(iOS)
+    CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
+    #endif
     }
 }

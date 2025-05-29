@@ -11,11 +11,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
-    @IBOutlet var lastRefreshTime: UILabel! {
-        didSet {
-            lastRefreshTime.font = UIFont.font(with: .body)
-        }
-    }
+    @IBOutlet var lastRefreshTime: UILabel!
     @IBOutlet var refreshBtn: AnimatedImageButton! {
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
@@ -379,16 +375,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let row = tableData[indexPath.section][indexPath.row]
-
-        if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            row == .kidsProfile || row == .referralsClaim {
-            return UITableView.automaticDimension
-        } else if row == .informationalBanner {
-            return 160
-        } else {
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -706,6 +706,7 @@
 		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
+		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -2953,6 +2954,7 @@
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
+		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
@@ -5247,6 +5249,7 @@
 				8BA6CAFD2C404C3600FB4704 /* ComposeFilterTests.swift */,
 				FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */,
 				FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */,
+				9A86AB2A2DE6008800474E0F /* empty_sample.vtt */,
 				FF6BBCEF2C53EA1F00604A01 /* sample.vtt */,
 			);
 			path = Transcripts;
@@ -9111,6 +9114,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */,
 				FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */,
 				FF6BBCF02C53EA1F00604A01 /* sample.vtt in Resources */,
 				8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */,
@@ -9821,9 +9825,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -9856,9 +9864,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

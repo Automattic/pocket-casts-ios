@@ -821,10 +821,6 @@ Pocket Casts Plus</string>
     <string>下載</string>
     <key>downloads_auto_download</key>
     <string>自動下載設定</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>糟糕！ 你剛完成下載。下載更多檔案，這些檔案會顯示於此處。</string>
-    <key>downloads_no_downloads_title</key>
-    <string>沒有已下載的單集</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重試失敗的下載項目</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ Pocket Casts Plus</string>
     <string>請移除一些檔案並再試一次。</string>
     <key>file_upload_name_required</key>
     <string>名稱為必填</string>
-    <key>file_upload_no_files_description</key>
-    <string>想聽聽自己的檔案嗎？
-與 Pocket Casts 共用，就會出現在這裡</string>
     <key>file_upload_no_files_helper</key>
     <string>我該怎麼做？</string>
-    <key>file_upload_no_files_title</key>
-    <string>沒有檔案</string>
     <key>file_upload_remove_image</key>
     <string>移除圖片</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ Pocket Casts Plus</string>
     <string>訂閱 Plus 即可存取逐字稿和其他進階版功能，例如書籤和資料夾。</string>
     <key>generated_transcripts_overlay_title</key>
     <string>本逐字稿由 Pocket Casts 自動生成。</string>
+    <key>go_to_discover</key>
+    <string>開始探索</string>
     <key>go_to_podcast</key>
     <string>前往 Podcast 節目</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ Pocket Casts Plus</string>
     <string>耳機設定</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
-    <key>no_bookmarks_title</key>
-    <string>目前還沒有書籤</string>
     <key>none</key>
     <string>無</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Pocket Casts Plus</string>
     <string>無法傳送重設電子郵件，請稍後再試一次。</string>
     <key>profile_single_file</key>
     <string>1 個檔案</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>你尚未將任何單集加上星號。</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>沒有加上星號的項目</string>
     <key>purchase_terms</key>
     <string>繼續即表示你同意我們的%1$@隱私權政策%2$@和%3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Pocket Casts Plus</string>
     <string>接下來播放</string>
     <key>up_next_empty_description</key>
     <string>你可以在節目佇列向右撥動，或點選節目卡圖示，將接下來要播放的節目排入佇列。</string>
-    <key>up_next_empty_title</key>
-    <string>「接下來播放」中沒有任何節目</string>
     <key>up_next_history</key>
     <string>「接下來播放」紀錄</string>
     <key>up_next_history_explanation</key>

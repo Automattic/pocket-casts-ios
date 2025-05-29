@@ -821,10 +821,6 @@ Låt oss hjälpa dig först</string>
     <string>Nedladdningar</string>
     <key>downloads_auto_download</key>
     <string>Inställningar för automatisk nedladdning</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Du har inga nedladdade avsnitt. När du har laddat ner ett avsnitt så kommer det att visas här.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Inga nedladdade avsnitt</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Försök genomföra misslyckade nedladdningar igen</string>
     <key>downloads_stop_all_downloads</key>
@@ -1080,13 +1076,8 @@ du lyssnade på var
     <string>Ta bort några filer och försök igen.</string>
     <key>file_upload_name_required</key>
     <string>Namn obligatoriskt</string>
-    <key>file_upload_no_files_description</key>
-    <string>Vill du lyssna på dina egna filer?
-När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <key>file_upload_no_files_helper</key>
     <string>Hur gör jag det?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Inga filer</string>
     <key>file_upload_remove_image</key>
     <string>Ta bort bild</string>
     <key>file_upload_save</key>
@@ -1301,6 +1292,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Prenumerera på Plus för att få åtkomst till den och andra Premium-funktioner som bokmärken och mappar.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Den här transkriptionen genereras automatiskt av Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Gå till Upptäck</string>
     <key>go_to_podcast</key>
     <string>Gå till podcasten</string>
     <key>got_it</key>
@@ -1567,8 +1560,6 @@ podcasts med dig</string>
     <string>Hörlursinställningar</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
-    <key>no_bookmarks_title</key>
-    <string>Inga bokmärken än</string>
     <key>none</key>
     <string>Ingen</string>
     <key>not_on_wifi</key>
@@ -2327,10 +2318,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Det gick inte att skicka återställningsmeddelandet, försök igen senare.</string>
     <key>profile_single_file</key>
     <string>1 fil</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Du har inte stjärnmärkt några avsnitt.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Inget stjärnmärkt</string>
     <key>purchase_terms</key>
     <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3278,8 +3265,6 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Nästa</string>
     <key>up_next_empty_description</key>
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
-    <key>up_next_empty_title</key>
-    <string>Inget i Nästa</string>
     <key>up_next_history</key>
     <string>Up Next-historik</string>
     <key>up_next_history_explanation</key>
