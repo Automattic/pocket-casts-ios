@@ -44,7 +44,7 @@ struct LogsView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $model.logs)
+            TextEditor(text: $model.logs.readOnly)
             Spacer()
         }
         .navigationTitle(L10n.logs)
@@ -63,6 +63,12 @@ struct LogsView: View {
         .task {
             await model.load()
         }
+    }
+}
+
+fileprivate extension Binding {
+    var readOnly: Binding<Value> {
+        Binding(get: { self.wrappedValue }, set: { _ in })
     }
 }
 
