@@ -84,11 +84,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
         if PlaybackManager.shared.queue.upNextCount() == 0 {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.emptyStateCell, for: indexPath) as! EmptyStateCell
-            let style: DefaultEmptyStateStyle = PlaybackManager.shared.currentEpisode() == nil ? .defaultStyle : .init(background: .clear)
             emptyCell.configure(title: L10n.upNextEmptyTitle,
                                 message: L10n.upNextEmptyDescription,
                                 icon: { Image("upnext") },
-                                style: style,
                 actions: [
                     .init(title: L10n.goToDiscover) {
                         Analytics.shared.track(.upNextDiscoverButtonTapped)
@@ -275,7 +273,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             sections.insert(.nowPlayingSection, at: 0)
             upNextTable.themeStyle = .primaryUi04
         } else {
-            upNextTable.backgroundColor = UIColor(DefaultEmptyStateStyle.defaultStyle.background)
+            upNextTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
         }
         tableData = sections
     }

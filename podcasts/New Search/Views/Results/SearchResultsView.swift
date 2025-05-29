@@ -31,7 +31,7 @@ struct SearchResultsView: View {
                     )
                 }
                 .frame(maxHeight: .infinity)
-                .background(DefaultEmptyStateStyle.defaultStyle.background)
+                .background(Theme.sharedTheme.primaryUi02)
             } else {
                 SearchListView {
                     ThemeableListHeader(title: L10n.podcastsPlural, actionTitle: L10n.discoverShowAll) {
