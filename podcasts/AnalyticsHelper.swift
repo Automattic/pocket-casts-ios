@@ -429,3 +429,11 @@ private extension AnalyticsHelper {
         #endif
     }
 }
+
+extension AnalyticsHelper {
+    class func setIsTestflight() {
+        #if !os(watchOS)
+        Firebase.Analytics.setUserProperty("testing", forName: "isTestFlight")
+        #endif
+    }
+}

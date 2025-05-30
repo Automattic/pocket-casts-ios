@@ -301,11 +301,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .libroFm:
             false
         case .grdb:
-            #if DEBUG
-            true
-            #else
             false
-            #endif
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
@@ -355,7 +351,7 @@ public enum FeatureFlag: String, CaseIterable {
             // Never remove this line or change to "grdb" as it will enable it
             // in previous versions in which the work was in progress.
             // tl;dr: this flag can never be "grdb"
-            "grdb_pr_test"
+            "test_testflight"
         default:
             rawValue.lowerSnakeCased()
         }
@@ -377,5 +373,5 @@ extension FeatureFlag: OverrideableFlag {
         }
     }
 
-    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+    public static let isTestFlight = true
 }

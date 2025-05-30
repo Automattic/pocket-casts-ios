@@ -304,6 +304,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
+        AnalyticsHelper.setIsTestflight()
+
         FirebaseManager.refreshRemoteConfig() { [weak self] status in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
@@ -313,7 +315,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func updateRemoteFeatureFlags() {
-        guard BuildEnvironment.current != .debug else { return }
+//        guard BuildEnvironment.current != .debug else { return }
 
         if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
@@ -328,6 +330,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
+
+        print("GRDB: \(RemoteConfig.remoteConfig().configValue(forKey: "test_testflight").boolValue)")
 
         FeatureFlag.allCases.forEach { flag in
             if let remoteKey = flag.remoteKey {

@@ -2,7 +2,7 @@ import PocketCastsUtils
 import FirebaseRemoteConfig
 
 struct FirebaseManager {
-    static func refreshRemoteConfig(expirationDuration: TimeInterval = 2.hour, completion: ((RemoteConfigFetchStatus) -> Void)? = nil) {
+    static func refreshRemoteConfig(expirationDuration: TimeInterval = 2.seconds, completion: ((RemoteConfigFetchStatus) -> Void)? = nil) {
         // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
         let remoteConfig = RemoteConfig.remoteConfig()
         var remoteConfigDefaults = [
@@ -21,11 +21,15 @@ struct FirebaseManager {
         }
         remoteConfig.setDefaults(remoteConfigDefaults)
 
-        remoteConfig.fetch(withExpirationDuration: expirationDuration) { status, _ in
-            if status == .success {
-                remoteConfig.activate(completion: nil)
+        Task {
+            try? await remoteConfig.setCustomSignals(["isTestflight": "false"])
+
+            remoteConfig.fetch(withExpirationDuration: expirationDuration) { status, _ in
+                if status == .success {
+                    remoteConfig.activate(completion: nil)
+                }
+                completion?(status)
             }
-            completion?(status)
         }
     }
 }
