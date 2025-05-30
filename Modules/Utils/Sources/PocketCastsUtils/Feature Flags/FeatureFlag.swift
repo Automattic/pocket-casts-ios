@@ -355,7 +355,7 @@ public enum FeatureFlag: String, CaseIterable {
             // Never remove this line or change to "grdb" as it will enable it
             // in previous versions in which the work was in progress.
             // tl;dr: this flag can never be "grdb"
-            "grdb_testflight"
+            "grdb_pr_test"
         default:
             rawValue.lowerSnakeCased()
         }
