@@ -188,6 +188,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
     case replaceSpecificEpisode
 
+    /// Shows transcript excerpt in episode detail
+    case episodeDetailTranscript
+
+    /// Avoid using `withoutActuallyEscaping` for FMDB
     case fmdbWithoutActuallyEscaping
 
     public var enabled: Bool {
@@ -320,6 +324,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .replaceSpecificEpisode:
             true
+        case .episodeDetailTranscript:
+            false
         case .fmdbWithoutActuallyEscaping:
             false
         }
