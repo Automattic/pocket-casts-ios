@@ -351,6 +351,11 @@ public enum FeatureFlag: String, CaseIterable {
             "use_podcast_html_description"
         case .podcastViewChanges:
             "podcast_view_changes_2025"
+        case .grdb:
+            // Never remove this line or change to "grdb" as it will enable it
+            // in previous versions in which the work was in progress.
+            // tl;dr: this flag can never be "grdb"
+            "grdb_testflight"
         default:
             rawValue.lowerSnakeCased()
         }
@@ -363,7 +368,13 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        true
+        switch self {
+        // GRDB can only change in TestFlight versions
+        case .grdb:
+            Self.isTestFlight
+        default:
+            true
+        }
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
