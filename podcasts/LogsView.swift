@@ -98,12 +98,6 @@ struct LogsView: View {
     }
 }
 
-fileprivate extension Binding {
-    var readOnly: Binding<Value> {
-        Binding(get: { self.wrappedValue }, set: { _ in })
-    }
-}
-
 #Preview {
     LogsView(model: LogsViewModel())
     .setupDefaultEnvironment()
