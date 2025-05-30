@@ -469,7 +469,7 @@ class ImageManager {
         case .list:
             let name = Theme.isDarkTheme() ? "noartwork-list-dark" : "noartwork-list"
             return UIImage(named: name)
-        case .page:
+        case .page, .detail:
             let name = Theme.isDarkTheme() ? "noartwork-page-dark" : "noartwork-page"
             return UIImage(named: name)
         }
@@ -509,7 +509,7 @@ class ImageManager {
             let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
 
             return Int(round(shortestSide * UIScreen.main.scale / 3.0))
-        case .page:
+        case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
     }

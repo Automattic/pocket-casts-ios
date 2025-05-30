@@ -23,26 +23,30 @@ struct CancelSubscriptionOfferSuccessView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            icon(for: theme.activeTheme)
-                .frame(width: 162, height: 162)
-                .padding(.top, 70)
-                .padding(.bottom, 21)
-            Text(title)
-                .font(size: 28.0, style: .body, weight: .bold)
-                .foregroundStyle(theme.primaryText01)
-                .padding(.horizontal, 12)
-                .padding(.bottom, 16.0)
-            Text(description)
-                .font(size: 18.0, style: .body, weight: .regular)
-                .foregroundStyle(theme.primaryText02)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 24)
-            Spacer()
+            ScrollView {
+                icon(for: theme.activeTheme)
+                    .frame(width: 162, height: 162)
+                    .padding(.top, 70)
+                    .padding(.bottom, 21)
+                Text(title)
+                    .font(size: 28.0, style: .body, weight: .bold)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(theme.primaryText01)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 16.0)
+                Text(description)
+                    .font(size: 18.0, style: .body, weight: .regular)
+                    .foregroundStyle(theme.primaryText02)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+                Spacer()
+                    .frame(height: 20)
+            }
             Button(action: viewModel.closeOffer) {
                 Text(L10n.done)
             }
             .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
-            .frame(height: 56)
+            .frame(minHeight: 56)
             .padding(.horizontal, 16)
             .padding(.bottom, 20)
         }

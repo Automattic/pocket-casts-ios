@@ -3,7 +3,7 @@ import PocketCastsUtils
 import Combine
 
 protocol AppTrackingTransparencyProvider {
-    var authorizationStatusUpdated: ((Bool) -> Void)? { get set }
+    var authorizationStatusUpdated: ((Bool, String) -> Void)? { get set }
 
     func shouldShowPrompt() -> Bool
     func userGaveConsent() -> Bool
@@ -14,7 +14,7 @@ protocol AppTrackingTransparencyProvider {
 class AppTrackingTransparencyController: AppTrackingTransparencyProvider {
     static let shared = AppTrackingTransparencyController()
 
-    var authorizationStatusUpdated: ((Bool) -> Void)?
+    var authorizationStatusUpdated: ((Bool, String) -> Void)?
 
     func shouldShowPrompt() -> Bool {
         guard FeatureFlag.podcastNewformAppsFlyer.enabled else {
@@ -42,7 +42,7 @@ class AppTrackingTransparencyController: AppTrackingTransparencyProvider {
         }
         let authorizationStatus = await ATTrackingManager.requestTrackingAuthorization()
         FileLog.shared.addMessage("ATTTracking request authorization: \(authorizationStatus.stringValue)")
-        authorizationStatusUpdated?(authorizationStatus.isAuthorized)
+        authorizationStatusUpdated?(authorizationStatus.isAuthorized, authorizationStatus.stringValue)
         return true
     }
 }

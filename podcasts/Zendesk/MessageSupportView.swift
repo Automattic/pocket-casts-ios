@@ -23,6 +23,7 @@ struct MessageSupportView: View {
                 TextField(L10n.supportEmailPlaceholder, text: $viewModel.requesterEmail)
                     .autocapitalization(.none)
                     .keyboardType(.emailAddress)
+                    .disabled(viewModel.isUserSignedIn)
                     .requiredStyle(viewModel.requesterEmailErrored)
 
                 Text(L10n.supportCommentIndicator)
@@ -99,7 +100,7 @@ struct MessageSupportView_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        MessageSupportView(viewModel: MessageSupportViewModel(config: PreviewConfig()))
+        MessageSupportView(viewModel: MessageSupportViewModel(config: PreviewConfig(), isUserSignedIn: true))
             .environmentObject(Theme(previewTheme: .rosé))
     }
 }

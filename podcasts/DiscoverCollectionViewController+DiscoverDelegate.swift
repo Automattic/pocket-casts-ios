@@ -2,7 +2,6 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
-
     func navigateTo(category: String) {
         if isViewLoaded {
             NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
@@ -10,6 +9,17 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             loadViewIfNeeded()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
                 NotificationCenter.default.post(name: Constants.Notifications.discoverNavigateToCategory, object: category)
+            }
+        }
+    }
+
+    func navigateTo(listID: String) {
+        if isViewLoaded {
+            showItemWith(identifier: listID)
+        } else {
+            loadViewIfNeeded()
+            reloadData { [weak self] in
+                self?.showItemWith(identifier: listID)
             }
         }
     }
@@ -62,9 +72,38 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         navigationController?.pushViewController(podcastController, animated: true)
     }
 
-    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {
+    func showItemWith(identifier: String) {
+        guard let items = discoverLayout?.layout,
+              let item = items.first(where: { $0.id == identifier || $0.uuid == identifier})
+        else {
+            return
+        }
+
+        guard let source = item.source else { return }
+
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
+            guard let self, let discoverPodcast = podcastList?.podcasts else { return }
+
+            let podcasts: [DiscoverPodcast]
+            if let itemCount = item.summaryItemCount {
+                podcasts = Array(discoverPodcast[0..<itemCount])
+            } else {
+                podcasts = discoverPodcast
+            }
+
+            DispatchQueue.main.async {
+                self.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+            }
+        })
+    }
+
+    func showExpanded(item: PocketCastsServer.DiscoverItem, podcasts: [PocketCastsServer.DiscoverPodcast], podcastCollection: PocketCastsServer.PodcastCollection?) {
+        showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection, datetime: nil)
+    }
+
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime: String? = nil) {
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: datetime)
         } else {
             Analytics.track(.discoverShowAllTapped, properties: ["list_id": item.inferredListId])
         }
@@ -77,7 +116,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
             navController()?.pushViewController(collectionListVC, animated: true)
         } else { // item == expandedStylw == "plain_list" || item.expandedStyle == "ranked_list"
             let source = replaceRegionCode(string: item.source ?? "")
-            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source)
+            let listView = PodcastHeaderListViewController(podcasts: podcasts, source: source, isAuthenticated: item.isAuthenticated)
             listView.title = replaceRegionName(string: item.title?.localized ?? "")
             listView.showFeaturedCell = item.expandedStyle == "ranked_list"
             listView.showRankingNumber = item.expandedStyle == "ranked_list"
@@ -90,7 +129,7 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
         guard let podcastCollection = podcastCollection else { return }
 
         if let listId = item.uuid {
-            AnalyticsHelper.listShowAllTapped(listId: listId)
+            AnalyticsHelper.listShowAllTapped(listId: listId, dateTime: podcastCollection.datetime)
         }
 
         let listView = ExpandedEpisodeListViewController(podcastCollection: podcastCollection)

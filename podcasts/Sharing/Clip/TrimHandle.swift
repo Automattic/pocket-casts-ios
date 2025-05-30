@@ -22,17 +22,10 @@ struct TrimHandle: View {
             Rectangle()
                 .fill(.tint)
                 .modify { view in
-                    if #available(iOS 16, *) {
-                        view.clipShape(.rect(topLeadingRadius: edgeRadius.leading,
-                                             bottomLeadingRadius: edgeRadius.leading,
-                                             bottomTrailingRadius: edgeRadius.trailing,
-                                             topTrailingRadius: edgeRadius.trailing))
-                    } else {
-                        view.clipShape(PCUnevenRoundedRectangle(topLeadingRadius: edgeRadius.leading,
-                                                                bottomLeadingRadius: edgeRadius.leading,
-                                                                bottomTrailingRadius: edgeRadius.trailing,
-                                                                topTrailingRadius: edgeRadius.trailing))
-                    }
+                    view.clipShape(.rect(topLeadingRadius: edgeRadius.leading,
+                                         bottomLeadingRadius: edgeRadius.leading,
+                                         bottomTrailingRadius: edgeRadius.trailing,
+                                         topTrailingRadius: edgeRadius.trailing))
                 }
             handleLine
         }

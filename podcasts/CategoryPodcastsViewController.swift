@@ -132,7 +132,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         noNetworkView.isHidden = true
         loadingIndicator.startAnimating()
 
-        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, completion: { [weak self] categoryDetails in
+        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
             DispatchQueue.main.async {
                 guard let strongSelf = self, let podcasts = categoryDetails?.podcasts else {
                     return

@@ -161,7 +161,7 @@ enum AnalyticsEvent: String {
     case folderChooseRemovedFromFolder
     case folderPodcastModalOptionTapped
 
-    case suggestedFoldersPageShow
+    case suggestedFoldersPageShown
     case suggestedFoldersPageDismissed
     case suggestedFoldersUseSuggestedFoldersTapped
     case suggestedFoldersCreateCustomFolderTapped
@@ -210,6 +210,8 @@ enum AnalyticsEvent: String {
     case listeningHistoryCleared
     case listeningHistoryClearConfirmationShown
     case listeningHistoryClearConfirmationDismissed
+
+    case listeningHistoryDiscoverButtonTapped
 
     // MARK: - Uploaded Files
 
@@ -281,6 +283,8 @@ enum AnalyticsEvent: String {
     case filterCreated
 
     case filterShown
+    case filterTooltipShown
+    case filterTooltipClosed
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
@@ -299,6 +303,9 @@ enum AnalyticsEvent: String {
 
     case filterAutoDownloadUpdated
     case filterAutoDownloadLimitUpdated
+
+    case episodeRecentlyPlayedSortOptionTooltipShown
+    case episodeRecentlyPlayedSortOptionTooltipDismissed
 
     // MARK: - Podcast screen
 
@@ -322,6 +329,8 @@ enum AnalyticsEvent: String {
     case podcastScreenNotificationsTapped
     case podcastScreenPodcastDetailsLinkTapped
     case podcastScreenCategoryTapped
+    case podcastScreenYouMightLikeTapped
+    case podcastScreenYouMightLikeSubscribed
 
     // MARK: - App Store Review Request
 
@@ -383,6 +392,7 @@ enum AnalyticsEvent: String {
     case upNextQueueReordered
     case upNextDismissed
     case upNextShuffleEnabled
+    case upNextDiscoverButtonTapped
 
     // MARK: - Privacy
 
@@ -492,6 +502,13 @@ enum AnalyticsEvent: String {
     case notificationsOptInAllowed
     case notificationsOptInDenied
 
+    case notificationsPermissionsShown
+    case notificationsPermissionsAllowTapped
+    case notificationsPermissionsNotNowTapped
+    case notificationsPermissionsOpenSystemSettings
+
+    case notificationOpened
+
     // MARK: - Podcast Settings
 
     case podcastSettingsFeedErrorTapped
@@ -557,6 +574,10 @@ enum AnalyticsEvent: String {
     case settingsNotificationsNewEpisodesToggled
     case settingsNotificationsPodcastsChanged
     case settingsNotificationsAppBadgeChanged
+    case settingsNotificationsTrendingToggle
+    case settingsNotificationsDailyRemindersToggle
+    case settingsNotificationsNewFeaturesToggle
+    case settingsNotificationsOffersToggle
 
     // MARK: - Settings: Appearance
 
@@ -749,7 +770,7 @@ enum AnalyticsEvent: String {
     // MARK: - Bookmarks
     case bookmarkCreated
     case bookmarkUpdateTitle
-    case bookmarksUpgradeButtonTapped
+    case bookmarksGetBookmarksButtonTapped
     case bookmarksEmptyGoToHeadphoneSettings
     case bookmarkPlayTapped
     case bookmarksSortByChanged
@@ -838,6 +859,14 @@ enum AnalyticsEvent: String {
     case winbackCancelConfirmationCancelButtonTapped
     case winbackAvailablePlansSelectPlan
     case winbackAvailablePlansNewPlanPurchaseSuccessful
+    case winbackWinbackOfferCancelButtonTapped
+
+    // MARK: - Cancel Subscription Survey
+    case cancelSubscriptionSurveyShown
+    case cancelSubscriptionSurveyDismissed
+    case cancelSubscriptionSurveySubmitButtonTapped
+    case cancelSubscriptionSurveyFeedbackSubmitSuccess
+    case cancelSubscriptionSurveyFeedbackSubmitError
 
     // MARK: - Champion Dialog
     case pocketCastsChampionDialogShown
@@ -851,10 +880,24 @@ enum AnalyticsEvent: String {
     case settingsSelectPodcastsPodcastToggled
     case settingsSelectPodcastsSelectAllPodcastsToggled
 
-    // MARK: Podcast Feed Reload
+    // MARK: - Podcast Feed Reload
     case podcastScreenRefreshEpisodeList
     case podcastScreenRefreshNoEpisodesFound
     case podcastScreenRefreshNewEpisodeFound
     case podcastRefreshEpisodeTooltipShown
     case podcastRefreshEpisodeTooltipDismissed
+
+    // MARK: - Encourage Account Creation
+    case informationalModalViewShowed
+    case informationalModalViewDismissed
+    case informationalModalViewGetStartedTap
+    case informationalModalViewLoginTap
+    case informationalModalViewCardShowed
+    case informationalBannerViewDismissed
+    case informationalBannerViewCreateAccountTap
+
+    // MARK: - Podroll Information Modal
+    case podcastScreenPodrollInformationModelShown
+    case podcastScreenPodrollPodcastSubscribed
+    case podcastScreenPodrollPodcastTapped
 }

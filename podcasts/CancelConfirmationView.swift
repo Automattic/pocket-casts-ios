@@ -16,15 +16,16 @@ struct CancelConfirmationView: View {
         self.rows = [
             .init(imageName: "dollar-recycle-gold", text: L10n.cancelConfirmSubExpiry(expiration ?? L10n.cancelConfirmSubExpiryDateFallback), highlight: expiration),
             .init(imageName: "locked-large", text: L10n.cancelConfirmItemPlus),
-            .init(imageName: "folder-locked", text: L10n.cancelConfirmItemFolders),
+            .init(imageName: "folder-cross", text: L10n.cancelConfirmItemFolders),
             .init(imageName: "remove_from_cloud", text: L10n.cancelConfirmItemUploads),
+            .init(imageName: "filter_clock", text: L10n.cancelConfirmItemHistory)
         ]
     }
 
     var body: some View {
         ScrollViewIfNeeded {
             VStack(spacing: Constants.padding.vertical) {
-                let bottomPadding = FeatureFlag.winback.enabled ? 40.0 : 0.0
+                let bottomPadding = FeatureFlag.winback.enabled ? 20.0 : 0.0
                 header
                     .padding(.bottom, bottomPadding)
 
@@ -65,8 +66,8 @@ struct CancelConfirmationView: View {
             }
             let topPadding = FeatureFlag.winback.enabled ? 44.0 : 0.0
             let bottomPadding = FeatureFlag.winback.enabled ? 4.0 : 5.0
-            Text(L10n.cancelSubscription)
-                .font(style: .title, weight: .bold, maxSizeCategory: .extraExtraExtraLarge)
+            Text(L10n.cancelConfirmTitle)
+                .font(style: .title, weight: .bold)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(color(for: .text))
@@ -76,7 +77,7 @@ struct CancelConfirmationView: View {
             let fontSize: Double? = FeatureFlag.winback.enabled ? 15.0 : nil
             let style: Font.TextStyle = FeatureFlag.winback.enabled ? .body : .headline
             Text(L10n.cancelConfirmSubtitle)
-                .font(size: fontSize, style: style, weight: fontWeight, maxSizeCategory: .extraExtraExtraLarge)
+                .font(size: fontSize, style: style, weight: fontWeight)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(color(for: .subtitle))
@@ -169,6 +170,7 @@ private extension ThemeStyle {
 
 private struct ListRow: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.sizeCategory) private var sizeCategory
 
     let title: String
     let image: String
@@ -187,11 +189,13 @@ private struct ListRow: View {
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fill)
+                .scaleFactor(for: sizeCategory)
                 .frame(width: 24, height: 24)
                 .foregroundColor(AppTheme.color(for: .iconColor, theme: theme))
                 .padding(.top, topPadding)
 
-            let font: Font = FeatureFlag.winback.enabled ? Font.system(size: 15, weight: .regular) : .body.leading(.loose)
+            let uiFont = UIFont.font(ofSize: 15.0, scalingWith: .body)
+            let font: Font = FeatureFlag.winback.enabled ? Font(uiFont) : .body.leading(.loose)
             HighlightedText(title)
                 .font(font)
                 .highlight(highlightedText) { _ in

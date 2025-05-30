@@ -36,7 +36,8 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude),
+            libroFm
         ].compactMap { $0 },
         yearlyFeatures: [
             TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
@@ -47,7 +48,8 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude
+            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
+            libroFm
         ].compactMap { $0 },
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
@@ -82,6 +84,13 @@ extension UpgradeTier {
         TierFeature(iconName: "plus-feature-slumber", title: FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl)
     }
 
+    private static var libroFm: TierFeature? {
+        if FeatureFlag.libroFm.enabled {
+            return TierFeature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm.libroFmWithURL)
+        }
+        return nil
+    }
+
     func update(header: String) -> Self {
         return UpgradeTier(
             tier: self.tier,
@@ -107,6 +116,8 @@ struct UpgradeCard: View {
 
     @Environment(\.openURL) private var openURL
 
+    @Environment(\.sizeCategory) private var sizeCategory
+
     let tier: UpgradeTier
 
     let currentPrice: Binding<PlanFrequency>
@@ -115,22 +126,48 @@ struct UpgradeCard: View {
 
     let showPurchaseButton: Bool
 
+    private var subscriptionPriceSecondaryTextColor: Color {
+        if theme.activeTheme == .light {
+            return Color(hex: "#6F7580")
+        }
+        return theme.primaryText02
+    }
+
+    private var termsAndConditionsTextColor: Color {
+        if theme.activeTheme == .light {
+            return Color(hex: "#6F7580")
+        }
+        return theme.primaryText01
+    }
+
+    private var termsAndConditionsOpacity: Double {
+        if theme.activeTheme == .light {
+            return 1.0
+        }
+        return 0.64
+    }
+
+    private var featureSpacing: CGFloat {
+        max(16.0, 16.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
+
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 if let subscriptionInfo {
-                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: theme.primaryText01, secondaryTextColor: subscriptionPriceSecondaryTextColor)
                 } else {
                     SubscriptionBadge(tier: tier.tier)
                         .padding(.bottom, 12)
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(currentPrice.wrappedValue == .monthly ? tier.monthlyFeatures : tier.yearlyFeatures, id: \.self) { feature in
-                        HStack(spacing: 16) {
+                        HStack(spacing: featureSpacing) {
                             Image(feature.iconName)
                                 .renderingMode(.template)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
+                                .scaleFactor(for: sizeCategory)
                                 .foregroundColor(theme.primaryText01)
                                 .frame(width: 16, height: 16)
                             UnderlineLinkTextView(feature.title)
@@ -143,8 +180,8 @@ struct UpgradeCard: View {
 
                     termsAndConditions
                         .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                        .tint(theme.primaryText01)
-                        .opacity(0.64)
+                        .tint(termsAndConditionsTextColor)
+                        .opacity(termsAndConditionsOpacity)
                     if showPurchaseButton {
                         purchaseButton
                     }
@@ -176,7 +213,7 @@ struct UpgradeCard: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
-        .foregroundColor(theme.primaryText01)
+        .foregroundColor(termsAndConditionsTextColor)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
             case privacyPolicy:

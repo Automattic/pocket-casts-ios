@@ -12,6 +12,7 @@ protocol DiscoverDelegate: AnyObject {
     func show(podcast: Podcast)
     func showExpanded(item: DiscoverItem, category: DiscoverCategory?)
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?)
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime: String?)
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?)
     func replaceRegionCode(string: String?) -> String?
     func replaceRegionName(string: String) -> String
@@ -28,4 +29,6 @@ protocol DiscoverDelegate: AnyObject {
     func invalidate(item: DiscoverItem)
 
     func navigateTo(category: String)
+
+    func navigateTo(listID: String)
 }

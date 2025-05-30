@@ -5,7 +5,6 @@ protocol BookmarksStyle: ObservableObject {
     associatedtype ActionStyle: ActionBarStyle
     associatedtype EmptyStyle: EmptyStateViewStyle
 
-    var background: Color { get }
     var primaryText: Color { get }
     var secondaryText: Color { get }
     var tertiaryText: Color { get }
@@ -120,7 +119,6 @@ class OverrideEmptyStateStyle: DefaultEmptyStateStyle {
         self.overrideTheme = overrideTheme
     }
 
-    override var background: Color { Color(ThemeColor.primaryUi01Active(for: overrideTheme)) }
     override var title: Color { Color(ThemeColor.primaryText01(for: overrideTheme)) }
     override var message: Color { Color(ThemeColor.primaryText02(for: overrideTheme)) }
     override var button: Color { Color(ThemeColor.primaryInteractive01(for: overrideTheme)) }

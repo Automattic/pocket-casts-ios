@@ -12,7 +12,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
         lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
             guard let source = self?.item?.source else { return nil }
-            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
+            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: self?.item?.authenticated)
             let popular = categories.filter {
                 guard let id = $0.id else { return false }
                 return self?.item?.popular?.contains(id) == true
@@ -57,9 +57,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         self.observable = observable
 
         super.init(rootView: CategoriesSelectorView(discoverItemObservable: observable))
-        if #available(iOS 16.0, *) {
-            sizingOptions =  [.intrinsicContentSize]
-        }
+        sizingOptions =  [.intrinsicContentSize]
         view.backgroundColor = nil
 
         self.observable.$selectedCategory
@@ -83,13 +81,5 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 16.0, *) {
-        } else {
-            self.view.invalidateIntrinsicContentSize()
-        }
     }
 }

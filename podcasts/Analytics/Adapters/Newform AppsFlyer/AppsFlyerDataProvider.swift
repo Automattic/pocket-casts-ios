@@ -3,8 +3,13 @@ import PocketCastsServer
 struct AppsFlyerDataProvider: AnonymousIdentifiable {
     let devKey = ApiCredentials.appsFlyerDevKey
     let appleAppID = "414834813"
+    let fbAppID = ApiCredentials.a8cFBAppID
+    let fbClientToken = ApiCredentials.a8cFBClientToken
+    let fbAppDisplayName = ApiCredentials.a8cFBAppName
     let userDefaults: UserDefaults
     let supportedEvents: Set<String> = [
+        "application_installed",
+        "application_opened",
         "user_signed_in",
         "user_account_created",
         "sso_started",
@@ -47,5 +52,9 @@ struct AppsFlyerDataProvider: AnonymousIdentifiable {
         userDefaults: UserDefaults? = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)
     ) {
         self.userDefaults = userDefaults ?? .standard
+    }
+
+    var isNewInstall: Bool {
+        (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .installed
     }
 }

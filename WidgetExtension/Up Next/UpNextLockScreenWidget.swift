@@ -3,20 +3,15 @@ import WidgetKit
 
 struct UpNextLockScreenWidget: Widget {
     var body: some WidgetConfiguration {
-        if #available(iOSApplicationExtension 16.0, *) {
-            return StaticConfiguration(kind: "Up_Next_Lock_Screen_Widget", provider: UpNextProvider()) { entry in
-                UpNextLockScreenWidgetEntryView(entry: entry)
-            }
-            .configurationDisplayName(L10n.upNext)
-            .description(L10n.widgetsUpNextDescription)
-            .supportedFamilies([.accessoryCircular, .accessoryRectangular])
-        } else {
-            return EmptyWidgetConfiguration()
+        return StaticConfiguration(kind: "Up_Next_Lock_Screen_Widget", provider: UpNextProvider()) { entry in
+            UpNextLockScreenWidgetEntryView(entry: entry)
         }
+        .configurationDisplayName(L10n.upNext)
+        .description(L10n.widgetsUpNextDescription)
+        .supportedFamilies([.accessoryCircular, .accessoryRectangular])
     }
 }
 
-@available(iOS 16.0, *)
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) private var family

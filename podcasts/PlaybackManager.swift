@@ -151,7 +151,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
-        FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay)")
+        FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
         let episodeIsChanging = episode.uuid != currentEpisode()?.uuid
 
@@ -680,23 +680,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         uuidOfPlayingList = filter.uuid
     }
 
-    func play(episodes: [BaseEpisode], startingAtEpisode: BaseEpisode) {
-        populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-    }
-
-    func play(podcast: Podcast, startingAtEpisode: Episode) {
-        let episodeSortOrder = podcast.podcastSortOrder
-
-        let orderDirection = (episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest) ? "DESC" : "ASC"
-        let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcastUuid == ? AND archived = 0 AND (playingStatus == \(PlayingStatus.notPlayed.rawValue) OR playingStatus == \(PlayingStatus.inProgress.rawValue)) ORDER BY publishedDate \(orderDirection), addedDate \(orderDirection)", arguments: [podcast.uuid])
-
-        if episodes.count > 0 {
-            populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-        } else {
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-        }
-    }
-
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -995,6 +978,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
+            FileLog.shared.addMessage("PlaybackManager: Failed to fetch current episode. Queue will be cleared.")
             endPlayback()
 
             return
@@ -1260,10 +1244,12 @@ class PlaybackManager: ServerPlaybackDelegate {
 
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
+        #endif
 
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
-                possiblePlayers.append(EffectsPlayer.self)
-            }
+        #if !os(watchOS)
+        if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+            possiblePlayers.append(EffectsPlayer.self)
+        }
         #endif
 
         possiblePlayers.append(DefaultPlayer.self)
@@ -2055,10 +2041,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
-
-            if refreshedEpisode.uuid != currentEpisode()?.uuid {
-                load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
-            }
+            load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }

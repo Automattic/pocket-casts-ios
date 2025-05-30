@@ -74,6 +74,15 @@
         }
       },
       {
+        "package": "Facebook",
+        "repositoryURL": "https://github.com/facebook/facebook-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "b28dde427715b45a26ebebf697929f4a81b15e04",
+          "version": "18.0.0"
+        }
+      },
+      {
         "package": "Firebase",
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
@@ -143,6 +152,15 @@
           "branch": null,
           "revision": "57a1d307f42df690fdef2637f3e5b776da02aad6",
           "version": "7.13.3"
+        }
+      },
+      {
+        "package": "GRDB",
+        "repositoryURL": "https://github.com/groue/GRDB.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "c7205b172f38439e7ee62c208d1d76fa353c0a81",
+          "version": "7.2.0"
         }
       },
       {

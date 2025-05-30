@@ -143,6 +143,18 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
+    public func getWeeklyPrice(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier) else { return "" }
+        let weekly = product.price.doubleValue / 52
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = product.priceLocale
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: weekly))
+        return formattedPrice ?? ""
+    }
+
     public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
@@ -345,7 +357,7 @@ extension IAPHelper {
 
 // MARK: - Trial Eligibility
 
-private extension IAPHelper {
+extension IAPHelper {
     /// Listens for subscription changes
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
@@ -354,30 +366,64 @@ private extension IAPHelper {
         }
     }
 
+    private func checkTrialEligibility(for productID: IAPProductID) async -> Bool? {
+        guard let products = try? await Product.products(for: [productID.rawValue]) else {
+            return nil
+        }
+        guard let product = products.first, let renewableSubscription = product.subscription else {
+            // No renewable subscription is available for this product.
+            return false
+        }
+        if await renewableSubscription.isEligibleForIntroOffer {
+            // The product is eligible for an introductory offer.
+            return  true
+        }
+        return false
+    }
+
     /// Update the trial eligibility if:
     /// - We are not already performing a check
     /// - The feature flag is enabled
     /// - A product has a free trial
     /// - The user doesn't have an active subscription
     /// - The receipt exists
-    private func updateTrialEligibility() {
+    func updateTrialEligibility(completion: (() -> ())? = nil) {
         guard
             isCheckingEligibility == false,
-            getFirstFreeTrialProductId() != nil,
-            SubscriptionHelper.hasActiveSubscription() == false,
+            let productID = getFirstFreeTrialProductId(),
+            SubscriptionHelper.hasActiveSubscription() == false || FeatureFlag.newOfferEligibilityCheck.enabled,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
             let receiptString = try? Data(contentsOf: receiptUrl).base64EncodedString()
         else {
+            DispatchQueue.main.async {
+                completion?()
+            }
             return
         }
 
         isCheckingEligibility = true
-        networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
-            let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
+        if FeatureFlag.newOfferEligibilityCheck.enabled {
+            Task {
+                let isEligible = await self.checkTrialEligibility(for: productID)
+                let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
+                FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+                isEligibleForOffer = eligible
+                isCheckingEligibility = false
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            }
+        } else {
+            networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
+                let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
-            FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
-            self?.isEligibleForOffer = eligible
-            self?.isCheckingEligibility = false
+                FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
+                self?.isEligibleForOffer = eligible
+                self?.isCheckingEligibility = false
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            }
         }
     }
 }
@@ -385,16 +431,28 @@ private extension IAPHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IAPHelper: SKPaymentTransactionObserver {
-    func purchaseWasSuccessful(_ productId: IAPProductID) {
-        trackPaymentEvent(.purchaseSuccessful, productId: productId)
+    fileprivate func purchaseWasSuccessful(_ payment: SKPayment) {
+        if FeatureFlag.newOfferEligibilityCheck.enabled {
+            updateTrialEligibility()
+        }
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseSuccessful, productId: productId, discount: payment.paymentDiscount?.identifier)
     }
 
-    func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
-        trackPaymentEvent(.purchaseCancelled, productId: productId, error: error)
+    fileprivate func purchaseWasCancelled(_ payment: SKPayment, error: NSError) {
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseCancelled, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
     }
 
-    func purchaseFailed(_ productId: IAPProductID, error: NSError) {
-        trackPaymentEvent(.purchaseFailed, productId: productId, error: error)
+    fileprivate func purchaseFailed(_ payment: SKPayment, error: NSError) {
+        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+            return
+        }
+        trackPaymentEvent(.purchaseFailed, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -415,6 +473,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
                     hasNewPurchasedReceipt = true
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
+                    purchaseWasSuccessful(transaction.payment)
                 case .failed:
                     let e = transaction.error! as NSError
                     FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
@@ -422,10 +481,12 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
                     let userInfo = ["error": e]
 
-                    if e.code == 0 || e.code == 2 { // app store couldn't be connected or user cancelled
+                    if e.code == SKError.Code.unknown.rawValue || e.code == SKError.Code.paymentCancelled.rawValue { // app store couldn't be connected or user cancelled
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled, userInfo: userInfo)
+                        purchaseWasCancelled(transaction.payment, error: e)
                     } else { // report error to user
                         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed, userInfo: userInfo)
+                        purchaseFailed(transaction.payment, error: e)
                     }
                 case .deferred:
                     FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
@@ -522,20 +583,34 @@ private extension SKProductSubscriptionPeriod {
 }
 
 private extension IAPHelper {
-    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, error: NSError? = nil) {
+    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, discount: String?, error: NSError? = nil) {
         let product = getProduct(for: productId)
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {
-                offerType = "free_trial"
+                offerType = IAPOfferType.freeTrial.rawValue
             } else if paymentMode == .payUpFront {
-                offerType = "intro_offer"
+                offerType = IAPOfferType.introOffer.rawValue
+            }
+        }
+        if productId == .yearlyReferral {
+            offerType = IAPOfferType.referral.rawValue
+        }
+        if let discount {
+            if discount.contains(".\(IAPOfferType.winback.rawValue).") {
+                offerType = IAPOfferType.winback.rawValue
+            } else if discount == IAPPromotionID.referall.rawValue {
+                offerType = IAPOfferType.referral.rawValue
             }
         }
 
         var properties: [AnyHashable: Any] = ["product": productId.rawValue,
-                                              "offer_type": offerType]
-
+                                              "offer_type": offerType,
+                                              "tier": productId.subscriptionTier.rawValue.lowercased(),
+                                              "frequency": productId.frequency.rawValue]
+        if let source = OnboardingFlow.shared.source {
+            properties["source"] = source
+        }
         if let error = error {
             properties["error_code"] = error.code
         }

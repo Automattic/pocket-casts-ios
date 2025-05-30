@@ -108,12 +108,8 @@ struct ThemedTextField: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if #available(iOS 16.0, *) {
-            baseContent(content: content)
-                .scrollContentBackground(.hidden)
-        } else {
-            baseContent(content: content)
-        }
+        baseContent(content: content)
+            .scrollContentBackground(.hidden)
     }
 
     private func baseContent(content: Content) -> some View {
@@ -399,7 +395,7 @@ extension View {
         self.font(size: size,
                   style: style,
                   weight: weight,
-                  maxSizeCategory: .extraExtraLarge)
+                  maxSizeCategory: .accessibilityExtraExtraLarge)
     }
 }
 

@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsServer
+import PocketCastsUtils
 
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
@@ -28,6 +29,7 @@ class PlusPricingInfoModel: ObservableObject {
         for product in availableProductIds {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
+            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
             var offer: ProductOfferInfo?
             if purchaseHandler.isEligibleForOffer,
                let duration = purchaseHandler.localizedFreeTrialDuration(product),
@@ -40,6 +42,7 @@ class PlusPricingInfoModel: ObservableObject {
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
                                               rawPrice: rawPrice,
+                                              weeklyPrice: weeklyPrice,
                                               offer: offer)
             pricing.append(info)
         }
@@ -62,6 +65,7 @@ class PlusPricingInfoModel: ObservableObject {
         let identifier: IAPProductID
         let price: String
         let rawPrice: String
+        let weeklyPrice: String
         let offer: ProductOfferInfo?
 
         var id: String { identifier.rawValue }
@@ -118,8 +122,16 @@ extension PlusPricingInfoModel {
     func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
+                self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
+            }
             return
         }
 
@@ -128,13 +140,19 @@ extension PlusPricingInfoModel {
         let notificationCenter = NotificationCenter.default
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
-            guard let self else {
-                return
+            guard let self else { return }
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    priceAvailability = .available
+                    pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
+                priceAvailability = .available
+                pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
             }
-
-            self.priceAvailability = .available
-            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in

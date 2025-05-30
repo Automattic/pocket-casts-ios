@@ -15,5 +15,7 @@
     <string>Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts 需获得权限，才能将此图像保存到您的照片库中。</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>我们使用分析功能来改进应用程序以及衡量广告活动的成功与否。</string>
   </dict>
 </plist>

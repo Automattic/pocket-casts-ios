@@ -36,8 +36,13 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             HStack(alignment: .top) {
                 Spacer()
-                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .page)
+                PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .detail)
                     .frame(width: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize, height: viewModel.isExpanded ? Constants.largeImageSize : Constants.smallImageSize)
+                    .onTapGesture {
+                        withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
+                            viewModel.toggleExpanded()
+                        }
+                    }
                     .onLongPressGesture {
                         viewModel.podcastArtworkTapped()
                     }
@@ -61,7 +66,7 @@ struct PodcastHeaderView: View {
             Spacer().frame(height: 16)
             podcastActions
             Spacer().frame(height: 24)
-            VStack {
+            VStack(spacing: 16) {
                 podcastDescription
                 podcastDetails
                 Spacer().frame(height: 24)
@@ -69,7 +74,7 @@ struct PodcastHeaderView: View {
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
                 .clipped()
-            EpisodeBookmarksTabsView(delegate: viewModel.delegate)
+            PodcastDetailsTabView(delegate: viewModel.delegate)
         }
         .padding(.horizontal)
     }

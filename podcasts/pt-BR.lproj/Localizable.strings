@@ -327,22 +327,28 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Cancelar</string>
     <key>cancel_confirm_item_folders</key>
     <string>Suas pastas serão removidas, e o conteúdo delas voltará para a tela Podcasts.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Você ainda poderá acessar seus podcasts e seu histórico de reprodução. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>O acesso às funcionalidades do Pocket Casts Plus será bloqueado após esta data.</string>
+    <string>Após esta data, será removido o acesso às funcionalidades do Plus, como favoritos, aleatório, reprodução em wearables e muito mais.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Os arquivos enviados para sua conta no Pocket Casts serão removidos (mas os arquivos baixados em seus dispositivos móveis permanecerão)</string>
+    <string>Todos os arquivos enviados para a sua conta do Pocket Casts serão excluídos, mas os arquivos baixados em seus dispositivos móveis permanecerão.</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Sua assinatura atual permanecerá ativa até %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>sua data de expiração</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Esta opção mudará seu plano para uma conta gratuita.</string>
+    <string>Se você cancelar, o seu plano mudará para uma conta gratuita.</string>
+    <key>cancel_confirm_title</key>
+    <string>O que você deve saber antes de cancelar</string>
     <key>cancel_download</key>
     <string>Cancelar download</string>
     <key>cancel_failed</key>
     <string>Não é possível cancelar</string>
     <key>cancel_subscription</key>
     <string>Cancelar assinatura</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Melhor valor</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>A ativação do seu novo plano ocorrerá no final do período de cobrança atual.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +370,11 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Quer um plano diferente?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Agradecemos por você escolher o Pocket Casts. A cobrança começa após o mês gratuito.</string>
+    <string>Agradecemos por escolher o Pocket Casts. Um mês gratuito será adicionado à sua assinatura atual.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Aproveite seu mês gratuito!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Agradecemos por você escolher o Pocket Casts. O desconto no seu plano começa a valer após o período de cobrança atual.</string>
+    <string>Agradecemos por escolher o Pocket Casts. O desconto anual começará a contar depois que seu plano atual terminar.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50%% de desconto no próximo ano!</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,8 +383,38 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Pague %@ agora e tenha mais um ano com 50%% de desconto</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Não pague nada no próximo mês</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Adoraríamos saber por que você cancelou. Seu feedback nos ajuda a melhorar.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>Encontrei um aplicativo melhor</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Por motivos de custo</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>Não uso o suficiente</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Outro</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Problemas técnicos</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Enviar feedback</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Obrigado por experimentar
+o Pocket Casts Plus</string>
     <key>cancel_subscription_title</key>
-    <string>Antes de cancelar, confira estas ofertas</string>
+    <string>Pensando em ir embora?
+Deixe a gente ajudar você primeiro</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Aceitar oferta</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Continuar com o cancelamento</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Aproveite um mês do Pocket Casts Plus por nossa conta! A oferta será adicionada à sua assinatura atual.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Pague %@ agora e garanta um ano do Pocket Casts Plus pela metade do preço. O desconto anual começará a contar depois que seu plano atual terminar.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Não pague nada no próximo mês: uma economia de %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Obtenha 50%% de desconto no próximo ano: uma economia de %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>Obtenha 50%% de desconto no próximo ano</string>
     <key>canceling</key>
@@ -505,6 +541,12 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Criar clipe</string>
     <key>create_filter</key>
     <string>Criar filtro</string>
+    <key>creator_pick_modal_description</key>
+    <string>Escolhas do criador são podcasts recomendados pelo criador do programa usando o PodRoll.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Saiba mais</string>
+    <key>creator_pick_modal_title</key>
+    <string>O que é a escolha do criador?</string>
     <key>current_email_prompt</key>
     <string>E-mail atual</string>
     <key>current_password_prompt</key>
@@ -779,14 +821,49 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Configurações de download automático</string>
-    <key>downloads_no_downloads_desc</key>
-    <string>Ah, não! Não há nada baixado. Faça download de algum conteúdo e ele aparecerá aqui.</string>
-    <key>downloads_no_downloads_title</key>
-    <string>Nenhum episódio baixado</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Tentar fazer download novamente</string>
     <key>downloads_stop_all_downloads</key>
     <string>Parar todos os downloads</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Crie uma conta gratuita</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Crie uma conta gratuita para sincronizar seus filtros em qualquer dispositivo.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Ícone de filtros</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Sincronize seus filtros</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Crie uma conta gratuita para sincronizar seu histórico de reprodução em todos os dispositivos.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Ícone do histórico de reprodução</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Veja o que você já escutou</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Crie uma conta gratuita para sincronizar seus programas e ouvir em qualquer lugar.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Ícone do perfil</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Ouça seus programas em qualquer dispositivo</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Sua biblioteca e preferências estão salvas em segurança.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Backups confiáveis</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Descubra podcasts feitos para você, com base no que você costuma ouvir.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Recomendações personalizadas</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Sincronize seu progresso e acompanhe em todos os seus dispositivos.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Sincronização entre dispositivos</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Crie uma conta ou faça login para
+aproveitar o Pocket Casts ao máximo.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Começar</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Percebemos que você não fez login</string>
     <key>edit</key>
     <string>Editar</string>
     <key>edit_clip</key>
@@ -967,6 +1044,8 @@ que você ouviu foi
     <string>EXPORTAR</string>
     <key>exporting_database</key>
     <string>Exportando banco de dados...</string>
+    <key>failed_recommendations</key>
+    <string>Não foi possível carregar as recomendações</string>
     <key>feature_tour_end_tour</key>
     <string>Fim do tour</string>
     <key>feature_tour_new</key>
@@ -997,13 +1076,8 @@ que você ouviu foi
     <string>Remova alguns arquivos e tente novamente.</string>
     <key>file_upload_name_required</key>
     <string>O nome é obrigatório</string>
-    <key>file_upload_no_files_description</key>
-    <string>Quer ouvir seus próprios arquivos?
-Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <key>file_upload_no_files_helper</key>
     <string>Como fazer isso?</string>
-    <key>file_upload_no_files_title</key>
-    <string>Nenhum arquivo</string>
     <key>file_upload_remove_image</key>
     <string>Remover imagem</string>
     <key>file_upload_save</key>
@@ -1180,6 +1254,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Iniciar teste gratuito</string>
     <key>free_trial_title_label</key>
     <string>Experimente o Plus gratuitamente por %1$@</string>
+    <key>funding</key>
+    <string>Financiamento</string>
     <key>funny_conf_msg</key>
     <string>Combina com seus olhos ✨</string>
     <key>funny_time_not_enough</key>
@@ -1216,6 +1292,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Assine o Plus para ter acesso a essa e outras funcionalidades premium, como favoritos e pastas.</string>
     <key>generated_transcripts_overlay_title</key>
     <string>Esta transcrição é gerada automaticamente pelo Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Ir para Explorar</string>
     <key>go_to_podcast</key>
     <string>Acessar podcast</string>
     <key>got_it</key>
@@ -1248,6 +1326,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/semana</string>
     <key>import</key>
     <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1480,18 +1560,98 @@ podcasts com você</string>
     <string>Configurações do headset</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
-    <key>no_bookmarks_title</key>
-    <string>Ainda sem favoritos</string>
     <key>none</key>
     <string>Nenhum</string>
     <key>not_on_wifi</key>
     <string>Você não está no Wi-Fi</string>
+    <key>notifications_app_clip_body</key>
+    <string>Instale o Pocket Casts para obter a experiência completa com ferramentas avançadas de reprodução e personalização.</string>
+    <key>notifications_app_clip_title</key>
+    <string>Quer ouvir mais podcasts?</string>
+    <key>notifications_daily_reminders</key>
+    <string>Lembretes diários</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Experimente o Plus e organize automaticamente seus programas com pastas.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Seus podcasts organizados</string>
+    <key>notifications_new_features_tips</key>
+    <string>Novas funcionalidades e dicas</string>
     <key>notifications_off</key>
     <string>Notificações desativadas</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Desbloqueie funcionalidades exclusivas, como pastas, favoritos e muito mais, com o Plus!</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Melhore sua experiência com podcast</string>
     <key>notifications_on</key>
     <string>Notificações ativadas</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Notificaremos você sobre novos episódios de %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Crie filtros inteligentes para organizar seus episódios.</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organize seus episódios</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Vindo de outro aplicativo? Traga todos os seus programas favoritos para o Pocket Casts.</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importe seus podcasts com facilidade</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Crie uma conta gratuita para sincronizar seus programas e ouvir em qualquer lugar.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Ouça seus programas em qualquer dispositivo!</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Uma seleção de podcasts feita com carinho por apaixonados por podcasts como você.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Confira a seleção da nossa equipe</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Dê uma olhada nos nossos temas e escolha um que combine com você.</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Hora de dar uma repaginada</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Monte sua fila de reprodução e ouça os episódios em sequência.</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Simplifique sua fila</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Desbloqueie funcionalidades exclusivas, como pastas, favoritos e muito mais, com o Plus!</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Melhore sua experiência com podcast</string>
+    <key>notifications_permissions_action</key>
+    <string>Permitir notificações</string>
+    <key>notifications_permissions_body</key>
+    <string>As notificações são a melhor maneira de acompanhar novos episódios, obter recomendações de novos programas e receber dicas sobre o Pocket Casts.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Permita notificações nas configurações do seu dispositivo</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Abrir configurações</string>
+    <key>notifications_permissions_title</key>
+    <string>Fique por dentro!</string>
     <key>notifications_play_now</key>
     <string>Reproduzir agora</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Benefícios do Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Confira o que todo mundo está ouvindo esta semana.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Em alta esta semana</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>Não sabe o que ouvir a seguir? Confira estes programas!</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Novas recomendações para você</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Você tem %1$@ novos episódios baixados e prontos para reproduzir.</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Ouça offline</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Faz tempo que você não ouve nada. Volte e aproveite!</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Estamos com saudade!</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Podcasts em alta e recomendações</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Ir para as configurações do dispositivo</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Ative as notificações do Pocket Casts nas configurações do dispositivo para começar a recebê-las.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Permitir notificações por push</string>
     <key>now_playing</key>
     <string>Reproduzindo agora</string>
     <key>now_playing_item</key>
@@ -1805,6 +1965,8 @@ ATUALIZAÇÕES</string>
     <string>Reprodução no Apple Watch e no Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>A eterna gratidão de todos aqui no Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Audiolivro gratuito do Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>Um ano de conteúdo exclusivo do Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
@@ -2012,6 +2174,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Pausar download</string>
     <key>podcast_pause_playback</key>
     <string>Pausar reprodução</string>
+    <key>podcast_podroll_header</key>
+    <string>Programas recomendados pelo criador</string>
     <key>podcast_queued</key>
     <string>Na fila</string>
     <key>podcast_queuing</key>
@@ -2040,6 +2204,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Abrir arquivo em...</string>
     <key>podcast_show_archived</key>
     <string>Mostrar arquivados</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Programas semelhantes</string>
+    <key>podcast_similar_header</key>
+    <string>Programas semelhantes a "%@"</string>
     <key>podcast_singular</key>
     <string>Podcast</string>
     <key>podcast_soon</key>
@@ -2066,6 +2234,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Fazer upload agora</string>
     <key>podcast_uploading</key>
     <string>Fazendo upload... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Toque no título do podcast para recolher ou expandir a descrição e os detalhes</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Fizemos algumas alterações</string>
     <key>podcast_waiting_upload</key>
     <string>Aguardando upload</string>
     <key>podcast_yesterday</key>
@@ -2096,6 +2268,12 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Arrastar e soltar</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Data de adição</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Reproduzidos recentemente</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Agora você pode ordenar por "Reproduzidos recentemente" e continuar de onde parou.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Ordenar por "Reproduzidos recentemente"</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Data de lançamento do episódio</string>
     <key>podcasts_library_sort_title</key>
@@ -2140,10 +2318,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Falha ao enviar e-mail de redefinição, tente novamente mais tarde.</string>
     <key>profile_single_file</key>
     <string>1 arquivo</string>
-    <key>profile_starred_no_episodes_desc</key>
-    <string>Você ainda não favoritou nenhum episódio.</string>
-    <key>profile_starred_no_episodes_title</key>
-    <string>Nenhum favorito</string>
     <key>purchase_terms</key>
     <string>Ao continuar, você concorda com a %1$@Política de privacidade%2$@ e os %3$@Termos de serviço%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3091,8 +3265,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Próximos</string>
     <key>up_next_empty_description</key>
     <string>Você pode enfileirar os episódios para serem reproduzidos em seguida arrastando para a direita nas linhas de episódios ou tocando no ícone no cartão de um episódio.</string>
-    <key>up_next_empty_title</key>
-    <string>Nada na fila de Próximos</string>
     <key>up_next_history</key>
     <string>Histórico de Próximos</string>
     <key>up_next_history_explanation</key>
@@ -3269,5 +3441,7 @@ Então, pode ficar tranquilo porque enquanto você organiza sua página de podca
     <string>ano</string>
     <key>yearly</key>
     <string>Anual</string>
+    <key>you_might_like</key>
+    <string>Talvez você goste</string>
   </dict>
 </plist>

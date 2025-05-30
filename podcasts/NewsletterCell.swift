@@ -6,6 +6,7 @@ class NewsletterCell: ThemeableCell {
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.text = L10n.pocketCastsNewsletter
+            cellLabel.font = UIFont.font(ofSize: 15.0, weight: .medium, scalingWith: .body)
         }
     }
 
@@ -13,6 +14,7 @@ class NewsletterCell: ThemeableCell {
         didSet {
             cellSecondaryLabel.style = .primaryText02
             cellSecondaryLabel.text = L10n.pocketCastsNewsletterDescription
+            cellSecondaryLabel.font = UIFont.font(ofSize: 12.0, weight: .regular, scalingWith: .footnote)
         }
     }
 
@@ -31,5 +33,18 @@ class NewsletterCell: ThemeableCell {
     override func handleThemeDidChange() {
         cellImage.tintColor = AppTheme.colorForStyle(iconStyle)
         cellSecondaryLabel.style = .primaryText02
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        updateImageScale()
+    }
+
+    func updateImageScale() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+
+        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }

@@ -271,13 +271,7 @@ class TranscriptViewController: PlayerItemViewController {
     }()
 
     private lazy var transcriptView: UITextView = {
-        let textView: UITextView
-        if #available(iOS 16.0, *) {
-            textView = UITextView(usingTextLayoutManager: false)
-        } else {
-            // Fallback on earlier versions
-            textView = UITextView()
-        }
+        let textView = UITextView(usingTextLayoutManager: false)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
@@ -427,7 +421,6 @@ class TranscriptViewController: PlayerItemViewController {
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
@@ -435,6 +428,8 @@ class TranscriptViewController: PlayerItemViewController {
                         if hasGeneratedTranscripts, self.shouldShowPremiumView {
                             self.stackView.alpha = 0
                             self.showGeneratedTranscriptsPremiumOverlay?()
+                        } else {
+                            self.track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                         }
                         self.bannerView.isHidden = !hasGeneratedTranscripts
                     }

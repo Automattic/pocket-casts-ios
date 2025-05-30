@@ -4,6 +4,11 @@ struct CancelSubscriptionPlansView: View {
     @EnvironmentObject var theme: Theme
 
     @ObservedObject var viewModel: CancelSubscriptionPlansViewModel
+    @Environment(\.sizeCategory) private var sizeCategory
+
+    private var bottomPadding: CGFloat {
+        max(16.0, 16.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
 
     init(viewModel: CancelSubscriptionPlansViewModel) {
         self.viewModel = viewModel
@@ -26,14 +31,15 @@ struct CancelSubscriptionPlansView: View {
                     .padding(.bottom, 16.0)
                 Text(L10n.cancelSubscriptionAvailablePlansTitle)
                     .font(size: 28.0, style: .body, weight: .bold)
+                    .multilineTextAlignment(.center)
                     .foregroundStyle(theme.primaryText01)
                     .padding(.bottom, 28.0)
-                ForEach(viewModel.pricingInfo.products, id: \.id) { product in
+                ForEach(viewModel.getOrderedProducts(), id: \.id) { product in
                     CancelSubscriptionPlanRow(product: product,
                                               selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in
                         viewModel.purchase(product: selectedProduct)
                     }
-                                              .padding(.bottom, 16.0)
+                                              .padding(.bottom, bottomPadding)
                 }
                 Text(L10n.cancelSubscriptionAvailablePlansFooter)
                     .font(size: 14.0, style: .body, weight: .regular)
@@ -54,13 +60,13 @@ struct CancelSubscriptionPlansView: View {
                 .padding(.top, 240.0)
                 .padding(.bottom, 16.0)
             Text(L10n.cancelSubscriptionAvailablePlansRetryScreenText)
-                .font(size: 15.0, style: .body, weight: .regular)
+                .font(size: 15.0, style: .body, weight: .medium)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText01)
                 .padding(.bottom, 16.0)
             Button(action: loadProducts) {
                 Text(L10n.tryAgain)
-                    .font(size: 13.0, style: .body, weight: .medium)
+                    .font(size: 15.0, style: .body, weight: .regular)
                     .foregroundStyle(theme.primaryText01)
                     .frame(height: 28.0)
                     .padding(.horizontal, 16.0)

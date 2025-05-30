@@ -28,9 +28,9 @@ actor LogBuffer {
     }
 
     #if os(watchOS)
-        private let maxFileSize = 25.kilobytes
+        private let maxFileSize = 250.kilobytes
     #else
-        private let maxFileSize = 100.kilobytes
+        private let maxFileSize = 1.megabytes
     #endif
 
     func append(_ message: String, date: Date) {
