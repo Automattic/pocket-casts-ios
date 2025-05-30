@@ -43,9 +43,11 @@ public class DataManager {
             config.busyMode = .timeout(10)
             dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config), logger: Self.logger)
             DataManager.setDatabaseFileProtectionToNone()
+            FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+            FileLog.shared.addMessage("[DataManager] Initialized using FMDB")
         }
 
         self.init(dbQueue: dbQueue)
