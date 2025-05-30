@@ -188,6 +188,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
     case replaceSpecificEpisode
 
+    case fmdbWithoutActuallyEscaping
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -318,6 +320,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .replaceSpecificEpisode:
             true
+        case .fmdbWithoutActuallyEscaping:
+            false
         }
     }
 

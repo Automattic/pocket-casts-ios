@@ -237,7 +237,7 @@ class ListeningHistoryViewController: PCViewController {
                     icon: { Image("profile-download").renderingMode(.template) }
                 )
 
-                listeningHistoryTable.backgroundColor = UIColor(DefaultEmptyStateStyle.defaultStyle.background)
+                listeningHistoryTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
                 listeningHistoryTable.backgroundView = config?.makeContentView()
             } else {
                 // Empty State when not searching
