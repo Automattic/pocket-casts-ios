@@ -13794,7 +13794,7 @@
 			repositoryURL = "https://github.com/dagronf/SwiftSubtitles";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.8.2;
+				minimumVersion = 1.8.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
