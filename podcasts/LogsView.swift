@@ -67,7 +67,7 @@ struct LogsView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $model.logs.readOnly)
+            NonEditableTextView(text: $model.logs.wrappedValue)
             Spacer()
         }
         .navigationTitle(L10n.logs)
