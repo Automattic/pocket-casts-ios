@@ -8,6 +8,11 @@
 - New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
 - New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
 - Fix UI glitch when expanding the player for podcasts with landscape artwork [#2086](https://github.com/Automattic/pocket-casts-ios/issues/2086)
+- Fix episode artwork aspect ratio on mini-player [1084](https://github.com/Automattic/pocket-casts-ios/issues/1084)
+
+7.89.1
+-----
+- Prevent transcript to crash if the transcript text is empty[#3191](https://github.com/Automattic/pocket-casts-ios/pull/3191)
 
 7.89.1
 -----

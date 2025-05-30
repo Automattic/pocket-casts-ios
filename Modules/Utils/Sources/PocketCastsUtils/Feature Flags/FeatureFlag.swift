@@ -191,6 +191,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Shows transcript excerpt in episode detail
     case episodeDetailTranscript
 
+    /// Avoid using `withoutActuallyEscaping` for FMDB
+    case fmdbWithoutActuallyEscaping
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -322,6 +325,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .replaceSpecificEpisode:
             true
         case .episodeDetailTranscript:
+            false
+        case .fmdbWithoutActuallyEscaping:
             false
         }
     }

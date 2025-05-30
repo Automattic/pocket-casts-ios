@@ -37,7 +37,6 @@ struct ContentUnavailableConfiguration {
             EmptyStateView(title: title, message: message, icon: icon, actions: actions, style: style)
                 .environmentObject(Theme.sharedTheme)
         }
-        .background(style.background)
     }
 }
 
