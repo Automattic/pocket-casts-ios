@@ -4717,6 +4717,9 @@
 /* Paywall header for when the view is presented from the files source */
 "paywall_dynamic_headline_files" = "Upload your files with Pocket Casts Plus, and more";
 
+/* Paywall header for when the view is presented from the banner ad source */
+"paywall_dynamic_headline_banner_ad" = "Say goodbye to banner ads and more with Pocket Casts Plus";
+
 /* Up Next Shuffle Announcement sheet title*/
 "up_next_shuffle_announcement_title" = "Introducing Shuffle";
 
@@ -5148,3 +5151,24 @@
 
 /* Banner Ads label. This needs to be an extremely short version of "advertisement" to indicate an ad in a tiny space. */
 "banner_ads_info_label" = "AD";
+
+/* The title of an option to remove banner ads. This will take the user to a page to purchase plus. */
+"banner_ads_remove_ads" = "Remove ads";
+
+/* The title of an option to report a specific banner ad for one of several reasons. */
+"banner_ads_report_ad" = "Report ad";
+
+/* The title shown after a user selects "report ad" which sits over the options of why they wanted to report the ad. */
+"banner_ads_report_ad_title" = "Why are you reporting this ad?";
+
+/* The title of an option to report a specific banner ad for one of several reasons. */
+"banner_ads_report_broken" = "This ad seems broken";
+
+/* The title of an option to report a banner ad as malicious. */
+"banner_ads_report_malicious" = "This is a malicious ad";
+
+/* The title of an option to report a banner ad as occurring too often. */
+"banner_ads_report_too_often" = "See this ad too often";
+
+/* The title of an option to report a banner ad as "other". */
+"banner_ads_report_other" = "Other";
