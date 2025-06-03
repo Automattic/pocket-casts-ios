@@ -42,7 +42,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             }
         }
         .environmentObject(viewModel)
-        .background(style.background.ignoresSafeArea())
     }
 
     /// An empty state view that displays instructions
