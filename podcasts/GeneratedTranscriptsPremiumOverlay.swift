@@ -21,7 +21,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         let closeButton = TintableImageButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.tintColor = ThemeColor.primaryIcon02()
+        closeButton.tintColor = closeButtonColor
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
     }()
@@ -39,7 +39,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         title.text = L10n.generatedTranscriptsOverlayTitle
         title.numberOfLines = 0
         title.font = .systemFont(ofSize: 22, weight: .bold)
-        title.textColor = .white
+        title.textColor = titleColor
         title.backgroundColor = .clear
         title.textAlignment = .center
         return title
@@ -51,7 +51,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         description.text = L10n.generatedTranscriptsOverlayDescription
         description.numberOfLines = 0
         description.font = .systemFont(ofSize: 14, weight: .regular)
-        description.textColor = .white.withAlphaComponent(0.5)
+        description.textColor = descriptionColor
         description.backgroundColor = .clear
         description.textAlignment = .center
         return description
@@ -75,12 +75,35 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         return blurEffectView
     }()
 
-    private let gradientColor = PlayerColorHelper.playerBackgroundColor01()
+    private var gradientColor: UIColor {
+        showFromEpisode ? ThemeColor.primaryUi01(): PlayerColorHelper.playerBackgroundColor01()
+    }
+
+    private var titleColor: UIColor {
+        showFromEpisode ? ThemeColor.primaryText01(): .white
+    }
+
+    private var descriptionColor: UIColor {
+        showFromEpisode ? ThemeColor.primaryText02(): .white.withAlphaComponent(0.5)
+    }
+
+    private var backgroundColor: UIColor {
+        showFromEpisode ? ThemeColor.primaryUi01().withAlphaComponent(0.70) : PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.45)
+    }
+
+    private var closeButtonColor: UIColor {
+        showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.primaryIcon02()
+    }
+
     private lazy var topGradient: GradientView = {
         let gradientView = GradientView(firstColor: gradientColor, secondColor: gradientColor.withAlphaComponent(0))
         gradientView.translatesAutoresizingMaskIntoConstraints = false
         return gradientView
     }()
+
+    private var showFromEpisode: Bool {
+        analyticsSource == .episode
+    }
 
     init(playbackManager: PlaybackManager, analyticsSource: AnalyticsSource = .player) {
         self.playbackManager = playbackManager
@@ -108,7 +131,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     }
 
     private func setupView() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0.45)
+        view.backgroundColor = backgroundColor
 
         view.addSubview(blurEffectView)
         view.addSubview(topGradient)
@@ -123,7 +146,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         stackView.addArrangedSubview(UIView())
 
         let readableContentGuideMargin = 12.0
-
+        let topMargin = showFromEpisode ? 24.0 : 0.0
+        
         NSLayoutConstraint.activate(
             [
                 blurEffectView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -134,7 +158,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 topGradient.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 100.0),
-                stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
                 stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
                 stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 closeButton.heightAnchor.constraint(equalToConstant: 44),
@@ -161,7 +185,12 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
 
     @objc private func paywallButtonTapped() {
         track(event: .transcriptGeneratedPaywallSubscribeTapped)
-        NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+        if analyticsSource == .player {
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .generatedTranscripts)
+        } else {
+            let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: PlusUpgradeViewSource.generatedTranscripts.rawValue, context: [:])
+            self.parent?.present(controller, animated: true, completion: nil)
+        }
     }
 
     @objc private func subscriptionStatusDidChange() {

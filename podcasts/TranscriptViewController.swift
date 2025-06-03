@@ -5,7 +5,7 @@ import PocketCastsUtils
 class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvider {
     let analyticsSource: AnalyticsSource
 
-    private let playbackManager: PlaybackManager
+    private let playbackManager: TranscriptPlaybackManaging
     private var transcript: TranscriptModel?
     private var previousRange: NSRange?
 
@@ -35,15 +35,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?
 
-    init(playbackManager: PlaybackManager, source: AnalyticsSource = .player) {
-        self.playbackManager = playbackManager
-        self.analyticsSource = source
-        super.init()
+    private var showFromEpisode: Bool {
+        analyticsSource == .episode
     }
 
-    required override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.playbackManager = PlaybackManager.shared
-        self.analyticsSource = .player
+    init(playbackManager: TranscriptPlaybackManaging, source: AnalyticsSource = .player) {
+        self.playbackManager = playbackManager
+        self.analyticsSource = source
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -75,14 +73,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func setHasGeneratedTranscripts(_ value: Bool) {
+        let topMargin = showFromEpisode ? 24.0 : 0.0
+
         if FeatureFlag.generatedTranscripts.enabled, value {
-            transcriptViewTopConstraint?.constant = 80.0
-            topGradientTopConstraint?.constant = 100.0
-            topGradientHeightConstraint?.constant = 30.0
+            transcriptViewTopConstraint?.constant = 80.0 + topMargin
+            topGradientTopConstraint?.constant = 100.0 + topMargin
+            topGradientHeightConstraint?.constant = 30.0 + topMargin
         } else {
-            transcriptViewTopConstraint?.constant = 0.0
-            topGradientTopConstraint?.constant = 0.0
-            topGradientHeightConstraint?.constant = Sizes.topGradientHeight
+            transcriptViewTopConstraint?.constant = 0.0 + topMargin
+            topGradientTopConstraint?.constant = 0.0 + topMargin
+            topGradientHeightConstraint?.constant = Sizes.topGradientHeight + topMargin
         }
         updateTextMargins()
     }
@@ -110,7 +110,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NSLayoutConstraint.activate(
             [
                 transcriptViewTopConstraint,
-                transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                transcriptView.bottomAnchor.constraint(equalTo: showFromEpisode ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor),
                 transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
@@ -155,7 +155,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         bottomGradient.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
             [
-                bottomGradient.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                bottomGradient.bottomAnchor.constraint(equalTo: showFromEpisode ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor),
                 bottomGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 bottomGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 bottomGradient.heightAnchor.constraint(equalToConstant: Sizes.bottomGradientHeight)
@@ -170,8 +170,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        let topMargin = showFromEpisode ? 24.0 : 0.0
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
@@ -245,13 +246,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         label.text = L10n.generatedTranscriptsBanner
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = .white.withAlphaComponent(0.5)
+        label.textColor = showFromEpisode ? ThemeColor.primaryText01() : .white.withAlphaComponent(0.5)
         label.backgroundColor = .clear
         view.addSubview(label)
 
         let stroke = UIView()
         stroke.translatesAutoresizingMaskIntoConstraints = false
-        stroke.backgroundColor = .white.withAlphaComponent(0.5)
+        stroke.backgroundColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.5)
         view.addSubview(stroke)
 
         let bannerLabelLeadingConstraint = label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15.0)
@@ -300,20 +301,23 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private lazy var closeButton: TintableImageButton! = {
         let closeButton = TintableImageButton()
         closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.tintColor = ThemeColor.primaryIcon02()
+        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
     }()
 
     private lazy var searchButton: RoundButton = {
+        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
 
         let searchButton = RoundButton(type: .system)
         searchButton.setTitle(L10n.search, for: .normal)
         searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
-        searchButton.setTitleColor(.white, for: .normal)
-        searchButton.tintColor = .white.withAlphaComponent(0.2)
+        searchButton.setTitleColor(titleColor, for: .normal)
+        searchButton.tintColor = tintColor
         searchButton.layer.masksToBounds = true
         searchButton.configuration = configuration
         searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
@@ -362,20 +366,26 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
-        transcriptView.textColor = ThemeColor.playerContrast02()
-        transcriptView.indicatorStyle = .white
-        activityIndicatorView.color = ThemeColor.playerContrast02()
+//        let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
+        let primaryColor =  PlayerColorHelper.playerBackgroundColor01()
+        let secondaryColor =  showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
+        let activityIndicatorViewColor: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.sharedTheme.activeTheme.isDark ? .white : .black) : .white
+
+        view.backgroundColor = primaryColor
+        transcriptView.backgroundColor =  primaryColor
+        transcriptView.textColor = secondaryColor
+        transcriptView.indicatorStyle = activityIndicatorViewColor
+        activityIndicatorView.color = secondaryColor
         updateGradientColors()
         if FeatureFlag.generatedTranscripts.enabled {
-            bannerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+            bannerView.backgroundColor = primaryColor
         }
     }
 
     private func updateGradientColors() {
-        topGradient.updateColors(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
-        bottomGradient.updateColors(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
+        let gradientColor = showFromEpisode ? ThemeColor.primaryUi01() : Colors.gradientColor
+        topGradient.updateColors(firstColor: gradientColor, secondColor: gradientColor.withAlphaComponent(0))
+        bottomGradient.updateColors(firstColor: gradientColor.withAlphaComponent(0), secondColor: gradientColor)
     }
 
     @objc private func update() {
@@ -406,14 +416,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var currentEpisodeUUID: String?
 
     private func loadTranscript() {
-        guard let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
+        guard let episodeUUID = playbackManager.episodeUUID, let podcastUUID = playbackManager.podcastUUID else {
             return
         }
 
-        let shouldResetPosition = currentEpisodeUUID != episode.uuid
-        currentEpisodeUUID = episode.uuid
+        let shouldResetPosition = currentEpisodeUUID != episodeUUID
+        currentEpisodeUUID = episodeUUID
 
-        transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
+        transcriptManager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
 
         setupLoadingState()
 
@@ -544,11 +554,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             standardFont =  UIFont(descriptor: descriptor, size: 0)
         }
 
-
         let normalStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
             .font: standardFont,
-            .foregroundColor: ThemeColor.playerContrast02()
+            .foregroundColor: showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
         ]
 
         return normalStyle
@@ -559,7 +568,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         formattedText.beginEditing()
         let normalStyle = makeStyle()
         var highlightStyle = normalStyle
-        highlightStyle[.foregroundColor] = ThemeColor.playerContrast01()
+        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast01()
 
         let fullLength = NSRange(location: 0, length: formattedText.length)
         formattedText.addAttributes(normalStyle, range: fullLength)
@@ -581,9 +590,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             let searchTermLength = searchTerm.count
             searchIndicesResult.enumerated().forEach { index, indice in
                 if indice + searchTermLength <= length {
+                    let backgroundColor = showFromEpisode ? ThemeColor.primaryText01().withAlphaComponent(index == currentSearchIndex ? 0.3 : 0.1) : .white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4)
                     let highlightStyle: [NSAttributedString.Key: Any] = [
-                        .backgroundColor: UIColor.white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4),
-                        .foregroundColor: index == currentSearchIndex ? UIColor.black : ThemeColor.playerContrast01()
+                        .backgroundColor: backgroundColor,
+                        .foregroundColor: showFromEpisode ? ThemeColor.primaryText01() : index == currentSearchIndex ? UIColor.black : ThemeColor.playerContrast01()
                     ]
 
                     formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
@@ -728,9 +738,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
         var properties = properties
 
-        if let episode = playbackManager.currentEpisode() {
-            properties["episode_uuid"] = episode.uuid
-            properties["podcast_uuid"] = episode.parentIdentifier()
+        if let episodeUUID = playbackManager.episodeUUID,
+           let parentIdentifier = playbackManager.parentIdentifier {
+            properties["episode_uuid"] = episodeUUID
+            properties["podcast_uuid"] = parentIdentifier
         }
 
         properties["source"] = analyticsSource.rawValue

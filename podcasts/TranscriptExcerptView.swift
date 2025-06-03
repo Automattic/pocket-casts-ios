@@ -64,7 +64,7 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
     }
 
     func excerptTapped() {
-        if case .loading = loadingState { return }
+        if loadingState != .success { return }
         tapAction()
         track(.episodeDetailTranscriptCardTapped)
     }
