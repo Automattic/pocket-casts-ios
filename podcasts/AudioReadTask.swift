@@ -51,7 +51,7 @@ class AudioReadTask {
                 audioFile.framePosition = currentFramePosition
             } else {
                 FileLog.shared.addMessage("Attempted to seek past EOF: \(currentFramePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = audioFile.length
+                audioFile.framePosition = max(0, audioFile.length - 1)
             }
         }
     }
