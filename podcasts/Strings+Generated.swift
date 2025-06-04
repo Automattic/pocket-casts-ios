@@ -1533,6 +1533,10 @@ internal enum L10n {
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction") }
   /// That's it, you're done. Change any details you want, hit save and play!
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary") }
+  /// %1$@/month
+  internal static func iapProductMonthlyPricingFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "iap_product_monthly_pricing_format", String(describing: p1))
+  }
   /// %1$@/week
   internal static func iapProductWeeklyPricingFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "iap_product_weekly_pricing_format", String(describing: p1))
