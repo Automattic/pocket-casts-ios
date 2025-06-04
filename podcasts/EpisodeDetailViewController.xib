@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -36,6 +36,7 @@
                 <outlet property="podcastName" destination="mqv-46-8ea" id="6DY-6X-3xx"/>
                 <outlet property="progressView" destination="Fv5-YL-ggw" id="7Dg-UW-H6k"/>
                 <outlet property="progressWidthConstraint" destination="lXv-7B-jbA" id="ow7-z2-KY2"/>
+                <outlet property="showNotesHolderTopAnchor" destination="pxO-ez-3HU" id="omX-Dn-6PE"/>
                 <outlet property="showNotesHolderView" destination="XID-El-uKH" id="56g-88-xn8"/>
                 <outlet property="showNotesHolderViewHeight" destination="mcc-50-BWR" id="qDt-pl-cxZ"/>
                 <outlet property="topDivider" destination="qhA-bj-I2z" id="crr-zD-Bi0"/>
@@ -67,7 +68,7 @@
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="175" id="mbB-ao-L3L"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Episode Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-ff-pnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Episode Name" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-ff-pnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                             <rect key="frame" x="16" y="231" width="388" height="26.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <nil key="textColor"/>

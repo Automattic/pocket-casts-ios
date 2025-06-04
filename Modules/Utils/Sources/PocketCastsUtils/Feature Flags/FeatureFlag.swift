@@ -188,7 +188,14 @@ public enum FeatureFlag: String, CaseIterable {
     /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
     case replaceSpecificEpisode
 
+    /// Shows transcript excerpt in episode detail
+    case episodeDetailTranscript
+
+    /// Avoid using `withoutActuallyEscaping` for FMDB
     case fmdbWithoutActuallyEscaping
+
+    /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
+    case bannerAds
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -320,8 +327,12 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .replaceSpecificEpisode:
             true
+        case .episodeDetailTranscript:
+            false
         case .fmdbWithoutActuallyEscaping:
             false
+        case .bannerAds:
+            true
         }
     }
 
