@@ -314,6 +314,8 @@ internal enum L10n {
   internal static var autoRestartSleepTimerDescription: String { return L10n.tr("Localizable", "auto_restart_sleep_timer_description") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// AD
+  internal static var bannerAdsInfoLabel: String { return L10n.tr("Localizable", "banner_ads_info_label") }
   /// Please download Pocket Casts from the App Store to purchase %1$@.
   internal static func betaPurchaseDisabled(_ p1: Any) -> String {
     return L10n.tr("Localizable", "beta_purchase_disabled", String(describing: p1))
