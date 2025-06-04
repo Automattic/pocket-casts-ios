@@ -175,12 +175,15 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         session?.dataTask(with: urlRequest).resume()
     }
 
-    func invalidateAndCancelSession(shouldResetData: Bool = true) {
+    func invalidateAndCancelSession(shouldResetData: Bool = true, error: Error? = nil) {
         session?.invalidateAndCancel()
         session = nil
 
         if shouldResetData {
             bufferData = Data()
+            pendingRequests.forEach { request in
+                request.finishLoading(with: error)
+            }
             pendingRequests.removeAll()
         }
 
@@ -280,7 +283,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     }
 
     private func downloadFailed(with error: Error) {
-        invalidateAndCancelSession()
+        invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
