@@ -26,6 +26,18 @@ struct BannerAdView: View {
         let icon: Color
         let border: Color?
 
+        static func playerColors(_ theme: Theme) -> Self {
+            return Self(
+                background: theme.playerContrast06,
+                adText: theme.playerContrast01,
+                titleLabel: theme.playerHighlight01,
+                adLabelBackground: theme.playerContrast06,
+                adLabel: theme.playerContrast01,
+                icon: theme.playerContrast02,
+                border: nil
+            )
+        }
+
         static func podcastList(_ theme: Theme) -> Self {
             return Self(
                 background: theme.primaryUi06,

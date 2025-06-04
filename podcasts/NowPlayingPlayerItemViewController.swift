@@ -4,6 +4,7 @@ import Agrume
 import AVKit
 import SafariServices
 import UIKit
+import PocketCastsUtils
 
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
@@ -199,6 +200,28 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         routePicker.delegate = self
         #endif
+
+        if FeatureFlag.bannerAds.enabled {
+            addAdBanner()
+        }
+    }
+
+    func addAdBanner() {
+        if let stackView = episodeImage.superview as? UIStackView {
+            let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
+                                      imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
+                                      linkTitle: "Libro.fm")
+            let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).environmentObject(Theme.sharedTheme).padding(4)
+            let adUiView = adView.uiView
+            adUiView.translatesAutoresizingMaskIntoConstraints = false
+            adUiView.backgroundColor = .clear
+            //TODO: Add child VC
+            stackView.insertArrangedSubview(adUiView, at: 0)
+            // Add a constraint for adUiView which sets height to 150
+            NSLayoutConstraint.activate([
+                adUiView.heightAnchor.constraint(equalToConstant: 150)
+            ])
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
