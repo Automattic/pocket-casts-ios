@@ -9,6 +9,7 @@ import Kingfisher
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
+    var bannerAdModel: BannerAdModel?
 
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
@@ -25,7 +26,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             registerCells()
 
             if let layout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                layout.sectionHeadersPinToVisibleBounds = true
+                layout.sectionHeadersPinToVisibleBounds = false
             }
         }
     }
@@ -63,6 +64,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         title = L10n.podcastsPlural
         setupSearchBar()
         setupRefreshControl()
+
+        if FeatureFlag.bannerAds.enabled {
+            setupBannerAd()
+        }
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
@@ -446,6 +451,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func handleThemeChanged() {
         super.handleThemeChanged()
         podcastsCollectionView.reloadData()
+    }
+
+    private func setupBannerAd() {
+        // Example banner ad - in future implementation this will come from ad service
+        bannerAdModel = BannerAdModel(
+            adText: "Listen to your favorite books while supporting your local indie bookstore",
+            imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
+            linkTitle: "Libro.fm"
+        )
     }
 }
 

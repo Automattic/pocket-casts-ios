@@ -1,18 +1,23 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     private static let podcastSquareCellId = "PodcastGridCell"
     private static let podcastListCellId = "PodcastListCell"
     private static let folderSquareCellId = "FolderGridCell"
     private static let folderListCellId = "FolderListCell"
+    private static let bannerAdHeaderId = "BannerAdHeader"
 
     func registerCells() {
         podcastsCollectionView.register(UINib(nibName: "PodcastGridCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.podcastSquareCellId)
         podcastsCollectionView.register(UINib(nibName: "PodcastListCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.podcastListCellId)
         podcastsCollectionView.register(UINib(nibName: "FolderGridCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.folderSquareCellId)
         podcastsCollectionView.register(UINib(nibName: "FolderListCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.folderListCellId)
+
+        // Register header view for banner ads
+        podcastsCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PodcastListViewController.bannerAdHeaderId)
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -125,5 +130,51 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         if let flowLayout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.invalidateLayout() // force the elements to get laid out again with the new size
         }
+    }
+
+    // MARK: - Supplementary Views
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PodcastListViewController.bannerAdHeaderId, for: indexPath)
+
+            // Remove existing subviews
+            headerView.subviews.forEach { $0.removeFromSuperview() }
+
+            if let bannerAdModel = bannerAdModel {
+                let bannerAdView = BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme))
+                let hostingController = PCHostingController(rootView: bannerAdView)
+                hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+                hostingController.view.backgroundColor = .clear
+
+                headerView.addSubview(hostingController.view)
+                NSLayoutConstraint.activate([
+                    hostingController.view.topAnchor.constraint(equalTo: headerView.topAnchor),
+                    hostingController.view.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+                    hostingController.view.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+                    hostingController.view.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
+                ])
+            }
+
+            return headerView
+        }
+
+        return UICollectionReusableView()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+
+        guard let bannerAdModel else {
+            return .zero
+        }
+
+        // Use a separate view because fetching the view from UICollectionView isn't allowed until view is part of window hierarchy.
+        let sizingView = BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme)).environmentObject(Theme.sharedTheme)
+
+        let hostingController = UIHostingController(rootView: sizingView)
+        let targetSize = CGSize(width: collectionView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        let size = hostingController.sizeThatFits(in: targetSize)
+
+        return size
     }
 }
