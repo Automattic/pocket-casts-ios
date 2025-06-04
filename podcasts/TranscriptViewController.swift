@@ -366,8 +366,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func updateColors() {
-//        let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
-        let primaryColor =  PlayerColorHelper.playerBackgroundColor01()
+        let primaryColor =  showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         let secondaryColor =  showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast02()
         let activityIndicatorViewColor: UIScrollView.IndicatorStyle = showFromEpisode ? (Theme.sharedTheme.activeTheme.isDark ? .white : .black) : .white
 
@@ -590,7 +589,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             let searchTermLength = searchTerm.count
             searchIndicesResult.enumerated().forEach { index, indice in
                 if indice + searchTermLength <= length {
-                    let backgroundColor = showFromEpisode ? ThemeColor.primaryText01().withAlphaComponent(index == currentSearchIndex ? 0.3 : 0.1) : .white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4)
+                    let backgroundColor = showFromEpisode ? ThemeColor.primaryUi02Selected().withAlphaComponent(index == currentSearchIndex ? 1 : 0.4) : .white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4)
                     let highlightStyle: [NSAttributedString.Key: Any] = [
                         .backgroundColor: backgroundColor,
                         .foregroundColor: showFromEpisode ? ThemeColor.primaryText01() : index == currentSearchIndex ? UIColor.black : ThemeColor.playerContrast01()

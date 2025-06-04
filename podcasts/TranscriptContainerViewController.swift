@@ -38,6 +38,12 @@ class TranscriptContainerViewController: UIViewController {
         showTranscript()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Analytics.track(.episodeTranscriptShown)
+    }
+
     func showTranscript() {
         addChild(transcriptsItem)
         view.addSubview(transcriptsItem.view)
