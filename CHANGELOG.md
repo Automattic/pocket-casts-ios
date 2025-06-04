@@ -6,6 +6,7 @@
 - Drop iOS 15 and watchOS 8 [#2858](https://github.com/Automattic/pocket-casts-ios/issues/2858)
 - New Empty States across the app [#3102](https://github.com/Automattic/pocket-casts-ios/issues/3102)
 - New onboarding and content recommendations Notifications. [#2906](https://github.com/Automattic/pocket-casts-ios/issues/2906)
+- Fix crash on Core Audio Read task [#3220](https://github.com/Automattic/pocket-casts-ios/pull/3220)
 
 7.89.1
 -----
