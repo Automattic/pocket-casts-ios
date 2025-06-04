@@ -50,7 +50,7 @@ struct BannerAdView: View {
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(alignment: .top, spacing: 16) {
             creative()
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.adText)
