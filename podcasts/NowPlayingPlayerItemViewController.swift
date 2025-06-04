@@ -5,6 +5,7 @@ import AVKit
 import SafariServices
 import UIKit
 import PocketCastsUtils
+import SwiftUI
 
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
@@ -183,6 +184,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     #endif
 
     var lastShelfLoadState = ShelfLoadState()
+    
+    private var bannerAdHostingController: PCHostingController<AnyView>?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
@@ -207,21 +210,43 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     func addAdBanner() {
-        if let stackView = episodeImage.superview as? UIStackView {
-            let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
-                                      imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-                                      linkTitle: "Libro.fm")
-            let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).environmentObject(Theme.sharedTheme).padding(4)
-            let adUiView = adView.uiView
-            adUiView.translatesAutoresizingMaskIntoConstraints = false
-            adUiView.backgroundColor = .clear
-            //TODO: Add child VC
-            stackView.insertArrangedSubview(adUiView, at: 0)
-            // Add a constraint for adUiView which sets height to 150
-            NSLayoutConstraint.activate([
-                adUiView.heightAnchor.constraint(equalToConstant: 150)
-            ])
-        }
+        // Remove existing banner if any
+        removeBannerAd()
+        
+        guard let stackView = episodeImage.superview as? UIStackView else { return }
+        
+        let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
+                                  imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
+                                  linkTitle: "Libro.fm")
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(4)
+        let hostingController = PCHostingController(rootView: AnyView(adView))
+
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = .clear
+        
+        // Calculate the proper size for the banner
+        let targetSize = CGSize(width: stackView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        let size = hostingController.sizeThatFits(in: targetSize)
+        
+        addChild(hostingController)
+        stackView.insertArrangedSubview(hostingController.view, at: 0)
+        
+        // Add height constraint based on the calculated size
+        NSLayoutConstraint.activate([
+            hostingController.view.heightAnchor.constraint(equalToConstant: size.height)
+        ])
+        
+        hostingController.didMove(toParent: self)
+        bannerAdHostingController = hostingController
+    }
+    
+    private func removeBannerAd() {
+        guard let hostingController = bannerAdHostingController else { return }
+        
+        hostingController.willMove(toParent: nil)
+        hostingController.view.removeFromSuperview()
+        hostingController.removeFromParent()
+        bannerAdHostingController = nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -282,6 +307,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        removeBannerAd()
     }
 
     override func themeDidChange() {
