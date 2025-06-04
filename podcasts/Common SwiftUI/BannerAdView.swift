@@ -56,6 +56,7 @@ struct BannerAdView: View {
                 Text(model.adText)
                     .font(.subheadline.weight(.medium))
                     .foregroundColor(colors.adText)
+                    .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 4) {
                     Text(model.adLabel)
                         .font(.caption2.weight(.semibold))
