@@ -147,7 +147,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
 
         let readableContentGuideMargin = 12.0
         let topMargin = showFromEpisode ? 24.0 : 0.0
-        
+
         NSLayoutConstraint.activate(
             [
                 blurEffectView.topAnchor.constraint(equalTo: view.topAnchor),

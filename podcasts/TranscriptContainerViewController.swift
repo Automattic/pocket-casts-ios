@@ -36,6 +36,7 @@ class TranscriptContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showTranscript()
+        presentationController?.delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -97,11 +98,25 @@ class TranscriptContainerViewController: UIViewController {
 
 extension TranscriptContainerViewController: PlayerItemContainerDelegate {
     func dismissTranscript() {
-        dismiss(animated: true)
+        dismiss(animated: true) { [weak self] in
+            self?.hideTranscript()
+        }
     }
 
     func scrollToCurrentChapter() { }
     func scrollToNowPlaying() { }
     func scrollToBookmarks() { }
     func navigateToPodcast() { }
+}
+
+extension TranscriptContainerViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) { }
+
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return true
+    }
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        hideTranscript()
+    }
 }
