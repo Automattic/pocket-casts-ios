@@ -124,7 +124,7 @@ class FoldersCoordinator: NSObject {
                 })
             }
         }
-        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
     }
@@ -147,7 +147,7 @@ class FoldersCoordinator: NSObject {
                 return
             }
         }
-        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
 

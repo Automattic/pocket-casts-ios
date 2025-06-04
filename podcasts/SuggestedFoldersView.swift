@@ -45,14 +45,14 @@ struct SuggestedFoldersView: View {
                                     onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
-                                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
                                 }
                                 .accessibilityLabel(L10n.close)
                             }
                         }
                 }
                 .navigationViewStyle(.stack)
-                .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                .tint(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
             case .failed:
                 CreateFolderView(isInsideNavigation: false) { uuid in
                     if let uuid {

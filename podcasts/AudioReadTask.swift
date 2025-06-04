@@ -46,12 +46,12 @@ class AudioReadTask {
 
         if playPositionHint > 0 {
             currentFramePosition = framePositionForTime(playPositionHint).framePosition
-            if currentFramePosition <= audioFile.length {
+            if currentFramePosition < audioFile.length {
                 FileLog.shared.addMessage("Setting framePosition to \(currentFramePosition) for file: \(audioFile.url.lastPathComponent)")
                 audioFile.framePosition = currentFramePosition
             } else {
                 FileLog.shared.addMessage("Attempted to seek past EOF: \(currentFramePosition) >= \(audioFile.length), file: \(audioFile.url.lastPathComponent)")
-                audioFile.framePosition = audioFile.length
+                audioFile.framePosition = max(0, audioFile.length - 1)
             }
         }
     }
