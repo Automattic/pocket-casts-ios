@@ -400,6 +400,10 @@ Download de app voor de volledige ervaring!</string>
     <key>cancel_subscription_survey_title</key>
     <string>Bedankt dat je het probeert
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Er is iets fout gegaan.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Bedankt voor je feedback!</string>
     <key>cancel_subscription_title</key>
     <string>Overweeg je om weg te gaan?
 Laat ons eerst helpen</string>
@@ -821,6 +825,10 @@ Laat ons eerst helpen</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Instellingen automatisch downloaden</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Sla afleveringen op om offline te luisteren en mis geen enkel moment.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Geniet van offline luisteren</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Mislukte downloads opnieuw proberen</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ waar je naar hebt geluisterd was
     <string>Verwijder wat bestanden en probeer het nogmaals.</string>
     <key>file_upload_name_required</key>
     <string>Naam verplicht</string>
+    <key>file_upload_no_files_description</key>
+    <string>Upload je eigen bestanden naar Pocket Casts en luister of bekijk ze wanneer je maar wilt.</string>
     <key>file_upload_no_files_helper</key>
     <string>Hoe doe ik dit?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Luister of bekijk je eigen bestanden</string>
     <key>file_upload_remove_image</key>
     <string>Afbeelding verwijderen</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ waar je naar hebt geluisterd was
     <string>Nieuwe uitgaven</string>
     <key>filters_new_filter_button</key>
     <string>+ Nieuwe filter</string>
+    <key>filters_tip_view_description</key>
+    <string>Maak slimme filters aan om je afleveringen te organiseren. Filter op duur, uitgavedatum, mediatype en meer.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organiseer je afleveringen</string>
     <key>folder</key>
     <string>Map</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ waar je naar hebt geluisterd was
     <string>Weet je het zeker?</string>
     <key>folder_edit</key>
     <string>Map bewerken</string>
+    <key>folder_empty_button_title</key>
+    <string>Podcasts toevoegen</string>
     <key>folder_empty_description</key>
     <string>Als je podcasts aan je map toevoegt, zullen ze hier verschijnen</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ podcasts mee</string>
     <string>Volgende betaling: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Instellingen koptelefoon</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Gebruik Bladwijzers</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Je kan tijdstempels van belangrijke momenten in een aflevering opslaan.</string>
     <key>no_bookmarks_message</key>
     <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
+    <key>no_bookmarks_title</key>
+    <string>Maak een bladwijzer van dat moment</string>
     <key>none</key>
     <string>Geen</string>
     <key>not_on_wifi</key>
@@ -2175,7 +2199,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>podcast_pause_playback</key>
     <string>Afspelen pauzeren</string>
     <key>podcast_podroll_header</key>
-    <string>Aanbevolen shows van de maker</string>
+    <string>Door de maker aanbevolen shows</string>
     <key>podcast_queued</key>
     <string>In wachtrij geplaatst</string>
     <key>podcast_queuing</key>
@@ -2302,6 +2326,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Ondersteun Pocket Casts door je account te upgraden</string>
     <key>profile_last_app_refresh</key>
     <string>App laatst vernieuwd %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Luister naar podcasts en bekijk hier je luistergeschiedenis.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Laten we je aan het luisteren zetten!</string>
     <key>profile_number_of_files</key>
     <string>%1$@ bestanden</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verzenden van e-mail voor opnieuw instellen mislukt, probeer het later opnieuw.</string>
     <key>profile_single_file</key>
     <string>1 bestand</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Geef afleveringen die je leuk vindt een ster en kom er op elk gewenst moment naar terug.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Sla je favorieten op</string>
     <key>purchase_terms</key>
     <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Hierna</string>
     <key>up_next_empty_description</key>
     <string>U kunt afleveringen in de wachtrij zetten door naar rechts te swipen in afleveringrijen of door op het pictogram op een afleveringkaart te tikken.</string>
+    <key>up_next_empty_title</key>
+    <string>Je luistersessie beheren</string>
     <key>up_next_history</key>
     <string>Geschiedenis van Hierna</string>
     <key>up_next_history_explanation</key>

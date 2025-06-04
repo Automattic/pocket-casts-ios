@@ -400,6 +400,10 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <key>cancel_subscription_survey_title</key>
     <string>Merci d’avoir essayé
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Toutes nos excuses, un problème est survenu.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Merci pour vos retours !</string>
     <key>cancel_subscription_title</key>
     <string>Vous envisagez de nous quitter ?
 Laissez-nous d’abord vous aider</string>
@@ -821,6 +825,10 @@ Laissez-nous d’abord vous aider</string>
     <string>Téléchargements</string>
     <key>downloads_auto_download</key>
     <string>Paramètres du téléchargement automatique</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Enregistrez des épisodes pour une écoute hors ligne et ne manquez rien.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Profiter d’une écoute hors ligne</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Réessayer les téléchargements échoués</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ que vous avez écouté était
     <string>Retirez certains fichiers et réessayez.</string>
     <key>file_upload_name_required</key>
     <string>Nom obligatoire</string>
+    <key>file_upload_no_files_description</key>
+    <string>Chargez vos propres fichiers dans Pocket Casts et écoutez-les ou regardez-les à tout moment.</string>
     <key>file_upload_no_files_helper</key>
     <string>Comment dois-je m’y prendre?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Écouter ou regarder vos propres fichiers</string>
     <key>file_upload_remove_image</key>
     <string>Retirer l’image</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ que vous avez écouté était
     <string>Nouvelles sorties</string>
     <key>filters_new_filter_button</key>
     <string>+ nouveau filtre</string>
+    <key>filters_tip_view_description</key>
+    <string>Créez des filtres intelligents pour organiser vos épisodes. Filtrez par durée, date de sortie, type de média, etc.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organiser vos épisodes</string>
     <key>folder</key>
     <string>Dossier</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ que vous avez écouté était
     <string>Êtes-vous certain(e)?</string>
     <key>folder_edit</key>
     <string>Modifier le dossier</string>
+    <key>folder_empty_button_title</key>
+    <string>Ajouter des podcasts</string>
     <key>folder_empty_description</key>
     <string>Add podcasts to your folder and they’ll appear here.</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ podcasts partout avec</string>
     <string>Prochain paiement : %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Réglages des écouteurs</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Mettre des signets</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Vous pouvez enregistrer les horodatages des moments importants d’un épisode.</string>
     <key>no_bookmarks_message</key>
     <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
+    <key>no_bookmarks_title</key>
+    <string>Ajouter ce moment à vos signets</string>
     <key>none</key>
     <string>Aucun</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Soutenez Pocket Casts en mettant à niveau votre compte</string>
     <key>profile_last_app_refresh</key>
     <string>Dernière actualisation de l’application %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Commencez à écouter des podcasts et consultez votre historique d’écoute ici.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Commencez à écouter du contenu !</string>
     <key>profile_number_of_files</key>
     <string>%1$@ fichiers</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Échec de l’envoi du courriel de réinitialisation. Veuillez réessayer plus tard.</string>
     <key>profile_single_file</key>
     <string>1 fichier</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Appuyez sur l’étoile pour les épisodes que vous aimez et revenez vers eux à tout moment.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Enregistrer vos favoris</string>
     <key>purchase_terms</key>
     <string>En continuant, vous acceptez notre %1$@politique de confidentialité%2$@ et nos %3$@conditions d’utilisation%4$@.</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Prochains épisodes</string>
     <key>up_next_empty_description</key>
     <string>Vous pouvez mettre des épisodes dans la file d’attente de lecture en balayant la ligne de l’épisode vers la droite ou en appuyant sur l’icône dans la fiche d’un épisode.</string>
+    <key>up_next_empty_title</key>
+    <string>Organiser votre session d’écoute</string>
     <key>up_next_history</key>
     <string>Historique de la file d’attente</string>
     <key>up_next_history_explanation</key>

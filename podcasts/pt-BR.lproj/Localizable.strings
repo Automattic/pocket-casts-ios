@@ -400,6 +400,10 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <key>cancel_subscription_survey_title</key>
     <string>Obrigado por experimentar
 o Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Ocorreu um erro.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Agradecemos pelo feedback!</string>
     <key>cancel_subscription_title</key>
     <string>Pensando em ir embora?
 Deixe a gente ajudar você primeiro</string>
@@ -821,6 +825,10 @@ Deixe a gente ajudar você primeiro</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Configurações de download automático</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Salve episódios para ouvir offline e não perder nada.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Aproveite a reprodução offline</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Tentar fazer download novamente</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ que você ouviu foi
     <string>Remova alguns arquivos e tente novamente.</string>
     <key>file_upload_name_required</key>
     <string>O nome é obrigatório</string>
+    <key>file_upload_no_files_description</key>
+    <string>Faça upload dos seus próprios arquivos no Pocket Casts e ouça ou assista quando quiser.</string>
     <key>file_upload_no_files_helper</key>
     <string>Como fazer isso?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Ouça ou assista a seus próprios arquivos</string>
     <key>file_upload_remove_image</key>
     <string>Remover imagem</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ que você ouviu foi
     <string>Lançamentos</string>
     <key>filters_new_filter_button</key>
     <string>+ Novo filtro</string>
+    <key>filters_tip_view_description</key>
+    <string>Crie filtros inteligentes para organizar seus episódios. Filtre por duração, data de lançamento, tipo de mídia e muito mais.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organize seus episódios</string>
     <key>folder</key>
     <string>Pasta</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ que você ouviu foi
     <string>Tem certeza?</string>
     <key>folder_edit</key>
     <string>Editar pasta</string>
+    <key>folder_empty_button_title</key>
+    <string>Adicionar podcasts</string>
     <key>folder_empty_description</key>
     <string>Adicione podcasts à sua pasta e eles aparecerão aqui.</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ podcasts com você</string>
     <string>Próximo pagamento: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Configurações do headset</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Buscar favoritos</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Você pode salvar a data/hora de momentos importantes em um episódio.</string>
     <key>no_bookmarks_message</key>
     <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou configurando uma ação com seu headset.</string>
+    <key>no_bookmarks_title</key>
+    <string>Marque aquele momento como favorito</string>
     <key>none</key>
     <string>Nenhum</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Apoie o Pocket Casts fazendo upgrade da sua conta</string>
     <key>profile_last_app_refresh</key>
     <string>Última atualização do app em %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Dê play nos seus podcasts e acesse seu histórico de reprodução aqui.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Solta o som!</string>
     <key>profile_number_of_files</key>
     <string>%1$@ arquivos</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Falha ao enviar e-mail de redefinição, tente novamente mais tarde.</string>
     <key>profile_single_file</key>
     <string>1 arquivo</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Marque episódios que você ama com uma estrela e volte a eles quando quiser.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Salve seus favoritos</string>
     <key>purchase_terms</key>
     <string>Ao continuar, você concorda com a %1$@Política de privacidade%2$@ e os %3$@Termos de serviço%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Próximos</string>
     <key>up_next_empty_description</key>
     <string>Você pode enfileirar os episódios para serem reproduzidos em seguida arrastando para a direita nas linhas de episódios ou tocando no ícone no cartão de um episódio.</string>
+    <key>up_next_empty_title</key>
+    <string>Organize sua sessão de streaming</string>
     <key>up_next_history</key>
     <string>Histórico de Próximos</string>
     <key>up_next_history_explanation</key>

@@ -400,6 +400,10 @@
     <key>cancel_subscription_survey_title</key>
     <string>Спасибо, что попробовали
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Что-то пошло не так.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Спасибо за ваш отзыв!</string>
     <key>cancel_subscription_title</key>
     <string>Собираетесь уйти?
 Сначала позвольте вам помочь</string>
@@ -821,6 +825,10 @@ Pocket Casts Plus</string>
     <string>Скачивания</string>
     <key>downloads_auto_download</key>
     <string>Настройки автоматического скачивания</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Сохраняйте выпуски, чтобы прослушивать их офлайн, и не пропускайте ни секунды.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Наслаждайтесь офлайн-прослушиванием</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Повторить неудачные скачивания</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ Pocket Casts на полную мощность.</string>
     <string>Удалите некоторые файлы и попробуйте снова.</string>
     <key>file_upload_name_required</key>
     <string>Необходимо указать имя</string>
+    <key>file_upload_no_files_description</key>
+    <string>Загружайте свои файлы в Pocket Casts и прослушивайте или просматривайте их в любое время.</string>
     <key>file_upload_no_files_helper</key>
     <string>Как это сделать?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Прослушивайте или просматривайте свои файлы</string>
     <key>file_upload_remove_image</key>
     <string>Удалить изображение</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ Pocket Casts на полную мощность.</string>
     <string>Новые выпуски</string>
     <key>filters_new_filter_button</key>
     <string>Добавить новый фильтр</string>
+    <key>filters_tip_view_description</key>
+    <string>Создавайте умные фильтры, чтобы упорядочивать выпуски. Фильтрация по продолжительности, дате выпуска, типу медиафайла и др.</string>
+    <key>filters_tip_view_title</key>
+    <string>Упорядочивайте выпуски</string>
     <key>folder</key>
     <string>Папка</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ Pocket Casts на полную мощность.</string>
     <string>Вы уверены?</string>
     <key>folder_edit</key>
     <string>Изменить папку</string>
+    <key>folder_empty_button_title</key>
+    <string>Добавить подкасты</string>
     <key>folder_empty_description</key>
     <string>Добавляйте подкасты в папку, и они будут отображаться здесь.</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ Pocket Casts на полную мощность.</string>
     <string>Следующий платеж: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Настройки наушников</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Пользуйтесь закладками</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Вы можете сохранять отметки времени важных моментов выпуска.</string>
     <key>no_bookmarks_message</key>
     <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
+    <key>no_bookmarks_title</key>
+    <string>Отметить этот момент закладкой</string>
     <key>none</key>
     <string>Пусто</string>
     <key>not_on_wifi</key>
@@ -2175,7 +2199,7 @@ Pocket Casts на полную мощность.</string>
     <key>podcast_pause_playback</key>
     <string>Приостановить воспроизведение</string>
     <key>podcast_podroll_header</key>
-    <string>Рекомендованные шоу автора</string>
+    <string>Шоу, рекомендованные автором</string>
     <key>podcast_queued</key>
     <string>В очереди</string>
     <key>podcast_queuing</key>
@@ -2302,6 +2326,10 @@ Pocket Casts на полную мощность.</string>
     <string>Поддержите Pocket Casts, перейдя на платную версию учётной записи</string>
     <key>profile_last_app_refresh</key>
     <string>Последнее обновление %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Начните слушать подкасты и просматривайте здесь свою историю прослушивания.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Давайте что-нибудь послушаем!</string>
     <key>profile_number_of_files</key>
     <string>Файлов: %1$@</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Pocket Casts на полную мощность.</string>
     <string>Не удалось отправить письмо для сброса, повторите попытку позже.</string>
     <key>profile_single_file</key>
     <string>1 файл</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Отмечайте понравившиеся выпуски и возвращайтесь к ним, когда захотите.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Сохраняйте то, что вам понравилось</string>
     <key>purchase_terms</key>
     <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Pocket Casts на полную мощность.</string>
     <string>Следующие</string>
     <key>up_next_empty_description</key>
     <string>Вы можете поместить выпуски в очередь для последующего воспроизведения, проведя пальцем вправо по строкам выпусков или коснувшись значка на карточке выпуска.</string>
+    <key>up_next_empty_title</key>
+    <string>Настройте сеанс прослушивания</string>
     <key>up_next_history</key>
     <string>История Up Next</string>
     <key>up_next_history_explanation</key>
