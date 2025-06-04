@@ -2,6 +2,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import PocketCastsServer
+import PocketCastsUtils
 
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
@@ -158,6 +159,16 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
 
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        if FeatureFlag.streamingCustomSessionConfiguration.enabled {
+            configuration.networkServiceType = .avStreaming
+            configuration.allowsCellularAccess = true
+            configuration.timeoutIntervalForRequest = 60 // seconds
+            configuration.timeoutIntervalForResource = 3600 // seconds
+            configuration.waitsForConnectivity = true
+            configuration.multipathServiceType = .handover // allows switching between celular/wifi
+            configuration.httpMaximumConnectionsPerHost = 1
+        }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
