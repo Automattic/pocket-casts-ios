@@ -400,6 +400,10 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <key>cancel_subscription_survey_title</key>
     <string>Vielen Dank, dass du die App ausprobiert hast
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Es ist ein Fehler aufgetreten.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Danke für dein Feedback!</string>
     <key>cancel_subscription_title</key>
     <string>Du denkst darüber nach, zu gehen?
 Lass uns dir zuerst helfen</string>
@@ -821,6 +825,10 @@ Lass uns dir zuerst helfen</string>
     <string>Downloads</string>
     <key>downloads_auto_download</key>
     <string>Einstellungen für automatischen Download</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Speichere Folgen, um sie offline anzuhören, und verpasse keinen Moment.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Inhalte offline genießen</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Fehlgeschlagene Downloads erneut starten</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ Folge dauerte
     <string>Entferne ein paar Dateien und versuche es erneut.</string>
     <key>file_upload_name_required</key>
     <string>Name erforderlich</string>
+    <key>file_upload_no_files_description</key>
+    <string>Lade deine eigenen Dateien in Pocket Casts hoch. So kannst du sie dir jederzeit ansehen oder anhören.</string>
     <key>file_upload_no_files_helper</key>
     <string>Wie geht das?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Eigene Dateien anhören oder ansehen</string>
     <key>file_upload_remove_image</key>
     <string>Bild entfernen</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ Folge dauerte
     <string>Neuerscheinungen</string>
     <key>filters_new_filter_button</key>
     <string>+ Neuer Filter</string>
+    <key>filters_tip_view_description</key>
+    <string>Erstelle intelligente Filter, um deine Folgen zu organisieren. Filtere nach Dauer, Veröffentlichungsdatum, Medientyp und mehr.</string>
+    <key>filters_tip_view_title</key>
+    <string>Deine Folgen organisieren</string>
     <key>folder</key>
     <string>Ordner</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ Folge dauerte
     <string>Bist du dir sicher?</string>
     <key>folder_edit</key>
     <string>Ordner bearbeiten</string>
+    <key>folder_empty_button_title</key>
+    <string>Podcasts hinzufügen</string>
     <key>folder_empty_description</key>
     <string>Füge Podcasts zu deinem Ordner hinzu und sie werden hier angezeigt.</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ Podcasts mit</string>
     <string>Nächste Zahlung: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Kopfhörereinstellungen</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Lesezeichen erhalten</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Du kannst Zeitstempel wichtiger Momente in einer Folge speichern.</string>
     <key>no_bookmarks_message</key>
     <string>Du kannst Zeitstempel von Folgen über das Aktionsmenü im Player speichern oder, indem du eine Aktion mit deinen Kopfhörern konfigurierst.</string>
+    <key>no_bookmarks_title</key>
+    <string>Diesen Moment als Lesezeichen markieren</string>
     <key>none</key>
     <string>Nichts</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Unterstütze Pocket Casts, indem du ein Upgrade für dein Konto durchführst</string>
     <key>profile_last_app_refresh</key>
     <string>App zuletzt aktualisiert am %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Höre dir Podcasts an und rufe hier deinen Hörverlauf auf.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Viel Spaß beim Hören!</string>
     <key>profile_number_of_files</key>
     <string>%1$@ Dateien</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Die E-Mail zum Zurücksetzen konnte nicht gesendet werden. Bitte versuche es später erneut.</string>
     <key>profile_single_file</key>
     <string>1 Datei</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Markiere Folgen, die du liebst, mit einem Stern und kehre jederzeit zu ihnen zurück.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Deine Lieblingsfolgen speichern</string>
     <key>purchase_terms</key>
     <string>Indem du fortfährst, erklärst du dich mit unserer %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Warteschlange</string>
     <key>up_next_empty_description</key>
     <string>Du kannst eine Folge zur Warteschlange hinzufügen, indem du in der Folgenliste nach rechts wischst oder in einer Folgenkarte das Warteschlangen-Icon antippst.</string>
+    <key>up_next_empty_title</key>
+    <string>Deine Audiositzung personalisieren</string>
     <key>up_next_history</key>
     <string>Verlauf „Als Nächstes“</string>
     <key>up_next_history_explanation</key>

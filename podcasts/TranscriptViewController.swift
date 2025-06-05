@@ -2,7 +2,8 @@ import UIKit
 import PocketCastsServer
 import PocketCastsUtils
 
-class TranscriptViewController: PlayerItemViewController {
+class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvider {
+    let analyticsSource: AnalyticsSource
 
     private let playbackManager: PlaybackManager
     private var transcript: TranscriptModel?
@@ -34,13 +35,15 @@ class TranscriptViewController: PlayerItemViewController {
 
     var showGeneratedTranscriptsPremiumOverlay: (() -> Void)?
 
-    init(playbackManager: PlaybackManager) {
+    init(playbackManager: PlaybackManager, source: AnalyticsSource = .player) {
         self.playbackManager = playbackManager
+        self.analyticsSource = source
         super.init()
     }
 
     required override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.playbackManager = PlaybackManager.shared
+        self.analyticsSource = .player
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -729,6 +732,8 @@ class TranscriptViewController: PlayerItemViewController {
             properties["episode_uuid"] = episode.uuid
             properties["podcast_uuid"] = episode.parentIdentifier()
         }
+
+        properties["source"] = analyticsSource.rawValue
 
         Analytics.track(event, properties: properties)
     }

@@ -400,6 +400,10 @@
     <key>cancel_subscription_survey_title</key>
     <string>お試しいただきありがとうございました
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>エラーが発生しました。</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>フィードバックをいただきありがとうございます。</string>
     <key>cancel_subscription_title</key>
     <string>解約をお考えですか ?
 まずはサポートをご利用ください</string>
@@ -821,6 +825,10 @@ Pocket Casts Plus</string>
     <string>ダウンロード</string>
     <key>downloads_auto_download</key>
     <string>自動ダウンロード設定</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>エピソードを保存するとオフラインで、一瞬たりとも逃さずに聴けます。</string>
+    <key>downloads_no_downloads_title</key>
+    <string>オフラインで聴く</string>
     <key>downloads_retry_failed_downloads</key>
     <string>失敗したダウンロードを再試行</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>いくつかファイルを削除し、もう一度試してください。</string>
     <key>file_upload_name_required</key>
     <string>名前は必須項目です</string>
+    <key>file_upload_no_files_description</key>
+    <string>自分のファイルを Pocket Casts にアップロードし、いつでも視聴できます。</string>
     <key>file_upload_no_files_helper</key>
     <string>どのようにすればよいですか ?</string>
+    <key>file_upload_no_files_title</key>
+    <string>自分のファイルを聴取または視聴する</string>
     <key>file_upload_remove_image</key>
     <string>画像を削除</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>新規リリース</string>
     <key>filters_new_filter_button</key>
     <string>+ 新規フィルター</string>
+    <key>filters_tip_view_description</key>
+    <string>スマートフィルターを作成してエピソードを整理します。 期間、リリース日、メディアタイプなどで絞り込みます。</string>
+    <key>filters_tip_view_title</key>
+    <string>エピソードを整理</string>
     <key>folder</key>
     <string>フォルダー</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>よろしいですか ?</string>
     <key>folder_edit</key>
     <string>フォルダーを編集</string>
+    <key>folder_empty_button_title</key>
+    <string>ポッドキャストを追加</string>
     <key>folder_empty_description</key>
     <string>フォルダーにポッドキャストを追加するとここに表示されます。</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>次の支払い日: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>ヘッドフォン設定</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>ブックマークを取得</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>エピソード中の大切な瞬間のタイムスタンプを保存できます。</string>
     <key>no_bookmarks_message</key>
     <string>プレーヤーのアクションメニューから、またはヘッドフォンでアクションを設定して、エピソードのタイムスタンプを保存できます。</string>
+    <key>no_bookmarks_title</key>
+    <string>瞬間をブックマーク</string>
     <key>none</key>
     <string>なし</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アカウントをアップグレードして Pocket Casts のサポートにご協力ください</string>
     <key>profile_last_app_refresh</key>
     <string>アプリの最終再読み込み: %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>ポッドキャストを聴き始めると、こちらから聴取履歴に再アクセスできます。</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>どうぞお聴きください !</string>
     <key>profile_number_of_files</key>
     <string>%1$@件のファイル</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>リセット用メールの送信に失敗しました。後ほど、もう一度お試しください。</string>
     <key>profile_single_file</key>
     <string>1件のファイル</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>お気に入りのエピソードに星を付けると、いつでも戻ることができます。</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>お気に入りを保存</string>
     <key>purchase_terms</key>
     <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3261,6 +3293,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>次のエピソード</string>
     <key>up_next_empty_description</key>
     <string>エピソード行を右にスワイプするか、エピソードカードのアイコンをタップすることで、次に再生するエピソードを待機リストに追加できます。</string>
+    <key>up_next_empty_title</key>
+    <string>聴取セッションを厳選</string>
     <key>up_next_history</key>
     <string>「次に再生」履歴</string>
     <key>up_next_history_explanation</key>

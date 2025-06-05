@@ -400,6 +400,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>cancel_subscription_survey_title</key>
     <string>謝謝你試用
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>不好意思，出了一些問題。</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>感謝你的意見回饋！</string>
     <key>cancel_subscription_title</key>
     <string>想離開嗎？
 先讓我們伸出援手</string>
@@ -821,6 +825,10 @@ Pocket Casts Plus</string>
     <string>下載</string>
     <key>downloads_auto_download</key>
     <string>自動下載設定</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>儲存單集以供離線收聽，精彩內容不漏接。</string>
+    <key>downloads_no_downloads_title</key>
+    <string>享受離線收聽體驗</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重試失敗的下載項目</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ Pocket Casts Plus</string>
     <string>請移除一些檔案並再試一次。</string>
     <key>file_upload_name_required</key>
     <string>名稱為必填</string>
+    <key>file_upload_no_files_description</key>
+    <string>將自己的檔案上傳到 Pocket Casts，以利隨時收聽或觀看。</string>
     <key>file_upload_no_files_helper</key>
     <string>我該怎麼做？</string>
+    <key>file_upload_no_files_title</key>
+    <string>收聽或觀賞自己的檔案</string>
     <key>file_upload_remove_image</key>
     <string>移除圖片</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ Pocket Casts Plus</string>
     <string>新發佈內容</string>
     <key>filters_new_filter_button</key>
     <string>新增篩選器</string>
+    <key>filters_tip_view_description</key>
+    <string>建立用來整理單集的智慧篩選條件。 依期間、發佈日期與媒體類型加以篩選。</string>
+    <key>filters_tip_view_title</key>
+    <string>整理你的單集</string>
     <key>folder</key>
     <string>資料夾</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ Pocket Casts Plus</string>
     <string>你確定嗎？</string>
     <key>folder_edit</key>
     <string>編輯資料夾</string>
+    <key>folder_empty_button_title</key>
+    <string>新增 Podcast 節目</string>
     <key>folder_empty_description</key>
     <string>新增 Podcast 節目至您的資料夾後即會顯示在此處</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ Pocket Casts Plus</string>
     <string>下次付款時間：%1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>耳機設定</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>取得書籤</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>你可以儲存單集中重要時刻的時間戳記。</string>
     <key>no_bookmarks_message</key>
     <string>你可以透過播放器的動作選單，或設定耳機功能來儲存單集的時間戳記。</string>
+    <key>no_bookmarks_title</key>
+    <string>將該時刻加入書籤</string>
     <key>none</key>
     <string>無</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Pocket Casts Plus</string>
     <string>升級帳號以支持 Pocket Casts</string>
     <key>profile_last_app_refresh</key>
     <string>應用程式上次重新整理時間：%1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>開始收聽 Podcast，並在此重溫收聽記錄。</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>立即開聽吧！</string>
     <key>profile_number_of_files</key>
     <string>%1$@ 個檔案</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Pocket Casts Plus</string>
     <string>無法傳送重設電子郵件，請稍後再試一次。</string>
     <key>profile_single_file</key>
     <string>1 個檔案</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>為你喜愛的單集加上星號，方便隨時返回觀賞。</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>儲存最愛的項目</string>
     <key>purchase_terms</key>
     <string>繼續即表示你同意我們的%1$@隱私權政策%2$@和%3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Pocket Casts Plus</string>
     <string>接下來播放</string>
     <key>up_next_empty_description</key>
     <string>你可以在節目佇列向右撥動，或點選節目卡圖示，將接下來要播放的節目排入佇列。</string>
+    <key>up_next_empty_title</key>
+    <string>精心策劃你的聆聽階段</string>
     <key>up_next_history</key>
     <string>「接下來播放」紀錄</string>
     <key>up_next_history_explanation</key>

@@ -400,6 +400,10 @@
     <key>cancel_subscription_survey_title</key>
     <string>感谢您试用
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>抱歉，出错了。</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>感谢您的反馈！</string>
     <key>cancel_subscription_title</key>
     <string>想要离开？
 不妨先与我们聊聊</string>
@@ -821,6 +825,10 @@ Pocket Casts Plus</string>
     <string>下载</string>
     <key>downloads_auto_download</key>
     <string>自动下载设置</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>保存剧集以便离线收听，不错过任何精彩时刻。</string>
+    <key>downloads_no_downloads_title</key>
+    <string>享受离线收听</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重试失败的下载</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ Pocket Casts。</string>
     <string>删除一些文件并重试。</string>
     <key>file_upload_name_required</key>
     <string>必须填写名称</string>
+    <key>file_upload_no_files_description</key>
+    <string>将您自己的文件上传至 Pocket Casts，以便随时收听或观看。</string>
     <key>file_upload_no_files_helper</key>
     <string>我该怎么做？</string>
+    <key>file_upload_no_files_title</key>
+    <string>收听或观看您自己的文件</string>
     <key>file_upload_remove_image</key>
     <string>删除图片</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ Pocket Casts。</string>
     <string>新发布</string>
     <key>filters_new_filter_button</key>
     <string>+ 新建过滤器</string>
+    <key>filters_tip_view_description</key>
+    <string>创建智能筛选条件来整理您的剧集。 按时长、发布日期、媒体类型等进行筛选。</string>
+    <key>filters_tip_view_title</key>
+    <string>整理您的剧集</string>
     <key>folder</key>
     <string>文件夹</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ Pocket Casts。</string>
     <string>是否确定？</string>
     <key>folder_edit</key>
     <string>编辑文件夹</string>
+    <key>folder_empty_button_title</key>
+    <string>添加播客</string>
     <key>folder_empty_description</key>
     <string>播客添加到您的文件夹后，会显示在此处</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ Pocket Casts。</string>
     <string>下次付款日期：%1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>耳机设置</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>获取书签</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>您可以保存剧集中重要时刻的时间戳。</string>
     <key>no_bookmarks_message</key>
     <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
+    <key>no_bookmarks_title</key>
+    <string>将该时刻加入书签</string>
     <key>none</key>
     <string>无</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Pocket Casts。</string>
     <string>通过升级您的账户，帮助支持 Pocket Casts</string>
     <key>profile_last_app_refresh</key>
     <string>应用程序上次刷新时间：%1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>在此开始收听播客并重温收听记录。</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>现在开始收听吧！</string>
     <key>profile_number_of_files</key>
     <string>%1$@ 个文件</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Pocket Casts。</string>
     <string>无法发送重置电子邮件，请稍后重试。</string>
     <key>profile_single_file</key>
     <string>1 个文件</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>为您喜爱的剧集添加星标，以便随时重温。</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>保存您喜爱的剧集</string>
     <key>purchase_terms</key>
     <string>继续即表示，您同意我们的%1$@隐私政策%2$@以及%3$@条款和条件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Pocket Casts。</string>
     <string>接下来播放</string>
     <key>up_next_empty_description</key>
     <string>您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。</string>
+    <key>up_next_empty_title</key>
+    <string>自主编排收听流程</string>
     <key>up_next_history</key>
     <string>“即将播出”历史</string>
     <key>up_next_history_explanation</key>

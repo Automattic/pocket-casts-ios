@@ -314,6 +314,8 @@ internal enum L10n {
   internal static var autoRestartSleepTimerDescription: String { return L10n.tr("Localizable", "auto_restart_sleep_timer_description") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// AD
+  internal static var bannerAdsInfoLabel: String { return L10n.tr("Localizable", "banner_ads_info_label") }
   /// Please download Pocket Casts from the App Store to purchase %1$@.
   internal static func betaPurchaseDisabled(_ p1: Any) -> String {
     return L10n.tr("Localizable", "beta_purchase_disabled", String(describing: p1))
@@ -2531,7 +2533,7 @@ internal enum L10n {
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download") }
   /// Pause playback
   internal static var podcastPausePlayback: String { return L10n.tr("Localizable", "podcast_pause_playback") }
-  /// Recommended shows by the creator
+  /// Shows recommended by the creator
   internal static var podcastPodrollHeader: String { return L10n.tr("Localizable", "podcast_podroll_header") }
   /// Queued
   internal static var podcastQueued: String { return L10n.tr("Localizable", "podcast_queued") }

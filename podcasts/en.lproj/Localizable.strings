@@ -4064,7 +4064,7 @@
 "you_might_like" = "You might like";
 
 /* Title shown in the section header for podcast podroll recommendations */
-"podcast_podroll_header" = "Recommended shows by the creator";
+"podcast_podroll_header" = "Shows recommended by the creator";
 
 /* Title shown in the section header for podcast recommendations */
 "podcast_similar_header" = "Shows similar to \"%@\"";
@@ -5146,3 +5146,5 @@
 /* Notification button title to open device notification settings*/
 "notifications_permissions_open_settings" = "Open Settings";
 
+/* Banner Ads label. This needs to be an extremely short version of "advertisement" to indicate an ad in a tiny space. */
+"banner_ads_info_label" = "AD";

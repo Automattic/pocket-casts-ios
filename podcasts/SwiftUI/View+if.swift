@@ -13,4 +13,11 @@ extension View {
             self
         }
     }
+
+    /// Applies a redacted placeholder style to the view when the given condition is true.
+    /// - Parameter condition: A Boolean condition that determines whether to apply the redacted style.
+    /// - Returns: A view modified with `.redacted(reason: .placeholder)` if the condition is true; otherwise, the original view.
+    @ViewBuilder func redacted(if condition: @autoclosure () -> Bool) -> some View {
+        redacted(reason: condition() ? .placeholder : [])
+    }
 }
