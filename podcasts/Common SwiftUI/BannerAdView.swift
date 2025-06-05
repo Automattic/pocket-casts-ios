@@ -30,7 +30,7 @@ struct BannerAdView: View {
             return Self(
                 background: theme.playerContrast06,
                 adText: theme.playerContrast01,
-                titleLabel: theme.playerHighlight01,
+                titleLabel: PlayerColorHelper.playerHighlightColor01(for: .dark),
                 adLabelBackground: theme.playerContrast06,
                 adLabel: theme.playerContrast01,
                 icon: theme.playerContrast02,
