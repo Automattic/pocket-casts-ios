@@ -108,12 +108,8 @@ struct ThemedTextField: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if #available(iOS 16.0, *) {
-            baseContent(content: content)
-                .scrollContentBackground(.hidden)
-        } else {
-            baseContent(content: content)
-        }
+        baseContent(content: content)
+            .scrollContentBackground(.hidden)
     }
 
     private func baseContent(content: Content) -> some View {
@@ -193,6 +189,12 @@ struct RoundedButtonStyle: ButtonStyle {
 struct RoundedButton: ViewModifier {
     @EnvironmentObject var theme: Theme
 
+    var destructive: Bool
+
+    init(destructive: Bool = false) {
+        self.destructive = destructive
+    }
+
     func body(content: Content) -> some View {
         HStack {
             Spacer()
@@ -202,8 +204,31 @@ struct RoundedButton: ViewModifier {
             Spacer()
         }
         .padding()
-        .background(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+        .background(destructive ? ThemeColor.support05(for: theme.activeTheme).color : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
+        .frame(height: 44)
+    }
+}
+
+
+struct BorderButton: ViewModifier {
+    @EnvironmentObject var theme: Theme
+
+    func body(content: Content) -> some View {
+        HStack {
+            Spacer()
+            content
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+            Spacer()
+        }
+        .padding()
+        .background(ThemeColor.primaryUi01(for: theme.activeTheme).color)
+        .cornerRadius(ViewConstants.buttonCornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+        )
         .frame(height: 44)
     }
 }
@@ -370,7 +395,7 @@ extension View {
         self.font(size: size,
                   style: style,
                   weight: weight,
-                  maxSizeCategory: .extraExtraLarge)
+                  maxSizeCategory: .accessibilityExtraExtraLarge)
     }
 }
 

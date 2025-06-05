@@ -16,7 +16,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 
     // MARK: - Application Installed
 
-    func testApplicationInstalledEventFiresWhenLaunched() {
+    func testApplicationInstalledEventFiresWhenLaunched() throws {
         let expectation = expectation(description: "track method should be triggered")
         analytics.didTrack = { event, _ in
             expectation.fulfill()
@@ -24,12 +24,14 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             XCTAssertEqual(event, .applicationInstalled)
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        let applicationInstallState = try XCTUnwrap(checkApplicationInstalledOrUpgraded())
+
+        XCTAssertEqual(applicationInstallState, .installed)
 
         waitForExpectations(timeout: 1)
     }
 
-    func testApplicationInstalledEventFiresOnlyOnce() {
+    func testApplicationInstalledEventFiresOnlyOnce() throws {
         let expectation = expectation(description: "track method should be triggered only once")
         expectation.expectedFulfillmentCount = 1
         expectation.assertForOverFulfill = true
@@ -41,17 +43,19 @@ class AppLifecycleAnalyticsTests: XCTestCase {
         }
 
         // First launch
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        let applicationInstallState = try XCTUnwrap(checkApplicationInstalledOrUpgraded())
+
+        XCTAssertEqual(applicationInstallState, .installed)
 
         // Simulated second launch
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         waitForExpectations(timeout: 1)
     }
 
     // MARK: - Application Updated
 
-    func testApplicationUpdatedEventFiresWhenLaunched() {
+    func testApplicationUpdatedEventFiresWhenLaunched() throws {
         let testVersion = "1.0"
         userDefaults.set(testVersion, forKey: Constants.UserDefaults.lastRunVersion)
 
@@ -70,12 +74,14 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             XCTAssertEqual(testVersion, version)
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        let applicationInstallState = try XCTUnwrap(checkApplicationInstalledOrUpgraded())
+
+        XCTAssertEqual(applicationInstallState, .updated)
 
         waitForExpectations(timeout: 1)
     }
 
-    func testApplicationUpdatedEventIsNotTriggeredForSameVersion() {
+    func testApplicationUpdatedEventIsNotTriggeredForSameVersion() throws {
         userDefaults.set(Settings.appVersion(), forKey: Constants.UserDefaults.lastRunVersion)
 
         let expectation = expectation(description: "track method should not be triggered")
@@ -86,7 +92,9 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             XCTFail("The track method should not be triggered")
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        let applicationInstallState = try XCTUnwrap(checkApplicationInstalledOrUpgraded())
+
+        XCTAssertEqual(applicationInstallState, .sameVersion)
 
         waitForExpectations(timeout: 1)
     }
@@ -105,10 +113,10 @@ class AppLifecycleAnalyticsTests: XCTestCase {
         }
 
         // First launch after initial update, should trigger
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         // Simulated second launch, should not trigger
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         waitForExpectations(timeout: 1)
     }
@@ -132,7 +140,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             expectation.fulfill()
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         waitForExpectations(timeout: 1)
     }
@@ -154,7 +162,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             expectation.fulfill()
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         waitForExpectations(timeout: 1)
     }
@@ -171,7 +179,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
             expectation.fulfill()
         }
 
-        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
+        checkApplicationInstalledOrUpgraded()
 
         waitForExpectations(timeout: 1)
     }
@@ -278,6 +286,11 @@ class AppLifecycleAnalyticsTests: XCTestCase {
         appLifecyleAnalytics.didEnterBackground()
 
         waitForExpectations(timeout: 3)
+    }
+
+    @discardableResult
+    private func checkApplicationInstalledOrUpgraded() -> AppLifecycleAnalytics.AppInstallState? {
+        appLifecyleAnalytics.checkApplicationInstalledOrUpgraded()
     }
 }
 

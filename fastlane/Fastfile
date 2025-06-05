@@ -9,6 +9,7 @@ default_platform :ios
 
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+XCODE_PROJECT_PATH = File.join(PROJECT_ROOT_FOLDER, 'podcasts.xcodeproj')
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
 ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
@@ -68,6 +69,7 @@ APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype
 
 # Keep this in alphabetical case-insensitive order so it's easier to visually compare with the list on the Developers Portal.
 EXTENSIONS = %w[
+  Clip
   NotificationContent
   NotificationExtension
   PodcastsIntents
@@ -93,9 +95,8 @@ ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_KEY
 ].freeze
 
-APPCENTER_OWNER_NAME = 'automattic'
-APPCENTER_OWNER_TYPE = 'organization'
-APPCENTER_APP_SLUG = 'Pocket-Casts-Prototype-Builds'
+FIREBASE_APP_ID = '1:124902176124:ios:3999f43bfa1fcd1b1620f9'
+FIREBASE_TESTERS_GROUP = 'pocketcasts-ios---prototype-builds'
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
 
@@ -323,15 +324,15 @@ platform :ios do
 
     generate_strings_file_for_glotpress
 
-    push_to_git_remote(tags: false)
+    push_to_git_remote(set_upstream: true, tags: false)
 
     trigger_beta_build(branch_to_build: release_branch_name)
     create_backmerge_pr
 
-    # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
-    # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
-    # This should be changed only when we have PCiOS releases done on CI, when the CI bot is the one running `git push`.
-    set_branch_protection(repository: GITHUB_REPO, branch: release_branch_name)
+    # Copy the branch protection settings from the default branch to the new release branch
+    copy_branch_protection(repository: GITHUB_REPO, from_branch: DEFAULT_BRANCH, to_branch: release_branch_name)
+    # But allow admins to bypass restrictions, so that wpmobilebot can push to the release branch directly for beta version bumps
+    set_branch_protection(repository: GITHUB_REPO, branch: release_branch_name, enforce_admins: false)
 
     # Move still-open PRs to next milestone, then add frozen marker to milestone title
     update_milestone
@@ -412,7 +413,7 @@ platform :ios do
     UI.important("Finalizing release: #{release_version_current}")
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
-    check_all_translations_progress(interactive: true)
+    check_all_translations_progress(interactive: !skip_confirm)
 
     download_localized_strings_and_metadata_from_glotpress
     lint_localizations
@@ -425,7 +426,6 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    remove_branch_protection(repository: GITHUB_REPO, branch: release_branch_name)
     set_milestone_frozen_marker(repository: GITHUB_REPO, milestone: release_version_current, freeze: false)
     close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
 
@@ -527,6 +527,7 @@ platform :ios do
     UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
 
     commit_version_bump
+    push_to_git_remote(set_upstream: true, tags: false)
   end
 
   # Finalizes a hotfix, by triggering a release build on CI
@@ -544,6 +545,11 @@ platform :ios do
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
     create_backmerge_pr
+    begin
+      close_milestone(repository: GITHUB_REPO, milestone: release_version_current)
+    rescue StandardError => e
+      UI.important("Could not find a GitHub milestone for hotfix #{release_version_current} to close: #{e}")
+    end
   end
 
   # Triggers a beta build on CI
@@ -569,10 +575,10 @@ platform :ios do
   #  - `symbols_upload` to upload dSYMs to Sentry
   #  - `create_release_on_github(beta_release: …)` to create the GitHub Release
   #
-  # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_app_store_connect do |fetch_code_signing: true|
-    configure_code_signing_app_store if fetch_code_signing
+  lane :build_app_store_connect do |set_up_code_signing: true|
+    configure_code_signing_app_store if set_up_code_signing
 
     build_app(
       scheme: SCHEME,
@@ -633,28 +639,26 @@ platform :ios do
   #
   # @param fetch_code_signing [Boolean] If true, will call `configure_code_signing_app_store` before building. Recommended on CI.
   #
-  lane :build_enterprise do |skip_code_sign_setup: false|
-    if skip_code_sign_setup
-      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
-    else
+  lane :build_enterprise do |set_up_code_signing: true|
+    if set_up_code_signing
       configure_code_signing_enterprise
+    else
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
     end
 
-    version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    build_number = generate_prototype_build_number
+    UI.important('Hacking the project file to remove the App Clip dependency because Enterprise distribution does not support it...')
+    remove_app_clip_dependency!
+    UI.important('Remember not to commit the modified project file! The change is only meant to allow building for Enterprise where App Clips are not supported.')
 
-    UI.message("Updating build number to #{build_number}.")
-
-    version_settings[BUILD_CODE_KEY] = build_number
-
-    new_config = Xcodeproj::Config.new(version_settings)
-    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
+    build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', '0')
+    pr_or_branch = pull_request_number&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
 
     build_app(
       scheme: SCHEME_ENTERPRISE,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
+      xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
       output_directory: ARTIFACTS_FOLDER,
       output_name: PROTOTYPE_BUILD_NAME,
       export_options: {
@@ -664,39 +668,42 @@ platform :ios do
     )
   end
 
-  # Distributes the Prototype Build to App Center
+  # Distributes the Prototype Build to Firebase App Distribution
   #
   # Typically called after having built the binary with `build_enterprise`
   #
   # @note Expects the `.ipa` and `.dSYM` files to be present in `ARTIFACTS_FOLDER/PROTOTYPE_BUILD_NAME.{ipa,app.dSYM.zip}`
   #
   lane :upload_enterprise do
-    require_env_vars!('APPCENTER_API_TOKEN')
+    require_env_vars!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY')
 
-    commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
-    pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
     release_notes = <<~NOTES
-      - Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'Unknown')}`\n
-      - Commit: [#{commit[0...7]}](#{GITHUB_URL}/commit/#{commit})\n
-      - Pull Request: [##{pr}](#{GITHUB_URL}/pull/#{pr})\n
+      Pull Request: ##{pull_request_number || 'N/A'}
+      Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'N/A')}`
+      Commit: #{ENV.fetch('BUILDKITE_COMMIT', 'N/A')[0...7]}
     NOTES
 
-    appcenter_upload(
-      api_token: get_required_env!('APPCENTER_API_TOKEN'),
-      owner_name: APPCENTER_OWNER_NAME,
-      owner_type: APPCENTER_OWNER_TYPE,
-      app_name: APPCENTER_APP_SLUG,
-      file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
-      dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
+    firebase_app_distribution(
+      app: FIREBASE_APP_ID,
+      ipa_path: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
+      service_credentials_json_data: get_required_env!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY'),
       release_notes: release_notes,
-      destinations: 'Collaborators',
-      notify_testers: false
+      groups: FIREBASE_TESTERS_GROUP
     )
 
-    next unless is_ci
+    next if pull_request_number.nil?
 
-    annotate_pr_with_appcenter_link
-    annotate_buildkite_with_appcenter_link
+    # Post PR Comment
+    comment_body = prototype_build_details_comment(
+      app_display_name: 'Pocket Casts Prototype Build',
+      fold: true
+    )
+    comment_on_pr(
+      project: GITHUB_REPO,
+      pr_number: pull_request_number,
+      reuse_identifier: 'prototype-build-link',
+      body: comment_body
+    )
   end
 
   # Uploads DSYM Symbols
@@ -870,7 +877,7 @@ platform :ios do
   #
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = get_version_number(xcodeproj: 'podcasts.xcodeproj', target: 'podcasts')
+    version = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'podcasts')
 
     files = {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
@@ -1167,15 +1174,24 @@ platform :ios do
   # @return [String] The URL of the build that has been triggered
   #
   def trigger_buildkite_release_build(branch:, beta:)
-    require_env_vars!('BUILDKITE_TOKEN')
-
-    buildkite_trigger_build(
-      buildkite_organization: 'automattic',
-      buildkite_pipeline: 'pocket-casts-ios',
-      branch: branch,
-      environment: { BETA_RELEASE: beta },
-      pipeline_file: 'release-builds.yml'
-    )
+    pipeline_args = {
+      pipeline_file: 'release-builds.yml',
+      environment: {
+        RELEASE_VERSION: release_version_current,
+        BETA_RELEASE: beta
+      }
+    }
+    if is_ci?
+      buildkite_pipeline_upload(**pipeline_args)
+    else
+      require_env_vars!('BUILDKITE_TOKEN')
+      buildkite_trigger_build(
+        buildkite_organization: 'automattic',
+        buildkite_pipeline: 'pocket-casts-ios',
+        branch: branch,
+        **pipeline_args
+      )
+    end
   end
 
   # Update the milestone of still-open PRs
@@ -1280,6 +1296,12 @@ platform :ios do
     UI.message "Checked out branch `#{git_branch}` as requested by user.\n"
   end
 
+  def pull_request_number
+    # Buildkite sets this env var to the PR number if on a PR, but to 'false' (and not nil) if not on a PR
+    pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', 'false')
+    pr_num == 'false' ? nil : Integer(pr_num)
+  end
+
   # Create a commit with the typical message to use for a version bump
   #
   def commit_version_bump
@@ -1287,59 +1309,6 @@ platform :ios do
       path: VERSION_XCCONFIG_PATH,
       message: 'Bump version number',
       allow_nothing_to_commit: false
-    )
-  end
-
-  # Generate a build number for Prototype Builds, based on the PR number and short commit SHA1
-  #
-  # @note This function uses Buildkite-specific ENV vars
-  #
-  def generate_prototype_build_number
-    if ENV['BUILDKITE']
-      commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
-      branch = ENV.fetch('BUILDKITE_BRANCH', nil)
-      pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
-
-      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}"
-    else
-      repo = Git.open(PROJECT_ROOT_FOLDER)
-      commit = repo.current_branch
-      branch = repo.revparse('HEAD')[0, 7]
-
-      "#{branch}-#{commit}"
-    end
-  end
-
-  # Post a comment on the PR with the info + QRCode to the Prototype Build in App Center
-  #
-  def annotate_pr_with_appcenter_link
-    comment_body = prototype_build_details_comment(
-      app_display_name: 'Pocket Casts Prototype Build',
-      app_center_org_name: APPCENTER_OWNER_NAME,
-      fold: true
-    )
-
-    comment_on_pr(
-      project: GITHUB_REPO,
-      pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
-      reuse_identifier: 'prototype-build-link-pocket-casts',
-      body: comment_body
-    )
-  end
-
-  # Annotate a Buildkite CI build with info + links to the Prototype Build in App Center
-  #
-  def annotate_buildkite_with_appcenter_link
-    appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
-    version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
-    appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
-    list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
-
-    buildkite_annotate(
-      context: 'appcenter-info-pocket-casts',
-      style: 'info',
-      message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}"
     )
   end
 
@@ -1419,5 +1388,30 @@ platform :ios do
     build_code_next = VERSION_CALCULATOR.next_build_number(version: build_code_current)
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: build_code_next)
+  end
+
+  def remove_app_clip_dependency!
+    project_path = XCODE_PROJECT_PATH
+    project = Xcodeproj::Project.open(project_path)
+
+    native_targets = project.targets.select { |t| t.is_a?(Xcodeproj::Project::Object::PBXNativeTarget) }
+    app_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application' }
+    app_clip_targets = native_targets.select { |t| t.product_type == 'com.apple.product-type.application.on-demand-install-capable' }
+
+    if app_clip_targets.empty?
+      UI.user_error!("No on-demand-install-capable targets found in #{project_path}. Has something changed in the project structure? Aborting App Clips removal.")
+    end
+
+    app_targets.each do |app|
+      # Delete any dependency of the app target that is an app_clip target
+      app.dependencies.delete_if { |dep| app_clip_targets.include?(dep.target) }
+      # Delete the "Embed App Clips" build phase
+      app.build_phases.delete_if { |b| b.display_name == 'Embed App Clips' }
+    end
+
+    UI.message('Saving the project file....')
+    project.save
+
+    UI.success('Dependency successfuly removed.')
   end
 end

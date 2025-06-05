@@ -8,8 +8,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether network debugging with Pulse is enabled
-    case networkDebugging
+    /// Whether logging of AppsFlyer events in console are enabled
+    case appsFlyerLogging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
@@ -135,6 +135,71 @@ public enum FeatureFlag: String, CaseIterable {
 
     case disablePrivateFeedSharing
 
+    /// Enable/Disable the podcast feed reload feature
+    case podcastFeedUpdate
+
+    /// Enable/Disable the use of a thread safe ongoing downloads cache
+    case downloadsThreadSafeCache
+
+    /// Enable Disable the use of suggested folders
+    case suggestedFolders
+
+    case grdb
+
+    /// Enable the generated transcript
+    case generatedTranscripts
+
+    /// Enable the new podcast view
+    case podcastViewChanges
+
+    /// Enable Newform AppsFlyer SDK
+    case podcastNewformAppsFlyer
+
+    /// Force full screen login on iPhone
+    case fullScreenLogin
+
+    /// Encourage Account Creation
+    case encourageAccountCreation
+
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
+    /// Enable the new notifications types and settings
+    case notificationsRevamp
+
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
+    /// Recommendations including discover v3 support
+    case recommendations
+
+    /// Cancel Subscription Survey
+    case cancelSubscriptionSurvey
+
+    /// Ignore server IAP check
+    case newOfferEligibilityCheck
+
+    /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
+    case replaceSpecificEpisode
+
+    /// Shows transcript excerpt in episode detail
+    case episodeDetailTranscript
+
+    /// Avoid using `withoutActuallyEscaping` for FMDB
+    case fmdbWithoutActuallyEscaping
+
+    /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
+    case bannerAds
+
+    /// Improves configuration for the streaming requet download session
+    case streamingCustomSessionConfiguration
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -149,7 +214,7 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .firebaseLogging:
             false
-        case .networkDebugging:
+        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
@@ -214,7 +279,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .markAllSyncedInSingleStatement:
             true
         case .winback:
-            false
+            true
         case .manageDownloadedEpisodes:
 			true
         case .useSyncResponseEpisodeIDs:
@@ -224,6 +289,54 @@ public enum FeatureFlag: String, CaseIterable {
         case .avoidLogoutInBackground:
             true
         case .disablePrivateFeedSharing:
+            true
+        case .podcastFeedUpdate:
+            true
+        case .downloadsThreadSafeCache:
+            true
+        case .suggestedFolders:
+            true
+        case .generatedTranscripts:
+            true
+        case .podcastViewChanges:
+            true
+        case .podcastNewformAppsFlyer:
+            true
+        case .fullScreenLogin:
+            true
+        case .libroFm:
+            false
+        case .grdb:
+            #if DEBUG
+            true
+            #else
+            false
+            #endif
+        case .encourageAccountCreation:
+            true
+        case .notificationsRevamp:
+            true
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
+        case .podcastsSortChanges:
+            true
+        case .recommendations:
+            true
+        case .cancelSubscriptionSurvey:
+            true
+        case .newOfferEligibilityCheck:
+            true
+        case .replaceSpecificEpisode:
+            true
+        case .episodeDetailTranscript:
+            false
+        case .fmdbWithoutActuallyEscaping:
+            false
+        case .bannerAds:
+            false
+        case .streamingCustomSessionConfiguration:
             true
         }
     }
@@ -244,6 +357,10 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
+        case .usePodcastHTMLDescription:
+            "use_podcast_html_description"
+        case .podcastViewChanges:
+            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }

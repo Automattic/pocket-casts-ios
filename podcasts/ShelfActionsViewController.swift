@@ -51,6 +51,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
     private var sheetPresentationDismissalBlocker: ShelfActionsSheetDismissalBlocker?
 
+    var hasGeneratedTranscripts = false
     var isTranscriptEnabled = false {
         didSet {
             reloadActions()

@@ -98,7 +98,7 @@ class ServerSyncManager: ServerSyncDelegate {
 
     func autoDownloadUserEpisodes(episodes: [UserEpisode]) {
         let autoDownloadsRequireWifi = ServerSettings.userEpisodeOnlyOnWifi()
-        let isWiFiConnected = NetworkUtils.shared.isConnectedToWifi()
+        let isWiFiConnected = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
 
         for episode in episodes {
             if isWiFiConnected || !autoDownloadsRequireWifi {
@@ -145,8 +145,9 @@ class ServerSyncManager: ServerSyncDelegate {
 
     func autoDownloadLatestEpisodes(uuids: [String]) {
         if Settings.autoDownloadEnabled() {
-            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
+            if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 for uuid in uuids {
+                    AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: uuid)
                     DownloadManager.shared.addToQueue(episodeUuid: uuid)
                 }
             }

@@ -8,6 +8,8 @@ protocol AnalyticsSourceProvider {
 
 enum AnalyticsSource: String, AnalyticsDescribable {
     case appIconMenu = "app_icon_menu"
+    case autoAdd = "auto_add"
+    case autoDownloadSettings = "auto_download_settings"
     case carPlay = "carplay"
     case chooseFolder = "choose_folder"
     case chromecast
@@ -19,6 +21,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case downloadStatus = "download_status"
     case episodeDetail = "episode_detail"
     case episodeStatus = "episode_status"
+    case episode
     case files
     case filters
     case incomingShareList = "incoming_share_list"
@@ -27,11 +30,13 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case miniplayer
     case noFiles = "no_files"
     case noFilters = "no_filters"
+    case notifications
     case nowPlayingWidget = "now_playing_widget"
     case player
     case playerPlaybackEffects = "player_playback_effects"
     case playerSkipForwardLongPress = "player_skip_forward_long_press"
     case podcastScreen = "podcast_screen"
+    case podcastScreenYouMightLike = "podcast_screen_you_might_like"
     case podcastSettings = "podcast_settings"
     case podcastsList = "podcasts_list"
     case profile
@@ -49,6 +54,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case multiSelect = "multi_select"
     case episodeSwipeAction = "episode_swipe_action"
     case handleUserActivity = "handle_user_activity"
+    case suggestedFolderPopup = "popup"
     case unknown
 
     var analyticsDescription: String { rawValue }

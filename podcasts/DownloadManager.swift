@@ -6,14 +6,38 @@ import AVKit
 #if os(watchOS)
     import WatchKit
 #endif
+
+protocol DownloadManagerEpisodesCache {
+    subscript(index: String) -> BaseEpisode? { get set }
+
+    func contains(where predicate: ((key: String, value: BaseEpisode)) throws -> Bool) rethrows -> Bool
+}
+
+extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<String, BaseEpisode> {
+}
+
+extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
+}
+
 class DownloadManager: NSObject, FilePathProtocol {
-    static let shared = DownloadManager(dataManager: DataManager.sharedManager)
+
+    static let shared: DownloadManager = {
+        let manager = DownloadManager(dataManager: DataManager.sharedManager)
+        AnalyticsEpisodeHelper.shared.setup()
+        return manager
+    }()
 
     static let cellBackgroundSessionId = "au.com.shiftyjelly.PCManualSession"
 
     var progressManager = DownloadProgressManager()
 
-    var downloadingEpisodesCache = [String: BaseEpisode]()
+    lazy var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
+        if FeatureFlag.downloadsThreadSafeCache.enabled {
+            ThreadSafeDictionary<String, BaseEpisode>()
+        } else {
+            Dictionary<String, BaseEpisode>()
+        }
+    }()
 
     var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
 
@@ -330,7 +354,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             while !exportCompleted {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
-            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes.removeValue(forKey: downloadTaskUUID)
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
@@ -412,7 +436,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         let tempFilePath = tempPathForEpisode(episode)
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
-        let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToWifi() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
+        let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToUnexpensiveConnection() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
         #if os(watchOS)
             let sessionToUse = await WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession

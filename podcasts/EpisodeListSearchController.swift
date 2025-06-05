@@ -132,6 +132,14 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let optionPicker = OptionsPicker(title: nil)
 
+        if delegate.shouldDisplayPodcastFeedReloadButton() {
+            let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
+                guard let self = self else { return }
+                self.podcastDelegate?.reloadPodcastFeed(source: .menu)
+            }
+            optionPicker.addAction(action: reloadPodcastFeedAction)
+        }
+
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.podcastDelegate?.enableMultiSelect()
@@ -169,7 +177,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToWifi() {
+            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true

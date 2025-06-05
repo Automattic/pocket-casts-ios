@@ -2,6 +2,15 @@ import PocketCastsUtils
 import UIKit
 
 class SleepTimerViewController: SimpleNotificationsViewController {
+
+    @IBOutlet var settingsBtn: UIButton! {
+        didSet {
+#if APPCLIP
+            settingsBtn.isHidden = true
+#endif
+        }
+    }
+
     @IBOutlet var plusFiveBtn: UIButton! {
         didSet {
             plusFiveBtn.setTitle(L10n.sleepTimerAdd5Mins, for: .normal)
@@ -210,6 +219,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
         customTimeStepper.tintColor = ThemeColor.playerContrast01()
         customEpisodeStepper.tintColor = ThemeColor.playerContrast01()
+
+        settingsBtn.tintColor = ThemeColor.playerContrast02()
     }
 
     private func updateSleepRemainingTime() {
@@ -271,6 +282,13 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     // MARK: - Sleep Timer Actions
+
+    @IBAction func settingsTapped(_ sender: Any) {
+        Analytics.track(.playerSleepTimerSettingsTapped)
+#if !APPCLIP
+        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsGeneralKey, data: [NavigationManager.settingsGeneralRowKey: GeneralSettingsViewController.TableRow.autoRestartSleepTimer])
+#endif
+    }
 
     @IBAction func fiveMinutesTapped(_ sender: Any) {
         PlaybackManager.shared.setSleepTimerInterval(5.minutes)

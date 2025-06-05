@@ -42,6 +42,8 @@ extension PodcastViewController {
         self.podcast = podcast
         summaryExpanded = !podcast.isSubscribed()
 
+        forceCollapsingHeaderIfNeeded()
+
         if SyncManager.isUserLoggedIn() {
             guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: uuid) else { return }
 
@@ -81,6 +83,13 @@ extension PodcastViewController {
             self.loadingIndicator.stopAnimating()
             UIView.animate(withDuration: 0.5) {
                 self.episodesTable.alpha = 1
+            } completion: { success in
+                if FeatureFlag.podcastFeedUpdate.enabled {
+                    self.showPodcastFeedReloadTipIfNeeded()
+                }
+                if FeatureFlag.podcastViewChanges.enabled {
+                    self.showViewChangesTipIfNeeded()
+                }
             }
         }
     }

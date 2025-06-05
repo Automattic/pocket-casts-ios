@@ -28,7 +28,7 @@ class EpisodeFilterDataManager {
         "shorterThan"
     ]
 
-    func count(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> Int {
+    func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.inDatabase { db in
             do {
@@ -47,7 +47,7 @@ class EpisodeFilterDataManager {
         return count
     }
 
-    func episodeCount(forFilter filter: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: FMDatabaseQueue) -> Int {
+    func episodeCount(forFilter filter: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.inDatabase { db in
             do {
@@ -66,13 +66,13 @@ class EpisodeFilterDataManager {
         return count
     }
 
-    func allFilters(includeDeleted: Bool, dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
+    func allFilters(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
         let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
 
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
 
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> EpisodeFilter? {
+    func findBy(uuid: String, dbQueue: PCDBQueue) -> EpisodeFilter? {
         var filter: EpisodeFilter?
         dbQueue.inDatabase { db in
             do {
@@ -90,7 +90,7 @@ class EpisodeFilterDataManager {
         return filter
     }
 
-    func deleteDeletedFilters(dbQueue: FMDatabaseQueue) {
+    func deleteDeletedFilters(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE wasDeleted = 1", values: nil)
@@ -100,11 +100,11 @@ class EpisodeFilterDataManager {
         }
     }
 
-    func allUnsyncedFilters(dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
+    func allUnsyncedFilters(dbQueue: PCDBQueue) -> [EpisodeFilter] {
         allFilters(query: "SELECT * from \(DataManager.filtersTableName) WHERE syncStatus = ? ORDER BY sortPosition ASC", values: [SyncStatus.notSynced.rawValue], dbQueue: dbQueue)
     }
 
-    func updatePosition(filter: EpisodeFilter, newPosition: Int32, dbQueue: FMDatabaseQueue) {
+    func updatePosition(filter: EpisodeFilter, newPosition: Int32, dbQueue: PCDBQueue) {
         filter.sortPosition = newPosition
         filter.syncStatus = SyncStatus.notSynced.rawValue
         dbQueue.inDatabase { db in
@@ -116,7 +116,7 @@ class EpisodeFilterDataManager {
         }
     }
 
-    func save(filter: EpisodeFilter, dbQueue: FMDatabaseQueue) {
+    func save(filter: EpisodeFilter, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 if filter.id == 0 {
@@ -132,7 +132,7 @@ class EpisodeFilterDataManager {
         }
     }
 
-    func delete(filter: EpisodeFilter, dbQueue: FMDatabaseQueue) {
+    func delete(filter: EpisodeFilter, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE uuid = ?", values: [filter.uuid])
@@ -142,7 +142,7 @@ class EpisodeFilterDataManager {
         }
     }
 
-    func markAllSynced(dbQueue: FMDatabaseQueue) {
+    func markAllSynced(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.synced.rawValue, SyncStatus.notSynced.rawValue])
@@ -152,7 +152,7 @@ class EpisodeFilterDataManager {
         }
     }
 
-    func markAllUnsynced(dbQueue: FMDatabaseQueue) {
+    func markAllUnsynced(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.notSynced.rawValue, SyncStatus.synced.rawValue])
@@ -162,7 +162,7 @@ class EpisodeFilterDataManager {
         }
     }
 
-    private func allFilters(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [EpisodeFilter] {
+    private func allFilters(query: String, values: [Any]?, dbQueue: PCDBQueue) -> [EpisodeFilter] {
         var allFilters = [EpisodeFilter]()
         dbQueue.inDatabase { db in
             do {
@@ -181,7 +181,7 @@ class EpisodeFilterDataManager {
         return allFilters
     }
 
-    func nextSortPositionForFilter(dbQueue: FMDatabaseQueue) -> Int {
+    func nextSortPositionForFilter(dbQueue: PCDBQueue) -> Int {
         var highestPosition = 0
         dbQueue.inDatabase { db in
             do {
@@ -202,7 +202,7 @@ class EpisodeFilterDataManager {
 
     // MARK: - Conversion
 
-    private func createFilterFrom(resultSet rs: FMResultSet) -> EpisodeFilter {
+    private func createFilterFrom(resultSet rs: PCDBResultSet) -> EpisodeFilter {
         let filter = EpisodeFilter()
         filter.id = rs.longLongInt(forColumn: "id")
         filter.autoDownloadEpisodes = rs.bool(forColumn: "autoDownloadEpisodes")

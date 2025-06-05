@@ -78,7 +78,7 @@ enum PodcastFinishedAction: Int {
 }
 
 enum PodcastThumbnailSize {
-    case list, grid, page
+    case list, grid, page, detail
 }
 
 enum PodcastLicensing: Int32 {
@@ -133,7 +133,7 @@ extension LibrarySort.Old: AnalyticsDescribable {
 
 extension LibrarySort: AnalyticsDescribable {
     enum Old: Int {
-        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6, recentlyPlayed = 7
     }
 
     init?(oldValue: Int) {
@@ -153,6 +153,8 @@ extension LibrarySort: AnalyticsDescribable {
             self = .episodeDateNewestToOldest
         case .custom:
             self = .custom
+        case .recentlyPlayed:
+            self = .recentlyPlayed
         }
     }
 
@@ -166,6 +168,8 @@ extension LibrarySort: AnalyticsDescribable {
             return .episodeDateNewestToOldest
         case .custom:
             return .custom
+        case .recentlyPlayed:
+            return .recentlyPlayed
         }
     }
 
@@ -179,6 +183,8 @@ extension LibrarySort: AnalyticsDescribable {
             return L10n.podcastsLibrarySortEpisodeReleaseDate
         case .custom:
             return L10n.podcastsLibrarySortCustom
+        case .recentlyPlayed:
+            return L10n.podcastsLibrarySortEpisodeRecentlyPlayed
         }
     }
 
@@ -192,6 +198,8 @@ extension LibrarySort: AnalyticsDescribable {
             return "episode_release_date"
         case .custom:
             return "drag_and_drop"
+        case .recentlyPlayed:
+            return "episode_recently_played"
         }
     }
 }
@@ -249,8 +257,8 @@ extension PlayerAction: AnalyticsDescribable {
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
         [
-            .effects, .sleepTimer, .routePicker, .transcript, .download,
-            .shareEpisode, .goToPodcast, .addBookmark, .markPlayed,
+            .effects, .sleepTimer, .routePicker, .shareEpisode, .download,
+            .transcript, .goToPodcast, .addBookmark, .markPlayed,
             .starEpisode, .chromecast, .archive
         ]
     }
@@ -485,7 +493,7 @@ extension PlayerAction: AnalyticsDescribable {
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory
 
     func title() -> String {
         switch self {
@@ -519,6 +527,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.delete
         case .share:
             return L10n.share
+        case .removeListeningHistory:
+            return L10n.listeningHistoryRemove
         }
     }
 
@@ -554,6 +564,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "episode-delete"
         case .share:
             return "podcast-share"
+        case .removeListeningHistory:
+            return "episode-delete"
         }
     }
 
@@ -589,6 +601,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "delete"
         case .share:
             return "share"
+        case .removeListeningHistory:
+            return "listening_history_remove_episode"
         }
     }
 

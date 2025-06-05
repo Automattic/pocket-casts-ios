@@ -2,6 +2,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import PocketCastsServer
+import PocketCastsUtils
 
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
@@ -158,18 +159,31 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
 
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        if FeatureFlag.streamingCustomSessionConfiguration.enabled {
+            configuration.networkServiceType = .avStreaming
+            configuration.allowsCellularAccess = true
+            configuration.timeoutIntervalForRequest = 60 // seconds
+            configuration.timeoutIntervalForResource = 3600 // seconds
+            configuration.waitsForConnectivity = true
+            configuration.multipathServiceType = .handover // allows switching between celular/wifi
+            configuration.httpMaximumConnectionsPerHost = 1
+        }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         session?.dataTask(with: urlRequest).resume()
     }
 
-    func invalidateAndCancelSession(shouldResetData: Bool = true) {
+    func invalidateAndCancelSession(shouldResetData: Bool = true, error: Error? = nil) {
         session?.invalidateAndCancel()
         session = nil
 
         if shouldResetData {
             bufferData = Data()
+            pendingRequests.forEach { request in
+                request.finishLoading(with: error)
+            }
             pendingRequests.removeAll()
         }
 
@@ -269,7 +283,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     }
 
     private func downloadFailed(with error: Error) {
-        invalidateAndCancelSession()
+        invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }

@@ -3,28 +3,26 @@ import Foundation
 import PocketCastsUtils
 
 class DatabaseHelper {
-    class func setup(db: FMDatabase) {
-        do {
-            try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
+    class func setup(queue: PCDBQueue) {
+        queue.write { db in
+            do {
+                try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
 
-            var startingSchemaVersion: Int32 = 0
+                let startingSchemaVersion = db.pragmaUserVersion() ?? 0
 
-            let rs = try db.executeQuery("PRAGMA user_version", values: nil)
-            if rs.next() { startingSchemaVersion = rs.int(forColumnIndex: 0) }
-            rs.close()
+                var newSchemaVersion = startingSchemaVersion
+                upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
 
-            var newSchemaVersion = startingSchemaVersion
-            upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
-
-            if newSchemaVersion != startingSchemaVersion {
-                try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
+                if newSchemaVersion != startingSchemaVersion {
+                    try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
+                }
+            } catch {
+                FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
-        } catch {
-            FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
         }
     }
 
-    private class func upgradeIfRequired(schemaVersion: inout Int32, db: FMDatabase) {
+    private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
         db.beginTransaction()
 
         let failedAt = { (statement: Int) in
@@ -805,6 +803,15 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 56 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fundingURL TEXT;", values: nil)
+                schemaVersion = 56
+            } catch {
+                failedAt(56)
+                return
+            }
+        }
         db.commit()
     }
 }

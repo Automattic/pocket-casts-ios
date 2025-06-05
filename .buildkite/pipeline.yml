@@ -34,25 +34,25 @@ steps:
           queue: "linter"
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
-        command: lint_localized_strings_format
+        command: |
+          if .buildkite/commands/should-skip-job.sh --job-type localization; then
+            exit 0
+          fi
+
+          lint_localized_strings_format
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
 
-  - block: Deploy Prototype Build
-    prompt: Share a Prototype Build via App Center?
+  - input: Deploy Prototype Build
+    prompt: Share a Prototype Build via Firebase App Distribution?
     key: prototype_triggered
-    # Block steps have implicit dependency on the steps that come before them.
-    # See https://buildkite.com/docs/pipelines/trigger-step
-    #
-    # Make it depend on nothing so we don't have to wait for previous steps to finish before the deployment can start.
-    depends_on: ~
 
   - group: Prototype Build
+    depends_on: prototype_triggered
     steps:
       - label: Prototype Build - Build
         key: build_prototype
-        depends_on: prototype_triggered
         command: .buildkite/commands/prototype-build.sh
         agents:
           queue: mac

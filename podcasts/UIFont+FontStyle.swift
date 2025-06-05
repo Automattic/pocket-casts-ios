@@ -52,8 +52,9 @@ public extension View {
     func font(size: Double? = nil,
               style: Font.TextStyle,
               weight: Font.Weight = .regular,
-              maxSizeCategory: UIContentSizeCategory = .extraExtraLarge) -> some View {
-        return modifier(DynamicallyScalableFont(size: size, style: style, weight: weight, maxSizeCategory: maxSizeCategory))
+              design: Font.Design? = nil,
+              maxSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge) -> some View {
+        return modifier(DynamicallyScalableFont(size: size, style: style, weight: weight, design: design, maxSizeCategory: maxSizeCategory))
     }
 }
 
@@ -63,6 +64,7 @@ private struct DynamicallyScalableFont: ViewModifier {
     var size: Double?
     var style: Font.TextStyle
     var weight: Font.Weight = .regular
+    var design: Font.Design? = nil
     var maxSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge
 
     func body(content: Content) -> some View {
@@ -78,7 +80,7 @@ private struct DynamicallyScalableFont: ViewModifier {
         let scaledSize = min(maxPointSize, metrics.scaledValue(for: size, compatibleWith: traits))
 
         // Return the new calculated font
-        return content.font(.system(size: scaledSize, weight: weight))
+        return content.font(.system(size: scaledSize, weight: weight, design: design))
     }
 }
 

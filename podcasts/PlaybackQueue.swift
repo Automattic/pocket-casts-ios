@@ -19,6 +19,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: episode.uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -32,6 +33,7 @@ class PlaybackQueue: NSObject {
         DataManager.sharedManager.delete(playlistEpisode: episodeToRemove)
         if SyncManager.isUserLoggedIn() {
             DataManager.sharedManager.saveUpNextRemove(episodeUuid: uuid)
+            SyncManager.syncReason = .remove
             startSyncTimer()
         }
 
@@ -66,6 +68,7 @@ class PlaybackQueue: NSObject {
                 DataManager.sharedManager.saveUpNextAddToBottom(episodeUuid: episode.uuid)
             }
 
+            SyncManager.syncReason = .add
             startSyncTimer()
         }
 
@@ -192,8 +195,24 @@ class PlaybackQueue: NSObject {
 
     func overrideAllEpisodesWith(episode: BaseEpisode) {
         FileLog.shared.addMessage("PlaybackQueue: overrideAllEpisodesWith with \(episode.title ?? "Untitled")")
+
+        let upNext = DataManager.sharedManager.allUpNextEpisodes()
+        let shouldRemoveInsteadOfReplace = FeatureFlag.avoidReplaceOnEpisodeSwap.enabled && upNext.count == 1
+
+        if shouldRemoveInsteadOfReplace {
+            if let episode = upNext.first {
+                remove(episode: episode, fireNotification: false)
+            }
+        }
+
         DataManager.sharedManager.deleteAllUpNextEpisodes()
-        saveReplaceIfRequired()
+        if !shouldRemoveInsteadOfReplace {
+            if FeatureFlag.replaceSpecificEpisode.enabled {
+                saveReplaceIfRequired(episodeList: [episode.uuid])
+            } else {
+                saveReplaceIfRequired()
+            }
+        }
 
         pushNewCurrentlyPlaying(episode: episode)
     }
@@ -334,7 +353,7 @@ class PlaybackQueue: NSObject {
     private func autoDownloadIfRequired(episode: BaseEpisode) {
         if !Settings.downloadUpNextEpisodes() || episode.queued() || episode.downloaded(pathFinder: DownloadManager.shared) { return }
 
-        if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
+        if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
         } else {
             DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .autoDownloaded)
@@ -358,17 +377,23 @@ class PlaybackQueue: NSObject {
         startSyncTimer()
     }
 
-    private func saveReplaceIfRequired() {
+    private func saveReplaceIfRequired(episodeList: [String]? = nil) {
         if !SyncManager.isUserLoggedIn() { return }
 
         var episodeUuids = [String]()
-        for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
-            episodeUuids.append(playlistEpisode.episodeUuid)
+        if let episodeList {
+            episodeUuids = episodeList
+        } else {
+            for playlistEpisode in DataManager.sharedManager.allUpNextPlaylistEpisodes() {
+                episodeUuids.append(playlistEpisode.episodeUuid)
+            }
         }
 
         FileLog.shared.addMessage("PlaybackQueue: Saving replace of \(episodeUuids.count) episodes")
 
         DataManager.sharedManager.saveReplace(episodeList: episodeUuids)
+
+        SyncManager.syncReason = .replace
 
         startSyncTimer()
     }

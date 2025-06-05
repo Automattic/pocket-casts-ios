@@ -75,7 +75,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         self.item = item
         self.region = region
         self.category = category
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             self?.podcast = discoverPodcast.first

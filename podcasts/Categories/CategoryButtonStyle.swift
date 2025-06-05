@@ -46,7 +46,6 @@ struct CategoryButtonStyle: ButtonStyle {
         case rounded
         case circle
 
-        @available(iOS 16.0, *)
         var shape: some Shape {
             switch self {
             case .rounded:
@@ -84,22 +83,11 @@ struct CategoryButtonStyle: ButtonStyle {
             .cornerRadius(Constants.cornerRadius)
             .background(isSelected ? selectedBackground : ((configuration.isPressed || forcePressed) ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
-            .modify {
-                if #available(iOS 16.0, *) {
-                    $0
-                        .overlay(
-                        cornerStyle.shape
-                            .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
-                    )
-                    .clipShape(cornerStyle.shape)
-                } else {
-                    $0.overlay(
-                        RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                            .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
-                }
-            }
+            .overlay(
+                cornerStyle.shape
+                    .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
+            )
+            .clipShape(cornerStyle.shape)
     }
 }
 

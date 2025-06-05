@@ -6,13 +6,19 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     private var lastPurchasedProductID: IAPProductID?
 
     @Published var currentPricingProduct: PlusPricingInfoModel.PlusProductPricingInfo?
-    @State var currentProductAvailability: CurrentProductAvailability = .idle
+    @Published var currentProductAvailability: CurrentProductAvailability = .idle
+    private var previousPricingProductID: String?
+
+    override class var availableProductIds: [IAPProductID] {
+        return [.yearly, .monthly, .patronYearly, .patronMonthly, .yearlyReferral]
+    }
 
     override func handleNext() {
-        if let currentPricingProduct {
-            Analytics.track(.cancelSubscriptionNewPlanPurchaseSuccessful, properties: ["product": currentPricingProduct.identifier.rawValue])
+        if let currentPricingProduct, let previousPricingProductID {
+            Analytics.track(.winbackAvailablePlansNewPlanPurchaseSuccessful, properties: ["current_product": previousPricingProductID, "new_product": currentPricingProduct.identifier.rawValue])
+            self.previousPricingProductID = nil
         } else {
-            Analytics.track(.cancelSubscriptionNewPlanPurchaseSuccessful)
+            Analytics.track(.winbackAvailablePlansNewPlanPurchaseSuccessful)
         }
 
         if SubscriptionHelper.activeTier == .patron {
@@ -24,21 +30,28 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
     }
 
     override func didAppear() {
-        Analytics.track(.cancelSubscriptionAvailablePlansShown)
+        Analytics.track(.winbackScreenShown, properties: ["screen": "available_plans"])
     }
 
     override func didDismiss(type: OnboardingDismissType) {
         // Since the view can only be dismissed via swipe, only check for that
         guard type == .swipe else { return }
 
-        Analytics.track(.cancelSubscriptionAvailablePlansDismissed)
-        Analytics.track(.cancelSubscriptionDismissed)
+        Analytics.track(.winbackScreenDismissed, properties: ["screen": "available_plans"])
+    }
+
+    func getOrderedProducts() -> [PlusPricingInfoModel.PlusProductPricingInfo] {
+        let order: [IAPProductID] = [.monthly, .patronMonthly, .yearly, .patronYearly, .yearlyReferral]
+        let productMap = Dictionary(uniqueKeysWithValues: pricingInfo.products.map { ($0.identifier, $0) })
+        return order.compactMap { productMap[$0] }
     }
 
     func loadCurrentProduct() async {
         if currentProductAvailability == .loading { return }
 
-        currentProductAvailability = .loading
+        await MainActor.run {
+            currentProductAvailability = .loading
+        }
         if let transaction = await purchaseHandler.findLastSubscriptionPurchased(),
            let productID = IAPProductID(rawValue: transaction.productID) {
             await MainActor.run {
@@ -47,17 +60,20 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
                 currentPricingProduct = pricingInfo.products.first { $0.identifier == productID }
             }
         } else {
-            currentProductAvailability = .unavailable
+            await MainActor.run {
+                currentProductAvailability = .unavailable
+            }
             FileLog.shared.console("[CancelSubscriptionViewModel] Could not find last subscription purchased")
         }
     }
 
     func purchase(product: PlusPricingInfoModel.PlusProductPricingInfo) {
-        Analytics.track(.cancelSubscriptionSelectPlan, properties: ["product": product.identifier.rawValue])
+        Analytics.track(.winbackAvailablePlansSelectPlan, properties: ["product": product.identifier.rawValue])
 
         currentPricingProduct = product
 
         if currentPricingProduct?.identifier != lastPurchasedProductID {
+            previousPricingProductID = lastPurchasedProductID?.rawValue
             purchase(product: product.identifier)
         }
     }
@@ -66,6 +82,12 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
         didDismiss(type: .swipe)
 
         navigationController?.dismiss(animated: true)
+    }
+
+    func popViewController() {
+        Analytics.track(.winbackAvailablePlansBackButtonTapped)
+        didDismiss(type: .swipe)
+        navigationController?.popViewController(animated: true)
     }
 
     enum CurrentProductAvailability {

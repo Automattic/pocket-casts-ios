@@ -17,14 +17,23 @@ final class TranscriptManagerTests: XCTestCase {
             return (nil, nil)
         }
 
-        func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> [Episode.Metadata.Transcript] {
+        func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "vtt") else {
-                return []
+                return (transcripts: [], hasGeneratedTranscripts: false)
             }
             let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
-            return [transcript]
+            return (transcripts: [transcript], hasGeneratedTranscripts: false)
         }
+    }
 
+    class EmptyMockShowCoordinator: MockShowCoordinator {
+        override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+            guard let transcriptURL = Bundle(for: Self.self).url(forResource: "empty_sample", withExtension: "vtt") else {
+                return (transcripts: [], hasGeneratedTranscripts: false)
+            }
+            let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
+            return (transcripts: [transcript], hasGeneratedTranscripts: false)
+        }
     }
 
     func testLoadingTranscript() async throws {
@@ -37,4 +46,14 @@ final class TranscriptManagerTests: XCTestCase {
         XCTAssertEqual(model.cues.count, 13)
     }
 
+    func testEmptyLoadingTranscript() async {
+        let mockShowCoordinator = EmptyMockShowCoordinator()
+        let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
+
+        do {
+            _ = try await manager.loadTranscript()
+        } catch {
+            XCTAssertTrue(error is TranscriptError)
+        }
+    }
 }

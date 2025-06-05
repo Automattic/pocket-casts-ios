@@ -5,63 +5,72 @@ struct CancelSubscriptionView: View {
 
     @ObservedObject var viewModel: CancelSubscriptionViewModel
 
+    private let rows: [CancelSubscriptionOption] = [.availablePlans, .help]
+
     init(viewModel: CancelSubscriptionViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            switch viewModel.priceAvailability {
-            case .available:
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        Text(L10n.cancelSubscriptionTitle)
-                            .font(size: 28.0, style: .body, weight: .bold)
-                            .foregroundStyle(theme.primaryText01)
-                            .multilineTextAlignment(.center)
-                            .padding(.top, 48.0)
-                            .padding(.horizontal, 34.0)
+        ZStack {
+            VStack(spacing: 0) {
+                switch (viewModel.priceAvailability, viewModel.offerLoadingState) {
+                case (.available, .loaded):
+                    ScrollView {
+                        LazyVStack(spacing: 0) {
+                            Text(L10n.cancelSubscriptionTitle)
+                                .font(size: 28.0, style: .body, weight: .bold)
+                                .foregroundStyle(theme.primaryText01)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 48.0)
+                                .padding(.horizontal, 34.0)
 
-                        ForEach(CancelSubscriptionOption.allCases, id: \.id) { option in
-                            if case .promotion = option {
-                                //TODO: Need to check the if the promotion can be applied
-                                if case .promotion = option, let price = viewModel.monthlyPrice() {
-                                    CancelSubscriptionViewRow(option: .promotion(price: price),
-                                                              viewModel: viewModel)
-                                }
-                            } else {
+                            ForEach(rows, id: \.id) { option in
                                 CancelSubscriptionViewRow(option: option,
                                                           viewModel: viewModel)
                             }
                         }
                     }
-                }
 
-                Button(action: {
-                    viewModel.cancelSubscriptionTap()
-                }, label: {
-                    Text(L10n.cancelSubscriptionContinueButton)
+                    Button(action: {
+                        viewModel.cancelSubscriptionTap()
+                    }, label: {
+                        Text(L10n.cancelSubscriptionContinueButton)
+                            .font(size: 18.0, style: .body, weight: .bold)
+                            .foregroundStyle(theme.primaryText01)
+                            .multilineTextAlignment(.center)
+                    })
+                    .padding(.horizontal, 34.0)
+                    .padding(.top, 10.0)
+                    .padding(.bottom, 58.0)
+                case (.failed, _):
+                    Text(L10n.cancelSubscriptionGenericError)
                         .font(size: 18.0, style: .body, weight: .bold)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
-                })
-                .padding(.horizontal, 34.0)
-                .padding(.top, 10.0)
-                .padding(.bottom, 58.0)
-            case .loading, .unknown:
-                ProgressView()
-                    .foregroundStyle(theme.primaryUi01)
-            case .failed:
-                Text(L10n.cancelSubscriptionGenericError)
-                    .font(size: 18.0, style: .body, weight: .bold)
-                    .foregroundStyle(theme.primaryText01)
-                    .multilineTextAlignment(.center)
+                default:
+                    ProgressView()
+                        .tint(theme.primaryText01)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            if viewModel.offerPurchasingState == .purchasing {
+                ZStack {
+                    theme.primaryUi05Selected
+                        .edgesIgnoringSafeArea(.all)
+                        .opacity(0.4)
+                    ProgressView()
+                        .tint(theme.primaryText01)
+                }
             }
         }
         .background(
             color(for: .primaryUi01)
                 .ignoresSafeArea()
         )
+        .task {
+            await viewModel.loadWinbackOffer()
+        }
     }
 
     private func color(for style: ThemeStyle) -> Color {

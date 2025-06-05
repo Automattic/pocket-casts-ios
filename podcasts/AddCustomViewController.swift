@@ -183,6 +183,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Analytics.track(.userFileEditShown)
         if let mainView = view as? ThemeableView {
             mainView.style = .primaryUi04
         }
@@ -318,6 +319,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     // MARK: Actions
 
     @IBAction func cancelTapped() {
+        Analytics.track(.userFileEditDismissed)
         navigationController?.navigationBar.isHidden = false
         if episodeToEdit == nil {
             if let destinationUrl = destinationUrl {
@@ -330,6 +332,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func saveTapped() {
+        Analytics.track(.userFileEditSave)
         nameTextfield.resignFirstResponder()
         nameTextfield.isHidden = true
         imageSaveErrorLabel.isHidden = true

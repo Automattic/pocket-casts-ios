@@ -42,12 +42,13 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             }
         }
         .environmentObject(viewModel)
-        .background(style.background.ignoresSafeArea())
     }
 
     /// An empty state view that displays instructions
     @ViewBuilder
     private var emptyView: some View {
+        Spacer()
+
         if !feature.isUnlocked {
             BookmarksLockedStateView(style: style.emptyStyle, feature: feature, source: viewModel.analyticsSource)
         }
@@ -143,11 +144,11 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private func actionBarView<Content: View>(_ content: @escaping () -> Content) -> some View {
         let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
         let editVisible = viewModel.numberOfSelectedItems == 1
-
+        let shareVisible = viewModel.selectedItems.first?.episode is Episode
         ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
             content()
         }, actions: [
-            .init(imageName: "podcast-share", title: L10n.share, visible: editVisible, action: {
+            .init(imageName: "podcast-share", title: L10n.share, visible: editVisible && shareVisible, action: {
                 viewModel.shareSelectedBookmarks()
             }),
             .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {

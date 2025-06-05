@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 struct OnboardingFlow {
     typealias Context = [String: Any]
@@ -6,7 +7,7 @@ struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
-    private var source: String? = nil
+    private(set) var source: String? = nil
 
     private(set) var accountCreated: ((Bool)->())?
 
@@ -19,7 +20,7 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell, .endOfYearUpsell:
+        case .plusUpsell, .endOfYearUpsell, .suggestedFolderUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController,
@@ -49,6 +50,9 @@ struct OnboardingFlow {
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
+        case .encourageAccountCreation:
+            flowController = InformationalModalViewModel.makeController()
+
         case .initialOnboarding, .loggedOut: fallthrough
         default:
             flowController = LoginCoordinator.make(in: navigationController)
@@ -68,6 +72,9 @@ struct OnboardingFlow {
 
     /// Resets the internal flow state to none and clears any analytics sources
     mutating func reset() {
+        if FeatureFlag.notificationsRevamp.enabled, (currentFlow == .initialOnboarding) || (currentFlow == .encourageAccountCreation) {
+            NavigationManager.sharedManager.showNotificationsPermissionsModal()
+        }
         source = nil
         currentFlow = .none
 
@@ -133,9 +140,13 @@ struct OnboardingFlow {
         /// When the user is brought into the onboarding flow from the End Of Year stories
         case endOfYearUpsell
 
+        case suggestedFolderUpsell = "suggested_folder_upsell"
+
         case promoCode = "promo_code"
 
         case referralCode = "referral_code"
+
+        case encourageAccountCreation = "encourage_account_creation"
 
         var analyticsDescription: String { rawValue }
 
@@ -154,7 +165,7 @@ struct OnboardingFlow {
         /// dismissed right away
         var shouldDismissAfterPurchase: Bool {
             switch self {
-            case .endOfYearUpsell:
+            case .endOfYearUpsell, .suggestedFolderUpsell:
                 true
             default:
                 false

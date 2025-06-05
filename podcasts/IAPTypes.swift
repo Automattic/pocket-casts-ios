@@ -17,6 +17,17 @@ enum IAPProductID: String {
     }
 }
 
+enum IAPPromotionID: String {
+    case referall = "com.pocketcasts.plus.yearly.referral.promo"
+}
+
+enum IAPOfferType: String {
+    case freeTrial = "free_trial"
+    case introOffer = "intro_offer"
+    case referral = "referral"
+    case winback = "winback"
+}
+
 enum Plan {
     case plus, patron
 
@@ -43,7 +54,7 @@ enum Plan {
     }
 }
 
-enum PlanFrequency {
+enum PlanFrequency: String {
     case yearly, monthly
 
     var description: String {

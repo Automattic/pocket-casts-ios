@@ -51,7 +51,8 @@ class PodcastImageView: UIView {
     }
 
     func adjustForSize(_ size: PodcastThumbnailSize) {
-        if size == .page {
+        switch size {
+        case .page:
             shadowView?.layer.shadowColor = UIColor.black.cgColor
             shadowView?.layer.shadowOffset = CGSize(width: 0, height: 1)
             shadowView?.layer.shadowOpacity = 0.1
@@ -59,7 +60,15 @@ class PodcastImageView: UIView {
             shadowView?.layer.cornerRadius = 8
 
             imageView?.layer.cornerRadius = 8
-        } else {
+        case .detail:
+            shadowView?.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+            shadowView?.layer.shadowOffset = CGSize(width: 0, height: 2)
+            shadowView?.layer.shadowOpacity = 1
+            shadowView?.layer.shadowRadius = 10
+            shadowView?.layer.cornerRadius = 8
+
+            imageView?.layer.cornerRadius = 8
+        default:
             shadowView?.layer.shadowColor = UIColor.black.cgColor
             shadowView?.layer.shadowOffset = CGSize(width: 0, height: 1)
             shadowView?.layer.shadowOpacity = 0.1
@@ -120,6 +129,7 @@ class PodcastImageView: UIView {
         if let imageView = imageView {
             imageView.backgroundColor = UIColor.clear
             imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFill
 
             addSubview(imageView)
             imageView.anchorToAllSidesOf(view: self)

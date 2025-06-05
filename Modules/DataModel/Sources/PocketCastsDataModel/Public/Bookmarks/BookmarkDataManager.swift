@@ -3,9 +3,9 @@ import PocketCastsUtils
 
 public struct BookmarkDataManager {
     static let tableName = "Bookmark"
-    private let dbQueue: FMDatabaseQueue
+    private let dbQueue: PCDBQueue
 
-    init(dbQueue: FMDatabaseQueue) {
+    init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
     }
 
@@ -158,7 +158,7 @@ public struct BookmarkDataManager {
         SET \(Column.syncStatus) = ?
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced])
+        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced.rawValue])
         switch result {
         case .success:
             return true
@@ -301,7 +301,7 @@ private extension BookmarkDataManager {
 
 // MARK: - Schema Creation
 extension BookmarkDataManager {
-    static func createTable(in db: FMDatabase) throws {
+    static func createTable(in db: PCDatabase) throws {
         try db.executeUpdate("""
             CREATE TABLE IF NOT EXISTS \(Self.tableName) (
                 \(Column.uuid) varchar(40) NOT NULL,
@@ -325,9 +325,9 @@ extension BookmarkDataManager {
     }
 }
 
-// MARK: - Bookmark from FMResultSet
+// MARK: - Bookmark from PCDBResultSet
 private extension Bookmark {
-    init?(from resultSet: FMResultSet) {
+    init?(from resultSet: PCDBResultSet) {
         guard
             let uuid = resultSet.string(for: .uuid),
             let title = resultSet.string(for: .title),
@@ -355,9 +355,9 @@ private extension Bookmark {
     }
 }
 
-// MARK: - BookmarkDataManager.Column: FMResultSet Extension
+// MARK: - BookmarkDataManager.Column: PCDBResultSet Extension
 
-private extension FMResultSet {
+private extension PCDBResultSet {
     func string(for column: BookmarkDataManager.Column) -> String? {
         string(forColumn: column.rawValue)
     }

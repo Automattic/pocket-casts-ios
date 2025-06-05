@@ -134,6 +134,12 @@ extension AppDelegate {
             }
         }
 
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            performUpdateIfRequired(updateKey: "ATTPrompt") {
+                Settings.shouldShowInitialOnboardingFlow = true
+            }
+        }
+
         defaults.synchronize()
     }
 

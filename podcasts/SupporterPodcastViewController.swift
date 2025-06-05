@@ -490,7 +490,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
 
     private func loadBundleCollection(uuid: String) {
         let bundleUrl = ServerHelper.bundleUrl(bundleUuid: uuid)
-        DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, completion: { podcastCollection in
+        DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
             guard let podcastCollection = podcastCollection else { return }
             self.bundleCollection = podcastCollection
             DispatchQueue.main.async {

@@ -17,11 +17,23 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         // Load prices on init
         loadPrices()
+
+        NotificationCenter.default.addObserver(
+            forName: UIContentSizeCategory.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.expandViewController()
+        }
     }
 
     func upgradeTapped(with product: PlusProductPricingInfo? = nil) {
@@ -60,7 +72,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                 if expiringPlus {
                     return L10n.renewSubscription
                 }
-
+                if product.offer?.type == .freeTrial {
+                    return L10n.startFreeTrial
+                }
                 return L10n.plusSubscribeTo
             }()
         }
@@ -77,15 +91,28 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
         let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
         let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
+        let sizeCategory = UIApplication.shared.preferredContentSizeCategory
+        let isAccessibility = sizeCategory.isAccessibilityCategory
 
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
-            sheetPresentationController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
+            sheetPresentationController.detents = isAccessibility ? [.large()] : UIScreen.isSmallScreen ? [.large()] : [.medium()]
         }
         parentController.presentFromRootController(controller, animated: true)
     }
 
     func showError() {
         SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: parentController)
+    }
+
+    private func expandViewController() {
+        let sizeCategory = UIApplication.shared.preferredContentSizeCategory
+        let isAccessibility = sizeCategory.isAccessibilityCategory
+        if let sheet = parentController?.presentedViewController?.sheetPresentationController {
+            sheet.detents = isAccessibility ? [.large()] : [.medium()]
+            sheet.animateChanges {
+                sheet.selectedDetentIdentifier = isAccessibility ? .large : .medium
+            }
+        }
     }
 }

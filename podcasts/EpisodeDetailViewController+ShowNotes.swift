@@ -26,6 +26,25 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         showNotesWebView.scrollView.isScrollEnabled = false
 
         showNotesWebView.scrollView.showsVerticalScrollIndicator = false
+
+        setupTranscriptExcerptView()
+    }
+
+    func setupTranscriptExcerptView() {
+        let transcriptExcerpt = UIView()
+        transcriptExcerpt.backgroundColor = .clear
+        transcriptExcerpt.translatesAutoresizingMaskIntoConstraints = false
+        transcriptExcerpt.isHidden = true
+        mainScrollView.insertSubview(transcriptExcerpt, aboveSubview: showNotesHolderView)
+
+        NSLayoutConstraint.activate([
+            transcriptExcerpt.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            transcriptExcerpt.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+            transcriptExcerpt.bottomAnchor.constraint(equalTo: showNotesHolderView.topAnchor),
+            transcriptExcerpt.heightAnchor.constraint(equalToConstant: 145)
+        ])
+
+        self.transcriptExcerpt = transcriptExcerpt
     }
 
     func loadShowNotes() {
@@ -37,7 +56,30 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         Task { [weak self] in
             guard let self else { return }
 
-            let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+            let parentIdentifier = episode.parentIdentifier()
+            let episodeUUID = episode.uuid
+            let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: parentIdentifier, episodeUuid: episodeUUID)
+
+            if FeatureFlag.episodeDetailTranscript.enabled {
+                if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID) {
+                    await MainActor.run { [weak self] in
+                        let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
+                            //TODO: add vc presentation here
+                        }
+                        let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
+                        view.translatesAutoresizingMaskIntoConstraints = false
+                        self?.transcriptExcerpt?.addSubview(view)
+                        view.anchorToAllSidesOf(view: self?.transcriptExcerpt)
+                        self?.transcriptExcerpt?.isHidden = false
+                        self?.showNotesHolderTopAnchor?.constant = 145.0
+                    }
+                } else {
+                    await MainActor.run { [weak self] in
+                        self?.transcriptExcerpt?.isHidden = true
+                        self?.showNotesHolderTopAnchor?.constant = 0.0
+                    }
+                }
+            }
             downloadingShowNotes = false
             showNotesDidLoad(showNotes: showNotes ?? CacheServerHandler.noShowNotesMessage)
         }

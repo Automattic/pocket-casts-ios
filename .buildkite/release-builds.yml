@@ -14,7 +14,7 @@ steps:
 
   - label: "🛠 Release Build (App Store Connect)"
     key: testflight_build
-    command: .buildkite/commands/release-build.sh
+    command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     artifact_paths:
@@ -25,7 +25,7 @@ steps:
 
   - label: ":testflight: Release Upload (TestFlight, Sentry, GitHub)"
     depends_on: testflight_build
-    command: .buildkite/commands/release-upload.sh $BETA_RELEASE
+    command: .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     notify:

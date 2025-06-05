@@ -4,7 +4,7 @@
 <plist version="1.0">
   <dict>
     <key>Settings_files_add_up_next_subtitle</key>
-    <string>Afegir automàticament els nous arxius a la llista 'Tot seguit'</string>
+    <string>Afegir automàticament els nous arxius a la llista «Tot seguit»</string>
     <key>about_a8c_family</key>
     <string>Família d'Automattic</string>
     <key>about_acknowledgements</key>
@@ -114,7 +114,7 @@
     <key>account_select_type</key>
     <string>Triar el tipus de compte</string>
     <key>account_sign_out</key>
-    <string>Surt</string>
+    <string>Sortir</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Quan es tanqui la sessió, s'eliminaran %1$@ pòdcasts compatibles amb aquest dispositiu. Segur que vols continuar?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -140,7 +140,7 @@
     <key>add_bookmark_subtitle</key>
     <string>Afegeix un títol opcional per a identificar aquest marcador</string>
     <key>add_to_up_next</key>
-    <string>Afegir a la llista 'Tot seguit'</string>
+    <string>Afegir a la llista «Tot seguit»</string>
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
     <key>announcement_autoplay_description</key>
@@ -173,6 +173,12 @@
     <string>Gran somni</string>
     <key>app_badge</key>
     <string>Insígnia de l'aplicació</string>
+    <key>app_clip_placholder_message</key>
+    <string>Potser s'ha eliminat o el link està trencat. 
+Però hi ha molt més a Pocket Casts. 
+Descarrega l'app per a una experiència completa!</string>
+    <key>app_clip_placholder_title</key>
+    <string>Ho sentim, no hem pogut trobar aquest episodi</string>
     <key>app_icon_classic</key>
     <string>Clàssic</string>
     <key>app_icon_dark</key>
@@ -266,7 +272,7 @@
     <key>auto_download_limit_number_of_episodes_show</key>
     <string>%1$@ Últims episodis per programa</string>
     <key>auto_download_limit_one_episode</key>
-    <string>últim episodi</string>
+    <string>Últim episodi</string>
     <key>auto_download_limit_one_episode_show</key>
     <string>Últim episodi per programa</string>
     <key>auto_download_off_subtitle</key>
@@ -321,22 +327,32 @@
     <string>Cancel·lar</string>
     <key>cancel_confirm_item_folders</key>
     <string>Les carpetes s'eliminaran i els seus continguts es traslladaran a la pantalla Pòdcast.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Els teus pòdcasts i l'historial d'escolta seguiran sent accessibles.</string>
     <key>cancel_confirm_item_plus</key>
-    <string>L'accés a les funcions de Pocket Casts Plus estarà bloquejat després d'aquesta data.</string>
+    <string>Després d'aquesta data, s'eliminarà l'accés a les funcions Plus com ara els marcadors, la reproducció aleatòria, els dispositius portables i més.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Tots els fitxers pujats al vostre compte de Pocket Casts s'eliminaran (però els fitxers que heu baixat al dispositiu mòbil es mantindran)</string>
+    <string>Tots els fitxers pujats al vostre compte de Pocket Casts s'eliminaran (però els fitxers que heu baixat al dispositiu mòbil es mantindran).</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>La teva subscripció actual estarà activa fins al %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>la data de caducitat</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Això canviarà el teu pla a un compte de franc.</string>
+    <string>La cancel·lació canviarà el teu pla a un compte gratuït.</string>
+    <key>cancel_confirm_title</key>
+    <string>Coses que hauries de saber abans de cancel·lar</string>
     <key>cancel_download</key>
     <string>Cancel·la la descàrrega</string>
     <key>cancel_failed</key>
     <string>No es pot cancel·lar</string>
     <key>cancel_subscription</key>
     <string>Cancel·lar subscripció</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Millor valorat</string>
+    <key>cancel_subscription_available_plans_footer</key>
+    <string>El teu nou pla s'activarà al final del teu període de facturació actual.</string>
+    <key>cancel_subscription_available_plans_retry_screen_text</key>
+    <string>Ho sento, però hi ha hagut un problema per obtenir els teus plans.</string>
     <key>cancel_subscription_available_plans_title</key>
     <string>Plans disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
@@ -354,15 +370,57 @@
     <key>cancel_subscription_new_plan_title</key>
     <string>Busques un pla diferent?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Gràcies per triar Pocket Casts. La facturació comença després que acabi el teu mes gratuït.</string>
+    <string>Gràcies per triar Pocket Casts. El mes gratuït s'afegirà a la teva subscripció actual.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Gaudeix del teu mes gratuït!</string>
-    <key>cancel_subscription_promotion_description</key>
-    <string>Estalvia %@ amb el teu pròxim mes a càrrec nostre.</string>
+    <key>cancel_subscription_offer_yearly_success_view_description</key>
+    <string>Gràcies per triar Pocket Casts. El teu pla amb descompte comença després del teu període de facturació actual.</string>
+    <key>cancel_subscription_offer_yearly_success_view_title</key>
+    <string>50%% de descompte en el teu proper any!</string>
+    <key>cancel_subscription_promotion_description_monthly</key>
+    <string>Estalvia %@ al començament del teu pròxim cicle de facturació.</string>
+    <key>cancel_subscription_promotion_description_yearly</key>
+    <string>Paga %@ ara per un altre any amb un 50%% de descompte</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Obtén el teu pròxim mes gratis</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Ens agradaria saber per què ho cancel·les. La teva opinió ens ajuda a millorar.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>He trobat una app millor</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Raons relacionades amb els costos</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>No ho faig servir prou</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Altres</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Problemes tècnics</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Enviar</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Gràcies per provar
+Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Alguna cosa ha anat malament.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Gràcies pel teu comentari!</string>
     <key>cancel_subscription_title</key>
-    <string>Abans de cancel·lar, mira aquestes ofertes</string>
+    <string>Penses en marxar?
+Deixa'ns ajudar-te primer</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Acceptar l'oferta</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Continuar amb la cancel·lació</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Gaudeix d'un mes de Pocket Casts Plus! L'oferta s'afegirà a la teva subscripció actual.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Paga %@ ara per assegurar un any de Pocket Casts Plus a meitat de preu. El teu any amb descompte comença després que acabi el teu pla actual.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Aconsegueix el teu pròxim mes gratis i estalvia %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Aconsegueix un 50%% de descompte en el teu pròxim any i estalvia %@</string>
+    <key>cancel_subscription_yearly_promotion_title</key>
+    <string>Aconsegueix un 50%% de descompte en el teu pròxim any</string>
     <key>canceling</key>
     <string>Cancel·lant...</string>
     <key>carplay_chapter_count</key>
@@ -372,7 +430,7 @@
     <key>carplay_playback_speed</key>
     <string>Velocitat de reproducció</string>
     <key>carplay_up_next_queue</key>
-    <string>Llista 'Tot seguit'</string>
+    <string>Llista «Tot seguit»</string>
     <key>champion_description</key>
     <string>Gràcies per estar amb nosaltres des del principi! Si t'agrada fer servir la nostra app, ens encantaria saber la teva opinió.</string>
     <key>champion_title</key>
@@ -424,9 +482,9 @@
     <key>clear_search</key>
     <string>Esborrar la cerca</string>
     <key>clear_up_next</key>
-    <string>Esborrar la llista 'Tot seguit'</string>
+    <string>Esborrar la cua</string>
     <key>clear_up_next_message</key>
-    <string>Estàs segur que vols esborrar la teva llista de 'Tot seguit'?</string>
+    <string>Estàs segur que vols esborrar la teva llista de «Tot seguit»?</string>
     <key>client_error_token_deauth</key>
     <string>Ha fallat l'autenticació.</string>
     <key>clip</key>
@@ -486,7 +544,13 @@
     <key>create_clip</key>
     <string>Crear clip</string>
     <key>create_filter</key>
-    <string>Crear filtre</string>
+    <string>Crear un filtre</string>
+    <key>creator_pick_modal_description</key>
+    <string>Les seleccions del creador són pòdcasts recomanats pel creador  mitjançant Podroll.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Més informació</string>
+    <key>creator_pick_modal_title</key>
+    <string>Què és una selecció del creador?</string>
     <key>current_email_prompt</key>
     <string>Adreça de correu electrònic actual</string>
     <key>current_password_prompt</key>
@@ -726,7 +790,7 @@
     <key>download_all</key>
     <string>Descarregar-ho tot</string>
     <key>download_data_warning</key>
-    <string>La descàrrega emprarà dades mòbils.</string>
+    <string>La descàrrega consumirà dades mòbils.</string>
     <key>download_episode_plural_format</key>
     <string>Descarregar %1$@ episodis</string>
     <key>download_episode_singular</key>
@@ -762,13 +826,51 @@
     <key>downloads_auto_download</key>
     <string>Configuració de la descàrrega automàtica</string>
     <key>downloads_no_downloads_desc</key>
-    <string>Vaja! No tens més descàrregues. Descarrega'ns alguns més i apareixeran aquí.</string>
+    <string>Desa episodis per escoltar-los sense connexió i no et perdis res.</string>
     <key>downloads_no_downloads_title</key>
-    <string>No hi ha episodis descarregats</string>
+    <string>Escolta episodis sense connexió</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Reintentar les descàrregues fallides</string>
     <key>downloads_stop_all_downloads</key>
     <string>Aturar totes les descàrregues</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Crea un compte gratuït</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Crea un compte gratuït per sincronitzar els teus filtres en qualsevol dispositiu.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Icona dels filtres</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Mantén els teus filtres sincronitzats</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Crea un compte gratuït per sincronitzar el teu historial d'escolta a tot arreu.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Icona de l'historial d'escolta</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Fes un seguiment del que has escoltat</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Crea un compte gratuït per sincronitzar els teus pòdcasts i escoltar-los a qualsevol lloc.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Icona de perfil</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Els teus pòdcasts, a qualsevol dispositiu</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>La teva biblioteca i les teves preferències es guarden de manera segura.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Còpies de seguretat fiables</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Rep suggeriments de pòdcasts personalitzats segons els teus hàbits d’escolta.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Recomanacions personalitzades</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Sincronitza el teu progrés i els teus pòdcasts a tots els dispositius.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Sincronitza entre els dispositius</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Crea un compte o inicia sessió per gaudir de Pocket Casts al màxim.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Comença</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Hem detectat que no has iniciat sessió.</string>
     <key>edit</key>
     <string>Editar</string>
     <key>edit_clip</key>
@@ -946,6 +1048,8 @@ Ens veiem el 2024!</string>
     <string>EXPORTAR</string>
     <key>exporting_database</key>
     <string>Exportant la base dades...</string>
+    <key>failed_recommendations</key>
+    <string>No s'han pogut carregar les recomanacions</string>
     <key>feature_tour_end_tour</key>
     <string>Acabar la guia</string>
     <key>feature_tour_new</key>
@@ -977,12 +1081,11 @@ Ens veiem el 2024!</string>
     <key>file_upload_name_required</key>
     <string>El nom és necessari</string>
     <key>file_upload_no_files_description</key>
-    <string>Vols escoltar els teus propis fitxers?
-Comparteix-los amb Pocket Casts i apareixeran aquí</string>
+    <string>Puja els teus propis arxius a Pocket Casts, i escolta'ls quan vulguis.</string>
     <key>file_upload_no_files_helper</key>
     <string>Com ho faig?</string>
     <key>file_upload_no_files_title</key>
-    <string>No hi ha arxius</string>
+    <string>Reprodueix els teus propis fitxers</string>
     <key>file_upload_remove_image</key>
     <string>Esborrar la imatge</string>
     <key>file_upload_save</key>
@@ -1000,23 +1103,23 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <key>filter_auto_add_subtitle_new</key>
     <string>Els nous pòdcasts als quals et subscriguis s'afegiran automàticament</string>
     <key>filter_chips_all_podcasts</key>
-    <string>Tots els teus pòdcasts</string>
+    <string>Tots els pòdcasts</string>
     <key>filter_chips_duration</key>
     <string>Durada</string>
     <key>filter_choose_podcasts</key>
     <string>Triar pòdcasts</string>
     <key>filter_create_add_more</key>
-    <string>Afegeix més paràmetres per a acabar de millor el teu filtre.</string>
+    <string>Afegeix més paràmetres per a millorar el teu filtre.</string>
     <key>filter_create_filter_by</key>
     <string>FILTRAR PER</string>
     <key>filter_create_instructions</key>
-    <string>Selecciona els vostres criteris de filtre amb aquests botons per a crear una llista de reproducció intel·ligent d'episodis actualitzada.</string>
+    <string>Selecciona els filtres amb aquests botons per a crear una llista de reproducció d'episodis intel·ligent i actualitzada.</string>
     <key>filter_create_no_episodes</key>
     <string>No hi ha episodis que coincideixin</string>
     <key>filter_create_no_episodes_description_explanation</key>
     <string>Els paràmetres que heu triat no coincideixen amb cap episodi en les vostres subscripcions</string>
     <key>filter_create_no_episodes_description_explanation_new</key>
-    <string>Els criteris que has seleccionat no coincideixen amb cap episodi actual dels teus pòdcasts.</string>
+    <string>Els criteris que has seleccionat no coincideixen amb cap episodi actual dels teus pòdcasts</string>
     <key>filter_create_no_episodes_description_prompt</key>
     <string>Selecciona altres paràmetres o desa aquest filtre si creus que coincidirà amb algun episodi més endavant.</string>
     <key>filter_create_podcasts_all_podcasts</key>
@@ -1087,6 +1190,10 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Novetats</string>
     <key>filters_new_filter_button</key>
     <string>Afegir filtre nou</string>
+    <key>filters_tip_view_description</key>
+    <string>Crea filtres intel·ligents per organitzar els episodis. Filtra per durada, data de llançament, tipus de mitjà, i més.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organitzar els teus episodis</string>
     <key>folder</key>
     <string>Carpeta</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1115,6 +1222,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Estàs segur?</string>
     <key>folder_edit</key>
     <string>Editar carpeta</string>
+    <key>folder_empty_button_title</key>
+    <string>Afegir pòdcasts</string>
     <key>folder_empty_description</key>
     <string>Afegeix pòdcasts a la teva carpeta i apareixeran aquí.</string>
     <key>folder_empty_title</key>
@@ -1159,6 +1268,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Començar la prova gratuïta</string>
     <key>free_trial_title_label</key>
     <string>Prova Plus durant %1$@ de franc</string>
+    <key>funding</key>
+    <string>Finançament</string>
     <key>funny_conf_msg</key>
     <string>Combina amb els teus ulls ✨</string>
     <key>funny_time_not_enough</key>
@@ -1189,6 +1300,14 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Durant aquest temps, podries haver-te lligat els cordons de les sabates %1$@ vegades. Pot ser. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Durant aquest temps s'han enviat %1$@ tuits. Piu! Piu! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Aquesta transcripció es genera automàticament i només està disponible per als subscriptors de Plus</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Subscriu-te a Plus per accedir a aquesta funció i a altres Premium, com ara els marcadors i les carpetes.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Pocket Casts genera automàticament aquesta transcripció.</string>
+    <key>go_to_discover</key>
+    <string>Ves a Descobrir</string>
     <key>go_to_podcast</key>
     <string>Anar al pòdcast</string>
     <key>got_it</key>
@@ -1221,6 +1340,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí</string>
     <string>Al menú, toca 'Copiar a Pocket Casts'</string>
     <key>how_to_upload_summary</key>
     <string>Ja està. Canvia les dades que vulguis, prém desar i ja pots reproduir-los!</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/setmana</string>
     <key>import</key>
     <string>Importar</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1327,6 +1448,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Més informació</string>
     <key>listening_history</key>
     <string>Historial d'episodis escoltats</string>
+    <key>listening_history_remove</key>
+    <string>Esborra de l'historial</string>
     <key>listening_history_search_no_episodes_text</key>
     <string>No hem pogut trobar cap episodi per a aquesta cerca. Prova amb una altra paraula clau.</string>
     <key>listening_history_search_no_episodes_title</key>
@@ -1356,7 +1479,7 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>maybe_later</key>
     <string>Potser després</string>
     <key>mini_player_close</key>
-    <string>Tancar i esborrar 'Tot seguit'</string>
+    <string>Tancar i esborrar «Tot seguit»</string>
     <key>minute_listened</key>
     <string>Minuts escoltats</string>
     <key>minute_saved</key>
@@ -1447,16 +1570,106 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Pròxim pagament: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Configuració dels auriculars</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Obtenir marcadors</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Pots desar les marques de temps de moments importants d'un episodi.</string>
     <key>no_bookmarks_message</key>
-    <string>Per a desar marques de temps dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
+    <string>Per a desar marcadors dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
     <key>no_bookmarks_title</key>
-    <string>Encara no hi ha marcadors</string>
+    <string>Marca aquest moment</string>
     <key>none</key>
     <string>Cap</string>
     <key>not_on_wifi</key>
     <string>No estàs connectat a una Wi-Fi</string>
+    <key>notifications_app_clip_body</key>
+    <string>Instal·la Pocket Casts per gaudir de l'experiència completa amb potents eines de reproducció i personalització.</string>
+    <key>notifications_app_clip_title</key>
+    <string>Preparat per a més pòdcasts?</string>
+    <key>notifications_daily_reminders</key>
+    <string>Recordatoris diaris</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Prova Plus i organitza automàticament els teus pòdcasts amb carpetes.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Els teus pòdcasts organitzats</string>
+    <key>notifications_new_features_tips</key>
+    <string>Noves funcions i consells</string>
+    <key>notifications_off</key>
+    <string>Notificacions desactivades</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Desbloqueja funcions exclusives com les carpetes, marcadors i altres amb Plus!</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Fes un salt de nivell en el món dels pòdcasts.</string>
+    <key>notifications_on</key>
+    <string>Notificacions activades</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Et notificarem quan hi hagi nous episodis de %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Crear filtres intel·ligents per organitzar els teus episodis.</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organitza els teus episodis</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Vens des d'una altra app? Porta tots els teus pòdcasts favorits a Pocket Casts.</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importa els teus pòdcasts fàcilment</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Crea un compte gratuït per sincronitzar els teus pòdcasts i escoltar-los des de qualsevol lloc.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Els teus pòdcasts, a qualsevol dispositiu!</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Pòdcasts madurs, escollits només per a tu per humans reals que estimen els pòdcasts.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Explora les nostres seleccions de l'equip</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Explora els nostres temes i troba el que s'adapti al teu estil.</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>És l'hora de renovar l'aspecte</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Crea una cua de reproducció i digues adéu a saltar entre episodis.</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Simplifica la teva cua</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Desbloqueja funcions exclusives com carpetes, marcadors i moltes més amb Plus!</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Fes un salt de nivell en el món dels pòdcasts</string>
+    <key>notifications_permissions_action</key>
+    <string>Permetre notificacions</string>
+    <key>notifications_permissions_body</key>
+    <string>Les notificacions són la millor manera de fer un seguiment dels nous episodis, obtenir recomanacions de nous programes i consells sobre Pocket Casts.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Si us plau, permeteu notificacions a la configuració del dispositiu</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Obre la configuració</string>
+    <key>notifications_permissions_title</key>
+    <string>Estigues al dia!</string>
     <key>notifications_play_now</key>
     <string>Reproduir ara</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Ofertes de Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Mira el que tothom està escoltant aquesta setmana.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Tendències d'aquesta setmana</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>Et preguntes què escoltar a continuació? Fes una ullada a aquests pòdcasts!</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Noves recomanacions per a tu</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Tens %1$@ episodis nous descarregats i llestos per començar!</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Posa't al dia fora de línia</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Fa temps que no has escoltat cap pòdcast. Accedeix amb el teu usuari de nou i gaudeix!</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Et trobem a faltar!</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Tendències i recomanacions</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Vés a la configuració del dispositiu</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>Per rebre notificacions de Pocket Casts, hauràs d'activar-les a la configuració del dispositiu.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Permet notificacions push</string>
     <key>now_playing</key>
     <string>Ara sona</string>
     <key>now_playing_item</key>
@@ -1471,6 +1684,10 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Desactivat</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Només amb Wi-Fi sense restriccions de dades</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Si desactives aquesta opció, es podran descarregar arxius amb xarxes mòbils i amb un altre tipus de xarxes d'ús mesurat. Comprova la configuració de xarxa per a més informació.</string>
     <key>only_on_wifi</key>
     <string>Només amb Wi-Fi</string>
     <key>opml_import_failed_message</key>
@@ -1569,7 +1786,7 @@ ACTUALITZACIONS</string>
     <key>play_next</key>
     <string>Reproduir a continuació</string>
     <key>playback_2024_completion_rate_description</key>
-    <string>Dels %1$@ episodis que vas començar, has escoltat completament un total de %2$@</string>
+    <string>Dels %1$@ episodis que vas començar, has escoltat completament un total de %2$@.</string>
     <key>playback_2024_completion_rate_title</key>
     <string>La teva taxa de finalització dels episodis escolats aquest any ha estat del %1$@</string>
     <key>playback_2024_description</key>
@@ -1689,7 +1906,7 @@ ACTUALITZACIONS</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Marcar aquest episodi com a reproduït?</string>
     <key>player_options_play_all_message</key>
-    <string>Això esborrarà la teva cua actual de la llista 'Tot seguit'.</string>
+    <string>Això esborrarà la cua actual de la llista «Tot seguit».</string>
     <key>player_options_play_episode_singular</key>
     <string>Reprodueix 1 episodi</string>
     <key>player_options_play_episodes_plural</key>
@@ -1766,22 +1983,28 @@ ACTUALITZACIONS</string>
     <string>Reproducció d'Apple Watch i Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Àudiollibre gratuït des de Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>1 any de contingut exclusiu de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Somia amb el contingut de Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
-    <string>Més temes i icones de l'aplicació</string>
+    <string>Més temes i icones</string>
     <key>plus_features</key>
     <string>FUNCIONS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Prova gratuïta de %1$@</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Marcadors</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicacions d'escriptori i web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Carpetes i marcadors</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea carpetes per a organitzar la teva col·lecció de pòdcasts.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Carpetes</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>L'experiència sense anuncis que et dona més del que t'encanta i menys del que et desagrada</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1796,6 +2019,8 @@ ACTUALITZACIONS</string>
     <string>Temes i icones</string>
     <key>plus_marketing_title</key>
     <string>Tot el que t'agrada de Pocket Casts, i molt més</string>
+    <key>plus_marketing_up_next_shuffle</key>
+    <string>Reproducció aleatòria</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carrega els teus arxius a l'emmagatzematge al núvol per a poder accedir-hi des de qualsevol lloc</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1928,6 +2153,18 @@ ACTUALITZACIONS</string>
     <string>Error en descarregar l'episodi.</string>
     <key>podcast_failed_upload</key>
     <string>S'ha produït un error a la pujada</string>
+    <key>podcast_feed_reload_button</key>
+    <string>Actualitzar la llista d'episodis</string>
+    <key>podcast_feed_reload_loading</key>
+    <string>Actualitzant la llista d'episodis...</string>
+    <key>podcast_feed_reload_new_episodes_found</key>
+    <string>S'han trobat episodis nous!</string>
+    <key>podcast_feed_reload_no_episodes_found</key>
+    <string>No s'han trobat episodis.</string>
+    <key>podcast_feed_reload_tip_message</key>
+    <string>Estira cap avall o fes servir aquest menú per veure si hi ha alguna actualització.</string>
+    <key>podcast_feed_reload_tip_title</key>
+    <string>Hi ha episodis nous! Som-hi!</string>
     <key>podcast_grid_discover_podcasts</key>
     <string>Descobrir pòdcasts</string>
     <key>podcast_grid_no_podcasts_msg</key>
@@ -1954,6 +2191,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Posar en pausa la descàrrega</string>
     <key>podcast_pause_playback</key>
     <string>Posar en pausa la reproducció</string>
+    <key>podcast_podroll_header</key>
+    <string>Pòdcasts recomanats pel creador</string>
     <key>podcast_queued</key>
     <string>A la cua</string>
     <key>podcast_queuing</key>
@@ -1982,6 +2221,10 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Obrir l'arxiu a...</string>
     <key>podcast_show_archived</key>
     <string>Mostrar els arxivats</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Pòdcasts similars</string>
+    <key>podcast_similar_header</key>
+    <string>Pòdcasts similars a %@</string>
     <key>podcast_singular</key>
     <string>Pòdcast</string>
     <key>podcast_soon</key>
@@ -1991,7 +2234,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>podcast_stream_confirmation</key>
     <string>Reprodueix-ho de totes maneres</string>
     <key>podcast_stream_data_warning</key>
-    <string>La reproducció d'aquest episodi emprarà dades</string>
+    <string>La reproducció d'aquest episodi consumirà dades</string>
     <key>podcast_this_month</key>
     <string>Aquest mes</string>
     <key>podcast_time_left</key>
@@ -2008,12 +2251,16 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Pujar ara</string>
     <key>podcast_uploading</key>
     <string>Pujant... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Toca el títol del pòdcast per plegar o desplegar la descripció i detalls</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Hem fet alguns canvis</string>
     <key>podcast_waiting_upload</key>
     <string>Esperant per a pujar</string>
     <key>podcast_yesterday</key>
     <string>Ahir</string>
     <key>podcasts_badge_all_unplayed</key>
-    <string>Episodis que no has acabat</string>
+    <string>Episodis sense acabar</string>
     <key>podcasts_badge_latest_episode</key>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
@@ -2038,6 +2285,12 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Arrossegar i deixar anar</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Data de publicació</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Reproduït recentment</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Ara pots ordenar pel que has reproduït recentment i continuar des d’on ho vas deixar.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Ordenar per «Reproduït recentment»</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Data de publicació de l'episodi</string>
     <key>podcasts_library_sort_title</key>
@@ -2066,6 +2319,10 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Millora el teu compte i ajuda a la compatibilitat de Pocket Casts</string>
     <key>profile_last_app_refresh</key>
     <string>Darrera actualització de l'aplicació: %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Comença a escoltar pòdcasts i consulta el teu historial d'escolta aquí.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>I ara... a escoltar!</string>
     <key>profile_number_of_files</key>
     <string>%1$@ arxius</string>
     <key>profile_percent_full</key>
@@ -2083,9 +2340,9 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>profile_single_file</key>
     <string>1 arxiu</string>
     <key>profile_starred_no_episodes_desc</key>
-    <string>Encara no has destacat cap capítol.</string>
+    <string>Marca com a favorits els episodis que t'agraden i torna a ells quan vulguis.</string>
     <key>profile_starred_no_episodes_title</key>
-    <string>No hi ha res destacat</string>
+    <string>Desar els teus favorits</string>
     <key>purchase_terms</key>
     <string>Si segueixes, acceptes la %1$@política de privacitat%2$@ i els %3$@termes i condicions%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -2208,9 +2465,9 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>remove_download</key>
     <string>Esborrar la descàrrega</string>
     <key>remove_from_up_next</key>
-    <string>Eliminar de la llista 'Tot seguit'</string>
+    <string>Eliminar de la llista «Tot seguit»</string>
     <key>remove_up_next</key>
-    <string>Eliminar de 'Tot seguit'</string>
+    <string>Eliminar de la cua</string>
     <key>renew_subscription</key>
     <string>Renova la teva subscripció</string>
     <key>restore</key>
@@ -2222,9 +2479,9 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>restore_folders_success</key>
     <string>Pòdcasts restaurats a la seva carpeta original</string>
     <key>restore_up_next</key>
-    <string>Restaurar 'Tot seguit'?</string>
+    <string>Restaurar «Tot seguit»?</string>
     <key>restore_up_next_message</key>
-    <string>Aquests episodis s'afegiran al final de la llista 'Tot seguit'</string>
+    <string>Aquests episodis s'afegiran al final de la cua</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>save_bookmark</key>
@@ -2326,15 +2583,15 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_archive_played_title</key>
     <string>Arxivar els episodis reproduïts</string>
     <key>settings_auto_add</key>
-    <string>Afegir automàticament a la llista 'Tot seguit'</string>
+    <string>Afegir automàticament a la cua</string>
     <key>settings_auto_add_limit</key>
     <string>Límit d'episodis afegits automàticament</string>
     <key>settings_auto_add_limit_reached</key>
     <string>Si s'arriba al límit</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
-    <string>Els episodis nous deixaran d'afegir-se quan 'Tot seguit' arribi a %1$@ episodis.</string>
+    <string>Els episodis nous deixaran d'afegir-se quan «Tot seguit» arribi a %1$@ episodis.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Quan la llista 'Tot seguit' arribi a %1$@, els nous episodis que s'afegeixin automàticament es col·locaran al principi i eliminaran l'últim episodi de la cua. No s'afegiran nous episodis al final.</string>
+    <string>Quan la llista «Tot seguit» arribi a %1$@, els nous episodis que s'afegeixin automàticament es col·locaran al principi i eliminaran l'últim episodi de la cua. No s'afegiran nous episodis al final.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Afegir pòdcasts automàticament</string>
     <key>settings_auto_archive</key>
@@ -2378,9 +2635,9 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_auto_downloads_subtitle_filters</key>
     <string>Descarregar els primers episodis d'un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
-    <string>Descarrega automàticament nous episodis, desa episodis de les nous pòdcasts que segueixes i gestiona l'emmagatzematge establint un límit de quants episodis es guarden.</string>
+    <string>Descarrega automàticament episodis nous, desa episodis de pòdcasts que segueixes des de fa poc i gestiona l'emmagatzematge establint un límit de quants episodis es guarden.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
-    <string>Descarrega els episodis afegits a la llista 'Tot seguit'.</string>
+    <string>Descarrega els episodis afegits a la cua</string>
     <key>settings_badge_filter_header</key>
     <string>NÚMERO DE FILTRES D'EPISODIS</string>
     <key>settings_badge_new_since_opened</key>
@@ -2490,7 +2747,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_general_legacy_bluetooth_subtitle</key>
     <string>Si teniu un dispositiu amb Bluetooth o un estèreo d'automòbil que posa en pausa Pocket Casts mentre es reprodueix o restableix la posició de reproducció a 0, intenteu activar aquesta configuració per a solucionar-ho.</string>
     <key>settings_general_lock_screen_disabled</key>
-    <string>Desplaçament a la pantalla de bloqueig</string>
+    <string>Impedir moure la barra de reproducció a la pantalla de bloqueig</string>
     <key>settings_general_multi_select_gesture</key>
     <string>Gestos per a selecció múltiple d'elements</string>
     <key>settings_general_multi_select_gesture_subtitle</key>
@@ -2526,13 +2783,13 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_general_smart_playback_subtitle</key>
     <string>Si està activat, Pocket Casts retrocedirà una mica els episodis que reprenguis perquè puguis posar-te al dia fàcilment.</string>
     <key>settings_general_up_next_swipe</key>
-    <string>Desplaçar per a incloure a la llista 'Tot seguit'</string>
+    <string>Quan es llisca per a incloure a la cua</string>
     <key>settings_general_up_next_tap</key>
-    <string>Reproduir la llista 'Tot seguit' en prémer</string>
+    <string>Reproduir la cua en prémer</string>
     <key>settings_general_up_next_tap_off_subtitle</key>
-    <string>Quan toquis un episodi de la llista 'Tot seguit' es mostra la pàgina d'accions. Quan premis de forma perllongada es reproduirà l'episodi. Per a canviar una per l'altra, activa aquesta opció.</string>
+    <string>Si prems a un episodi de la llista «Tot seguit» es mostra la pàgina d'accions. I si prems de forma perllongada es reproduirà l'episodi. Per a canviar una per l'altra, activa aquesta opció.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
-    <string>Quan toquis un episodi de la llista 'Tot seguit' aquest es reproduirà. Quan premis de forma perllongada s'ensenyaran les opcions dels episodis. Per a canviar una per l'altra, desactiva aquesta opció.</string>
+    <string>Si prems un episodi de la llista «Tot seguit» aquest es reproduirà. I si premis de forma perllongada s'ensenyaran les opcions dels episodis. Per a canviar una per l'altra, desactiva aquesta opció.</string>
     <key>settings_global_settings</key>
     <string>Configuració general</string>
     <key>settings_headphone_controls</key>
@@ -2654,29 +2911,29 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_trim_silence</key>
     <string>Retallar silencis</string>
     <key>settings_up_next_dark_mode_footer</key>
-    <string>Quan està activat, 'Tot seguit' sempre utilitzarà el tema fosc, o coincidirà amb el tema actual quan estigui desactivat.</string>
+    <string>Quan està activat, «Tot seguit» sempre utilitzarà el tema fosc, o coincidirà amb el tema actual quan estigui desactivat.</string>
     <key>settings_up_next_dark_mode_title</key>
-    <string>Empra el tema fosc a la llista 'Tot seguit'</string>
+    <string>Empra el tema fosc a la llista «Tot seguit»</string>
     <key>settings_up_next_limit</key>
-    <string>Afegeix automàticament nous episodis a la llista 'Tot seguit'. Quan s'arribi a %1$@, es deixaran d'afegir episodis nous.</string>
+    <string>Afegeix automàticament nous episodis a la llista «Tot seguit». Quan s'arribi a %1$@, es deixaran d'afegir episodis nous.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Afegeix automàticament nous episodis a la llista 'Tot seguit'. Quan s'arribi a %1$@, els nous episodis que s'afegeixin automàticament es col·locaran al principi i s'eliminaran els darrers de la cua.</string>
+    <string>Afegeix automàticament nous episodis a la llista «Tot seguit». Quan s'arribi a %1$@, els nous episodis que s'afegeixin automàticament es col·locaran al principi i s'eliminaran els darrers de la cua.</string>
     <key>settings_volume_boost</key>
     <string>Apujar volum</string>
     <key>settings_watch_auto_download</key>
-    <string>Descàrrega automàtica de la llista 'Tot seguit'</string>
+    <string>Descàrrega automàtica de la llista «Tot seguit»</string>
     <key>settings_watch_auto_download_off_subtitle</key>
-    <string>Estableix el nombre d'episodis de la llista 'Tot seguit' que Pocket Casts descarregarà al teu rellotge perquè els puguis reproduir sense connexió.</string>
+    <string>Estableix el nombre d'episodis de la llista «Tot seguit» que Pocket Casts descarregarà al teu rellotge perquè els puguis reproduir sense connexió.</string>
     <key>settings_watch_delete_downloads</key>
     <string>Esborrar les descàrregues que superin el límit</string>
     <key>settings_watch_delete_downloads_off_subtitle</key>
-    <string>Per a estalviar emmagatzematge al rellotge, es descarregarà automàticament un màxim de 25 episodis de la llista 'Tot seguit'. S'esborraran automàticament els fitxers de descàrrega més antics que superin aquest límit.</string>
+    <string>Per a estalviar emmagatzematge al rellotge, es descarregarà automàticament un màxim de 25 episodis de la llista «Tot seguit». S'esborraran automàticament els fitxers de descàrrega més antics que superin aquest límit.</string>
     <key>settings_watch_delete_downloads_on_subtitle</key>
-    <string>S'esborraran automàticament tots els fitxers descarregats a la llista 'Tot seguit' que superin aquest límit. Aquests paràmetres no afecten les descàrregues manuals.</string>
+    <string>S'esborraran automàticament tots els fitxers descarregats a la llista «Tot seguit» que superin aquest límit. Aquests paràmetres no afecten les descàrregues manuals.</string>
     <key>settings_watch_episode_limit</key>
     <string>Nombre d'episodis</string>
     <key>settings_watch_episode_limit_subtitle</key>
-    <string>Pocket Casts descarregarà al teu rellotge els %1$@ principals episodis de la llista 'Tot seguit' perquè puguis reproduir-los sense connexió.</string>
+    <string>Pocket Casts descarregarà al teu rellotge els %1$@ principals episodis de la llista «Tot seguit» perquè puguis reproduir-los sense connexió.</string>
     <key>settings_watch_episode_number_option_format</key>
     <string>Els  %1$@ principals</string>
     <key>setup_account</key>
@@ -2696,7 +2953,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>share_current_position</key>
     <string>Posició actual</string>
     <key>share_description</key>
-    <string>Tria un format i una plataforma per a compartir amb</string>
+    <string>Tria un format i una plataforma per a compartir</string>
     <key>share_episode</key>
     <string>Compartir l'episodi</string>
     <key>share_episode_at</key>
@@ -2712,7 +2969,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>share_podcast</key>
     <string>Compartir el pòdcast</string>
     <key>share_podcast_private_not_available</key>
-    <string>La compartició no està disponible per a pòdcasts privats.</string>
+    <string>Els pòdcasts privats no es poden compartir</string>
     <key>share_podcast_title</key>
     <string>Compartir el pòdcast</string>
     <key>share_podcasts_all_selected</key>
@@ -2918,6 +3175,22 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>Crear carpeta personalitzada</string>
+    <key>suggested_folders_description</key>
+    <string>Hem organitzat els teus pòdcasts en carpetes. Desa ara i personalitza més tard.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Hem organitzat els teus pòdcasts en carpetes. Desa ara i personalitza més tard. Això substituirà qualsevol carpeta existent.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Substitueix les carpetes</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Acceptar les carpetes suggerides sobreescriurà les teves carpetes actuals. Això no es pot desfer.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Substituir les carpetes existents?</string>
+    <key>suggested_folders_title</key>
+    <string>Carpetes intel·ligents</string>
+    <key>suggested_folders_use_suggested_folders</key>
+    <string>Utilitza aquestes carpetes</string>
     <key>support_watch_help_message</key>
     <string>Si tens problemes amb l'aplicació Pocket Casts Watch, podem enviar-vos els vostres registres de portàtils per a ajudar-vos millor. Per a fer-ho, obriu Pocket Casts al vostre rellotge.</string>
     <key>support_watch_help_opened_app</key>
@@ -2941,7 +3214,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>sync_failed</key>
     <string>Ha fallat la sincronització</string>
     <key>sync_in_progress</key>
-    <string>Sincronitzant la llista 'Tot seguit' i l'historial</string>
+    <string>Sincronitzant la llista «Tot seguit» i l'historial</string>
     <key>sync_progress</key>
     <string>Podcast %1$@ de %2$@</string>
     <key>sync_progress_unknown_count_plural_format</key>
@@ -3017,11 +3290,11 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>up_next_empty_description</key>
     <string>Pots posar episodis a la cua perquè es reprodueixin aquí si llisques cap a la dreta les files dels episodis o bé si toques la icona a la targeta de l'episodi.</string>
     <key>up_next_empty_title</key>
-    <string>No hi ha res a la cua de 'Tot seguit'</string>
+    <string>Prepara la teva sessió d'escolta</string>
     <key>up_next_history</key>
-    <string>Historial de 'Tot seguit'</string>
+    <string>Historial de «Tot seguit»</string>
     <key>up_next_history_explanation</key>
-    <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per a veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
+    <string>Una llista d'actualitzacions recents a la cua a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>up_next_shuffle_announcement_button</key>
     <string>Som-hi</string>
     <key>up_next_shuffle_announcement_text</key>
@@ -3137,7 +3410,7 @@ Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_up_next_no_items_subtitle</key>
     <string>Per tal que els episodis es reprodueixin a continuació, pots posar-los a la cua des de la pantalla de detalls de l'episodi o afegir-los amb el telèfon.</string>
     <key>watch_up_next_no_items_title</key>
-    <string>No hi ha res a Tot seguit</string>
+    <string>No hi ha res a la cua</string>
     <key>week</key>
     <string>setmana</string>
     <key>welcome_discover_button</key>
@@ -3181,7 +3454,7 @@ Amb aquesta funció, la feina que has fet per a organitzar la teva pàgina de p�
     <key>widgets_discover_prompt_msg</key>
     <string>Mira a Descobrir per a veure'n més</string>
     <key>widgets_discover_prompt_title</key>
-    <string>No hi ha res a la cua de 'Tot seguit'</string>
+    <string>No hi ha res a la cua</string>
     <key>widgets_nothing_playing</key>
     <string>No sona res</string>
     <key>widgets_now_playing_desc</key>
@@ -3189,10 +3462,12 @@ Amb aquesta funció, la feina que has fet per a organitzar la teva pàgina de p�
     <key>widgets_now_playing_tap_discover</key>
     <string>Toca per a descobrir</string>
     <key>widgets_up_next_description</key>
-    <string>Consulta el nombre d'episodis a la cua de Tot seguit o mira informació sobre l'episodi següent.</string>
+    <string>Consulta el nombre d'episodis a la cua  o mira informació sobre l'episodi següent.</string>
     <key>year</key>
     <string>any</string>
     <key>yearly</key>
     <string>Per any</string>
+    <key>you_might_like</key>
+    <string>Et podria agradar</string>
   </dict>
 </plist>

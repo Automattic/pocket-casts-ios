@@ -46,7 +46,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var showNotesHolderView: UIView!
     @IBOutlet var showNotesHolderViewHeight: NSLayoutConstraint!
+    @IBOutlet var showNotesHolderTopAnchor: NSLayoutConstraint!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
+    var transcriptExcerpt: UIView?
 
     @IBOutlet var mainScrollView: UIScrollView! {
         didSet {
@@ -380,6 +382,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         updateButtonStates()
         updateProgress()
         updateMessageView()
+        updateColors()
     }
 
     @objc private func playbackProgressDidChange() {
@@ -439,7 +442,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
 
         updateButtonStates()
-        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor)
+        updateNavColors(bgColor: bgColor, titleColor: ThemeColor.secondaryText01(for: themeOverride), buttonColor: actionColor, buttonBackgroundColor: .clear)
     }
 
     @objc private func starTapped(_ sender: UIButton) {

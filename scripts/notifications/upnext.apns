@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Simplify your queue",
+      "body": "Build a playback queue and say goodbye to jumping around between episodes."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://upnext"
+}

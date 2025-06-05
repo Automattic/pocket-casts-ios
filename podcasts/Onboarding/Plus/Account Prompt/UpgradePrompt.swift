@@ -42,7 +42,7 @@ struct UpgradePrompt: View {
             VStack(spacing: 0) {
                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                     .padding([.top, .bottom], 16)
-                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: true).environmentObject(self.viewModel)
+                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: true)
                     .padding([.bottom], 16)
                 if !tiers.isEmpty {
                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)

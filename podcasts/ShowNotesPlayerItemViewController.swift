@@ -47,7 +47,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     private func setupWebView() {
-        showNotesWebView = WKWebView()
+        showNotesWebView = WKWebView(frame: showNotesHolderView.bounds)
 
         showNotesWebView.translatesAutoresizingMaskIntoConstraints = false
         showNotesHolderView.addSubview(showNotesWebView)
@@ -57,6 +57,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         showNotesWebView.allowsLinkPreview = true
         showNotesWebView.navigationDelegate = self
         showNotesWebView.scrollView.isDirectionalLockEnabled = true
+        showNotesWebView.scrollView.isScrollEnabled = false
         showNotesWebView.allowsBackForwardNavigationGestures = true
 
         showNotesWebView.isOpaque = false
@@ -214,19 +215,22 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         showNotesWebView.evaluateJavaScript("document.readyState", completionHandler: { [weak self] complete, _ in
-            guard let _ = complete else { return }
+            guard let self = self,
+                  let result = complete as? String,
+                  result == "complete" // ensure that the load of HTML is complete and not in another loading state
+            else {
+                return
+            }
+            updateScrollSize()
+        })
+    }
 
-            self?.showNotesWebView.evaluateJavaScript("document.body.offsetHeight", completionHandler: { [weak self] height, _ in
-                guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
+    func updateScrollSize() {
+        showNotesWebView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] height, _ in
+            guard let strongSelf = self, let cgHeight = height as? CGFloat else { return }
 
-                strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
-                strongSelf.view.layoutIfNeeded()
-
-                if strongSelf.showNotesViewHeight.constant + strongSelf.showNotesHolderView.frame.origin.y < strongSelf.view.frame.height {
-                    // if the show notes aren't long enough, we need to add the pull down gesture
-                    strongSelf.showNotesWebView.scrollView.isScrollEnabled = false
-                }
-            })
+            strongSelf.showNotesViewHeight.constant = CGFloat(cgHeight) + Constants.Values.extraShowNotesVerticalSpacing
+            strongSelf.view.layoutIfNeeded()
         })
     }
 

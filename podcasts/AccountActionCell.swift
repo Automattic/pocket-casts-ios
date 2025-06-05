@@ -11,6 +11,7 @@ class AccountActionCell: ThemeableCell {
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.style = iconStyle
+            cellLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .body)
         }
     }
 
@@ -66,5 +67,14 @@ class AccountActionCell: ThemeableCell {
         super.prepareForReuse()
 
         imageAndTextColor = nil
+
+        updateImageScale()
+    }
+
+    func updateImageScale() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+
+        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }

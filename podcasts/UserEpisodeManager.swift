@@ -50,7 +50,7 @@ struct UserEpisodeManager {
     }
 
     static func uploadUserEpisode(userEpisode: UserEpisode) {
-        if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToWifi() {
+        if ServerSettings.userEpisodeOnlyOnWifi(), !NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             UploadManager.shared.queueForLaterUpload(episodeUuid: userEpisode.uuid, fireNotification: true)
         } else {
             UploadManager.shared.addToQueue(episodeUuid: userEpisode.uuid)
@@ -141,7 +141,7 @@ struct UserEpisodeManager {
 
     static func checkForPendingUploads() {
         // check if any existing episode that have been queued need to be uploaded
-        if NetworkUtils.shared.isConnectedToWifi() {
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
             let queuedEpisodes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.waitingForWifi)
             for episode in queuedEpisodes {
                 UploadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true)
@@ -249,8 +249,12 @@ struct UserEpisodeManager {
     }
 
     #if !os(watchOS)
-        static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, actionCallback: ((Bool, Bool) -> Void)? = nil) {
+    static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, dismissCallback: (() -> ())? = nil, actionCallback: ((Bool, Bool) -> Void)? = nil) {
             let optionPicker = OptionsPicker(title: "", themeOverride: themeOverride)
+
+            if let dismissCallback {
+                optionPicker.setNoActionCallback(dismissCallback)
+            }
 
             let deleteCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil, action: { [] in
                 UserEpisodeManager.deleteFromCloud(episode: episode)

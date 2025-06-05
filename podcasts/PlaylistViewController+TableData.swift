@@ -19,10 +19,12 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
                 let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                    Analytics.track(.filterSelectAllAbove)
                     self.tableView.selectAllAbove(indexPath: indexPath)
                 })
 
                 let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                    Analytics.track(.filterSelectAllBelow)
                     self.tableView.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)

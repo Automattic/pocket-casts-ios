@@ -9,7 +9,7 @@ public class UpNextHistoryManager {
 
     /// Saves the current Up Next state into another table
     /// So it can be reverted later in case of wrong syncs
-    func snapshot(dbQueue: FMDatabaseQueue) {
+    func snapshot(dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT *, ? as 'date' FROM SJPlaylistEpisode", values: [Date()])
@@ -21,7 +21,7 @@ public class UpNextHistoryManager {
     }
 
     /// Return all the available Up Next entries
-    func entries(dbQueue: FMDatabaseQueue) -> [UpNextHistoryEntry] {
+    func entries(dbQueue: PCDBQueue) -> [UpNextHistoryEntry] {
         var entries: [UpNextHistoryEntry] = []
         dbQueue.inDatabase { db in
             do {
@@ -39,7 +39,7 @@ public class UpNextHistoryManager {
         return entries
     }
 
-    func replaceUpNext(entry: Date, dbQueue: FMDatabaseQueue) {
+    func replaceUpNext(entry: Date, dbQueue: PCDBQueue) {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("INSERT INTO SJPlaylistEpisode SELECT id, episodePosition, episodeUuid, playlist_id, upcoming, timeModified, wasDeleted, title, podcastUuid FROM PlaylistEpisodeHistory WHERE date = ?", values: [entry])
@@ -49,7 +49,7 @@ public class UpNextHistoryManager {
         }
     }
 
-    func episodes(entry: Date, dbQueue: FMDatabaseQueue) -> [String] {
+    func episodes(entry: Date, dbQueue: PCDBQueue) -> [String] {
         var episodesUuid: [String] = []
         dbQueue.inDatabase { db in
             do {

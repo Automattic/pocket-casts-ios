@@ -141,8 +141,7 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
         guard let episode = viewModel.episode as? Episode else {
             return
         }
-        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
-
-        present(controller, animated: true)
+        Analytics.track(.bookmarkShareTapped, source: viewModel.analyticsSource, properties: ["podcast_uuid": episode.podcastUuid, "episode_uuid": bookmark.episodeUuid])
+        SharingModal.show(option: .bookmark(episode, bookmark.time), from: .player, in: self)
     }
 }

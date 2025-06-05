@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 import SQLite3
 
@@ -26,30 +27,38 @@ public class DataManager {
     public let bookmarks: BookmarkDataManager
     public let ratings: RatingsDataManager
 
-    private let dbQueue: FMDatabaseQueue
+    private let dbQueue: PCDBQueue
 
-    public static let sharedManager = DataManager()
+    public static internal(set) var sharedManager = DataManager()
+
+    public static var logger: ErrorLogger?
 
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
-        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+        var dbQueue: PCDBQueue
+        if FeatureFlag.grdb.enabled {
+            var config = Configuration()
+            config.busyMode = .timeout(10)
+            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config), logger: Self.logger)
+            DataManager.setDatabaseFileProtectionToNone()
+        } else {
+            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
+        }
 
         self.init(dbQueue: dbQueue)
     }
 
-    /// Creates a DataManager using the given `FMDatabaseQueue`.
+    /// Creates a DataManager using the given `PCDBQueue`.
     /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
         self.dbQueue = dbQueue
 
-        dbQueue.inDatabase { db in
-            DatabaseHelper.setup(db: db)
-        }
+        DatabaseHelper.setup(queue: dbQueue)
 
-        if shouldCloseQueueAfterSetup {
+        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
             // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
             dbQueue.close()
         }
@@ -279,6 +288,10 @@ public class DataManager {
 
     public func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    }
+
+    public func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
+        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
     public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
@@ -976,6 +989,10 @@ public class DataManager {
         folderManager.deleteAllFolders(dbQueue: dbQueue)
     }
 
+    public func deleteAllFoldersAndMarkSync() {
+        folderManager.markAllFolderAsDeleted(syncModified: TimeFormatter.currentUTCTimeInMillis(), dbQueue: dbQueue)
+    }
+
     // MARK: - Advanced
 
     public func count(query: String, values: [Any]?) -> Int {
@@ -1144,5 +1161,24 @@ public extension DataManager {
 
     func summarizedRatings(in year: Int) -> [UInt32: Int]? {
         endOfYearManager.summarizedRatings(in: year)
+    }
+}
+
+// MARK: - GRDB: Database protection
+
+extension DataManager {
+    // This is the implementation of SQLITE_OPEN_FILEPROTECTION_NONE
+    // for GRDB, which we need to handle manually.
+    static func setDatabaseFileProtectionToNone() {
+        let dbPath = DataManager.pathToDb()
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: dbPath) {
+            if let attributes = try? fileManager.attributesOfItem(atPath: dbPath),
+               let currentProtection = attributes[.protectionKey] as? FileProtectionType,
+               currentProtection != .none {
+                // Only set the attribute if it's not already .none
+                try? fileManager.setAttributes([.protectionKey: FileProtectionType.none], ofItemAtPath: dbPath)
+            }
+        }
     }
 }

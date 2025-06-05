@@ -196,6 +196,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     @objc private func switchChanged(_ sender: UISwitch) {
+        Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": sender.isOn, "source": AnalyticsSource.filters])
         filterToEdit.autoDownloadEpisodes = sender.isOn
         didChangeAutoDownload = true
         tableView.reloadData()
@@ -243,6 +244,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
     private func addAutoLimitOption(optionPicker: OptionsPicker, limit: Int32, currentLimit: Int32) {
         let action = OptionAction(label: L10n.episodeCountPluralFormat(limit.localized()), selected: currentLimit == limit) { [weak self] in
+            Analytics.track(.filterAutoDownloadLimitUpdated, properties: ["limit": limit])
             self?.didChangeEpisodeCount = true
             self?.filterToEdit.autoDownloadLimit = limit
             self?.tableView.reloadData()

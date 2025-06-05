@@ -5,12 +5,12 @@ import UIKit
 
 class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let playerCell = "PlayerCell"
-    static let noUpNextCell = "NothingUpNextCell"
     static let nowPlayingCell = "UpNextNowPlayingCell"
+    static let emptyStateCell = "EmptyStateCell"
     static let upNextSection = 1
     static let upNextRowHeight: CGFloat = 72
-    static let noUpNextRowHeight: CGFloat = 180
     static let nowPlayingRowHeight: CGFloat = 72
+    static let emptyStateRowHeight: CGFloat = 300
     static let rearrangeWidth: CGFloat = 60
     static let bottomMargin: CGFloat = 8
 
@@ -73,8 +73,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet {
             upNextTable.themeOverride = themeOverride
             upNextTable.register(UINib(nibName: "PlayerCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.playerCell)
-            upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
+            upNextTable.register(EmptyStateCell.self, forCellReuseIdentifier: UpNextViewController.emptyStateCell)
             upNextTable.backgroundView = nil
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
@@ -207,7 +207,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func shuffleButtonTapped() {
-        if !SubscriptionHelper.hasActiveSubscription() {
+        FileLog.shared.addMessage("UpNext shuffleButtonTapped: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
+        if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             // Edge case where the UpNext is presented by the player container with a free user.
             // In this case we need to dismiss the UpNext to present the paywall
             if let mainTabBar = presentingViewController?.presentingViewController, presentingViewController is PlayerContainerViewController {
@@ -225,12 +227,15 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         let upNextShuffleEnabled = Settings.upNextShuffleEnabled()
         if upNextShuffleEnabled {
-            Toast.show(L10n.upNextShuffleToastMessage)
+            Toast.show(L10n.upNextShuffleToastMessage, aboveMiniPlayer: self.showingInTab ? true : false)
         }
+        FileLog.shared.addMessage("UpNext shuffleButtonTapped: shuffle enabled: \(upNextShuffleEnabled)")
         track(.upNextShuffleEnabled, properties: ["value": upNextShuffleEnabled])
     }
 
     @objc private func themeDidChange() {
+        FileLog.shared.addMessage("UpNext themeDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
         if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             shuffleButton.setImage(UIImage(named: "shuffle-plus"), for: .normal)
             shuffleButton.isSelected = false
@@ -239,6 +244,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
             shuffleButton.setImage(unselected, for: .normal)
             shuffleButton.setImage(selected, for: .selected)
+            updateShuffleButtonState()
         }
     }
 
@@ -247,6 +253,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             guard let self = self else { return }
             if FeatureFlag.upNextShuffle.enabled {
                 // Update UI
+                FileLog.shared.addMessage("UpNext subscriptionStatusDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")
+
                 setupActionButtonsIfNecessary()
                 themeDidChange()
                 updateNavBarButtons()
@@ -261,9 +269,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusDidChange), name: ServerNotifications.subscriptionStatusChanged, object: nil)
             themeDidChange()
-            if SubscriptionHelper.hasActiveSubscription() {
-                shuffleButton.isSelected = Settings.upNextShuffleEnabled()
-            }
             shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
         } else {
             guard clearQueueButton.allTargets.isEmpty else { return }

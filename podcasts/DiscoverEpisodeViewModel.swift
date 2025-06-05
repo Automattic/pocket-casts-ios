@@ -38,7 +38,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         self.playbackManager = playbackManager
         $discoverItem
             .dropFirst()
-            .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, type: PodcastCollection?.self) }
+            .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, authenticated: $0?.authenticated ?? false, type: PodcastCollection?.self) }
             .replaceError(with: nil)
             .assign(to: &$discoverCollection)
 

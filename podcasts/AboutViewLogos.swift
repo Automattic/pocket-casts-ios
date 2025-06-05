@@ -1,12 +1,10 @@
 import SwiftUI
 
 enum AboutLogo: CaseIterable {
-    case wordpress, jetpack, dayone, pocketcasts, simplenote, woo, tumblr
+    case jetpack, dayone, pocketcasts, simplenote, woo, tumblr
 
     var logoName: String {
         switch self {
-        case .wordpress:
-            return "family_wp_logo"
         case .jetpack:
             return "family_jetpack_logo"
         case .dayone:
@@ -33,20 +31,18 @@ enum AboutLogo: CaseIterable {
     var color: Color {
         let uiColor: UIColor
         switch self {
-        case .wordpress:
-            uiColor = UIColor(hex: "#0675C4")
         case .jetpack:
-            uiColor = UIColor(hex: "#00BE28")
+            uiColor = UIColor(hex: "#00BF2A")
         case .dayone:
-            uiColor = UIColor(hex: "#44C0FF")
+            uiColor = UIColor(hex: "#45BFFF")
         case .pocketcasts:
-            uiColor = UIColor(hex: "#F43E37")
+            uiColor = UIColor(hex: "#F53D38")
         case .simplenote:
             uiColor = UIColor(hex: "#3361CC")
         case .woo:
-            uiColor = UIColor(hex: "#7D57A4")
+            uiColor = UIColor(hex: "#B899FF")
         case .tumblr:
-            uiColor = UIColor(hex: "#001935")
+            uiColor = UIColor(hex: "#001933")
         }
 
         let alphaColor = uiColor.withAlphaComponent(0.16)
@@ -56,8 +52,6 @@ enum AboutLogo: CaseIterable {
 
     var description: String {
         switch self {
-        case .wordpress:
-            return "WordPress"
         case .jetpack:
             return "Jetpack"
         case .dayone:

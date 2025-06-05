@@ -52,7 +52,7 @@ final class ComposeFilterTests: XCTestCase {
 
     func testHTMLFilter() {
         let transcript = """
-        <strong>Speaker&nbsp;1<strong><br>It's a great day on Acme &amp; Acme.<br><em>Speaker 1<em><br>Folks say: &quot;What an amazing day&quot;.<br>
+        <strong>Speaker&nbsp;1<strong><br>It's a great day on Acme &amp; Acme.<br><em>Speaker 1<em><br>Folks say: &quot;What an amazing day&quot;.<br><p>This is a paragraph</p><p>with new line</p>
         """
 
         let filtered = ComposeFilter.htmlFilter.filter(transcript)
@@ -62,6 +62,8 @@ final class ComposeFilterTests: XCTestCase {
         It's a great day on Acme & Acme.
         Speaker 1
         Folks say: \"What an amazing day\".
+        This is a paragraph
+        with new line
         """
 
         XCTAssertEqual(filtered.trim(), expected.trim())
