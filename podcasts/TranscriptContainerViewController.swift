@@ -39,13 +39,9 @@ class TranscriptContainerViewController: UIViewController {
         presentationController?.delegate = self
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        Analytics.track(.episodeTranscriptShown)
-    }
-
     func showTranscript() {
+        Analytics.track(.episodeTranscriptShown)
+
         addChild(transcriptsItem)
         view.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: view)
