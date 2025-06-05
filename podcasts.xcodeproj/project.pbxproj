@@ -13721,8 +13721,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/google-cast";
 			requirement = {
-				kind = revision;
-				revision = bb93b20e2c0b585f6442fb41463e21cae3ded355;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
