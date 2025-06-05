@@ -70,6 +70,7 @@ struct BannerAdView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Text(model.adText)
                     .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
+                    .lineSpacing(-1)
                     .foregroundColor(colors.adText)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 4) {
