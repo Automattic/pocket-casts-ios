@@ -2,11 +2,11 @@
 
 class TranscriptContainerViewController: UIViewController {
     private let playbackManager: TranscriptPlaybackManaging
+    private var generatedTranscriptsPremiumOverlayShown: Bool = false
 
     private lazy var transcriptsItem: TranscriptViewController = {
         let item = TranscriptViewController(playbackManager: playbackManager, source: .episode)
         item.view.translatesAutoresizingMaskIntoConstraints = false
-//        item.scrollViewHandler = self
         item.containerDelegate = self
         return item
     }()
@@ -40,6 +40,8 @@ class TranscriptContainerViewController: UIViewController {
     }
 
     func showTranscript() {
+        generatedTranscriptsPremiumOverlayShown = false
+
         Analytics.track(.episodeTranscriptShown)
 
         addChild(transcriptsItem)
@@ -56,6 +58,7 @@ class TranscriptContainerViewController: UIViewController {
     }
 
     private func showGeneratedTranscriptsPremiumOverlay() {
+        generatedTranscriptsPremiumOverlayShown = true
         generatedTranscriptsPremiumOverlay.didAppear()
         addChild(generatedTranscriptsPremiumOverlay)
         view.addSubview(generatedTranscriptsPremiumOverlay.view)
@@ -65,6 +68,7 @@ class TranscriptContainerViewController: UIViewController {
 
     private func dismissGeneratedTranscriptsPremiumOverlay(dismissTranscript: Bool) {
         UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.generatedTranscriptsPremiumOverlayShown = false
             self?.generatedTranscriptsPremiumOverlay.didDisappear()
             self?.generatedTranscriptsPremiumOverlay.willMove(toParent: nil)
             self?.generatedTranscriptsPremiumOverlay.removeFromParent()
@@ -113,6 +117,10 @@ extension TranscriptContainerViewController: UIAdaptivePresentationControllerDel
     }
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        hideTranscript()
+        if generatedTranscriptsPremiumOverlay.view.superview != nil {
+            generatedTranscriptsPremiumOverlay.didDisappear()
+        } else {
+            hideTranscript()
+        }
     }
 }
