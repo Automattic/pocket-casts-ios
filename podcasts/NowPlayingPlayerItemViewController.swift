@@ -184,8 +184,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     #endif
 
     var lastShelfLoadState = ShelfLoadState()
-    
+
     private var bannerAdHostingController: PCHostingController<AnyView>?
+    private var bannerAdHeightConstraint: NSLayoutConstraint?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
@@ -202,19 +203,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
-        #endif
 
         if FeatureFlag.bannerAds.enabled {
             addAdBanner()
         }
+        #endif
     }
 
+#if !APPCLIP
     func addAdBanner() {
-        // Remove existing banner if any
         removeBannerAd()
-        
+
         guard let stackView = episodeImage.superview as? UIStackView else { return }
-        
+
         let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
                                   imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
                                   linkTitle: "Libro.fm")
@@ -223,30 +224,42 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         hostingController.view.backgroundColor = .clear
-        
-        // Calculate the proper size for the banner
+
         let targetSize = CGSize(width: stackView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
         let size = hostingController.sizeThatFits(in: targetSize)
-        
+
         addChild(hostingController)
         stackView.insertArrangedSubview(hostingController.view, at: 0)
-        
-        // Add height constraint based on the calculated size
-        NSLayoutConstraint.activate([
-            hostingController.view.heightAnchor.constraint(equalToConstant: size.height)
-        ])
-        
+
+        let heightConstraint = hostingController.view.heightAnchor.constraint(equalToConstant: size.height)
+        NSLayoutConstraint.activate([heightConstraint])
+
         hostingController.didMove(toParent: self)
         bannerAdHostingController = hostingController
+        bannerAdHeightConstraint = heightConstraint
     }
-    
+#endif
+
     private func removeBannerAd() {
         guard let hostingController = bannerAdHostingController else { return }
-        
+
         hostingController.willMove(toParent: nil)
         hostingController.view.removeFromSuperview()
         hostingController.removeFromParent()
         bannerAdHostingController = nil
+        bannerAdHeightConstraint = nil
+    }
+
+    private func updateBannerAdHeight() {
+        guard let hostingController = bannerAdHostingController,
+              let heightConstraint = bannerAdHeightConstraint,
+              let stackView = episodeImage.superview as? UIStackView else { return }
+
+        let targetSize = CGSize(width: stackView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        let size = hostingController.sizeThatFits(in: targetSize)
+
+        heightConstraint.constant = size.height
+        view.layoutIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -287,6 +300,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         lastBoundsAdjustedFor = view.bounds
 
         resizeControls()
+        updateBannerAdHeight()
     }
 
     private func resizeControls() {
@@ -313,6 +327,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
         update()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        // Update banner height when text size category changes
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateBannerAdHeight()
+        }
     }
 
     // MARK: - Interface Actions
