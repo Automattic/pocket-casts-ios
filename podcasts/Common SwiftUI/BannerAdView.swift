@@ -92,11 +92,12 @@ struct BannerAdView: View {
                 Button(action: {
                     //TODO: Add Ad reporting action in future PR
                 }, label: {
-                    Image(systemName: "ellipsis")
+                    Image(systemName: "xmark")
+                        .font(.system(size: 14))
                         .bold()
                         .foregroundStyle(colors.icon)
                 })
-                .padding(10)
+                .padding(2)
                 Spacer()
             }
         }
