@@ -30,7 +30,7 @@ struct BannerAdView: View {
             return Self(
                 background: theme.playerContrast06,
                 adText: theme.playerContrast01,
-                titleLabel: PlayerColorHelper.playerHighlightColor01(for: .dark),
+                titleLabel: PlayerColorHelper.playerHighlightColor01(for: .dark).color,
                 adLabelBackground: theme.playerContrast06,
                 adLabel: theme.playerContrast01,
                 icon: theme.playerContrast02,
@@ -67,7 +67,7 @@ struct BannerAdView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             creative()
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 14) {
                 Text(model.adText)
                     .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
                     .foregroundColor(colors.adText)
@@ -76,7 +76,7 @@ struct BannerAdView: View {
                     Text(model.adLabel)
                         .font(size: 8, style: .caption2, weight: .semibold, maxSizeCategory: maxSizeCategory)
                         .foregroundColor(colors.adLabel)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, 3)
                         .padding(.vertical, 2)
                         .background(colors.adLabelBackground)
                         .cornerRadius(4)
@@ -93,7 +93,7 @@ struct BannerAdView: View {
                     //TODO: Add Ad reporting action in future PR
                 }, label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 14))
+                        .font(.system(size: 12))
                         .bold()
                         .foregroundStyle(colors.icon)
                 })
