@@ -335,7 +335,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .fmdbWithoutActuallyEscaping:
             false
         case .bannerAds:
-            false        
+            false
         case .streamingCustomSessionConfiguration:
             true
         }
