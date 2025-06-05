@@ -56,6 +56,9 @@ struct BannerAdView: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) private var sizeCategory
 
+    // We override this because we don't want the ad getting _too_ large. In the player, especially, we run out of space.
+    let maxSizeCategory: UIContentSizeCategory = .accessibilityMedium
+
     init(model: BannerAdModel, colors: Colors) {
         self.model = model
         self.colors = colors
@@ -66,12 +69,12 @@ struct BannerAdView: View {
             creative()
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.adText)
-                    .font(.subheadline.weight(.medium))
+                    .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
                     .foregroundColor(colors.adText)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 4) {
                     Text(model.adLabel)
-                        .font(.caption2.weight(.semibold))
+                        .font(size: 8, style: .caption2, weight: .semibold, maxSizeCategory: maxSizeCategory)
                         .foregroundColor(colors.adLabel)
                         .padding(.horizontal, 4)
                         .padding(.vertical, 2)
@@ -79,7 +82,7 @@ struct BannerAdView: View {
                         .cornerRadius(4)
                     Button(action: { model.onLinkTap?() }) {
                         Text(model.titleLabel)
-                            .font(.footnote.weight(.semibold))
+                            .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
                             .foregroundColor(colors.titleLabel)
                     }
                     .buttonStyle(PlainButtonStyle())
