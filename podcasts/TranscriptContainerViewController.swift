@@ -12,7 +12,6 @@ class TranscriptContainerViewController: UIViewController {
     }()
 
     private lazy var generatedTranscriptsPremiumOverlay: GeneratedTranscriptsPremiumOverlay = {
-        let playbackManager = PlaybackManager.shared
         let item = GeneratedTranscriptsPremiumOverlay(playbackManager: playbackManager, analyticsSource: .episode)
         item.view.translatesAutoresizingMaskIntoConstraints = false
         item.dismissTranscript = { [weak self] in

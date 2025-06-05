@@ -6,7 +6,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     var dismissTranscript: (() -> Void)?
     var purchaseSuccessfull: (() -> Void)?
 
-    private let playbackManager: PlaybackManager
+    private let playbackManager: TranscriptPlaybackManaging
     let analyticsSource: AnalyticsSource
 
     private lazy var stackView: UIStackView = {
@@ -105,7 +105,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         analyticsSource == .episode
     }
 
-    init(playbackManager: PlaybackManager, analyticsSource: AnalyticsSource = .player) {
+    init(playbackManager: TranscriptPlaybackManaging, analyticsSource: AnalyticsSource = .player) {
         self.playbackManager = playbackManager
         self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
@@ -147,6 +147,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
 
         let readableContentGuideMargin = 12.0
         let topMargin = showFromEpisode ? 24.0 : 0.0
+        let paywallButtonBottomMargin: CGFloat = showFromEpisode && view.safeAreaInsets.bottom == 0 ? -readableContentGuideMargin : 0.0
 
         NSLayoutConstraint.activate(
             [
@@ -171,7 +172,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
                 descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-                paywallButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                paywallButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: paywallButtonBottomMargin),
                 paywallButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 paywallButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
                 paywallButton.heightAnchor.constraint(equalToConstant: 56)
@@ -202,10 +203,10 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     }
 
     private func track(event: AnalyticsEvent) {
-        guard let episode = playbackManager.currentEpisode(),
-              let podcast = playbackManager.currentPodcast else {
+        guard let episodeUUID = playbackManager.episodeUUID,
+              let podcastUUID = playbackManager.podcastUUID else {
             return
         }
-        Analytics.track(event, properties: ["episode_uuid": episode.uuid, "podcast_uuid": podcast.uuid, "source": analyticsSource.rawValue])
+        Analytics.track(event, properties: ["episode_uuid": episodeUUID, "podcast_uuid": podcastUUID, "source": analyticsSource.rawValue])
     }
 }
