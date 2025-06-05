@@ -78,11 +78,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.generatedTranscripts.enabled, value {
             transcriptViewTopConstraint?.constant = 80.0 + topMargin
             topGradientTopConstraint?.constant = 100.0 + topMargin
-            topGradientHeightConstraint?.constant = 30.0 + topMargin
+            topGradientHeightConstraint?.constant = 30.0
         } else {
             transcriptViewTopConstraint?.constant = 0.0 + topMargin
             topGradientTopConstraint?.constant = 0.0 + topMargin
-            topGradientHeightConstraint?.constant = Sizes.topGradientHeight + topMargin
+            topGradientHeightConstraint?.constant = Sizes.topGradientHeight
         }
         updateTextMargins()
     }
