@@ -400,6 +400,10 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <key>cancel_subscription_survey_title</key>
     <string>Tack för att du provade
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Något gick fel.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Tack för din feedback!</string>
     <key>cancel_subscription_title</key>
     <string>Funderar du på att lämna oss?
 Låt oss hjälpa dig först</string>
@@ -821,6 +825,10 @@ Låt oss hjälpa dig först</string>
     <string>Nedladdningar</string>
     <key>downloads_auto_download</key>
     <string>Inställningar för automatisk nedladdning</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Spara avsnitt för lyssning offline och missa aldrig ett ögonblick.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Njut av lyssning offline</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Försök genomföra misslyckade nedladdningar igen</string>
     <key>downloads_stop_all_downloads</key>
@@ -1076,8 +1084,12 @@ du lyssnade på var
     <string>Ta bort några filer och försök igen.</string>
     <key>file_upload_name_required</key>
     <string>Namn obligatoriskt</string>
+    <key>file_upload_no_files_description</key>
+    <string>Ladda upp dina egna filer till Pocket Casts och lyssna eller titta på dem när som helst.</string>
     <key>file_upload_no_files_helper</key>
     <string>Hur gör jag det?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Lyssna eller titta på dina egna filer</string>
     <key>file_upload_remove_image</key>
     <string>Ta bort bild</string>
     <key>file_upload_save</key>
@@ -1182,6 +1194,10 @@ du lyssnade på var
     <string>Nya släpp</string>
     <key>filters_new_filter_button</key>
     <string>+ Nytt filter</string>
+    <key>filters_tip_view_description</key>
+    <string>Skapa smarta filter för att organisera dina avsnitt. Filtrera efter varaktighet, utgivningsdatum, mediatyp med mera.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organisera dina avsnitt</string>
     <key>folder</key>
     <string>Mapp</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1210,6 +1226,8 @@ du lyssnade på var
     <string>Är du säker?</string>
     <key>folder_edit</key>
     <string>Redigera mapp</string>
+    <key>folder_empty_button_title</key>
+    <string>Lägg till podcasts</string>
     <key>folder_empty_description</key>
     <string>Lägg till podcasts i din mapp så visas de här.</string>
     <key>folder_empty_title</key>
@@ -1558,8 +1576,14 @@ podcasts med dig</string>
     <string>Nästa betalning: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Hörlursinställningar</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Hämta bokmärken</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Du kan spara tidsstämplar för viktiga ögonblick i ett avsnitt.</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
+    <key>no_bookmarks_title</key>
+    <string>Bokmärk det ögonblicket</string>
     <key>none</key>
     <string>Ingen</string>
     <key>not_on_wifi</key>
@@ -2302,6 +2326,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Hjälp till att stödja Pocket Casts genom att uppgradera ditt konto</string>
     <key>profile_last_app_refresh</key>
     <string>Appen uppdaterades senast %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Börja lyssna på podcasts och se tillbaka på din lyssningshistorik här.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Nu kan du börja lyssna.</string>
     <key>profile_number_of_files</key>
     <string>%1$@ filer</string>
     <key>profile_percent_full</key>
@@ -2318,6 +2346,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Det gick inte att skicka återställningsmeddelandet, försök igen senare.</string>
     <key>profile_single_file</key>
     <string>1 fil</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Stjärnmärk avsnitt du älskar och kom tillbaka till dem när du vill.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Spara dina favoriter</string>
     <key>purchase_terms</key>
     <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3265,6 +3297,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Nästa</string>
     <key>up_next_empty_description</key>
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
+    <key>up_next_empty_title</key>
+    <string>Sammanställ din lyssningssession</string>
     <key>up_next_history</key>
     <string>Up Next-historik</string>
     <key>up_next_history_explanation</key>

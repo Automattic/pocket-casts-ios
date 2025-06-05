@@ -400,6 +400,10 @@ Descarrega l'app per a una experiència completa!</string>
     <key>cancel_subscription_survey_title</key>
     <string>Gràcies per provar
 Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Alguna cosa ha anat malament.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Gràcies pel teu comentari!</string>
     <key>cancel_subscription_title</key>
     <string>Penses en marxar?
 Deixa'ns ajudar-te primer</string>
@@ -821,6 +825,10 @@ Deixa'ns ajudar-te primer</string>
     <string>Descàrregues</string>
     <key>downloads_auto_download</key>
     <string>Configuració de la descàrrega automàtica</string>
+    <key>downloads_no_downloads_desc</key>
+    <string>Desa episodis per escoltar-los sense connexió i no et perdis res.</string>
+    <key>downloads_no_downloads_title</key>
+    <string>Escolta episodis sense connexió</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Reintentar les descàrregues fallides</string>
     <key>downloads_stop_all_downloads</key>
@@ -1072,8 +1080,12 @@ Ens veiem el 2024!</string>
     <string>Esborra alguns arxius i prova-ho de nou.</string>
     <key>file_upload_name_required</key>
     <string>El nom és necessari</string>
+    <key>file_upload_no_files_description</key>
+    <string>Puja els teus propis arxius a Pocket Casts, i escolta'ls quan vulguis.</string>
     <key>file_upload_no_files_helper</key>
     <string>Com ho faig?</string>
+    <key>file_upload_no_files_title</key>
+    <string>Reprodueix els teus propis fitxers</string>
     <key>file_upload_remove_image</key>
     <string>Esborrar la imatge</string>
     <key>file_upload_save</key>
@@ -1178,6 +1190,10 @@ Ens veiem el 2024!</string>
     <string>Novetats</string>
     <key>filters_new_filter_button</key>
     <string>Afegir filtre nou</string>
+    <key>filters_tip_view_description</key>
+    <string>Crea filtres intel·ligents per organitzar els episodis. Filtra per durada, data de llançament, tipus de mitjà, i més.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organitzar els teus episodis</string>
     <key>folder</key>
     <string>Carpeta</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1206,6 +1222,8 @@ Ens veiem el 2024!</string>
     <string>Estàs segur?</string>
     <key>folder_edit</key>
     <string>Editar carpeta</string>
+    <key>folder_empty_button_title</key>
+    <string>Afegir pòdcasts</string>
     <key>folder_empty_description</key>
     <string>Afegeix pòdcasts a la teva carpeta i apareixeran aquí.</string>
     <key>folder_empty_title</key>
@@ -1552,8 +1570,14 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Pròxim pagament: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Configuració dels auriculars</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Obtenir marcadors</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Pots desar les marques de temps de moments importants d'un episodi.</string>
     <key>no_bookmarks_message</key>
     <string>Per a desar marcadors dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
+    <key>no_bookmarks_title</key>
+    <string>Marca aquest moment</string>
     <key>none</key>
     <string>Cap</string>
     <key>not_on_wifi</key>
@@ -2295,6 +2319,10 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Millora el teu compte i ajuda a la compatibilitat de Pocket Casts</string>
     <key>profile_last_app_refresh</key>
     <string>Darrera actualització de l'aplicació: %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Comença a escoltar pòdcasts i consulta el teu historial d'escolta aquí.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>I ara... a escoltar!</string>
     <key>profile_number_of_files</key>
     <string>%1$@ arxius</string>
     <key>profile_percent_full</key>
@@ -2311,6 +2339,10 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>No s'ha pogut enviar el correu electrònic de recuperació. Intenta-ho més tard.</string>
     <key>profile_single_file</key>
     <string>1 arxiu</string>
+    <key>profile_starred_no_episodes_desc</key>
+    <string>Marca com a favorits els episodis que t'agraden i torna a ells quan vulguis.</string>
+    <key>profile_starred_no_episodes_title</key>
+    <string>Desar els teus favorits</string>
     <key>purchase_terms</key>
     <string>Si segueixes, acceptes la %1$@política de privacitat%2$@ i els %3$@termes i condicions%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
@@ -3257,6 +3289,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Tot seguit</string>
     <key>up_next_empty_description</key>
     <string>Pots posar episodis a la cua perquè es reprodueixin aquí si llisques cap a la dreta les files dels episodis o bé si toques la icona a la targeta de l'episodi.</string>
+    <key>up_next_empty_title</key>
+    <string>Prepara la teva sessió d'escolta</string>
     <key>up_next_history</key>
     <string>Historial de «Tot seguit»</string>
     <key>up_next_history_explanation</key>
