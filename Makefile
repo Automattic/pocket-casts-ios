@@ -25,6 +25,9 @@ generate_colors: ## Generate colors and themes based on themes.csv
 lint:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
 
+lint_lenient:
+	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --lenient)
+
 format:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 

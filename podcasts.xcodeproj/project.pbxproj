@@ -9722,7 +9722,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ $CI ] && exit 0\n./Pods/SwiftLint/swiftlint --lenient\n";
+			shellScript = "[ $CI ] && exit 0\nmake lint_lenient\n";
 		};
 		3F407FBC28EC30B800818E41 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
