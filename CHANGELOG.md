@@ -1,6 +1,7 @@
 7.91
 -----
-- Improve streaming downloads configuration. [#3143](https://github.com/Automattic/pocket-casts-ios/issues/3143)
+- Improve streaming downloads configuration [#3143](https://github.com/Automattic/pocket-casts-ios/issues/3143)
+- Enable transcript excerpt in the episode view [#3204](https://github.com/Automattic/pocket-casts-ios/issues/3204)
 
 7.90
 -----
