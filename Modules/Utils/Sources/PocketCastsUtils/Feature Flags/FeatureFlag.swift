@@ -331,7 +331,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .replaceSpecificEpisode:
             true
         case .episodeDetailTranscript:
-            false
+            true
         case .fmdbWithoutActuallyEscaping:
             false
         case .bannerAds:
