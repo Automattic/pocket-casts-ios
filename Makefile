@@ -22,6 +22,9 @@ swift_percentage: ## Swift and Obj-C percentage on the project
 generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
 
+generate_code:
+	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
+
 lint:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
 
