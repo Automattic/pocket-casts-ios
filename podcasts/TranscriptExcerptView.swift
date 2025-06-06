@@ -64,7 +64,7 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
     }
 
     func excerptTapped() {
-        if case .loading = loadingState { return }
+        guard loadingState == .success else { return }
         tapAction()
         track(.episodeDetailTranscriptCardTapped)
     }
@@ -96,7 +96,7 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
         ZStack {
             Rectangle()
                 .foregroundStyle(.clear)
-                .background(theme.primaryUi04)
+                .background(theme.primaryUi02Active)
                 .cornerRadius(8.0)
                 .shadow(
                     color: .black.opacity(0.2),
