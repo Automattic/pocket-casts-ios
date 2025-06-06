@@ -91,7 +91,7 @@ struct BannerAdView: View {
             }
             VStack {
                 Button(action: {
-                    showReport()
+                    BannerAdReporter.show()
                 }, label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 12))
@@ -134,34 +134,6 @@ struct BannerAdView: View {
         }
         .aspectRatio(1, contentMode: .fit)
         .frame(width: 86, height: 86)
-    }
-
-    private func showReport() {
-        let reportOptions = OptionsPicker(title: nil)
-        let removeAction = OptionAction(label: L10n.bannerAdsRemoveAds, icon: "unsubscribe", action: {
-            NavigationManager.sharedManager.showUpsellView(from: SceneHelper.rootViewController()!, source: .bannerAd)
-        })
-        let reportAction = OptionAction(label: L10n.bannerAdsReportAd, icon: "show_notes", action: {
-            let reportOptions = OptionsPicker(title: L10n.bannerAdsReportAdTitle)
-            let brokenAction = OptionAction(label: L10n.bannerAdsReportBroken) {
-
-            }
-            let maliciousAction = OptionAction(label: L10n.bannerAdsReportMalicious) {
-
-            }
-            let tooOftenAction = OptionAction(label: L10n.bannerAdsReportTooOften) {
-
-            }
-            let otherAction = OptionAction(label: L10n.bannerAdsReportOther) {
-
-            }
-            reportOptions.addActions([brokenAction, maliciousAction, tooOftenAction, otherAction])
-            reportOptions.show()
-        })
-        reportOptions.addAction(action: removeAction)
-        reportOptions.addAction(action: reportAction)
-
-        reportOptions.show()
     }
 }
 
