@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/google-cast",
       "state" : {
-        "revision" : "7cbd73700d4e9270285118303a57346f7b8a22b7",
-        "version" : "1.0.0"
+        "revision" : "b553f49f8507a524c8857638ba8fe38c9568978b",
+        "version" : "1.0.1"
       }
     },
     {
