@@ -41,7 +41,7 @@ class OptionsPicker {
         noActionCallback = callback
     }
 
-    func show(statusBarStyle: UIStatusBarStyle) {
+    func show(statusBarStyle: UIStatusBarStyle? = nil) {
         guard let rootController = optionsController else { return }
         //TODO: Figure this out and fix it
         #if !APPCLIP
@@ -52,7 +52,9 @@ class OptionsPicker {
         window?.makeKeyAndVisible()
 
         let additionalPaddingRequired: CGFloat = window?.safeAreaInsets.bottom ?? 0
-        rootController.overrideStatusBarStyle = statusBarStyle
+        if let statusBarStyle {
+            rootController.overrideStatusBarStyle = statusBarStyle
+        }
         rootController.aboutToPresentOptions(bottomPadding: additionalPaddingRequired)
         rootController.animateIn()
     }

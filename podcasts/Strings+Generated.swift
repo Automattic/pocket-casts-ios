@@ -316,6 +316,20 @@ internal enum L10n {
   internal static var back: String { return L10n.tr("Localizable", "back") }
   /// AD
   internal static var bannerAdsInfoLabel: String { return L10n.tr("Localizable", "banner_ads_info_label") }
+  /// Remove ads
+  internal static var bannerAdsRemoveAds: String { return L10n.tr("Localizable", "banner_ads_remove_ads") }
+  /// Report ad
+  internal static var bannerAdsReportAd: String { return L10n.tr("Localizable", "banner_ads_report_ad") }
+  /// Why are you reporting this ad?
+  internal static var bannerAdsReportAdTitle: String { return L10n.tr("Localizable", "banner_ads_report_ad_title") }
+  /// This ad seems broken
+  internal static var bannerAdsReportBroken: String { return L10n.tr("Localizable", "banner_ads_report_broken") }
+  /// This is a malicious ad
+  internal static var bannerAdsReportMalicious: String { return L10n.tr("Localizable", "banner_ads_report_malicious") }
+  /// Other
+  internal static var bannerAdsReportOther: String { return L10n.tr("Localizable", "banner_ads_report_other") }
+  /// See this ad too often
+  internal static var bannerAdsReportTooOften: String { return L10n.tr("Localizable", "banner_ads_report_too_often") }
   /// Please download Pocket Casts from the App Store to purchase %1$@.
   internal static func betaPurchaseDisabled(_ p1: Any) -> String {
     return L10n.tr("Localizable", "beta_purchase_disabled", String(describing: p1))
@@ -2036,6 +2050,8 @@ internal enum L10n {
   internal static var patronUnlocking: String { return L10n.tr("Localizable", "patron_unlocking") }
   /// Pause
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
+  /// Say goodbye to banner ads and more with Pocket Casts Plus
+  internal static var paywallDynamicHeadlineBannerAd: String { return L10n.tr("Localizable", "paywall_dynamic_headline_banner_ad") }
   /// Upload your files with Pocket Casts Plus, and more
   internal static var paywallDynamicHeadlineFiles: String { return L10n.tr("Localizable", "paywall_dynamic_headline_files") }
   /// Organize your podcasts with Pocket Casts Plus, and more

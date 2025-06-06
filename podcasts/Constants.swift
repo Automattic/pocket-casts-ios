@@ -417,6 +417,7 @@ enum PlusUpgradeViewSource: String {
     case generatedTranscripts
     case onboarding
     case suggestedFolders = "suggested_folders"
+    case bannerAd = "banner_ad"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
@@ -460,6 +461,8 @@ enum PlusUpgradeViewSource: String {
             return L10n.paywallDynamicHeadlineIcons
         case .files:
             return L10n.paywallDynamicHeadlineFiles
+        case .bannerAd:
+            return L10n.paywallDynamicHeadlineBannerAd
         default:
             return L10n.plusMarketingTitle
         }

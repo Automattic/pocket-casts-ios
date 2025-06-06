@@ -91,7 +91,7 @@ struct BannerAdView: View {
             }
             VStack {
                 Button(action: {
-                    //TODO: Add Ad reporting action in future PR
+                    BannerAdReporter.show()
                 }, label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 12))
