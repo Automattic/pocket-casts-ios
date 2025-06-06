@@ -1781,7 +1781,6 @@
 		F5954D5E2C3F284D004A8C04 /* TrimSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5954D5D2C3F284D004A8C04 /* TrimSelectionView.swift */; };
 		F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5954D5F2C3F2864004A8C04 /* TrimHandle.swift */; };
 		F5A292162DE95F9000C49AC4 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A292152DE95F8C00C49AC4 /* BannerAdView.swift */; };
-		F5A292172DE9638900C49AC4 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A292152DE95F8C00C49AC4 /* BannerAdView.swift */; };
 		F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */; };
 		F5ADE2F42CF52AF100F2CEA7 /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
 		F5ADE2F52CF52AFA00F2CEA7 /* TracksAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED31289DA1900017883A /* TracksAdapter.swift */; };
@@ -11314,7 +11313,6 @@
 				F5F509632CEBF70E007D6E39 /* Queue.swift in Sources */,
 				F5F509302CEBEF95007D6E39 /* URLSession+Episode.swift in Sources */,
 				F5F509022CEBEA59007D6E39 /* String+Analytics.swift in Sources */,
-				F5A292172DE9638900C49AC4 /* BannerAdView.swift in Sources */,
 				F5F5094F2CEBF457007D6E39 /* MultipleActionView.swift in Sources */,
 				F5F5095D2CEBF697007D6E39 /* AudioUtils.swift in Sources */,
 				F580777C2DEA032A005AFBA6 /* Theme+Color.swift in Sources */,

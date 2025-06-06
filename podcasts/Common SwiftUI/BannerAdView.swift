@@ -26,6 +26,18 @@ struct BannerAdView: View {
         let icon: Color
         let border: Color?
 
+        static func playerColors(_ theme: Theme) -> Self {
+            return Self(
+                background: theme.playerContrast06,
+                adText: theme.playerContrast01,
+                titleLabel: PlayerColorHelper.playerHighlightColor01(for: .dark).color,
+                adLabelBackground: theme.playerContrast06,
+                adLabel: theme.playerContrast01,
+                icon: theme.playerContrast02,
+                border: nil
+            )
+        }
+
         static func podcastList(_ theme: Theme) -> Self {
             return Self(
                 background: theme.primaryUi06,
@@ -44,6 +56,9 @@ struct BannerAdView: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) private var sizeCategory
 
+    // We override this because we don't want the ad getting _too_ large. In the player, especially, we run out of space.
+    let maxSizeCategory: UIContentSizeCategory = .accessibilityMedium
+
     init(model: BannerAdModel, colors: Colors) {
         self.model = model
         self.colors = colors
@@ -52,22 +67,23 @@ struct BannerAdView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             creative()
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 14) {
                 Text(model.adText)
-                    .font(.subheadline.weight(.medium))
+                    .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
+                    .lineSpacing(-1)
                     .foregroundColor(colors.adText)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 4) {
                     Text(model.adLabel)
-                        .font(.caption2.weight(.semibold))
+                        .font(size: 8, style: .caption2, weight: .semibold, maxSizeCategory: maxSizeCategory)
                         .foregroundColor(colors.adLabel)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, 3)
                         .padding(.vertical, 2)
                         .background(colors.adLabelBackground)
                         .cornerRadius(4)
                     Button(action: { model.onLinkTap?() }) {
                         Text(model.titleLabel)
-                            .font(.footnote.weight(.semibold))
+                            .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
                             .foregroundColor(colors.titleLabel)
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -77,11 +93,12 @@ struct BannerAdView: View {
                 Button(action: {
                     //TODO: Add Ad reporting action in future PR
                 }, label: {
-                    Image(systemName: "ellipsis")
+                    Image(systemName: "xmark")
+                        .font(.system(size: 12))
                         .bold()
                         .foregroundStyle(colors.icon)
                 })
-                .padding(10)
+                .padding(2)
                 Spacer()
             }
         }
