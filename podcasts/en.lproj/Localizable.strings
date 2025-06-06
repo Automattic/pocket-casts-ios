@@ -4834,6 +4834,9 @@
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
 
+/* For yealry plans, we show the monthly price. %1$@ is the price. For example: $3.33/month */
+"iap_product_monthly_pricing_format" = "%1$@/month";
+
 /* Text displayed when the retry screen is visible */
 "cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
 

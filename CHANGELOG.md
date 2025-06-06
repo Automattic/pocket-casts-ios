@@ -1,5 +1,6 @@
 7.91
 -----
+- Improve streaming downloads configuration. [#3143](https://github.com/Automattic/pocket-casts-ios/issues/3143)
 
 7.90
 -----

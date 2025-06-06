@@ -715,6 +715,8 @@
 		9A9B83C02DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
+		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -2969,6 +2971,8 @@
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
 		9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyRow.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
+		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
+		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
 		AA688FF113B87D7B363799D5 /* Pods-Pocket Casts App ClipTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.staging.xcconfig"; sourceTree = "<group>"; };
@@ -8608,6 +8612,8 @@
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
 			isa = PBXGroup;
 			children = (
+				9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */,
+				9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */,
 				9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */,
 				FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */,
 				9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */,
@@ -9724,7 +9730,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ $CI ] && exit 0\n./Pods/SwiftLint/swiftlint --lenient\n";
+			shellScript = "[ $CI ] && exit 0\nmake lint_lenient\n";
 		};
 		3F407FBC28EC30B800818E41 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -9829,6 +9835,23 @@
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
 		};
+		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -9845,6 +9868,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -10743,7 +10783,9 @@
 				BD35BB6C1CF697650018D63E /* AudioUtils.swift in Sources */,
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
 				C7252E142A71950500E7D3C0 /* EpisodeImage.swift in Sources */,
+				9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */,
 				FF9B6B772D0733670057A504 /* LogsView.swift in Sources */,
+				9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */,
 				BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */,
 				BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */,
 				F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */,

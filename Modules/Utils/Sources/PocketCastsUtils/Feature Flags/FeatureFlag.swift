@@ -197,6 +197,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
     case bannerAds
 
+    /// Improves configuration for the streaming requet download session
+    case streamingCustomSessionConfiguration
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -333,6 +336,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .bannerAds:
             false
+        case .streamingCustomSessionConfiguration:
+            true
         }
     }
 

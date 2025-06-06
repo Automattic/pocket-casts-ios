@@ -155,6 +155,18 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
+    public func getMonthlyPrice(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier) else { return "" }
+        let monthly = product.price.doubleValue / 12
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = product.priceLocale
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: monthly))
+        return formattedPrice ?? ""
+    }
+
     public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")

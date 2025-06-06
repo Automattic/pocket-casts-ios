@@ -8,12 +8,6 @@ inhibit_all_warnings!
 
 app_ios_deployment_target = Gem::Version.new('16.0')
 
-def swiftlint_version
-  require 'yaml'
-
-  YAML.load_file('.swiftlint.yml')['swiftlint_version']
-end
-
 target 'podcasts' do
   platform :ios, app_ios_deployment_target.version
 end
@@ -26,7 +20,6 @@ abstract_target 'CI' do
   platform :ios, app_ios_deployment_target.version
 
   pod 'SwiftGen', '~> 6.0'
-  pod 'SwiftLint', swiftlint_version
 end
 
 post_install do |installer|
