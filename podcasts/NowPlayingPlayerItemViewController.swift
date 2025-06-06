@@ -486,7 +486,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
                                   imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-                                  linkTitle: "Libro.fm")
+                                  linkTitle: "Libro.fm",
+                                  adID: "1234",
+                                  source: "player") {
+            let url = URL(string: "https://libro.fm/")!
+            let safariViewController = SFSafariViewController(with: url)
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
+            SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+        }
         let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(8)
         let hostingController = PCHostingController(rootView: AnyView(adView))
 

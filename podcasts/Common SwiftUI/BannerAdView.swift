@@ -81,12 +81,9 @@ struct BannerAdView: View {
                         .padding(.vertical, 2)
                         .background(colors.adLabelBackground)
                         .cornerRadius(4)
-                    Button(action: { model.onLinkTap?() }) {
-                        Text(model.titleLabel)
-                            .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
-                            .foregroundColor(colors.titleLabel)
-                    }
-                    .buttonStyle(PlainButtonStyle())
+                    Text(model.titleLabel)
+                        .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
+                        .foregroundColor(colors.titleLabel)
                 }
             }
             VStack {
@@ -114,6 +111,9 @@ struct BannerAdView: View {
         }
         .cornerRadius(8)
         .padding(.vertical, 10)
+        .onTapGesture {
+            model.onLinkTap?()
+        }
     }
 
     @ViewBuilder func creative() -> some View {
