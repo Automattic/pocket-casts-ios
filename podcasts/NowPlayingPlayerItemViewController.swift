@@ -477,7 +477,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         })
     }
 
-    //MARK: Banner Ad
+    // MARK: Banner Ad
 
     func addAdBanner() {
         removeBannerAd()
