@@ -48,7 +48,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsTable)
     }
-    
+
     @IBAction func tryAgainTapped(_ sender: AnyObject) {
         loadPodcasts()
     }
