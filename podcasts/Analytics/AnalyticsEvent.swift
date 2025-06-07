@@ -903,4 +903,8 @@ enum AnalyticsEvent: String {
     case podcastScreenPodrollInformationModelShown
     case podcastScreenPodrollPodcastSubscribed
     case podcastScreenPodrollPodcastTapped
+
+    // MARK: - Banner Ads
+    case bannerAdImpression
+    case bannerAdTapped
 }
