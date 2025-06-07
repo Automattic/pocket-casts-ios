@@ -1,6 +1,6 @@
 PODS:
   - google-cast-sdk-no-bluetooth (1.2.0)
-  - SwiftGen (6.5.1)
+  - SwiftGen (6.6.3)
 
 DEPENDENCIES:
   - google-cast-sdk-no-bluetooth (from `https://github.com/Automattic/google-cast`)
@@ -21,7 +21,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   google-cast-sdk-no-bluetooth: 97f3b1286fa2fa158ec47975b4bb758908a27b2d
-  SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
+  SwiftGen: 4993cbf71cbc4886f775e26f8d5c3a1188ec9f99
 
 PODFILE CHECKSUM: b5d763d93ecf3bcd6096fe166c48315fe121b0fa
 
