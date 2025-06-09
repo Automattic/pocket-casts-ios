@@ -1,28 +1,16 @@
 PODS:
-  - google-cast-sdk-no-bluetooth (1.2.0)
-  - SwiftGen (6.5.1)
+  - SwiftGen (6.6.3)
 
 DEPENDENCIES:
-  - google-cast-sdk-no-bluetooth (from `https://github.com/Automattic/google-cast`)
   - SwiftGen (~> 6.0)
 
 SPEC REPOS:
   trunk:
     - SwiftGen
 
-EXTERNAL SOURCES:
-  google-cast-sdk-no-bluetooth:
-    :git: https://github.com/Automattic/google-cast
-
-CHECKOUT OPTIONS:
-  google-cast-sdk-no-bluetooth:
-    :commit: 6992eaf3fe4353e6992a2c35b5a879c490bba2d4
-    :git: https://github.com/Automattic/google-cast
-
 SPEC CHECKSUMS:
-  google-cast-sdk-no-bluetooth: 97f3b1286fa2fa158ec47975b4bb758908a27b2d
-  SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
+  SwiftGen: 4993cbf71cbc4886f775e26f8d5c3a1188ec9f99
 
-PODFILE CHECKSUM: b5d763d93ecf3bcd6096fe166c48315fe121b0fa
+PODFILE CHECKSUM: 7b66b81aa404c914eb6fa8485d8904aa5068e586
 
 COCOAPODS: 1.15.2

@@ -78,9 +78,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is meant to fix an issue for users that were losing stats
     case syncStats
 
-    /// Enable the refactored discover collection view
-    case discoverCollectionView
-
     /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
     /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
     /// This makes the skip unusable as the player doesn't have its task set yet.
@@ -257,8 +254,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .syncStats:
             true
-        case .discoverCollectionView:
-            true
         case .playerIsReadyToPlay:
             true
         case .listeningHistorySearch:
@@ -334,7 +329,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .replaceSpecificEpisode:
             true
         case .episodeDetailTranscript:
-            false
+            true
         case .fmdbWithoutActuallyEscaping:
             false
         case .bannerAds:

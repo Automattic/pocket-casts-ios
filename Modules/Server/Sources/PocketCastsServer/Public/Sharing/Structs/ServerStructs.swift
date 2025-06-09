@@ -327,6 +327,13 @@ public struct DiscoverItem: Decodable, Equatable {
     }
 }
 
+extension DiscoverItem: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(uuid)
+    }
+}
+
 public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
