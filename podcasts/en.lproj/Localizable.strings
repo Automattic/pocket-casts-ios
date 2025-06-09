@@ -1612,6 +1612,9 @@
 /* Message displayed when teh user tap "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
+/* Pocket Casts Plus marketing page, description of removing banner ads */
+"plus_marketing_no_banner_ads" = "No Banner Ads";
+
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
 

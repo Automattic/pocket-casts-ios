@@ -115,6 +115,7 @@ struct PlusAccountUpgradePrompt: View {
 
     private let productFeatures: [IAPProductID: [Feature]] = [
         .yearly: ([
+            .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds),
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             .init(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
             .init(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
