@@ -48,13 +48,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsTable)
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if FeatureFlag.discoverCollectionView.enabled == false {
-            loadPodcasts()
-        }
-    }
 
     @IBAction func tryAgainTapped(_ sender: AnyObject) {
         loadPodcasts()

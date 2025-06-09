@@ -1264,8 +1264,6 @@
 		BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */; };
 		BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */; };
 		BDB1DC642316964E00119B81 /* HowToUploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1DC622316964E00119B81 /* HowToUploadViewController.xib */; };
-		BDB1E4DD1B8C5998009AD30F /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */; };
-		BDB1E4DE1B8C5998009AD30F /* DiscoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */; };
 		BDB1E4ED1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4EB1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift */; };
 		BDB1E4EE1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1E4EC1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib */; };
 		BDB1E4F61B8C5BF9009AD30F /* NetworkSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4F41B8C5BF9009AD30F /* NetworkSummaryViewController.swift */; };
@@ -1382,7 +1380,6 @@
 		BDD8AABF267C858D0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AABE267C858D0013494D /* Fuse */; };
 		BDD8AAC1267C859A0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AAC0267C859A0013494D /* Fuse */; };
 		BDD8AAC3267C85A20013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AAC2267C85A20013494D /* Fuse */; };
-		BDDA14D5219AF8D50066441E /* DiscoverViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */; };
 		BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14D6219AFA1E0066441E /* SearchInfoCell.swift */; };
 		BDDA14D9219AFA1E0066441E /* SearchInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDDA14D7219AFA1E0066441E /* SearchInfoCell.xib */; };
 		BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14DA219B021A0066441E /* SearchLoadingCell.swift */; };
@@ -1435,7 +1432,6 @@
 		BDE48A412410D90D00ECA6CA /* MNAVChapterReader.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF0D4B323EBF1190034129E /* MNAVChapterReader.m */; };
 		BDE48A422410D92A00ECA6CA /* EpisodeFilter+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD542C1F240382A100F35D26 /* EpisodeFilter+Formatting.swift */; };
 		BDE5B8D81E6401F80039B409 /* EpisodeFileSizeUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE5B8D71E6401F80039B409 /* EpisodeFileSizeUpdater.swift */; };
-		BDE60ACE2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE60ACD2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift */; };
 		BDE6AB6F1CC49B010087D195 /* SyncSigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE6AB6D1CC49B010087D195 /* SyncSigninViewController.swift */; };
 		BDE6AB701CC49B010087D195 /* SyncSigninViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDE6AB6E1CC49B010087D195 /* SyncSigninViewController.xib */; };
 		BDE6AB7A1CC4BB580087D195 /* RoundedBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE6AB791CC4BB580087D195 /* RoundedBorderView.swift */; };
@@ -1748,7 +1744,6 @@
 		F555980B2C50242800C02EEB /* VideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F555980A2C50242800C02EEB /* VideoExporter.swift */; };
 		F555980F2C503F1700C02EEB /* AnimatedShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */; };
 		F55598112C534D4100C02EEB /* CMTimeScale+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */; };
-		F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */; };
 		F56035112DCBD67300E6F238 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035102DCBD67300E6F238 /* EmptyStateCell.swift */; };
 		F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035122DCBDB1F00E6F238 /* LoadingCell.swift */; };
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
@@ -3548,8 +3543,6 @@
 		BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+URLSessionDelegate.swift"; sourceTree = "<group>"; };
 		BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUploadViewController.swift; sourceTree = "<group>"; };
 		BDB1DC622316964E00119B81 /* HowToUploadViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HowToUploadViewController.xib; sourceTree = "<group>"; };
-		BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
-		BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverViewController.xib; sourceTree = "<group>"; };
 		BDB1E4EB1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedSummaryViewController.swift; sourceTree = "<group>"; };
 		BDB1E4EC1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedSummaryViewController.xib; sourceTree = "<group>"; };
 		BDB1E4F41B8C5BF9009AD30F /* NetworkSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSummaryViewController.swift; sourceTree = "<group>"; };
@@ -3672,7 +3665,6 @@
 		BDD832AE214B8A8B0013D692 /* PCGoogleCastButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCGoogleCastButton.swift; sourceTree = "<group>"; };
 		BDD84CE227CC8EDE001C078B /* ChoosePodcastFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePodcastFolderView.swift; sourceTree = "<group>"; };
 		BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePodcastFolderModel.swift; sourceTree = "<group>"; };
-		BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+Search.swift"; sourceTree = "<group>"; };
 		BDDA14D6219AFA1E0066441E /* SearchInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInfoCell.swift; sourceTree = "<group>"; };
 		BDDA14D7219AFA1E0066441E /* SearchInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchInfoCell.xib; sourceTree = "<group>"; };
 		BDDA14DA219B021A0066441E /* SearchLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoadingCell.swift; sourceTree = "<group>"; };
@@ -3695,7 +3687,6 @@
 		BDE48A352410D4BB00ECA6CA /* WatchNowPlayingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNowPlayingHelper.swift; sourceTree = "<group>"; };
 		BDE48A402410D88100ECA6CA /* watch-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "watch-bridging-header.h"; sourceTree = "<group>"; };
 		BDE5B8D71E6401F80039B409 /* EpisodeFileSizeUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeFileSizeUpdater.swift; sourceTree = "<group>"; };
-		BDE60ACD2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+DiscoverDelegate.swift"; sourceTree = "<group>"; };
 		BDE6AB6D1CC49B010087D195 /* SyncSigninViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncSigninViewController.swift; sourceTree = "<group>"; };
 		BDE6AB6E1CC49B010087D195 /* SyncSigninViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SyncSigninViewController.xib; sourceTree = "<group>"; };
 		BDE6AB791CC4BB580087D195 /* RoundedBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedBorderView.swift; sourceTree = "<group>"; };
@@ -3980,7 +3971,6 @@
 		F555980A2C50242800C02EEB /* VideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporter.swift; sourceTree = "<group>"; };
 		F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedShareImageView.swift; sourceTree = "<group>"; };
 		F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTimeScale+Common.swift"; sourceTree = "<group>"; };
-		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
 		F56035102DCBD67300E6F238 /* EmptyStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
 		F56035122DCBDB1F00E6F238 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
@@ -8389,11 +8379,6 @@
 				BD95ED631BAFA1FB004335B0 /* Country */,
 				BD18FB1C219ACC770012C41D /* Search */,
 				8BAB8B2D299ABC5E00B8404C /* New Search */,
-				BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */,
-				F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */,
-				BDE60ACD2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift */,
-				BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */,
-				BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */,
 				BD9FF6281B8EFC6F009F075E /* DiscoverSummaryProtocol.swift */,
 				40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */,
 				C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */,
@@ -9234,7 +9219,6 @@
 				BDA002CC1F7B318B00DCB4AE /* AppIcon-Dark40x40@2x~ipad.png in Resources */,
 				BD12930D22F809F8004608A6 /* AppIcon-Electric-Pink20x20@2x~ipad.png in Resources */,
 				BD6B667C245BC25C00CF5245 /* AppIcon-Indigo40x40@2x.png in Resources */,
-				BDB1E4DE1B8C5998009AD30F /* DiscoverViewController.xib in Resources */,
 				408529A0247C9682007FE8AA /* SupporterContributionsViewController.xib in Resources */,
 				40AA12752488AE3C006B9D48 /* MultiSelectFooterView.xib in Resources */,
 				BDA002F41F7B318B00DCB4AE /* AppIcon-Round60x60@3x.png in Resources */,
@@ -9837,6 +9821,27 @@
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
 		};
+		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -9853,6 +9858,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -10256,7 +10282,6 @@
 				BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */,
 				C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */,
 				10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */,
-				F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */,
 				F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */,
 				F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
@@ -10325,7 +10350,6 @@
 				C7221A682A6AD80B004AAE00 /* BookmarkPodcastListViewModel.swift in Sources */,
 				46737E6C2730400500739C3E /* ThemedSwitchToggleStyle.swift in Sources */,
 				40FFCDB022FA817300395CA5 /* ThemeAbstractCell.swift in Sources */,
-				BDE60ACE2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift in Sources */,
 				BDB3BDC11FE23F9000FD8D24 /* PodcastChooserCell.swift in Sources */,
 				F5F479A62C3EF8AB002B4475 /* PlayheadView.swift in Sources */,
 				BDFF77301C9929660086282A /* NavigationProtocol.swift in Sources */,
@@ -10998,13 +11022,11 @@
 				BDED042421474365003A51E0 /* FloatingVideoView.swift in Sources */,
 				8B208A5529C933F800AEF951 /* DismissKeyboardOnScroll.swift in Sources */,
 				BDF15A4E1B54E8F0000EC323 /* Constants.swift in Sources */,
-				BDDA14D5219AF8D50066441E /* DiscoverViewController+Search.swift in Sources */,
 				C7A110F2291F1EC300887A90 /* HTMLTextView.swift in Sources */,
 				BDC8CDDC203BFAA400D88313 /* PodcastListViewController+CollectionView.swift in Sources */,
 				F52987E92CD2ED7800628016 /* YearOverYearCompare2024Story.swift in Sources */,
 				BD49C8F127C5F9E300A2CCBD /* ColorSelectCircle.swift in Sources */,
 				C7BDECB92A1533C000BECF02 /* PatronWelcomeViewModel.swift in Sources */,
-				BDB1E4DD1B8C5998009AD30F /* DiscoverViewController.swift in Sources */,
 				BD3334521FC67FBB0017C3A8 /* PlaylistRefreshOperation.swift in Sources */,
 				BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */,
 				BDD71CF41BA935E8006D2CE3 /* NetworkViewController.swift in Sources */,
