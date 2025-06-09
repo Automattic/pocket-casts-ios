@@ -441,7 +441,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
             linkTitle: "Libro.fm",
             adID: "12345",
-            source: "podcast-list"
+            source: "podcast_list"
         ) {
             let url = URL(string: "https://libro.fm/")!
             let safariViewController = SFSafariViewController(with: url)
