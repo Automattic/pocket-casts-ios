@@ -42,12 +42,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let filtersViewController = PlaylistsViewController()
         filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: pcTabs.firstIndex(of: .filter)!)
 
-        let discoverViewController: UIViewController
-        if FeatureFlag.discoverCollectionView.enabled {
-            discoverViewController = DiscoverCollectionViewController(coordinator: DiscoverCoordinator())
-        } else {
-            discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
-        }
+        let discoverViewController = DiscoverCollectionViewController(coordinator: DiscoverCoordinator())
+
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: pcTabs.firstIndex(of: .discover)!)
 
         let profileViewController = ProfileViewController()

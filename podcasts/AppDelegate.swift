@@ -314,31 +314,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func updateRemoteFeatureFlags() {
         guard BuildEnvironment.current != .debug else { return }
-        do {
-            if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
-                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-                try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
+
+        if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
+            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+            try? FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
+        }
+
+        if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.importUserDefaults()
+                DataManager.sharedManager.importPodcastSettings()
             }
+        }
 
-            if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
-                if FeatureFlag.newSettingsStorage.enabled {
-                    SettingsStore.appSettings.importUserDefaults()
-                    DataManager.sharedManager.importPodcastSettings()
-                }
-            }
+        try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
-            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
-
-            try FeatureFlag.allCases.forEach { flag in
-                if let remoteKey = flag.remoteKey {
-                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
-                    if remoteValue.source == .remote {
+        FeatureFlag.allCases.forEach { flag in
+            if let remoteKey = flag.remoteKey {
+                let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+                if remoteValue.source == .remote {
+                    do {
                         try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+                    } catch {
+                        FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
                     }
                 }
             }
-        } catch {
-            FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
     }
 
