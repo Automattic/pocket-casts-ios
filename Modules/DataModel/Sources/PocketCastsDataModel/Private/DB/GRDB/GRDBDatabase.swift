@@ -24,7 +24,7 @@ class GRDBDatabase: PCDatabase {
 
         // Invalid arguments will result in a crash in the application
         // TODO: when releasing GRDB discuss if we want to make this optional
-        let rowCursor = try Row.fetchCursor(database, sql: sql, arguments: StatementArguments(values != nil ? filteredValues! : [])!)
+        let rowCursor = try Row.fetchCursor(database, sql: sql, arguments: StatementArguments(filteredValues != nil ? filteredValues! : [])!)
         return GRDBResultSet(rowCursor: rowCursor)
     }
 
