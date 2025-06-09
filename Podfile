@@ -8,18 +8,12 @@ inhibit_all_warnings!
 
 app_ios_deployment_target = Gem::Version.new('16.0')
 
-def common_pods
-  pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/Automattic/google-cast'
-end
-
 target 'podcasts' do
   platform :ios, app_ios_deployment_target.version
-  common_pods
 end
 
 target 'PocketCastsTests' do
   platform :ios, app_ios_deployment_target.version
-  common_pods
 end
 
 abstract_target 'CI' do
