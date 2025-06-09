@@ -197,6 +197,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
 
+    case testTestflight
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -333,6 +335,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .streamingCustomSessionConfiguration:
             true
+        case .testTestflight:
+            false
         }
     }
 
