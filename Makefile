@@ -39,7 +39,6 @@ upload_dsyms: ## Upload dSYMs
 
 install_dependencies: ## Install dependencies to run this project
 	bundle install
-	bundle exec pod install --repo-update
 
 update_proto: ## Generates the protobuffer Swift files
 	./scripts/update_proto.sh $(API_PATH)
