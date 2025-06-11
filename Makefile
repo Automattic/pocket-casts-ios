@@ -22,6 +22,9 @@ swift_percentage: ## Swift and Obj-C percentage on the project
 generate_colors: ## Generate colors and themes based on themes.csv
 	ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
 
+generate_code:
+	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
+
 lint:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
 
@@ -36,7 +39,6 @@ upload_dsyms: ## Upload dSYMs
 
 install_dependencies: ## Install dependencies to run this project
 	bundle install
-	bundle exec pod install --repo-update
 
 update_proto: ## Generates the protobuffer Swift files
 	./scripts/update_proto.sh $(API_PATH)
