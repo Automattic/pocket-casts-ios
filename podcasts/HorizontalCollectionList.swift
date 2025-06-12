@@ -29,7 +29,7 @@ struct HorizontalCollectionList: View {
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
-            Text("Show All")
+            Text(L10n.discoverShowAll.uppercased())
                 .foregroundStyle(theme.primaryInteractive01)
                 .font(.footnote.bold())
         }
@@ -82,19 +82,19 @@ struct HorizontalCollectionList: View {
                 HStack {
                     Text("Title")
                         .foregroundStyle(theme.primaryText01)
-                        .font(.subheadline)
+                        .font(.subheadline.weight(.medium))
                     Spacer()
                 }
                 HStack {
                     Text("Subtitle")
                         .foregroundStyle(theme.primaryText02)
-                        .font(.footnote)
+                        .font(.footnote.weight(.medium))
                     Spacer()
                 }
             }
+            Spacer()
             Image(systemName: "plus")
                 .tint(.blue)
-            Spacer()
         }
     }
 
@@ -126,9 +126,11 @@ struct HorizontalCollectionList: View {
                                     }
                                 }
                                 .id(index + 1)
-                                .padding(.horizontal, 16)
-                                .frame(width: max(geometry.size.width - 30, 0))
+                                .padding(.leading, 16)
+                                .frame(width: max(geometry.size.width - 32, 0))
                             }
+                            Spacer()
+                                .frame(width: 32)
                         }
                         .withScrollTargetLayout()
                     }
