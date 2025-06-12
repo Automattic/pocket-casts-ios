@@ -95,24 +95,7 @@ struct HorizontalCollectionList: View {
         VStack(spacing: 0) {
             header
             GeometryReader { geometry in
-                ScrollViewReader { proxy in
-                    HStack {
-                        Button("Start") {
-                            withAnimation {
-                                currentPage = 0
-                                proxy.scrollTo(currentPage, anchor: .leading)
-                            }
-                        }
-                        Spacer()
-                        Text("\(currentPage )")
-                        Spacer()
-                        Button("End") {
-                            withAnimation {
-                                currentPage = pairs.count
-                                proxy.scrollTo(currentPage, anchor: .leading)
-                            }
-                        }
-                    }
+                ScrollViewReader { proxy in                    
                     ScrollView([.horizontal]) {
                         LazyHStack(spacing: 5) {
                             poster
@@ -140,6 +123,7 @@ struct HorizontalCollectionList: View {
                         .background(.yellow)
                     }
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
+                    PageIndicatorView(numberOfItems: pairs.count, currentPage: currentPage ?? 0)
                 }
             }
         }
