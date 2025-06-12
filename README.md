@@ -25,7 +25,7 @@ If you don't already have it, you need to install Bundler:
 
 `gem install bundler`
 
-Next you'll need to install all the dependencies needed for FastLane using this script:
+Next you'll need to install all the dependencies needed for [_fastlane_](https://docs.fastlane.tools/) using this script:
 
 `make install_dependencies`
 
