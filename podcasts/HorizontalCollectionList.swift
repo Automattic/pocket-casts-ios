@@ -21,23 +21,26 @@ struct HorizontalCollectionList: View {
 
     @StateObject var model: HorizontalCollectionModel = HorizontalCollectionModel()
 
+    @EnvironmentObject var theme: Theme
+
     var header: some View {
         HStack {
             Text("Guest List")
-                .foregroundStyle(.black)
+                .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
             Text("Show All")
-                .foregroundStyle(.black)
+                .foregroundStyle(theme.primaryInteractive01)
                 .font(.footnote.bold())
         }
-        .padding(8)
+        .padding(16)
     }
 
     var poster: some View {
         ZStack(alignment: .bottom) {
             Rectangle()
                 .foregroundColor(.red)
+                .frame(width: 179, height: 210)
             VStack() {
                 Text("Title")
                     .foregroundStyle(.white)
@@ -73,14 +76,21 @@ struct HorizontalCollectionList: View {
             Rectangle()
                 .foregroundColor(color)
                 .cornerRadius(4)
-                .frame(width: 100, height: 100)
+                .frame(width: 101, height: 101)
                 .aspectRatio(1, contentMode: .fit)
             VStack(alignment: .leading) {
                 HStack {
-                    Text(color.description)
+                    Text("Title")
+                        .foregroundStyle(theme.primaryText01)
+                        .font(.subheadline)
                     Spacer()
                 }
-                Text("Subtitle")
+                HStack {
+                    Text("Subtitle")
+                        .foregroundStyle(theme.primaryText02)
+                        .font(.footnote)
+                    Spacer()
+                }
             }
             Image(systemName: "plus")
                 .tint(.blue)
@@ -95,13 +105,15 @@ struct HorizontalCollectionList: View {
         VStack(spacing: 0) {
             header
             GeometryReader { geometry in
-                ScrollViewReader { proxy in                    
+                ScrollViewReader { proxy in
                     ScrollView([.horizontal]) {
-                        LazyHStack(spacing: 5) {
+                        LazyHStack(spacing: 0) {
+                            Spacer()
+                                .frame(width: 16)
                             poster
                                 .id(0)
                             ForEach(0..<pairs.count, id: \.self) { index in
-                                VStack {
+                                VStack(spacing: 8) {
                                     ForEach(pairs[index], id: \.self) { color in
                                         if let color {
                                             row(color: color)
@@ -114,16 +126,14 @@ struct HorizontalCollectionList: View {
                                     }
                                 }
                                 .id(index + 1)
-                                .padding(.horizontal, 10)
+                                .padding(.horizontal, 16)
                                 .frame(width: max(geometry.size.width - 30, 0))
-                                .background(.gray)
                             }
                         }
                         .withScrollTargetLayout()
-                        .background(.yellow)
                     }
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
-                    PageIndicatorView(numberOfItems: pairs.count, currentPage: currentPage ?? 0)
+                    PageIndicatorView(numberOfItems: pairs.count + 1, currentPage: currentPage ?? 0)
                 }
             }
         }
