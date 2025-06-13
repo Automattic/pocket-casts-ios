@@ -197,6 +197,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
 
+    /// Adds Discover category user recommendations
+    case smartCategories
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -332,6 +335,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .bannerAds:
             false
         case .streamingCustomSessionConfiguration:
+            true
+        case .smartCategories:
             true
         }
     }
