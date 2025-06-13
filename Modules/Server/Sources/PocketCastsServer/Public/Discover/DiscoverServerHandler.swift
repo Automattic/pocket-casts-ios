@@ -2,7 +2,12 @@ import Combine
 import Foundation
 import PocketCastsUtils
 
-public class DiscoverServerHandler {
+public protocol DiscoverServerHandling {
+    func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
+    func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]?
+}
+
+public class DiscoverServerHandler: DiscoverServerHandling {
     enum DiscoverServerError: Error {
         case unknown
         case badRequest

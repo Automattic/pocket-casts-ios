@@ -11,21 +11,23 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         @Published public var region: String?
         private(set) var cachedCategories = [DiscoverCategory]()
 
-        lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
-            guard let source = self?.item?.source else { return ([], []) }
+        private let serverHandler: DiscoverServerHandling
 
-            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: self?.item?.authenticated)
+        lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
+            guard let self, let source = self.item?.source else { return ([], []) }
+
+            let categories = await self.serverHandler.discoverCategories(source: source, authenticated: self.item?.authenticated)
 
             // Filter categories by popularity
             var filteredCategories = categories.filter {
                 guard let id = $0.id else { return false }
-                return self?.item?.popular?.contains(id) == true
+                return self.item?.popular?.contains(id) == true
             }
 
             // Filter and rank categories by recommendations
             if FeatureFlag.smartCategories.enabled,
-               let recommendedSource = self?.item?.recommendations?.source,
-               let recommendedCategories = await DiscoverServerHandler.shared.discoverRecommendedCategories(source: recommendedSource, authenticated: self?.item?.authenticated) {
+               let recommendedSource = item?.recommendations?.source,
+               let recommendedCategories = await DiscoverServerHandler.shared.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
                 filteredCategories = categories
                     // Filter categories based on recommended IDs
                     .compactMap { category -> DiscoverCategory? in
@@ -43,17 +45,18 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
                     }
             }
 
-            self?.cachedCategories = categories
+            self.cachedCategories = categories
             return (categories, filteredCategories)
         }
 
-        init(load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?)? = nil) {
+        init(serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared,
+             load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?)? = nil) {
+            self.serverHandler = serverHandler
             if let load {
                 self.load = load
             }
         }
     }
-
     @ObservedObject fileprivate var observable: DiscoverItemObservable
 
     private weak var delegate: DiscoverDelegate?
