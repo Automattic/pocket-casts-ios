@@ -176,19 +176,18 @@ struct WithPagingModifier: ViewModifier {
                 .gesture(DragGesture(minimumDistance: 3, coordinateSpace: .local)
                     .onEnded({ value in
                         if value.translation.width < 0 {
-                            withAnimation {
-                                currentPage = min(maxPage, (currentPage ?? 0) + 1)
-                                scrollProxy.scrollTo(currentPage, anchor: .leading)
-                            }
+                            currentPage = min(maxPage, (currentPage ?? 0) + 1)
                         }
 
                         if value.translation.width > 0 {
-                            withAnimation {
-                                currentPage = max(minPage, (currentPage ?? 0) - 1)
-                                scrollProxy.scrollTo(currentPage, anchor: .leading)
-                            }
+                            currentPage = max(minPage, (currentPage ?? 0) - 1)
                         }
                     }))
+                .onChange(of: currentPage) { newValue in
+                    withAnimation {
+                        scrollProxy.scrollTo(newValue, anchor: .leading)
+                    }
+                }
         }
     }
 }
