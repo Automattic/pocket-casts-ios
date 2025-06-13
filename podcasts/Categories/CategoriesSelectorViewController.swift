@@ -13,7 +13,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
         private let serverHandler: DiscoverServerHandling
 
-        lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
+        lazy var load: (() async -> (categories: [DiscoverCategory], prioritized: [DiscoverCategory])?) = { [weak self] in
             guard let self, let source = self.item?.source else { return ([], []) }
 
             let categories = await self.serverHandler.discoverCategories(source: source, authenticated: self.item?.authenticated)
@@ -50,7 +50,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         }
 
         init(serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared,
-             load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?)? = nil) {
+             load: (() async -> (categories: [DiscoverCategory], prioritized: [DiscoverCategory])?)? = nil) {
             self.serverHandler = serverHandler
             if let load {
                 self.load = load

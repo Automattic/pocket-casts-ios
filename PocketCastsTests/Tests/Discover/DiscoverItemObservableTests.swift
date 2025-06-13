@@ -38,7 +38,7 @@ final class DiscoverItemObservableTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result?.categories.count, 3)
-        XCTAssertEqual(result?.popular.map(\.id), [2, 3])
+        XCTAssertEqual(result?.prioritized.map(\.id), [2, 3])
     }
 
     func testPopularFiltering_appliesWhenNoRecommendations() async {
@@ -59,6 +59,6 @@ final class DiscoverItemObservableTests: XCTestCase {
         )
 
         let result = await observable.load()
-        XCTAssertEqual(result?.popular.map(\.id), [1])
+        XCTAssertEqual(result?.prioritized.map(\.id), [1])
     }
 }
