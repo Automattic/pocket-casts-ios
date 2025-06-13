@@ -272,6 +272,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var regions: [String]
     public var isSponsored: Bool?
     public var popular: [Int]?
+    public var recommendations: DiscoverSource?
     public var categoryID: Int?
     public var dateTime: String?
 
@@ -283,7 +284,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case expandedTopItemLabel = "expanded_top_item_label"
         case categoryID = "category_id"
         case dateTime = "datetime"
-        case type, title, source, regions, curated, uuid, popular, id, authenticated
+        case type, title, source, regions, curated, uuid, popular, id, authenticated, recommendations
     }
 
     public init(
@@ -302,7 +303,8 @@ public struct DiscoverItem: Decodable, Equatable {
         isSponsored: Bool? = nil,
         popular: [Int]? = nil,
         categoryID: Int? = nil,
-        authenticated: Bool? = nil
+        authenticated: Bool? = nil,
+        recommendations: DiscoverSource? = nil
     ) {
         self.id = id
         self.uuid = uuid
@@ -320,6 +322,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.popular = popular
         self.categoryID = categoryID
         self.authenticated = authenticated
+        self.recommendations = recommendations
     }
 
     public var isAuthenticated: Bool {
@@ -421,6 +424,11 @@ public struct DiscoverCategory: Decodable, Equatable {
         self.id = id
         self.name = name
     }
+}
+
+public struct DiscoverSource: Decodable, Equatable {
+    public var source: String?
+    public var authenticated: Bool?
 }
 
 public struct DiscoverCategoryDetails: Decodable {

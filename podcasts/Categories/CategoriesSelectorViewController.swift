@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import Combine
+import PocketCastsUtils
 
 class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
@@ -11,14 +12,39 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         private(set) var cachedCategories = [DiscoverCategory]()
 
         lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
-            guard let source = self?.item?.source else { return nil }
+            guard let source = self?.item?.source else { return ([], []) }
+
             let categories = await DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: self?.item?.authenticated)
-            let popular = categories.filter {
+
+            // Filter categories by popularity
+            var filteredCategories = categories.filter {
                 guard let id = $0.id else { return false }
                 return self?.item?.popular?.contains(id) == true
             }
+
+            // Filter and rank categories by recommendations
+            if FeatureFlag.smartCategories.enabled,
+               let recommendedSource = self?.item?.recommendations?.source,
+               let recommendedCategories = await DiscoverServerHandler.shared.discoverRecommendedCategories(source: recommendedSource, authenticated: self?.item?.authenticated) {
+                filteredCategories = categories
+                    // Filter categories based on recommended IDs
+                    .compactMap { category -> DiscoverCategory? in
+                        guard let id = category.id, recommendedCategories.contains(id) else { return nil }
+                        return category
+                    }
+                // Filter categories based on position in recommendedIDs
+                    .sorted { lhs, rhs in
+                        guard let lhsId = lhs.id, let rhsId = rhs.id,
+                              let lhsIndex = recommendedCategories.firstIndex(of: lhsId),
+                              let rhsIndex = recommendedCategories.firstIndex(of: rhsId) else {
+                            return false
+                        }
+                        return lhsIndex < rhsIndex
+                    }
+            }
+
             self?.cachedCategories = categories
-            return (categories, popular)
+            return (categories, filteredCategories)
         }
 
         init(load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?)? = nil) {
