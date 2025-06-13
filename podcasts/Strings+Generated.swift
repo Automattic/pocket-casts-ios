@@ -1166,6 +1166,8 @@ internal enum L10n {
   internal static func episodeCountPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_count_plural_format", String(describing: p1), fallback: "%1$@ episodes")
   }
+  /// Title of the Episode description
+  internal static var episodeDescriptionTitle: String { return L10n.tr("Localizable", "episode_description_title", fallback: "Episode Description") }
   /// Title of a button the clears the current search text
   internal static var episodeDetailsTitle: String { return L10n.tr("Localizable", "episode_details_title", fallback: "Details") }
   /// Label for adding duration filtering to an episode filter, eg: filter by the duration of an episode
