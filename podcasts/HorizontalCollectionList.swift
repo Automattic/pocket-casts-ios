@@ -3,7 +3,7 @@ import Foundation
 
 class HorizontalCollectionModel: ObservableObject {
 
-    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple, .cyan, .brown, .indigo]
+    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple]//, .cyan, .brown, .indigo]
 
     var list: [[Color?]] {
         return colors.pairs()
@@ -134,7 +134,7 @@ struct HorizontalCollectionList: View {
                         .withScrollTargetLayout()
                     }
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
-                    PageIndicatorView(numberOfItems: pairs.count + 1, currentPage: currentPage ?? 0)
+                    DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
                 }
             }
         }
