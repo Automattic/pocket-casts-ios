@@ -14,6 +14,17 @@ struct DiscoveryPageIndicatorView: View {
                     .frame(width: 6, height: 6)
                     .foregroundStyle(itemIndex == currentPage ?  theme.primaryUi05Selected : theme.primaryUi05)
             }
+        }.onTapGesture {
+            var newValue = 0
+            if let currentPage {
+                newValue = currentPage + 1
+                if newValue >= numberOfItems {
+                    newValue = 0
+                }
+            }
+            withAnimation {
+                currentPage = newValue
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ import Foundation
 
 class HorizontalCollectionModel: ObservableObject {
 
-    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple]//, .cyan, .brown, .indigo]
+    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple, .cyan, .brown, .indigo]
 
     var list: [[Color?]] {
         return colors.pairs()
@@ -68,6 +68,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
+        .padding(.leading, 16)
     }
 
     @ViewBuilder
@@ -107,8 +108,6 @@ struct HorizontalCollectionList: View {
                 ScrollViewReader { proxy in
                     ScrollView([.horizontal]) {
                         LazyHStack(spacing: 0) {
-                            Spacer()
-                                .frame(width: 16)
                             poster
                                 .id(0)
                             ForEach(0..<pairs.count, id: \.self) { index in
@@ -171,7 +170,7 @@ struct WithPagingModifier: ViewModifier {
         if #available(iOS 17.0, *) {
             content
                 .scrollTargetBehavior(.viewAligned)
-                .scrollPosition(id: $currentPage)
+                .scrollPosition(id: $currentPage, anchor: .leading)
         } else {
             content.scrollDisabled(true)
                 .gesture(DragGesture(minimumDistance: 3, coordinateSpace: .local)
