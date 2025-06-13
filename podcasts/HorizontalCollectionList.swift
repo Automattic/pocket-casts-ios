@@ -93,8 +93,7 @@ struct HorizontalCollectionList: View {
                 }
             }
             Spacer()
-            Image(systemName: "plus")
-                .tint(.blue)
+            SubscribeButtonView(podcastUuid: "", source: .discover)
         }
     }
 
