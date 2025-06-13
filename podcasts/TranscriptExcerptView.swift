@@ -123,6 +123,7 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
                     Text(viewModel.message)
                         .font(size: 14.0, style: .body, weight: .light, design: .serif)
                         .multilineTextAlignment(.leading)
+                        .lineSpacing(5)
                         .lineLimit(3)
                         .truncationMode(.tail)
                         .allowsTightening(false)

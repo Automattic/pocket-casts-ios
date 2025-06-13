@@ -62,7 +62,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor(hex: "#FFD846")
         button.layer.cornerRadius = 12
-        button.setTitle(L10n.plusSubscribeTo, for: .normal)
+        button.setTitle("", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(UIColor(hex: "#181818"), for: .normal)
         button.addTarget(self, action: #selector(paywallButtonTapped), for: .touchUpInside)
@@ -101,6 +101,14 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         return gradientView
     }()
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.color = .black
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+
     private var showFromEpisode: Bool {
         analyticsSource == .episode
     }
@@ -118,6 +126,18 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+
+        activityIndicator.startAnimating()
+
+        IAPHelper.shared.updateTrialEligibility { [weak self] in
+            self?.activityIndicator.stopAnimating()
+
+            if IAPHelper.shared.isEligibleForOffer {
+                self?.paywallButton.setTitle(L10n.startFreeTrial, for: .normal)
+            } else {
+                self?.paywallButton.setTitle(L10n.plusSubscribeTo, for: .normal)
+            }
+        }
     }
 
     func didAppear() {
@@ -131,16 +151,30 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     }
 
     private func setupView() {
-        view.backgroundColor = backgroundColor
+        view.backgroundColor = showFromEpisode ? .clear : backgroundColor
 
         view.addSubview(blurEffectView)
         view.addSubview(topGradient)
+
+        let topSolidView = UIView()
+        topSolidView.backgroundColor = showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
+        topSolidView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topSolidView)
+
+        if showFromEpisode {
+            let overlay = UIView()
+            overlay.backgroundColor = backgroundColor
+            overlay.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(overlay)
+            overlay.anchorToAllSidesOf(view: view)
+        }
 
         view.addSubview(stackView)
         view.addSubview(badge)
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(paywallButton)
+        view.addSubview(activityIndicator)
 
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
@@ -155,10 +189,6 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 blurEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 blurEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
-                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                topGradient.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 100.0),
                 stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
                 stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
                 stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -172,10 +202,20 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
                 descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+                topGradient.topAnchor.constraint(equalTo: descriptionLabel.topAnchor),
+                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topGradient.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 100.0),
+                topSolidView.topAnchor.constraint(equalTo: view.topAnchor),
+                topSolidView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topSolidView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topSolidView.bottomAnchor.constraint(equalTo: topGradient.topAnchor),
                 paywallButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: paywallButtonBottomMargin),
                 paywallButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 paywallButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-                paywallButton.heightAnchor.constraint(equalToConstant: 56)
+                paywallButton.heightAnchor.constraint(equalToConstant: 56),
+                activityIndicator.centerXAnchor.constraint(equalTo: paywallButton.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: paywallButton.centerYAnchor)
             ]
         )
     }
