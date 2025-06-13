@@ -29,9 +29,10 @@ struct HorizontalCollectionList: View {
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
-            Text(L10n.discoverShowAll.uppercased())
+            Text(L10n.discoverShowAll.localizedUppercase)
                 .foregroundStyle(theme.primaryInteractive01)
-                .font(.footnote.bold())
+                .font(size: 13, style: .footnote, weight: .bold)
+                .kerning(0.6)
         }
         .padding(16)
     }
