@@ -414,7 +414,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable, Equatable {
+public struct DiscoverCategory: Decodable, Equatable, Sendable {
     public var id: Int?
     public var name: String?
     public var source: String?
