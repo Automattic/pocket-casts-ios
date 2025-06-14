@@ -77,16 +77,10 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     }
 
     public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
-        return await withCheckedContinuation { continuation in
-            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated, completion: { discoverCategories in
-                DispatchQueue.main.async {
-                    guard let discoverCategories = discoverCategories else {
-                        continuation.resume(returning: [])
-                        return
-                    }
-                    continuation.resume(returning: discoverCategories)
-                }
-            })
+        await withCheckedContinuation { continuation in
+            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated) { result in
+                continuation.resume(returning: result ?? [])
+            }
         }
     }
 

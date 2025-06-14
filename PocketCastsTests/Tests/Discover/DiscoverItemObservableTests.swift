@@ -1,8 +1,15 @@
 import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
+@testable import PocketCastsUtils
 
 final class DiscoverItemObservableTests: XCTestCase {
+
+    let featureFlagMock = FeatureFlagMock()
+
+    override func tearDown() {
+        featureFlagMock.reset()
+    }
 
     class MockServerHandler: DiscoverServerHandling {
         func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
@@ -19,6 +26,8 @@ final class DiscoverItemObservableTests: XCTestCase {
     }
 
     func testRecommendedFiltering_appliesCorrectly() async {
+        FeatureFlagMock().set(.smartCategories, value: true)
+
         // Given
         let mockHandler = MockServerHandler()
         let observable = CategoriesSelectorViewController.DiscoverItemObservable(serverHandler: mockHandler)

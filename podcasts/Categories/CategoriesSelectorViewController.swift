@@ -27,14 +27,14 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
             // Filter and rank categories by recommendations
             if FeatureFlag.smartCategories.enabled,
                let recommendedSource = item?.recommendations?.source,
-               let recommendedCategories = await DiscoverServerHandler.shared.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
+               let recommendedCategories = await self.serverHandler.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
                 filteredCategories = categories
                     // Filter categories based on recommended IDs
                     .compactMap { category -> DiscoverCategory? in
                         guard let id = category.id, recommendedCategories.contains(id) else { return nil }
                         return category
                     }
-                // Filter categories based on position in recommendedIDs
+                    // Filter categories based on position in recommendedIDs
                     .sorted { lhs, rhs in
                         guard let lhsId = lhs.id, let rhsId = rhs.id,
                               let lhsIndex = recommendedCategories.firstIndex(of: lhsId),
