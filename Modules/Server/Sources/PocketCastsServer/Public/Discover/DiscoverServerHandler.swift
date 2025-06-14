@@ -68,7 +68,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
-    public func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]?  {
+    public func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]? {
         return await withCheckedContinuation { continuation in
             discoverRequest(path: source, type: [Int].self, authenticated: authenticated) { categories, _ in
                 continuation.resume(with: .success(categories))
