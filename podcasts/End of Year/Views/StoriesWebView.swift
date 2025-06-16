@@ -1,9 +1,11 @@
 import SwiftUI
+import PocketCastsServer
 import WebKit
 
 struct StoriesWebView: UIViewRepresentable {
     class Coordinator: NSObject, WKScriptMessageHandler {
         var parent: StoriesWebView
+        var webView: WKWebView?
 
         init(parent: StoriesWebView) {
             self.parent = parent
@@ -13,6 +15,37 @@ struct StoriesWebView: UIViewRepresentable {
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             if message.name == "closeStories" {
                 NavigationManager.sharedManager.dismissPresentedViewController()
+            }
+
+            if message.name == "shareStory" {
+                shareWebViewScreenshot(webView: webView!)
+            }
+
+            if message.name == "loaded" {
+                informUserInfo()
+            }
+        }
+
+        func shareWebViewScreenshot(webView: WKWebView) {
+                let config = WKSnapshotConfiguration()
+                config.rect = webView.bounds
+
+                webView.takeSnapshot(with: config) { image, error in
+                    guard let image = image, error == nil else {
+                        print("Snapshot failed: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+
+                    let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                    SceneHelper.rootViewController()?.present(activityVC, animated: true)
+                }
+            }
+
+        func informUserInfo() {
+            webView?.evaluateJavaScript("window.setUserData({subscriber: \(SubscriptionHelper.hasActiveSubscription() ? "true" : "false")});") { result, error in
+                if let error = error {
+                    print("JavaScript error: \(error)")
+                }
             }
         }
     }
@@ -24,7 +57,9 @@ struct StoriesWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let contentController = WKUserContentController()
-        contentController.add(context.coordinator, name: "closeStories") // Add JS -> iOS handler
+        contentController.add(context.coordinator, name: "loaded")
+        contentController.add(context.coordinator, name: "closeStories")
+        contentController.add(context.coordinator, name: "shareStory")
         config.userContentController = contentController
 
         let webView = WKWebView(frame: .zero, configuration: config)
@@ -38,6 +73,7 @@ struct StoriesWebView: UIViewRepresentable {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+        context.coordinator.webView = webView
         return webView
     }
 
