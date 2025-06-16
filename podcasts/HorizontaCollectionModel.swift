@@ -11,14 +11,14 @@ class HorizontalCollectionModel: ObservableObject {
 
     @Published var podcastCollection: PodcastCollection?
 
-    weak var discoverDelegate: DiscoverDelegate?
+    weak var delegate: DiscoverDelegate?
 
     var list: [[Color?]] {
         return colors.pairs()
     }
 
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
-        self.discoverDelegate = delegate
+        self.delegate = delegate
     }
 
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
@@ -33,6 +33,16 @@ class HorizontalCollectionModel: ObservableObject {
                 //self?.populate()
             }
         })
+    }
+
+    func showCollection() {
+        guard let delegate = delegate, let item = item else { return }
+
+        if let podcasts = podcastCollection?.podcasts, !podcasts.isEmpty {
+            delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection)
+        } else if let episodes = podcastCollection?.episodes, !episodes.isEmpty {
+            delegate.showExpanded(item: item, episodes: episodes, podcastCollection: podcastCollection)
+        }
     }
 }
 
