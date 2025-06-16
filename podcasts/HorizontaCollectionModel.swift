@@ -70,6 +70,10 @@ class HorizontalCollectionModel: ObservableObject {
             delegate.showExpanded(item: item, episodes: episodes, podcastCollection: podcastCollection)
         }
     }
+
+    func showPodcast(_ podcast: DiscoverPodcast) {
+        delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: item?.uuid)
+    }
 }
 
 extension Color: @retroactive Identifiable {
