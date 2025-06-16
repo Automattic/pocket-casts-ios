@@ -74,6 +74,13 @@ class HorizontalCollectionModel: ObservableObject {
     func showPodcast(_ podcast: DiscoverPodcast) {
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: item?.uuid)
     }
+
+    func subscribePodcast(_ podcast: DiscoverPodcast) {
+        if let listId = item?.uuid, let podcastUuid = podcast.uuid {
+            AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
+        }
+        delegate?.subscribe(podcast: podcast)
+    }
 }
 
 extension Color: @retroactive Identifiable {

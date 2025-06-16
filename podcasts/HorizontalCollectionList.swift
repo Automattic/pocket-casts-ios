@@ -100,7 +100,9 @@ struct HorizontalCollectionList: View {
                 }
             }
             Spacer()
-            SubscribeButtonView(podcastUuid: "", source: .discover)
+            SubscribeButtonView(podcastUuid: podcast.uuid ?? "", source: .discover) {
+                model.subscribePodcast(podcast)
+            }
         }
         .onTapGesture {
             model.showPodcast(podcast)
