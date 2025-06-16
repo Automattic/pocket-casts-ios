@@ -29,6 +29,13 @@ class HorizontalCollectionModel: ObservableObject {
         return podcastCollection?.description ?? ""
     }
 
+    var posterImage: URL? {
+        guard let mobileCollage = podcastCollection?.collageImages?.filter({ $0.key == "mobile" }), let collageUrl = mobileCollage.first?.image_url else {
+            return nil
+        }
+        return URL(string: collageUrl)
+    }
+
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
         self.delegate = delegate
     }

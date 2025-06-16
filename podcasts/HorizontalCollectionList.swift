@@ -27,13 +27,20 @@ struct HorizontalCollectionList: View {
 
     var poster: some View {
         ZStack(alignment: .bottom) {
-            Rectangle()
-                .foregroundColor(.red)
-                .frame(width: 179, height: 210)
+            AsyncImage(url: model.posterImage) { image in
+                image.resizable(resizingMode: .stretch)
+            } placeholder: {
+                if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                    Image(uiImage: image)
+                } else {
+                    Color.gray
+                }
+            }
+            .frame(width: 179, height: 210)
             VStack() {
                 Text(model.title)
                     .foregroundStyle(.white)
-                    .font(.footnote.bold())
+                    .font(size: 13, style: .footnote, weight: .bold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
@@ -51,7 +58,7 @@ struct HorizontalCollectionList: View {
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0.00),
+                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0.5), location: 0.00),
                         Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1.00),
                     ],
                     startPoint: UnitPoint(x: 0.5, y: 0),
