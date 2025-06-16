@@ -76,9 +76,7 @@ struct HorizontalCollectionList: View {
     @ViewBuilder
     func row(for podcast: DiscoverPodcast) -> some View {
         HStack(spacing: 10) {
-            Rectangle()
-                .foregroundColor(.red)
-                .cornerRadius(4)
+            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)                
                 .frame(width: 101, height: 101)
                 .aspectRatio(1, contentMode: .fit)
             VStack(alignment: .leading) {
