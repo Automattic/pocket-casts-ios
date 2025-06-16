@@ -3,9 +3,13 @@ import SwiftUI
 
 import PocketCastsServer
 
-class HorizontalCollectionModel: ObservableObject {
+extension DiscoverPodcast: @retroactive Identifiable {
+    public var id: String {
+        return self.uuid ?? UUID().uuidString
+    }
+}
 
-    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple, .cyan, .brown, .indigo]
+class HorizontalCollectionModel: ObservableObject {
 
     @Published var item: DiscoverItem?
 
@@ -13,9 +17,7 @@ class HorizontalCollectionModel: ObservableObject {
 
     weak var delegate: DiscoverDelegate?
 
-    var list: [[Color?]] {
-        return colors.pairs()
-    }
+    @Published var list: [[DiscoverPodcast]] = []
 
     var type: String {
         return podcastCollection?.subtitle ?? ""
@@ -49,6 +51,12 @@ class HorizontalCollectionModel: ObservableObject {
 
             DispatchQueue.main.async {
                 self?.podcastCollection = podcastCollection
+                guard let podcastCollection, let podcasts = podcastCollection.podcasts else {
+                    self?.list = []
+                    return
+                }
+
+                self?.list = podcasts.pairs()
             }
         })
     }

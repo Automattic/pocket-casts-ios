@@ -1,6 +1,8 @@
 import SwiftUI
 import Foundation
 
+import PocketCastsServer
+
 struct HorizontalCollectionList: View {
 
     @ObservedObject var model: HorizontalCollectionModel
@@ -72,29 +74,49 @@ struct HorizontalCollectionList: View {
     }
 
     @ViewBuilder
-    func row(color: Color) -> some View {
+    func row(for podcast: DiscoverPodcast) -> some View {
         HStack(spacing: 10) {
             Rectangle()
-                .foregroundColor(color)
+                .foregroundColor(.red)
                 .cornerRadius(4)
                 .frame(width: 101, height: 101)
                 .aspectRatio(1, contentMode: .fit)
             VStack(alignment: .leading) {
                 HStack {
-                    Text("Title")
+                    Text(podcast.title ?? "")
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
                 HStack {
-                    Text("Subtitle")
+                    Text(podcast.author ?? "")
                         .foregroundStyle(theme.primaryText02)
                         .font(.footnote.weight(.medium))
+                        .lineLimit(1)
+                        .multilineTextAlignment(.leading)
                     Spacer()
                 }
             }
             Spacer()
             SubscribeButtonView(podcastUuid: "", source: .discover)
+        }
+    }
+
+    @ViewBuilder
+    func list(pairs: [[DiscoverPodcast]], width: CGFloat) -> some View {
+        ForEach(0..<pairs.count, id: \.self) { index in
+            VStack(spacing: 8) {
+                ForEach(pairs[index], id: \.id) { podcast in
+                    row(for: podcast)
+                }
+                Spacer().frame(minHeight: 0)
+            }
+            .id(index + 1)
+            .padding(.leading, 16)
+            .frame(width: max(width - 32, 0))
         }
     }
 
@@ -110,23 +132,7 @@ struct HorizontalCollectionList: View {
                         LazyHStack(spacing: 0) {
                             poster
                                 .id(0)
-                            ForEach(0..<pairs.count, id: \.self) { index in
-                                VStack(spacing: 8) {
-                                    ForEach(pairs[index], id: \.self) { color in
-                                        if let color {
-                                            row(color: color)
-                                        } else {
-                                            HStack() {
-                                                Rectangle().foregroundColor(.clear)
-                                            }
-                                            .frame(height: 100)
-                                        }
-                                    }
-                                }
-                                .id(index + 1)
-                                .padding(.leading, 16)
-                                .frame(width: max(geometry.size.width - 32, 0))
-                            }
+                            list(pairs: pairs, width: geometry.size.width)
                             Spacer()
                                 .frame(width: 32)
                         }
