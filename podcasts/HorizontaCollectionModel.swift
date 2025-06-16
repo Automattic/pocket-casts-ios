@@ -21,6 +21,14 @@ class HorizontalCollectionModel: ObservableObject {
         return podcastCollection?.subtitle ?? ""
     }
 
+    var title: String {
+        return podcastCollection?.title ?? ""
+    }
+
+    var description: String {
+        return podcastCollection?.description ?? ""
+    }
+
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
         self.delegate = delegate
     }

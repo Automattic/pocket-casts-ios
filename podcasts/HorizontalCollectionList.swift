@@ -31,16 +31,19 @@ struct HorizontalCollectionList: View {
                 .foregroundColor(.red)
                 .frame(width: 179, height: 210)
             VStack() {
-                Text("Title")
+                Text(model.title)
                     .foregroundStyle(.white)
                     .font(.footnote.bold())
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                Text("Subtitle")
+                    .padding(.horizontal, 8)
+                Spacer().frame(height: 8)
+                Text(model.description)
                     .foregroundStyle(.white)
                     .font(.footnote)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
+                    .padding(.horizontal, 8)
                 Spacer().frame(height: 12)
             }
             .foregroundColor(.clear)
@@ -57,6 +60,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
+        .frame(width: 179, height: 210)
         .padding(.leading, 16)
     }
 
