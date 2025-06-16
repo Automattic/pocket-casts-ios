@@ -30,7 +30,9 @@ struct HorizontalCollectionList: View {
     var poster: some View {
         ZStack(alignment: .bottom) {
             AsyncImage(url: model.posterImage) { image in
-                image.resizable(resizingMode: .stretch)
+                image
+                    .resizable()
+                    .scaledToFill()
             } placeholder: {
                 if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
                     Image(uiImage: image)
@@ -75,10 +77,9 @@ struct HorizontalCollectionList: View {
 
     @ViewBuilder
     func row(for podcast: DiscoverPodcast) -> some View {
-        HStack(spacing: 10) {
-            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)                
+        HStack(alignment: .center, spacing: 10) {
+            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
                 .frame(width: 101, height: 101)
-                .aspectRatio(1, contentMode: .fit)
             VStack(alignment: .leading) {
                 HStack {
                     Text(podcast.title ?? "")
@@ -110,11 +111,16 @@ struct HorizontalCollectionList: View {
                 ForEach(pairs[index], id: \.id) { podcast in
                     row(for: podcast)
                 }
-                Spacer().frame(minHeight: 0)
+                if index == pairs.count - 1, pairs[index].count == 1 {
+                    Rectangle()
+                        .frame(height: 101)
+                        .foregroundStyle(.clear)
+                }
             }
+            .frame(width: max(width - 24, 0), height: 210)
             .id(index + 1)
             .padding(.leading, 16)
-            .frame(width: max(width - 32, 0))
+
         }
     }
 
@@ -122,27 +128,32 @@ struct HorizontalCollectionList: View {
 
     var body: some View {
         let pairs = model.list
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             header
             GeometryReader { geometry in
                 ScrollViewReader { proxy in
                     ScrollView([.horizontal]) {
-                        LazyHStack(spacing: 0) {
+                        LazyHStack(alignment: .top, spacing: 0) {
                             poster
                                 .id(0)
                             list(pairs: pairs, width: geometry.size.width)
                             Spacer()
-                                .frame(width: 32)
+                                .frame(width: 24)
                         }
                         .withScrollTargetLayout()
                     }
                     .scrollIndicators(.hidden)
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
-                    DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
                 }
             }
+            DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
+            Rectangle()
+                .foregroundColor(theme.primaryUi05)
+                .frame(height: 1)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
         }
-        .frame(height: 300)
+        .frame(height: 323)
     }
 }
 
