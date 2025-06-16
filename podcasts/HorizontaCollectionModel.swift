@@ -17,6 +17,10 @@ class HorizontalCollectionModel: ObservableObject {
         return colors.pairs()
     }
 
+    var type: String {
+        return podcastCollection?.subtitle ?? ""
+    }
+
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {
         self.delegate = delegate
     }
@@ -26,11 +30,10 @@ class HorizontalCollectionModel: ObservableObject {
 
         self.item = item
         DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
-            self?.podcastCollection = podcastCollection
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }
 
             DispatchQueue.main.async {
-                //self?.populate()
+                self?.podcastCollection = podcastCollection
             }
         })
     }

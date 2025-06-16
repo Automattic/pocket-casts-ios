@@ -9,7 +9,7 @@ struct HorizontalCollectionList: View {
 
     var header: some View {
         HStack {
-            Text(model.item?.title ?? "")
+            Text(model.type)
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
