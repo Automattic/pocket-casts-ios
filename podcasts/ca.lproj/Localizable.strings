@@ -1193,7 +1193,7 @@ Ens veiem el 2024!</string>
     <key>filters_tip_view_description</key>
     <string>Crea filtres intel·ligents per organitzar els episodis. Filtra per durada, data de llançament, tipus de mitjà, i més.</string>
     <key>filters_tip_view_title</key>
-    <string>Organitzar els teus episodis</string>
+    <string>Organitza els episodis</string>
     <key>folder</key>
     <string>Carpeta</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -2356,7 +2356,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>queue_now_playing_accessibility</key>
     <string>Ara sona. %1$@</string>
     <key>queue_time_remaining</key>
-    <string>%1$@ queden</string>
+    <string>Queden %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>Queda en total: %1$@</string>
     <key>rate</key>
