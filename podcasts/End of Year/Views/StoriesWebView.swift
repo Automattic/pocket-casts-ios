@@ -24,6 +24,10 @@ struct StoriesWebView: UIViewRepresentable {
             if message.name == "loaded" {
                 informUserInfo()
             }
+
+            if message.name == "plusFlow" {
+                NavigationManager.sharedManager.showUpsellView(from: SceneHelper.rootViewController()!, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+            }
         }
 
         func shareWebViewScreenshot(webView: WKWebView) {
@@ -60,6 +64,7 @@ struct StoriesWebView: UIViewRepresentable {
         contentController.add(context.coordinator, name: "loaded")
         contentController.add(context.coordinator, name: "closeStories")
         contentController.add(context.coordinator, name: "shareStory")
+        contentController.add(context.coordinator, name: "plusFlow")
         config.userContentController = contentController
 
         let webView = WKWebView(frame: .zero, configuration: config)
