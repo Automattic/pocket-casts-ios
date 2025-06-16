@@ -133,6 +133,7 @@ struct HorizontalCollectionList: View {
                         }
                         .withScrollTargetLayout()
                     }
+                    .scrollIndicators(.hidden)
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
                     DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
                 }
