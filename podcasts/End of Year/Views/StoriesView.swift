@@ -21,83 +21,14 @@ struct StoriesView: View {
 
     @ViewBuilder
     var body: some View {
-        if model.isReady {
-            stories
-            .onAppear {
-                model.start()
-            }
-        } else if model.failed {
-            failed
-        } else {
-            loading
-        }
+        stories
     }
 
     var stories: some View {
         ZStack {
-            Spacer()
 
-            storiesToPreload
-
-            ZStack {
-                // Manually set the zIndex order to ensure we can change the order when needed
-                model.story(index: model.currentStoryIndex)
-                    .zIndex(3)
-                    .modify {
-                        if model.overlaidShareView() != nil {
-                            $0.ignoresSafeArea(edges: .bottom)
-                        }
-                    }
-                    .environment(\.animated, true)
-                    .environment(\.pauseState, pauseState)
-
-                if model.shouldShowUpsell() {
-                    model.paywallView().zIndex(6).onAppear {
-                        model.pause()
-                    }
-                }
-
-                // By default the story switcher will appear above the story and override all
-                // interaction, but if the story contains interactive elements then move the
-                // switcher to appear behind the view to allow the story override the switcher, or
-                // allow the story to pass switcher events thru by controlling the allowsHitTesting
-                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStoryIndex) ? 2 : 5)
-            }
-
-            header
-                .foregroundStyle(model.indicatorColor)
-
-            // Hide the share button if needed
-            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let shareView = model.overlaidShareView() {
-                VStack {
-                    Spacer()
-                    shareView
-                }
-            }
-        }
-        .modify {
-            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let footerView = model.footerShareView() {
-                $0.safeAreaInset(edge: .bottom) {
-                    footerView
-                }
-            } else {
-                $0
-            }
-        }
-        .background(Color.black)
-        .alert(L10n.eoyShareThisStoryTitle,
-               isPresented: $model.screenshotTaken) {
-            Button(L10n.eoyNotNow) { model.start() }
-            Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
-        } message: {
-            Text(L10n.eoyShareThisStoryMessage)
-        }
-        .onChange(of: pauseState.isPaused) { isPaused in
-            if isPaused {
-                model.pause()
-            } else {
-                model.start()
-            }
+            StoriesWebView()
+                .ignoresSafeArea()
         }
     }
 

@@ -536,6 +536,7 @@
 		8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */; };
 		8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48D2901A8BD0018C637 /* StoriesController.swift */; };
 		8B5BD0B82C50235400C687CB /* Episode+Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */; };
+		8B5E19F22E007E6E0039D8A6 /* StoriesWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5E19F12E007E680039D8A6 /* StoriesWebView.swift */; };
 		8B5F9A6728EFBB9800DE1C12 /* AppIcon-Halloween@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */; };
 		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */; };
 		8B5FB8212B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */; };
@@ -2800,6 +2801,7 @@
 		8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesConfiguration.swift; sourceTree = "<group>"; };
 		8B5AB48D2901A8BD0018C637 /* StoriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesController.swift; sourceTree = "<group>"; };
 		8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+Transcript.swift"; sourceTree = "<group>"; };
+		8B5E19F12E007E680039D8A6 /* StoriesWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesWebView.swift; sourceTree = "<group>"; };
 		8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@2x.png"; sourceTree = "<group>"; };
 		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@3x.png"; sourceTree = "<group>"; };
 		8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeselectChaptersAnnouncementViewModel.swift; sourceTree = "<group>"; };
@@ -5255,6 +5257,7 @@
 				8B2E055328F891F900C2DBDE /* EndOfYearCard.swift */,
 				8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */,
 				8B738F3028F5CBE0004E7526 /* StoriesView.swift */,
+				8B5E19F12E007E680039D8A6 /* StoriesWebView.swift */,
 				8B6B68E828F7527C0032BFFF /* StoryIndicator.swift */,
 				8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */,
 				8B3654162926C13000FD7216 /* CircularProgressView.swift */,
@@ -9968,6 +9971,7 @@
 				8BBE19EE2BEA973E009E944B /* ShowInfoCoordinating.swift in Sources */,
 				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
+				8B5E19F22E007E6E0039D8A6 /* StoriesWebView.swift in Sources */,
 				F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */,
 				F57D8F182C66CDF40004C4DF /* View+CVPixelBuffer.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
