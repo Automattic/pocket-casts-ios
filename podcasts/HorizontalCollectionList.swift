@@ -3,13 +3,13 @@ import Foundation
 
 struct HorizontalCollectionList: View {
 
-    @StateObject var model: HorizontalCollectionModel = HorizontalCollectionModel()
+    @ObservedObject var model: HorizontalCollectionModel
 
     @EnvironmentObject var theme: Theme
 
     var header: some View {
         HStack {
-            Text("Guest List")
+            Text(model.item?.title ?? "")
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
@@ -187,7 +187,7 @@ extension View {
 
 struct HorizontalCarouselList_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCollectionList()
+        HorizontalCollectionList(model: HorizontalCollectionModel())
             .frame(height: 300)
     }
 }
