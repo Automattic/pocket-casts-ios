@@ -32,7 +32,7 @@ struct HorizontalCollectionList: View {
             AsyncImage(url: model.posterImage) { image in
                 image
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
             } placeholder: {
                 if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
                     Image(uiImage: image)
