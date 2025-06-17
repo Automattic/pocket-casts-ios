@@ -369,10 +369,12 @@ public struct PodcastCollection: Decodable {
     public var subtitle: String?
     public var author: String?
     public var description: String?
+    public var shortDescription: String?
     public var podcasts: [DiscoverPodcast]?
     public let episodes: [DiscoverEpisode]?
     public var podroll: [DiscoverPodcast]?
     public var collectionImage: String?
+    public var collectionRectangleImage: String?
     public var colors: PodcastCollectionColors?
     public var webTitle: String?
     public var webUrl: String?
@@ -384,10 +386,12 @@ public struct PodcastCollection: Decodable {
         case webUrl = "web_url"
         case webTitle = "web_title"
         case collectionImage = "collection_image"
+        case collectionRectangleImage = "collection_rectangle_image"
         case collageImages = "collage_images"
         case headerImage = "header_image"
         case listId = "list_id"
         case featureImage = "feature_image"
+        case shortDescription = "short_description"
         case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
     }
 }

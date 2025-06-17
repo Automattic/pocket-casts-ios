@@ -1,58 +1,60 @@
 import SwiftUI
 import Foundation
 
-class HorizontalCollectionModel: ObservableObject {
-
-    @Published var colors: [Color] = [.blue, .green, .yellow, .orange, .pink, .purple, .cyan, .brown, .indigo]
-
-    var list: [[Color?]] {
-        return colors.pairs()
-    }
-}
-
-extension Color: @retroactive Identifiable {
-
-    public var id: String {
-        return description
-    }
-}
+import PocketCastsServer
 
 struct HorizontalCollectionList: View {
 
-    @StateObject var model: HorizontalCollectionModel = HorizontalCollectionModel()
+    @ObservedObject var model: HorizontalCollectionModel
 
     @EnvironmentObject var theme: Theme
 
     var header: some View {
         HStack {
-            Text("Guest List")
+            Text(model.type)
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
             Spacer()
-            Text(L10n.discoverShowAll.localizedUppercase)
-                .foregroundStyle(theme.primaryInteractive01)
-                .font(size: 13, style: .footnote, weight: .bold)
-                .kerning(0.6)
+            Button() {
+                model.showCollection()
+            } label: {
+                Text(L10n.discoverShowAll.localizedUppercase)
+                    .foregroundStyle(theme.primaryInteractive01)
+                    .font(size: 13, style: .footnote, weight: .bold)
+                    .kerning(0.6)
+            }
         }
         .padding(16)
     }
 
     var poster: some View {
         ZStack(alignment: .bottom) {
-            Rectangle()
-                .foregroundColor(.red)
-                .frame(width: 179, height: 210)
+            AsyncImage(url: model.posterImage) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                    Image(uiImage: image)
+                } else {
+                    Color.gray
+                }
+            }
+            .frame(width: 179, height: 210)
             VStack() {
-                Text("Title")
+                Text(model.title)
                     .foregroundStyle(.white)
-                    .font(.footnote.bold())
+                    .font(size: 13, style: .footnote, weight: .bold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                Text("Subtitle")
+                    .padding(.horizontal, 8)
+                Spacer().frame(height: 8)
+                Text(model.description)
                     .foregroundStyle(.white)
                     .font(.footnote)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
+                    .padding(.horizontal, 8)
                 Spacer().frame(height: 12)
             }
             .foregroundColor(.clear)
@@ -60,8 +62,8 @@ struct HorizontalCollectionList: View {
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0.00),
-                        Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1.00),
+                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0.1), location: 0),
+                        Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
                     ],
                     startPoint: UnitPoint(x: 0.5, y: 0),
                     endPoint: UnitPoint(x: 0.5, y: 0.7)
@@ -69,33 +71,61 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
+        .frame(width: 179, height: 210)
         .padding(.leading, 16)
     }
 
     @ViewBuilder
-    func row(color: Color) -> some View {
-        HStack(spacing: 10) {
-            Rectangle()
-                .foregroundColor(color)
-                .cornerRadius(4)
+    func row(for podcast: DiscoverPodcast) -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
                 .frame(width: 101, height: 101)
-                .aspectRatio(1, contentMode: .fit)
             VStack(alignment: .leading) {
                 HStack {
-                    Text("Title")
+                    Text(podcast.title ?? "")
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
                 HStack {
-                    Text("Subtitle")
+                    Text(podcast.author ?? "")
                         .foregroundStyle(theme.primaryText02)
                         .font(.footnote.weight(.medium))
+                        .lineLimit(1)
+                        .multilineTextAlignment(.leading)
                     Spacer()
                 }
             }
             Spacer()
-            SubscribeButtonView(podcastUuid: "", source: .discover)
+            SubscribeButtonView(podcastUuid: podcast.uuid ?? "", source: .discover) {
+                model.subscribePodcast(podcast)
+            }
+        }
+        .onTapGesture {
+            model.showPodcast(podcast)
+        }
+    }
+
+    @ViewBuilder
+    func list(pairs: [[DiscoverPodcast]], width: CGFloat) -> some View {
+        ForEach(0..<pairs.count, id: \.self) { index in
+            VStack(spacing: 8) {
+                ForEach(pairs[index], id: \.id) { podcast in
+                    row(for: podcast)
+                }
+                if index == pairs.count - 1, pairs[index].count == 1 {
+                    Rectangle()
+                        .frame(height: 101)
+                        .foregroundStyle(.clear)
+                }
+            }
+            .frame(width: max(width - 24, 0), height: 210)
+            .id(index + 1)
+            .padding(.leading, 16)
+
         }
     }
 
@@ -103,43 +133,32 @@ struct HorizontalCollectionList: View {
 
     var body: some View {
         let pairs = model.list
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             header
             GeometryReader { geometry in
                 ScrollViewReader { proxy in
                     ScrollView([.horizontal]) {
-                        LazyHStack(spacing: 0) {
+                        LazyHStack(alignment: .top, spacing: 0) {
                             poster
                                 .id(0)
-                            ForEach(0..<pairs.count, id: \.self) { index in
-                                VStack(spacing: 8) {
-                                    ForEach(pairs[index], id: \.self) { color in
-                                        if let color {
-                                            row(color: color)
-                                        } else {
-                                            HStack() {
-                                                Rectangle().foregroundColor(.clear)
-                                            }
-                                            .frame(height: 100)
-                                        }
-                                    }
-                                }
-                                .id(index + 1)
-                                .padding(.leading, 16)
-                                .frame(width: max(geometry.size.width - 32, 0))
-                            }
+                            list(pairs: pairs, width: geometry.size.width)
                             Spacer()
-                                .frame(width: 32)
+                                .frame(width: 24)
                         }
                         .withScrollTargetLayout()
                     }
                     .scrollIndicators(.hidden)
                     .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
-                    DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
                 }
             }
+            DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
+            Rectangle()
+                .foregroundColor(theme.primaryUi05)
+                .frame(height: 1)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
         }
-        .frame(height: 300)
+        .frame(height: 323)
     }
 }
 
@@ -203,7 +222,7 @@ extension View {
 
 struct HorizontalCarouselList_Previews: PreviewProvider {
     static var previews: some View {
-        HorizontalCollectionList()
+        HorizontalCollectionList(model: HorizontalCollectionModel())
             .frame(height: 300)
     }
 }
