@@ -32,7 +32,7 @@ class HorizontalCollectionModel: ObservableObject {
     }
 
     var posterImage: URL? {
-        guard let posterURL = podcastCollection?.collectionImage else {
+        guard let posterURL = podcastCollection?.collectionRectangleImage ?? podcastCollection?.collectionImage else {
             return nil
         }
         return URL(string: posterURL)
