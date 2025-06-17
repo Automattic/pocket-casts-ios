@@ -82,10 +82,3 @@ class HorizontalCollectionModel: ObservableObject {
         delegate?.subscribe(podcast: podcast)
     }
 }
-
-extension Color: @retroactive Identifiable {
-
-    public var id: String {
-        return description
-    }
-}
