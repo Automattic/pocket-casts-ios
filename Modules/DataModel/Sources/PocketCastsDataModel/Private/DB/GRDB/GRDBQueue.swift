@@ -11,58 +11,50 @@ class GRDBQueue: PCDBQueue {
     }
 
     func inDatabase(_ block: (any PCDatabase) -> Void) {
-        withoutActuallyEscaping(block) { block in
-            do {
-                try dbPool.write { db in
-                    let dbWrapper = GRDBDatabase(database: db)
-                    block(dbWrapper)
-                }
-            } catch {
-                logger?.log(error: error, context: [:])
+        do {
+            try dbPool.write { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
             }
+        } catch {
+            logger?.log(error: error, context: [:])
         }
     }
 
     func inTransaction(_ block: (any PCDatabase, UnsafeMutablePointer<ObjCBool>) -> Void) {
-        withoutActuallyEscaping(block) { block in
-            do {
-                try dbPool.writeInTransaction { db in
-                    let rollback = UnsafeMutablePointer<ObjCBool>.allocate(capacity: 1)
-                    rollback.pointee = false
-                    let dbWrapper = GRDBDatabase(database: db)
-                    block(dbWrapper, rollback)
-                    defer { rollback.deallocate() }
-                    return rollback.pointee.boolValue ? .rollback : .commit
-                }
-            } catch {
-                logger?.log(error: error, context: [:])
+        do {
+            try dbPool.writeInTransaction { db in
+                let rollback = UnsafeMutablePointer<ObjCBool>.allocate(capacity: 1)
+                rollback.pointee = false
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper, rollback)
+                defer { rollback.deallocate() }
+                return rollback.pointee.boolValue ? .rollback : .commit
             }
+        } catch {
+            logger?.log(error: error, context: [:])
         }
     }
 
     func read(_ block: (any PCDatabase) -> Void) {
-        withoutActuallyEscaping(block) { block in
-            do {
-                try dbPool.read { db in
-                    let dbWrapper = GRDBDatabase(database: db)
-                    block(dbWrapper)
-                }
-            } catch {
-                logger?.log(error: error, context: [:])
+        do {
+            try dbPool.read { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
             }
+        } catch {
+            logger?.log(error: error, context: [:])
         }
     }
 
     func write(_ block: (any PCDatabase) -> Void) {
-        withoutActuallyEscaping(block) { block in
-            do {
-                try dbPool.write { db in
-                    let dbWrapper = GRDBDatabase(database: db)
-                    block(dbWrapper)
-                }
-            } catch {
-                logger?.log(error: error, context: [:])
+        do {
+            try dbPool.write { db in
+                let dbWrapper = GRDBDatabase(database: db)
+                block(dbWrapper)
             }
+        } catch {
+            logger?.log(error: error, context: [:])
         }
     }
 
