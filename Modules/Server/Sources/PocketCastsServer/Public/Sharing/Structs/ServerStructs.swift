@@ -366,6 +366,7 @@ public struct PodcastCollection: Decodable {
     public var subtitle: String?
     public var author: String?
     public var description: String?
+    public var shortDescription: String?
     public var podcasts: [DiscoverPodcast]?
     public let episodes: [DiscoverEpisode]?
     public var podroll: [DiscoverPodcast]?
@@ -387,6 +388,7 @@ public struct PodcastCollection: Decodable {
         case headerImage = "header_image"
         case listId = "list_id"
         case featureImage = "feature_image"
+        case shortDescription = "short_description"
         case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
     }
 }

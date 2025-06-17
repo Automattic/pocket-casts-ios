@@ -28,7 +28,7 @@ class HorizontalCollectionModel: ObservableObject {
     }
 
     var description: String {
-        return podcastCollection?.description ?? ""
+        return podcastCollection?.shortDescription ?? podcastCollection?.description ?? ""
     }
 
     var posterImage: URL? {
