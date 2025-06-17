@@ -200,6 +200,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Guest List and Network Highligh Redesign
     case guestListsNetworkHighlightsRedesign
 
+    /// Adds Discover category user recommendations
+    case smartCategories
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -337,6 +340,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .streamingCustomSessionConfiguration:
             true
         case .guestListsNetworkHighlightsRedesign:
+            false
+        case .smartCategories:
             false
         }
     }

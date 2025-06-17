@@ -2,7 +2,12 @@ import Combine
 import Foundation
 import PocketCastsUtils
 
-public class DiscoverServerHandler {
+public protocol DiscoverServerHandling {
+    func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
+    func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]?
+}
+
+public class DiscoverServerHandler: DiscoverServerHandling {
     enum DiscoverServerError: Error {
         case unknown
         case badRequest
@@ -63,17 +68,19 @@ public class DiscoverServerHandler {
         }
     }
 
-    public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
+    public func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]? {
         return await withCheckedContinuation { continuation in
-            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated, completion: { discoverCategories in
-                DispatchQueue.main.async {
-                    guard let discoverCategories = discoverCategories else {
-                        continuation.resume(returning: [])
-                        return
-                    }
-                    continuation.resume(returning: discoverCategories)
-                }
-            })
+            discoverRequest(path: source, type: [Int].self, authenticated: authenticated) { categories, _ in
+                continuation.resume(with: .success(categories))
+            }
+        }
+    }
+
+    public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
+        await withCheckedContinuation { continuation in
+            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated) { result in
+                continuation.resume(returning: result ?? [])
+            }
         }
     }
 
