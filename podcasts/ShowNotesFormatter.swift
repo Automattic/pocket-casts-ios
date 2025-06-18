@@ -34,7 +34,7 @@ class ShowNotesFormatter {
         styledShowNotes = styledShowNotes + "</head><body>"
 
         if let customTitle {
-            styledShowNotes = styledShowNotes + "<customTitle>\(customTitle)</customTitle>"
+            styledShowNotes = styledShowNotes + "<p><customTitle>\(customTitle)</customTitle></p>"
         }
 
         styledShowNotes = styledShowNotes + "\(cleanedShowNotes)</body></html>"
