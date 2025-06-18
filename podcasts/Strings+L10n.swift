@@ -149,12 +149,12 @@ extension L10n {
 }
 
 extension L10n {
-    static func localizedFormat(_ key: String, _ table: String?) -> String {
-        let format = BundleToken.bundle.localizedString(forKey: key, value: nil, table: table)
+    static func localizedFormat(_ key: String, _ table: String?, _ value: String? = nil) -> String {
+        let format = BundleToken.bundle.localizedString(forKey: key, value: value, table: table)
 
         if format.isEmpty || format == key {
             // The key hasn't been translated yet so return the english translation
-            return BundleToken.baseBundle.localizedString(forKey: key, value: nil, table: table)
+            return BundleToken.baseBundle.localizedString(forKey: key, value: value, table: table)
         }
 
         return format

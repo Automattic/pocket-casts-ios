@@ -30,6 +30,7 @@ class PlusPricingInfoModel: ObservableObject {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
             let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
+            let monthlyPrice = product.isYearlyProduct ? purchaseHandler.getMonthlyPrice(for: product) : nil
             var offer: ProductOfferInfo?
             if purchaseHandler.isEligibleForOffer,
                let duration = purchaseHandler.localizedFreeTrialDuration(product),
@@ -43,6 +44,7 @@ class PlusPricingInfoModel: ObservableObject {
                                               price: price,
                                               rawPrice: rawPrice,
                                               weeklyPrice: weeklyPrice,
+                                              monthlyPrice: monthlyPrice,
                                               offer: offer)
             pricing.append(info)
         }
@@ -66,6 +68,7 @@ class PlusPricingInfoModel: ObservableObject {
         let price: String
         let rawPrice: String
         let weeklyPrice: String
+        let monthlyPrice: String?
         let offer: ProductOfferInfo?
 
         var id: String { identifier.rawValue }

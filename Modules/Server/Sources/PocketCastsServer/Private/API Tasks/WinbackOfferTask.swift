@@ -25,7 +25,7 @@ class WinbackOfferTask: ApiBaseTask, @unchecked Sendable {
                 completion?(nil)
                 return
             }
-            let validationResponse = try Api_WinbackResponse(serializedBytes: responseData)
+            let validationResponse = try Api_WinbackResponse(serializedData: responseData)
             let details = try? JSONDecoder().decode(ReferralOfferDetail.self, from: validationResponse.details.data(using: .utf8)!)
             let winbackOffer = WinbackOfferInfo(
                 offer: validationResponse.offer,

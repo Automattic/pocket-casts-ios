@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,50 +25,55 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuk-fS-Mph" userLabel="Header View">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cFq-QB-iNh">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n9H-5y-Rbm" userLabel="Close Button" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="14" y="16" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" identifier="Close player" label="Close player"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuk-fS-Mph" userLabel="Header View">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n9H-5y-Rbm" userLabel="Close Button" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="14" y="16" width="44" height="44"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="Close player" label="Close player"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="YgN-8A-XLV"/>
+                                        <constraint firstAttribute="width" constant="44" id="tQf-4Q-6eX"/>
+                                    </constraints>
+                                    <state key="normal" image="episode-close"/>
+                                    <connections>
+                                        <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="oRk-so-QO5"/>
+                                    </connections>
+                                </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DY8-o1-Oqt" customClass="PlayerTabsView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="62" y="18" width="278" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="fvZ-1o-n3k"/>
+                                    </constraints>
+                                </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBu-bE-aeT" customClass="UpNextButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="360" y="14" width="44" height="44"/>
+                                    <accessibility key="accessibilityConfiguration" label="Up Next List"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="Uoj-jj-poH"/>
+                                        <constraint firstAttribute="width" constant="44" id="iNo-lG-GYf"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="upNextTapped:" destination="-1" eventType="touchUpInside" id="I6U-14-xLM"/>
+                                    </connections>
+                                </button>
+                            </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="YgN-8A-XLV"/>
-                                <constraint firstAttribute="width" constant="44" id="tQf-4Q-6eX"/>
-                            </constraints>
-                            <state key="normal" image="episode-close"/>
-                            <connections>
-                                <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="oRk-so-QO5"/>
-                            </connections>
-                        </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DY8-o1-Oqt" customClass="PlayerTabsView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="62" y="18" width="278" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" placeholder="YES" id="fvZ-1o-n3k"/>
+                                <constraint firstAttribute="bottom" secondItem="n9H-5y-Rbm" secondAttribute="bottom" id="75X-MC-iuO"/>
+                                <constraint firstAttribute="trailing" secondItem="HBu-bE-aeT" secondAttribute="trailing" constant="10" id="A5g-u0-D5V"/>
+                                <constraint firstItem="DY8-o1-Oqt" firstAttribute="centerY" secondItem="HBu-bE-aeT" secondAttribute="centerY" constant="2" id="Igm-ry-DNo"/>
+                                <constraint firstItem="DY8-o1-Oqt" firstAttribute="leading" secondItem="n9H-5y-Rbm" secondAttribute="trailing" constant="4" id="LZm-RF-qiW"/>
+                                <constraint firstItem="HBu-bE-aeT" firstAttribute="leading" secondItem="DY8-o1-Oqt" secondAttribute="trailing" constant="20" id="OYA-T1-dGq"/>
+                                <constraint firstAttribute="bottom" secondItem="HBu-bE-aeT" secondAttribute="bottom" constant="2" id="QvH-py-N3Q"/>
+                                <constraint firstAttribute="height" constant="60" id="c5W-M4-Gcb"/>
+                                <constraint firstItem="n9H-5y-Rbm" firstAttribute="leading" secondItem="tuk-fS-Mph" secondAttribute="leading" constant="14" id="liR-iX-SIQ"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBu-bE-aeT" customClass="UpNextButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="360" y="14" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Up Next List"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="Uoj-jj-poH"/>
-                                <constraint firstAttribute="width" constant="44" id="iNo-lG-GYf"/>
-                            </constraints>
-                            <connections>
-                                <action selector="upNextTapped:" destination="-1" eventType="touchUpInside" id="I6U-14-xLM"/>
-                            </connections>
-                        </button>
                     </subviews>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="n9H-5y-Rbm" secondAttribute="bottom" id="75X-MC-iuO"/>
-                        <constraint firstAttribute="trailing" secondItem="HBu-bE-aeT" secondAttribute="trailing" constant="10" id="A5g-u0-D5V"/>
-                        <constraint firstItem="DY8-o1-Oqt" firstAttribute="centerY" secondItem="HBu-bE-aeT" secondAttribute="centerY" constant="2" id="Igm-ry-DNo"/>
-                        <constraint firstItem="DY8-o1-Oqt" firstAttribute="leading" secondItem="n9H-5y-Rbm" secondAttribute="trailing" constant="4" id="LZm-RF-qiW"/>
-                        <constraint firstItem="HBu-bE-aeT" firstAttribute="leading" secondItem="DY8-o1-Oqt" secondAttribute="trailing" constant="20" id="OYA-T1-dGq"/>
-                        <constraint firstAttribute="bottom" secondItem="HBu-bE-aeT" secondAttribute="bottom" constant="2" id="QvH-py-N3Q"/>
-                        <constraint firstAttribute="height" constant="60" id="c5W-M4-Gcb"/>
-                        <constraint firstItem="n9H-5y-Rbm" firstAttribute="leading" secondItem="tuk-fS-Mph" secondAttribute="leading" constant="14" id="liR-iX-SIQ"/>
-                    </constraints>
-                </view>
+                </stackView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyM-S1-fQW" customClass="RegionCancellingScrollView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="126" width="414" height="770"/>
                     <viewLayoutGuide key="contentLayoutGuide" id="Pc0-T1-vhz"/>
@@ -83,16 +87,16 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="jyM-S1-fQW" firstAttribute="top" secondItem="cFq-QB-iNh" secondAttribute="bottom" id="8Us-Dp-0IV"/>
                 <constraint firstItem="jyM-S1-fQW" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="Nab-fL-WgB"/>
                 <constraint firstItem="wCD-j3-45q" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="NhE-5h-6lm"/>
-                <constraint firstItem="jyM-S1-fQW" firstAttribute="top" secondItem="tuk-fS-Mph" secondAttribute="bottom" constant="18" id="QNv-lA-xUW"/>
-                <constraint firstItem="wCD-j3-45q" firstAttribute="top" secondItem="DY8-o1-Oqt" secondAttribute="top" id="RD4-v4-Y6p"/>
+                <constraint firstItem="cFq-QB-iNh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="RDF-xM-Rpa"/>
                 <constraint firstItem="wCD-j3-45q" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="SFH-FR-Zml"/>
-                <constraint firstAttribute="top" secondItem="tuk-fS-Mph" secondAttribute="top" id="V0b-Ya-heu"/>
+                <constraint firstItem="wCD-j3-45q" firstAttribute="top" secondItem="DY8-o1-Oqt" secondAttribute="top" id="T5H-AC-EbO"/>
                 <constraint firstItem="jyM-S1-fQW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Vu0-o1-JuT"/>
-                <constraint firstItem="tuk-fS-Mph" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZVO-ed-MuN"/>
                 <constraint firstAttribute="bottom" secondItem="jyM-S1-fQW" secondAttribute="bottom" id="iHP-ln-ubZ"/>
-                <constraint firstAttribute="trailing" secondItem="tuk-fS-Mph" secondAttribute="trailing" id="jMd-Bl-UDQ"/>
+                <constraint firstAttribute="trailing" secondItem="cFq-QB-iNh" secondAttribute="trailing" id="jlq-GB-mk8"/>
+                <constraint firstItem="cFq-QB-iNh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="liD-bk-2Ho"/>
                 <constraint firstItem="wCD-j3-45q" firstAttribute="bottom" secondItem="jyM-S1-fQW" secondAttribute="bottom" placeholder="YES" id="tMr-pU-IJP"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

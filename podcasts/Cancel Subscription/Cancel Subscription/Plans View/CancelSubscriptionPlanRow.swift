@@ -88,8 +88,8 @@ struct CancelSubscriptionPlanRow: View {
                 }
                 .padding(.vertical, 10.0)
                 Spacer()
-                if let weeklyPrice = product.formattedWeeklyPrice {
-                    Text(weeklyPrice)
+                if let monthlyPrice = product.formattedMonthlyPrice {
+                    Text(monthlyPrice)
                         .font(size: 15.0, style: .body, weight: .regular)
                         .foregroundStyle(theme.primaryText02)
                 }
@@ -132,10 +132,13 @@ extension PlusPricingInfoModel.PlusProductPricingInfo {
         }
     }
 
-    fileprivate var formattedWeeklyPrice: String? {
+    fileprivate var formattedMonthlyPrice: String? {
         switch identifier {
         case .yearly, .yearlyReferral, .patronYearly:
-            return weeklyPrice.isEmpty ? nil : L10n.iapProductWeeklyPricingFormat(weeklyPrice)
+            if let monthlyPrice = monthlyPrice, !monthlyPrice.isEmpty {
+                return L10n.iapProductMonthlyPricingFormat(monthlyPrice)
+            }
+            return nil
         case .monthly, .patronMonthly:
             return nil
         }
@@ -160,6 +163,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     price: "",
                     rawPrice: "$39.99",
                     weeklyPrice: "$0.70",
+                    monthlyPrice: "$3.33",
                     offer: nil),
                 selected: true
             ) { _ in }
@@ -170,6 +174,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     price: "",
                     rawPrice: "$3.99",
                     weeklyPrice: "",
+                    monthlyPrice: nil,
                     offer: nil),
                 selected: false
             ) { _ in }
@@ -180,6 +185,7 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     price: "",
                     rawPrice: "$39.99",
                     weeklyPrice: "$0.70",
+                    monthlyPrice: "",
                     offer: nil),
                 selected: false
             ) { _ in }

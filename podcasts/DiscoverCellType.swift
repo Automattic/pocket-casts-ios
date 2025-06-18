@@ -35,7 +35,11 @@ enum DiscoverCellType: CaseIterable {
         case .singlePodcast:
             SinglePodcastViewController()
         case .collectionSummary:
-            CollectionSummaryViewController()
+            if FeatureFlag.guestListsNetworkHighlightsRedesign.enabled {
+                HorizontalCollectionListViewController()
+            } else {
+                CollectionSummaryViewController()
+            }
         case .networkSummary:
             NetworkSummaryViewController()
         case .categorySummary:

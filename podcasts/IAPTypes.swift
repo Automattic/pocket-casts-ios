@@ -15,6 +15,15 @@ enum IAPProductID: String {
             return L10n.accountPaymentRenewsMonthly
         }
     }
+
+    var isYearlyProduct: Bool {
+        switch self {
+        case .yearly, .yearlyReferral, .patronYearly:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum IAPPromotionID: String {

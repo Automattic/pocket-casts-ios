@@ -5,6 +5,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import Kingfisher
+import SafariServices
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
@@ -265,7 +266,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             } else {
                 sortOption = Settings.homeFolderSortOrder()
             }
-            let newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
+
+            if newData.isEmpty {
+                newData = [HomeGridListItem.empty]
+            }
 
             DispatchQueue.main.sync {
                 if strongSelf.gridLayout != Settings.libraryType() {
@@ -277,34 +282,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                         strongSelf.gridItems = data
                     })
                 }
-                let shouldHideEmpty = newData.count != 0 || SyncManager.isFirstSyncInProgress()
-                strongSelf.refreshContentUnavailable(shouldShow: !shouldHideEmpty)
                 strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
     }
-
-    private func refreshContentUnavailable(shouldShow: Bool) {
-        var config: UIContentConfiguration?
-
-        if shouldShow {
-            let title = L10n.podcastGridNoPodcastsTitle
-            let message = L10n.podcastGridNoPodcastsMsg
-            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("podcastlist_smallgrid").renderingMode(.template) }, actions: [
-                .init(title: L10n.podcastGridDiscoverPodcasts, action: {
-                    Analytics.shared.track(.podcastsListDiscoverButtonTapped)
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
-                })
-            ])
-        }
-
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
-    }
-
 
     func showProfileController() {
         let profileViewController = ProfileViewController()
@@ -458,8 +439,16 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         bannerAdModel = BannerAdModel(
             adText: "Listen to your favorite books while supporting your local indie bookstore",
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-            linkTitle: "Libro.fm"
-        )
+            linkTitle: "Libro.fm",
+            adID: "12345",
+            source: "podcast_list"
+        ) {
+            let url = URL(string: "https://libro.fm/")!
+            let safariViewController = SFSafariViewController(with: url)
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
+            SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+        }
     }
 }
 

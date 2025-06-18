@@ -4193,6 +4193,9 @@
 /* Title of a button the clears the current search text */
 "episode_details_title" = "Details";
 
+/* Title of the Episode description */
+"episode_description_title" = "Episode Description";
+
 /* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
 "bookmarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
 
@@ -4721,6 +4724,9 @@
 /* Paywall header for when the view is presented from the files source */
 "paywall_dynamic_headline_files" = "Upload your files with Pocket Casts Plus, and more";
 
+/* Paywall header for when the view is presented from the banner ad source */
+"paywall_dynamic_headline_banner_ad" = "Say goodbye to banner ads and more with Pocket Casts Plus";
+
 /* Up Next Shuffle Announcement sheet title*/
 "up_next_shuffle_announcement_title" = "Introducing Shuffle";
 
@@ -4837,6 +4843,9 @@
 
 /* For yealry plans, we show the weekly price. %1$@ is the price. For example: $0.70/week */
 "iap_product_weekly_pricing_format" = "%1$@/week";
+
+/* For yealry plans, we show the monthly price. %1$@ is the price. For example: $3.33/month */
+"iap_product_monthly_pricing_format" = "%1$@/month";
 
 /* Text displayed when the retry screen is visible */
 "cancel_subscription_available_plans_retry_screen_text" = "Sorry, but something went wrong fetching your plans.";
@@ -5150,6 +5159,29 @@
 /* Notification button title to open device notification settings*/
 "notifications_permissions_open_settings" = "Open Settings";
 
+/* Banner Ads label. This needs to be an extremely short version of "advertisement" to indicate an ad in a tiny space. */
+"banner_ads_info_label" = "AD";
+
+/* The title of an option to remove banner ads. This will take the user to a page to purchase plus. */
+"banner_ads_remove_ads" = "Remove ads";
+
+/* The title of an option to report a specific banner ad for one of several reasons. */
+"banner_ads_report_ad" = "Report ad";
+
+/* The title shown after a user selects "report ad" which sits over the options of why they wanted to report the ad. */
+"banner_ads_report_ad_title" = "Why are you reporting this ad?";
+
+/* The title of an option to report a specific banner ad for one of several reasons. */
+"banner_ads_report_broken" = "This ad seems broken";
+
+/* The title of an option to report a banner ad as malicious. */
+"banner_ads_report_malicious" = "This is a malicious ad";
+
+/* The title of an option to report a banner ad as occurring too often. */
+"banner_ads_report_too_often" = "See this ad too often";
+
+/* The title of an option to report a banner ad as "other". */
+"banner_ads_report_other" = "Other";
 
 /* MARK: - InfoPlist.strings */
 

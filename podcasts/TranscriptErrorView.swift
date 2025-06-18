@@ -3,10 +3,16 @@ import UIKit
 import PocketCastsUtils
 
 class TranscriptErrorView: UIView {
+    enum ViewSource {
+        case player
+        case episode
+    }
 
     private var retryCallback: (() -> ())?
+    private let viewSource: ViewSource
 
-    init(retryCallback: (() -> ())?) {
+    init(source: ViewSource = .player, retryCallback: (() -> ())?) {
+        self.viewSource = source
         self.retryCallback = retryCallback
         super.init(frame: CGRect.zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +43,8 @@ class TranscriptErrorView: UIView {
     }()
 
     private lazy var icon: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "yield_scaled"))
+        let view = UIImageView(image: UIImage(named: "yield_scaled")?.withRenderingMode(.alwaysTemplate))
+        view.tintColor = viewSource == .episode ? ThemeColor.primaryIcon02() : .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -50,8 +57,13 @@ class TranscriptErrorView: UIView {
         retryButton.setTitle(L10n.tryAgain, for: .normal)
         retryButton.addTarget(self, action: #selector(retryLoad), for: .touchUpInside)
 
-        retryButton.setTitleColor(.white, for: .normal)
-        retryButton.tintColor = .white.withAlphaComponent(0.2)
+        if viewSource == .episode {
+            retryButton.setTitleColor(ThemeColor.primaryText01(), for: .normal)
+            retryButton.tintColor = ThemeColor.primaryUi05()
+        } else {
+            retryButton.setTitleColor(.white, for: .normal)
+            retryButton.tintColor = .white.withAlphaComponent(0.2)
+        }
         retryButton.layer.masksToBounds = true
         retryButton.configuration = configuration
         retryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
@@ -67,12 +79,20 @@ class TranscriptErrorView: UIView {
     }()
 
     func setMessage(_ message: String, attributes: [NSAttributedString.Key: Any]) {
-        label.attributedText = NSAttributedString(string: message, attributes: attributes)
+        var updatedAttributes = attributes
+        if viewSource == .episode {
+            updatedAttributes[.foregroundColor] = ThemeColor.primaryText01()
+        }
+        label.attributedText = NSAttributedString(string: message, attributes: updatedAttributes)
     }
 
     func setTextAttributes(_ attributes: [NSAttributedString.Key: Any]) {
         if let text = label.text {
-            label.attributedText = NSAttributedString(string: text, attributes: attributes)
+            var updatedAttributes = attributes
+            if viewSource == .episode {
+                updatedAttributes[.foregroundColor] = ThemeColor.primaryText01()
+            }
+            label.attributedText = NSAttributedString(string: text, attributes: updatedAttributes)
         }
     }
 

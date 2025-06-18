@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import Combine
+import PocketCastsUtils
 
 class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
@@ -10,24 +11,52 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         @Published public var region: String?
         private(set) var cachedCategories = [DiscoverCategory]()
 
-        lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
-            guard let source = self?.item?.source else { return nil }
-            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: self?.item?.authenticated)
-            let popular = categories.filter {
+        private let serverHandler: DiscoverServerHandling
+
+        lazy var load: (() async -> (categories: [DiscoverCategory], prioritized: [DiscoverCategory])?) = { [weak self] in
+            guard let self, let source = self.item?.source else { return ([], []) }
+
+            let categories = await self.serverHandler.discoverCategories(source: source, authenticated: self.item?.authenticated)
+
+            // Filter categories by popularity
+            var filteredCategories = categories.filter {
                 guard let id = $0.id else { return false }
-                return self?.item?.popular?.contains(id) == true
+                return self.item?.popular?.contains(id) == true
             }
-            self?.cachedCategories = categories
-            return (categories, popular)
+
+            // Filter and rank categories by recommendations
+            if FeatureFlag.smartCategories.enabled,
+               let recommendedSource = item?.recommendations?.source,
+               let recommendedCategories = await self.serverHandler.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
+                filteredCategories = categories
+                    // Filter categories based on recommended IDs
+                    .compactMap { category -> DiscoverCategory? in
+                        guard let id = category.id, recommendedCategories.contains(id) else { return nil }
+                        return category
+                    }
+                    // Filter categories based on position in recommendedIDs
+                    .sorted { lhs, rhs in
+                        guard let lhsId = lhs.id, let rhsId = rhs.id,
+                              let lhsIndex = recommendedCategories.firstIndex(of: lhsId),
+                              let rhsIndex = recommendedCategories.firstIndex(of: rhsId) else {
+                            return false
+                        }
+                        return lhsIndex < rhsIndex
+                    }
+            }
+
+            self.cachedCategories = categories
+            return (categories, filteredCategories)
         }
 
-        init(load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?)? = nil) {
+        init(serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared,
+             load: (() async -> (categories: [DiscoverCategory], prioritized: [DiscoverCategory])?)? = nil) {
+            self.serverHandler = serverHandler
             if let load {
                 self.load = load
             }
         }
     }
-
     @ObservedObject fileprivate var observable: DiscoverItemObservable
 
     private weak var delegate: DiscoverDelegate?

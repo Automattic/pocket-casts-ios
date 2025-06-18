@@ -19,6 +19,18 @@ extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<Stri
 extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
 }
 
+protocol DownloadManagerStreamAndDownloadCache {
+    subscript(index: String) -> AVAssetResourceLoaderDelegate? { get set }
+
+    func contains(where predicate: ((key: String, value: AVAssetResourceLoaderDelegate)) throws -> Bool) rethrows -> Bool
+}
+
+extension Dictionary: DownloadManagerStreamAndDownloadCache where Self == Dictionary<String, AVAssetResourceLoaderDelegate> {
+}
+
+extension ThreadSafeDictionary: DownloadManagerStreamAndDownloadCache where ThreadSafeDictionary == ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate> {
+}
+
 class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
@@ -39,7 +51,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }()
 
-    var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
+    lazy var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
+        if FeatureFlag.downloadsThreadSafeCache.enabled {
+            ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
+        } else {
+            Dictionary<String, AVAssetResourceLoaderDelegate>()
+        }
+    }()
 
     var taskFailure: [String: FailureReason] = [:]
 
@@ -356,7 +374,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes.removeValue(forKey: downloadTaskUUID)
+            downloadAndStreamEpisodes[downloadTaskUUID] = nil
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
             }
@@ -444,7 +462,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes[episode.uuid] != nil {
             return
         }
 
@@ -505,7 +523,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             saveRequired = true
         }
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes[episode.uuid] != nil {
             episode.downloadTaskId = episode.uuid
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             saveRequired = true

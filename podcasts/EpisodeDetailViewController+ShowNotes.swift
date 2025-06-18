@@ -10,11 +10,14 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         showNotesHolderView.insertSubview(showNotesWebView, belowSubview: loadingIndicator)
         showNotesWebView.translatesAutoresizingMaskIntoConstraints = false
+
+        let showNotesWebViewTopConstraint = showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 20)
+        self.showNotesWebViewTopConstraint = showNotesWebViewTopConstraint
         NSLayoutConstraint.activate([
             showNotesWebView.leadingAnchor.constraint(equalTo: showNotesHolderView.leadingAnchor),
             showNotesWebView.trailingAnchor.constraint(equalTo: showNotesHolderView.trailingAnchor),
             showNotesWebView.bottomAnchor.constraint(equalTo: showNotesHolderView.bottomAnchor),
-            showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 20)
+            showNotesWebViewTopConstraint
         ])
 
         showNotesWebView.allowsLinkPreview = true
@@ -61,10 +64,14 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: parentIdentifier, episodeUuid: episodeUUID)
 
             if FeatureFlag.episodeDetailTranscript.enabled {
-                if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID) {
+                if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID), !metadata.transcripts.isEmpty {
                     await MainActor.run { [weak self] in
                         let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
-                            //TODO: add vc presentation here
+
+                            DispatchQueue.main.async {
+                                let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
+                                self?.present(TranscriptContainerViewController(playbackManager: playbackManager), animated: true)
+                            }
                         }
                         let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
                         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,11 +79,13 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
                         view.anchorToAllSidesOf(view: self?.transcriptExcerpt)
                         self?.transcriptExcerpt?.isHidden = false
                         self?.showNotesHolderTopAnchor?.constant = 145.0
+                        self?.showNotesWebViewTopConstraint?.constant = 0.0
                     }
                 } else {
                     await MainActor.run { [weak self] in
                         self?.transcriptExcerpt?.isHidden = true
                         self?.showNotesHolderTopAnchor?.constant = 0.0
+                        self?.showNotesWebViewTopConstraint?.constant = 20.0
                     }
                 }
             }
@@ -149,7 +158,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         } else {
             let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
             lastThemeRenderedNotesIn = currentTheme
-            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            let formattedNotes = ShowNotesFormatter.formatInEpisode(customTitle: L10n.episodeDescriptionTitle, showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
         }
     }
