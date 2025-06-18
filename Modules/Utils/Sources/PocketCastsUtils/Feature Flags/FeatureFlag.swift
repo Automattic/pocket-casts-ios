@@ -188,9 +188,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Shows transcript excerpt in episode detail
     case episodeDetailTranscript
 
-    /// Avoid using `withoutActuallyEscaping` for FMDB
-    case fmdbWithoutActuallyEscaping
-
     /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
     case bannerAds
 
@@ -333,8 +330,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .episodeDetailTranscript:
             true
-        case .fmdbWithoutActuallyEscaping:
-            false
         case .bannerAds:
             false
         case .streamingCustomSessionConfiguration:
