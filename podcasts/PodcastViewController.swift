@@ -1036,7 +1036,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         optionPicker.addActions([
             .init(label: L10n.selectAll, icon: "selectall-down") { [weak self] in
-
+                self?.selectSeasonTapped(season: season)
             },
             .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
                 self?.downloadSeasonTapped(season: season)
@@ -1047,6 +1047,32 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         ])
 
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func episodesForSeason(_ season: Int) -> [ListEpisode] {
+        guard let allObjects = self.episodeInfo[safe: 1]?.elements,
+              allObjects.count > 0
+        else {
+            return []
+        }
+
+        let seasonObjects = allObjects.filter {
+            guard let listEpisode = $0 as? ListEpisode else {
+                return false
+            }
+            return listEpisode.episode.seasonNumber == season
+        }
+
+        let episodes = seasonObjects.compactMap { ($0 as? ListEpisode) }.filter { $0.episode.seasonNumber == season }
+        return episodes
+    }
+
+    private func selectSeasonTapped(season: Int) {
+        selectedEpisodes = episodesForSeason(season)
+        enableMultiSelect()
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadData()
+        }
     }
 
     func downloadSeasonTapped(season: Int) {
