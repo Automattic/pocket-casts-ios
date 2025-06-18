@@ -1035,7 +1035,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let optionPicker = OptionsPicker(title: nil)
 
         optionPicker.addActions([
-            .init(label: L10n.selectAll, icon: "selectall-down") { [weak self] in
+            .init(label: L10n.selectAll, icon: "option-multiselect") { [weak self] in
                 self?.selectSeasonTapped(season: season)
             },
             .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
