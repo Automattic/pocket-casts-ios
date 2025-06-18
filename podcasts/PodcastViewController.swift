@@ -1042,7 +1042,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self?.downloadSeasonTapped(season: season)
             },
             .init(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
-
+                self?.archiveAllSeasonTapped(season: season)
             }
         ])
 
@@ -1098,6 +1098,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
             self.downloadItems(allObjects: seasonObjects)
         }
+    }
+
+    func archiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
     }
 
     func downloadItems(allObjects: [ListItem]) {
