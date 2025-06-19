@@ -334,6 +334,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
                 if remoteValue.source == .remote {
                     do {
+                        print("Overriding \(flag) to \(remoteValue.boolValue)")
                         try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
                     } catch {
                         FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
