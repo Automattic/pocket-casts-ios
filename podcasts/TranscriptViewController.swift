@@ -22,6 +22,30 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    @available(iOS 18.0, *)
+    private var translationManager: TranslationsManager {
+        let manager = TranslationsManager(currentLanguage: Locale.current.language)
+        manager.translatedText = { text in
+            print(text ?? "no translation")
+            if let text = text {
+                let formattedText = NSMutableAttributedString(string: text)
+                formattedText.beginEditing()
+                let normalStyle = self.makeStyle()
+                var highlightStyle = normalStyle
+                highlightStyle[.foregroundColor] = self.showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast01()
+
+                let fullLength = NSRange(location: 0, length: formattedText.length)
+                formattedText.addAttributes(normalStyle, range: fullLength)
+                formattedText.endEditing()
+                self.transcriptView.attributedText = formattedText
+            }
+        }
+        manager.sourceText = { [weak self] in
+            return self?.transcript?.attributedText.string
+        }
+        return manager
+    }
+
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
     private var topGradientHeightConstraint: NSLayoutConstraint?
@@ -166,6 +190,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
+
+        if #available(iOS 18.0, *) {
+            let view = TranslationButton(translationManager: translationManager).themedUIView
+            stackView.addArrangedSubview(view)
+        }
+
         stackView.addArrangedSubview(searchButton)
 
         view.addSubview(stackView)

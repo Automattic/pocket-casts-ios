@@ -10,9 +10,7 @@ struct AvailableLanguage: Identifiable, Hashable, Comparable {
     }
     
     func localizedName() -> String {
-        let locale = Locale.current
-
-        guard let localizedName = locale.localizedString(forLanguageCode: shortName) else {
+        guard let localizedName = Locale.current.localizedString(forLanguageCode: shortName) else {
             return "Unknown language code"
         }
         return "\(localizedName) (\(shortName))"
@@ -24,42 +22,69 @@ struct AvailableLanguage: Identifiable, Hashable, Comparable {
 }
 
 @available(iOS 18.0, *)
-class TranslationsManager {
-    private(set) var availableLanguages: [AvailableLanguage] = []
-    private(set) var configuration: TranslationSession.Configuration?
+protocol TranslationsManaging {
+    var availableLanguages: [AvailableLanguage] { get }
+    var configuration: TranslationSession.Configuration? { get }
+    var currentLanguage: Locale.Language { get }
+    var sourceText: (() -> String?)? { get set }
+    var translatedText: ((String?) -> Void)? { get set }
 
-    init() {
-        prepareSupportedLanguages()
+    init(currentLanguage: Locale.Language)
+
+    func prepareSupportedLanguages() async
+    func setupConfiguration(
+        source: Locale.Language?,
+        target: Locale.Language?
+    )
+    func translate(
+        text: String,
+        source: Locale.Language?,
+        target: Locale.Language?,
+        using session: TranslationSession
+    ) async throws -> String
+}
+
+@available(iOS 18.0, *)
+class TranslationsManager: ObservableObject, TranslationsManaging {
+    enum LoadingState {
+        case idle
+        case loading
     }
 
-    private func setupConfiguration(source: Locale.Language? = nil, target: Locale.Language? = nil) {
+    private(set) var availableLanguages: [AvailableLanguage] = []
+    @Published private(set) var configuration: TranslationSession.Configuration?
+
+    var sourceText: (() -> String?)? = nil
+    var translatedText: ((String?) -> Void)? = nil
+
+    let currentLanguage: Locale.Language
+
+    @Published var loadingState: LoadingState = .idle
+
+    required init(currentLanguage: Locale.Language) {
+        self.currentLanguage = currentLanguage
+        self.configuration = nil
+    }
+
+    func setupConfiguration(source: Locale.Language? = nil, target: Locale.Language? = nil) {
         guard configuration == nil else {
             configuration?.invalidate()
             return
         }
         configuration = .init(source: source, target: target)
     }
-    
-    func prepareSupportedLanguages() {
-        Task { @MainActor in
-            let supportedLanguages = await LanguageAvailability().supportedLanguages
+
+    func prepareSupportedLanguages() async {
+        let supportedLanguages = await LanguageAvailability().supportedLanguages
+        await MainActor.run {
             availableLanguages = supportedLanguages.map {
                 AvailableLanguage(locale: $0)
             }
             .sorted()
         }
     }
-    
-    func translate(text: String, source: Locale.Language? = nil, target: Locale.Language? = nil) async throws -> String {
-        setupConfiguration(source: source, target: target)
-        guard let configuration else {
-            throw NSError(domain: "Translation", code: -1, userInfo: [NSLocalizedDescriptionKey: "Missing configuration"])
-        }
-        let session = try await TranslationSession.make(for: configuration)
-        return try await translate(text: text, using: session)
-    }
-    
-    func translate(text: String, using session: TranslationSession) async throws -> String {
+
+    func translate(text: String, source: Locale.Language? = nil, target: Locale.Language? = nil, using session: TranslationSession) async throws -> String {
         let response = try await session.translate(text)
         return response.targetText
     }

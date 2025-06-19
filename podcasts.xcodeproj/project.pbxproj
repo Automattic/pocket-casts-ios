@@ -714,6 +714,7 @@
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9ABC75072E01A2D10019F446 /* Translationsmanager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABC75062E01A2C80019F446 /* Translationsmanager.swift */; };
+		9ABC75092E02D8E40019F446 /* TranslationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABC75082E02D8E40019F446 /* TranslationButton.swift */; };
 		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
 		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -2948,6 +2949,7 @@
 		9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyRow.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9ABC75062E01A2C80019F446 /* Translationsmanager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translationsmanager.swift; sourceTree = "<group>"; };
+		9ABC75082E02D8E40019F446 /* TranslationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationButton.swift; sourceTree = "<group>"; };
 		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
 		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
@@ -5474,6 +5476,7 @@
 			isa = PBXGroup;
 			children = (
 				9ABC75062E01A2C80019F446 /* Translationsmanager.swift */,
+				9ABC75082E02D8E40019F446 /* TranslationButton.swift */,
 			);
 			path = Translations;
 			sourceTree = "<group>";
@@ -10296,6 +10299,7 @@
 				9A0E6C662D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift in Sources */,
 				408971AD2512EE1F00783253 /* PodcastBundleCountView.swift in Sources */,
 				8B205C8129E84B6B0069BAF9 /* PageIndicatorView.swift in Sources */,
+				9ABC75092E02D8E40019F446 /* TranslationButton.swift in Sources */,
 				BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */,
 				F5BDBF502DB9754900AD8DF1 /* PodcastTableCellView.swift in Sources */,
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
