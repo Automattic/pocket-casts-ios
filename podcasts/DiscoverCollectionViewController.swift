@@ -133,7 +133,10 @@ class DiscoverCollectionViewController: PCViewController {
                             self.loadingTasks.removeValue(forKey: uuid)
                         }
                     } else {
-                        snapshot.appendItems([.item(.init(item: item, region: currentRegion, selectedCategory: selectedCategory))])
+                        let model = DiscoverCellModel(item: item, region: currentRegion, selectedCategory: selectedCategory)
+                        if let cellType = item.cellType() {
+                            snapshot.appendItems([.item(DiscoverCellType.ItemType(cellType: cellType, model: model))])
+                        }
                     }
                 }
             }
@@ -158,8 +161,11 @@ class DiscoverCollectionViewController: PCViewController {
         }) {
             // Replace the loading placeholder with either the authenticated item or empty
             if isAuthenticated {
-                let newItem = CellType.item(.init(item: item, region: region, selectedCategory: selectedCategory))
-                snapshot.insertItems([newItem], beforeItem: loadingItem)
+                let model = DiscoverCellModel(item: item, region: region, selectedCategory: selectedCategory)
+                if let cellType = item.cellType() {
+                    let newItem = CellType.item(DiscoverCellType.ItemType(cellType: cellType, model: model))
+                    snapshot.insertItems([newItem], beforeItem: loadingItem)
+                }
             } else {
                 snapshot.insertItems([.empty], beforeItem: loadingItem)
             }
@@ -232,33 +238,36 @@ extension DiscoverCollectionViewController {
             partialResult[cellType] = cellType.createCellRegistration(parentViewController: self, delegate: self)
         }
 
-        let nonItemRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
-            let contentConfiguration: UIContentConfiguration
-            switch item {
-            case .loading:
-                contentConfiguration = ContentUnavailableConfiguration.loading()
-            case .noNetwork:
-                contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                    self?.reloadData()
-                }
-            case .noResults:
-                contentConfiguration = ContentUnavailableConfiguration.noResults()
-            case .empty:
-                contentConfiguration = ContentUnavailableConfiguration.empty()
-            case .item:
-                ()
-                fatalError("Should never happen")
+        let loadingRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+            cell.contentConfiguration = ContentUnavailableConfiguration.loading()
+        }
+
+        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+            cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
+                self?.reloadData()
             }
-            cell.contentConfiguration = contentConfiguration
+        }
+
+        let noResultsRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+            cell.contentConfiguration = ContentUnavailableConfiguration.noResults()
+        }
+
+        let emptyRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+            cell.contentConfiguration = ContentUnavailableConfiguration.empty()
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
             switch item {
-            case .loading, .noResults, .noNetwork, .empty:
-                return collectionView.dequeueConfiguredReusableCell(using: nonItemRegistration, for: indexPath, item: item)
+            case .loading:
+                return collectionView.dequeueConfiguredReusableCell(using: loadingRegistration, for: indexPath, item: item)
+            case .noNetwork:
+                return collectionView.dequeueConfiguredReusableCell(using: noNetworkRegistration, for: indexPath, item: item)
+            case .noResults:
+                return collectionView.dequeueConfiguredReusableCell(using: noResultsRegistration, for: indexPath, item: item)
+            case .empty:
+                return collectionView.dequeueConfiguredReusableCell(using: emptyRegistration, for: indexPath, item: item)
             case .item(let item):
-                guard let cellType = item.item.cellType() else { return UICollectionViewCell() }
-                let cellRegistration = registrations[cellType]!
+                let cellRegistration = registrations[item.cellType]!
                 return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
             }
         }
