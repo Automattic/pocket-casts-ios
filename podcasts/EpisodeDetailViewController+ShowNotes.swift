@@ -158,7 +158,12 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         } else {
             let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
             lastThemeRenderedNotesIn = currentTheme
-            let formattedNotes = ShowNotesFormatter.formatInEpisode(customTitle: L10n.episodeDescriptionTitle, showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            let formattedNotes: String
+            if FeatureFlag.episodeDetailTranscript.enabled {
+                formattedNotes = ShowNotesFormatter.formatInEpisode(customTitle: L10n.episodeDescriptionTitle, showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            } else {
+                formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
+            }
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
         }
     }

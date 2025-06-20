@@ -287,6 +287,22 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Si está activado, el temporizador se reiniciará automáticamente si reproduces un episodio en los 5 minutos siguientes a la última pausa.</string>
     <key>back</key>
     <string>Volver</string>
+    <key>banner_ads_info_label</key>
+    <string>ANUNCIO</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Elimina los anuncios</string>
+    <key>banner_ads_report_ad</key>
+    <string>Denunciar anuncio</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>¿Por qué denuncias este anuncio?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Parece que el anuncio no funciona bien</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Es un anuncio malicioso</string>
+    <key>banner_ads_report_other</key>
+    <string>Otros</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Veo este anuncio con demasiada frecuencia</string>
     <key>beta_purchase_disabled</key>
     <string>Descarga Pocket Casts de la App Store para comprar %1$@.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ que has escuchado dura
     <string>En el menú, toca Copiar a Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Ya está, terminado. Cambia los datos que quieras, pulsa guardar y ya puedes reproducirlos.</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/mes</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@ a la semana</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ ACTUALIZACIONES</string>
     <string>Desbloqueando</string>
     <key>pause</key>
     <string>Pausa</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Despídete de los banners publicitarios y más con Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Sube tus archivos con Pocket Casts Plus, y mucho más</string>
     <key>paywall_dynamic_headline_folder</key>
