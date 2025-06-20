@@ -125,3 +125,9 @@ extension TranscriptContainerViewController: UIAdaptivePresentationControllerDel
         }
     }
 }
+
+extension TranscriptContainerViewController: AnalyticsSourceProvider {
+    var analyticsSource: AnalyticsSource {
+        .episodeTranscript
+    }
+}
