@@ -1,13 +1,15 @@
 
-
 class TranscriptContainerViewController: UIViewController {
     private let playbackManager: TranscriptPlaybackManaging
     private var generatedTranscriptsPremiumOverlayShown: Bool = false
+
+    var playButtonTapped: ((Bool) -> Void)?
 
     private lazy var transcriptsItem: TranscriptViewController = {
         let item = TranscriptViewController(playbackManager: playbackManager, source: .episode)
         item.view.translatesAutoresizingMaskIntoConstraints = false
         item.containerDelegate = self
+        item.playButtonTapped = playButtonTapped
         return item
     }()
 

@@ -46,11 +46,20 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: UIButton) {
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        let isNowPlaying = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+        if isNowPlaying {
             // dismiss the dialog if the user hit play
             if !PlaybackManager.shared.playing() {
                 dismiss(animated: true, completion: nil)
             }
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+        playPauseEpisode(isPlaying: isNowPlaying)
+    }
+    
+    func playPauseEpisode(isPlaying: Bool) {
+        if isPlaying {
             if let timestamp = timestamp {
                 DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
                 PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
@@ -59,7 +68,6 @@ extension EpisodeDetailViewController {
 
             PlaybackActionHelper.playPause()
         } else {
-            dismiss(animated: true, completion: nil)
             if let timestamp = timestamp {
                 episode.playingStatus = PlayingStatus.inProgress.rawValue
                 episode.playedUpTo = timestamp
