@@ -57,7 +57,7 @@ extension EpisodeDetailViewController {
         }
         playPauseEpisode(isPlaying: isNowPlaying)
     }
-    
+
     func playPauseEpisode(isPlaying: Bool) {
         if isPlaying {
             if let timestamp = timestamp {
