@@ -287,6 +287,22 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Wenn die Schlummerfunktion aktiviert ist, wird sie automatisch neu gestartet, wenn du innerhalb von fünf Minuten nach der letzten Pause eine Folge abspielst.</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>banner_ads_info_label</key>
+    <string>WERBUNG</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Werbung entfernen</string>
+    <key>banner_ads_report_ad</key>
+    <string>Werbung melden</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Warum meldest du diese Werbung?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Die Werbung scheint fehlerhaft zu sein</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Die Werbung ist bösartig</string>
+    <key>banner_ads_report_other</key>
+    <string>Sonstiges</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Die Werbung wird mir zu oft angezeigt</string>
     <key>beta_purchase_disabled</key>
     <string>Bitte lade Pocket Casts aus dem App Store herunter, um %1$@ zu kaufen.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ Folge dauerte
     <string>Tippe im Menü auf „Nach Pocket Casts kopieren“</string>
     <key>how_to_upload_summary</key>
     <string>Und schon bist du fertig. Ändere gewünschte Details, speichere deine Änderungen und schon kannst du die Datei abspielen!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/Monat</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/Woche</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wird freigeschaltet</string>
     <key>pause</key>
     <string>Pause</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Verabschiede dich von Bannerwerbung und mehr mit Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Lade deine Dateien mit Pocket Casts Plus hoch und vieles mehr</string>
     <key>paywall_dynamic_headline_folder</key>

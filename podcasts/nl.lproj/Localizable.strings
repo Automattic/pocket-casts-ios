@@ -287,6 +287,20 @@ Download de app voor de volledige ervaring!</string>
     <string>Indien ingeschakeld, wordt de slaaptimer automatisch opnieuw opgestart als je een aflevering afspeelt binnen vijf minuten van de laatste pauzering.</string>
     <key>back</key>
     <string>Terug</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Advertenties verwijderen</string>
+    <key>banner_ads_report_ad</key>
+    <string>Advertentie rapporteren</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Waarom rapporteer je deze advertentie?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Deze advertentie lijkt kapot</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Dit is een schadelijke advertentie</string>
+    <key>banner_ads_report_other</key>
+    <string>Anders</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Ik zie deze advertentie te vaak</string>
     <key>beta_purchase_disabled</key>
     <string>Download Pocket Casts via de App Store om %1$@ aan te kunnen schaffen.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1358,8 @@ waar je naar hebt geluisterd was
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@ per maand</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/week</string>
     <key>import</key>
@@ -1769,6 +1785,8 @@ UPDATES</string>
     <string>Ontgrendelen</string>
     <key>pause</key>
     <string>Pauzeren</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Zeg vaarwel tegen banneradvertenties en meer met Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Upload je bestanden met Pocket Casts Plus, en meer</string>
     <key>paywall_dynamic_headline_folder</key>

@@ -287,6 +287,22 @@
     <string>如果打开，则如果您在最后一次暂停后的 5 分钟内播放了剧集，睡眠计时器将自动重启。</string>
     <key>back</key>
     <string>返回</string>
+    <key>banner_ads_info_label</key>
+    <string>广告</string>
+    <key>banner_ads_remove_ads</key>
+    <string>删除广告</string>
+    <key>banner_ads_report_ad</key>
+    <string>举报广告</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>您为何要举报此广告？</string>
+    <key>banner_ads_report_broken</key>
+    <string>这则广告似乎显示异常</string>
+    <key>banner_ads_report_malicious</key>
+    <string>这是一则恶意广告</string>
+    <key>banner_ads_report_other</key>
+    <string>其他</string>
+    <key>banner_ads_report_too_often</key>
+    <string>看到此广告的频率过高</string>
     <key>beta_purchase_disabled</key>
     <string>请从 App Store 中下载 Pocket Casts，以购买 %1$@。</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ Pocket Casts。</string>
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/月</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/周</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ Pocket Casts。</string>
     <string>正在解锁</string>
     <key>pause</key>
     <string>暂停</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>使用 Pocket Casts Plus，告别横幅广告等干扰</string>
     <key>paywall_dynamic_headline_files</key>
     <string>通过 Pocket Casts Plus 上传文件，并享用更多功能</string>
     <key>paywall_dynamic_headline_folder</key>

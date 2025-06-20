@@ -287,6 +287,22 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Si cette fonction est activée, la mise en veille redémarrera automatiquement si vous écoutez un épisode dans les 5 minutes suivant la dernière pause.</string>
     <key>back</key>
     <string>Retour</string>
+    <key>banner_ads_info_label</key>
+    <string>PUBLICITÉ</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Supprimer les publicités</string>
+    <key>banner_ads_report_ad</key>
+    <string>Signaler la publicité</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Pourquoi signalez-vous cette publicité ?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Il semble y avoir un problème avec cette publicité</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Il s’agit d’une publicité malveillante</string>
+    <key>banner_ads_report_other</key>
+    <string>Autre</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Je vois cette publicité trop souvent</string>
     <key>beta_purchase_disabled</key>
     <string>Veuillez télécharger Pocket Casts sur l’App Store pour acheter %1$@.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ que vous avez écouté était
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/mois</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/semaine</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ MISES À JOUR</string>
     <string>Déblocage</string>
     <key>pause</key>
     <string>Pause</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Dites adieu aux bannières publicitaires et plus encore avec Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Charger vos fichiers avec Pocket Casts Plus, et plus encore</string>
     <key>paywall_dynamic_headline_folder</key>
