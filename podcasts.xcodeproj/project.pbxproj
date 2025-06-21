@@ -1746,6 +1746,11 @@
 		F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035122DCBDB1F00E6F238 /* LoadingCell.swift */; };
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
+		F56864392E065FFF00339109 /* SleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864382E065FFF00339109 /* SleepTimerIntent.swift */; };
+		F568643A2E065FFF00339109 /* OpenFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864372E065FFF00339109 /* OpenFilterIntent.swift */; };
+		F56864412E06631E00339109 /* ChapterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568643E2E06631E00339109 /* ChapterIntent.swift */; };
+		F56864422E06631E00339109 /* ExtendSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568643F2E06631E00339109 /* ExtendSleepTimerIntent.swift */; };
+		F56864432E06631E00339109 /* NextPreviousIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864402E06631E00339109 /* NextPreviousIntent.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
 		F56C030C2CCEEF7100E515FF /* NumberListened2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */; };
 		F57498D12DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57498D02DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift */; };
@@ -3946,6 +3951,8 @@
 		F56035122DCBDB1F00E6F238 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
+		F56864372E065FFF00339109 /* OpenFilterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFilterIntent.swift; sourceTree = "<group>"; };
+		F56864382E065FFF00339109 /* SleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerIntent.swift; sourceTree = "<group>"; };
 		F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberListened2024.swift; sourceTree = "<group>"; };
 		F57498D02DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeListSummaryCellHeaderView.swift; sourceTree = "<group>"; };
 		F575794D2DFCDEB40067AD98 /* DiscoverItemObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverItemObservableTests.swift; sourceTree = "<group>"; };
@@ -6869,6 +6876,7 @@
 		BDBD53F717019B2A0048C8C5 /* Pocket Casts */ = {
 			isa = PBXGroup;
 			children = (
+				F565BF332CF7ECDD00447E2A /* Intents */,
 				462EE0B127024FF3003D67DC /* Credentials */,
 				BD7D337619F7D48E00B907EA /* podcasts.entitlements */,
 				3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */,
@@ -8358,6 +8366,18 @@
 				F555980A2C50242800C02EEB /* VideoExporter.swift */,
 			);
 			path = Clip;
+			sourceTree = "<group>";
+		};
+		F565BF332CF7ECDD00447E2A /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				F568643E2E06631E00339109 /* ChapterIntent.swift */,
+				F568643F2E06631E00339109 /* ExtendSleepTimerIntent.swift */,
+				F56864402E06631E00339109 /* NextPreviousIntent.swift */,
+				F56864372E065FFF00339109 /* OpenFilterIntent.swift */,
+				F56864382E065FFF00339109 /* SleepTimerIntent.swift */,
+			);
+			path = Intents;
 			sourceTree = "<group>";
 		};
 		F5B6F0DE2C18DF0900AF5150 /* Effects */ = {
@@ -10656,6 +10676,8 @@
 				9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */,
 				FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */,
 				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,
+				F56864392E065FFF00339109 /* SleepTimerIntent.swift in Sources */,
+				F568643A2E065FFF00339109 /* OpenFilterIntent.swift in Sources */,
 				BD1C46DD27B9DD9C00B1D8BB /* FolderListCell.swift in Sources */,
 				BD998AD127B25A3300B38857 /* PodcastPickerModel.swift in Sources */,
 				BDD6297F200EE26200168DF7 /* PlaybackActionHelper.swift in Sources */,
@@ -10906,6 +10928,9 @@
 				BDA2065D1BB3AF5D00D38389 /* DownloadProgress.swift in Sources */,
 				407083C625423F0A002FC9F8 /* EpisodePreviewCell.swift in Sources */,
 				BD7166951ECA8646007DD36E /* TopAlignedLabel.swift in Sources */,
+				F56864412E06631E00339109 /* ChapterIntent.swift in Sources */,
+				F56864422E06631E00339109 /* ExtendSleepTimerIntent.swift in Sources */,
+				F56864432E06631E00339109 /* NextPreviousIntent.swift in Sources */,
 				463538B826F0E88700BA9D35 /* MessageSupportView.swift in Sources */,
 				8B0EEDE829008B6300075772 /* TopOnePodcastStory2023.swift in Sources */,
 				BD9A43EE1D067AF20012FD9B /* ColorManager.swift in Sources */,

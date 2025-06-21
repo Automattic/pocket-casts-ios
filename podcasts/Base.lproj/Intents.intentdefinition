@@ -53,11 +53,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>DOik2X</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21A559</string>
+	<string>24F74</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13A1030d</string>
+	<string>17A5241e</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.1</string>
+	<string>26.0</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -65,16 +65,35 @@
 			<string>generic</string>
 			<key>INIntentClassPrefix</key>
 			<string>SJ</string>
+			<key>INIntentConfigurable</key>
+			<true/>
 			<key>INIntentDescription</key>
 			<string>Skip chapter</string>
 			<key>INIntentDescriptionID</key>
 			<string>dBTobY</string>
 			<key>INIntentLastParameterTag</key>
 			<integer>7</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
 			<key>INIntentName</key>
 			<string>Chapter</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsLinked</key>
+					<true/>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+				</dict>
 				<key>skipForward</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
@@ -161,16 +180,35 @@
 			<string>set</string>
 			<key>INIntentClassPrefix</key>
 			<string>SJ</string>
+			<key>INIntentConfigurable</key>
+			<true/>
 			<key>INIntentDescription</key>
 			<string>Set Sleep Timer</string>
 			<key>INIntentDescriptionID</key>
 			<string>CXbd65</string>
 			<key>INIntentLastParameterTag</key>
 			<integer>2</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
 			<key>INIntentName</key>
 			<string>SleepTimer</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsLinked</key>
+					<true/>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+				</dict>
 				<key>minutes</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
@@ -248,16 +286,35 @@
 			<string>set</string>
 			<key>INIntentClassPrefix</key>
 			<string>SJ</string>
+			<key>INIntentConfigurable</key>
+			<true/>
 			<key>INIntentDescription</key>
 			<string>Extend Sleep Timer</string>
 			<key>INIntentDescriptionID</key>
 			<string>EwNFJ5</string>
 			<key>INIntentLastParameterTag</key>
 			<integer>2</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
 			<key>INIntentName</key>
 			<string>ExtendSleepTimer</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsLinked</key>
+					<true/>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+				</dict>
 				<key>minutes</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
@@ -335,16 +392,37 @@
 			<string>information</string>
 			<key>INIntentClassPrefix</key>
 			<string>SJ</string>
+			<key>INIntentConfigurable</key>
+			<true/>
 			<key>INIntentDescription</key>
 			<string>Open Filter</string>
 			<key>INIntentDescriptionID</key>
 			<string>QektJm</string>
 			<key>INIntentLastParameterTag</key>
 			<integer>2</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
 			<key>INIntentName</key>
 			<string>OpenFilter</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsLinked</key>
+					<true/>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+				</dict>
 				<key>filterUuid,filterName</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
