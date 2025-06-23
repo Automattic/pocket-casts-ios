@@ -287,6 +287,22 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Quando ativado, o temporizador será reiniciado automaticamente se você reproduzir um episódio dentro de cinco minutos após a última pausa.</string>
     <key>back</key>
     <string>Voltar</string>
+    <key>banner_ads_info_label</key>
+    <string>ANÚNCIO</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Remover anúncios</string>
+    <key>banner_ads_report_ad</key>
+    <string>Denunciar anúncio</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Por que você está denunciando este anúncio?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Este anúncio parece estar corrompido</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Este anúncio é mal-intencionado</string>
+    <key>banner_ads_report_other</key>
+    <string>Outro</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Vejo este anúncio com muita frequência</string>
     <key>beta_purchase_disabled</key>
     <string>Faça download do Pocket Casts na App Store para comprar %1$@.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ que você ouviu foi
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/mês</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/semana</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ ATUALIZAÇÕES</string>
     <string>Desbloqueando</string>
     <key>pause</key>
     <string>Pausar</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Diga adeus aos anúncios de banner e muito mais com o Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Faça upload dos seus arquivos e muito mais com o Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_folder</key>

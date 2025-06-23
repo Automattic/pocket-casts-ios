@@ -5,14 +5,18 @@ class BannerAdModel: ObservableObject {
     let imageURL: URL
     let adLabel: String
     let titleLabel: String
+    let adID: String
+    let source: String
     let onLinkTap: (() -> Void)?
 
-    init(adText: String, imageURL: URL, linkTitle: String, titleLabel: String = L10n.bannerAdsInfoLabel, onLinkTap: (() -> Void)? = nil) {
+    init(adText: String, imageURL: URL, linkTitle: String, adID: String, source: String, titleLabel: String = L10n.bannerAdsInfoLabel, onLinkTap: (() -> Void)? = nil) {
         self.adText = adText
         self.imageURL = imageURL
         self.adLabel = titleLabel
         self.titleLabel = linkTitle
         self.onLinkTap = onLinkTap
+        self.adID = adID
+        self.source = source
     }
 }
 
@@ -81,12 +85,9 @@ struct BannerAdView: View {
                         .padding(.vertical, 2)
                         .background(colors.adLabelBackground)
                         .cornerRadius(4)
-                    Button(action: { model.onLinkTap?() }) {
-                        Text(model.titleLabel)
-                            .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
-                            .foregroundColor(colors.titleLabel)
-                    }
-                    .buttonStyle(PlainButtonStyle())
+                    Text(model.titleLabel)
+                        .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
+                        .foregroundColor(colors.titleLabel)
                 }
             }
             VStack {
@@ -114,6 +115,13 @@ struct BannerAdView: View {
         }
         .cornerRadius(8)
         .padding(.vertical, 10)
+        .onAppear {
+            AnalyticsHelper.bannerImpression(adID: model.adID, source: model.source)
+        }
+        .onTapGesture {
+            AnalyticsHelper.bannerTapped(adID: model.adID, source: model.source)
+            model.onLinkTap?()
+        }
     }
 
     @ViewBuilder func creative() -> some View {
@@ -142,7 +150,9 @@ struct BannerAdView: View {
         model: .init(
             adText: "Listen to your favorite books while supporting your local indie bookstore",
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-            linkTitle: "Libro.fm"
+            linkTitle: "Libro.fm",
+            adID: "test-ad-id",
+            source: "test"
         ),
         colors: .podcastList(Theme(previewTheme: .light))
     )
@@ -156,7 +166,9 @@ struct BannerAdView: View {
         model: .init(
             adText: "Listen to your favorite books while supporting your local indie bookstore",
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-            linkTitle: "Libro.fm"
+            linkTitle: "Libro.fm",
+            adID: "test-ad-id",
+            source: "test"
         ),
         colors: .podcastList(Theme(previewTheme: .light))
     )

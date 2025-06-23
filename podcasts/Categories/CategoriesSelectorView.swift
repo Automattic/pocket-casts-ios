@@ -10,14 +10,14 @@ struct CategoriesSelectorView: View {
     @ObservedObject var discoverItemObservable: CategoriesSelectorViewController.DiscoverItemObservable
 
     @State private var categories: [DiscoverCategory]?
-    @State private var popular: [DiscoverCategory]?
+    @State private var prioritized: [DiscoverCategory]?
 
     @EnvironmentObject private var theme: Theme
 
     var body: some View {
         Group {
-            if let categories, let popular {
-                CategoriesPillsView(pillCategories: popular,
+            if let categories, let prioritized {
+                CategoriesPillsView(pillCategories: prioritized,
                                     overflowCategories: categories,
                                     selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)),
                                     region: discoverItemObservable.region)
@@ -29,9 +29,7 @@ struct CategoriesSelectorView: View {
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
-            self.popular = discoverItemObservable.item?.popular?.compactMap({ orderedItem in
-                result?.popular.first(where: { $0.id == orderedItem }) ?? result?.categories.first(where: { $0.id == orderedItem })
-            }) ?? result?.popular
+            self.prioritized = result?.prioritized
         }
     }
 }

@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 import SwiftUI
+import PocketCastsServer
 
 extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     private static let podcastSquareCellId = "PodcastGridCell"
@@ -9,12 +10,14 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
     private static let folderSquareCellId = "FolderGridCell"
     private static let folderListCellId = "FolderListCell"
     private static let bannerAdHeaderId = "BannerAdHeader"
+    private static let emptyStateCellId = "EmptyStateCell"
 
     func registerCells() {
         podcastsCollectionView.register(UINib(nibName: "PodcastGridCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.podcastSquareCellId)
         podcastsCollectionView.register(UINib(nibName: "PodcastListCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.podcastListCellId)
         podcastsCollectionView.register(UINib(nibName: "FolderGridCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.folderSquareCellId)
         podcastsCollectionView.register(UINib(nibName: "FolderListCell", bundle: nil), forCellWithReuseIdentifier: PodcastListViewController.folderListCellId)
+        podcastsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: PodcastListViewController.emptyStateCellId)
 
         // Register header view for banner ads
         podcastsCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PodcastListViewController.bannerAdHeaderId)
@@ -28,9 +31,34 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         itemCount()
     }
 
+    private func makeEmptyStateView() -> EmptyStateView<Text, DefaultEmptyStateStyle> {
+        EmptyStateView(
+            title: L10n.podcastGridNoPodcastsTitle,
+            message: L10n.podcastGridNoPodcastsMsg,
+            icon: { Image("podcastlist_smallgrid").renderingMode(.template) },
+            actions: [
+                .init(title: L10n.podcastGridDiscoverPodcasts, action: {
+                    Analytics.shared.track(.podcastsListDiscoverButtonTapped)
+                    NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                })
+            ],
+            style: DefaultEmptyStateStyle.defaultStyle
+        )
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let libraryType = Settings.libraryType()
         let item = itemAt(indexPath: indexPath)
+
+        if item?.isEmpty == true {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PodcastListViewController.emptyStateCellId, for: indexPath)
+            cell.contentConfiguration = UIHostingConfiguration {
+                makeEmptyStateView()
+            }
+            .margins(.horizontal, 16)
+            .margins(.vertical, 8)
+            return cell
+        }
 
         if libraryType == .list {
             if item?.podcast != nil {
@@ -75,6 +103,11 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         collectionView.deselectItem(at: indexPath, animated: true)
 
         let selectedItem = itemAt(indexPath: indexPath)
+
+        if selectedItem?.isEmpty == true {
+            return
+        }
+
         if let podcast = selectedItem?.podcast {
             Analytics.track(.podcastsListPodcastTapped)
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
@@ -123,7 +156,18 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
     // MARK: - Row Sizing
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        gridHelper.collectionView(collectionView, sizeForItemAt: indexPath, itemCount: itemCount())
+        let item = itemAt(indexPath: indexPath)
+        if item?.isEmpty == true {
+            let sizingView = makeEmptyStateView()
+                .environmentObject(Theme.sharedTheme)
+
+            let hostingController = UIHostingController(rootView: sizingView)
+            let targetSize = CGSize(width: collectionView.bounds.width - 32, height: UIView.layoutFittingCompressedSize.height)
+            let size = hostingController.sizeThatFits(in: targetSize)
+
+            return CGSize(width: collectionView.bounds.width, height: size.height)
+        }
+        return gridHelper.collectionView(collectionView, sizeForItemAt: indexPath, itemCount: itemCount())
     }
 
     func updateFlowLayoutSize() {

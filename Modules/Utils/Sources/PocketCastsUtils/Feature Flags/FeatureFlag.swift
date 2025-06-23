@@ -188,14 +188,17 @@ public enum FeatureFlag: String, CaseIterable {
     /// Shows transcript excerpt in episode detail
     case episodeDetailTranscript
 
-    /// Avoid using `withoutActuallyEscaping` for FMDB
-    case fmdbWithoutActuallyEscaping
-
     /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
     case bannerAds
 
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
+
+    /// Guest List and Network Highligh Redesign
+    case guestListsNetworkHighlightsRedesign
+
+    /// Adds Discover category user recommendations
+    case smartCategories
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -327,12 +330,14 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .episodeDetailTranscript:
             true
-        case .fmdbWithoutActuallyEscaping:
-            false
         case .bannerAds:
             false
         case .streamingCustomSessionConfiguration:
             true
+        case .guestListsNetworkHighlightsRedesign:
+            false
+        case .smartCategories:
+            false
         }
     }
 

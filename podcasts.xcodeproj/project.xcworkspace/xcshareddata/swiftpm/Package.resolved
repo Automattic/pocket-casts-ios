@@ -109,6 +109,15 @@
       }
     },
     {
+      "identity" : "google-cast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Automattic/google-cast",
+      "state" : {
+        "revision" : "b553f49f8507a524c8857638ba8fe38c9568978b",
+        "version" : "1.0.1"
+      }
+    },
+    {
       "identity" : "googleappmeasurement",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",

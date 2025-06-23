@@ -29,6 +29,7 @@ struct UpgradeTier: Identifiable {
 extension UpgradeTier {
     static var plus: UpgradeTier {
         UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: [
+            FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil,
             TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
             TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
@@ -40,6 +41,7 @@ extension UpgradeTier {
             libroFm
         ].compactMap { $0 },
         yearlyFeatures: [
+            FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil,
             TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
             TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),

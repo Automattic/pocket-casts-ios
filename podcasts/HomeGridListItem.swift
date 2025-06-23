@@ -3,21 +3,21 @@ import Foundation
 import PocketCastsDataModel
 
 class HomeGridListItem: ListItem {
-    let gridItem: HomeGridItem
+    let gridItem: HomeGridItem?
 
     var podcast: Podcast? {
-        gridItem.podcast
+        gridItem?.podcast
     }
 
     var folder: Folder? {
-        gridItem.folder
+        gridItem?.folder
     }
 
     let theme: Theme.ThemeType
     let badgeType: BadgeType
     var frozenBadgeCount = -1 // used for comparisons only
 
-    init(gridItem: HomeGridItem, badgeType: BadgeType, theme: Theme.ThemeType) {
+    init(gridItem: HomeGridItem?, badgeType: BadgeType, theme: Theme.ThemeType) {
         self.gridItem = gridItem
         self.badgeType = badgeType
         self.theme = theme
@@ -25,8 +25,19 @@ class HomeGridListItem: ListItem {
         super.init()
     }
 
+    static let empty = HomeGridListItem(gridItem: nil, badgeType: .off, theme: Theme.sharedTheme.activeTheme)
+
     override var differenceIdentifier: String {
-        podcast?.uuid ?? folder?.uuid ?? ""
+        if let podcast = podcast {
+            return "podcast-\(podcast.uuid)"
+        } else if let folder = folder {
+            return "folder-\(folder.uuid)"
+        }
+        return "empty"
+    }
+
+    var isEmpty: Bool {
+        gridItem == nil
     }
 
     static func == (lhs: HomeGridListItem, rhs: HomeGridListItem) -> Bool {

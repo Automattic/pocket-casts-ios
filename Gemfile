@@ -2,8 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'cocoapods', '~> 1.12', '>= 1.12.1'
-gem 'cocoapods-check', '~> 1.1'
 gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.0'
 gem 'fastlane', '~> 2.216'

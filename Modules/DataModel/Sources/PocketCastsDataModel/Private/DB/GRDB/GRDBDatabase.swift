@@ -17,9 +17,14 @@ class GRDBDatabase: PCDatabase {
     }
 
     func executeQuery(_ sql: String, values: [Any]?) throws -> any PCDBResultSet {
+        // We want GRDB to query `Date` the same way FMDB does: using `timeIntervalSince1970`
+        // In terms of raw performance changing that on the model layer would be much better.
+        // However, that's a large change that we want to avoid.
+        let filteredValues = values?.map { ($0 as? Date)?.timeIntervalSince1970 ?? $0 }
+
         // Invalid arguments will result in a crash in the application
         // TODO: when releasing GRDB discuss if we want to make this optional
-        let rowCursor = try Row.fetchCursor(database, sql: sql, arguments: StatementArguments(values != nil ? values! : [])!)
+        let rowCursor = try Row.fetchCursor(database, sql: sql, arguments: StatementArguments(filteredValues != nil ? filteredValues! : [])!)
         return GRDBResultSet(rowCursor: rowCursor)
     }
 

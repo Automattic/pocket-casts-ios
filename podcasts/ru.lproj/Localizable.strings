@@ -287,6 +287,22 @@
     <string>В режиме «Включено» таймер сна будет автоматически перезапущен, если вы воспроизведёте выпуск в течение 5 минут после последней остановки.</string>
     <key>back</key>
     <string>Назад</string>
+    <key>banner_ads_info_label</key>
+    <string>Реклама</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Отключить рекламу</string>
+    <key>banner_ads_report_ad</key>
+    <string>Пожаловаться на рекламу</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Почему вы хотите пожаловаться на эту рекламу?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Похоже, эта реклама работает некорректно</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Это вредоносная реклама</string>
+    <key>banner_ads_report_other</key>
+    <string>Другое</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Я вижу эту рекламу слишком часто</string>
     <key>beta_purchase_disabled</key>
     <string>Загрузите Pocket Casts из App Store, чтобы приобрести %1$@.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ Pocket Casts на полную мощность.</string>
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@ в месяц</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@ в неделю</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ Pocket Casts на полную мощность.</string>
     <string>Разблокировка</string>
     <key>pause</key>
     <string>Пауза</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Забудьте о рекламных баннерах и не только благодаря Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Загружайте свои файлы при помощи Pocket Casts Plus и многое другое</string>
     <key>paywall_dynamic_headline_folder</key>

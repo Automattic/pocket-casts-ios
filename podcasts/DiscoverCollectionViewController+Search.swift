@@ -40,7 +40,7 @@ extension DiscoverCollectionViewController: UICollectionViewDelegate {
         switch item {
         case .item(let item):
             let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? DiscoverSummaryProtocol & UIViewController
-            viewController?.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
+            viewController?.populateFrom(item: item.model.item, region: item.model.region, category: item.model.selectedCategory)
             viewController?.beginAppearanceTransition(true, animated: false)
             viewController?.endAppearanceTransition()
         default:

@@ -1,5 +1,4 @@
-podcasts.xcodeproj/xcuserdata/
-podcasts.xcworkspace/xcuserdata/
+**/xcuserdata/
 Pods/
 /.DS_Store
 /Themes.txt

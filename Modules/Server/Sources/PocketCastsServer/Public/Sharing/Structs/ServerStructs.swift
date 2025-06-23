@@ -272,6 +272,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var regions: [String]
     public var isSponsored: Bool?
     public var popular: [Int]?
+    public var recommendations: DiscoverSource?
     public var categoryID: Int?
     public var dateTime: String?
 
@@ -283,7 +284,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case expandedTopItemLabel = "expanded_top_item_label"
         case categoryID = "category_id"
         case dateTime = "datetime"
-        case type, title, source, regions, curated, uuid, popular, id, authenticated
+        case type, title, source, regions, curated, uuid, popular, id, authenticated, recommendations
     }
 
     public init(
@@ -302,7 +303,8 @@ public struct DiscoverItem: Decodable, Equatable {
         isSponsored: Bool? = nil,
         popular: [Int]? = nil,
         categoryID: Int? = nil,
-        authenticated: Bool? = nil
+        authenticated: Bool? = nil,
+        recommendations: DiscoverSource? = nil
     ) {
         self.id = id
         self.uuid = uuid
@@ -320,6 +322,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.popular = popular
         self.categoryID = categoryID
         self.authenticated = authenticated
+        self.recommendations = recommendations
     }
 
     public var isAuthenticated: Bool {
@@ -366,10 +369,12 @@ public struct PodcastCollection: Decodable {
     public var subtitle: String?
     public var author: String?
     public var description: String?
+    public var shortDescription: String?
     public var podcasts: [DiscoverPodcast]?
     public let episodes: [DiscoverEpisode]?
     public var podroll: [DiscoverPodcast]?
     public var collectionImage: String?
+    public var collectionRectangleImage: String?
     public var colors: PodcastCollectionColors?
     public var webTitle: String?
     public var webUrl: String?
@@ -381,10 +386,12 @@ public struct PodcastCollection: Decodable {
         case webUrl = "web_url"
         case webTitle = "web_title"
         case collectionImage = "collection_image"
+        case collectionRectangleImage = "collection_rectangle_image"
         case collageImages = "collage_images"
         case headerImage = "header_image"
         case listId = "list_id"
         case featureImage = "feature_image"
+        case shortDescription = "short_description"
         case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
     }
 }
@@ -411,7 +418,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable, Equatable {
+public struct DiscoverCategory: Decodable, Equatable, Sendable {
     public var id: Int?
     public var name: String?
     public var source: String?
@@ -421,6 +428,11 @@ public struct DiscoverCategory: Decodable, Equatable {
         self.id = id
         self.name = name
     }
+}
+
+public struct DiscoverSource: Decodable, Equatable {
+    public var source: String?
+    public var authenticated: Bool?
 }
 
 public struct DiscoverCategoryDetails: Decodable {

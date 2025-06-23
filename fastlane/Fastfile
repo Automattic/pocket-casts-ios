@@ -773,11 +773,6 @@ platform :ios do
   # @note Uses `genstrings` under the hood.
   #
   lane :generate_strings_file_for_glotpress do |skip_commit: false|
-    # For reference: Other apps run `cocoapods` here (equivalent to `bundle
-    # exec pod install`) because they have internal libraries that bring in
-    # their own strings. Pocket Casts does not have dependencies with strings
-    # fetched via CocoaPods, so we don't need to waste time on that.
-
     # Delete the previous frozen `.strings` file before generating it again, to
     # avoid duplicated keys.
     FileUtils.rm(FROZEN_STRINGS_PATH)
@@ -1093,7 +1088,7 @@ platform :ios do
 
     # Build once to speed up the other runs
     scan(
-      workspace: 'podcasts.xcworkspace',
+      project: 'podcasts.xcodeproj',
       scheme: 'Screenshot Automation',
       build_for_testing: true,
       clean: true,

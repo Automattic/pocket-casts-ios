@@ -2311,6 +2311,8 @@ internal enum L10n {
   internal static var plusMarketingLearnMoreButton: String { return L10n.tr("Localizable", "plus_marketing_learn_more_button", fallback: "Learn more about Pocket Casts Plus") }
   /// Pocket Casts Plus marketing page, the main description of Pocket Casts Plus
   internal static var plusMarketingMainDescription: String { return L10n.tr("Localizable", "plus_marketing_main_description", fallback: "Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.") }
+  /// Pocket Casts Plus marketing page, description of removing banner ads
+  internal static var plusMarketingNoBannerAds: String { return L10n.tr("Localizable", "plus_marketing_no_banner_ads", fallback: "No Banner Ads") }
   /// Subtitle of the plus marketing view
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle", fallback: "Get access to exclusive features and customisation options") }
   /// Pocket Casts Plus marketing page, title of the Themes & Icons feature

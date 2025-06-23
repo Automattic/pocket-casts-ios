@@ -25,7 +25,7 @@ If you don't already have it, you need to install Bundler:
 
 `gem install bundler`
 
-Next you'll need to install all the dependencies needed for CocoaPods and FastLane using this script:
+Next you'll need to install all the dependencies needed for [_fastlane_](https://docs.fastlane.tools/) using this script:
 
 `make install_dependencies`
 
@@ -45,7 +45,7 @@ You should do this before making a pull request.
 
 ## Running
 
-Open the .xcworkspace file, select the Pocket Casts project and the Simulator Device you want to run on, and hit the play button.
+Open the `.xcodeproj` file, select the Pocket Casts project and the Simulator Device you want to run on, and hit the play button.
 
 ## Localization
 
