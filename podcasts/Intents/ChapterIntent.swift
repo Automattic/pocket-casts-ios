@@ -42,6 +42,13 @@ struct Chapter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
         userActivity.isEligibleForPrediction = true
         userActivity.suggestedInvocationPhrase = "\(direction) chapter"
         userActivity.becomeCurrent()
+
+        if skipForward == .next {
+            _ = SiriShortcutsManager.shared.skipToNextChapter()
+        } else if skipForward == .previous {
+            _ = SiriShortcutsManager.shared.skipToPreviousChapter()
+        }
+
         return .result()
     }
 }

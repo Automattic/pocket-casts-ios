@@ -37,7 +37,10 @@ struct SleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
         userActivity.suggestedInvocationPhrase = "Set sleep timer"
         userActivity.becomeCurrent()
 
-        // TODO: Place your refactored intent handler code here.
+        if let minutes = minutes {
+            _ = SiriShortcutsManager.shared.sleepTimer(newTime: minutes)
+        }
+
         return .result()
 
 //        let response = SJSleepTimerIntentResponse(code: .continueInApp, userActivity: userActivity)

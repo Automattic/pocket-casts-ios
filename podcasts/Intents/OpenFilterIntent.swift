@@ -53,6 +53,8 @@ struct OpenFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     static var title: LocalizedStringResource = "Open Filter"
     static var description = IntentDescription("Open Filter")
 
+    static let openAppWhenRun = true
+
     @Parameter(title: "Filter")
     var filter: FilterEntity?
 
@@ -84,6 +86,13 @@ struct OpenFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
         userActivity.isEligibleForPrediction = true
         userActivity.becomeCurrent()
 
+        guard let filter else {
+            return .result()
+        }
+
+        await MainActor.run {
+            UIApplication.shared.open(URL(string: "pktc://shortcuts/filter/\(filter.id)")!)
+        }
         return .result()
     }
 }

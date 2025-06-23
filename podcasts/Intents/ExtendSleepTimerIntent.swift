@@ -46,6 +46,10 @@ struct ExtendSleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIn
         userActivity.suggestedInvocationPhrase = "Extend sleep timer"
         userActivity.becomeCurrent()
 
+        if let minutes = minutes {
+            _ = SiriShortcutsManager.shared.extendSleepTimer(addTime: minutes)
+        }
+
         return .result()
     }
 }
