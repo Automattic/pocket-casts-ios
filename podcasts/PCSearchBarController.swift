@@ -83,7 +83,10 @@ class PCSearchBarController: UIViewController {
 
     @objc private func searchRequest(notification: Notification) {
         if isVisible, let searchTerm = notification.object as? String {
+            searchDelegate?.searchDidBegin()
             searchTextField.text = searchTerm
+            searchDelegate?.searchTermChanged(searchTerm)
+            searchDelegate?.performSearch(searchTerm: searchTerm, triggeredByTimer: false, completion: {})
             clearSearchBtn.isHidden = false
             view.endEditing(true)
         }

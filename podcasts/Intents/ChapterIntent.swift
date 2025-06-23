@@ -1,7 +1,6 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct Chapter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     static let intentClassName = "SJChapterIntent"
 
@@ -24,12 +23,6 @@ struct Chapter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
                 subtitle: ""
             )
         }
-//        IntentPrediction(parameters: ()) {  in
-//            DisplayRepresentation(
-//                title: "",
-//                subtitle: ""
-//            )
-//        }
     }
 
     func perform() async throws -> some IntentResult {
@@ -53,7 +46,6 @@ struct Chapter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 fileprivate extension IntentDialog {
     static var responseSuccess: Self {
         "Skipped chapter"

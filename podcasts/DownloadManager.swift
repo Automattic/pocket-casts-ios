@@ -211,6 +211,23 @@ class DownloadManager: NSObject, FilePathProtocol {
         addToQueue(episodeUuid: episodeUuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
     }
 
+    func download(episodeUuid: String) async -> String? {
+        addToQueue(episodeUuid: episodeUuid)
+        return await withCheckedContinuation { continuation in
+            NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeDownloadStatusChanged, object: nil, queue: nil) { [weak self] notification in
+                let uuid = notification.object as? String
+                if uuid == episodeUuid {
+                    if let episode = self?.dataManager.findEpisode(uuid: episodeUuid) {
+                        continuation.resume(returning: episode.downloadUrl)
+                    }
+                    else {
+                        fatalError("Episode should be found")
+                    }
+                }
+            }
+        }
+    }
+
     func addToQueue(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
         // if this episode is already downloading, ignore it
         if !shouldAddDownload(episodeUuid, autoDownloadStatus: autoDownloadStatus) { return }

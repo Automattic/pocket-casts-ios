@@ -1,7 +1,6 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct SleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     static let intentClassName = "SJSleepTimerIntent"
 
@@ -47,5 +46,3 @@ struct SleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
 //        completion(response)
     }
 }
-
-

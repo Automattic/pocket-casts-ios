@@ -1,7 +1,6 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct ExtendSleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     static let intentClassName = "SJExtendSleepTimerIntent"
 
@@ -24,12 +23,6 @@ struct ExtendSleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIn
                 subtitle: ""
             )
         }
-//        IntentPrediction(parameters: ()) {  in
-//            DisplayRepresentation(
-//                title: "",
-//                subtitle: ""
-//            )
-//        }
     }
 
     func perform() async throws -> some IntentResult {

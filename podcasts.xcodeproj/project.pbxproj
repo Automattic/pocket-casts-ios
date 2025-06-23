@@ -1718,6 +1718,9 @@
 		F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F549D3532DBBED7B00451246 /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F549D3522DBBED7B00451246 /* PodcastTableViewCell.swift */; };
+		F549F1662CF7EEF100234DEB /* AppEntityUserActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F549F1652CF7EEEB00234DEB /* AppEntityUserActivity.swift */; };
+		F549F1682CF7F37900234DEB /* EpisodeEntity+IndexedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F549F1672CF7F37400234DEB /* EpisodeEntity+IndexedEntity.swift */; };
+		F549F16C2CF7F50800234DEB /* EpisodeEntity+Transferrable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F549F16B2CF7F50400234DEB /* EpisodeEntity+Transferrable.swift */; };
 		F54E0F542CC764C0006D4DA2 /* PositionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E0F532CC764C0006D4DA2 /* PositionModifier.swift */; };
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
@@ -1746,11 +1749,25 @@
 		F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035122DCBDB1F00E6F238 /* LoadingCell.swift */; };
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
+		F565BF352CF7ECE700447E2A /* EpisodeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565BF342CF7ECE400447E2A /* EpisodeEntity.swift */; };
+		F565BF372CF7ED5100447E2A /* PodcastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565BF362CF7ED5100447E2A /* PodcastEntity.swift */; };
 		F56864392E065FFF00339109 /* SleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864382E065FFF00339109 /* SleepTimerIntent.swift */; };
 		F568643A2E065FFF00339109 /* OpenFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864372E065FFF00339109 /* OpenFilterIntent.swift */; };
 		F56864412E06631E00339109 /* ChapterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568643E2E06631E00339109 /* ChapterIntent.swift */; };
 		F56864422E06631E00339109 /* ExtendSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568643F2E06631E00339109 /* ExtendSleepTimerIntent.swift */; };
 		F56864432E06631E00339109 /* NextPreviousIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864402E06631E00339109 /* NextPreviousIntent.swift */; };
+		F56864452E06655000339109 /* OpenPodcastIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864442E06655000339109 /* OpenPodcastIntent.swift */; };
+		F56864472E06689200339109 /* EpisodeSearchIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864462E06689200339109 /* EpisodeSearchIntent.swift */; };
+		F56864492E06689800339109 /* PodcastSearchIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864482E06689800339109 /* PodcastSearchIntent.swift */; };
+		F568644B2E066A7800339109 /* EpisodeSearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568644A2E066A7800339109 /* EpisodeSearchEntity.swift */; };
+		F568644D2E066FF000339109 /* OpenEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568644C2E066FF000339109 /* OpenEpisodeIntent.swift */; };
+		F568644F2E0773E300339109 /* GetTranscriptIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F568644E2E0773E300339109 /* GetTranscriptIntent.swift */; };
+		F56864512E07753600339109 /* GetListeningHistoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864502E07753600339109 /* GetListeningHistoryIntent.swift */; };
+		F56864532E07A29400339109 /* Podcast+Subscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864522E07A29100339109 /* Podcast+Subscribe.swift */; };
+		F56864542E07A29400339109 /* Podcast+Subscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864522E07A29100339109 /* Podcast+Subscribe.swift */; };
+		F56864562E07A3CC00339109 /* FollowPodcastIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864552E07A3CC00339109 /* FollowPodcastIntent.swift */; };
+		F56864582E07A4EC00339109 /* AddToUpNextIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864572E07A4EC00339109 /* AddToUpNextIntent.swift */; };
+		F568645A2E08A4CA00339109 /* CreateFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56864592E08A4CA00339109 /* CreateFilterIntent.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
 		F56C030C2CCEEF7100E515FF /* NumberListened2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */; };
 		F57498D12DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57498D02DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift */; };
@@ -1801,6 +1818,7 @@
 		F5BEAEC92DA73CE800541921 /* DebugInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BEAEC82DA73CE000541921 /* DebugInfo.swift */; };
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
 		F5C1FA212D1283F5007CFDF2 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */; };
+		F5C9250B2E09100C00655423 /* GetCurrentEpisodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9250A2E09100C00655423 /* GetCurrentEpisodeIntent.swift */; };
 		F5CA25912CC9C30F0013DFF2 /* StoryFooter2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CA25902CC9C30F0013DFF2 /* StoryFooter2024.swift */; };
 		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
@@ -3937,6 +3955,9 @@
 		F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratings2024Story.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F549D3522DBBED7B00451246 /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
+		F549F1652CF7EEEB00234DEB /* AppEntityUserActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntityUserActivity.swift; sourceTree = "<group>"; };
+		F549F1672CF7F37400234DEB /* EpisodeEntity+IndexedEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EpisodeEntity+IndexedEntity.swift"; sourceTree = "<group>"; };
+		F549F16B2CF7F50400234DEB /* EpisodeEntity+Transferrable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EpisodeEntity+Transferrable.swift"; sourceTree = "<group>"; };
 		F54E0F532CC764C0006D4DA2 /* PositionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionModifier.swift; sourceTree = "<group>"; };
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
@@ -3951,8 +3972,24 @@
 		F56035122DCBDB1F00E6F238 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
+		F565BF342CF7ECE400447E2A /* EpisodeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeEntity.swift; sourceTree = "<group>"; };
+		F565BF362CF7ED5100447E2A /* PodcastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastEntity.swift; sourceTree = "<group>"; };
 		F56864372E065FFF00339109 /* OpenFilterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFilterIntent.swift; sourceTree = "<group>"; };
 		F56864382E065FFF00339109 /* SleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerIntent.swift; sourceTree = "<group>"; };
+		F568643E2E06631E00339109 /* ChapterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterIntent.swift; sourceTree = "<group>"; };
+		F568643F2E06631E00339109 /* ExtendSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendSleepTimerIntent.swift; sourceTree = "<group>"; };
+		F56864402E06631E00339109 /* NextPreviousIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextPreviousIntent.swift; sourceTree = "<group>"; };
+		F56864442E06655000339109 /* OpenPodcastIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPodcastIntent.swift; sourceTree = "<group>"; };
+		F56864462E06689200339109 /* EpisodeSearchIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeSearchIntent.swift; sourceTree = "<group>"; };
+		F56864482E06689800339109 /* PodcastSearchIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastSearchIntent.swift; sourceTree = "<group>"; };
+		F568644A2E066A7800339109 /* EpisodeSearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeSearchEntity.swift; sourceTree = "<group>"; };
+		F568644C2E066FF000339109 /* OpenEpisodeIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenEpisodeIntent.swift; sourceTree = "<group>"; };
+		F568644E2E0773E300339109 /* GetTranscriptIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTranscriptIntent.swift; sourceTree = "<group>"; };
+		F56864502E07753600339109 /* GetListeningHistoryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetListeningHistoryIntent.swift; sourceTree = "<group>"; };
+		F56864522E07A29100339109 /* Podcast+Subscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Subscribe.swift"; sourceTree = "<group>"; };
+		F56864552E07A3CC00339109 /* FollowPodcastIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowPodcastIntent.swift; sourceTree = "<group>"; };
+		F56864572E07A4EC00339109 /* AddToUpNextIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToUpNextIntent.swift; sourceTree = "<group>"; };
+		F56864592E08A4CA00339109 /* CreateFilterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFilterIntent.swift; sourceTree = "<group>"; };
 		F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberListened2024.swift; sourceTree = "<group>"; };
 		F57498D02DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeListSummaryCellHeaderView.swift; sourceTree = "<group>"; };
 		F575794D2DFCDEB40067AD98 /* DiscoverItemObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverItemObservableTests.swift; sourceTree = "<group>"; };
@@ -3984,6 +4021,7 @@
 		F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableCellView.swift; sourceTree = "<group>"; };
 		F5BEAEC82DA73CE000541921 /* DebugInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInfo.swift; sourceTree = "<group>"; };
 		F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ThrowOnNil.swift"; sourceTree = "<group>"; };
+		F5C9250A2E09100C00655423 /* GetCurrentEpisodeIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentEpisodeIntent.swift; sourceTree = "<group>"; };
 		F5CA25902CC9C30F0013DFF2 /* StoryFooter2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFooter2024.swift; sourceTree = "<group>"; };
 		F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioClipExporter.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
@@ -6787,6 +6825,7 @@
 		BDBA214D27C467FE0081E58D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F56864522E07A29100339109 /* Podcast+Subscribe.swift */,
 				F58189C12DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift */,
 				BDD3579427BCD6DF0000D155 /* GridHelper.swift */,
 				BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */,
@@ -8372,10 +8411,26 @@
 			isa = PBXGroup;
 			children = (
 				F568643E2E06631E00339109 /* ChapterIntent.swift */,
+				F5C9250A2E09100C00655423 /* GetCurrentEpisodeIntent.swift */,
 				F568643F2E06631E00339109 /* ExtendSleepTimerIntent.swift */,
 				F56864402E06631E00339109 /* NextPreviousIntent.swift */,
 				F56864372E065FFF00339109 /* OpenFilterIntent.swift */,
+				F56864592E08A4CA00339109 /* CreateFilterIntent.swift */,
+				F568644E2E0773E300339109 /* GetTranscriptIntent.swift */,
+				F56864502E07753600339109 /* GetListeningHistoryIntent.swift */,
+				F56864552E07A3CC00339109 /* FollowPodcastIntent.swift */,
 				F56864382E065FFF00339109 /* SleepTimerIntent.swift */,
+				F56864442E06655000339109 /* OpenPodcastIntent.swift */,
+				F568644C2E066FF000339109 /* OpenEpisodeIntent.swift */,
+				F56864462E06689200339109 /* EpisodeSearchIntent.swift */,
+				F568644A2E066A7800339109 /* EpisodeSearchEntity.swift */,
+				F56864482E06689800339109 /* PodcastSearchIntent.swift */,
+				F56864572E07A4EC00339109 /* AddToUpNextIntent.swift */,
+				F549F1652CF7EEEB00234DEB /* AppEntityUserActivity.swift */,
+				F565BF342CF7ECE400447E2A /* EpisodeEntity.swift */,
+				F549F1672CF7F37400234DEB /* EpisodeEntity+IndexedEntity.swift */,
+				F549F16B2CF7F50400234DEB /* EpisodeEntity+Transferrable.swift */,
+				F565BF362CF7ED5100447E2A /* PodcastEntity.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -9951,6 +10006,7 @@
 				C7318EAA2A624CB400EAFA9C /* BookmarkEditViewModel.swift in Sources */,
 				C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */,
 				BDED92F4251DC3E2000BF622 /* CarPlaySceneDelegate.swift in Sources */,
+				F549F1682CF7F37900234DEB /* EpisodeEntity+IndexedEntity.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
 				8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */,
 				BD9CF8C2281FC6970000F29A /* AboutViewModel.swift in Sources */,
@@ -10031,6 +10087,7 @@
 				401EBA6923725C6400899F93 /* UpNextNowPlayingCell.swift in Sources */,
 				C7DC40202A6702A600883D03 /* ToastView.swift in Sources */,
 				C7DA8D2A2923DC6800C1B08B /* PlusAccountPromptTableCell.swift in Sources */,
+				F56864472E06689200339109 /* EpisodeSearchIntent.swift in Sources */,
 				C7D1CC112AB3B444008463FC /* SubscriptionTier+L10n.swift in Sources */,
 				409BF82524906EC10015097B /* PodcastViewController+MultiSelect.swift in Sources */,
 				8BF623012C53ED7C00D10F57 /* TranscriptSearchAccessoryView.swift in Sources */,
@@ -10053,6 +10110,7 @@
 				C7FF770C291C2C4D0082A464 /* LoginLandingView.swift in Sources */,
 				BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */,
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
+				F568645A2E08A4CA00339109 /* CreateFilterIntent.swift in Sources */,
 				C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
 				F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */,
@@ -10104,6 +10162,7 @@
 				BDD5253A20477E4400AAD211 /* NSObject+AppDelegate.swift in Sources */,
 				8B14E3B029B9159B0069B6F2 /* SearchHistoryModel.swift in Sources */,
 				C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */,
+				F56864492E06689800339109 /* PodcastSearchIntent.swift in Sources */,
 				8B44446729785BD0007E0AA8 /* SocialLoginFactory.swift in Sources */,
 				46305CED272AFA5F003AC87B /* UserDefaults+Helpers.swift in Sources */,
 				BD2F3BA22366C0DA00416633 /* PlayerContainerViewController+Update.swift in Sources */,
@@ -10151,6 +10210,7 @@
 				F5E16FE72CD47DE800C0372F /* SFSafariView.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,
+				F56864512E07753600339109 /* GetListeningHistoryIntent.swift in Sources */,
 				C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */,
 				8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */,
 				FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */,
@@ -10187,6 +10247,7 @@
 				40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */,
 				BD1F977C1FD7894C00F89CCD /* MiniPlayerShadowView.swift in Sources */,
 				BD907DAB21533437004D7C02 /* PodcastEffectsViewController+Table.swift in Sources */,
+				F56864542E07A29400339109 /* Podcast+Subscribe.swift in Sources */,
 				BD5DD2E420109D650031B5DC /* FakeNavViewController.swift in Sources */,
 				BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */,
@@ -10272,10 +10333,12 @@
 				BDC692831BA7B0B70023B9F2 /* TinyPageControl.swift in Sources */,
 				F5235EE22C3CE5B300C98739 /* MediaTrimBar.swift in Sources */,
 				4053CE022150AC4B001C92B1 /* CheckboxCell.swift in Sources */,
+				F565BF372CF7ED5100447E2A /* PodcastEntity.swift in Sources */,
 				BD96575B2469047600873BB5 /* CastToViewController+Table.swift in Sources */,
 				409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */,
 				9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */,
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
+				F56864562E07A3CC00339109 /* FollowPodcastIntent.swift in Sources */,
 				C7FF7717291D50880082A464 /* Motion.swift in Sources */,
 				BD83DE0C2068B8E000012C06 /* MiniPlayerViewController+Gestures.swift in Sources */,
 				C799373B2A095F6F0010DC64 /* ProfileInfoLabels.swift in Sources */,
@@ -10372,6 +10435,7 @@
 				408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */,
 				409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */,
 				FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */,
+				F549F16C2CF7F50800234DEB /* EpisodeEntity+Transferrable.swift in Sources */,
 				FF1EC6862CECBC7D006FBF9B /* ManageDownloadsCoordinator.swift in Sources */,
 				FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */,
 				4047E1782419B2F800B79177 /* ServerSyncManager.swift in Sources */,
@@ -10464,6 +10528,7 @@
 				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
+				F549F1662CF7EEF100234DEB /* AppEntityUserActivity.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,
 				BD7641332588272B0070CBF3 /* ThemeableSwitch.swift in Sources */,
 				1021411B2C7F5BF40065D34A /* PlusPaywallReviewsViewModel.swift in Sources */,
@@ -10484,6 +10549,7 @@
 				BDE6AB6F1CC49B010087D195 /* SyncSigninViewController.swift in Sources */,
 				BD1E000E1F6BA44D0024542F /* RegionCancellingScrollView.swift in Sources */,
 				BDED92FD251DC43C000BF622 /* CarPlaySceneDelegate+Tabs.swift in Sources */,
+				F568644F2E0773E300339109 /* GetTranscriptIntent.swift in Sources */,
 				C7FF76C2291B5F100082A464 /* PlusButtonStyles.swift in Sources */,
 				BDDC1C652394B7F800F2D723 /* UpNextViewController+Swipe.swift in Sources */,
 				8BD5A4E42A1E844D00F473C6 /* StatusPageView.swift in Sources */,
@@ -10530,6 +10596,7 @@
 				BDFB26E71CD08B3C00787B7E /* ImportExportViewController.swift in Sources */,
 				BD14E793214642B80082FD5F /* VideoViewController.swift in Sources */,
 				BDD6297D200EDEF400168DF7 /* EpisodeDetailViewController+Actions.swift in Sources */,
+				F56864452E06655000339109 /* OpenPodcastIntent.swift in Sources */,
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
@@ -10660,6 +10727,7 @@
 				9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */,
 				FF9B6B772D0733670057A504 /* LogsView.swift in Sources */,
 				9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */,
+				F568644D2E066FF000339109 /* OpenEpisodeIntent.swift in Sources */,
 				BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */,
 				BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */,
 				F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */,
@@ -10683,6 +10751,7 @@
 				BDD6297F200EE26200168DF7 /* PlaybackActionHelper.swift in Sources */,
 				F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */,
 				8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */,
+				F5C9250B2E09100C00655423 /* GetCurrentEpisodeIntent.swift in Sources */,
 				C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */,
 				FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */,
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
@@ -10695,6 +10764,7 @@
 				BDAE54CC230C055600330680 /* NoSearchResultsPlaceholder.swift in Sources */,
 				C791418D294CE32D00F1852B /* StorageManager.swift in Sources */,
 				40251CEC22BB0F6E00551C51 /* CancelledAcknowledgeViewController.swift in Sources */,
+				F568644B2E066A7800339109 /* EpisodeSearchEntity.swift in Sources */,
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
 				FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */,
@@ -10721,6 +10791,7 @@
 				F5F884692CCAE5C5002BED2C /* PaidStoryWallView2024.swift in Sources */,
 				BD9657582468FAA600873BB5 /* CastToViewController.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
+				F56864582E07A4EC00339109 /* AddToUpNextIntent.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
 				8B0EEDEA2900990D00075772 /* LongestEpisodeStory2023.swift in Sources */,
@@ -10882,6 +10953,7 @@
 				BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */,
 				4084F68624DCE2F6006E5D97 /* StarredViewController+Multiselect.swift in Sources */,
 				400E3D1123F0E6D900ADAA63 /* PromotionFinishedViewController.swift in Sources */,
+				F565BF352CF7ECE700447E2A /* EpisodeEntity.swift in Sources */,
 				FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */,
 				BD6F1645219AB82700F34D14 /* UISearchBar+TextColor.swift in Sources */,
 				BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */,
@@ -11109,6 +11181,7 @@
 				BDE48A212410D0A300ECA6CA /* DownloadProgress.swift in Sources */,
 				467DF6EA26E10AFB00AC290C /* Strings+Generated.swift in Sources */,
 				46D88ABC27DFDB5B00F3BC43 /* FilesListView.swift in Sources */,
+				F56864532E07A29400339109 /* Podcast+Subscribe.swift in Sources */,
 				C7811D8D2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */,
 				BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */,

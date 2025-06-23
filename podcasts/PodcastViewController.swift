@@ -788,13 +788,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func subscribe() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
-        podcast.subscribed = 1
-        podcast.syncStatus = SyncStatus.notSynced.rawValue
-        podcast.autoDownloadSetting = (FeatureFlag.autoDownloadOnSubscribe.enabled && Settings.autoDownloadEnabled() && Settings.autoDownloadOnFollow() ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
-        DataManager.sharedManager.save(podcast: podcast)
-        ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true, autoDownloadLimit: Settings.autoDownloadOnFollow() ? Settings.autoDownloadLimits().rawValue : 0)
+        podcast.subscribe()
+
         loadLocalEpisodes(podcast: podcast, animated: true)
 
         if featuredPodcast {

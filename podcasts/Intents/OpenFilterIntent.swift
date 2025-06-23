@@ -1,16 +1,7 @@
-//
-//  OpenFilter.swift
-//  podcasts
-//
-//  Created by Brandon Titus on 6/16/25.
-//  Copyright © 2025 Shifty Jelly. All rights reserved.
-//
-
 import Foundation
 import AppIntents
 import PocketCastsDataModel
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct FilterEntity: AppEntity {
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Filter"
     static var defaultQuery = FilterEntityQuery()
@@ -28,7 +19,6 @@ struct FilterEntity: AppEntity {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct FilterEntityQuery: EntityQuery {
     func entities(for identifiers: [String]) async throws -> [FilterEntity] {
         let allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
@@ -46,7 +36,6 @@ struct FilterEntityQuery: EntityQuery {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 struct OpenFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
     static let intentClassName = "SJOpenFilterIntent"
 
@@ -86,6 +75,7 @@ struct OpenFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
         userActivity.isEligibleForPrediction = true
         userActivity.becomeCurrent()
 
+        //TODO: Throw error if not found
         guard let filter else {
             return .result()
         }
@@ -93,8 +83,9 @@ struct OpenFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent {
         await MainActor.run {
             UIApplication.shared.open(URL(string: "pktc://shortcuts/filter/\(filter.id)")!)
         }
+//        guard let filterId = filter?.id, let filter = DataManager.sharedManager.findFilter(uuid: filterId) else { return .result() }
+//        NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
+
         return .result()
     }
 }
-
-
