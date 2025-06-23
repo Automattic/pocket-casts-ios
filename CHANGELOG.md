@@ -4,7 +4,7 @@
 
 7.92
 -----
-
+- Add Play and Pause buttons to the transcript opened from the episode view [#3285](https://github.com/Automattic/pocket-casts-ios/pull/3285)
 
 7.91
 -----
