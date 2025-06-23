@@ -20,7 +20,10 @@ enum DiscoverCellType: CaseIterable {
     case categoryPodcasts
     case largeListWithPodcast
 
-    typealias ItemType = DiscoverCellModel
+    struct ItemType: Hashable {
+        let cellType: DiscoverCellType
+        let model: DiscoverCellModel
+    }
 
     func viewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
         switch self {
@@ -58,7 +61,7 @@ enum DiscoverCellType: CaseIterable {
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 
-            let vc = existingViewController ?? viewController(in: item.region)
+            let vc = existingViewController ?? item.cellType.viewController(in: item.model.region)
 
             if existingViewController == nil {
                 cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)

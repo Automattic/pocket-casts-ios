@@ -287,6 +287,22 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om automatiskt om du spelar upp ett avsnitt inom 5 minuter efter den senaste pausen.</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>banner_ads_info_label</key>
+    <string>Annons</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Ta bort annonser</string>
+    <key>banner_ads_report_ad</key>
+    <string>Rapportera annonsen</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Varför rapporterar du annonsen?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Annonsen verkar trasig</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Det här är en skadlig annons</string>
+    <key>banner_ads_report_other</key>
+    <string>Övrigt</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Får upp denna annons för ofta</string>
     <key>beta_purchase_disabled</key>
     <string>Ladda ner Pocket Casts från App Store för att köpa %1$@.</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ du lyssnade på var
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/månad</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@/vecka</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ UPPDATERINGAR</string>
     <string>Låser upp</string>
     <key>pause</key>
     <string>Pause</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Säg adjö till bannerannonser och mer med Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Ladda upp dina filer och mer därtill med Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_folder</key>

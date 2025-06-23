@@ -287,6 +287,22 @@
     <string>オンにすると、最後の一時停止から5分以内にエピソードを再生した際にスリープタイマーが自動的に再開されます。</string>
     <key>back</key>
     <string>戻る</string>
+    <key>banner_ads_info_label</key>
+    <string>広告</string>
+    <key>banner_ads_remove_ads</key>
+    <string>広告を削除する</string>
+    <key>banner_ads_report_ad</key>
+    <string>広告を報告する</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>この広告を報告する理由</string>
+    <key>banner_ads_report_broken</key>
+    <string>この広告は表示に不具合がある</string>
+    <key>banner_ads_report_malicious</key>
+    <string>この広告には悪意がある</string>
+    <key>banner_ads_report_other</key>
+    <string>その他</string>
+    <key>banner_ads_report_too_often</key>
+    <string>この広告の表示頻度が高すぎる</string>
     <key>beta_purchase_disabled</key>
     <string>%1$@ を購入するには App Store から Pocket Cast をダウンロードしてください。</string>
     <key>beta_thank_you</key>
@@ -1344,6 +1360,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/ 月</string>
     <key>iap_product_weekly_pricing_format</key>
     <string>%1$@ / 週</string>
     <key>import</key>
@@ -1769,6 +1787,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ロックを解除中</string>
     <key>pause</key>
     <string>一時停止</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Pocket Casts Plus でバナー広告などにさよならしましょう</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Pocket Casts Plus でファイルのアップロードなどを利用しましょう</string>
     <key>paywall_dynamic_headline_folder</key>
