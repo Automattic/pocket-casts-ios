@@ -1,6 +1,6 @@
 7.93
 -----
-
+- Add improved support for Serial Shows [#2502](https://github.com/Automattic/pocket-casts-ios/pull/2502)
 
 7.92
 -----
