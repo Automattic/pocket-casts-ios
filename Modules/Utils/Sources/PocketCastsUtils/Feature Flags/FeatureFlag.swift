@@ -361,6 +361,8 @@ public enum FeatureFlag: String, CaseIterable {
             "use_podcast_html_description"
         case .podcastViewChanges:
             "podcast_view_changes_2025"
+        case .grdb:
+            "grdb_testflight"
         default:
             rawValue.lowerSnakeCased()
         }
