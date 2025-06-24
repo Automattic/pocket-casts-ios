@@ -1032,17 +1032,22 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showOptionsFor(season: Int) {
+        Analytics.track(.podcastScreenSeasonOptionsTapped, properties: ["season": season])
+
         let optionPicker = OptionsPicker(title: nil)
 
         optionPicker.addActions([
             .init(label: L10n.selectAll, icon: "option-multiselect") { [weak self] in
                 self?.selectSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsSelectAllTapped, properties: ["season": season])
             },
             .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
                 self?.downloadSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
             },
             .init(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
                 self?.archiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsArchiveAllTapped, properties: ["season": season])
             }
         ])
 
