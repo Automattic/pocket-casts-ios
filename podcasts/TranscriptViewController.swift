@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -338,25 +339,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }()
 
     private lazy var playButton: RoundPlayPauseButton = {
-        let titleColor = ThemeColor.primaryText01()
-        let tintColor = ThemeColor.primaryUi05()
-
-        var  bg = UIBackgroundConfiguration.clear()
-        bg.backgroundColor = tintColor
-        var configuration = UIButton.Configuration.filled()
-        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
-        configuration.imagePadding = 8.0
-        configuration.background = bg
-        configuration.baseForegroundColor = ThemeColor.primaryIcon03()
-
-        let playButton = RoundPlayPauseButton(type: .system)
-        playButton.buttonState = playbackManager.isPlayingEpisode ? .pause : .play
+        let playButton = RoundPlayPauseButton.makeButton(playbackManager: playbackManager)
         playButton.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
-        playButton.setTitleColor(titleColor, for: .normal)
-        playButton.tintColor = tintColor
-        playButton.layer.masksToBounds = true
-        playButton.configuration = configuration
-        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         playButton.titleLabel?.adjustsFontForContentSizeCategory = true
         return playButton
     }()
@@ -881,6 +865,9 @@ class RoundButton: UIButton {
 }
 
 fileprivate class RoundPlayPauseButton: RoundButton {
+    private var cancellables = Set<AnyCancellable>()
+    private var playbackManager: TranscriptPlaybackManaging?
+
     enum ButtonState {
         case play
         case pause
@@ -912,5 +899,46 @@ fileprivate class RoundPlayPauseButton: RoundButton {
             setTitle(buttonState.buttonTitle, for: .normal)
             setImage(image, for: .normal)
         }
+    }
+
+    static func makeButton(playbackManager: TranscriptPlaybackManaging) -> RoundPlayPauseButton {
+        let titleColor = ThemeColor.primaryText01()
+        let tintColor = ThemeColor.primaryUi05()
+
+        var  bg = UIBackgroundConfiguration.clear()
+        bg.backgroundColor = tintColor
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.imagePadding = 8.0
+        configuration.background = bg
+        configuration.baseForegroundColor = ThemeColor.primaryIcon03()
+
+        let playButton = RoundPlayPauseButton(type: .system)
+        playButton.playbackManager = playbackManager
+        playButton.buttonState = playbackManager.isPlayingEpisode ? .pause : .play
+        playButton.setupObservers()
+        playButton.setTitleColor(titleColor, for: .normal)
+        playButton.tintColor = tintColor
+        playButton.layer.masksToBounds = true
+        playButton.configuration = configuration
+        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        return playButton
+    }
+
+    func setupObservers() {
+        Publishers.Merge3(
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackStarted),
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackPaused),
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackEnded)
+        )
+        .receive(on: RunLoop.main)
+        .sink { [unowned self] _ in
+            self.updatePlayingState()
+        }
+        .store(in: &cancellables)
+    }
+
+    private func updatePlayingState() {
+        buttonState = playbackManager?.isPlayingEpisode == true ? .pause : .play
     }
 }
