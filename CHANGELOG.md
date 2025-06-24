@@ -1,6 +1,6 @@
 7.93
 -----
-
+- Fix iPad Login Text Field alignment when the keyboard is presented [#3283](https://github.com/Automattic/pocket-casts-ios/pull/3283)
 
 7.92
 -----

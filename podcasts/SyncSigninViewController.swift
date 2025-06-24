@@ -73,7 +73,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet var mainButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView! {
         didSet {
             activityIndicatorView.isHidden = true
@@ -106,9 +105,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        originalButtonConstant = mainButtonBottomConstraint.constant
+        view.keyboardLayoutGuide.topAnchor.constraint(equalTo: mainButton.bottomAnchor, constant: 16).isActive = true
 
         Analytics.track(.signInShown)
     }
@@ -369,32 +366,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         }
 
         return false
-    }
-
-    private var originalButtonConstant: CGFloat = 60
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            mainButtonBottomConstraint.constant = originalButtonConstant + keyboardSize.height
-            var animationDuration = 0.3
-            if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-                animationDuration = keyboardDuration
-            }
-
-            UIView.animate(withDuration: animationDuration, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        mainButtonBottomConstraint.constant = originalButtonConstant
-        var animationDuration = 0.3
-        if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
-            animationDuration = keyboardDuration
-        }
-        UIView.animate(withDuration: animationDuration, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
 }
 

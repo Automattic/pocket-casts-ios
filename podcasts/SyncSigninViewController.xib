@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,6 @@
                 <outlet property="keyImage" destination="Qol-aB-Nm3" id="vS9-qu-Fxs"/>
                 <outlet property="mailImage" destination="uSe-g0-Lz7" id="oVY-oo-RMO"/>
                 <outlet property="mainButton" destination="XUU-bJ-bsL" id="vlc-iq-Oqc"/>
-                <outlet property="mainButtonBottomConstraint" destination="kKY-Ww-pFv" id="Xba-EH-S3A"/>
                 <outlet property="passwordBorderView" destination="ucv-tF-daa" id="hPT-EW-zZW"/>
                 <outlet property="passwordField" destination="gAW-zB-PeB" id="TVW-hP-J1K"/>
                 <outlet property="showPasswordBtn" destination="2bD-DT-Toq" id="XCH-Yw-p0T"/>
@@ -32,7 +32,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4Q-gP-JIp">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="le0-Pq-1Wd" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="16" y="55" width="288" height="56"/>
@@ -154,7 +154,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XUU-bJ-bsL" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="496" width="288" height="56"/>
+                            <rect key="frame" x="16" y="476" width="288" height="56"/>
                             <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" button="YES"/>
                                 <bool key="isElement" value="YES"/>
@@ -167,7 +167,7 @@
                             </connections>
                         </view>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Fud-ax-ZeV">
-                            <rect key="frame" x="150" y="514" width="20" height="20"/>
+                            <rect key="frame" x="150" y="494" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
                     <constraints>
@@ -178,6 +178,7 @@
                         <constraint firstItem="XUU-bJ-bsL" firstAttribute="leading" secondItem="u4Q-gP-JIp" secondAttribute="leading" priority="750" constant="16" id="63c-q7-d69"/>
                         <constraint firstItem="XUU-bJ-bsL" firstAttribute="centerY" secondItem="Fud-ax-ZeV" secondAttribute="centerY" id="6Li-WW-Kwv"/>
                         <constraint firstItem="z7y-g9-S3c" firstAttribute="top" secondItem="ucv-tF-daa" secondAttribute="bottom" priority="750" constant="17" id="78l-Ae-rz2"/>
+                        <constraint firstItem="le0-Pq-1Wd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="u4Q-gP-JIp" secondAttribute="top" id="7yZ-QZ-lZl"/>
                         <constraint firstItem="YNg-X3-gQ0" firstAttribute="centerX" secondItem="u4Q-gP-JIp" secondAttribute="centerX" id="Ecj-gh-uW4"/>
                         <constraint firstItem="ucv-tF-daa" firstAttribute="leading" secondItem="u4Q-gP-JIp" secondAttribute="leading" constant="16" id="HrG-q5-7ty"/>
                         <constraint firstAttribute="trailing" secondItem="ucv-tF-daa" secondAttribute="trailing" constant="16" id="Poy-ZK-Kbe"/>
@@ -189,7 +190,7 @@
                         <constraint firstItem="z7y-g9-S3c" firstAttribute="leading" secondItem="ucv-tF-daa" secondAttribute="leading" id="cxI-wZ-aHo"/>
                         <constraint firstAttribute="trailing" secondItem="z7y-g9-S3c" secondAttribute="trailing" constant="16" id="ghd-9H-Wba"/>
                         <constraint firstItem="z7y-g9-S3c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ucv-tF-daa" secondAttribute="bottom" constant="4" id="j6U-qN-i0P"/>
-                        <constraint firstAttribute="bottom" secondItem="XUU-bJ-bsL" secondAttribute="bottom" constant="16" id="kKY-Ww-pFv"/>
+                        <constraint firstAttribute="bottom" secondItem="XUU-bJ-bsL" secondAttribute="bottom" priority="750" constant="16" id="kKY-Ww-pFv"/>
                         <constraint firstAttribute="trailing" secondItem="le0-Pq-1Wd" secondAttribute="trailing" constant="16" id="m0x-ls-y3g"/>
                         <constraint firstItem="XUU-bJ-bsL" firstAttribute="centerX" secondItem="Fud-ax-ZeV" secondAttribute="centerX" id="neU-6h-G6p"/>
                         <constraint firstItem="YNg-X3-gQ0" firstAttribute="leading" secondItem="u4Q-gP-JIp" secondAttribute="leading" constant="16" id="oLq-Bq-VoM"/>
