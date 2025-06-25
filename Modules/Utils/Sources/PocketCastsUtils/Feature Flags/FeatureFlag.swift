@@ -335,7 +335,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .streamingCustomSessionConfiguration:
             true
         case .guestListsNetworkHighlightsRedesign:
-            false
+            true
         case .smartCategories:
             false
         }

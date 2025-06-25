@@ -1034,6 +1034,8 @@ que has escuchado dura
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodios</string>
+    <key>episode_description_title</key>
+    <string>Descripción del episodio</string>
     <key>episode_details_title</key>
     <string>Detalles</string>
     <key>episode_filter_by_duration_label</key>

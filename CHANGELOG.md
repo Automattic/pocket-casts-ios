@@ -4,7 +4,8 @@
 
 7.92
 -----
-
+- Add Play and Pause buttons to the transcript opened from the episode view [#3285](https://github.com/Automattic/pocket-casts-ios/pull/3285)
+- New UI for Guest Curator and Network highlights sections in Discovery [#3132](https://github.com/Automattic/pocket-casts-ios/issues/3132)
 
 7.91
 -----

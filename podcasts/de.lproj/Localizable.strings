@@ -1034,6 +1034,8 @@ Folge dauerte
     <string>Folge</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ Folgen</string>
+    <key>episode_description_title</key>
+    <string>Beschreibung der Folge</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>

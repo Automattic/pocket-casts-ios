@@ -1034,6 +1034,8 @@ que você ouviu foi
     <string>Episódio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episódios</string>
+    <key>episode_description_title</key>
+    <string>Descrição do episódio</string>
     <key>episode_details_title</key>
     <string>Detalhes</string>
     <key>episode_filter_by_duration_label</key>

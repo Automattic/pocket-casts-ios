@@ -70,7 +70,11 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
                             DispatchQueue.main.async {
                                 let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
-                                self?.present(TranscriptContainerViewController(playbackManager: playbackManager), animated: true)
+                                let controller = TranscriptContainerViewController(playbackManager: playbackManager)
+                                controller.playButtonTapped = { [weak self] playing in
+                                    self?.playPauseEpisode(isPlaying: playing)
+                                }
+                                self?.present(controller, animated: true)
                             }
                         }
                         let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
