@@ -1034,6 +1034,8 @@ Pocket Casts Plus</string>
     <string>單集</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ 集</string>
+    <key>episode_description_title</key>
+    <string>單集說明</string>
     <key>episode_details_title</key>
     <string>詳細資料</string>
     <key>episode_filter_by_duration_label</key>
