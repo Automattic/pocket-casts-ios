@@ -24,6 +24,8 @@ class PodcastEpisodeListViewModel: ObservableObject {
             sortStr = "ORDER BY duration ASC, addedDate"
         case .longestToShortest:
             sortStr = "ORDER BY duration DESC, addedDate"
+        case .serial:
+            sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
 
         return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr) LIMIT \(Constants.Limits.watchListItems)"

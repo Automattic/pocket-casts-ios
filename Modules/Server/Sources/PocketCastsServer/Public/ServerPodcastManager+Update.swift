@@ -240,7 +240,7 @@ extension ServerPodcastManager {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
         }
 
-        podcast.episodeGrouping = ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0
+        podcast.episodeGrouping = (podcast.episodeGrouping == PodcastGrouping.none.rawValue) ?  ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0 : podcast.episodeGrouping
         podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
 
         DataManager.sharedManager.save(podcast: podcast)

@@ -1882,7 +1882,7 @@
 "podcast_no_date" = "Date Not Set";
 
 /* Label used to indicate that the podcast episode isn't grouped into a season. */
-"podcast_no_season" = "No Season";
+"podcast_no_season" = "Extras";
 
 /* Accessibility label to prompt to pause an active download. */
 "podcast_pause_download" = "Pause download";
@@ -5181,3 +5181,10 @@
 
 /* The title of an option to report a banner ad as "other". */
 "banner_ads_report_other" = "Other";
+/* Episodes will be displayed in based on season and episode numbers*/
+"podcasts_episode_sort_serial" = "Serial";
+
+/* Name for group of episodes that don't have a season defined when sorting in serial mode*/
+"podcast_extras" = "Extras";
+
+

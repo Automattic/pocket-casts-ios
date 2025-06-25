@@ -157,7 +157,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.episodesTable.beginUpdates()
                 self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections([0], with: .none)
+                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
                 }
                 self.episodesTable.endUpdates()
                 if self.isMultiSelectEnabled {
@@ -1029,6 +1029,118 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
             self.downloadItems(allObjects: allObjects)
         }
+    }
+
+    func showOptionsFor(season: Int) {
+        guard let podcast else {
+            return
+        }
+
+        Analytics.track(.podcastScreenSeasonOptionsTapped, properties: ["season": season])
+
+        let optionPicker = OptionsPicker(title: nil)
+
+        optionPicker.addActions([
+            .init(label: L10n.selectAll, icon: "option-multiselect") { [weak self] in
+                self?.selectSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsSelectAllTapped, properties: ["season": season])
+            },
+            downloadActionForSeason(season),
+            archiveActionForSeason(season)
+        ].compactMap(\.self))
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func downloadActionForSeason(_ season: Int) -> OptionAction? {
+        var allDownloaded = true
+        let episodes = episodesForSeason(season).map({ $0.episode })
+        for episode in episodes {
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
+                allDownloaded = false
+                break
+            }
+        }
+        if allDownloaded {
+            return .init(label: L10n.removeAll, icon: "episode-remove-download") {
+                EpisodeManager.removeDownloadForEpisodes(episodes)
+                Analytics.track(.podcastScreenSeasonOptionsRemoveAllTapped, properties: ["season": season])
+            }
+        } else {
+            return .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
+                self?.downloadSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
+            }
+        }
+    }
+
+    private func archiveActionForSeason(_ season: Int) -> OptionAction? {
+        guard let podcast else { return nil }
+        let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND seasonNumber = ?"
+        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id, season])
+        if unarchivedCount > 0 {
+            return OptionAction(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
+                self?.archiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsArchiveAllTapped, properties: ["season": season])
+            }
+        } else {
+            return OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
+                self?.unarchiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsUnarchiveAllTapped, properties: ["season": season])
+            }
+        }
+    }
+
+    private func episodesForSeason(_ season: Int) -> [ListEpisode] {
+        guard let allObjects = self.episodeInfo[safe: 1]?.elements,
+              allObjects.count > 0
+        else {
+            return []
+        }
+
+        let seasonObjects = allObjects.filter {
+            guard let listEpisode = $0 as? ListEpisode else {
+                return false
+            }
+            return listEpisode.episode.seasonNumber == season
+        }
+
+        let episodes = seasonObjects.compactMap { ($0 as? ListEpisode) }.filter { $0.episode.seasonNumber == season }
+        return episodes
+    }
+
+    private func selectSeasonTapped(season: Int) {
+        selectedEpisodes = episodesForSeason(season)
+        enableMultiSelect()
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadData()
+        }
+    }
+
+    func downloadSeasonTapped(season: Int) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+
+            let listEpisodesForSeason = episodesForSeason(season)
+            let episodes = listEpisodesForSeason.map { $0.episode }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+
+            self.downloadItems(allObjects: listEpisodesForSeason)
+        }
+    }
+
+    func archiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
+    }
+
+    func unarchiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
     func downloadItems(allObjects: [ListItem]) {
