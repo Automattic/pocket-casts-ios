@@ -160,8 +160,8 @@ struct CategoryButton: View {
         Button(action: {
             selectedCategory = category
             Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": region ?? "none", "id": category.id ?? -1])
-            if FeatureFlag.smartCategories.enabled {
-                UserDefaults.standard.track(event: "category-visits")
+            if FeatureFlag.smartCategories.enabled, let categoryID = category.id {
+                UserDefaults.standard.track(event: "category-visits", id: String(categoryID))
             }
         }, label: {
             Text(category.name ?? "")
