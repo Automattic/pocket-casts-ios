@@ -140,6 +140,10 @@ extension AppDelegate {
             }
         }
 
+        performUpdateIfRequired(updateKey: "v7.93") {
+            Settings.setMobileDataAllowed(false)
+        }
+
         defaults.synchronize()
     }
 
