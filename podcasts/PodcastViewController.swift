@@ -1032,6 +1032,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showOptionsFor(season: Int) {
+        guard let podcast else {
+            return
+        }
+
         Analytics.track(.podcastScreenSeasonOptionsTapped, properties: ["season": season])
 
         let optionPicker = OptionsPicker(title: nil)
@@ -1045,13 +1049,27 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self?.downloadSeasonTapped(season: season)
                 Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
             },
-            .init(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
+            archiveActionForSeason(season)
+        ].compactMap(\.self))
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func archiveActionForSeason(_ season: Int) -> OptionAction? {
+        guard let podcast else { return nil }
+        let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND seasonNumber = ?"
+        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id, season])
+        if unarchivedCount > 0 {
+            return OptionAction(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
                 self?.archiveAllSeasonTapped(season: season)
                 Analytics.track(.podcastScreenSeasonOptionsArchiveAllTapped, properties: ["season": season])
             }
-        ])
-
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        } else {
+            return OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
+                self?.unarchiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsUnarchiveAllTapped, properties: ["season": season])
+            }
+        }
     }
 
     private func episodesForSeason(_ season: Int) -> [ListEpisode] {
@@ -1098,6 +1116,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let listEpisodesForSeason = episodesForSeason(season)
         let episodes = listEpisodesForSeason.map { $0.episode }
         EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
+    }
+
+    func unarchiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
     func downloadItems(allObjects: [ListItem]) {

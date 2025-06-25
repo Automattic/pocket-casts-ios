@@ -335,6 +335,7 @@ enum AnalyticsEvent: String {
     case podcastScreenSeasonOptionsSelectAllTapped
     case podcastScreenSeasonOptionsDownloadAllTapped
     case podcastScreenSeasonOptionsArchiveAllTapped
+    case podcastScreenSeasonOptionsUnarchiveAllTapped
 
     // MARK: - App Store Review Request
 
