@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 struct Category {
     let title: String
@@ -159,6 +160,9 @@ struct CategoryButton: View {
         Button(action: {
             selectedCategory = category
             Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": region ?? "none", "id": category.id ?? -1])
+            if FeatureFlag.smartCategories.enabled {
+                UserDefaults.standard.track(event: "category-visits")
+            }
         }, label: {
             Text(category.name ?? "")
         })
