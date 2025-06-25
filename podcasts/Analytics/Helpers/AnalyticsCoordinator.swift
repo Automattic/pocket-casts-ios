@@ -21,6 +21,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case downloadStatus = "download_status"
     case episodeDetail = "episode_detail"
     case episodeStatus = "episode_status"
+    case episodeTranscript = "episode_transcript"
     case episode
     case files
     case filters

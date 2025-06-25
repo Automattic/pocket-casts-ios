@@ -1,10 +1,12 @@
 7.93
 -----
 - Add improved support for Serial Shows [#2502](https://github.com/Automattic/pocket-casts-ios/pull/2502)
+- Fix iPad Login Text Field alignment when the keyboard is presented [#3283](https://github.com/Automattic/pocket-casts-ios/pull/3283)
 
 7.92
 -----
-
+- Add Play and Pause buttons to the transcript opened from the episode view [#3285](https://github.com/Automattic/pocket-casts-ios/pull/3285)
+- New UI for Guest Curator and Network highlights sections in Discovery [#3132](https://github.com/Automattic/pocket-casts-ios/issues/3132)
 
 7.91
 -----

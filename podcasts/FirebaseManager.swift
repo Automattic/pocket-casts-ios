@@ -22,7 +22,7 @@ struct FirebaseManager {
         remoteConfig.setDefaults(remoteConfigDefaults)
 
         Task {
-            let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+            let isTestFlight = BuildEnvironment.current == .testFlight
 
             do {
                 try await remoteConfig.setCustomSignals(["isTestflight": "\(isTestFlight)"])

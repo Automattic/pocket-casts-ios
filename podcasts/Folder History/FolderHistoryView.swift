@@ -38,7 +38,7 @@ struct FolderHistoryView: View {
         .onAppear {
             model.loadEntries()
         }
-        .navigationTitle(L10n.upNextHistory)
+        .navigationTitle(L10n.foldersHistory)
         .applyDefaultThemeOptions()
     }
 }

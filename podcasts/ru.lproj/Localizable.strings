@@ -1034,6 +1034,8 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуск</string>
     <key>episode_count_plural_format</key>
     <string>Выпусков: %1$@</string>
+    <key>episode_description_title</key>
+    <string>Описание выпуска</string>
     <key>episode_details_title</key>
     <string>Детали</string>
     <key>episode_filter_by_duration_label</key>

@@ -335,7 +335,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .streamingCustomSessionConfiguration:
             true
         case .guestListsNetworkHighlightsRedesign:
-            false
+            true
         case .smartCategories:
             false
         }
@@ -361,6 +361,8 @@ public enum FeatureFlag: String, CaseIterable {
             "use_podcast_html_description"
         case .podcastViewChanges:
             "podcast_view_changes_2025"
+        case .grdb:
+            "grdb_testflight"
         default:
             rawValue.lowerSnakeCased()
         }
