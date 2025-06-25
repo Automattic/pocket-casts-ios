@@ -157,7 +157,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.episodesTable.beginUpdates()
                 self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections([0], with: .none)
+                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
                 }
                 self.episodesTable.endUpdates()
                 if self.isMultiSelectEnabled {

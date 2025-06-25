@@ -187,6 +187,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.heading.text = heading.headerTitle
                 if heading.sectionNumber > 0 {
                     cell.button.isHidden = false
+                    cell.button.isEnabled = !isMultiSelectEnabled
                     cell.action = { [weak self] in
                         self?.showOptionsFor(season: heading.sectionNumber)
                     }
