@@ -243,6 +243,7 @@ class MultiSelectHelper {
                 actionDelegate.multiSelectActionBegan(status: status)
                 queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
             }
+            queueAction.outline = true
 
             if !Settings.mobileDataAllowed() {
                 warningMessage = L10n.downloadDataWarning + "\n" + warningMessage

@@ -68,6 +68,7 @@ extension NetworkUtils {
         let laterAction = OptionAction(label: L10n.queueForLater, icon: nil) {
             allowed?(true)
         }
+        laterAction.outline = true
         optionsPicker.addDescriptiveActions(title: L10n.notOnWifi, message: "", icon: "option-alert", actions: [uploadAction, laterAction])
 
         optionsPicker.setNoActionCallback {

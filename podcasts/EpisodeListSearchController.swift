@@ -177,7 +177,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            if !NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true
@@ -185,6 +185,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
                 let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
                     delegate.queueAllTapped()
                 }
+                queueAction.outline = true
 
                 if !Settings.mobileDataAllowed() {
                     warningMessage = L10n.downloadDataWarning + "\n" + warningMessage

@@ -101,7 +101,7 @@ class DescriptiveActionView: UIView {
                 actionButton.centerXAnchor.constraint(equalTo: centerXAnchor),
                 actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 20),
-                actionButton.heightAnchor.constraint(equalToConstant: 50)
+                actionButton.heightAnchor.constraint(equalToConstant: 56)
             ])
             previousButton = actionButton
         }
