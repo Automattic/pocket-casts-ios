@@ -1045,14 +1045,33 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self?.selectSeasonTapped(season: season)
                 Analytics.track(.podcastScreenSeasonOptionsSelectAllTapped, properties: ["season": season])
             },
-            .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
-                self?.downloadSeasonTapped(season: season)
-                Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
-            },
+            downloadActionForSeason(season),
             archiveActionForSeason(season)
         ].compactMap(\.self))
 
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func downloadActionForSeason(_ season: Int) -> OptionAction? {
+        var allDownloaded = true
+        let episodes = episodesForSeason(season).map({ $0.episode })
+        for episode in episodes {
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
+                allDownloaded = false
+                break
+            }
+        }
+        if allDownloaded {
+            return .init(label: L10n.removeAll, icon: "episode-remove-download") {
+                EpisodeManager.removeDownloadForEpisodes(episodes)
+                Analytics.track(.podcastScreenSeasonOptionsRemoveAllTapped, properties: ["season": season])
+            }
+        } else {
+            return .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
+                self?.downloadSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
+            }
+        }
     }
 
     private func archiveActionForSeason(_ season: Int) -> OptionAction? {

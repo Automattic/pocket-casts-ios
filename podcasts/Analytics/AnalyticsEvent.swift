@@ -334,6 +334,7 @@ enum AnalyticsEvent: String {
     case podcastScreenSeasonOptionsTapped
     case podcastScreenSeasonOptionsSelectAllTapped
     case podcastScreenSeasonOptionsDownloadAllTapped
+    case podcastScreenSeasonOptionsRemoveAllTapped
     case podcastScreenSeasonOptionsArchiveAllTapped
     case podcastScreenSeasonOptionsUnarchiveAllTapped
 
