@@ -313,7 +313,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
-        if BuildEnvironment.current == .debug, !forceReload { return }
+        guard BuildEnvironment.current != .debug || forceReload else { return }
 
         if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
