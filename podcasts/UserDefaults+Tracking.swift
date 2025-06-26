@@ -1,12 +1,20 @@
 extension UserDefaults {
-    func track(event: String, id: String) {
-        var visits = UserDefaults.standard.dictionary(forKey: event) ?? [:]
-        let current = visits[id] as? Int ?? 0
-        visits[id] = current + 1
-        UserDefaults.standard.set(visits, forKey: event)
+    enum VisitationTrackEvent: String {
+        case discoverCategory
+
+        var key: String {
+            "visitation-\(rawValue)"
+        }
     }
 
-    func tracks(for event: String) -> [String: Int]? {
-        UserDefaults.standard.dictionary(forKey: event) as? [String: Int]
+    func trackVisitation(event: VisitationTrackEvent, id: String) {
+        var visits = UserDefaults.standard.dictionary(forKey: event.key) ?? [:]
+        let current = visits[id] as? Int ?? 0
+        visits[id] = current + 1
+        UserDefaults.standard.set(visits, forKey: event.key)
+    }
+
+    func visitations(for event: VisitationTrackEvent) -> [String: Int]? {
+        UserDefaults.standard.dictionary(forKey: event.key) as? [String: Int]
     }
 }

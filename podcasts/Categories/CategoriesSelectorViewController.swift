@@ -26,7 +26,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
             // Filter and rank categories by recommendations
             if FeatureFlag.smartCategories.enabled,
-               let recommendations = UserDefaults.standard.tracks(for: "category-visits") {
+               let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
 
                 let recommendedIDs = recommendations
                     .sorted { $0.value > $1.value }
