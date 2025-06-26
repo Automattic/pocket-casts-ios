@@ -7,11 +7,12 @@ class DescriptiveActionView: UIView {
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
     private let iconTintStyle: ThemeStyle
-    private let attributedString: AttributedString?
+    private let attributes: [String: URL]?
+    private let onLinkTap: (() -> Void)?
 
     private weak var delegate: OptionsPickerRootController?
 
-    init(frame: CGRect, title: String, message: String?, attributedString: AttributedString? = nil, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
+    init(frame: CGRect, title: String, message: String?, attributes: [String: URL]? = nil, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, onLinkTap: (() -> Void)? = nil) {
         self.title = title
         self.message = message
         self.icon = icon
@@ -19,7 +20,8 @@ class DescriptiveActionView: UIView {
         self.delegate = delegate
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
-        self.attributedString = attributedString
+        self.attributes = attributes
+        self.onLinkTap = onLinkTap
         super.init(frame: frame)
     }
 
@@ -60,11 +62,15 @@ class DescriptiveActionView: UIView {
 
         // add message
         let messageBottomAnchor: NSLayoutYAxisAnchor
-        if let attributedString = attributedString {
-            let messageView = UIView()
+        if let attributes, let message {
+            let messageView = DescriptiveActionAttributedTextView(
+                text: message,
+                attributes: attributes,
+                onLinkTap: onLinkTap
+            ).themedUIView
             messageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(messageView)
-            
+
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
                 messageView.centerXAnchor.constraint(equalTo: centerXAnchor),
