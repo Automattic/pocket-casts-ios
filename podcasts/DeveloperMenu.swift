@@ -89,7 +89,9 @@ struct DeveloperMenu: View {
 
                 Button("Force Reload Feature Flags") {
                     FirebaseManager.refreshRemoteConfig(expirationDuration: 0) { _ in
-                        (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags()
+                        DispatchQueue.main.async {
+                            (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags(forceReload: true)
+                        }
                     }
                 }
             }
