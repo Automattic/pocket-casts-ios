@@ -7,10 +7,11 @@ class DescriptiveActionView: UIView {
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
     private let iconTintStyle: ThemeStyle
+    private let attributedString: AttributedString?
 
     private weak var delegate: OptionsPickerRootController?
 
-    init(frame: CGRect, title: String, message: String?, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
+    init(frame: CGRect, title: String, message: String?, attributedString: AttributedString? = nil, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.title = title
         self.message = message
         self.icon = icon
@@ -18,6 +19,7 @@ class DescriptiveActionView: UIView {
         self.delegate = delegate
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
+        self.attributedString = attributedString
         super.init(frame: frame)
     }
 
@@ -57,21 +59,37 @@ class DescriptiveActionView: UIView {
         ])
 
         // add message
-        let messageLabel = UILabel()
-        messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        messageLabel.text = message
-        messageLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.textAlignment = .center
-        messageLabel.numberOfLines = 0
-        addSubview(messageLabel)
+        let messageBottomAnchor: NSLayoutYAxisAnchor
+        if let attributedString = attributedString {
+            let messageView = UIView()
+            messageView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(messageView)
+            
+            NSLayoutConstraint.activate([
+                messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+                messageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: 20)
+            ])
+            messageBottomAnchor = messageView.bottomAnchor
+        } else {
+            let messageLabel = UILabel()
+            messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+            messageLabel.text = message
+            messageLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
+            messageLabel.translatesAutoresizingMaskIntoConstraints = false
+            messageLabel.textAlignment = .center
+            messageLabel.numberOfLines = 0
+            addSubview(messageLabel)
 
-        NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 20)
-        ])
+            NSLayoutConstraint.activate([
+                messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+                messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+                messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 20)
+            ])
+            messageBottomAnchor = messageLabel.bottomAnchor
+        }
 
         var previousButton: ShiftyRoundButton?
         for (index, action) in actions.enumerated() {
@@ -95,7 +113,7 @@ class DescriptiveActionView: UIView {
             actionButton.translatesAutoresizingMaskIntoConstraints = false
             addSubview(actionButton)
 
-            let previousBottomAnchor = previousButton == nil ? messageLabel.bottomAnchor : previousButton!.bottomAnchor
+            let previousBottomAnchor = previousButton == nil ? messageBottomAnchor : previousButton!.bottomAnchor
             NSLayoutConstraint.activate([
                 actionButton.topAnchor.constraint(equalTo: previousBottomAnchor, constant: 20),
                 actionButton.centerXAnchor.constraint(equalTo: centerXAnchor),

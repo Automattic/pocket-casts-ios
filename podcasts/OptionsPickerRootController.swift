@@ -137,6 +137,18 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         actionsAdded += 1
     }
 
+    func addAttributedDescriptiveActions(title: String, attributedString: AttributedString, icon: String, actions: [OptionAction]) {
+        let actionView = DescriptiveActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), title: title, message: nil, attributedString: attributedString, icon: icon, actions: actions, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
+        stackView.addArrangedSubview(actionView)
+        NSLayoutConstraint.activate([
+            actionView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            actionView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
+        ])
+        actionView.actionWasAdded()
+
+        actionsAdded += 1
+    }
+
     func addSegmentedAction(name: String, icon: String?, actions: [OptionAction]) {
         if actionsAdded > 0 { addDivider() }
 
