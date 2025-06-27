@@ -763,6 +763,9 @@
 /* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. */
 "download_data_warning" = "Downloading will use data.";
 
+/* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. */
+"download_data_warning_with_settings_link" = "This download will use mobile data. You can turn off this warning in Settings.";
+
 /* A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one. */
 "download_episode_plural_format" = "Download %1$@ Episodes";
 

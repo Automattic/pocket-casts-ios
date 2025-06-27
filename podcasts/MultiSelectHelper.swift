@@ -246,10 +246,10 @@ class MultiSelectHelper {
             queueAction.outline = true
 
             if !Settings.mobileDataAllowed() {
-                warningMessage = "This download will use mobile data. You can turn off this warning in Settings." + "\n" + warningMessage
+                warningMessage = L10n.downloadDataWarningWithSettingsLink + "\n" + warningMessage
             }
 
-            let attributes = ["Settings": URL(string: "pktc://settings/storage-and-data")!]
+            let attributes = [L10n.settings: URL(string: "pktc://settings/storage-and-data")!]
 
             confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, attributes: attributes, icon: "option-alert", actions: [downloadAction, queueAction])
         }
