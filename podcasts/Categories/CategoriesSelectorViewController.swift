@@ -34,63 +34,38 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
             if FeatureFlag.smartCategories.enabled,
                let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
 
-                let categories = item?.sponsoredCategoryIDs
                 let sponsoredIDs = Set(item?.sponsoredCategoryIDs?.map { String($0) } ?? [])
-                let recommendedIDs = recommendations
-                    .sorted { $0.value > $1.value }
-                    .map { $0.key }
-
-                // Separate sponsored and non-sponsored categories
-                let sponsoredCategories = workingCategories.filter { category in
-                    guard let id = category.id.map(String.init) else { return false }
-                    return sponsoredIDs.contains(id)
-                }
-
-                let nonSponsoredCategories = workingCategories.filter { category in
-                    guard let id = category.id.map(String.init) else { return false }
-                    return !sponsoredIDs.contains(id)
-                }
-
-                var sortedCategories: [DiscoverCategory] = []
-
-                // 1. Add ALL sponsored categories first, sorted by visitation order
-                let sponsoredByVisitation = sponsoredCategories.sorted { lhs, rhs in
+                let visitedIDs = Set(recommendations.keys)
+                
+                filteredCategories = workingCategories.sorted { lhs, rhs in
                     guard let lhsID = lhs.id.map(String.init),
                           let rhsID = rhs.id.map(String.init) else { return false }
-
-                    let lhsIndex = recommendedIDs.firstIndex(of: lhsID)
-                    let rhsIndex = recommendedIDs.firstIndex(of: rhsID)
-
-                    switch (lhsIndex, rhsIndex) {
-                    case (.some(let l), .some(let r)):
-                        return l < r  // Both visited - sort by visit order
-                    case (.some, .none):
-                        return true   // Visited comes before unvisited
-                    case (.none, .some):
-                        return false  // Unvisited comes after visited
-                    case (.none, .none):
-                        return false  // Both unvisited - keep original order
+                    
+                    let lhsSponsored = sponsoredIDs.contains(lhsID)
+                    let rhsSponsored = sponsoredIDs.contains(rhsID)
+                    let lhsVisited = visitedIDs.contains(lhsID)
+                    let rhsVisited = visitedIDs.contains(rhsID)
+                    
+                    // Sponsored always comes first
+                    if lhsSponsored != rhsSponsored {
+                        return lhsSponsored
                     }
-                }
-                sortedCategories.append(contentsOf: sponsoredByVisitation)
-
-                // 2. Add non-sponsored visited categories in visit order
-                for recommendedID in recommendedIDs {
-                    if let category = nonSponsoredCategories.first(where: { $0.id.map(String.init) == recommendedID }) {
-                        sortedCategories.append(category)
+                    
+                    // Within same sponsorship status, visited comes first
+                    if lhsVisited != rhsVisited {
+                        return lhsVisited
                     }
-                }
-
-                // 3. Add remaining non-sponsored, non-visited categories in original order
-                let addedIDs = Set(sortedCategories.compactMap { $0.id.map(String.init) })
-                for category in nonSponsoredCategories {
-                    guard let id = category.id.map(String.init) else { continue }
-                    if !addedIDs.contains(id) {
-                        sortedCategories.append(category)
+                    
+                    // Within same visited status, sort by visit order if both visited
+                    if lhsVisited && rhsVisited {
+                        let lhsVisits = recommendations[lhsID] ?? 0
+                        let rhsVisits = recommendations[rhsID] ?? 0
+                        return lhsVisits > rhsVisits
                     }
+                    
+                    // Otherwise preserve original order
+                    return false
                 }
-
-                filteredCategories = sortedCategories
             }
 
             self.cachedCategories = categories
