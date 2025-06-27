@@ -1725,6 +1725,7 @@
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
+		F550A3FB2E0F19A500FB2565 /* AddBookmarkIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F550A3FA2E0F19A500FB2565 /* AddBookmarkIntent.swift */; };
 		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
 		F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */; };
 		F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D22123EAD600BFBB03 /* EffectsButton.swift */; };
@@ -3962,6 +3963,7 @@
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Categories.swift"; sourceTree = "<group>"; };
+		F550A3FA2E0F19A500FB2565 /* AddBookmarkIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkIntent.swift; sourceTree = "<group>"; };
 		F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023Story.swift; sourceTree = "<group>"; };
 		F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024Story.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
@@ -8425,6 +8427,7 @@
 				F56864462E06689200339109 /* EpisodeSearchIntent.swift */,
 				F568644A2E066A7800339109 /* EpisodeSearchEntity.swift */,
 				F56864482E06689800339109 /* PodcastSearchIntent.swift */,
+				F550A3FA2E0F19A500FB2565 /* AddBookmarkIntent.swift */,
 				F56864572E07A4EC00339109 /* AddToUpNextIntent.swift */,
 				F549F1652CF7EEEB00234DEB /* AppEntityUserActivity.swift */,
 				F565BF342CF7ECE400447E2A /* EpisodeEntity.swift */,
@@ -10669,6 +10672,7 @@
 				8BAB8B2F299ABC8200B8404C /* SearchResultsViewController.swift in Sources */,
 				BD2219F1253EAEAF000025BE /* PlaybackCatchUpHelper.swift in Sources */,
 				9A11FCC62D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift in Sources */,
+				F550A3FB2E0F19A500FB2565 /* AddBookmarkIntent.swift in Sources */,
 				BD1BA4191D07EED9001383F0 /* ActionSheetRootViewController.swift in Sources */,
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
 				467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */,

@@ -2218,20 +2218,20 @@ extension PlaybackManager {
         PaidFeature.bookmarks.isUnlocked
     }
 
-    func bookmark(source: BookmarkAnalyticsSource) {
+    func bookmark(source: BookmarkAnalyticsSource, timestamp: TimeInterval? = nil) {
         guard bookmarksEnabled, let episode = currentEpisode() else {
             return
         }
 
-        let currentTime = currentTime()
-        bookmarkManager.add(to: episode, at: currentTime)
+        let bookmarkTime = timestamp ?? currentTime()
+        bookmarkManager.add(to: episode, at: bookmarkTime)
 
         playBookmarkCreationSoundIfNeeded(source: source)
 
         Analytics.track(.bookmarkCreated, source: source, properties: [
             "episode_uuid": episode.uuid,
             "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
-            "time": Int(currentTime)
+            "time": Int(bookmarkTime)
         ])
     }
 
