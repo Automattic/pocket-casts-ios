@@ -36,33 +36,33 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
                 let sponsoredIDs = Set(item?.sponsoredCategoryIDs?.map { String($0) } ?? [])
                 let visitedIDs = Set(recommendations.keys)
-                
+
                 filteredCategories = workingCategories.sorted { lhs, rhs in
                     guard let lhsID = lhs.id.map(String.init),
                           let rhsID = rhs.id.map(String.init) else { return false }
-                    
+
                     let lhsSponsored = sponsoredIDs.contains(lhsID)
                     let rhsSponsored = sponsoredIDs.contains(rhsID)
                     let lhsVisited = visitedIDs.contains(lhsID)
                     let rhsVisited = visitedIDs.contains(rhsID)
-                    
+
                     // Sponsored always comes first
                     if lhsSponsored != rhsSponsored {
                         return lhsSponsored
                     }
-                    
+
                     // Within same sponsorship status, visited comes first
                     if lhsVisited != rhsVisited {
                         return lhsVisited
                     }
-                    
+
                     // Within same visited status, sort by visit order if both visited
                     if lhsVisited && rhsVisited {
                         let lhsVisits = recommendations[lhsID] ?? 0
                         let rhsVisits = recommendations[rhsID] ?? 0
                         return lhsVisits > rhsVisits
                     }
-                    
+
                     // Otherwise preserve original order
                     return false
                 }
