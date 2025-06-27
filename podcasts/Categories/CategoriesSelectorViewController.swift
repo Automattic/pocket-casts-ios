@@ -18,34 +18,78 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
             let categories = await self.serverHandler.discoverCategories(source: source, authenticated: self.item?.authenticated)
 
-            // Filter categories by popularity
-            var filteredCategories = categories.filter {
-                guard let id = $0.id else { return false }
-                return self.item?.popular?.contains(id) == true
+            // Determine which categories to work with
+            let workingCategories: [DiscoverCategory]
+            if let popular = self.item?.popular {
+                workingCategories = categories.filter {
+                    guard let id = $0.id else { return false }
+                    return popular.contains(id)
+                }
+            } else {
+                workingCategories = categories
             }
 
             // Filter and rank categories by recommendations
+            var filteredCategories = workingCategories
             if FeatureFlag.smartCategories.enabled,
                let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
 
+                let categories = item?.sponsoredCategoryIDs
+                let sponsoredIDs = Set(item?.sponsoredCategoryIDs?.map { String($0) } ?? [])
                 let recommendedIDs = recommendations
                     .sorted { $0.value > $1.value }
                     .map { $0.key }
 
-                // Dictionary to speed up lookup and preserve original category objects
-                let categoriesByID = Dictionary(uniqueKeysWithValues: categories.compactMap { category -> (String, DiscoverCategory)? in
-                    guard let id = category.id else { return nil }
-                    return (String(id), category)
-                })
-
-                var sortedCategories: [DiscoverCategory] = recommendedIDs.compactMap { categoriesByID[$0] }
-
-                let remainingCategories = filteredCategories.filter { category in
-                    guard let id = category.id else { return false }
-                    return !recommendedIDs.contains(String(id))
+                // Separate sponsored and non-sponsored categories
+                let sponsoredCategories = workingCategories.filter { category in
+                    guard let id = category.id.map(String.init) else { return false }
+                    return sponsoredIDs.contains(id)
                 }
 
-                sortedCategories.append(contentsOf: remainingCategories)
+                let nonSponsoredCategories = workingCategories.filter { category in
+                    guard let id = category.id.map(String.init) else { return false }
+                    return !sponsoredIDs.contains(id)
+                }
+
+                var sortedCategories: [DiscoverCategory] = []
+
+                // 1. Add ALL sponsored categories first, sorted by visitation order
+                let sponsoredByVisitation = sponsoredCategories.sorted { lhs, rhs in
+                    guard let lhsID = lhs.id.map(String.init),
+                          let rhsID = rhs.id.map(String.init) else { return false }
+
+                    let lhsIndex = recommendedIDs.firstIndex(of: lhsID)
+                    let rhsIndex = recommendedIDs.firstIndex(of: rhsID)
+
+                    switch (lhsIndex, rhsIndex) {
+                    case (.some(let l), .some(let r)):
+                        return l < r  // Both visited - sort by visit order
+                    case (.some, .none):
+                        return true   // Visited comes before unvisited
+                    case (.none, .some):
+                        return false  // Unvisited comes after visited
+                    case (.none, .none):
+                        return false  // Both unvisited - keep original order
+                    }
+                }
+                sortedCategories.append(contentsOf: sponsoredByVisitation)
+
+                // 2. Add non-sponsored visited categories in visit order
+                for recommendedID in recommendedIDs {
+                    if let category = nonSponsoredCategories.first(where: { $0.id.map(String.init) == recommendedID }) {
+                        sortedCategories.append(category)
+                    }
+                }
+
+                // 3. Add remaining non-sponsored, non-visited categories in original order
+                let addedIDs = Set(sortedCategories.compactMap { $0.id.map(String.init) })
+                for category in nonSponsoredCategories {
+                    guard let id = category.id.map(String.init) else { continue }
+                    if !addedIDs.contains(id) {
+                        sortedCategories.append(category)
+                    }
+                }
+
                 filteredCategories = sortedCategories
             }
 
