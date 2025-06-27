@@ -11,4 +11,3 @@ enum NextPrevious: String, AppEnum {
         .previous: "Previous"
     ]
 }
-

@@ -106,10 +106,10 @@ struct EpisodeSearchEntityQuery: EntityQuery, EntityStringQuery {
                 // Invalid ID format, skip
                 continue
             }
-            
+
             let podcastUuid = String(components[0])
             let episodeUuid = String(components[1])
-            
+
             // First try to find the episode in the local database
             if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
                let podcast = episode.parentPodcast() {
@@ -149,7 +149,7 @@ struct EpisodeSearchEntityQuery: EntityQuery, EntityStringQuery {
                 }
             }
         }
-        
+
         return entities
     }
 

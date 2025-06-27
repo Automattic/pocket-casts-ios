@@ -6,7 +6,7 @@ import PocketCastsServer
 enum UpNextPosition: String, AppEnum {
     case top = "top"
     case bottom = "bottom"
-    
+
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Up Next Position"
 
     static let caseDisplayRepresentations: [UpNextPosition: DisplayRepresentation] = [
@@ -48,9 +48,9 @@ struct AddToUpNext: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent 
         guard components.count == 2 else {
             return .result(dialog: "Invalid episode format")
         }
-        
+
         let episodeUuid = String(components[1])
-        
+
         // Check if episode is already in Up Next
         if PlaybackManager.shared.queue.contains(episodeUuid: episodeUuid) {
             return .result(dialog: "\(episode.title) is already in Up Next")

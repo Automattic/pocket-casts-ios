@@ -45,46 +45,46 @@ struct GetListeningHistoryIntent: AppIntent {
         }
 
         let episodes: [Episode]
-        
+
         if let start = startDate, let end = endDate {
             // Use custom date range query
             let startTimestamp = Int64(start.timeIntervalSince1970)
             let endTimestamp = Int64(end.timeIntervalSince1970)
-            
+
             let customWhere = """
-                lastPlaybackInteractionDate IS NOT NULL 
-                AND lastPlaybackInteractionDate > 0 
-                AND lastPlaybackInteractionDate BETWEEN \(startTimestamp) AND \(endTimestamp) 
-                ORDER BY lastPlaybackInteractionDate DESC 
+                lastPlaybackInteractionDate IS NOT NULL
+                AND lastPlaybackInteractionDate > 0
+                AND lastPlaybackInteractionDate BETWEEN \(startTimestamp) AND \(endTimestamp)
+                ORDER BY lastPlaybackInteractionDate DESC
                 LIMIT \(limit)
             """
-            
+
             episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: customWhere, arguments: nil)
         } else if let start = startDate {
             // Episodes since start date
             let startTimestamp = Int64(start.timeIntervalSince1970)
-            
+
             let customWhere = """
-                lastPlaybackInteractionDate IS NOT NULL 
-                AND lastPlaybackInteractionDate > 0 
+                lastPlaybackInteractionDate IS NOT NULL
+                AND lastPlaybackInteractionDate > 0
                 AND lastPlaybackInteractionDate >= \(startTimestamp)
-                ORDER BY lastPlaybackInteractionDate DESC 
+                ORDER BY lastPlaybackInteractionDate DESC
                 LIMIT \(limit)
             """
-            
+
             episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: customWhere, arguments: nil)
         } else if let end = endDate {
             // Episodes before end date
             let endTimestamp = Int64(end.timeIntervalSince1970)
-            
+
             let customWhere = """
-                lastPlaybackInteractionDate IS NOT NULL 
-                AND lastPlaybackInteractionDate > 0 
+                lastPlaybackInteractionDate IS NOT NULL
+                AND lastPlaybackInteractionDate > 0
                 AND lastPlaybackInteractionDate <= \(endTimestamp)
-                ORDER BY lastPlaybackInteractionDate DESC 
+                ORDER BY lastPlaybackInteractionDate DESC
                 LIMIT \(limit)
             """
-            
+
             episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: customWhere, arguments: nil)
         } else {
             // No date range specified, get recent episodes

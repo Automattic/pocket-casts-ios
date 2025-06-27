@@ -5,14 +5,14 @@ import PocketCastsDataModel
 struct FilterEntity: AppEntity {
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Filter"
     static var defaultQuery = FilterEntityQuery()
-    
+
     var id: String
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(title: "\(name)")
     }
-    
+
     var name: String
-    
+
     init(id: String, name: String) {
         self.id = id
         self.name = name
@@ -27,7 +27,7 @@ struct FilterEntityQuery: EntityQuery {
             return FilterEntity(id: filter.uuid, name: filter.playlistName)
         }
     }
-    
+
     func suggestedEntities() async throws -> [FilterEntity] {
         let allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
         return allFilters.map { filter in

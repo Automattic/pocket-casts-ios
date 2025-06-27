@@ -14,10 +14,10 @@ struct GetCurrentEpisodeIntent: AppIntent {
         guard let currentEpisode = PlaybackManager.shared.currentEpisode() else {
             return .result(value: nil)
         }
-        
+
         let podcastTitle: String
         let podcastUuid: String
-        
+
         if let episode = currentEpisode as? Episode, let podcast = episode.parentPodcast() {
             podcastTitle = podcast.title ?? ""
             podcastUuid = podcast.uuid
@@ -26,14 +26,14 @@ struct GetCurrentEpisodeIntent: AppIntent {
             podcastTitle = "User Files"
             podcastUuid = ""
         }
-        
+
         let episodeEntity = EpisodeSearchEntity(
             episodeUuid: currentEpisode.uuid,
             title: currentEpisode.title ?? "",
             podcastTitle: podcastTitle,
             podcastUuid: podcastUuid
         )
-        
+
         return .result(value: episodeEntity)
     }
 }

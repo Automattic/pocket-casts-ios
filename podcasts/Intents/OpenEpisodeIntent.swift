@@ -43,7 +43,7 @@ struct OpenEpisode: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent 
         userActivity.becomeCurrent()
 
         guard let episode else { return .result() }
-        
+
         // Find the actual episode from the database
         guard let dbEpisode = DataManager.sharedManager.findEpisode(uuid: episode.id) else {
             return .result()
@@ -51,7 +51,7 @@ struct OpenEpisode: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent 
 
         await MainActor.run {
             NavigationManager.sharedManager.navigateTo(
-                NavigationManager.episodePageKey, 
+                NavigationManager.episodePageKey,
                 data: [NavigationManager.episodeUuidKey: dbEpisode.uuid]
             )
         }

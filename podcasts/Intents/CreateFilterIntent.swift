@@ -67,4 +67,3 @@ struct CreateFilter: AppIntent, CustomIntentMigratedAppIntent, PredictableIntent
         return .result(dialog: "Created filter '\(filter.playlistName)' with \(podcastCount) podcast\(podcastCount == 1 ? "" : "s"): \(podcastNames)\(additionalText)")
     }
 }
-

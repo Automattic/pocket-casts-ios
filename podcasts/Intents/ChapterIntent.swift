@@ -57,4 +57,3 @@ fileprivate extension IntentDialog {
         "Podcast doesn't support chapters"
     }
 }
-

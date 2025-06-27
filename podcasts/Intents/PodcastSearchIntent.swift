@@ -24,7 +24,7 @@ struct PodcastSearchIntent: AppIntent {
         Summary("Search for \(\.$searchTerm)")
     }
 
-    @MainActor 
+    @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<[PodcastEntity]> {
         guard !searchTerm.isEmpty else {
             throw SearchIntentError.noResults

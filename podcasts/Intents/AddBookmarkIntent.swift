@@ -31,10 +31,10 @@ struct AddBookmarkIntent: AppIntent {
 
     @Parameter(title: "Episode")
     var episode: EpisodeSearchEntity?
-    
+
     @Parameter(title: "Timestamp (seconds)", description: "Optional timestamp to bookmark (uses current time if not provided)")
     var timestamp: Double?
-    
+
     @Parameter(title: "Title", description: "Optional title for the bookmark")
     var title: String?
 
@@ -84,7 +84,7 @@ struct AddBookmarkIntent: AppIntent {
                 throw AddBookmarkError.episodeNotFound
             }
             targetEpisode = currentEpisode
-            
+
             // Use provided timestamp or current playback time
             if let timestamp = timestamp {
                 guard timestamp >= 0 else {
@@ -98,7 +98,7 @@ struct AddBookmarkIntent: AppIntent {
 
         let bookmarkTitle = title ?? L10n.bookmarkDefaultTitle
         let timeString = TimeFormatter.shared.multipleUnitFormattedShortTime(time: bookmarkTime)
-        
+
         // Request confirmation with detailed context
         try await requestConfirmation(
             result: .result(

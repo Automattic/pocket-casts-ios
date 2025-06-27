@@ -46,5 +46,3 @@ struct ExtendSleepTimer: AppIntent, CustomIntentMigratedAppIntent, PredictableIn
         return .result()
     }
 }
-
-

@@ -28,7 +28,7 @@ struct FollowPodcast: AppIntent, CustomIntentMigratedAppIntent, PredictableInten
     }
 
     func perform() async throws -> some IntentResult {
-        guard let podcast else { 
+        guard let podcast else {
             return .result(dialog: "No podcast was specified")
         }
 
