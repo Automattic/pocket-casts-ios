@@ -47,16 +47,22 @@ final class DiscoverItemObservableTests: XCTestCase {
                     DiscoverCategory(id: 2, name: "News"),
                     DiscoverCategory(id: 3, name: "Science"),
                     DiscoverCategory(id: 4, name: "Sports"),
-                    DiscoverCategory(id: 5, name: "Music")
+                    DiscoverCategory(id: 5, name: "Music"),
+                    DiscoverCategory(id: 6, name: "Comedy"),
+                    DiscoverCategory(id: 7, name: "History")
                 ]
             }
         }
 
-        // Set up mock visitation data
+        // Set up mock visitation data - top 6 most visited
         UserDefaults.standard.set([
-            "3": 10, // Science - most visited
-            "1": 5,  // Tech - second most visited
-            "4": 2   // Sports - least visited
+            "3": 10, // Science - most visited (sponsored)
+            "1": 8,  // Tech - second most visited
+            "6": 7,  // Comedy - third most visited
+            "2": 6,  // News - fourth most visited (sponsored)
+            "4": 5,  // Sports - fifth most visited
+            "7": 4   // History - sixth most visited
+            // Music (id: 5) has no visits, so not in top 6
         ], forKey: UserDefaults.VisitationTrackEvent.discoverCategory.key)
 
         featureFlagMock.set(.smartCategories, value: true)
@@ -69,17 +75,18 @@ final class DiscoverItemObservableTests: XCTestCase {
             regions: [],
             popular: nil,
             authenticated: false,
-            sponsoredCategoryIDs: [2, 3]
+            sponsoredCategoryIDs: [2, 3] // Both in top 6
         )
 
         let result = await observable.load()
 
-        // Expected order: Science (sponsored + most visited), News (sponsored + unvisited), Tech (non-sponsored + visited), Sports (non-sponsored + visited), Music (non-sponsored + unvisited)
-        XCTAssertEqual(result?.prioritized.map(\.id), [3, 2, 1, 4, 5])
-        XCTAssertEqual(result?.categories.count, 5)
+        // Expected: Only top 6 categories, with sponsored from top 6 first, then rest by visit count
+        // Science (3) and News (2) are sponsored and in top 6, so they come first
+        XCTAssertEqual(result?.prioritized.map(\.id), [3, 2, 1, 6, 4, 7])
+        XCTAssertEqual(result?.prioritized.count, 6)
     }
 
-    func testSponsoredCategoriesAlwaysFirst() async {
+    func testSponsoredCategoriesOnlyPromotedIfInTop6() async {
         class Mock: MockServerHandler {
             override func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
                 return [
@@ -90,10 +97,10 @@ final class DiscoverItemObservableTests: XCTestCase {
             }
         }
 
-        // Set up visitation data where non-sponsored has more visits
+        // Set up visitation data where sponsored category is in top visits
         UserDefaults.standard.set([
             "1": 100, // Tech - most visited (non-sponsored)
-            "3": 5    // Science - less visited (sponsored)
+            "3": 50   // Science - second most visited (sponsored)
         ], forKey: UserDefaults.VisitationTrackEvent.discoverCategory.key)
 
         featureFlagMock.set(.smartCategories, value: true)
@@ -111,11 +118,11 @@ final class DiscoverItemObservableTests: XCTestCase {
 
         let result = await observable.load()
 
-        // Sponsored should come first despite having fewer visits
+        // Science is sponsored AND in top 6, so it gets promoted first
         XCTAssertEqual(result?.prioritized.map(\.id), [3, 1, 2])
     }
 
-    func testVisitedCategoriesWithinSponsoredGroup() async {
+    func testMultipleSponsoredCategoriesInTop6() async {
         class Mock: MockServerHandler {
             override func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
                 return [
@@ -129,8 +136,10 @@ final class DiscoverItemObservableTests: XCTestCase {
 
         // Multiple sponsored categories with different visit patterns
         UserDefaults.standard.set([
-            "2": 20, // News - more visited
-            "1": 10  // Tech - less visited
+            "2": 20, // News - most visited (sponsored)
+            "1": 15, // Tech - second most visited (sponsored)
+            "3": 10, // Science - third most visited
+            "4": 5   // Sports - fourth most visited (sponsored)
         ], forKey: UserDefaults.VisitationTrackEvent.discoverCategory.key)
 
         featureFlagMock.set(.smartCategories, value: true)
@@ -143,12 +152,12 @@ final class DiscoverItemObservableTests: XCTestCase {
             regions: [],
             popular: nil,
             authenticated: false,
-            sponsoredCategoryIDs: [1, 2, 4] // 1 and 2 visited, 4 unvisited
+            sponsoredCategoryIDs: [1, 2, 4] // All are in top 6
         )
 
         let result = await observable.load()
 
-        // Expected: visited sponsored (by visit count), unvisited sponsored, then non-sponsored
+        // Expected: sponsored categories from top 6 first (by visit count), then non-sponsored
         XCTAssertEqual(result?.prioritized.map(\.id), [2, 1, 4, 3])
     }
 
@@ -185,6 +194,53 @@ final class DiscoverItemObservableTests: XCTestCase {
 
         // Expected: visited categories by visit count, then unvisited in original order
         XCTAssertEqual(result?.prioritized.map(\.id), [3, 1, 2])
+    }
+
+    func testSponsoredCategoriesNotInTop6NotPromoted() async {
+        class Mock: MockServerHandler {
+            override func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
+                return [
+                    DiscoverCategory(id: 1, name: "Tech"),
+                    DiscoverCategory(id: 2, name: "News"),
+                    DiscoverCategory(id: 3, name: "Science"),
+                    DiscoverCategory(id: 4, name: "Sports"),
+                    DiscoverCategory(id: 5, name: "Music"),
+                    DiscoverCategory(id: 6, name: "Comedy"),
+                    DiscoverCategory(id: 7, name: "History"),
+                    DiscoverCategory(id: 8, name: "Religion")
+                ]
+            }
+        }
+
+        // Set up visitation data where sponsored category is NOT in top 6
+        UserDefaults.standard.set([
+            "1": 100, // Tech - most visited
+            "3": 90,  // Science - second most visited
+            "4": 80,  // Sports - third most visited
+            "5": 70,  // Music - fourth most visited
+            "6": 60,  // Comedy - fifth most visited
+            "7": 50   // History - sixth most visited
+            // Religion (id: 8, sponsored) and News (id: 2, sponsored) have no visits
+        ], forKey: UserDefaults.VisitationTrackEvent.discoverCategory.key)
+
+        featureFlagMock.set(.smartCategories, value: true)
+
+        let observable = CategoriesSelectorViewController.DiscoverItemObservable(serverHandler: Mock())
+        observable.item = DiscoverItem(
+            id: "item1",
+            title: "Test",
+            source: "mockSource",
+            regions: [],
+            popular: nil,
+            authenticated: false,
+            sponsoredCategoryIDs: [2, 8] // Neither in top 6
+        )
+
+        let result = await observable.load()
+
+        // Expected: Only top 6 categories by visit count, no sponsored promotion since none are in top 6
+        XCTAssertEqual(result?.prioritized.map(\.id), [1, 3, 4, 5, 6, 7])
+        XCTAssertEqual(result?.prioritized.count, 6)
     }
 
     func testSmartCategoriesDisabled() async {

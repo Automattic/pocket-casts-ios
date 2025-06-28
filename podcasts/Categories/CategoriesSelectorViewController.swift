@@ -35,36 +35,39 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
                let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
 
                 let sponsoredIDs = Set(item?.sponsoredCategoryIDs?.map { String($0) } ?? [])
-                let visitedIDs = Set(recommendations.keys)
 
-                filteredCategories = workingCategories.sorted { lhs, rhs in
+                // Get top 6 most visited categories by user
+                let sortedByVisits = workingCategories.sorted { lhs, rhs in
                     guard let lhsID = lhs.id.map(String.init),
                           let rhsID = rhs.id.map(String.init) else { return false }
 
-                    let lhsSponsored = sponsoredIDs.contains(lhsID)
-                    let rhsSponsored = sponsoredIDs.contains(rhsID)
-                    let lhsVisited = visitedIDs.contains(lhsID)
-                    let rhsVisited = visitedIDs.contains(rhsID)
+                    let lhsVisits = recommendations[lhsID] ?? 0
+                    let rhsVisits = recommendations[rhsID] ?? 0
+                    return lhsVisits > rhsVisits
+                }
 
-                    // Sponsored always comes first
+                let top6Categories = Array(sortedByVisits.prefix(6))
+                let top6IDs = Set(top6Categories.compactMap { $0.id.map(String.init) })
+
+                // Only promote sponsored categories that are in user's top 6
+                let promotableSponsored = sponsoredIDs.intersection(top6IDs)
+
+                filteredCategories = top6Categories.sorted { lhs, rhs in
+                    guard let lhsID = lhs.id.map(String.init),
+                          let rhsID = rhs.id.map(String.init) else { return false }
+
+                    let lhsSponsored = promotableSponsored.contains(lhsID)
+                    let rhsSponsored = promotableSponsored.contains(rhsID)
+
+                    // Sponsored categories from top 6 come first
                     if lhsSponsored != rhsSponsored {
                         return lhsSponsored
                     }
 
-                    // Within same sponsorship status, visited comes first
-                    if lhsVisited != rhsVisited {
-                        return lhsVisited
-                    }
-
-                    // Within same visited status, sort by visit order if both visited
-                    if lhsVisited && rhsVisited {
-                        let lhsVisits = recommendations[lhsID] ?? 0
-                        let rhsVisits = recommendations[rhsID] ?? 0
-                        return lhsVisits > rhsVisits
-                    }
-
-                    // Otherwise preserve original order
-                    return false
+                    // Within same sponsorship status, sort by visit count
+                    let lhsVisits = recommendations[lhsID] ?? 0
+                    let rhsVisits = recommendations[rhsID] ?? 0
+                    return lhsVisits > rhsVisits
                 }
             }
 
