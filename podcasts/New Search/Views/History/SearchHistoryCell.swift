@@ -85,7 +85,8 @@ struct SearchHistoryCell: View {
                         ZStack {
                             Image("close")
                         }
-                        .frame(width: 48, height: 48)
+                        .frame(width: 56, height: 56)
+                        .background(.red)
                     }
                     .buttonStyle(SecondaryButtonStyle())
                 }
