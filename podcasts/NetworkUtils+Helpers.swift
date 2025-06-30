@@ -22,9 +22,7 @@ extension NetworkUtils {
         }
         laterAction.outline = true
 
-        let attributes = [L10n.settings: URL(string: "pktc://settings/storage-and-data")!]
-
-        optionsPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: L10n.downloadDataWarningWithSettingsLink, attributes: attributes, icon: "option-alert", actions: [downloadAction, laterAction])
+        optionsPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data"), icon: "option-alert", actions: [downloadAction, laterAction])
 
         optionsPicker.setNoActionCallback {
             disallowed?()

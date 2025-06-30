@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsUtils
 
 class DescriptiveActionView: UIView {
     private let title: String
@@ -7,12 +8,11 @@ class DescriptiveActionView: UIView {
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
     private let iconTintStyle: ThemeStyle
-    private let attributes: [String: URL]?
     private let onLinkTap: (() -> Void)?
 
     private weak var delegate: OptionsPickerRootController?
 
-    init(frame: CGRect, title: String, message: String?, attributes: [String: URL]? = nil, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, onLinkTap: (() -> Void)? = nil) {
+    init(frame: CGRect, title: String, message: String?, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, onLinkTap: (() -> Void)? = nil) {
         self.title = title
         self.message = message
         self.icon = icon
@@ -20,7 +20,6 @@ class DescriptiveActionView: UIView {
         self.delegate = delegate
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
-        self.attributes = attributes
         self.onLinkTap = onLinkTap
         super.init(frame: frame)
     }
@@ -62,10 +61,9 @@ class DescriptiveActionView: UIView {
 
         // add message
         let messageBottomAnchor: NSLayoutYAxisAnchor
-        if let attributes, let message {
+        if FeatureFlag.useDescriptiveActionAttributedTextView.enabled, let message {
             let messageView = DescriptiveActionAttributedTextView(
                 text: message,
-                attributes: attributes,
                 onLinkTap: onLinkTap
             ).themedUIView
             messageView.translatesAutoresizingMaskIntoConstraints = false

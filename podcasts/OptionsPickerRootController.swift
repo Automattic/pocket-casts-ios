@@ -137,8 +137,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         actionsAdded += 1
     }
 
-    func addAttributedDescriptiveActions(title: String, message: String, attributes: [String: URL], icon: String, actions: [OptionAction]) {
-        let actionView = DescriptiveActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), title: title, message: message, attributes: attributes, icon: icon, actions: actions, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle) { [weak self] in
+    func addAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
+        let actionView = DescriptiveActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), title: title, message: message, icon: icon, actions: actions, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle) { [weak self] in
             self?.backgroundTapped()
         }
         stackView.addArrangedSubview(actionView)

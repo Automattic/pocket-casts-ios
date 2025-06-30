@@ -246,12 +246,10 @@ class MultiSelectHelper {
             queueAction.outline = true
 
             if !Settings.mobileDataAllowed() {
-                warningMessage = L10n.downloadDataWarningWithSettingsLink + "\n" + warningMessage
+                warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
             }
 
-            let attributes = [L10n.settings: URL(string: "pktc://settings/storage-and-data")!]
-
-            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, attributes: attributes, icon: "option-alert", actions: [downloadAction, queueAction])
+            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
         }
 
         confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
