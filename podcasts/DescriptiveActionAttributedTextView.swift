@@ -5,12 +5,10 @@ struct DescriptiveActionAttributedTextView: View {
     @Environment(\.openURL) var openURL
 
     private let text: String
-    private let attributes: [String: URL]
     private let onLinkTap: (() -> Void)?
 
-    init(text: String, attributes: [String: URL], onLinkTap: (() -> Void)? = nil) {
+    init(text: String, onLinkTap: (() -> Void)? = nil) {
         self.text = text
-        self.attributes = attributes
         self.onLinkTap = onLinkTap
     }
 
@@ -26,12 +24,12 @@ struct DescriptiveActionAttributedTextView: View {
     }
 
     private func makeAttributedString() -> AttributedString {
-        var attributed = AttributedString(text)
+        var attributed = (try? AttributedString(markdown: text)) ?? AttributedString(text)
         attributed.font = .systemFont(ofSize: 15.0)
-        attributes.forEach { key, value in
-            if let range = attributed.range(of: key) {
-                attributed[range].foregroundColor = theme.secondaryInteractive01
-                attributed[range].link = value
+        for run in attributed.runs {
+            if let _ = run.link {
+                attributed[run.range].foregroundColor = theme.secondaryInteractive01
+                attributed[run.range].underlineStyle = .none
             }
         }
         return attributed
@@ -46,8 +44,7 @@ struct DescriptiveActionAttributedTextView: View {
 
 #Preview {
     DescriptiveActionAttributedTextView(
-        text: "This download will use mobile data. You can turn off this warning in Settings.",
-        attributes: ["Settings": URL(string: "pktc://settings/storage-and-data")!],
+        text: "This download will use mobile data. You can turn off this warning in [Settings](pktc://settings/storage-and-data).",
         onLinkTap: {}
     )
         .environmentObject(Theme(previewTheme: .light))
