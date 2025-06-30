@@ -140,7 +140,7 @@ extension AppDelegate {
             }
         }
 
-        performUpdateIfRequired(updateKey: "v7.93") {
+        performUpdateIfRequired(updateKey: "ForceEnablingDataAllowedWarning") {
             Settings.setMobileDataAllowed(false)
         }
 
