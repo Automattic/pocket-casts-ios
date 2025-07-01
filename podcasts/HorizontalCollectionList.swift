@@ -42,6 +42,7 @@ struct HorizontalCollectionList: View {
             }
             .frame(width: 179, height: 210)
             VStack() {
+                Spacer().frame(height: 12)
                 Text(model.title)
                     .foregroundStyle(.white)
                     .font(size: 13, style: .footnote, weight: .bold)
@@ -62,7 +63,7 @@ struct HorizontalCollectionList: View {
             .background(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0.1), location: 0),
+                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
                         Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
                     ],
                     startPoint: UnitPoint(x: 0.5, y: 0),
