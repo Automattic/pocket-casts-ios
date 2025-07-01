@@ -419,6 +419,12 @@ extension AppDelegate {
             return true
         }
 
+        JLRoutes.global().addRoute("/settings/storage-and-data") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.storageAndDataUse])
+            return true
+        }
+
         JLRoutes.global().addRoute("/filters") {[weak self] parameters -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey)

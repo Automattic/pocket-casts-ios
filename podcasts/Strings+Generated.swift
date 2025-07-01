@@ -878,6 +878,10 @@ internal enum L10n {
   internal static var downloadAll: String { return L10n.tr("Localizable", "download_all", fallback: "Download All") }
   /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi.
   internal static var downloadDataWarning: String { return L10n.tr("Localizable", "download_data_warning", fallback: "Downloading will use data.") }
+  /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. The %@ is the placeholder for the URL
+  internal static func downloadDataWarningWithSettingsLink(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "download_data_warning_with_settings_link", String(describing: p1), fallback: "This download will use mobile data. You can turn off this warning in [Settings](%@).")
+  }
   /// A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one.
   internal static func downloadEpisodePluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "download_episode_plural_format", String(describing: p1), fallback: "Download %1$@ Episodes")
