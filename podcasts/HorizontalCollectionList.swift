@@ -123,10 +123,9 @@ struct HorizontalCollectionList: View {
                         .foregroundStyle(.clear)
                 }
             }
+            .padding(.leading, 16)
             .frame(width: max(width - 24, 0), height: 210)
             .id(index + 1)
-            .padding(.leading, 16)
-
         }
     }
 
