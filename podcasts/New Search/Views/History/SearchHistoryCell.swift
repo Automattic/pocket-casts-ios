@@ -86,7 +86,6 @@ struct SearchHistoryCell: View {
                             Image("close")
                         }
                         .frame(width: 56, height: 56)
-                        .background(.red)
                     }
                     .buttonStyle(SecondaryButtonStyle())
                 }
