@@ -203,6 +203,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enabled the attributed text view in the Data Usage warning Sheet
     case useDescriptiveActionAttributedTextView
 
+    /// Use the new updgrade screens
+    case newOnboardingUpgrade
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -343,6 +346,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .useDescriptiveActionAttributedTextView:
             true
+        case .newOnboardingUpgrade:
+            false
         }
     }
 
