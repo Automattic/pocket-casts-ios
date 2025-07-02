@@ -26,23 +26,27 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
             // Filter and rank categories by recommendations
             if FeatureFlag.smartCategories.enabled,
-               let recommendedSource = item?.recommendations?.source,
-               let recommendedCategories = await self.serverHandler.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
-                filteredCategories = categories
-                    // Filter categories based on recommended IDs
-                    .compactMap { category -> DiscoverCategory? in
-                        guard let id = category.id, recommendedCategories.contains(id) else { return nil }
-                        return category
-                    }
-                    // Filter categories based on position in recommendedIDs
-                    .sorted { lhs, rhs in
-                        guard let lhsId = lhs.id, let rhsId = rhs.id,
-                              let lhsIndex = recommendedCategories.firstIndex(of: lhsId),
-                              let rhsIndex = recommendedCategories.firstIndex(of: rhsId) else {
-                            return false
-                        }
-                        return lhsIndex < rhsIndex
-                    }
+               let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
+
+                let recommendedIDs = recommendations
+                    .sorted { $0.value > $1.value }
+                    .map { $0.key }
+
+                // Dictionary to speed up lookup and preserve original category objects
+                let categoriesByID = Dictionary(uniqueKeysWithValues: categories.compactMap { category -> (String, DiscoverCategory)? in
+                    guard let id = category.id else { return nil }
+                    return (String(id), category)
+                })
+
+                var sortedCategories: [DiscoverCategory] = recommendedIDs.compactMap { categoriesByID[$0] }
+
+                let remainingCategories = filteredCategories.filter { category in
+                    guard let id = category.id else { return false }
+                    return !recommendedIDs.contains(String(id))
+                }
+
+                sortedCategories.append(contentsOf: remainingCategories)
+                filteredCategories = sortedCategories
             }
 
             self.cachedCategories = categories
