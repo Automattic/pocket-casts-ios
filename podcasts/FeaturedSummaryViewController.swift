@@ -25,6 +25,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private var listIdImpressionTracked: [String] = []
 
     private weak var delegate: DiscoverDelegate?
+    private var category: DiscoverCategory?
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
@@ -142,7 +143,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             return
         }
 
-        AnalyticsHelper.listImpression(listId: listId)
+        let categoryId = category?.id.map(String.init)
+        AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         listIdImpressionTracked.append(listId)
     }
 
@@ -170,6 +172,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         if let delegate = delegate {
             listType = delegate.replaceRegionName(string: title)
         }
+
+        self.category = category
 
         let dispatchGroup = DispatchGroup()
 
