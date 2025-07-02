@@ -102,38 +102,24 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
                     color: .black.opacity(0.2),
                     radius: 3, x: 0, y: 1
                 )
-                .frame(minHeight: 115)
-            VStack(spacing: 9.0) {
-                HStack(spacing: 0) {
-                    Text(L10n.transcript)
-                        .font(size: 15.0, style: .body, weight: .medium)
-                        .foregroundStyle(theme.primaryText01)
-                        .redacted(if: viewModel.loadingState == .loading)
-                    Spacer()
-                    if viewModel.isGeneratedTranscript {
-                        Image("generated_transcript")
-                            .renderingMode(.template)
-                            .foregroundStyle(theme.primaryIcon02)
-                            .frame(width: 16, height: 16)
-                    }
+                .frame(minHeight: 48.0)
+            HStack(spacing: 12.0) {
+                if viewModel.isGeneratedTranscript {
+                    Image("generated_transcript")
+                        .renderingMode(.template)
+                        .foregroundStyle(theme.primaryIcon02)
+                        .frame(width: 16, height: 16)
                 }
-                .padding(.horizontal, 16.0)
-
-                HStack {
-                    Text(viewModel.message)
-                        .font(size: 14.0, style: .body, weight: .light, design: .serif)
-                        .multilineTextAlignment(.leading)
-                        .lineSpacing(5)
-                        .lineLimit(3)
-                        .truncationMode(.tail)
-                        .allowsTightening(false)
-                        .foregroundStyle(theme.primaryText01)
-                        .padding(.horizontal, 16)
-                        .redacted(if: viewModel.loadingState == .loading || viewModel.loadingState == .idle)
-                    Spacer()
-                }
+                Text(L10n.viewTranscript)
+                    .font(size: 15.0, style: .body, weight: .medium)
+                    .foregroundStyle(theme.primaryText01)
+                    .redacted(if: viewModel.loadingState == .loading)
+                Spacer()
+                Image("listview_arrow")
+                    .renderingMode(.template)
+                    .foregroundStyle(theme.primaryIcon02)
             }
-            .padding(.vertical, 12.0)
+            .padding(.horizontal, 16.0)
         }
         .padding(.horizontal, 16.0)
         .padding(.top, 16.0)
@@ -194,7 +180,7 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
             isGeneratedTranscript: true)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }
 
 #Preview {
@@ -204,15 +190,15 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
             isGeneratedTranscript: true)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }
 
 #Preview {
     TranscriptExcerptView(
         viewModel: MockTranscriptExcerptViewModel(
-            loadingState: .failure,
-            isGeneratedTranscript: true)
+            loadingState: .success,
+            isGeneratedTranscript: false)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }
