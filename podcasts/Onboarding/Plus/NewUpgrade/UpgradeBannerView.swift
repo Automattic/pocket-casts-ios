@@ -18,6 +18,7 @@ struct UpgradeBannerView: View {
             SubscriptionPurchaseButton(viewModel: viewModel) {
 
             }
+            .frame(maxWidth: 440)
         }
         .padding(16)
         .background(theme.primaryUi01)
