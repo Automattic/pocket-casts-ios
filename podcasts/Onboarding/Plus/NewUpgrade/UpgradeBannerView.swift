@@ -7,16 +7,16 @@ struct UpgradeBannerView: View {
     var body: some View {
         VStack(spacing: 12) {
             SubscriptionBadge(tier: .plus)
-            Text("Superpowers for your podcasts")
+            Text(L10n.upgradeAccountTitle)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 18, style: .headline, weight: .bold)
                 .multilineTextAlignment(.center)
-            Text("Unlock all paid features like Folders, Shuffle, Bookmarks and many more")
+            Text(L10n.upgradeAccountInfo)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 13, style: .footnote, weight: .regular)
                 .multilineTextAlignment(.center)
             SubscriptionPurchaseButton(viewModel: viewModel) {
-                
+
             }
         }
         .padding(16)
