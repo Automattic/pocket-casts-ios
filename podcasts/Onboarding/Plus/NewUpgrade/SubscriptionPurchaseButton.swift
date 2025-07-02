@@ -3,8 +3,16 @@ import SwiftUI
 struct SubscriptionPurchaseButton: View {
 
     let viewModel: PlusLandingViewModel
-    let tier: UpgradeTier = .plus
-    let frequency: PlanFrequency = .yearly
+    let tier: UpgradeTier
+    let frequency: PlanFrequency
+    let action: (() -> Void)?
+
+    init(viewModel: PlusLandingViewModel, tier: UpgradeTier = .plus, frequency: PlanFrequency = .yearly, action: (() -> Void)? = nil) {
+        self.viewModel = viewModel
+        self.tier = tier
+        self.frequency = frequency
+        self.action = action
+    }
 
     private var purchaseTitle: String {
         guard let subscriptionInfo = viewModel.pricingInfo(for: tier, frequency: frequency) else {
@@ -28,7 +36,7 @@ struct SubscriptionPurchaseButton: View {
             set: { _ in }
         )
         Button(action: {
-            viewModel.unlockTapped(.init(plan: tier.plan, frequency: frequency))
+            action?()
         }, label: {
             VStack {
                 Text(purchaseTitle)
