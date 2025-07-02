@@ -3,11 +3,10 @@ import SwiftUI
 protocol TranscriptExcerptViewModeling: ObservableObject {
     var loadingState: TranscriptExcerptLoadingState { get set }
     var isGeneratedTranscript: Bool { get }
-    var message: String { get set }
 
     init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: @escaping () -> Void)
 
-    func loadTranscript() async
+    func loadExcerptTranscript() async
     func excerptTapped()
     func trackViewAppear()
 }
@@ -20,8 +19,7 @@ enum TranscriptExcerptLoadingState {
 }
 
 class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModeling {
-    @Published var loadingState: TranscriptExcerptLoadingState = .idle
-    @Published var message: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor quam id massa faucibus dignissim. Nullam eget metus id"
+    @Published var loadingState: TranscriptExcerptLoadingState = .success
 
     let isGeneratedTranscript: Bool
     private let manager: TranscriptManager
@@ -42,22 +40,20 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
         self.manager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
     }
 
-    func loadTranscript() async {
+    @discardableResult
+    func loadTranscript() async throws -> TranscriptModel {
+        try await manager.loadTranscript()
+    }
+
+    func loadExcerptTranscript() async {
         if case .loading = loadingState { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
             loadingState = .loading
             do {
-                let transcript = try await manager.loadTranscript()
-                message = transcript.attributedText.string
-                    .replacingOccurrences(of: "\n", with: " ")
-                    .trimmingCharacters(in: .whitespaces)
+                try await loadTranscript()
                 loadingState = .success
             } catch {
-                message = L10n.transcriptErrorFailedToLoad
-                if let transcriptError = error as? TranscriptError {
-                    message = transcriptError.localizedDescription
-                }
                 loadingState = .failure
             }
         }
@@ -124,9 +120,6 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
         .padding(.horizontal, 16.0)
         .padding(.top, 16.0)
         .padding(.bottom, 14.0)
-        .task {
-            await viewModel.loadTranscript()
-        }
         .onAppear {
             viewModel.trackViewAppear()
         }
@@ -138,7 +131,6 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
 
 private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
     @Published var loadingState: TranscriptExcerptLoadingState = .loading
-    @Published var message: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor quam id massa faucibus dignissim. Nullam eget metus id nisl malesuada condimentum."
 
     let isGeneratedTranscript: Bool
 
@@ -153,17 +145,14 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
         self.isGeneratedTranscript = isGeneratedTranscript
     }
 
-    func loadTranscript() async {
+    func loadExcerptTranscript() async {
         await MainActor.run {
             self.loadingState = _privateLoadingState
 
             switch self.loadingState {
             case .idle, .loading:
                 break
-            case .failure:
-                self.message = L10n.transcriptErrorFailedToLoad
-                break
-            case .success:
+            case .failure, .success:
                 break
             }
         }
