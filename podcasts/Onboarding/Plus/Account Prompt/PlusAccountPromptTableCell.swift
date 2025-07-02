@@ -43,6 +43,11 @@ class PlusAccountPromptTableCell: ThemeableCell {
         ])
 
         view.layoutIfNeeded()
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            self.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
+            self.style = .primaryUi03
+        }
+
     }
 
     // Update the model's parent so we can present the modal
