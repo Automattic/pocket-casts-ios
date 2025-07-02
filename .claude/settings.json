@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path' | grep '\\.swift$' && swiftlint --fix \"$(jq -r '.tool_input.file_path')\" || true"
+            "command": "FILE_PATH=$(jq -r '.tool_input.file_path'); if echo \"$FILE_PATH\" | grep -q '\\.swift$'; then echo \"Running SwiftLint on $FILE_PATH\"; swiftlint --fix \"$FILE_PATH\" && echo \"SwiftLint completed for $FILE_PATH\" || echo \"SwiftLint failed for $FILE_PATH\"; fi"
           }
         ]
       }
