@@ -3,18 +3,28 @@ import SwiftUI
 struct PlusOpaqueButtonStyle: ButtonStyle {
     let isLoading: Bool
     let plan: Plan
+    let themeOverride: Theme?
 
     private var background: Color {
-        plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
+        if let themeOverride {
+            return themeOverride.primaryInteractive01
+        } else {
+            return plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
+        }
     }
 
     private var foregroundColor: Color {
-        plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
+        if let themeOverride {
+            return themeOverride.primaryInteractive02
+        } else {
+            return plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
+        }
     }
 
-    init(isLoading: Bool = false, plan: Plan) {
+    init(isLoading: Bool = false, plan: Plan, themeOverride: Theme? = nil) {
         self.isLoading = isLoading
         self.plan = plan
+        self.themeOverride = themeOverride
     }
 
     func makeBody(configuration: Configuration) -> some View {
