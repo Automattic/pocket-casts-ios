@@ -274,6 +274,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var popular: [Int]?
     public var categoryID: Int?
     public var dateTime: String?
+    public var sponsoredCategoryIDs: [Int]?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -283,6 +284,7 @@ public struct DiscoverItem: Decodable, Equatable {
         case expandedTopItemLabel = "expanded_top_item_label"
         case categoryID = "category_id"
         case dateTime = "datetime"
+        case sponsoredCategoryIDs = "sponsored_ids"
         case type, title, source, regions, curated, uuid, popular, id, authenticated
     }
 
@@ -303,6 +305,7 @@ public struct DiscoverItem: Decodable, Equatable {
         popular: [Int]? = nil,
         categoryID: Int? = nil,
         authenticated: Bool? = nil,
+        sponsoredCategoryIDs: [Int]? = nil
     ) {
         self.id = id
         self.uuid = uuid
@@ -320,6 +323,7 @@ public struct DiscoverItem: Decodable, Equatable {
         self.popular = popular
         self.categoryID = categoryID
         self.authenticated = authenticated
+        self.sponsoredCategoryIDs = sponsoredCategoryIDs
     }
 
     public var isAuthenticated: Bool {
