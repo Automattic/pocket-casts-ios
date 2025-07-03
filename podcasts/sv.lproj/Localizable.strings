@@ -2041,6 +2041,8 @@ UPPDATERINGAR</string>
     <string>Läs mer om Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Gör appen din egen och bli distribuerad på en och samma gång. Ladda upp dina egna ljudfiler till vår molnserver och få tillgång till ditt konto via vår webbspelare.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Inga bannerannonser</string>
     <key>plus_marketing_subtitle</key>
     <string>Få tillgång till exklusiva funktioner och anpassningsalternativ</string>
     <key>plus_marketing_themes_icons_title</key>

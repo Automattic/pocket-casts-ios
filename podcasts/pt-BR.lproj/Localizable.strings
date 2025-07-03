@@ -2041,6 +2041,8 @@ ATUALIZAÇÕES</string>
     <string>Saiba mais sobre o Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Áudios personalizados e distribuídos. Faça upload dos seus arquivos de áudio pessoais para nosso servidores de nuvem, acesse sua conta pelo reprodutor na Web e personalize seu app.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Sem anúncios de banner</string>
     <key>plus_marketing_subtitle</key>
     <string>Receba acesso a funcionalidades exclusivas e opções de personalização</string>
     <key>plus_marketing_themes_icons_title</key>
