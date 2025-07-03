@@ -151,8 +151,11 @@ class AnalyticsHelper {
         bumpStat("discover_list_show_all", parameters: properties)
     }
 
-    class func listImpression(listId: String) {
-        let properties = ["list_id": listId]
+    class func listImpression(listId: String, category: String?) {
+        var properties = ["list_id": listId]
+        if let category {
+            properties["category"] = category
+        }
         Analytics.track(.discoverListImpression, properties: properties)
         bumpStat("discover_list_impression", parameters: properties)
     }

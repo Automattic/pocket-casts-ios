@@ -64,7 +64,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         guard let listId = item?.uuid else { return }
 
-        AnalyticsHelper.listImpression(listId: listId)
+        let categoryId = category?.id.map(String.init)
+        AnalyticsHelper.listImpression(listId: listId, category: categoryId)
     }
 
     // MARK: DiscoverSummaryProtocol
