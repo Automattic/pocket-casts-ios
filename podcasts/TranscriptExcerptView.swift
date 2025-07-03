@@ -3,11 +3,10 @@ import SwiftUI
 protocol TranscriptExcerptViewModeling: ObservableObject {
     var loadingState: TranscriptExcerptLoadingState { get set }
     var isGeneratedTranscript: Bool { get }
-    var message: String { get set }
 
     init(episodeUUID: String, podcastUUID: String, isGeneratedTranscript: Bool, tapAction: @escaping () -> Void)
 
-    func loadTranscript() async
+    func loadExcerptTranscript() async
     func excerptTapped()
     func trackViewAppear()
 }
@@ -20,8 +19,7 @@ enum TranscriptExcerptLoadingState {
 }
 
 class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModeling {
-    @Published var loadingState: TranscriptExcerptLoadingState = .idle
-    @Published var message: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor quam id massa faucibus dignissim. Nullam eget metus id"
+    @Published var loadingState: TranscriptExcerptLoadingState = .success
 
     let isGeneratedTranscript: Bool
     private let manager: TranscriptManager
@@ -42,22 +40,20 @@ class TranscriptExcerptViewModel: ObservableObject, TranscriptExcerptViewModelin
         self.manager = TranscriptManager(episodeUUID: episodeUUID, podcastUUID: podcastUUID)
     }
 
-    func loadTranscript() async {
+    @discardableResult
+    func loadTranscript() async throws -> TranscriptModel {
+        try await manager.loadTranscript()
+    }
+
+    func loadExcerptTranscript() async {
         if case .loading = loadingState { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
             loadingState = .loading
             do {
-                let transcript = try await manager.loadTranscript()
-                message = transcript.attributedText.string
-                    .replacingOccurrences(of: "\n", with: " ")
-                    .trimmingCharacters(in: .whitespaces)
+                try await loadTranscript()
                 loadingState = .success
             } catch {
-                message = L10n.transcriptErrorFailedToLoad
-                if let transcriptError = error as? TranscriptError {
-                    message = transcriptError.localizedDescription
-                }
                 loadingState = .failure
             }
         }
@@ -102,45 +98,28 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
                     color: .black.opacity(0.2),
                     radius: 3, x: 0, y: 1
                 )
-                .frame(minHeight: 115)
-            VStack(spacing: 9.0) {
-                HStack(spacing: 0) {
-                    Text(L10n.transcript)
-                        .font(size: 15.0, style: .body, weight: .medium)
-                        .foregroundStyle(theme.primaryText01)
-                        .redacted(if: viewModel.loadingState == .loading)
-                    Spacer()
-                    if viewModel.isGeneratedTranscript {
-                        Image("generated_transcript")
-                            .renderingMode(.template)
-                            .foregroundStyle(theme.primaryIcon02)
-                            .frame(width: 16, height: 16)
-                    }
+                .frame(minHeight: 48.0)
+            HStack(spacing: 12.0) {
+                if viewModel.isGeneratedTranscript {
+                    Image("generated_transcript")
+                        .renderingMode(.template)
+                        .foregroundStyle(theme.primaryIcon02)
+                        .frame(width: 16, height: 16)
                 }
-                .padding(.horizontal, 16.0)
-
-                HStack {
-                    Text(viewModel.message)
-                        .font(size: 14.0, style: .body, weight: .light, design: .serif)
-                        .multilineTextAlignment(.leading)
-                        .lineSpacing(5)
-                        .lineLimit(3)
-                        .truncationMode(.tail)
-                        .allowsTightening(false)
-                        .foregroundStyle(theme.primaryText01)
-                        .padding(.horizontal, 16)
-                        .redacted(if: viewModel.loadingState == .loading || viewModel.loadingState == .idle)
-                    Spacer()
-                }
+                Text(L10n.viewTranscript)
+                    .font(size: 15.0, style: .body, weight: .medium)
+                    .foregroundStyle(theme.primaryText01)
+                    .redacted(if: viewModel.loadingState == .loading)
+                Spacer()
+                Image("listview_arrow")
+                    .renderingMode(.template)
+                    .foregroundStyle(theme.primaryIcon02)
             }
-            .padding(.vertical, 12.0)
+            .padding(.horizontal, 16.0)
         }
         .padding(.horizontal, 16.0)
         .padding(.top, 16.0)
         .padding(.bottom, 14.0)
-        .task {
-            await viewModel.loadTranscript()
-        }
         .onAppear {
             viewModel.trackViewAppear()
         }
@@ -152,7 +131,6 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
 
 private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
     @Published var loadingState: TranscriptExcerptLoadingState = .loading
-    @Published var message: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor quam id massa faucibus dignissim. Nullam eget metus id nisl malesuada condimentum."
 
     let isGeneratedTranscript: Bool
 
@@ -167,17 +145,14 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
         self.isGeneratedTranscript = isGeneratedTranscript
     }
 
-    func loadTranscript() async {
+    func loadExcerptTranscript() async {
         await MainActor.run {
             self.loadingState = _privateLoadingState
 
             switch self.loadingState {
             case .idle, .loading:
                 break
-            case .failure:
-                self.message = L10n.transcriptErrorFailedToLoad
-                break
-            case .success:
+            case .failure, .success:
                 break
             }
         }
@@ -194,7 +169,7 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
             isGeneratedTranscript: true)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }
 
 #Preview {
@@ -204,15 +179,15 @@ private class MockTranscriptExcerptViewModel: TranscriptExcerptViewModeling {
             isGeneratedTranscript: true)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }
 
 #Preview {
     TranscriptExcerptView(
         viewModel: MockTranscriptExcerptViewModel(
-            loadingState: .failure,
-            isGeneratedTranscript: true)
+            loadingState: .success,
+            isGeneratedTranscript: false)
     )
     .environmentObject(Theme(previewTheme: .light))
-    .frame(width: 375, height: 145)
+    .frame(width: 375, height: 78)
 }

@@ -2041,6 +2041,8 @@ Pocket Casts。</string>
     <string>了解有关 Pocket Casts Plus 的更多信息</string>
     <key>plus_marketing_main_description</key>
     <string>同时进行个性化设计并分发。 将您的个人音频文件上传到我们的云服务器，通过我们的 Web 播放器访问您的账户，并将应用程序设置为您的应用程序。</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>无横幅广告</string>
     <key>plus_marketing_subtitle</key>
     <string>使用专享功能和定制选项</string>
     <key>plus_marketing_themes_icons_title</key>
