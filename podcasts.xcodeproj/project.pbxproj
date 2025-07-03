@@ -2006,6 +2006,7 @@
 		FF267FB82E16C8230004EF02 /* UpgradeBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */; };
 		FF267FBA2E16E1990004EF02 /* UpgradeFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */; };
 		FF267FBC2E16FB420004EF02 /* UpgradeProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */; };
+		FF267FBE2E16FBDB0004EF02 /* UpgradeAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
 		FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */; };
 		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
@@ -4060,6 +4061,7 @@
 		FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeBannerView.swift; sourceTree = "<group>"; };
 		FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeFeaturesView.swift; sourceTree = "<group>"; };
 		FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeProductsView.swift; sourceTree = "<group>"; };
+		FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeAccountViewModel.swift; sourceTree = "<group>"; };
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -8507,6 +8509,7 @@
 		FF267FB52E16C8230004EF02 /* NewUpgrade */ = {
 			isa = PBXGroup;
 			children = (
+				FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */,
 				FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */,
 				FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */,
 				FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */,
@@ -10105,6 +10108,7 @@
 				BD16385C27B101F300F24A39 /* PCSearchView.swift in Sources */,
 				BDB5F0C52045036200437669 /* OptionAction.swift in Sources */,
 				40FFAD93214A170200024FCF /* FilterSettingsOverlayController.swift in Sources */,
+				FF267FBE2E16FBDB0004EF02 /* UpgradeAccountViewModel.swift in Sources */,
 				BD998ACC27B2436000B38857 /* NameFolderView.swift in Sources */,
 				8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */,
 				F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */,
