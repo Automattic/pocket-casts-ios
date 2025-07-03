@@ -4,6 +4,8 @@ struct UpgradeBannerView: View {
     @EnvironmentObject var theme: Theme
     @StateObject var viewModel: PlusLandingViewModel
 
+    @State var isPresented: Bool = false
+
     var body: some View {
         VStack(spacing: 12) {
             SubscriptionBadge(tier: .plus)
@@ -16,7 +18,7 @@ struct UpgradeBannerView: View {
                 .font(size: 13, style: .footnote, weight: .regular)
                 .multilineTextAlignment(.center)
             SubscriptionPurchaseButton(viewModel: viewModel) {
-
+                isPresented.toggle()
             }
             .frame(maxWidth: 440)
         }
@@ -26,5 +28,8 @@ struct UpgradeBannerView: View {
         .shadow(color: .black.opacity(0.2), radius: 1.5, x: 0, y: 1)
         .padding(16)
         .background(theme.primaryUi03)
+        .sheet(isPresented: $isPresented) {
+            UpgradeAccountView(model: UpgradeAccountViewModel())
+        }
     }
 }
