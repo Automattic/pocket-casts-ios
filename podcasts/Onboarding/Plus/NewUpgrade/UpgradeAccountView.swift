@@ -47,7 +47,7 @@ struct UpgradeAccountView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack { Spacer() }
-                        UpgradeScreenFeaturesView(features: model.upgradeTier.monthlyFeatures)
+                        UpgradeFeaturesView(features: model.upgradeTier.monthlyFeatures)
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand.toggle()
@@ -62,7 +62,7 @@ struct UpgradeAccountView: View {
                         }
                         Spacer()
                         if expand {
-                            UpgradeScreenFeaturesView(features: model.features)
+                            UpgradeFeaturesView(features: model.features)
                                 .id("extra")
                         } else {
                             EmptyView()
