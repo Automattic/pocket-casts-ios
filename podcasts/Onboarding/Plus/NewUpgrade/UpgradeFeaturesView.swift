@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct UpgradeFeaturesView: View {
+    @EnvironmentObject var theme: Theme
 
     let features: [UpgradeTier.TierFeature]
 
@@ -9,12 +10,15 @@ struct UpgradeFeaturesView: View {
             ForEach(features, id: \.self) { feature in
                 HStack(alignment: .center) {
                     Image(feature.iconName)
+                        .renderingMode(.template)
                         .resizable()
                         .font(.title)
                         .frame(width: 16, height: 16)
+                        .foregroundColor(theme.primaryText01)
                     Text(feature.title)
                         .font(.subheadline)
                         .fontWeight(.medium)
+                        .foregroundColor(theme.secondaryText02)
                 }
             }
         }

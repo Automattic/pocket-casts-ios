@@ -4,8 +4,11 @@ struct UpgradeAccountView: View {
 
     @Environment(\.dismiss) var dismiss
 
+    @EnvironmentObject var theme: Theme
+
     @ObservedObject var model: UpgradeAccountViewModel
-    @State var expand: Bool = false
+
+    @State private var expand: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -63,6 +66,7 @@ struct UpgradeAccountView: View {
             Text(L10n.upgradeAccountTitle)
                 .font(.largeTitle).fontWeight(.bold)
                 .multilineTextAlignment(.leading)
+                .foregroundColor(theme.primaryText01)
             Spacer()
         }
     }
