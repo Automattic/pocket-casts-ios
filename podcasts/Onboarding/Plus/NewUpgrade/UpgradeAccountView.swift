@@ -2,6 +2,8 @@ import SwiftUI
 
 struct UpgradeAccountView: View {
 
+    @Environment(\.dismiss) var dismiss
+
     @ObservedObject var model: UpgradeAccountViewModel
     @State var expand: Bool = false
 
@@ -47,7 +49,7 @@ struct UpgradeAccountView: View {
             SubscriptionBadge(tier: .plus)
             Spacer()
             Button() {
-
+                dismiss()
             } label: {
                 Image(systemName: "xmark.circle")
                     .resizable()
