@@ -2,6 +2,7 @@
 -----
 - Add improved support for Serial Shows [#2502](https://github.com/Automattic/pocket-casts-ios/pull/2502)
 - Fix iPad Login Text Field alignment when the keyboard is presented [#3283](https://github.com/Automattic/pocket-casts-ios/pull/3283)
+- Add Smart Categories sorting feature to show the user's most visited categories first [#3267](https://github.com/Automattic/pocket-casts-ios/pull/3267)
 
 7.92
 -----
