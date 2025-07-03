@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct UpgradeProductsView: View {
-    let model: UpgradeAccountViewModel
+
+    @ObservedObject var model: UpgradeAccountViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -24,7 +25,7 @@ struct UpgradeProductsView: View {
                 .background(Color(red: 0.98, green: 0.98, blue: 0.98))
                 .cornerRadius(12)
                 .overlay {
-                    if true {
+                    if let offer = product.offer {
                         ZStack(alignment: .top) {
                             RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 1)

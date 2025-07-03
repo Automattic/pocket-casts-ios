@@ -28,7 +28,7 @@ struct UpgradeAccountView: View {
                             } label: {
                                 Text("How does the free trial work?")
                                     .font(.subheadline)
-                                    .foregroundColor(Color(red: 0.01, green: 0.66, blue: 0.96))
+                                    .foregroundColor(theme.primaryInteractive01)
                             }
                         }
                         Spacer()
