@@ -4495,6 +4495,9 @@
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
 
+/* Title of the Transcript excerpt in Episode detail */
+"view_transcript" = "View Transcript";
+
 /* Upgrade Experiment Paywall button title */
 "upgrade_experiment_paywall_button" = "Get Pocket Casts Plus";
 
