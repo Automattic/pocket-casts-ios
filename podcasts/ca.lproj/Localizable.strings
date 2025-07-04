@@ -3383,6 +3383,8 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>De més llarg a més curt</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De més curt a més llarg</string>
+    <key>view_transcript</key>
+    <string>Veure la transcripció</string>
     <key>volume_boost</key>
     <string>Apujar el volum</string>
     <key>volume_boost_description</key>
