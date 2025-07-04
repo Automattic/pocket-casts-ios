@@ -7,51 +7,14 @@ struct UpgradeProductsView: View {
 
     @ObservedObject var model: UpgradeAccountViewModel
 
-    @State private var selected: IAPProductID?
+//    init(model: UpgradeAccountViewModel) {
+//        self.model = model
+//    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(model.products, id: \.self.id) { product in
-                HStack(alignment: .center) {
-                    Image(product.identifier == selected ? "rounded-selected" : "rounded-deselected")
-                        .renderingMode(.template)
-                        .resizable()
-                        .foregroundStyle(theme.primaryIcon01)
-                        .frame(width: 24, height: 24)
-                    VStack(alignment: .leading) {
-                        Text(product.price)
-                            .font(size: 15, style: .subheadline, weight: .bold)
-                            .foregroundStyle(theme.primaryText01)
-                        Text(product.price)
-                            .font(size: 15, style: .subheadline, weight: .medium)
-                            .foregroundStyle(theme.primaryText02)
-                    }
-                    Spacer()
-                    Text(product.weeklyPrice)
-                        .font(size: 15, style: .subheadline, weight: .medium)
-                        .foregroundStyle(theme.primaryText02)
-                }
-                .padding(16)
-                .background(theme.primaryUi03)
-                .cornerRadius(12)
-                .overlay {
-                    if product.identifier == selected {
-                        ZStack(alignment: .top) {
-                            RoundedRectangle(cornerRadius: 12)
-                                .inset(by: 1)
-                                .stroke(Color(red: 0.01, green: 0.66, blue: 0.96), lineWidth: 2)
-                            if let offer = product.offer {
-                                badge
-                                    .offset(x: 0, y: -10)
-                            }
-                        }
-                    } else {
-                        EmptyView()
-                    }
-                }
-                .onTapGesture {
-                    selected = product.identifier
-                }
+                row(for: product)
             }
             Spacer().frame(height: 16)
             actionButton
@@ -60,6 +23,45 @@ struct UpgradeProductsView: View {
                 termsAndConditions
                 Spacer()
             }
+        }
+    }
+
+    func row(for product: PlusPricingInfoModel.PlusProductPricingInfo) -> some View {
+        HStack(alignment: .center) {
+            Image(product.identifier == model.selectedProduct ? "rounded-selected" : "rounded-deselected")
+                .renderingMode(.template)
+                .resizable()
+                .foregroundStyle(theme.primaryIcon01)
+                .frame(width: 24, height: 24)
+            VStack(alignment: .leading) {
+                Text(product.price)
+                    .font(size: 15, style: .subheadline, weight: .bold)
+                    .foregroundStyle(theme.primaryText01)
+                Text(product.price)
+                    .font(size: 15, style: .subheadline, weight: .medium)
+                    .foregroundStyle(theme.primaryText02)
+            }
+            Spacer()
+            Text(product.weeklyPrice)
+                .font(size: 15, style: .subheadline, weight: .medium)
+                .foregroundStyle(theme.primaryText02)
+        }
+        .padding(16)
+        .background(theme.primaryUi03)
+        .cornerRadius(12)
+        .overlay {
+            ZStack(alignment: .top) {
+                RoundedRectangle(cornerRadius: 12)
+                    .inset(by: 1)
+                    .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
+                if product.identifier == model.selectedProduct, let offer = product.offer {
+                    badge
+                        .offset(x: 0, y: -10)
+                }
+            }
+        }
+        .onTapGesture {
+            model.selectProduct(product.identifier)
         }
     }
 
@@ -81,7 +83,7 @@ struct UpgradeProductsView: View {
     }
 
     var actionButton: some View {
-        SubscriptionPurchaseButton(viewModel: model) {
+        SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency) {
 
         }
         .frame(maxWidth: 600)

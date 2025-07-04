@@ -4,6 +4,8 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
     @Published var selectedProduct: IAPProductID = .yearly
     @Published var products: [PlusProductPricingInfo] = []
 
+    @Published private(set) var selectedFrequency: PlanFrequency = .yearly
+
     init() {
         super.init()
         loadPrices() {
@@ -29,5 +31,14 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
         }
 
         return offer.type == .freeTrial
+    }
+
+    func selectProduct(_ product: IAPProductID) {
+        selectedProduct = product
+        if selectedProduct.isYearlyProduct {
+            selectedFrequency = .yearly
+        } else {
+            selectedFrequency = .monthly
+        }
     }
 }

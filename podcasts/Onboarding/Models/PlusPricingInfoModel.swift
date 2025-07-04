@@ -129,6 +129,10 @@ class PlusPricingInfoModel: ObservableObject {
     func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
+
+    func product(for productID: IAPProductID) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == productID })
+    }
 }
 
 // MARK: - Price Loading
