@@ -82,7 +82,6 @@ struct UpgradeProductsView: View {
         SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency) {
             //TODO: Execute purchase
         }
-        .frame(maxWidth: 600)
     }
 
     @ViewBuilder

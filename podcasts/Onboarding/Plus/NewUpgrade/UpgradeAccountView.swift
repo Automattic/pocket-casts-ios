@@ -41,7 +41,7 @@ struct UpgradeAccountView: View {
                                     Spacer()
                                 }
                             }
-                            .padding(.vertical, 200)                            
+                            .padding(.vertical, 200)
                             .id("extra")
                         } else {
                             EmptyView()
@@ -49,6 +49,7 @@ struct UpgradeAccountView: View {
                         }
                     }
                 }
+                .scrollIndicators(.never)
             }
             UpgradeProductsView(model: model)
         }
