@@ -367,7 +367,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastViewChanges:
             "podcast_view_changes_2025"
         case .grdb:
-            "grdb_testflight"
+            "grdb_testflight_793"
         default:
             rawValue.lowerSnakeCased()
         }
@@ -380,7 +380,13 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        true
+        switch self {
+            // GRDB can only change in TestFlight versions
+            case .grdb:
+                Self.isTestFlight
+            default:
+                true
+        }
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
