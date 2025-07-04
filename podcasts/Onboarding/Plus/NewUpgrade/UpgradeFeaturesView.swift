@@ -18,7 +18,7 @@ struct UpgradeFeaturesView: View {
                     Text(feature.title)
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(theme.secondaryText02)
+                        .foregroundColor(theme.primaryText02)
                 }
             }
         }

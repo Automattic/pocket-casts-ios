@@ -97,16 +97,15 @@ struct UpgradeProductsView: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
+        .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
-        .foregroundColor(theme.secondaryText02)
+        .foregroundColor(theme.primaryText02)
         .font(size: 11, style: .caption2, weight: .semibold)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
                 case privacyPolicy:
                     break
-                    //viewModel.privacyPolicyTapped()
                 case termsOfUse:
-                    //viewModel.termsOfUseTapped()
                     break
                 default:
                     break
