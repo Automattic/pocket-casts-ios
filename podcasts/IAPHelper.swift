@@ -132,19 +132,8 @@ class IAPHelper: NSObject {
     /// Whether the products have been loaded from StoreKit
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
-    public func getPrice(for identifier: IAPProductID) -> String {
-        guard let product = getProduct(for: identifier) else { return "" }
-
-        let numberFormatter = NumberFormatter()
-        numberFormatter.formatterBehavior = .behavior10_4
-        numberFormatter.numberStyle = .currency
-        numberFormatter.locale = product.priceLocale
-        let formattedPrice = numberFormatter.string(from: product.price)
-        return formattedPrice ?? ""
-    }
-
-    public func getWeeklyPrice(for identifier: IAPProductID) -> String {
-        guard let product = getProduct(for: identifier) else { return "" }
+    public func getWeeklyReferencePrice(for identifier: IAPProductID) -> Double? {
+        guard let product = getProduct(for: identifier) else { return nil }
 
         let multiplyFactor: Double = {
             guard let subscriptionPeriod = product.subscriptionPeriod else {
@@ -171,6 +160,25 @@ class IAPHelper: NSObject {
         }()
 
         let weekly = (product.price.doubleValue * multiplyFactor) / 52
+        return weekly
+    }
+
+    public func getPrice(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier) else { return "" }
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = product.priceLocale
+        let formattedPrice = numberFormatter.string(from: product.price)
+        return formattedPrice ?? ""
+    }
+
+    public func getWeeklyPrice(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier),
+            let weekly = getWeeklyReferencePrice(for: identifier) else {
+            return ""
+        }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4

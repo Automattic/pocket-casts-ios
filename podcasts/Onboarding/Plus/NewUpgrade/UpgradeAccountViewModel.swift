@@ -41,4 +41,19 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
             selectedFrequency = .monthly
         }
     }
+
+    var savingsOnBestValue: String? {
+        guard let bestProduct = products.first(where: { $0.isBestValue }),
+            let otherProduct = products.first(where: { $0.isBestValue == false }),
+            bestProduct.basePrice != 0,
+            otherProduct.basePrice != 0
+        else {
+            return nil
+        }
+        let savings = 1.0 - (bestProduct.basePrice / otherProduct.basePrice)
+
+        let percentSavings = savings.localized(.percent)
+
+        return "Save \(percentSavings)"
+    }
 }

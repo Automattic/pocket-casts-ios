@@ -50,7 +50,7 @@ struct UpgradeProductsView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .inset(by: 1)
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
-                if product.identifier == model.selectedProduct, let offer = product.offer {
+                if product.identifier == model.selectedProduct, product.isBestValue, model.savingsOnBestValue != nil {
                     badge
                         .offset(x: 0, y: -10)
                 }
@@ -63,7 +63,7 @@ struct UpgradeProductsView: View {
 
     var badge: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text ("Save 16%")
+            Text(model.savingsOnBestValue ?? "")
                 .foregroundStyle(theme.primaryUi01)
                 .font(size: 14, style: .footnote, weight: .medium)
         }

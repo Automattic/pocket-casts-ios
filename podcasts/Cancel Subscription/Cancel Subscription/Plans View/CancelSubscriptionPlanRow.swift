@@ -144,9 +144,9 @@ extension PlusPricingInfoModel.PlusProductPricingInfo {
         }
     }
 
-    fileprivate var isBestValue: Bool {
+    var isBestValue: Bool {
         switch identifier {
-        case .yearly:
+        case .yearly, .patronYearly:
             return true
         default:
             return false
@@ -164,7 +164,8 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     rawPrice: "$39.99",
                     weeklyPrice: "$0.70",
                     monthlyPrice: "$3.33",
-                    offer: nil),
+                    offer: nil,
+                    basePrice: 39.99),
                 selected: true
             ) { _ in }
                 .environmentObject(Theme.sharedTheme)
@@ -175,7 +176,8 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     rawPrice: "$3.99",
                     weeklyPrice: "",
                     monthlyPrice: nil,
-                    offer: nil),
+                    offer: nil,
+                    basePrice: 3.99),
                 selected: false
             ) { _ in }
                 .environmentObject(Theme.sharedTheme)
@@ -186,7 +188,8 @@ struct CancelSubscriptionPlanRow_Preview: PreviewProvider {
                     rawPrice: "$39.99",
                     weeklyPrice: "$0.70",
                     monthlyPrice: "",
-                    offer: nil),
+                    offer: nil,
+                    basePrice: 39.99),
                 selected: false
             ) { _ in }
                 .environmentObject(Theme.sharedTheme)

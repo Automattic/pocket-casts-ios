@@ -27,6 +27,7 @@ class PlusPricingInfoModel: ObservableObject {
         var pricing: [PlusProductPricingInfo] = []
 
         for product in availableProductIds {
+            let basePrice = purchaseHandler.getWeeklyReferencePrice(for: product)
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
             let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
@@ -45,7 +46,8 @@ class PlusPricingInfoModel: ObservableObject {
                                               rawPrice: rawPrice,
                                               weeklyPrice: weeklyPrice,
                                               monthlyPrice: monthlyPrice,
-                                              offer: offer)
+                                              offer: offer,
+                                              basePrice: basePrice ?? 0)
             pricing.append(info)
         }
 
@@ -70,6 +72,8 @@ class PlusPricingInfoModel: ObservableObject {
         let weeklyPrice: String
         let monthlyPrice: String?
         let offer: ProductOfferInfo?
+
+        let basePrice: Double
 
         var id: String { identifier.rawValue }
     }
