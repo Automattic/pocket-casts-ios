@@ -3639,6 +3639,10 @@ internal enum L10n {
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")
   }
+  /// Subscription Monthly
+  internal static var subscriptionPlanMonth: String { return L10n.tr("Localizable", "subscription_plan_month", fallback: "Monthly Plan") }
+  /// Subscription Yearly
+  internal static var subscriptionPlanYear: String { return L10n.tr("Localizable", "subscription_plan_year", fallback: "Yearly Plan") }
   /// A common string used throughout the app. Thanks the user for their support. Used for paid feeds and Pocket Casts Plus.
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you", fallback: "Thanks for your support!") }
   /// Suggested Folders button title to create a custom folder

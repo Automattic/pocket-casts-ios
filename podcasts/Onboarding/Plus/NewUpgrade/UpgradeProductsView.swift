@@ -34,15 +34,15 @@ struct UpgradeProductsView: View {
                 .foregroundStyle(theme.primaryIcon01)
                 .frame(width: 24, height: 24)
             VStack(alignment: .leading) {
-                Text(product.price)
+                Text(product.periodDescription)
                     .font(size: 15, style: .subheadline, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
-                Text(product.price)
+                Text(product.periodPrice)
                     .font(size: 15, style: .subheadline, weight: .medium)
                     .foregroundStyle(theme.primaryText02)
             }
             Spacer()
-            Text(product.weeklyPrice)
+            Text(product.weeklyPeriodPrice)
                 .font(size: 15, style: .subheadline, weight: .medium)
                 .foregroundStyle(theme.primaryText02)
         }
@@ -118,5 +118,20 @@ struct UpgradeProductsView: View {
             }
             return .systemAction
         })
+    }
+}
+
+extension PlusPricingInfoModel.PlusProductPricingInfo {
+
+    var periodPrice: String {
+        self.rawPrice + (self.identifier.isYearlyProduct ? "/\((L10n.year))" : "/\(L10n.month)")
+    }
+
+    var periodDescription: String {
+        self.identifier.isYearlyProduct ? L10n.subscriptionPlanYear : L10n.subscriptionPlanMonth
+    }
+
+    var weeklyPeriodPrice: String {
+        self.weeklyPrice + "/\(L10n.week)"
     }
 }
