@@ -5204,3 +5204,6 @@
 
 /* Subscription Savings on a Yearly Plan. The %1$@ argument is the amount of saving in percentage. Ex: Save 16%*/
 "subscription_plan_savings" = "Save %1$@ ";
+
+/* Subscription Plan text linking to free trial detail information */
+"subscription_plan_free_trial_info_link" = "How does the free trial work?";

@@ -3639,6 +3639,8 @@ internal enum L10n {
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")
   }
+  /// Subscription Plan text linking to free trial detail information
+  internal static var subscriptionPlanFreeTrialInfoLink: String { return L10n.tr("Localizable", "subscription_plan_free_trial_info_link", fallback: "How does the free trial work?") }
   /// Subscription Monthly
   internal static var subscriptionPlanMonth: String { return L10n.tr("Localizable", "subscription_plan_month", fallback: "Monthly Plan") }
   /// Subscription Savings on a Yearly Plan. The %1$@ argument is the amount of saving in percentage. Ex: Save 16%

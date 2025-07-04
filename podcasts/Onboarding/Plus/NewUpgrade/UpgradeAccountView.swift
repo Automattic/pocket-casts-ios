@@ -26,7 +26,7 @@ struct UpgradeAccountView: View {
                                     proxy.scrollTo("extra", anchor: .bottom)
                                 }
                             } label: {
-                                Text("How does the free trial work?")
+                                Text(L10n.subscriptionPlanFreeTrialInfoLink)
                                     .font(.subheadline)
                                     .foregroundColor(theme.primaryInteractive01)
                             }
