@@ -45,6 +45,7 @@ struct UpgradeAccountView: View {
             UpgradeProductsView(model: model)
         }
         .padding(24)
+        .background(theme.primaryUi01)
     }
 
     var header: some View {
