@@ -1034,6 +1034,8 @@ che hai ascoltato è stato
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodi</string>
+    <key>episode_description_title</key>
+    <string>Descrizione episodio</string>
     <key>episode_details_title</key>
     <string>Dettagli</string>
     <key>episode_filter_by_duration_label</key>
@@ -2039,6 +2041,8 @@ AGGIORNAMENTI</string>
     <string>Scopri di più su Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Personalizza e suddividi, tutto in una volta. Carica i tuoi file audio personali sui nostri server cloud, accedi al tuo account tramite il nostro lettore web e personalizza la tua app.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Nessun annuncio banner</string>
     <key>plus_marketing_subtitle</key>
     <string>Ottieni l'accesso a esclusive funzionalità e opzioni di personalizzazione</string>
     <key>plus_marketing_themes_icons_title</key>

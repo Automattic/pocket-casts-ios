@@ -85,9 +85,9 @@ class DiscoverEpisodeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    public func registerListImpression() {
+    public func registerListImpression(category: String?) {
         guard let listId = discoverItem?.uuid else { return }
-        AnalyticsHelper.listImpression(listId: listId)
+        AnalyticsHelper.listImpression(listId: listId, category: category)
     }
 
     public func didSelectPlayEpisode(from button: BasePlayPauseButton) {
