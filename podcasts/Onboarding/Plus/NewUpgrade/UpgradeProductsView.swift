@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct UpgradeProductsView: View {
 
@@ -17,15 +18,15 @@ struct UpgradeProductsView: View {
                         .frame(width: 24, height: 24)
                     VStack(alignment: .leading) {
                         Text(product.price)
-                            .font(.subheadline).fontWeight(.bold)
+                            .font(size: 15, style: .subheadline, weight: .bold)
                             .foregroundStyle(theme.primaryText01)
                         Text(product.price)
-                            .font(.subheadline).fontWeight(.medium)
+                            .font(size: 15, style: .subheadline, weight: .medium)
                             .foregroundStyle(theme.primaryText02)
                     }
                     Spacer()
                     Text(product.weeklyPrice)
-                        .font(.subheadline).fontWeight(.medium)
+                        .font(size: 15, style: .subheadline, weight: .medium)
                         .foregroundStyle(theme.primaryText02)
                 }
                 .padding(16)
@@ -47,17 +48,19 @@ struct UpgradeProductsView: View {
             }
             Spacer().frame(height: 16)
             actionButton
+            termsAndConditions
         }
     }
 
     var badge: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text ("Offer")
-                .foregroundStyle(.white)
+            Text ("Save 16%")
+                .foregroundStyle(theme.primaryUi01)
+                .font(size: 14, style: .footnote, weight: .medium)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 2)
-        .background(Color(red: 0.01, green: 0.66, blue: 0.96))
+        .background(theme.primaryInteractive01)
         .cornerRadius(800)
         .overlay(
             RoundedRectangle(cornerRadius: 800)
@@ -74,5 +77,35 @@ struct UpgradeProductsView: View {
         //
         //        }
         //        .frame(maxWidth: 440)
+    }
+
+    @ViewBuilder
+    var termsAndConditions: some View {
+        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
+
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        Group {
+            Text(purchaseTerms[safe: 0] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(purchaseTerms[safe: 2] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        }
+        .foregroundColor(theme.secondaryText02)
+        .font(size: 11, style: .caption2, weight: .semibold)
+        .environment(\.openURL, OpenURLAction { url in
+            switch url.absoluteString {
+                case privacyPolicy:
+                    break
+                    //viewModel.privacyPolicyTapped()
+                case termsOfUse:
+                    //viewModel.termsOfUseTapped()
+                    break
+                default:
+                    break
+            }
+            return .systemAction
+        })
     }
 }
