@@ -340,7 +340,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .guestListsNetworkHighlightsRedesign:
             true
         case .smartCategories:
-            false
+            true
         case .useDescriptiveActionAttributedTextView:
             true
         }
