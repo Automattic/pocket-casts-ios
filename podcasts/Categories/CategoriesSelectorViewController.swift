@@ -18,31 +18,57 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
 
             let categories = await self.serverHandler.discoverCategories(source: source, authenticated: self.item?.authenticated)
 
-            // Filter categories by popularity
-            var filteredCategories = categories.filter {
-                guard let id = $0.id else { return false }
-                return self.item?.popular?.contains(id) == true
+            // Determine which categories to work with
+            let workingCategories: [DiscoverCategory]
+            if let popular = self.item?.popular {
+                workingCategories = categories.filter {
+                    guard let id = $0.id else { return false }
+                    return popular.contains(id)
+                }
+            } else {
+                workingCategories = categories
             }
 
             // Filter and rank categories by recommendations
+            var filteredCategories = workingCategories
             if FeatureFlag.smartCategories.enabled,
-               let recommendedSource = item?.recommendations?.source,
-               let recommendedCategories = await self.serverHandler.discoverRecommendedCategories(source: recommendedSource, authenticated: item?.authenticated) {
-                filteredCategories = categories
-                    // Filter categories based on recommended IDs
-                    .compactMap { category -> DiscoverCategory? in
-                        guard let id = category.id, recommendedCategories.contains(id) else { return nil }
-                        return category
+               let recommendations = UserDefaults.standard.visitations(for: .discoverCategory) {
+
+                let sponsoredIDs = Set(item?.sponsoredCategoryIDs?.map { String($0) } ?? [])
+
+                // Get top 6 most visited categories by user
+                let sortedByVisits = workingCategories.sorted { lhs, rhs in
+                    guard let lhsID = lhs.id.map(String.init),
+                          let rhsID = rhs.id.map(String.init) else { return false }
+
+                    let lhsVisits = recommendations[lhsID] ?? 0
+                    let rhsVisits = recommendations[rhsID] ?? 0
+                    return lhsVisits > rhsVisits
+                }
+
+                let top6Categories = Array(sortedByVisits.prefix(6))
+                let top6IDs = Set(top6Categories.compactMap { $0.id.map(String.init) })
+
+                // Only promote sponsored categories that are in user's top 6
+                let promotableSponsored = sponsoredIDs.intersection(top6IDs)
+
+                filteredCategories = top6Categories.sorted { lhs, rhs in
+                    guard let lhsID = lhs.id.map(String.init),
+                          let rhsID = rhs.id.map(String.init) else { return false }
+
+                    let lhsSponsored = promotableSponsored.contains(lhsID)
+                    let rhsSponsored = promotableSponsored.contains(rhsID)
+
+                    // Sponsored categories from top 6 come first
+                    if lhsSponsored != rhsSponsored {
+                        return lhsSponsored
                     }
-                    // Filter categories based on position in recommendedIDs
-                    .sorted { lhs, rhs in
-                        guard let lhsId = lhs.id, let rhsId = rhs.id,
-                              let lhsIndex = recommendedCategories.firstIndex(of: lhsId),
-                              let rhsIndex = recommendedCategories.firstIndex(of: rhsId) else {
-                            return false
-                        }
-                        return lhsIndex < rhsIndex
-                    }
+
+                    // Within same sponsorship status, sort by visit count
+                    let lhsVisits = recommendations[lhsID] ?? 0
+                    let rhsVisits = recommendations[rhsID] ?? 0
+                    return lhsVisits > rhsVisits
+                }
             }
 
             self.cachedCategories = categories

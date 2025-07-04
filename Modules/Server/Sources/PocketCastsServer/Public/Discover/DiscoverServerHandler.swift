@@ -4,7 +4,6 @@ import PocketCastsUtils
 
 public protocol DiscoverServerHandling {
     func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
-    func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]?
 }
 
 public class DiscoverServerHandler: DiscoverServerHandling {
@@ -65,14 +64,6 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     public func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
         discoverRequest(path: source, type: [DiscoverCategory].self, authenticated: authenticated) { categories, _ in
             completion(categories)
-        }
-    }
-
-    public func discoverRecommendedCategories(source: String, authenticated: Bool?) async -> [Int]? {
-        return await withCheckedContinuation { continuation in
-            discoverRequest(path: source, type: [Int].self, authenticated: authenticated) { categories, _ in
-                continuation.resume(with: .success(categories))
-            }
         }
     }
 

@@ -878,6 +878,10 @@ internal enum L10n {
   internal static var downloadAll: String { return L10n.tr("Localizable", "download_all", fallback: "Download All") }
   /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi.
   internal static var downloadDataWarning: String { return L10n.tr("Localizable", "download_data_warning", fallback: "Downloading will use data.") }
+  /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. The %@ is the placeholder for the URL
+  internal static func downloadDataWarningWithSettingsLink(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "download_data_warning_with_settings_link", String(describing: p1), fallback: "This download will use mobile data. You can turn off this warning in [Settings](%@).")
+  }
   /// A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one.
   internal static func downloadEpisodePluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "download_episode_plural_format", String(describing: p1), fallback: "Download %1$@ Episodes")
@@ -2479,6 +2483,8 @@ internal enum L10n {
   internal static var podcastErrorMessage: String { return L10n.tr("Localizable", "podcast_error_message", fallback: "Unable to load podcast details :(") }
   /// Title for a generic error used when a podcast fails to load without a more detailed reason why. Meant to be a fun cultural reference.
   internal static var podcastErrorTitle: String { return L10n.tr("Localizable", "podcast_error_title", fallback: "Literally Can't Even") }
+  /// Name for group of episodes that don't have a season defined when sorting in serial mode
+  internal static var podcastExtras: String { return L10n.tr("Localizable", "podcast_extras", fallback: "Extras") }
   /// Indicates that a file has failed to download.
   internal static var podcastFailedDownload: String { return L10n.tr("Localizable", "podcast_failed_download", fallback: "Episode download failed.") }
   /// Indicates that a file has failed to upload.
@@ -2516,7 +2522,7 @@ internal enum L10n {
   /// Used to indicate no date was provided.
   internal static var podcastNoDate: String { return L10n.tr("Localizable", "podcast_no_date", fallback: "Date Not Set") }
   /// Label used to indicate that the podcast episode isn't grouped into a season.
-  internal static var podcastNoSeason: String { return L10n.tr("Localizable", "podcast_no_season", fallback: "No Season") }
+  internal static var podcastNoSeason: String { return L10n.tr("Localizable", "podcast_no_season", fallback: "Extras") }
   /// Accessibility label to prompt to pause an active download.
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download", fallback: "Pause download") }
   /// Accessibility label to prompt to pause a playback.
@@ -2615,6 +2621,8 @@ internal enum L10n {
   internal static var podcastsEpisodeSortNewestToOldest: String { return L10n.tr("Localizable", "podcasts_episode_sort_newest_to_oldest", fallback: "Newest to oldest") }
   /// Episodes will be displayed in order from the oldest to the most resent.
   internal static var podcastsEpisodeSortOldestToNewest: String { return L10n.tr("Localizable", "podcasts_episode_sort_oldest_to_newest", fallback: "Oldest to newest") }
+  /// Episodes will be displayed in based on season and episode numbers
+  internal static var podcastsEpisodeSortSerial: String { return L10n.tr("Localizable", "podcasts_episode_sort_serial", fallback: "Serial") }
   /// Episodes will be displayed in order from the shortest to the longest.
   internal static var podcastsEpisodeSortShortestToLongest: String { return L10n.tr("Localizable", "podcasts_episode_sort_shortest_to_longest", fallback: "Shortest to Longest") }
   /// Episodes will be displayed in order from the longest to the shortest.

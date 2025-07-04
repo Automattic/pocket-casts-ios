@@ -185,11 +185,12 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
                 let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
                     delegate.queueAllTapped()
                 }
+                queueAction.outline = true
 
                 if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarning + "\n" + warningMessage
+                    warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
                 }
-                confirmPicker.addDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+                confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
             }
 
             confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)

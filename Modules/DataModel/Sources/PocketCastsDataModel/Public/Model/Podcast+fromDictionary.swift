@@ -34,6 +34,10 @@ extension Podcast {
         }
         if let showType = podcastJson["show_type"] as? String {
             podcast.showType = showType
+            if podcast.showType == "serial" {
+                podcast.episodeGrouping = PodcastGrouping.season.rawValue
+                podcast.episodeSortOrder = PodcastEpisodeSortOrder.Old.serial.rawValue
+            }
         }
         if let estimatedNextEpisode = podcastInfo["estimated_next_episode_at"] as? String {
             podcast.estimatedNextEpisode = isoFormatter.date(from: estimatedNextEpisode)

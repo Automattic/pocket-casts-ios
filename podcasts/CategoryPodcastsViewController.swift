@@ -141,7 +141,8 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 }
 
                 if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
-                    AnalyticsHelper.listImpression(listId: promotionUuid)
+                    let categoryId = strongSelf.category?.id.map(String.init)
+                    AnalyticsHelper.listImpression(listId: promotionUuid, category: categoryId)
                 }
             }
         })

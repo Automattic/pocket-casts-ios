@@ -26,6 +26,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     private var datetime: String? // Used to track the generation of recommendations
     private weak var delegate: DiscoverDelegate?
     private var item: DiscoverItem?
+    private var category: DiscoverCategory?
 
     @IBOutlet var largeListCollectionViewHeight: NSLayoutConstraint!
 
@@ -85,7 +86,8 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         super.viewDidAppear(animated)
 
         if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId)
+            let categoryId = category?.id.map(String.init)
+            AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastDeleted, object: nil)
@@ -165,6 +167,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         showAllBtn.isHidden = item.expandedStyle == nil
 
         self.item = item
+        self.category = category
 
         switch item.cellType() {
         case .largeListWithPodcast:

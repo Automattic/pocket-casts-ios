@@ -713,6 +713,8 @@
 		9A9B83C02DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
+		9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
 		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
@@ -1792,6 +1794,7 @@
 		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BA5C9C2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */; };
 		F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */; };
+		F5BC940A2E0B7644000F9B64 /* UserDefaults+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC94092E0B7644000F9B64 /* UserDefaults+Tracking.swift */; };
 		F5BDBF502DB9754900AD8DF1 /* PodcastTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */; };
 		F5BEAEC92DA73CE800541921 /* DebugInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BEAEC82DA73CE000541921 /* DebugInfo.swift */; };
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
@@ -2951,6 +2954,7 @@
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
 		9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyRow.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
+		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
 		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
 		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
@@ -3974,6 +3978,7 @@
 		F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewController.swift; sourceTree = "<group>"; };
 		F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerContentConfiguration.swift; sourceTree = "<group>"; };
 		F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+DiscoverDelegate.swift"; sourceTree = "<group>"; };
+		F5BC94092E0B7644000F9B64 /* UserDefaults+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Tracking.swift"; sourceTree = "<group>"; };
 		F5BDBF4F2DB9754900AD8DF1 /* PodcastTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastTableCellView.swift; sourceTree = "<group>"; };
 		F5BEAEC82DA73CE000541921 /* DebugInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInfo.swift; sourceTree = "<group>"; };
 		F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ThrowOnNil.swift"; sourceTree = "<group>"; };
@@ -5674,6 +5679,7 @@
 				4005F27422C057EA006BB8B8 /* AVFileUtil.swift */,
 				4004F56424EB51F900FBEBE1 /* SceneHelper.swift */,
 				46305CEC272AFA5F003AC87B /* UserDefaults+Helpers.swift */,
+				F5BC94092E0B7644000F9B64 /* UserDefaults+Tracking.swift */,
 				BD6275BE27D1C5370020A28C /* TraceHelper.swift */,
 				C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */,
 				C7D6551328E5153200AD7174 /* Debounce.swift */,
@@ -6764,6 +6770,7 @@
 				BD1A340E2044F269008A5061 /* SimpleActionView.swift */,
 				BDB5F0C6204504E900437669 /* MultipleActionView.swift */,
 				BD9086A6204E120C00C0C78D /* DescriptiveActionView.swift */,
+				9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */,
 			);
 			name = "Action Views";
 			sourceTree = "<group>";
@@ -10035,6 +10042,7 @@
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
+				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */,
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
 				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
@@ -10761,6 +10769,7 @@
 				FF0753942D70F06800BE8B3B /* FoldersCoordinator.swift in Sources */,
 				BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
+				F5BC940A2E0B7644000F9B64 /* UserDefaults+Tracking.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
 				FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */,
 				BDCCBC8824BC444F009B4D1D /* CustomTimeStepper.swift in Sources */,
@@ -11217,6 +11226,7 @@
 				FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */,
 				F5F508F12CEBE955007D6E39 /* RegionCancellingScrollView.swift in Sources */,
 				F5F5091D2CEBECB2007D6E39 /* EpisodeManager.swift in Sources */,
+				9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				F5F5091C2CEBEC99007D6E39 /* DefaultPlayer.swift in Sources */,
 				F5F509392CEBF206007D6E39 /* ProgressCircleView.swift in Sources */,
 				F553A1642CECF997006581A1 /* EffectsViewController.swift in Sources */,

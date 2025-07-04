@@ -200,6 +200,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds Discover category user recommendations
     case smartCategories
 
+    /// Enabled the attributed text view in the Data Usage warning Sheet
+    case useDescriptiveActionAttributedTextView
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -338,6 +341,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .smartCategories:
             false
+        case .useDescriptiveActionAttributedTextView:
+            true
         }
     }
 
@@ -361,6 +366,8 @@ public enum FeatureFlag: String, CaseIterable {
             "use_podcast_html_description"
         case .podcastViewChanges:
             "podcast_view_changes_2025"
+        case .grdb:
+            "grdb_testflight"
         default:
             rawValue.lowerSnakeCased()
         }

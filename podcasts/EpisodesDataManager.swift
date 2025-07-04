@@ -33,7 +33,7 @@ class EpisodesDataManager {
     /// Use `uuidsToFilter` to filter the episode UUIDs to only those in the array
     func episodes(for podcast: Podcast, uuidsToFilter: [String]? = nil) -> [ArraySection<String, ListItem>] {
         // the podcast page has a header, for simplicity in table animations, we add it here
-        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
+        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
         var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
 
         let episodeSortOrder = podcast.podcastSortOrder
@@ -45,9 +45,19 @@ class EpisodesDataManager {
             newData.append(ArraySection(model: "episodes", elements: episodes))
         case .season:
             let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, name2 -> Bool in
-                sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
+                if sortOrder == .serial {
+                    if name2 == L10n.podcastNoSeason {
+                        return true
+                    } else if name1 == L10n.podcastNoSeason {
+                        return false
+                    } else {
+                        return name2.digits > name1.digits
+                    }
+                } else {
+                    return sortOrder == .newestToOldest ? name1.digits > name2.digits : name2.digits > name1.digits
+                }
             }, episodeShortKey: { episode -> String in
-                episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : L10n.podcastNoSeason
+                episode.seasonNumber > 0 ? L10n.podcastSeasonFormat(episode.seasonNumber.localized()) : (sortOrder == .serial ? L10n.podcastExtras : L10n.podcastNoSeason)
             })
             newData.append(contentsOf: groupedEpisodes)
         case .unplayed:
@@ -109,6 +119,8 @@ class EpisodesDataManager {
             sortStr = "ORDER BY duration ASC, addedDate"
         case .longestToShortest:
             sortStr = "ORDER BY duration DESC, addedDate"
+        case .serial:
+            sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
         if let uuids = uuidsToFilter {
             let inClause = "(\(uuids.map { "'\($0)'" }.joined(separator: ",")))"

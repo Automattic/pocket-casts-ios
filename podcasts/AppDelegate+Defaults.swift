@@ -140,6 +140,10 @@ extension AppDelegate {
             }
         }
 
+        performUpdateIfRequired(updateKey: "ForceEnablingDataAllowedWarning") {
+            Settings.setMobileDataAllowed(false)
+        }
+
         defaults.synchronize()
     }
 

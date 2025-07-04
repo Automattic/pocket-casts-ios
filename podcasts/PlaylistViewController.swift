@@ -362,10 +362,10 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 }
 
                 if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarning + "\n" + warningMessage
+                    warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
                 }
 
-                confirmPicker.addDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+                confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
             }
             confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
         }

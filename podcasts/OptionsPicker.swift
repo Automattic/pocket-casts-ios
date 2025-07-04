@@ -37,6 +37,10 @@ class OptionsPicker {
         optionsController?.addDescriptiveActions(title: title, message: message, icon: icon, actions: actions)
     }
 
+    func addAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
+        optionsController?.addAttributedDescriptiveActions(title: title, message: message, icon: icon, actions: actions)
+    }
+
     func setNoActionCallback(_ callback: @escaping () -> Void) {
         noActionCallback = callback
     }

@@ -312,8 +312,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func updateRemoteFeatureFlags() {
-        guard BuildEnvironment.current != .debug else { return }
+    func updateRemoteFeatureFlags(forceReload: Bool = false) {
+        guard BuildEnvironment.current != .debug || forceReload else { return }
 
         if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
@@ -334,6 +334,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
                 if remoteValue.source == .remote {
                     do {
+                        FileLog.shared.console("Override \(flag): \(remoteValue.boolValue)")
                         try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
                     } catch {
                         FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
