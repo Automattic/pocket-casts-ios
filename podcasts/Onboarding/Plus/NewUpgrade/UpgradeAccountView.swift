@@ -21,7 +21,7 @@ struct UpgradeAccountView: View {
                         UpgradeFeaturesView(features: model.upgradeTier.monthlyFeatures)
                         if model.isFreeTrialAvailable {
                             Button {
-                                expand.toggle()
+                                expand = true
                                 withAnimation {
                                     proxy.scrollTo("extra", anchor: .bottom)
                                 }
@@ -32,9 +32,17 @@ struct UpgradeAccountView: View {
                             }
                         }
                         Spacer()
-                        if expand {
-                            UpgradeFeaturesView(features: model.features)
-                                .id("extra")
+                        if expand, model.isFreeTrialAvailable {
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Text("Placeholder View - Variant B")
+                                        .foregroundStyle(theme.primaryText01)
+                                    Spacer()
+                                }
+                            }
+                            .padding(.vertical, 200)                            
+                            .id("extra")
                         } else {
                             EmptyView()
                                 .id("extra")
