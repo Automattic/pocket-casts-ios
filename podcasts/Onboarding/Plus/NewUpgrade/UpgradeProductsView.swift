@@ -7,11 +7,13 @@ struct UpgradeProductsView: View {
 
     @ObservedObject var model: UpgradeAccountViewModel
 
+    @State private var selected: IAPProductID?
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(model.products, id: \.self.id) { product in
                 HStack(alignment: .center) {
-                    Image(true ? "rounded-selected" : "rounded-unselected")
+                    Image(product.identifier == selected ? "rounded-selected" : "rounded-deselected")
                         .renderingMode(.template)
                         .resizable()
                         .foregroundStyle(theme.primaryIcon01)
@@ -33,17 +35,22 @@ struct UpgradeProductsView: View {
                 .background(theme.primaryUi03)
                 .cornerRadius(12)
                 .overlay {
-                    if let offer = product.offer {
+                    if product.identifier == selected {
                         ZStack(alignment: .top) {
                             RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 1)
                                 .stroke(Color(red: 0.01, green: 0.66, blue: 0.96), lineWidth: 2)
-                            badge
-                                .offset(x: 0, y: -10)
+                            if let offer = product.offer {
+                                badge
+                                    .offset(x: 0, y: -10)
+                            }
                         }
                     } else {
                         EmptyView()
                     }
+                }
+                .onTapGesture {
+                    selected = product.identifier
                 }
             }
             Spacer().frame(height: 16)
