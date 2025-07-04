@@ -257,11 +257,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     private func resizeControls() {
-        let screenHeight = view.bounds.height
-        let spacing: CGFloat = screenHeight > 600 ? 30 : 20
+        let spacing: CGFloat
+        if view.bounds.width <= 320 {
+            spacing = 8
+        } else if view.bounds.width <= 375 {
+            spacing = 20
+        } else {
+            spacing = 30
+        }
+
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
+        let height: CGFloat = displayTranscript ? 40 : view.bounds.height > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
 
         view.layoutIfNeeded()
