@@ -21,26 +21,11 @@ struct FirebaseManager {
         }
         remoteConfig.setDefaults(remoteConfigDefaults)
 
-        Task {
-            let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-
-            do {
-                try await remoteConfig.setCustomSignals(["isTestflight": "\(isTestFlight)"])
-            } catch {
-                FileLog.shared.addMessage("[Firebase] Failed to set isTestFlight")
+        remoteConfig.fetch(withExpirationDuration: expirationDuration) { status, _ in
+            if status == .success {
+                remoteConfig.activate(completion: nil)
             }
-
-            do {
-                let status = try await remoteConfig.fetch(withExpirationDuration: expirationDuration)
-
-                if status == .success {
-                    try await remoteConfig.activate()
-                }
-                completion?(status)
-            } catch {
-                completion?(.failure)
-            }
-
+            completion?(status)
         }
     }
 }
