@@ -7,10 +7,6 @@ struct UpgradeProductsView: View {
 
     @ObservedObject var model: UpgradeAccountViewModel
 
-//    init(model: UpgradeAccountViewModel) {
-//        self.model = model
-//    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(model.products, id: \.self.id) { product in
@@ -84,7 +80,7 @@ struct UpgradeProductsView: View {
 
     var actionButton: some View {
         SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency) {
-
+            //TODO: Execute purchase
         }
         .frame(maxWidth: 600)
     }
