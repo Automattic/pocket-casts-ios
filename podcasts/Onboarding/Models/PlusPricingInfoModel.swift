@@ -118,6 +118,17 @@ class PlusPricingInfoModel: ObservableObject {
     enum PriceAvailablity {
         case unknown, available, loading, failed
     }
+
+    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
+        }
+        return pricingInfo
+    }
+
+    func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
+    }
 }
 
 // MARK: - Price Loading

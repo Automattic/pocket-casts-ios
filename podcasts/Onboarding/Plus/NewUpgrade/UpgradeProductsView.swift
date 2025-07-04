@@ -48,7 +48,11 @@ struct UpgradeProductsView: View {
             }
             Spacer().frame(height: 16)
             actionButton
-            termsAndConditions
+            HStack {
+                Spacer()
+                termsAndConditions
+                Spacer()
+            }
         }
     }
 
@@ -70,13 +74,10 @@ struct UpgradeProductsView: View {
     }
 
     var actionButton: some View {
-        Button("Purchase") {
+        SubscriptionPurchaseButton(viewModel: model) {
 
         }
-        //        SubscriptionPurchaseButton(viewModel: viewModel) {
-        //
-        //        }
-        //        .frame(maxWidth: 440)
+        .frame(maxWidth: 600)
     }
 
     @ViewBuilder
@@ -92,6 +93,7 @@ struct UpgradeProductsView: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
+        .multilineTextAlignment(.center)
         .foregroundColor(theme.secondaryText02)
         .font(size: 11, style: .caption2, weight: .semibold)
         .environment(\.openURL, OpenURLAction { url in
