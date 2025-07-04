@@ -5201,3 +5201,6 @@
 
 /* Subscription Monthly*/
 "subscription_plan_month" = "Monthly Plan";
+
+/* Subscription Savings on a Yearly Plan. The %1$@ argument is the amount of saving in percentage. Ex: Save 16%*/
+"subscription_plan_savings" = "Save %1$@ ";

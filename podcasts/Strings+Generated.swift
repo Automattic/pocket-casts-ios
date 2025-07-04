@@ -3641,6 +3641,10 @@ internal enum L10n {
   }
   /// Subscription Monthly
   internal static var subscriptionPlanMonth: String { return L10n.tr("Localizable", "subscription_plan_month", fallback: "Monthly Plan") }
+  /// Subscription Savings on a Yearly Plan. The %1$@ argument is the amount of saving in percentage. Ex: Save 16%
+  internal static func subscriptionPlanSavings(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "subscription_plan_savings", String(describing: p1), fallback: "Save %1$@ ")
+  }
   /// Subscription Yearly
   internal static var subscriptionPlanYear: String { return L10n.tr("Localizable", "subscription_plan_year", fallback: "Yearly Plan") }
   /// A common string used throughout the app. Thanks the user for their support. Used for paid feeds and Pocket Casts Plus.

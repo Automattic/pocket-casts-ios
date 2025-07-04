@@ -54,6 +54,6 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
 
         let percentSavings = savings.localized(.percent)
 
-        return "Save \(percentSavings)"
+        return L10n.subscriptionPlanSavings(percentSavings)
     }
 }
