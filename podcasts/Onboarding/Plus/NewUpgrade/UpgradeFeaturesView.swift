@@ -24,3 +24,7 @@ struct UpgradeFeaturesView: View {
         }
     }
 }
+
+#Preview {
+    UpgradeFeaturesView(features: UpgradeTier.plus.yearlyFeatures).setupDefaultEnvironment()
+}

@@ -96,5 +96,5 @@ struct UpgradeAccountView: View {
 }
 
 #Preview {
-    UpgradeAccountView(model: UpgradeAccountViewModel())
+    UpgradeAccountView(model: UpgradeAccountViewModel()).setupDefaultEnvironment()
 }

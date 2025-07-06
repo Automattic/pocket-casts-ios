@@ -115,6 +115,10 @@ struct UpgradeProductsView: View {
     }
 }
 
+#Preview {
+    UpgradeProductsView(model: UpgradeAccountViewModel()).setupDefaultEnvironment()
+}
+
 extension PlusPricingInfoModel.PlusProductPricingInfo {
 
     var periodPrice: String {
