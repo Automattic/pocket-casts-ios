@@ -27,59 +27,97 @@ struct UpgradeTier: Identifiable {
 }
 
 extension UpgradeTier {
+
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: [
-            FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil,
-            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
-            TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
-            TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
-            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
-            TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude),
-            libroFm
-        ].compactMap { $0 },
-        yearlyFeatures: [
-            FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil,
-            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
-            TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
-            TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
-            PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
-            TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
-            TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
-            libroFm
-        ].compactMap { $0 },
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: plusMonthlyFeatures, yearlyFeatures: plusYearlyFeatures,
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, monthlyFeatures: [
-            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
-            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
-            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
-            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-
-        ].compactMap { $0 },
-        yearlyFeatures: [
-            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
-            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
-            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
-            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-
-        ].compactMap { $0 },
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, monthlyFeatures: patronFeatures, yearlyFeatures: patronFeatures,
         background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
+    static var plusMonthlyFeatures: [UpgradeTier.TierFeature] {
+        [
+            bannerAdsFeature,
+            foldersFeature,
+            upNextShuffleFeature,
+            bookmarksFeature,
+            deselectChaptersFeature,
+            cloudFeature,
+            watchFeature,
+            extraThemesIconsFeature,
+            loveFeature,
+            libroFm
+        ].compactMap { $0 }
+    }
+
+    static var plusYearlyFeatures: [UpgradeTier.TierFeature] {
+        [
+            bannerAdsFeature,
+            foldersFeature,
+            upNextShuffleFeature,
+            bookmarksFeature,
+            deselectChaptersFeature,
+            cloudFeature,
+            watchFeature,
+            FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
+            extraThemesIconsFeature,
+            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
+            libroFm
+        ].compactMap { $0 }
+    }
+
+    static var patronFeatures: [UpgradeTier.TierFeature] {
+        [
+            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
+            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
+            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
+            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        ].compactMap { $0 }
+    }
+
+    static var bannerAdsFeature: UpgradeTier.TierFeature? {
+        FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil
+    }
+
+    static var foldersFeature: UpgradeTier.TierFeature {
+        TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle)
+    }
+
+    static var upNextShuffleFeature: UpgradeTier.TierFeature {
+        TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle)
+    }
+
+    static var bookmarksFeature: UpgradeTier.TierFeature {
+        TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle)
+    }
+
+    static var deselectChaptersFeature: UpgradeTier.TierFeature? {
+        PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil
+    }
+
+    static var cloudFeature: UpgradeTier.TierFeature {
+        TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit)
+    }
+
+    static var watchFeature: UpgradeTier.TierFeature {
+        TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle)
+    }
+
     static var slumberOrUndyingGratitude: TierFeature {
-        FeatureFlag.slumber.enabled ? slumber : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        FeatureFlag.slumber.enabled ? slumber : loveFeature
+    }
+
+    static var extraThemesIconsFeature: TierFeature {
+        TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons)
+    }
+
+    static var loveFeature: TierFeature {
+        TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     }
 
     static var slumber: TierFeature {
