@@ -767,6 +767,9 @@
 /* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. */
 "download_data_warning" = "Downloading will use data.";
 
+/* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. The %@ is the placeholder for the URL */
+"download_data_warning_with_settings_link" = "This download will use mobile data. You can turn off this warning in [Settings](%@).";
+
 /* A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one. */
 "download_episode_plural_format" = "Download %1$@ Episodes";
 
@@ -1886,7 +1889,7 @@
 "podcast_no_date" = "Date Not Set";
 
 /* Label used to indicate that the podcast episode isn't grouped into a season. */
-"podcast_no_season" = "No Season";
+"podcast_no_season" = "Extras";
 
 /* Accessibility label to prompt to pause an active download. */
 "podcast_pause_download" = "Pause download";
@@ -5188,6 +5191,13 @@
 
 /* The title of an option to report a banner ad as "other". */
 "banner_ads_report_other" = "Other";
+/* Episodes will be displayed in based on season and episode numbers*/
+"podcasts_episode_sort_serial" = "Serial";
+
+/* Name for group of episodes that don't have a season defined when sorting in serial mode*/
+"podcast_extras" = "Extras";
+
+
 
 /* MARK: - InfoPlist.strings */
 
