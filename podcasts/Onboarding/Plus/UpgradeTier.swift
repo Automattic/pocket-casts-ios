@@ -102,9 +102,9 @@ extension UpgradeTier {
 
     static var patronFeatures: [UpgradeTier.TierFeature] {
         [
-            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
-            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
+            TierFeature(iconName: "patron-everything", title: FeatureFlag.newOnboardingUpgrade.enabled ? L10n.featureMarketingAllPlusFeatures : L10n.patronFeatureEverythingInPlus),
+            TierFeature(iconName: "patron-early-access", title: FeatureFlag.newOnboardingUpgrade.enabled ? L10n.featureMarketingEarlyAccess : L10n.patronFeatureEarlyAccess),
+            TierFeature(iconName: "plus-feature-cloud", title: FeatureFlag.newOnboardingUpgrade.enabled ? L10n.featureMarketingCloudStorage(Settings.patronCloudStorageLimit.localized()) : L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
