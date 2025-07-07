@@ -3391,6 +3391,8 @@ Pocket Casts на полную мощность.</string>
     <string>От длинных к коротким</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>От коротких к длинным</string>
+    <key>view_transcript</key>
+    <string>Просмотреть расшифровку</string>
     <key>volume_boost</key>
     <string>Усилитель звука</string>
     <key>volume_boost_description</key>
