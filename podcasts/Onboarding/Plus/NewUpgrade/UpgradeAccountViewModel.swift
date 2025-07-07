@@ -6,7 +6,9 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
 
     @Published private(set) var selectedFrequency: PlanFrequency = .yearly
 
-    init() {
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly) {
+        self.upgradeTier = upgradeTier
+        self.selectedProduct = selectedProduct
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in

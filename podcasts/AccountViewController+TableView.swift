@@ -178,10 +178,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             break
         case .upgradeAccount:
-            let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, source: "account")
-            navigationController?.present(controller, animated: true)
-            break
-
+            if FeatureFlag.newOnboardingUpgrade.enabled {
+                let controller = ThemedHostingController(rootView: UpgradeAccountView(model: UpgradeAccountViewModel(upgradeTier: .patron, selectedProduct: .patronYearly)))
+                controller.modalPresentationStyle = .fullScreen
+                navigationController?.present(controller, animated: true)
+            } else {
+                let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, source: "account")
+                navigationController?.present(controller, animated: true)
+            }
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
