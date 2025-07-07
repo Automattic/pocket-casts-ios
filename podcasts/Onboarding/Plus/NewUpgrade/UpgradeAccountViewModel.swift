@@ -19,7 +19,11 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
     }
 
     var features: [UpgradeTier.TierFeature] {
-        return upgradeTier.monthlyFeatures
+        if selectedProduct.isYearlyProduct {
+            return upgradeTier.yearlyFeatures
+        } else {
+            return upgradeTier.monthlyFeatures
+        }
     }
 
     var isFreeTrialAvailable: Bool {
