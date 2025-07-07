@@ -3391,6 +3391,8 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <string>Lang nach kurz</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
+    <key>view_transcript</key>
+    <string>Transkript</string>
     <key>volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>volume_boost_description</key>

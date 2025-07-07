@@ -3391,6 +3391,8 @@ Pocket Casts Plus</string>
     <string>最長到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最長</string>
+    <key>view_transcript</key>
+    <string>檢視逐字稿</string>
     <key>volume_boost</key>
     <string>音量增強</string>
     <key>volume_boost_description</key>
