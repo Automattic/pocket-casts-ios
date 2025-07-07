@@ -29,7 +29,9 @@ struct UpgradeTier: Identifiable {
 extension UpgradeTier {
 
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: plusMonthlyFeatures, yearlyFeatures: plusYearlyFeatures,
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor,
+                    monthlyFeatures: FeatureFlag.newOnboardingUpgrade.enabled ? newPlusFeatures : plusMonthlyFeatures,
+                    yearlyFeatures: FeatureFlag.newOnboardingUpgrade.enabled ? newPlusFeatures : plusYearlyFeatures,
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
@@ -69,6 +71,21 @@ extension UpgradeTier {
         ].compactMap { $0 }
     }
 
+    static var newPlusFeatures: [UpgradeTier.TierFeature] {
+        [
+            bannerAdsFeature,
+            foldersFeature,
+            upNextShuffleFeature,
+            bookmarksFeature,
+            deselectChaptersFeature,
+            cloudFeature,
+            extraThemesIconsFeature,
+            watchFeature,
+            slumber,
+            libroFm
+        ].compactMap { $0 }
+    }
+
     static var patronFeatures: [UpgradeTier.TierFeature] {
         [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
@@ -85,27 +102,27 @@ extension UpgradeTier {
     }
 
     static var foldersFeature: UpgradeTier.TierFeature {
-        TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle)
+        TierFeature(iconName: "plus-feature-folders", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Tidy your collection with Folders" : L10n.plusMarketingFoldersTitle)
     }
 
     static var upNextShuffleFeature: UpgradeTier.TierFeature {
-        TierFeature(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle)
+        TierFeature(iconName: "plus-feature-up-next-shuffle", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Shuffle your queue" : L10n.plusMarketingUpNextShuffle)
     }
 
     static var bookmarksFeature: UpgradeTier.TierFeature {
-        TierFeature(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle)
+        TierFeature(iconName: "plus-feature-bookmarks", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Keep timestamps with Bookmarks" : L10n.plusMarketingBookmarksTitle)
     }
 
     static var deselectChaptersFeature: UpgradeTier.TierFeature? {
-        PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil
+        PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Save time with Preselect Chapters" : L10n.skipChapters) : nil
     }
 
     static var cloudFeature: UpgradeTier.TierFeature {
-        TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit)
+        TierFeature(iconName: "plus-feature-cloud", title: FeatureFlag.newOnboardingUpgrade.enabled ? "20 GB Cloud Storage for your files" : L10n.plusCloudStorageLimit)
     }
 
     static var watchFeature: UpgradeTier.TierFeature {
-        TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle)
+        TierFeature(iconName: "plus-feature-watch", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Apps for Wear OS and Apple Watch" : L10n.plusMarketingWatchPlaybackTitle)
     }
 
     static var slumberOrUndyingGratitude: TierFeature {
@@ -113,7 +130,7 @@ extension UpgradeTier {
     }
 
     static var extraThemesIconsFeature: TierFeature {
-        TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons)
+        TierFeature(iconName: "plus-feature-extra", title: FeatureFlag.newOnboardingUpgrade.enabled ? "Extra Themes and App Icons" : L10n.plusFeatureThemesIcons )
     }
 
     static var loveFeature: TierFeature {
@@ -121,7 +138,13 @@ extension UpgradeTier {
     }
 
     static var slumber: TierFeature {
-        TierFeature(iconName: "plus-feature-slumber", title: FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl)
+        let message: String
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            message = "1 year of content from Slumber Studios".slumberStudiosWithUrl
+        } else {
+            message = FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl
+        }
+        return TierFeature(iconName: "plus-feature-slumber", title: message)
     }
 
     private static var libroFm: TierFeature? {
