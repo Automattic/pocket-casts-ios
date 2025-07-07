@@ -80,7 +80,7 @@ struct UpgradeAccountView: View {
 
     var title: some View {
         HStack {
-            Text(L10n.upgradeAccountTitle)
+            Text(model.upgradeTier.header)
                 .font(.largeTitle).fontWeight(.bold)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)
