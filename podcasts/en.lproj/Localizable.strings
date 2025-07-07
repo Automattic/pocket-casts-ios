@@ -5207,3 +5207,24 @@
 
 /* Subscription Plan text linking to free trial detail information */
 "subscription_plan_free_trial_info_link" = "How does the free trial work?";
+
+/* Folders feature marketing message */
+"feature_marketing_folders" = "Tidy your collection with Folders";
+
+/* Shuffle up next queue feature marketing message */
+"feature_marketing_up_next_shuffle" = "Shuffle your queue";
+
+/* Bookmarks feature marketing message */
+"feature_marketing_bookmarks" = "Keep timestamps with Bookmarks";
+
+/* SKip Chapters feature marketing message */
+"feature_marketing_skip_chapters" = "Save time with Preselect Chapters";
+
+/* Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files */
+"feature_marketing_cloud_storage" = "%1$@ Cloud Storage for your files";
+
+/* Watch playback feature marketing message */
+"feature_marketing_watch_playback" = "Apps for Wear OS and Apple Watch";
+
+/* Extra Themes And App Icons feature marketing message */
+"feature_marketing_extra_themes_icons" = "Extra Themes and App Icons";

@@ -1214,6 +1214,22 @@ internal enum L10n {
   internal static var exportingDatabase: String { return L10n.tr("Localizable", "exporting_database", fallback: "Exporting Database...") }
   /// Title shown when recommended podcasts can't be loaded
   internal static var failedRecommendations: String { return L10n.tr("Localizable", "failed_recommendations", fallback: "Couldn't load recommendations") }
+  /// Bookmarks feature marketing message
+  internal static var featureMarketingBookmarks: String { return L10n.tr("Localizable", "feature_marketing_bookmarks", fallback: "Keep timestamps with Bookmarks") }
+  /// Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files
+  internal static func featureMarketingCloudStorage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ Cloud Storage for your files")
+  }
+  /// Extra Themes And App Icons feature marketing message
+  internal static var featureMarketingExtraThemesIcons: String { return L10n.tr("Localizable", "feature_marketing_extra_themes_icons", fallback: "Extra Themes and App Icons") }
+  /// Folders feature marketing message
+  internal static var featureMarketingFolders: String { return L10n.tr("Localizable", "feature_marketing_folders", fallback: "Tidy your collection with Folders") }
+  /// SKip Chapters feature marketing message
+  internal static var featureMarketingSkipChapters: String { return L10n.tr("Localizable", "feature_marketing_skip_chapters", fallback: "Save time with Preselect Chapters") }
+  /// Shuffle up next queue feature marketing message
+  internal static var featureMarketingUpNextShuffle: String { return L10n.tr("Localizable", "feature_marketing_up_next_shuffle", fallback: "Shuffle your queue") }
+  /// Watch playback feature marketing message
+  internal static var featureMarketingWatchPlayback: String { return L10n.tr("Localizable", "feature_marketing_watch_playback", fallback: "Apps for Wear OS and Apple Watch") }
   /// Indicator during the new feature tour serves as a prompt to end the tour.
   internal static var featureTourEndTour: String { return L10n.tr("Localizable", "feature_tour_end_tour", fallback: "End Tour") }
   /// Indicator during the new feature tour. Used as a navigation indicator when the tour is on the first step. This is replaced with 'position of total' as the user progresses.
