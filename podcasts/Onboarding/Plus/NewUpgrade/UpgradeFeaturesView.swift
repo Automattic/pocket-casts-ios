@@ -15,10 +15,11 @@ struct UpgradeFeaturesView: View {
                         .font(.title)
                         .frame(width: 16, height: 16)
                         .foregroundColor(theme.primaryText01)
-                    Text(feature.title)
+                    UnderlineLinkTextView(feature.title)
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundColor(theme.primaryText02)
+                        .tint(theme.primaryText02)
                 }
             }
         }
