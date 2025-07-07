@@ -100,6 +100,7 @@ struct UpgradeProductsView: View {
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
+        .tint(theme.primaryText02)
         .font(size: 11, style: .caption2, weight: .semibold)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
