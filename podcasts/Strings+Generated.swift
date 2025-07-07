@@ -1226,6 +1226,8 @@ internal enum L10n {
   internal static var featureMarketingFolders: String { return L10n.tr("Localizable", "feature_marketing_folders", fallback: "Tidy your collection with Folders") }
   /// SKip Chapters feature marketing message
   internal static var featureMarketingSkipChapters: String { return L10n.tr("Localizable", "feature_marketing_skip_chapters", fallback: "Save time with Preselect Chapters") }
+  /// Slumber Studios feature marketing message
+  internal static var featureMarketingSlumber: String { return L10n.tr("Localizable", "feature_marketing_slumber", fallback: "1 year of content from Slumber Studios") }
   /// Shuffle up next queue feature marketing message
   internal static var featureMarketingUpNextShuffle: String { return L10n.tr("Localizable", "feature_marketing_up_next_shuffle", fallback: "Shuffle your queue") }
   /// Watch playback feature marketing message

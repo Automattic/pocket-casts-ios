@@ -154,7 +154,7 @@ extension UpgradeTier {
     static var slumber: TierFeature {
         let message: String
         if FeatureFlag.newOnboardingUpgrade.enabled {
-            message = "1 year of content from Slumber Studios".slumberStudiosWithUrl
+            message = L10n.featureMarketingSlumber.slumberStudiosWithUrl
         } else {
             message = FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl
         }
