@@ -29,9 +29,7 @@ struct UpgradeTier: Identifiable {
 extension UpgradeTier {
 
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor,
-                    monthlyFeatures: FeatureFlag.newOnboardingUpgrade.enabled ? newPlusFeatures : plusMonthlyFeatures,
-                    yearlyFeatures: FeatureFlag.newOnboardingUpgrade.enabled ? newPlusFeatures : plusYearlyFeatures,
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: plusMonthlyFeatures, yearlyFeatures: plusYearlyFeatures,
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
 
@@ -41,49 +39,65 @@ extension UpgradeTier {
     }
 
     static var plusMonthlyFeatures: [UpgradeTier.TierFeature] {
-        [
-            bannerAdsFeature,
-            foldersFeature,
-            upNextShuffleFeature,
-            bookmarksFeature,
-            deselectChaptersFeature,
-            cloudFeature,
-            watchFeature,
-            extraThemesIconsFeature,
-            loveFeature,
-            libroFm
-        ].compactMap { $0 }
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            return [
+                bannerAdsFeature,
+                foldersFeature,
+                upNextShuffleFeature,
+                bookmarksFeature,
+                deselectChaptersFeature,
+                cloudFeature,
+                extraThemesIconsFeature,
+                watchFeature,
+                libroFm
+            ].compactMap { $0 }
+        }
+        else {
+            return [
+                bannerAdsFeature,
+                foldersFeature,
+                upNextShuffleFeature,
+                bookmarksFeature,
+                deselectChaptersFeature,
+                cloudFeature,
+                watchFeature,
+                extraThemesIconsFeature,
+                loveFeature,
+                libroFm
+            ].compactMap { $0 }
+        }
     }
 
     static var plusYearlyFeatures: [UpgradeTier.TierFeature] {
-        [
-            bannerAdsFeature,
-            foldersFeature,
-            upNextShuffleFeature,
-            bookmarksFeature,
-            deselectChaptersFeature,
-            cloudFeature,
-            watchFeature,
-            FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
-            extraThemesIconsFeature,
-            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
-            libroFm
-        ].compactMap { $0 }
-    }
-
-    static var newPlusFeatures: [UpgradeTier.TierFeature] {
-        [
-            bannerAdsFeature,
-            foldersFeature,
-            upNextShuffleFeature,
-            bookmarksFeature,
-            deselectChaptersFeature,
-            cloudFeature,
-            extraThemesIconsFeature,
-            watchFeature,
-            slumber,
-            libroFm
-        ].compactMap { $0 }
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            return [
+                bannerAdsFeature,
+                foldersFeature,
+                upNextShuffleFeature,
+                bookmarksFeature,
+                deselectChaptersFeature,
+                cloudFeature,
+                extraThemesIconsFeature,
+                watchFeature,
+                slumber,
+                libroFm
+            ].compactMap { $0 }
+        }
+        else {
+            return [
+                bannerAdsFeature,
+                foldersFeature,
+                upNextShuffleFeature,
+                bookmarksFeature,
+                deselectChaptersFeature,
+                cloudFeature,
+                watchFeature,
+                FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
+                extraThemesIconsFeature,
+                FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude,
+                libroFm
+            ].compactMap { $0 }
+        }
     }
 
     static var patronFeatures: [UpgradeTier.TierFeature] {
