@@ -59,7 +59,7 @@ struct UpgradeAccountView: View {
 
     var header: some View {
         HStack() {
-            SubscriptionBadge(tier: .plus)
+            SubscriptionBadge(tier: model.upgradeTier.tier)
             Spacer()
             Button() {
                 dismiss()
