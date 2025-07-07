@@ -3777,6 +3777,10 @@ internal enum L10n {
   internal static var upNextShuffleToastMessage: String { return L10n.tr("Localizable", "up_next_shuffle_toast_message", fallback: "Shuffle is on. Episodes will play in random order.") }
   /// Label of a button that informs the user they can upgrade their account. .
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account", fallback: "Upgrade Account") }
+  /// Upgrade account information for onboarding banner
+  internal static var upgradeAccountInfo: String { return L10n.tr("Localizable", "upgrade_account_info", fallback: "Unlock all paid features like Folders, Shuffle, Bookmarks and many more") }
+  /// Upgrade account Title for onboarding banner
+  internal static var upgradeAccountTitle: String { return L10n.tr("Localizable", "upgrade_account_title", fallback: "Superpowers for your podcasts") }
   /// Upgrade Experiment message informing the user that they have been granted 50% discount.
   internal static var upgradeExperimentDiscountYearlyMembership: String { return L10n.tr("Localizable", "upgrade_experiment_discount_yearly_membership", fallback: "Save 50%% off your first year") }
   /// Upgrade Experiment message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period.

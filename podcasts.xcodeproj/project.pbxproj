@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -4109,6 +4109,10 @@
 		FFFCD23E2C7768F900A345ED /* Referrals.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Referrals.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FF267F652E1586CD0004EF02 /* NewUpgrade */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NewUpgrade; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		2F9099082A4F88B00044FC55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -7674,6 +7678,7 @@
 		C7B3C619291AD03A00054145 /* Plus */ = {
 			isa = PBXGroup;
 			children = (
+				FF267F652E1586CD0004EF02 /* NewUpgrade */,
 				C7DA8D282923DC5900C1B08B /* Account Prompt */,
 				C7FF76C1291B5F100082A464 /* PlusButtonStyles.swift */,
 				C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */,
@@ -8792,6 +8797,9 @@
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
 				9AB645122D51368300A842C8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FF267F652E1586CD0004EF02 /* NewUpgrade */,
 			);
 			name = podcasts;
 			packageProductDependencies = (

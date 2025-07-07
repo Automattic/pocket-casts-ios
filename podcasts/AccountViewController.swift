@@ -44,7 +44,12 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let headerView = AccountHeaderView(viewModel: headerViewModel)
 
         let view = headerView.themedUIView
-        view.backgroundColor = .clear
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
+            self.tableView.themeStyle =  ThemeStyle.primaryUi03
+        } else {
+            view.backgroundColor = .clear
+        }
 
         return view
     }()

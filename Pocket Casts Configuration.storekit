@@ -92,10 +92,10 @@
           "groupNumber" : 2,
           "internalID" : "C9B37131",
           "introductoryOffer" : {
-            "displayPrice" : "19.99",
+            "displayPrice" : "0.99",
             "internalID" : "20314E17",
-            "paymentMode" : "payUpFront",
-            "subscriptionPeriod" : "P1Y"
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1M"
           },
           "localizations" : [
             {

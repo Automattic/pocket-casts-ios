@@ -5193,4 +5193,9 @@
 /* Name for group of episodes that don't have a season defined when sorting in serial mode*/
 "podcast_extras" = "Extras";
 
+/* Upgrade account Title for onboarding banner*/
+"upgrade_account_title" = "Superpowers for your podcasts";
+
+/* Upgrade account information for onboarding banner*/
+"upgrade_account_info" = "Unlock all paid features like Folders, Shuffle, Bookmarks and many more";
 
