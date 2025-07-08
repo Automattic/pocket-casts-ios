@@ -3599,8 +3599,8 @@
 /* The title of the purchase promo for Patron. Do not translate Patron. */
 "patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
 
-/* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
-"purchase_terms" = "By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+/* The purchase agreement terms, the %1$@, %2$@ are intended to be "Privacy Policy" and "Terms of Use" */
+"purchase_terms" = "By continuing, you agree to our %1$@ and %2$@";
 
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";

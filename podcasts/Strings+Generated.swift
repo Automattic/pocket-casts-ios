@@ -2725,9 +2725,9 @@ internal enum L10n {
   internal static var profileStarredNoEpisodesDesc: String { return L10n.tr("Localizable", "profile_starred_no_episodes_desc", fallback: "Star episodes you love and come back to them at anytime.") }
   /// Title for the empty state on screen where the user can review their starred (favorited) podcast episodes
   internal static var profileStarredNoEpisodesTitle: String { return L10n.tr("Localizable", "profile_starred_no_episodes_title", fallback: "Save your favorites") }
-  /// The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>)
-  internal static func purchaseTerms(_ p1: Any, _ p2: Any, _ p3: Any, _ p4: Any) -> String {
-    return L10n.tr("Localizable", "purchase_terms", String(describing: p1), String(describing: p2), String(describing: p3), String(describing: p4), fallback: "By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@")
+  /// The purchase agreement terms, the %1$@, %2$@ are intended to be "Privacy Policy" and "Terms of Use"
+  internal static func purchaseTerms(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "purchase_terms", String(describing: p1), String(describing: p2), fallback: "By continuing, you agree to our %1$@ and %2$@")
   }
   /// Confirmation message to clear the give number of episodes from the queue. '%1$@' is a placeholder for the number of episodes, this will be more than one.
   internal static func queueClearEpisodeQueuePlural(_ p1: Any) -> String {
