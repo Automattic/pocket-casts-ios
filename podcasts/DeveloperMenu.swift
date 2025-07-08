@@ -330,6 +330,17 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Show User Satisfaction Survey") {
+                    (SceneHelper.rootViewController() as? MainTabBarController)?.showUserSatisfactionSurvey()
+                }
+                Button("Reset Review Requests") {
+                    Settings.resetReviewRequests()
+                }
+            } header: {
+                Text("Ratings")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
