@@ -23,7 +23,7 @@ struct UpgradeAccountView: View {
                             Button {
                                 expand = true
                                 withAnimation {
-                                    proxy.scrollTo("extra", anchor: .bottom)
+                                    proxy.scrollTo("next_page", anchor: .top)
                                 }
                             } label: {
                                 Text(L10n.subscriptionPlanFreeTrialInfoLink)
@@ -31,21 +31,13 @@ struct UpgradeAccountView: View {
                                     .foregroundColor(theme.primaryInteractive01)
                             }
                         }
-                        Spacer()
                         if expand, model.isFreeTrialAvailable {
-                            VStack {
-                                HStack {
-                                    Spacer()
-                                    Text("Placeholder View - Variant B")
-                                        .foregroundStyle(theme.primaryText01)
-                                    Spacer()
-                                }
-                            }
-                            .padding(.vertical, 200)
-                            .id("extra")
+                            UpgradeTimelineView(events: TimelineEvent.sampleEvents)
+                            .id("next_page")
+                            .padding(.bottom, 300)
                         } else {
                             EmptyView()
-                                .id("extra")
+                                .id("next_page")
                         }
                     }
                 }

@@ -23,13 +23,13 @@ struct UpgradeTimelineView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(Array(zip(events.indices, events)), id: \.0) { index, feature in
+            ForEach(Array(zip(events.indices, events)), id: \.0) { index, event in
                 HStack(alignment: .top) {
                     ZStack(alignment: .top) {
                         ZStack(alignment: .center) {
                             Circle().frame(width: 43, height: 43)
                                 .foregroundColor(theme.primaryInteractive01)
-                            Image(systemName: feature.iconName)
+                            Image(systemName: event.iconName)
                                 .renderingMode(.template)
                                 .frame(width: 24, height: 24)
                                 .foregroundColor(theme.primaryUi01)
@@ -47,10 +47,10 @@ struct UpgradeTimelineView: View {
                     }
                     .fixedSize(horizontal: false, vertical: true)
                     VStack(alignment: .leading) {
-                        Text(feature.title)
+                        Text(event.title)
                             .fontWeight(.bold)
                             .foregroundColor(theme.primaryText01)
-                        Text(feature.detail)
+                        Text(event.detail)
                             .fontWeight(.medium)
                             .foregroundColor(theme.primaryText02)
                     }
