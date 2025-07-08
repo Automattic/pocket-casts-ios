@@ -89,17 +89,10 @@ struct UpgradeProductsView: View {
 
     @ViewBuilder
     var termsAndConditions: some View {
-        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 
-        Group {
-            Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
-            Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
-        }
+        Text(L10n.termsAndConditions)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
@@ -116,6 +109,33 @@ struct UpgradeProductsView: View {
             }
             return .systemAction
         })
+    }
+}
+
+extension L10n {
+    static var termsAndConditions: AttributedString {
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        let privacyPolicyText = L10n.accountPrivacyPolicy
+        let termsOfUseText = L10n.termsOfUse
+
+        // Create markdown formatted text with proper localization
+        let termsMarkdown = L10n.purchaseTerms(
+            "[\(privacyPolicyText)](\(privacyPolicy))",
+            "[\(termsOfUseText)](\(termsOfUse))"
+        )
+
+        var attributedString = try! AttributedString(markdown: termsMarkdown)
+        
+        // Add underline to all links
+        attributedString.runs.forEach { run in
+            if run.link != nil {
+                attributedString[run.range].underlineStyle = .single
+            }
+        }
+        
+        return attributedString
     }
 }
 

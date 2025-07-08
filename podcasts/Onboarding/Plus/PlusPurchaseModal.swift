@@ -154,17 +154,7 @@ private struct PlusDivider: View {
 
 private struct TermsView: View {
     var body: some View {
-        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-
-        let privacyPolicy = ServerConstants.Urls.privacyPolicy
-        let termsOfUse = ServerConstants.Urls.termsOfUse
-
-        Group {
-            Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1]?.nonBreakingSpaces() ?? "")](\(privacyPolicy))")).underline() +
-            Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3]?.nonBreakingSpaces() ?? "")](\(termsOfUse))")).underline()
-        }
+        Text(L10n.termsAndConditions)
         .multilineTextAlignment(.center)
         .foregroundStyle(Color.textColor)
         .tint(.textColor)
