@@ -11,13 +11,13 @@ struct UpgradeAccountView: View {
     @State private var expand: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             header
+            Spacer().frame(height: 24)
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 24) {
                         title
-                        HStack { Spacer() }
                         UpgradeFeaturesView(features: model.upgradeTier.monthlyFeatures)
                         if model.isFreeTrialAvailable {
                             Button {
@@ -53,7 +53,8 @@ struct UpgradeAccountView: View {
             }
             UpgradeProductsView(model: model)
         }
-        .padding(24)
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
         .background(theme.primaryUi01)
     }
 
@@ -81,7 +82,7 @@ struct UpgradeAccountView: View {
     var title: some View {
         HStack {
             Text(L10n.upgradeAccountTitle)
-                .font(.largeTitle).fontWeight(.bold)
+                .font(size: 32, style: .largeTitle, weight: .bold)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)
             Spacer()
