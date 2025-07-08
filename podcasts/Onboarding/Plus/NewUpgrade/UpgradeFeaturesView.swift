@@ -12,12 +12,10 @@ struct UpgradeFeaturesView: View {
                     Image(feature.iconName)
                         .renderingMode(.template)
                         .resizable()
-                        .font(.title)
                         .frame(width: 16, height: 16)
                         .foregroundColor(theme.primaryText01)
                     Text(feature.title)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
+                        .font(size: 15, style: .subheadline, weight: .medium)
                         .foregroundColor(theme.primaryText02)
                 }
             }
