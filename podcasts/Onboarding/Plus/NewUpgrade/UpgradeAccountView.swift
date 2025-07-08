@@ -13,10 +13,10 @@ struct UpgradeAccountView: View {
     var body: some View {
         VStack(alignment: .leading) {
             header
-            title
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
+                        title
                         HStack { Spacer() }
                         UpgradeFeaturesView(features: model.upgradeTier.monthlyFeatures)
                         if model.isFreeTrialAvailable {
