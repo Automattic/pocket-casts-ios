@@ -3869,6 +3869,14 @@ internal enum L10n {
   internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest", fallback: "Longest to shortest") }
   /// A duration (shortest to longest) sort option for uploaded files.
   internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest", fallback: "Shortest to longest") }
+  /// An option to say "no" when when asked if the user enjoys the app.
+  internal static var userSatisfactionSurveyNoResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_no_response", fallback: "Not really") }
+  /// A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app
+  internal static var userSatisfactionSurveySubtitle: String { return L10n.tr("Localizable", "user_satisfaction_survey_subtitle", fallback: "Hi there! We'd love to know if you're enjoying our app.") }
+  /// A title shown for the user satisfaction survey to ask whether a user enjoys the app
+  internal static var userSatisfactionSurveyTitle: String { return L10n.tr("Localizable", "user_satisfaction_survey_title", fallback: "Enjoying Pocket Casts?") }
+  /// An option to say "yes" when when asked if the user enjoys the app.
+  internal static var userSatisfactionSurveyYesResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_yes_response", fallback: "Yes!") }
   /// Title of the Transcript excerpt in Episode detail
   internal static var viewTranscript: String { return L10n.tr("Localizable", "view_transcript", fallback: "View Transcript") }
   /// The Volume Boost feature. Makes voices louder.
