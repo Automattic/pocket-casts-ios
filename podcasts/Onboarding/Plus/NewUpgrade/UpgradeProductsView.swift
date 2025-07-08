@@ -12,12 +12,14 @@ struct UpgradeProductsView: View {
             ForEach(model.products, id: \.self.id) { product in
                 row(for: product)
             }
-            Spacer().frame(height: 16)
-            actionButton
-            HStack {
-                Spacer()
-                termsAndConditions
-                Spacer()
+            VStack {
+                Spacer().frame(height: 6)
+                actionButton
+                HStack {
+                    Spacer()
+                    termsAndConditions
+                    Spacer()
+                }
             }
         }
     }
