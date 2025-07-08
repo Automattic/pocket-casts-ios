@@ -10,6 +10,10 @@ struct UpgradeAccountView: View {
 
     @State private var expand: Bool = false
 
+    enum ScrollPosition: String {
+        case secondPage
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
@@ -23,7 +27,7 @@ struct UpgradeAccountView: View {
                             Button {
                                 expand = true
                                 withAnimation {
-                                    proxy.scrollTo("extra", anchor: .bottom)
+                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .bottom)
                                 }
                             } label: {
                                 Text(L10n.subscriptionPlanFreeTrialInfoLink)
@@ -42,10 +46,10 @@ struct UpgradeAccountView: View {
                                 }
                             }
                             .padding(.vertical, 200)
-                            .id("extra")
+                            .id(ScrollPosition.secondPage)
                         } else {
                             EmptyView()
-                                .id("extra")
+                                .id(ScrollPosition.secondPage)
                         }
                     }
                 }
