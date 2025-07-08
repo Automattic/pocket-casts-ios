@@ -62,7 +62,6 @@ extension UpgradeTier {
                 cloudFeature,
                 watchFeature,
                 extraThemesIconsFeature,
-                loveFeature,
                 libroFm
             ].compactMap { $0 }
         }

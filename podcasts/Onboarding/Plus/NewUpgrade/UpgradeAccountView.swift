@@ -10,6 +10,12 @@ struct UpgradeAccountView: View {
 
     @State private var expand: Bool = false
 
+    @State private var flash: Bool = false
+
+    enum ScrollPosition: String {
+        case secondPage
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
@@ -23,7 +29,7 @@ struct UpgradeAccountView: View {
                             Button {
                                 expand = true
                                 withAnimation {
-                                    proxy.scrollTo("extra", anchor: .bottom)
+                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .bottom)
                                 }
                             } label: {
                                 Text(L10n.subscriptionPlanFreeTrialInfoLink)
@@ -42,20 +48,26 @@ struct UpgradeAccountView: View {
                                 }
                             }
                             .padding(.vertical, 200)
-                            .id("extra")
+                            .id(ScrollPosition.secondPage)
                         } else {
                             EmptyView()
-                                .id("extra")
+                                .id(ScrollPosition.secondPage)
                         }
                     }
                 }
-                .scrollIndicators(.never)
+                .scrollIndicators(.visible)
+                .withScrollFlashIndicator(trigger: flash)
             }
             UpgradeProductsView(model: model)
         }
         .padding(.horizontal, 24)
         .padding(.top, 16)
         .background(theme.primaryUi01)
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
+                flash.toggle()
+            }
+        }
     }
 
     var header: some View {
@@ -93,6 +105,26 @@ struct UpgradeAccountView: View {
         VStack {
 
         }
+    }
+}
+
+// MARK: - Special modifier to support versions previous than iOS 17
+struct WithScrollFlashIndicatorModifier: ViewModifier {
+
+    let trigger: Bool
+
+    func body(content: Content) -> some View {
+        if #available(iOS 17.0, *) {
+            content.scrollIndicatorsFlash(trigger: trigger)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func withScrollFlashIndicator(trigger: Bool) -> some View {
+        self.modifier(WithScrollFlashIndicatorModifier(trigger: trigger))
     }
 }
 
