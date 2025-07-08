@@ -26,13 +26,13 @@ struct UpgradeProductsView: View {
     }
 
     func row(for product: PlusPricingInfoModel.PlusProductPricingInfo) -> some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: 12) {
             Image(product.identifier == model.selectedProduct ? "rounded-selected" : "rounded-deselected")
                 .renderingMode(.template)
                 .resizable()
                 .foregroundStyle(theme.primaryIcon01)
                 .frame(width: 24, height: 24)
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(product.periodDescription)
                     .font(size: 15, style: .subheadline, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
@@ -48,12 +48,13 @@ struct UpgradeProductsView: View {
         .padding(16)
         .background(theme.primaryUi03)
         .cornerRadius(12)
+        .frame(minHeight: 75)
         .overlay {
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 12)
                     .inset(by: 1)
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
-                if product.identifier == model.selectedProduct, product.isBestValue, model.savingsOnBestValue != nil {
+                if product.isBestValue, model.savingsOnBestValue != nil {
                     badge
                         .offset(x: 0, y: -10)
                 }
@@ -89,17 +90,10 @@ struct UpgradeProductsView: View {
 
     @ViewBuilder
     var termsAndConditions: some View {
-        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 
-        Group {
-            Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
-            Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
-        }
+        Text(L10n.termsAndConditions)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
@@ -116,6 +110,33 @@ struct UpgradeProductsView: View {
             }
             return .systemAction
         })
+    }
+}
+
+extension L10n {
+    static var termsAndConditions: AttributedString {
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        let privacyPolicyText = L10n.accountPrivacyPolicy
+        let termsOfUseText = L10n.termsOfUse
+
+        // Create markdown formatted text with proper localization
+        let termsMarkdown = L10n.purchaseTerms(
+            "[\(privacyPolicyText)](\(privacyPolicy))",
+            "[\(termsOfUseText)](\(termsOfUse))"
+        )
+
+        var attributedString = try! AttributedString(markdown: termsMarkdown)
+
+        // Add underline to all links
+        attributedString.runs.forEach { run in
+            if run.link != nil {
+                attributedString[run.range].underlineStyle = .single
+            }
+        }
+
+        return attributedString
     }
 }
 
