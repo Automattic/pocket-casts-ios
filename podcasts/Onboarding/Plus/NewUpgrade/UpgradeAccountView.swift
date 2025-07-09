@@ -100,12 +100,6 @@ struct UpgradeAccountView: View {
             Spacer()
         }
     }
-
-    var options: some View {
-        VStack {
-
-        }
-    }
 }
 
 // MARK: - Special modifier to support versions previous than iOS 17
