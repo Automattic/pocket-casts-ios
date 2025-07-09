@@ -41,7 +41,9 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
 
     var timelineEvents: [TimelineEvent] {
         guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
-              let offer = product.offer, offer.type == .freeTrial
+              let offer = product.offer, offer.type == .freeTrial,
+              let offerEndDate = offer.offerEndDate,
+              let oneWeekBeforeDate = offerEndDate.sevenDaysAgo()
         else {
             return []
         }
@@ -51,10 +53,11 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
         let todayEvent = TimelineEvent(iconName: "unlocked-large", title: L10n.today, detail: L10n.upgradeAccountTimelineDay1, date: Date.now)
         events.append(todayEvent)
 
-        let oneWeekBeforeEvent = TimelineEvent(iconName: "mail", title: "Day 24", detail: L10n.upgradeAccountTimelineWeekBefore, date: Date.now + 3600)
+        let oneWeekBeforeDateLocalized = oneWeekBeforeDate.formatted(date: .abbreviated, time: .omitted)
+        let oneWeekBeforeEvent = TimelineEvent(iconName: "mail", title: oneWeekBeforeDateLocalized, detail: L10n.upgradeAccountTimelineWeekBefore, date: Date.now + 3600)
         events.append(oneWeekBeforeEvent)
 
-        let chargingEvent = TimelineEvent(iconName: "star_empty", title: offer.dateAfterOffer, detail: L10n.upgradeAccountTimelineChargingDay(offer.dateAfterOffer), date: Date.now + (3600 * 2))
+        let chargingEvent = TimelineEvent(iconName: "star_empty", title: offer.offerEndDateLocalized, detail: L10n.upgradeAccountTimelineChargingDay(offer.offerEndDateLocalized), date: Date.now + (3600 * 2))
 
         events.append(chargingEvent)
 
