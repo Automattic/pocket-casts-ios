@@ -1032,6 +1032,8 @@ waar je naar hebt geluisterd was
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ afleveringen</string>
+    <key>episode_description_title</key>
+    <string>Beschrijving van aflevering</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>
@@ -2037,6 +2039,8 @@ UPDATES</string>
     <string>Bekijk meer informatie over Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Tegelijkertijd persoonlijk zijn en gedeeld worden. Upload je persoonlijke audiobestanden naar onze cloudservers, krijg toegang tot je account via onze online speler en pas de app naar je eigen voorkeuren aan.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Geen banneradvertenties</string>
     <key>plus_marketing_subtitle</key>
     <string>Krijg toegang tot exclusieve functies en aanpassingsmogelijkheden</string>
     <key>plus_marketing_themes_icons_title</key>

@@ -2041,6 +2041,8 @@ MISES À JOUR</string>
     <string>En savoir plus sur Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Faites-en une affaire personnelle et écoutez votre contenu partout. Téléversez vos fichiers audio personnels dans nos serveurs infonuagiques, accédez à votre compte dans notre lecteur Web et appropriez-vous notre application.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Aucune bannière publicitaire</string>
     <key>plus_marketing_subtitle</key>
     <string>Accéder à des options de personnalisation et à des fonctionnalités exclusives</string>
     <key>plus_marketing_themes_icons_title</key>

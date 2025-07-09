@@ -2041,6 +2041,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Pocket Casts Plus の詳細</string>
     <key>plus_marketing_main_description</key>
     <string>パーソナルにいろんな仲間とつながる。 個人的な音声ファイルをクラウドサーバーにアップロード。ウェブプレーヤーからアカウントにアクセスして、アプリを自分好みにカスタマイズしましょう。</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>バナー広告なし</string>
     <key>plus_marketing_subtitle</key>
     <string>限定機能とカスタマイズオプションへのアクセス権を取得しましょう</string>
     <key>plus_marketing_themes_icons_title</key>

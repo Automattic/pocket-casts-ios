@@ -52,6 +52,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
 
     private weak var delegate: DiscoverDelegate?
     private var item: DiscoverItem?
+    private var category: DiscoverCategory?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +66,8 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         super.viewDidAppear(animated)
 
         if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId)
+            let categoryId = category?.id.map(String.init)
+            AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         }
     }
 
@@ -80,6 +82,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         guard let source = item.source else { return }
 
         self.item = item
+        self.category = category
         DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
             self?.podcastCollection = podcastCollection
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }

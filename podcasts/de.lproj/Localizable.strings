@@ -2041,6 +2041,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Weitere Informationen zu Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Persönlich und überall verfügbar: Lade deine persönlichen Audiodateien auf unsere Cloudserver hoch, greife über unseren Webplayer auf dein Konto zu und passe die App ganz an deine Bedürfnisse an.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Keine Bannerwerbung</string>
     <key>plus_marketing_subtitle</key>
     <string>Erhalte Zugriff auf exklusive Funktionen und Anpassungsoptionen</string>
     <key>plus_marketing_themes_icons_title</key>
@@ -3389,6 +3391,8 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <string>Lang nach kurz</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
+    <key>view_transcript</key>
+    <string>Transkript</string>
     <key>volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>volume_boost_description</key>

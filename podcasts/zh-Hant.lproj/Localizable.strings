@@ -2041,6 +2041,8 @@ Pocket Casts Plus</string>
     <string>深入了解 Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>個人化設定，讓節目獲得更多聽眾，雙效合一。將你的音訊檔案上傳到雲端伺服器、透過網頁播放器存取帳號，還可讓 App 更合你所需。</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>沒有橫幅廣告</string>
     <key>plus_marketing_subtitle</key>
     <string>使用獨家功能和自訂選項</string>
     <key>plus_marketing_themes_icons_title</key>
@@ -3389,6 +3391,8 @@ Pocket Casts Plus</string>
     <string>最長到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最長</string>
+    <key>view_transcript</key>
+    <string>檢視逐字稿</string>
     <key>volume_boost</key>
     <string>音量增強</string>
     <key>volume_boost_description</key>
