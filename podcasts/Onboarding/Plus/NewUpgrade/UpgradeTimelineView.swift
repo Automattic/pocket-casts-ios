@@ -63,15 +63,15 @@ struct UpgradeTimelineView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(zip(events.indices, events)), id: \.0) { index, event in
-                HStack(alignment: .top) {
+                HStack(alignment: .top, spacing: 14) {
                     iconRow(iconName: event.iconName, index: index)
                     .fixedSize(horizontal: false, vertical: true)
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(event.title)
-                            .fontWeight(.bold)
+                            .font(size: 15, style: .body, weight: .bold)
                             .foregroundColor(theme.primaryText01)
                         Text(event.detail)
-                            .fontWeight(.medium)
+                            .font(size: 15, style: .body, weight: .medium)
                             .foregroundColor(theme.primaryText02)
                     }
                     .padding(.bottom, 32)
