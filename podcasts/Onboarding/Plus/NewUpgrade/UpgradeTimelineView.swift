@@ -19,6 +19,14 @@ struct UpgradeTimelineView: View {
 
     @EnvironmentObject var theme: Theme
 
+    @ScaledMetric(relativeTo: .body) private var circleSize: CGFloat = 44
+
+    @ScaledMetric(relativeTo: .body) private var imageSize: CGFloat = 24
+
+    @ScaledMetric(relativeTo: .body) private var timelineBarHeight: CGFloat = 150
+
+    @ScaledMetric(relativeTo: .body) private var timelineBarWidth: CGFloat = 7
+
     let events: [TimelineEvent]
 
     var circle: some View {
@@ -37,19 +45,20 @@ struct UpgradeTimelineView: View {
             ZStack(alignment: .center) {
                 circle
                     .opacity(1.0 - (Double(index) * 0.2))
-                    .frame(width: 44, height: 44)
-                    .cornerRadius(44)
+                    .frame(width: circleSize, height: circleSize)
+                    .cornerRadius(circleSize)
                 Image(iconName)
                     .renderingMode(.template)
-                    .frame(width: 24, height: 24)
+                    .resizable()
+                    .frame(width: imageSize, height: imageSize)
                     .foregroundColor(theme.primaryUi01)
             }
             .background() {
                 if index != events.count - 1 {
                     ZStack {
                         Rectangle()
-                            .frame(width: 7, height: 150)
-                            .offset(x: 0, y: 75 + 22)
+                            .frame(width: timelineBarWidth, height: timelineBarHeight)
+                            .offset(x: 0, y: (timelineBarHeight / 2.0) + (circleSize / 2.0))
                             .foregroundStyle(LinearGradient(colors: [
                                 theme.primaryInteractive01.opacity(1.0 - (Double(index) * 0.2)),
                                 theme.primaryInteractive01.opacity(1.0 - (Double(index + 1) * 0.2))
@@ -73,6 +82,7 @@ struct UpgradeTimelineView: View {
                         Text(event.detail)
                             .font(size: 15, style: .body, weight: .medium)
                             .foregroundColor(theme.primaryText02)
+                            .multilineTextAlignment(.leading)
                     }
                     .padding(.bottom, 32)
                     .padding(.horizontal, 14)
