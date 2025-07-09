@@ -152,11 +152,7 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "FB9E06A9",
-          "introductoryOffer" : {
-            "internalID" : "3848A746",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1M"
-          },
+          "introductoryOffer" : null,
           "localizations" : [
             {
               "description" : "",

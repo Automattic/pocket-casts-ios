@@ -5234,3 +5234,13 @@
 
 /* Slumber Studios feature marketing message */
 "feature_marketing_slumber" = "1 year of content from Slumber Studios";
+
+/* Patron has all features of plus marketing message*/
+"feature_marketing_all_plus_features" = "All the features in Plus";
+
+/* Patron early access to new features marketing message*/
+"feature_marketing_early_access" = "Early access to new features";
+
+/* Patron early access to new features marketing message*/
+"feature_marketing_early_access" = "Early access to new features";
+

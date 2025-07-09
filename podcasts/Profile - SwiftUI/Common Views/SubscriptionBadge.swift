@@ -3,10 +3,6 @@ import PocketCastsServer
 
 /// Displays a subscription badge view
 /// Example: SubscriptionBadge(type: .plus)
-///
-/// For an extra effect use:
-/// SubscriptionBadge(type: .patron, geometryProxy: geometryProxy)
-///
 struct SubscriptionBadge: View {
     let tier: SubscriptionTier
     var displayMode: DisplayMode = .black
@@ -66,6 +62,9 @@ struct SubscriptionBadge: View {
                 case .gradient:
                     background = Color.plusGradient
                     iconColor = .white
+                case .plain:
+                    background = .init(colors: [.black], startPoint: .top, endPoint: .bottom)
+                    iconColor = Color(hex: "FFD846")
                 }
 
             case .patron:
@@ -76,6 +75,9 @@ struct SubscriptionBadge: View {
                 case .gradient:
                     background = .init(colors: [.init(hex: "9583F8")], startPoint: .top, endPoint: .bottom)
                     iconColor = .white
+                case .plain:
+                    background = .init(colors: [.black], startPoint: .top, endPoint: .bottom)
+                    iconColor = Color(hex: "#7A64F6")
                 }
 
                 iconName = "patron-heart"
@@ -88,11 +90,14 @@ struct SubscriptionBadge: View {
     }
 
     enum DisplayMode {
-        /// Displays the badge using a black background and a white foreground
+        /// Displays the badge using a color background and a white foreground
         case black
 
         /// Displays the badge using a gradient background for each tier
         case gradient
+
+        /// Display the badge using a solid black background and tier color
+        case plain
     }
 }
 
@@ -111,6 +116,12 @@ struct SubscriptionBadge_Preview: PreviewProvider {
                     SubscriptionBadge(tier: .none, displayMode: .gradient) // Won't display
                     SubscriptionBadge(tier: .plus, displayMode: .gradient)
                     SubscriptionBadge(tier: .patron, displayMode: .gradient)
+                }
+
+                HStack {
+                    SubscriptionBadge(tier: .none, displayMode: .plain) // Won't display
+                    SubscriptionBadge(tier: .plus, displayMode: .plain)
+                    SubscriptionBadge(tier: .patron, displayMode: .plain)
                 }
             }
             .frame(maxWidth: .infinity)
