@@ -84,7 +84,11 @@ class NowPlayingHelper {
             let safeCharacterPodcastTitle = parentPodcast.title?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
             let safeCharacterPodcastAuthor = parentPodcast.author?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
 
+#if !os(iOS) || APPCLIP
             nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastAuthor as NSString
+#else
+            nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastTitle as NSString
+#endif
             nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastAuthor as NSString
 
             // we purposely show the date here instead, but as with the above there's a car stereo bug we need to work around as well where we don't show the word "Wednesday" in the artist field
