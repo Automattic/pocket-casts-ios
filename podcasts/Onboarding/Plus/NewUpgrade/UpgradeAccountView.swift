@@ -38,7 +38,7 @@ struct UpgradeAccountView: View {
                             }
                         }
                         if expand, model.isFreeTrialAvailable {
-                            UpgradeTimelineView(events: TimelineEvent.sampleEvents)
+                            UpgradeTimelineView(events: model.timelineEvents)
                             .id(ScrollPosition.secondPage)
                             .padding(.bottom, 300)
                         } else {
