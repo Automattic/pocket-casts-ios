@@ -14,9 +14,10 @@ struct UpgradeFeaturesView: View {
                         .resizable()
                         .frame(width: 16, height: 16)
                         .foregroundColor(theme.primaryText01)
-                    Text(feature.title)
+                    UnderlineLinkTextView(feature.title)
                         .font(size: 15, style: .subheadline, weight: .medium)
                         .foregroundColor(theme.primaryText02)
+                        .tint(theme.primaryText02)
                 }
             }
         }

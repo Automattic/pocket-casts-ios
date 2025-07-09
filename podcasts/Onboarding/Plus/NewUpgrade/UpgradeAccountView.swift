@@ -24,7 +24,7 @@ struct UpgradeAccountView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         title
-                        UpgradeFeaturesView(features: model.upgradeTier.monthlyFeatures)
+                        UpgradeFeaturesView(features: model.features)
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand = true
@@ -93,7 +93,7 @@ struct UpgradeAccountView: View {
 
     var title: some View {
         HStack {
-            Text(L10n.upgradeAccountTitle)
+            Text(model.upgradeTier.header)
                 .font(size: 32, style: .largeTitle, weight: .bold)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)

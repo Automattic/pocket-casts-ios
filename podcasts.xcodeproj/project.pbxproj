@@ -1985,6 +1985,7 @@
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
+		FF0E95512E1C043300486A0D /* UpgradeTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0E95502E1C042E00486A0D /* UpgradeTier.swift */; };
 		FF0F407A2D5E32920036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
 		FF0F407B2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
 		FF0F407C2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
@@ -4043,6 +4044,7 @@
 		FF09982D2CDA996D00C1647B /* MarqueeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextView.swift; sourceTree = "<group>"; };
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
+		FF0E95502E1C042E00486A0D /* UpgradeTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeTier.swift; sourceTree = "<group>"; };
 		FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		FF146C292D5F445B00D2FCCE /* ThreadSafeDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionaryTests.swift; sourceTree = "<group>"; };
 		FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersView.swift; sourceTree = "<group>"; };
@@ -7686,6 +7688,7 @@
 		C7B3C619291AD03A00054145 /* Plus */ = {
 			isa = PBXGroup;
 			children = (
+				FF0E95502E1C042E00486A0D /* UpgradeTier.swift */,
 				FF267FB52E16C8230004EF02 /* NewUpgrade */,
 				C7DA8D282923DC5900C1B08B /* Account Prompt */,
 				C7FF76C1291B5F100082A464 /* PlusButtonStyles.swift */,
@@ -10004,6 +10007,7 @@
 				BD6275BF27D1C5370020A28C /* TraceHelper.swift in Sources */,
 				F5EA21F22CC1CD040043C780 /* EndOfYearDeveloperMenuButton.swift in Sources */,
 				4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */,
+				FF0E95512E1C043300486A0D /* UpgradeTier.swift in Sources */,
 				45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */,
 				8BBE19EE2BEA973E009E944B /* ShowInfoCoordinating.swift in Sources */,
 				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
