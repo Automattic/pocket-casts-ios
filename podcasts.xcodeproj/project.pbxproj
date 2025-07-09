@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -2001,6 +2001,12 @@
 		FF1EC6862CECBC7D006FBF9B /* ManageDownloadsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1EC6852CECBC73006FBF9B /* ManageDownloadsCoordinator.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
+		FF267FB62E16C8230004EF02 /* SubscriptionPurchaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB22E16C8230004EF02 /* SubscriptionPurchaseButton.swift */; };
+		FF267FB72E16C8230004EF02 /* UpgradeAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */; };
+		FF267FB82E16C8230004EF02 /* UpgradeBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */; };
+		FF267FBA2E16E1990004EF02 /* UpgradeFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */; };
+		FF267FBC2E16FB420004EF02 /* UpgradeProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */; };
+		FF267FBE2E16FBDB0004EF02 /* UpgradeAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
 		FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */; };
 		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
@@ -4050,6 +4056,12 @@
 		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF1EC6852CECBC73006FBF9B /* ManageDownloadsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsCoordinator.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
+		FF267FB22E16C8230004EF02 /* SubscriptionPurchaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPurchaseButton.swift; sourceTree = "<group>"; };
+		FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeAccountView.swift; sourceTree = "<group>"; };
+		FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeBannerView.swift; sourceTree = "<group>"; };
+		FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeFeaturesView.swift; sourceTree = "<group>"; };
+		FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeProductsView.swift; sourceTree = "<group>"; };
+		FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeAccountViewModel.swift; sourceTree = "<group>"; };
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -4108,10 +4120,6 @@
 		FFF3FCCF2D8B143E009BAF26 /* PodcastHeaderDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderDescriptionView.swift; sourceTree = "<group>"; };
 		FFFCD23E2C7768F900A345ED /* Referrals.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Referrals.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		FF267F652E1586CD0004EF02 /* NewUpgrade */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NewUpgrade; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2F9099082A4F88B00044FC55 /* Frameworks */ = {
@@ -7678,7 +7686,7 @@
 		C7B3C619291AD03A00054145 /* Plus */ = {
 			isa = PBXGroup;
 			children = (
-				FF267F652E1586CD0004EF02 /* NewUpgrade */,
+				FF267FB52E16C8230004EF02 /* NewUpgrade */,
 				C7DA8D282923DC5900C1B08B /* Account Prompt */,
 				C7FF76C1291B5F100082A464 /* PlusButtonStyles.swift */,
 				C7A110E5291EF2DF00887A90 /* PlusLandingViewModel.swift */,
@@ -8498,6 +8506,19 @@
 			path = Banner;
 			sourceTree = "<group>";
 		};
+		FF267FB52E16C8230004EF02 /* NewUpgrade */ = {
+			isa = PBXGroup;
+			children = (
+				FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */,
+				FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */,
+				FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */,
+				FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */,
+				FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */,
+				FF267FB22E16C8230004EF02 /* SubscriptionPurchaseButton.swift */,
+			);
+			path = NewUpgrade;
+			sourceTree = "<group>";
+		};
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
@@ -8797,9 +8818,6 @@
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
 				9AB645122D51368300A842C8 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				FF267F652E1586CD0004EF02 /* NewUpgrade */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
@@ -10090,6 +10108,7 @@
 				BD16385C27B101F300F24A39 /* PCSearchView.swift in Sources */,
 				BDB5F0C52045036200437669 /* OptionAction.swift in Sources */,
 				40FFAD93214A170200024FCF /* FilterSettingsOverlayController.swift in Sources */,
+				FF267FBE2E16FBDB0004EF02 /* UpgradeAccountViewModel.swift in Sources */,
 				BD998ACC27B2436000B38857 /* NameFolderView.swift in Sources */,
 				8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */,
 				F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */,
@@ -10491,6 +10510,7 @@
 				BDC8683223825933004C998F /* Interactor.swift in Sources */,
 				FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */,
 				8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */,
+				FF267FBA2E16E1990004EF02 /* UpgradeFeaturesView.swift in Sources */,
 				C76400552A0EDFB90092A74B /* UserInfo.swift in Sources */,
 				F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */,
 				46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */,
@@ -10654,6 +10674,9 @@
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
 				C7252E142A71950500E7D3C0 /* EpisodeImage.swift in Sources */,
 				9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */,
+				FF267FB62E16C8230004EF02 /* SubscriptionPurchaseButton.swift in Sources */,
+				FF267FB72E16C8230004EF02 /* UpgradeAccountView.swift in Sources */,
+				FF267FB82E16C8230004EF02 /* UpgradeBannerView.swift in Sources */,
 				FF9B6B772D0733670057A504 /* LogsView.swift in Sources */,
 				9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */,
 				BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */,
@@ -10894,6 +10917,7 @@
 				BDB4E7D4240E3C7A005770E3 /* DefaultPlayer.swift in Sources */,
 				46CD3C9F2715E38E00F5EB8F /* SupportLogsViewModel.swift in Sources */,
 				C750EF7F28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift in Sources */,
+				FF267FBC2E16FB420004EF02 /* UpgradeProductsView.swift in Sources */,
 				40A0A91124B5FE5300C29362 /* UITableView+MultiSelect.swift in Sources */,
 				BDC6DEBC1CBCD6C80030491D /* ReorderableFlowLayout.swift in Sources */,
 				F59503B42C93590A007FB3C8 /* ActivityItemSourceItem.swift in Sources */,

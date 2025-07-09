@@ -27,6 +27,7 @@ class PlusPricingInfoModel: ObservableObject {
         var pricing: [PlusProductPricingInfo] = []
 
         for product in availableProductIds {
+            let basePrice = purchaseHandler.getWeeklyReferencePrice(for: product)
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
             let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
@@ -45,7 +46,8 @@ class PlusPricingInfoModel: ObservableObject {
                                               rawPrice: rawPrice,
                                               weeklyPrice: weeklyPrice,
                                               monthlyPrice: monthlyPrice,
-                                              offer: offer)
+                                              offer: offer,
+                                              basePrice: basePrice ?? 0)
             pricing.append(info)
         }
 
@@ -70,6 +72,8 @@ class PlusPricingInfoModel: ObservableObject {
         let weeklyPrice: String
         let monthlyPrice: String?
         let offer: ProductOfferInfo?
+
+        let basePrice: Double
 
         var id: String { identifier.rawValue }
     }
@@ -117,6 +121,21 @@ class PlusPricingInfoModel: ObservableObject {
 
     enum PriceAvailablity {
         case unknown, available, loading, failed
+    }
+
+    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
+        }
+        return pricingInfo
+    }
+
+    func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
+    }
+
+    func product(for productID: IAPProductID) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == productID })
     }
 }
 

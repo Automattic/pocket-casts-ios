@@ -110,5 +110,5 @@ private struct OfferStack<Content: View>: View {
 }
 
 #Preview {
-    SubscriptionPriceAndOfferView(product: PlusPricingInfoModel.PlusProductPricingInfo(identifier: .monthly, price: "9.99", rawPrice: "9.99", weeklyPrice: "0.70", monthlyPrice: nil, offer: nil), mainTextColor: .black, secondaryTextColor: .gray)
+    SubscriptionPriceAndOfferView(product: PlusPricingInfoModel.PlusProductPricingInfo(identifier: .monthly, price: "9.99", rawPrice: "9.99", weeklyPrice: "0.70", monthlyPrice: nil, offer: nil, basePrice: 9.99), mainTextColor: .black, secondaryTextColor: .gray)
 }

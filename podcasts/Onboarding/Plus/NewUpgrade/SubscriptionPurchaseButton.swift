@@ -2,12 +2,12 @@ import SwiftUI
 
 struct SubscriptionPurchaseButton: View {
 
-    let viewModel: PlusLandingViewModel
+    let viewModel: PlusPricingInfoModel
     let tier: UpgradeTier
     let frequency: PlanFrequency
     let action: (() -> Void)?
 
-    init(viewModel: PlusLandingViewModel, tier: UpgradeTier = .plus, frequency: PlanFrequency = .yearly, action: (() -> Void)? = nil) {
+    init(viewModel: PlusPricingInfoModel, tier: UpgradeTier = .plus, frequency: PlanFrequency = .yearly, action: (() -> Void)? = nil) {
         self.viewModel = viewModel
         self.tier = tier
         self.frequency = frequency
@@ -27,12 +27,12 @@ struct SubscriptionPurchaseButton: View {
     }
 
     private var isLoading: Bool {
-        (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        viewModel.priceAvailability == .loading
     }
 
     var body: some View {
         let hasError = Binding<Bool>(
-            get: { self.viewModel.state == .failed },
+            get: { self.viewModel.priceAvailability == .failed },
             set: { _ in }
         )
         Button(action: {
@@ -48,9 +48,7 @@ struct SubscriptionPurchaseButton: View {
         .alert(isPresented: hasError) {
             Alert(
                 title: Text(L10n.plusPurchaseFailed),
-                dismissButton: .default(Text(L10n.ok)) {
-                    viewModel.reset()
-                }
+                dismissButton: .default(Text(L10n.ok))
             )
         }
     }

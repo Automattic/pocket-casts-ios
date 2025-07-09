@@ -132,6 +132,37 @@ class IAPHelper: NSObject {
     /// Whether the products have been loaded from StoreKit
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
+    public func getWeeklyReferencePrice(for identifier: IAPProductID) -> Double? {
+        guard let product = getProduct(for: identifier) else { return nil }
+
+        let multiplyFactor: Double = {
+            guard let subscriptionPeriod = product.subscriptionPeriod else {
+                return 0
+            }
+            let value: Double
+            switch subscriptionPeriod.unit {
+                case .day:
+                    value = 365
+                case .week:
+                    value = 52
+                case .month:
+                    value = 12
+                case .year:
+                    value = 1
+                @unknown default:
+                    return 0
+            }
+            if value > 1 {
+                return value / Double(subscriptionPeriod.numberOfUnits)
+            } else {
+                return value * Double(subscriptionPeriod.numberOfUnits)
+            }
+        }()
+
+        let weekly = (product.price.doubleValue * multiplyFactor) / 52
+        return weekly
+    }
+
     public func getPrice(for identifier: IAPProductID) -> String {
         guard let product = getProduct(for: identifier) else { return "" }
 
@@ -144,8 +175,10 @@ class IAPHelper: NSObject {
     }
 
     public func getWeeklyPrice(for identifier: IAPProductID) -> String {
-        guard let product = getProduct(for: identifier) else { return "" }
-        let weekly = product.price.doubleValue / 52
+        guard let product = getProduct(for: identifier),
+            let weekly = getWeeklyReferencePrice(for: identifier) else {
+            return ""
+        }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
