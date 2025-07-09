@@ -13,6 +13,7 @@ struct UpgradeAccountView: View {
     @State private var flash: Bool = false
 
     enum ScrollPosition: String {
+        case firstPage
         case secondPage
     }
 
@@ -24,6 +25,7 @@ struct UpgradeAccountView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         title
+                            .id(ScrollPosition.firstPage)
                         UpgradeFeaturesView(features: model.features)
                         if model.isFreeTrialAvailable {
                             Button {
@@ -39,8 +41,8 @@ struct UpgradeAccountView: View {
                         }
                         if expand, model.isFreeTrialAvailable {
                             UpgradeTimelineView(events: model.timelineEvents)
-                            .id(ScrollPosition.secondPage)
-                            .padding(.bottom, 300)
+                                .id(ScrollPosition.secondPage)
+                                .padding(.bottom, 300)
                         } else {
                             EmptyView()
                                 .id(ScrollPosition.secondPage)
@@ -49,6 +51,14 @@ struct UpgradeAccountView: View {
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
+                .onChange(of: model.selectedProduct) { _ in
+                    if !model.isFreeTrialAvailable {
+                        withAnimation {
+                            expand = false
+                            proxy.scrollTo(ScrollPosition.firstPage)
+                        }
+                    }
+                }
             }
             UpgradeProductsView(model: model)
         }
