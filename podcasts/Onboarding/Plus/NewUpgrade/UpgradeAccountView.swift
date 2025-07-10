@@ -52,6 +52,9 @@ struct UpgradeAccountView: View {
                     }
                     .scrollIndicators(.visible)
                     .withScrollFlashIndicator(trigger: flash)
+                    .overlay(alignment: .bottom, content: {
+                        gradientSpacer
+                    })
                     .onChange(of: model.selectedProduct) { _ in
                         if !model.isFreeTrialAvailable {
                             withAnimation {
@@ -105,10 +108,16 @@ struct UpgradeAccountView: View {
         }
     }
 
-    var options: some View {
-        VStack {
-
+    var gradientSpacer: some View {
+        HStack() {
+            Spacer()
         }
+        .frame(height: 40)
+        .background(LinearGradient(colors: [
+            theme.primaryUi01.opacity(0),
+            theme.primaryUi01.opacity(1)
+        ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
+        .allowsHitTesting(false)
     }
 }
 
