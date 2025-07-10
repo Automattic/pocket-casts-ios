@@ -5244,3 +5244,5 @@
 /* Patron early access to new features marketing message*/
 "feature_marketing_early_access" = "Early access to new features";
 
+/* A common string used throughout the app. Often refers to the Playlists screen. */
+"playlists" = "Playlists";

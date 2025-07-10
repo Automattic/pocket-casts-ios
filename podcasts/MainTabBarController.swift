@@ -40,7 +40,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         podcastsController.tabBarItem = UITabBarItem(title: L10n.podcastsPlural, image: UIImage(named: "podcasts_tab"), tag: pcTabs.firstIndex(of: .podcasts)!)
 
         let filtersViewController = PlaylistsViewController()
-        filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: pcTabs.firstIndex(of: .filter)!)
+        if FeatureFlag.playlistsRebranding.enabled {
+            filtersViewController.tabBarItem = UITabBarItem(title: L10n.playlists, image: UIImage(named: "playlists_tab"), tag: pcTabs.firstIndex(of: .filter)!)
+        } else {
+            filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: pcTabs.firstIndex(of: .filter)!)
+        }
 
         let discoverViewController = DiscoverCollectionViewController(coordinator: DiscoverCoordinator())
 
