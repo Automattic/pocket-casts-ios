@@ -38,12 +38,19 @@ struct UpgradeTimelineView: View {
         }
     }
 
+    private func opacityValueForIndex(_ index: Int) -> Double {
+        guard events.isEmpty == false else {
+            return 0
+        }
+        return 1.0 - (Double(index) * (0.6 / Double(events.count)))
+    }
+
     @ViewBuilder
     func iconRow(iconName: String, index: Int) -> some View {
         ZStack(alignment: .top) {
             ZStack(alignment: .center) {
                 circle
-                    .opacity(1.0 - (Double(index) * 0.2))
+                    .opacity(opacityValueForIndex(index))
                     .frame(width: circleSize, height: circleSize)
                     .cornerRadius(circleSize)
                 Image(iconName)
@@ -59,8 +66,8 @@ struct UpgradeTimelineView: View {
                             .frame(width: timelineBarWidth, height: timelineBarHeight)
                             .offset(x: 0, y: (timelineBarHeight / 2.0) + (circleSize / 2.0))
                             .foregroundStyle(LinearGradient(colors: [
-                                theme.primaryInteractive01.opacity(1.0 - (Double(index) * 0.2)),
-                                theme.primaryInteractive01.opacity(1.0 - (Double(index + 1) * 0.2))
+                                theme.primaryInteractive01.opacity(opacityValueForIndex(index)),
+                                theme.primaryInteractive01.opacity(opacityValueForIndex(index+1))
                             ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
                     }
                 }
