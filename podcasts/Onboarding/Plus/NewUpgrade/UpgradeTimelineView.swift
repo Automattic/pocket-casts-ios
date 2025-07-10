@@ -4,14 +4,13 @@ struct TimelineEvent: Hashable {
     var iconName: String
     var title: String
     var detail: String
-    var date: Date
 }
 
 extension TimelineEvent {
     static var sampleEvents: [TimelineEvent] = [
-        TimelineEvent(iconName: "unlocked-large", title: "Today", detail: "Get access to Folders, Shuffle, Bookmarks, and exclusive content", date: Date.now),
-        TimelineEvent(iconName: "mail", title: "Day 24", detail: "We’ll notify you about your trial ending.", date: Date.now + 3600),
-        TimelineEvent(iconName: "star_empty", title: "Day 31", detail: "You’ll be charged on September 31th. Cancel anytime before.", date: Date.now + (3600 * 2))
+        TimelineEvent(iconName: "unlocked-large", title: "Today", detail: "Get access to Folders, Shuffle, Bookmarks, and exclusive content"),
+        TimelineEvent(iconName: "mail", title: "Day 24", detail: "We’ll notify you about your trial ending."),
+        TimelineEvent(iconName: "star_empty", title: "Day 31", detail: "You’ll be charged on September 31th. Cancel anytime before.")
     ]
 }
 
