@@ -61,7 +61,9 @@ struct UpgradeProductsView: View {
             }
         }
         .onTapGesture {
-            model.selectProduct(product.identifier)
+            withAnimation {
+                model.selectProduct(product.identifier)
+            }
         }
     }
 
