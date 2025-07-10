@@ -71,7 +71,7 @@ struct UpgradeAccountView: View {
                                 }
                             } label: {
                                 Text(L10n.subscriptionPlanFreeTrialInfoLink)
-                                    .font(.subheadline)
+                                    .font(size: 15, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryInteractive01)
                             }
                         }
@@ -80,8 +80,9 @@ struct UpgradeAccountView: View {
                                 .id(ScrollPosition.secondPage)
                                 .frame(minHeight: sizeProxy.size.height)
                         } else {
-                            EmptyView()
+                            Spacer()
                                 .id(ScrollPosition.secondPage)
+                                .frame(height: 8)
                         }
                     }
                 }

@@ -24,7 +24,6 @@ struct UpgradeProductsView: View {
                 }
             }
         }
-        .padding(.top, 15)
     }
 
     func row(for product: PlusPricingInfoModel.PlusProductPricingInfo) -> some View {
