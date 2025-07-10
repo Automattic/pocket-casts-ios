@@ -89,7 +89,7 @@ struct UpgradeAccountView: View {
                                     proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                                 }
                             } label: {
-                                Text(FeatureFlag.newOnboardingVariant.enabled ? "See all Plus features" : L10n.subscriptionPlanFreeTrialInfoLink)
+                                Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
                                     .font(size: 15, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryInteractive01)
                                     .padding(.vertical, 8)
