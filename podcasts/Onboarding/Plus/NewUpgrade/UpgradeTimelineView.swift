@@ -89,6 +89,7 @@ struct UpgradeTimelineView: View {
                 }
                 .clipped()
             }
+            Spacer()
         }
     }
 }

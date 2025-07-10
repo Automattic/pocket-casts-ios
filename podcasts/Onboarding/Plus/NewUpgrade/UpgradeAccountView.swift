@@ -21,41 +21,43 @@ struct UpgradeAccountView: View {
         VStack(alignment: .leading, spacing: 0) {
             header
             Spacer().frame(height: 24)
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        title
-                            .id(ScrollPosition.firstPage)
-                        UpgradeFeaturesView(features: model.features)
-                        if model.isFreeTrialAvailable {
-                            Button {
-                                expand = true
-                                withAnimation {
-                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+            GeometryReader() { sizeProxy in
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 24) {
+                            title
+                                .id(ScrollPosition.firstPage)
+                            UpgradeFeaturesView(features: model.features)
+                            if model.isFreeTrialAvailable {
+                                Button {
+                                    expand = true
+                                    withAnimation {
+                                        proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+                                    }
+                                } label: {
+                                    Text(L10n.subscriptionPlanFreeTrialInfoLink)
+                                        .font(.subheadline)
+                                        .foregroundColor(theme.primaryInteractive01)
                                 }
-                            } label: {
-                                Text(L10n.subscriptionPlanFreeTrialInfoLink)
-                                    .font(.subheadline)
-                                    .foregroundColor(theme.primaryInteractive01)
+                            }
+                            if expand, model.isFreeTrialAvailable {
+                                UpgradeTimelineView(events: model.timelineEvents)
+                                    .id(ScrollPosition.secondPage)
+                                    .frame(minHeight: sizeProxy.size.height)
+                            } else {
+                                EmptyView()
+                                    .id(ScrollPosition.secondPage)
                             }
                         }
-                        if expand, model.isFreeTrialAvailable {
-                            UpgradeTimelineView(events: model.timelineEvents)
-                                .id(ScrollPosition.secondPage)
-                                .padding(.bottom, 300)
-                        } else {
-                            EmptyView()
-                                .id(ScrollPosition.secondPage)
-                        }
                     }
-                }
-                .scrollIndicators(.visible)
-                .withScrollFlashIndicator(trigger: flash)
-                .onChange(of: model.selectedProduct) { _ in
-                    if !model.isFreeTrialAvailable {
-                        withAnimation {
-                            expand = false
-                            proxy.scrollTo(ScrollPosition.firstPage)
+                    .scrollIndicators(.visible)
+                    .withScrollFlashIndicator(trigger: flash)
+                    .onChange(of: model.selectedProduct) { _ in
+                        if !model.isFreeTrialAvailable {
+                            withAnimation {
+                                expand = false
+                                proxy.scrollTo(ScrollPosition.firstPage)
+                            }
                         }
                     }
                 }
