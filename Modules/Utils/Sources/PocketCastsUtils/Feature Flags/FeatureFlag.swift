@@ -206,6 +206,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new updgrade screens
     case newOnboardingUpgrade
 
+    /// Enable the new playlists rebranding
+    case playlistsRebranding
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -347,6 +350,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
+            false
+        case .playlistsRebranding:
             false
         }
     }
