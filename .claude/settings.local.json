@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(rg:*)",
-      "Bash(find:*)"
-    ],
-    "deny": []
-  }
-}
