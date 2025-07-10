@@ -20,6 +20,7 @@ struct UpgradeFeaturesView: View {
                         .tint(theme.primaryText02)
                 }
             }
+            Spacer()
         }
     }
 }

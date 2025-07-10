@@ -29,7 +29,7 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
     }
 
     var isFreeTrialAvailable: Bool {
-        guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
+        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
             return false
         }
         guard let offer = product.offer else {
