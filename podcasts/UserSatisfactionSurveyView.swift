@@ -3,6 +3,7 @@ import StoreKit
 
 struct UserSatisfactionSurveyView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var theme: Theme
 
     var presentSupportView: (() -> Void)?
 
@@ -11,11 +12,11 @@ struct UserSatisfactionSurveyView: View {
             VStack(spacing: 16) {
                 Text(L10n.userSatisfactionSurveyTitle)
                     .font(.headline)
-                    .foregroundColor(AppTheme.color(for: .primaryText01))
+                    .foregroundColor(theme.primaryText01)
 
                 Text(L10n.userSatisfactionSurveySubtitle)
                     .font(.callout)
-                    .foregroundColor(AppTheme.color(for: .secondaryText02))
+                    .foregroundColor(theme.primaryText02)
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
@@ -36,7 +37,7 @@ struct UserSatisfactionSurveyView: View {
         }
         .padding(.top, 32)
         .padding(.bottom, 32)
-        .background(AppTheme.color(for: .primaryUi01))
+        .background(theme.primaryUi01)
     }
 
     private func handleYesResponse() {
@@ -63,12 +64,12 @@ struct UserSatisfactionSurveyView: View {
                 Text(text)
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(AppTheme.color(for: .primaryText01))
+                    .foregroundColor(theme.primaryText01)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 20)
             .if(UIAccessibility.buttonShapesEnabled) {
-                $0.background(AppTheme.color(for: .primaryUi05))
+                $0.background(theme.primaryUi05)
             }
             .cornerRadius(12)
         }

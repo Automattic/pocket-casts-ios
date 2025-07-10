@@ -171,7 +171,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             let surveyView = UserSatisfactionSurveyView(presentSupportView: { [weak self] in
                 self?.presentSupportView()
             })
-            let hostingController = UIHostingController(rootView: surveyView)
+            let hostingController = ThemedHostingController(rootView: surveyView)
 
             // Let the hosting controller size itself
             hostingController.sizingOptions = .intrinsicContentSize
