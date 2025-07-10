@@ -190,7 +190,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: true)
         tabBar?.isHidden = true
         tabBarSnapshot?.layer.drawTopBorder()
-        containerView.addSubview(tabBarSnapshot ?? UIView())
+        let snapshotView = tabBarSnapshot ?? UIView()
+        containerView.addSubview(snapshotView)
+        containerView.sendSubviewToBack(snapshotView)
 
         // MARK: - Animations
 

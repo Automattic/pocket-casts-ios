@@ -343,7 +343,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .guestListsNetworkHighlightsRedesign:
             true
         case .smartCategories:
-            false
+            true
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
@@ -385,7 +385,13 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        true
+        switch self {
+            // GRDB can only change in TestFlight versions
+            case .grdb:
+                Self.isTestFlight
+            default:
+                true
+        }
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"

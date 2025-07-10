@@ -3877,6 +3877,8 @@ internal enum L10n {
   internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest", fallback: "Longest to shortest") }
   /// A duration (shortest to longest) sort option for uploaded files.
   internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest", fallback: "Shortest to longest") }
+  /// Title of the Transcript excerpt in Episode detail
+  internal static var viewTranscript: String { return L10n.tr("Localizable", "view_transcript", fallback: "View Transcript") }
   /// The Volume Boost feature. Makes voices louder.
   internal static var volumeBoost: String { return L10n.tr("Localizable", "volume_boost", fallback: "Volume Boost") }
   /// A short description of what the Volume Boost feature does

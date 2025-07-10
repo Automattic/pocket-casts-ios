@@ -44,7 +44,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             transcriptExcerpt.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
             transcriptExcerpt.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             transcriptExcerpt.bottomAnchor.constraint(equalTo: showNotesHolderView.topAnchor),
-            transcriptExcerpt.heightAnchor.constraint(equalToConstant: 145)
+            transcriptExcerpt.heightAnchor.constraint(equalToConstant: 78)
         ])
 
         self.transcriptExcerpt = transcriptExcerpt
@@ -64,32 +64,34 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: parentIdentifier, episodeUuid: episodeUUID)
 
             if FeatureFlag.episodeDetailTranscript.enabled {
+                let hideExcerpt: (EpisodeDetailViewController?) -> Void = { vc in
+                    vc?.transcriptExcerpt?.isHidden = true
+                    vc?.showNotesHolderTopAnchor?.constant = 0.0
+                    vc?.showNotesWebViewTopConstraint?.constant = 20.0
+                }
                 if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID), !metadata.transcripts.isEmpty {
-                    await MainActor.run { [weak self] in
-                        let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
-
-                            DispatchQueue.main.async {
-                                let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
-                                let controller = TranscriptContainerViewController(playbackManager: playbackManager)
-                                controller.playButtonTapped = { [weak self] playing in
-                                    self?.playPauseEpisode(isPlaying: playing)
-                                }
-                                self?.present(controller, animated: true)
+                    let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
+                        DispatchQueue.main.async { [weak self] in
+                            let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
+                            let controller = TranscriptContainerViewController(playbackManager: playbackManager)
+                            controller.playButtonTapped = { [weak self] playing in
+                                self?.playPauseEpisode(isPlaying: playing)
                             }
+                            self?.present(controller, animated: true)
                         }
+                    }
+                    await MainActor.run { [weak self] in
                         let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
                         view.translatesAutoresizingMaskIntoConstraints = false
                         self?.transcriptExcerpt?.addSubview(view)
                         view.anchorToAllSidesOf(view: self?.transcriptExcerpt)
                         self?.transcriptExcerpt?.isHidden = false
-                        self?.showNotesHolderTopAnchor?.constant = 145.0
+                        self?.showNotesHolderTopAnchor?.constant = 78.0
                         self?.showNotesWebViewTopConstraint?.constant = 0.0
                     }
                 } else {
                     await MainActor.run { [weak self] in
-                        self?.transcriptExcerpt?.isHidden = true
-                        self?.showNotesHolderTopAnchor?.constant = 0.0
-                        self?.showNotesWebViewTopConstraint?.constant = 20.0
+                        hideExcerpt(self)
                     }
                 }
             }
@@ -162,12 +164,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         } else {
             let currentTheme = themeOverride ?? Theme.sharedTheme.activeTheme
             lastThemeRenderedNotesIn = currentTheme
-            let formattedNotes: String
-            if FeatureFlag.episodeDetailTranscript.enabled {
-                formattedNotes = ShowNotesFormatter.formatInEpisode(customTitle: L10n.episodeDescriptionTitle, showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
-            } else {
-                formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
-            }
+            let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: linkTintColor(), convertTimesToLinks: false, bgColor: ThemeColor.primaryUi01(for: currentTheme), textColor: ThemeColor.primaryText01(for: currentTheme))
             showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
         }
     }
