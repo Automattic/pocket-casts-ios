@@ -45,7 +45,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        if FeatureFlag.playlistsRebranding.enabled {
+            customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
+            customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+        } else {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        }
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
