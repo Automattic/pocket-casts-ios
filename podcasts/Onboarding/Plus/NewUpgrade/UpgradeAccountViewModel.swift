@@ -91,3 +91,15 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         return L10n.subscriptionPlanSavings(percentSavings)
     }
 }
+
+extension UpgradeAccountViewModel {
+    static func make(in navigationController: UINavigationController? = nil, viewSource: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {
+        let viewModel = UpgradeAccountViewModel(upgradeTier: .patron, selectedProduct: .patronYearly, viewSource: viewSource)
+
+        let view = UpgradeAccountView(model: viewModel)
+        let controller = ThemedHostingController(rootView: view)
+        controller.modalPresentationStyle = .fullScreen
+
+        return controller
+    }
+}
