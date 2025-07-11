@@ -1724,6 +1724,7 @@
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
+		F5516DBE2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */; };
 		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
 		F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */; };
 		F553A15F2CECF953006581A1 /* EffectsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D22123EAD600BFBB03 /* EffectsButton.swift */; };
@@ -3949,6 +3950,7 @@
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Categories.swift"; sourceTree = "<group>"; };
+		F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSatisfactionSurveyView.swift; sourceTree = "<group>"; };
 		F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023Story.swift; sourceTree = "<group>"; };
 		F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024Story.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
@@ -6913,6 +6915,7 @@
 				BDED92FA251DC416000BF622 /* CarPlay */,
 				BD2A49EE1701AA8500C2F192 /* User Interface */,
 				BD585C1C204785EF00AC842C /* AppDelegate.swift */,
+				F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */,
 				C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */,
 				BD585C1E2047887700AC842C /* AppDelegate+UrlHandling.swift */,
 				BD585C242047C74D00AC842C /* AppDelegate+Defaults.swift */,
@@ -10008,6 +10011,7 @@
 				10C1D5502C737EEF009E1E98 /* PlusPaywallContainer.swift in Sources */,
 				BDC5F25027B3997300A85C93 /* FolderModel.swift in Sources */,
 				BDBD2AC7202D66B300E0A79E /* OptionsPickerRootController.swift in Sources */,
+				F5516DBE2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift in Sources */,
 				FF07538A2D6CB7CA00BE8B3B /* PodcastImageViewWrapper.swift in Sources */,
 				4004F56524EB51F900FBEBE1 /* SceneHelper.swift in Sources */,
 				F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */,
