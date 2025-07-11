@@ -9,7 +9,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    var episodeFilters = [EpisodeFilter]()
+    var playlists = [EpisodeFilter]()
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
@@ -94,7 +94,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
+        Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
         showNewFilterTipIfNeeded()
     }
@@ -160,7 +160,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+            playlists = DataManager.sharedManager.allFilters(includeDeleted: false)
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false

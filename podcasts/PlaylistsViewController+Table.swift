@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 import SwiftUI
 
@@ -7,6 +8,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func registerCells() {
         filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
+        filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -14,13 +16,26 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        episodeFilters.count
+        playlists.count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return FeatureFlag.playlistsRebranding.enabled ? 81.0 : 72.0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if FeatureFlag.playlistsRebranding.enabled {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
+            if let playlist = playlists[safe: indexPath.row] {
+                cell.configure(playlist: playlist, resetConfiguration: cell.tag != indexPath.row)
+                cell.tag = indexPath.row
+            }
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistsViewController.playlistCellId, for: indexPath) as! FilterNameCell
 
-        if let filter = episodeFilters[safe: indexPath.row] {
+        if let filter = playlists[safe: indexPath.row] {
             cell.filterName.text = filter.playlistName
             cell.filterImage.image = filter.iconImage()
             cell.filterImage.tintColor = filter.playlistColor()
@@ -50,7 +65,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if let filter = episodeFilters[safe: indexPath.row] {
+        if let filter = playlists[safe: indexPath.row] {
             showFilter(filter)
         }
     }
@@ -70,9 +85,9 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, let filter = episodeFilters[safe: indexPath.row] {
+        if editingStyle == .delete, let filter = playlists[safe: indexPath.row] {
             PlaylistManager.delete(filter: filter, fireEvent: false)
-            episodeFilters.remove(at: indexPath.row)
+            playlists.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.endUpdates()
@@ -86,12 +101,12 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if sourceIndexPath == destinationIndexPath { return }
 
-        let movedObject = episodeFilters[sourceIndexPath.row]
-        episodeFilters.remove(at: sourceIndexPath.row)
-        episodeFilters.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = playlists[sourceIndexPath.row]
+        playlists.remove(at: sourceIndexPath.row)
+        playlists.insert(movedObject, at: destinationIndexPath.row)
 
         // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
-        for (index, filter) in episodeFilters.enumerated() {
+        for (index, filter) in playlists.enumerated() {
             DataManager.sharedManager.updatePosition(filter: filter, newPosition: Int32(index))
         }
 
