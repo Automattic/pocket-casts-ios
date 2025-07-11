@@ -51,7 +51,9 @@ struct UserSatisfactionSurveyView: View {
     }
 
     private func handleNotReallyResponse() {
+        Analytics.track(.userSatisfactionSurveyNoResponse, properties: ["source": AnalyticsSource.userSatisfactionSurvey])
         presentSupportView?()
+        dismiss()
     }
 
     @ViewBuilder

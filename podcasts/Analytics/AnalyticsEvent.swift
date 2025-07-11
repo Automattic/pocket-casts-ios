@@ -881,6 +881,12 @@ enum AnalyticsEvent: String {
     case pocketCastsChampionDialogShown
     case pocketCastsChampionDialogRateButtonTapped
 
+    // MARK: - User Satisfaction Survey
+    case userSatisfactionSurveyShown
+    case userSatisfactionSurveyDismissed
+    case userSatisfactionSurveyYesResponse
+    case userSatisfactionSurveyNoResponse
+
     // MARK: - Select/Choose Podcasts
     case settingsSelectPodcastsShown
     case settingsSelectPodcastsDismissed

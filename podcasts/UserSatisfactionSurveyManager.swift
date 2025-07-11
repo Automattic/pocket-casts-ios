@@ -1,0 +1,209 @@
+import Foundation
+import PocketCastsServer
+import SwiftUI
+
+class UserSatisfactionSurveyManager {
+    static let shared = UserSatisfactionSurveyManager()
+
+    private init() {}
+
+    // MARK: - Survey Entry Points
+
+    /// Checks if the survey should be shown based on the event and user context
+    func shouldShowSurvey(for event: SurveyTriggerEvent) -> Bool {
+        // Check if user has already left a review
+        if hasUserLeftReview() {
+            return false
+        }
+
+        // Check frequency limits (once per 30 days)
+        if hasShownSurveyRecently() {
+            return false
+        }
+
+        // Check if user clicked "Not Really" within past 60 days
+        if hasUserDeclinedRecently() {
+            return false
+        }
+
+        // Check user subscription status for appropriate entry points
+        let isPlus = SubscriptionHelper.hasActiveSubscription()
+
+        switch event {
+        case .firstEpisodeCompleted, .thirdEpisodeCompleted, .episodeStarred, .showRated, .filterCreated:
+            return !isPlus // Free user events
+        case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
+            return isPlus // Plus user events
+        }
+    }
+
+    /// Presents the survey view
+    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent) {
+        guard shouldShowSurvey(for: event) else { return }
+
+        let surveyView = UserSatisfactionSurveyView(
+            presentSupportView: {
+                // Handle "Not Really" response
+                Settings.setSurveyNotReallyResponse()
+                // Present support view
+                self.presentSupportView(from: viewController)
+            }
+        )
+
+        let hostingController = UIHostingController(rootView: surveyView)
+        hostingController.modalPresentationStyle = .formSheet
+        hostingController.modalTransitionStyle = .coverVertical
+
+        // Add delay to avoid interrupting user flow
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            viewController.present(hostingController, animated: true) {
+                // Track survey presentation
+                Settings.addSurveyPresented()
+                Analytics.track(.userSatisfactionSurveyShown, properties: [
+                    "trigger_event": event.rawValue,
+                    "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
+                ])
+            }
+        }
+    }
+
+    // MARK: - Helper Methods
+
+    private func hasUserLeftReview() -> Bool {
+        return !Settings.reviewRequestDates().isEmpty
+    }
+
+    private func hasShownSurveyRecently() -> Bool {
+        let surveyDates = Settings.surveyPresentationDates()
+        guard let lastSurveyDate = surveyDates.last else { return false }
+
+        let thirtyDaysAgo = Date().addingTimeInterval(-30 * 24 * 60 * 60)
+        return lastSurveyDate > thirtyDaysAgo
+    }
+
+    private func hasUserDeclinedRecently() -> Bool {
+        guard let lastDeclineDate = Settings.lastSurveyNotReallyDate() else { return false }
+
+        let sixtyDaysAgo = Date().addingTimeInterval(-60 * 24 * 60 * 60)
+        return lastDeclineDate > sixtyDaysAgo
+    }
+
+    private func presentSupportView(from viewController: UIViewController) {
+        // Present support/help view
+        // This would typically navigate to the help/support section
+        // For now, we'll just dismiss the current view
+        viewController.dismiss(animated: true)
+    }
+}
+
+// MARK: - Survey Trigger Events
+
+enum SurveyTriggerEvent: String, CaseIterable {
+    // Free user events
+    case firstEpisodeCompleted = "first_episode_completed"
+    case thirdEpisodeCompleted = "third_episode_completed"
+    case episodeStarred = "episode_starred"
+    case showRated = "show_rated"
+    case filterCreated = "filter_created"
+
+    // Plus user events
+    case plusUpgraded = "plus_upgraded"
+    case folderCreated = "folder_created"
+    case bookmarkCreated = "bookmark_created"
+    case customThemeSet = "custom_theme_set"
+    case referralShared = "referral_shared"
+}
+
+// MARK: - Survey Event Tracker
+
+class SurveyEventTracker {
+    static let shared = SurveyEventTracker()
+
+    private var episodeCompletionCount: Int {
+        get { UserDefaults.standard.integer(forKey: "surveyEpisodeCompletionCount") }
+        set { UserDefaults.standard.set(newValue, forKey: "surveyEpisodeCompletionCount") }
+    }
+
+    private var plusUpgradeDate: Date? {
+        get { UserDefaults.standard.object(forKey: "surveyPlusUpgradeDate") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "surveyPlusUpgradeDate") }
+    }
+
+    private init() {}
+
+    // MARK: - Event Tracking Methods
+
+    func trackEpisodeCompleted() {
+        episodeCompletionCount += 1
+
+        // Check for first episode completion
+        if episodeCompletionCount == 1 {
+            checkAndTriggerSurvey(for: .firstEpisodeCompleted)
+        }
+        // Check for third episode completion
+        else if episodeCompletionCount == 3 {
+            checkAndTriggerSurvey(for: .thirdEpisodeCompleted)
+        }
+    }
+
+    func trackEpisodeStarred() {
+        checkAndTriggerSurvey(for: .episodeStarred)
+    }
+
+    func trackShowRated() {
+        checkAndTriggerSurvey(for: .showRated)
+    }
+
+    func trackFilterCreated() {
+        checkAndTriggerSurvey(for: .filterCreated)
+    }
+
+    func trackPlusUpgrade() {
+        plusUpgradeDate = Date()
+        // Check after 2 days
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2 * 24 * 60 * 60) {
+            self.checkAndTriggerSurvey(for: .plusUpgraded)
+        }
+    }
+
+    func trackFolderCreated() {
+        checkAndTriggerSurvey(for: .folderCreated)
+    }
+
+    func trackBookmarkCreated() {
+        checkAndTriggerSurvey(for: .bookmarkCreated)
+    }
+
+    func trackCustomThemeSet() {
+        checkAndTriggerSurvey(for: .customThemeSet)
+    }
+
+    func trackReferralShared() {
+        checkAndTriggerSurvey(for: .referralShared)
+    }
+
+    // MARK: - Helper Methods
+
+    private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
+        guard let topViewController = UIApplication.shared.topViewController else { return }
+
+        if UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: event) {
+            UserSatisfactionSurveyManager.shared.presentSurvey(from: topViewController, event: event)
+        }
+    }
+}
+
+// MARK: - UIApplication Extension
+
+extension UIApplication {
+    var topViewController: UIViewController? {
+        guard let windowScene = connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return nil }
+
+        var topController = window.rootViewController
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+        return topController
+    }
+}

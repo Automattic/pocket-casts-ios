@@ -156,6 +156,8 @@ struct Constants {
         static let lastRunVersion = "lastRunVersion"
 
         static let reviewRequestDates = "reviewRequestDates"
+        static let surveyPresentationDates = "surveyPresentationDates"
+        static let lastSurveyNotReallyDate = "lastSurveyNotReallyDate"
 
         static let showBadgeForEndOfYear = "showBadgeFor%dEndOfYear"
         static let modalHasBeenShown = "modal%dHasBeenShown"
