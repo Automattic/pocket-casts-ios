@@ -2,8 +2,8 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 
-class UserSatisfactionSurveyManager {
-    static let shared = UserSatisfactionSurveyManager()
+public class UserSatisfactionSurveyManager {
+    public static let shared = UserSatisfactionSurveyManager()
 
     private init() {}
 
@@ -116,8 +116,8 @@ enum SurveyTriggerEvent: String, CaseIterable {
 
 // MARK: - Survey Event Tracker
 
-class SurveyEventTracker {
-    static let shared = SurveyEventTracker()
+public class SurveyEventTracker {
+    public static let shared = SurveyEventTracker()
 
     private var episodeCompletionCount: Int {
         get { UserDefaults.standard.integer(forKey: "surveyEpisodeCompletionCount") }
@@ -133,7 +133,7 @@ class SurveyEventTracker {
 
     // MARK: - Event Tracking Methods
 
-    func trackEpisodeCompleted() {
+    public func trackEpisodeCompleted() {
         episodeCompletionCount += 1
 
         // Check for first episode completion
@@ -146,19 +146,19 @@ class SurveyEventTracker {
         }
     }
 
-    func trackEpisodeStarred() {
+    public func trackEpisodeStarred() {
         checkAndTriggerSurvey(for: .episodeStarred)
     }
 
-    func trackShowRated() {
+    public func trackShowRated() {
         checkAndTriggerSurvey(for: .showRated)
     }
 
-    func trackFilterCreated() {
+    public func trackFilterCreated() {
         checkAndTriggerSurvey(for: .filterCreated)
     }
 
-    func trackPlusUpgrade() {
+    public func trackPlusUpgrade() {
         plusUpgradeDate = Date()
         // Check after 2 days
         DispatchQueue.main.asyncAfter(deadline: .now() + 2 * 24 * 60 * 60) {
@@ -166,19 +166,19 @@ class SurveyEventTracker {
         }
     }
 
-    func trackFolderCreated() {
+    public func trackFolderCreated() {
         checkAndTriggerSurvey(for: .folderCreated)
     }
 
-    func trackBookmarkCreated() {
+    public func trackBookmarkCreated() {
         checkAndTriggerSurvey(for: .bookmarkCreated)
     }
 
-    func trackCustomThemeSet() {
+    public func trackCustomThemeSet() {
         checkAndTriggerSurvey(for: .customThemeSet)
     }
 
-    func trackReferralShared() {
+    public func trackReferralShared() {
         checkAndTriggerSurvey(for: .referralShared)
     }
 
