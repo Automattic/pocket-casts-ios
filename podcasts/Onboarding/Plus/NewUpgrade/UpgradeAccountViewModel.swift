@@ -1,4 +1,4 @@
-class UpgradeAccountViewModel: PlusPricingInfoModel {
+class UpgradeAccountViewModel: PlusPurchaseModel {
 
     @Published var upgradeTier: UpgradeTier = .plus
     @Published var selectedProduct: IAPProductID = .yearly
@@ -6,9 +6,12 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
 
     @Published private(set) var selectedFrequency: PlanFrequency = .yearly
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly) {
+    let viewSource: PlusUpgradeViewSource
+
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
+        self.viewSource = viewSource
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in

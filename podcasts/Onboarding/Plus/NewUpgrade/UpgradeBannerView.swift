@@ -2,7 +2,7 @@ import SwiftUI
 
 struct UpgradeBannerView: View {
     @EnvironmentObject var theme: Theme
-    @StateObject var viewModel: PlusLandingViewModel
+    @StateObject var viewModel: UpgradeAccountViewModel
 
     @State var isPresented: Bool = false
 
@@ -34,12 +34,12 @@ struct UpgradeBannerView: View {
         .background(theme.primaryUi03)
         .if(!isiPad) {
             $0.fullScreenCover(isPresented: $isPresented) {
-                UpgradeAccountView(model: UpgradeAccountViewModel())
+                UpgradeAccountView(model: viewModel)
             }
         }
         .if(isiPad) {
             $0.sheet(isPresented: $isPresented) {
-                UpgradeAccountView(model: UpgradeAccountViewModel())
+                UpgradeAccountView(model: viewModel)
             }
         }
 
