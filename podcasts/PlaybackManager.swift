@@ -1054,6 +1054,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
+            // Track episode completion for survey purposes
+            SurveyEventTracker.shared.trackEpisodeCompleted()
+
             if SyncManager.isUserLoggedIn() {
                 let currentUtcTime = TimeFormatter.currentUTCTimeInMillis()
                 episode.playingStatusModified = currentUtcTime
@@ -2233,6 +2236,9 @@ extension PlaybackManager {
             "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
             "time": Int(currentTime)
         ])
+
+        // Track bookmark creation for survey purposes
+        SurveyEventTracker.shared.trackBookmarkCreated()
     }
 
     /// Plays the bookmark creation sound only if:

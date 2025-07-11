@@ -484,6 +484,9 @@ extension IAPHelper: SKPaymentTransactionObserver {
             return
         }
         trackPaymentEvent(.purchaseSuccessful, productId: productId, discount: payment.paymentDiscount?.identifier)
+
+        // Track Plus upgrade for survey purposes
+        SurveyEventTracker.shared.trackPlusUpgrade()
     }
 
     fileprivate func purchaseWasCancelled(_ payment: SKPayment, error: NSError) {

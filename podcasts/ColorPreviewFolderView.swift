@@ -52,6 +52,10 @@ struct ColorPreviewFolderView: View {
             Button {
                 let folderUuid = model.createFolder()
                 Analytics.track(.folderSaved, properties: ["number_of_podcasts": model.selectedPodcastUuids.count, "color": UIColor(model.color).hexString()])
+
+                // Track folder creation for survey purposes
+                SurveyEventTracker.shared.trackFolderCreated()
+
                 dismissAction(folderUuid)
             } label: {
                 Text(L10n.folderSaveFolder)

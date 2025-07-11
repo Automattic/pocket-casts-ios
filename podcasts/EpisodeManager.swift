@@ -280,6 +280,8 @@ class EpisodeManager: NSObject {
 
         if starred {
             analyticsHelper.star(episode: episode)
+            // Track episode starring for survey purposes
+            SurveyEventTracker.shared.trackEpisodeStarred()
         } else {
             analyticsHelper.unstar(episode: episode)
         }
