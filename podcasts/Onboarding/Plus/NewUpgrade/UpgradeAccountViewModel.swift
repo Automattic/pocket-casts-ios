@@ -93,13 +93,44 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 }
 
 extension UpgradeAccountViewModel {
-    static func make(in navigationController: UINavigationController? = nil, viewSource: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {
-        let viewModel = UpgradeAccountViewModel(upgradeTier: .patron, selectedProduct: .patronYearly, viewSource: viewSource)
+    static func make(in navigationController: UINavigationController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {
+        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource)
 
         let view = UpgradeAccountView(model: viewModel)
         let controller = ThemedHostingController(rootView: view)
         controller.modalPresentationStyle = .fullScreen
 
         return controller
+    }
+
+    private static func product(for plan: Plan, frequency: PlanFrequency) -> IAPProductID {
+        switch plan {
+            case .patron:
+                switch frequency {
+                    case .yearly:
+                        return .patronYearly
+                    case .monthly:
+                        return .patronMonthly
+                }
+            case .plus:
+                switch frequency {
+                    case .monthly:
+                        return .monthly
+                    case .yearly:
+                        return .yearly
+                }
+        }
+    }
+}
+
+extension Plan {
+
+    var tier: UpgradeTier {
+        switch self {
+            case .patron:
+                return .patron
+            case .plus:
+                return .plus
+        }
     }
 }

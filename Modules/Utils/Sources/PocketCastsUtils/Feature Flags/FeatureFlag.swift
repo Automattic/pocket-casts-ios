@@ -350,7 +350,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
-            false
+            true
         case .newOnboardingVariant:
             false
         }
