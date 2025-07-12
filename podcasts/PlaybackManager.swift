@@ -1054,8 +1054,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
+            #if !os(watchOS) && !APPCLIP
             // Track episode completion for survey purposes
             SurveyEventTracker.shared.trackEpisodeCompleted()
+            #endif
 
             if SyncManager.isUserLoggedIn() {
                 let currentUtcTime = TimeFormatter.currentUTCTimeInMillis()
@@ -2237,8 +2239,10 @@ extension PlaybackManager {
             "time": Int(currentTime)
         ])
 
+        #if !os(watchOS) && !APPCLIP
         // Track bookmark creation for survey purposes
         SurveyEventTracker.shared.trackBookmarkCreated()
+        #endif
     }
 
     /// Plays the bookmark creation sound only if:
