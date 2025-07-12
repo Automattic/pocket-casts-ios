@@ -159,6 +159,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         PlaybackManager.shared.updateIdleTimer()
+
+        // Check for plus upgrade survey eligibility after a delay to avoid interrupting immediate app usage
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+            SurveyEventTracker.shared.checkPlusUpgradeSurveyEligibility()
+        }
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {

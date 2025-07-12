@@ -168,10 +168,6 @@ public class SurveyEventTracker {
 
     public func trackPlusUpgrade() {
         plusUpgradeDate = Date()
-        // Check after 2 days
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2 * 24 * 60 * 60) {
-            self.checkAndTriggerSurvey(for: .plusUpgraded)
-        }
     }
 
     public func trackFolderCreated() {
@@ -191,6 +187,17 @@ public class SurveyEventTracker {
     }
 
     // MARK: - Helper Methods
+
+    /// Call this method during app launch or lifecycle events to check for eligible plus upgrade surveys
+    public func checkPlusUpgradeSurveyEligibility() {
+        guard let upgradeDate = plusUpgradeDate else { return }
+
+        let daysAgo: Double = 2
+        let timeAgo = Date().addingTimeInterval(-daysAgo * 24 * 60 * 60)
+        if upgradeDate <= timeAgo {
+            checkAndTriggerSurvey(for: .plusUpgraded)
+        }
+    }
 
     private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
         guard let topViewController = UIApplication.shared.topViewController else { return }
