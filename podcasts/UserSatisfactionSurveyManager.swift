@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsServer
 import SwiftUI
+import PocketCastsUtils
 
 public class UserSatisfactionSurveyManager {
     public static let shared = UserSatisfactionSurveyManager()
@@ -41,30 +42,37 @@ public class UserSatisfactionSurveyManager {
     func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent) {
         guard shouldShowSurvey(for: event) else { return }
 
-        let surveyView = UserSatisfactionSurveyView(
-            presentSupportView: {
-                // Handle "Not Really" response
-                Settings.setSurveyNotReallyResponse()
-                // Present support view
-                self.presentSupportView(from: viewController)
-            }
-        )
-
-        let hostingController = UIHostingController(rootView: surveyView)
-        hostingController.modalPresentationStyle = .formSheet
-        hostingController.modalTransitionStyle = .coverVertical
-
-        // Add delay to avoid interrupting user flow
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            viewController.present(hostingController, animated: true) {
-                // Track survey presentation
-                Settings.addSurveyPresented()
-                Analytics.track(.userSatisfactionSurveyShown, properties: [
-                    "trigger_event": event.rawValue,
-                    "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
-                ])
-            }
+        guard let source = SceneHelper.rootViewController() else {
+            assertionFailure("WARNING: Root View Controller not found so survey was not presented")
+            FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
+            return
         }
+
+        let surveyView = UserSatisfactionSurveyView(presentSupportView: {
+            EmailHelper().presentSupportDialog(source, feedback: true)
+        })
+        let hostingController = ThemedHostingController(rootView: surveyView, background: \.primaryUi01)
+
+        // Let the hosting controller size itself
+        hostingController.sizingOptions = .intrinsicContentSize
+
+        if let sheet = hostingController.sheetPresentationController {
+            sheet.detents = [
+                .custom { context in
+                    let size = hostingController.sizeThatFits(in: CGSize(width: context.maximumDetentValue, height: .greatestFiniteMagnitude))
+                    return size.height
+                }
+            ]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 24
+        }
+
+        source.present(hostingController, animated: true)
+        Settings.addSurveyPresented()
+        Analytics.track(.userSatisfactionSurveyShown, properties: [
+            "trigger_event": event.rawValue,
+            "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
+        ])
     }
 
     // MARK: - Helper Methods
@@ -119,7 +127,7 @@ enum SurveyTriggerEvent: String, CaseIterable {
 public class SurveyEventTracker {
     public static let shared = SurveyEventTracker()
 
-    private var episodeCompletionCount: Int {
+    var episodeCompletionCount: Int {
         get { UserDefaults.standard.integer(forKey: "surveyEpisodeCompletionCount") }
         set { UserDefaults.standard.set(newValue, forKey: "surveyEpisodeCompletionCount") }
     }
