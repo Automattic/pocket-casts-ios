@@ -12,19 +12,24 @@ public class UserSatisfactionSurveyManager {
 
     /// Checks if the survey should be shown based on the event and user context
     func shouldShowSurvey(for event: SurveyTriggerEvent) -> Bool {
+        return checkSurveyEligibility(for: event) == .canShow
+    }
+
+    /// Checks survey eligibility and returns the specific reason
+    func checkSurveyEligibility(for event: SurveyTriggerEvent) -> SurveyCheckResult {
         // Check if user has already left a review
         if hasUserLeftReview() {
-            return false
+            return .userLeftReview
         }
 
         // Check frequency limits (once per 30 days)
         if hasShownSurveyRecently() {
-            return false
+            return .shownRecently
         }
 
         // Check if user clicked "Not Really" within past 60 days
         if hasUserDeclinedRecently() {
-            return false
+            return .userDeclinedRecently
         }
 
         // Check user subscription status for appropriate entry points
@@ -32,9 +37,9 @@ public class UserSatisfactionSurveyManager {
 
         switch event {
         case .firstEpisodeCompleted, .thirdEpisodeCompleted, .episodeStarred, .showRated, .filterCreated:
-            return !isPlus // Free user events
+            return !isPlus ? .canShow : .wrongUserType // Free user events
         case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
-            return isPlus // Plus user events
+            return isPlus ? .canShow : .wrongUserType // Plus user events
         }
     }
 
@@ -101,6 +106,31 @@ public class UserSatisfactionSurveyManager {
         // This would typically navigate to the help/support section
         // For now, we'll just dismiss the current view
         viewController.dismiss(animated: true)
+    }
+}
+
+// MARK: - Survey Check Result
+
+enum SurveyCheckResult {
+    case canShow
+    case userLeftReview
+    case shownRecently
+    case userDeclinedRecently
+    case wrongUserType
+
+    var displayReason: String {
+        switch self {
+        case .canShow:
+            return "Can show survey"
+        case .userLeftReview:
+            return "User has already left a review"
+        case .shownRecently:
+            return "Survey shown recently (within 30 days)"
+        case .userDeclinedRecently:
+            return "User declined recently (within 60 days)"
+        case .wrongUserType:
+            return "Event not applicable for user type"
+        }
     }
 }
 

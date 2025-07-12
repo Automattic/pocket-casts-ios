@@ -9,6 +9,7 @@ struct SurveyDebugInfoView: View {
     @State private var episodeCompletionCount: Int = 0
     @State private var plusUpgradeDate: Date?
     @State private var canShowSurvey: Bool = false
+    @State private var surveyCheckResult: SurveyCheckResult = .canShow
 
     var body: some View {
         List {
@@ -19,6 +20,14 @@ struct SurveyDebugInfoView: View {
                     Text(canShowSurvey ? "YES" : "NO")
                         .foregroundColor(canShowSurvey ? .green : .red)
                         .fontWeight(.bold)
+                }
+
+                HStack {
+                    Text("Result")
+                    Spacer()
+                    Text(surveyCheckResult.displayReason)
+                        .foregroundColor(surveyCheckResult == .canShow ? .green : .red)
+                        .fontWeight(surveyCheckResult == .canShow ? .bold : .regular)
                 }
             }
 
@@ -93,6 +102,7 @@ struct SurveyDebugInfoView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .miniPlayerSafeAreaInset()
         .navigationTitle("Survey Debug Info")
         .onAppear(perform: loadDebugData)
     }
@@ -117,20 +127,9 @@ struct SurveyDebugInfoView: View {
         }
 
         #if !os(watchOS) && !APPCLIP
-        canShowSurvey = [
-            .firstEpisodeCompleted,
-            .thirdEpisodeCompleted,
-            .episodeStarred,
-            .showRated,
-            .filterCreated,
-            .plusUpgraded,
-            .folderCreated,
-            .bookmarkCreated,
-            .customThemeSet,
-            .referralShared
-        ].contains(where: {
-            UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: $0)
-        })
+        let event: SurveyTriggerEvent = SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .firstEpisodeCompleted
+        surveyCheckResult = UserSatisfactionSurveyManager.shared.checkSurveyEligibility(for: event)
+        canShowSurvey = surveyCheckResult == .canShow
         #else
         canShowSurvey = false
         #endif
