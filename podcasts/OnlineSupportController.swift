@@ -132,7 +132,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         if let urlStr = navigationAction.request.url?.absoluteString, urlStr.contains("mailto") {
             let feedback = urlStr.contains("Feedback")
             AnalyticsHelper.userGuideEmail(feedback: feedback)
-            emailHelper.presentSupportDialog(self, feedback: feedback)
+            emailHelper.presentSupportDialog(self, type: feedback ? .feedback : .support)
             decisionHandler(.cancel)
             return
         } else if let urlStr = navigationAction.request.url?.absoluteString, !urlStr.contains("device=ios"), urlStr.contains("support.pocketcasts.com") {

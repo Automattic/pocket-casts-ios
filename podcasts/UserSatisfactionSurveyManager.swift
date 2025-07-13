@@ -54,7 +54,7 @@ public class UserSatisfactionSurveyManager {
         }
 
         let surveyView = UserSatisfactionSurveyView(presentSupportView: {
-            EmailHelper().presentSupportDialog(source, feedback: true)
+            EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
         })
         let hostingController = ThemedHostingController(rootView: surveyView, background: \.primaryUi01)
 
