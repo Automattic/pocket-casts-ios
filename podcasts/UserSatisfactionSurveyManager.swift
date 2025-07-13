@@ -12,7 +12,9 @@ public class UserSatisfactionSurveyManager {
 
     /// Checks if the survey should be shown based on the event and user context
     func shouldShowSurvey(for event: SurveyTriggerEvent) -> Bool {
-        return checkSurveyEligibility(for: event) == .canShow
+        let result = checkSurveyEligibility(for: event)
+        FileLog.shared.addMessage("UserSatisfactionSurveyManager: Should show survey for \(event.rawValue): \(result.displayReason)")
+        return result == .canShow
     }
 
     /// Checks survey eligibility and returns the specific reason
