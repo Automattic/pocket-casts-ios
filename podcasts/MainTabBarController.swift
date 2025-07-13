@@ -166,35 +166,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.shouldShowInitialOnboardingFlow = false
     }
 
-    func showUserSatisfactionSurvey() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let surveyView = UserSatisfactionSurveyView(presentSupportView: { [weak self] in
-                self?.presentSupportView()
-            })
-            let hostingController = ThemedHostingController(rootView: surveyView, background: \.primaryUi01)
-
-            // Let the hosting controller size itself
-            hostingController.sizingOptions = .intrinsicContentSize
-
-            if let sheet = hostingController.sheetPresentationController {
-                sheet.detents = [
-                    .custom { context in
-                        let size = hostingController.sizeThatFits(in: CGSize(width: context.maximumDetentValue, height: .greatestFiniteMagnitude))
-                        return size.height
-                    }
-                ]
-                sheet.prefersGrabberVisible = true
-                sheet.preferredCornerRadius = 24
-            }
-
-            self.present(hostingController, animated: true)
-        }
-    }
-
-    private func presentSupportView() {
-        EmailHelper().presentSupportDialog(self, feedback: true)
-    }
-
     private func fixTarBarTraitCollectionOnIpadForiOS18() {
         if #available(iOS 18.0, *),
            UIDevice.current.userInterfaceIdiom == .pad {

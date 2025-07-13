@@ -97,7 +97,12 @@ struct SurveyDebugInfoView: View {
                 }
 
                 Button("Present Survey") {
-                    (SceneHelper.rootViewController() as? MainTabBarController)?.showUserSatisfactionSurvey()
+                    guard let rootViewController = SceneHelper.rootViewController() else {
+                        // Show an alert indicating failure
+                        Toast.show("Failed to find root view controller from SceneHelper")
+                        return
+                    }
+                    UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
                 }
             }
         }
@@ -105,6 +110,10 @@ struct SurveyDebugInfoView: View {
         .miniPlayerSafeAreaInset()
         .navigationTitle("Survey Debug Info")
         .onAppear(perform: loadDebugData)
+    }
+
+    private var defaultEvent: SurveyTriggerEvent {
+        return SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .firstEpisodeCompleted
     }
 
     private func loadDebugData() {
@@ -127,8 +136,7 @@ struct SurveyDebugInfoView: View {
         }
 
         #if !os(watchOS) && !APPCLIP
-        let event: SurveyTriggerEvent = SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .firstEpisodeCompleted
-        surveyCheckResult = UserSatisfactionSurveyManager.shared.checkSurveyEligibility(for: event)
+        surveyCheckResult = UserSatisfactionSurveyManager.shared.checkSurveyEligibility(for: defaultEvent)
         canShowSurvey = surveyCheckResult == .canShow
         #else
         canShowSurvey = false

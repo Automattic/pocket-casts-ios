@@ -44,8 +44,8 @@ public class UserSatisfactionSurveyManager {
     }
 
     /// Presents the survey view
-    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent) {
-        guard shouldShowSurvey(for: event) else { return }
+    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent, skipCheck: Bool = false) {
+        guard shouldShowSurvey(for: event) || skipCheck else { return }
 
         guard let source = SceneHelper.rootViewController() else {
             assertionFailure("WARNING: Root View Controller not found so survey was not presented")
@@ -73,7 +73,9 @@ public class UserSatisfactionSurveyManager {
         }
 
         source.present(hostingController, animated: true)
-        Settings.addSurveyPresented()
+        if !skipCheck {
+            Settings.addSurveyPresented()
+        }
         Analytics.track(.userSatisfactionSurveyShown, properties: [
             "trigger_event": event.rawValue,
             "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
