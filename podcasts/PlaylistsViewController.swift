@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
@@ -46,7 +47,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
 
-        title = L10n.filters
+        title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }

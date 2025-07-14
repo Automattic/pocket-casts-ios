@@ -206,6 +206,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new updgrade screens
     case newOnboardingUpgrade
 
+    /// Enable the new playlists rebranding
+    case playlistsRebranding
+
     /// Retry failed downloads and stream without the user agent
     case retryWithoutUserAgent
 
@@ -353,6 +356,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
+            false
+        case .playlistsRebranding:
             false
         case .retryWithoutUserAgent:
             true
