@@ -97,7 +97,7 @@ extension UpgradeAccountViewModel {
         let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource)
 
         let view = UpgradeAccountView(model: viewModel)
-        let controller = OnboardingHostingViewController(rootView: view)
+        let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
         controller.modalPresentationStyle = .fullScreen
         controller.navBarIsHidden = true
 
