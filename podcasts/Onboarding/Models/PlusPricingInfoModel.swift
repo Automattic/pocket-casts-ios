@@ -37,8 +37,9 @@ class PlusPricingInfoModel: ObservableObject {
                let duration = purchaseHandler.localizedFreeTrialDuration(product),
                let type = purchaseHandler.offerType(product),
                let price = purchaseHandler.localizedOfferPrice(product),
+               let offerEndDateLocalized = purchaseHandler.offerEndDateLocalized(product),
                let offerEndDate = purchaseHandler.offerEndDate(product) {
-                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, dateAfterOffer: offerEndDate)
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized)
             }
 
             let info = PlusProductPricingInfo(identifier: product,
@@ -88,7 +89,8 @@ class PlusPricingInfoModel: ObservableObject {
         let duration: String
         let price: String
         let rawPrice: String
-        let dateAfterOffer: String
+        let offerEndDate: Date?
+        let offerEndDateLocalized: String
 
         var title: String {
             switch type {
@@ -111,9 +113,9 @@ class PlusPricingInfoModel: ObservableObject {
         var terms: String {
             switch type {
             case .freeTrial:
-                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer.nonBreakingSpaces())
+                return L10n.pricingTermsAfterTrialLong(duration, offerEndDateLocalized.nonBreakingSpaces())
             case .discount:
-                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer.nonBreakingSpaces())
+                return L10n.pricingTermsAfterDiscount(rawPrice, duration, offerEndDateLocalized.nonBreakingSpaces())
             }
         }
 

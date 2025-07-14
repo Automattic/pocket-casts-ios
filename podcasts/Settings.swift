@@ -986,6 +986,10 @@ class Settings: NSObject {
         UserDefaults.standard.array(forKey: Constants.UserDefaults.reviewRequestDates) as? [Date] ?? [Date]()
     }
 
+    class func resetReviewRequests() {
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.reviewRequestDates)
+    }
+
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {

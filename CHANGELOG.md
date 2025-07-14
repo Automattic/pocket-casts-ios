@@ -1,6 +1,6 @@
 7.94
 -----
-
+- Retry failed requests without user agent [#3323](https://github.com/Automattic/pocket-casts-ios/pull/3323)
 
 7.93
 -----

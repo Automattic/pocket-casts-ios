@@ -39,6 +39,31 @@ class UpgradeAccountViewModel: PlusPricingInfoModel {
         return offer.type == .freeTrial
     }
 
+    var timelineEvents: [TimelineEvent] {
+        guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
+              let offer = product.offer, offer.type == .freeTrial,
+              let offerEndDate = offer.offerEndDate,
+              let oneWeekBeforeDate = offerEndDate.sevenDaysAgo()
+        else {
+            return []
+        }
+        var events = [TimelineEvent]()
+
+
+        let todayEvent = TimelineEvent(iconName: "unlocked-large", title: L10n.today, detail: L10n.upgradeAccountTimelineDay1)
+        events.append(todayEvent)
+
+        let oneWeekBeforeDateLocalized = oneWeekBeforeDate.formatted(date: .abbreviated, time: .omitted)
+        let oneWeekBeforeEvent = TimelineEvent(iconName: "mail", title: oneWeekBeforeDateLocalized, detail: L10n.upgradeAccountTimelineWeekBefore)
+        events.append(oneWeekBeforeEvent)
+
+        let chargingEvent = TimelineEvent(iconName: "star_empty", title: offer.offerEndDateLocalized, detail: L10n.upgradeAccountTimelineChargingDay(offer.offerEndDateLocalized))
+
+        events.append(chargingEvent)
+
+        return events
+    }
+
     func selectProduct(_ product: IAPProductID) {
         selectedProduct = product
         if selectedProduct.isYearlyProduct {

@@ -7,6 +7,8 @@ struct UpgradeProductsView: View {
 
     @ObservedObject var model: UpgradeAccountViewModel
 
+    @ScaledMetric(relativeTo: .body) private var badgeOffset: CGFloat = 8
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(model.products, id: \.self.id) { product in
@@ -21,9 +23,9 @@ struct UpgradeProductsView: View {
                     termsAndConditions
                     Spacer()
                 }
+                Spacer().frame(height: 6)
             }
         }
-        .padding(.top, 15)
     }
 
     func row(for product: PlusPricingInfoModel.PlusProductPricingInfo) -> some View {
@@ -37,19 +39,22 @@ struct UpgradeProductsView: View {
                 Text(product.periodDescription)
                     .font(size: 15, style: .subheadline, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
+                    .fixedSize(horizontal: true, vertical: false)
                 Text(product.periodPrice)
                     .font(size: 15, style: .subheadline, weight: .medium)
                     .foregroundStyle(theme.primaryText02)
+                    .fixedSize(horizontal: true, vertical: false)
             }
+            .multilineTextAlignment(.leading)
             Spacer()
             Text(product.weeklyPeriodPrice)
                 .font(size: 15, style: .subheadline, weight: .medium)
                 .foregroundStyle(theme.primaryText02)
         }
         .padding(16)
+        .frame(minHeight: 75)
         .background(theme.primaryUi03)
         .cornerRadius(12)
-        .frame(minHeight: 75)
         .overlay {
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 12)
@@ -57,12 +62,14 @@ struct UpgradeProductsView: View {
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
                 if product.isBestValue, model.savingsOnBestValue != nil {
                     badge
-                        .offset(x: 0, y: -10)
+                        .offset(x: 0, y: -badgeOffset)
                 }
             }
         }
         .onTapGesture {
-            model.selectProduct(product.identifier)
+            withAnimation {
+                model.selectProduct(product.identifier)
+            }
         }
     }
 
