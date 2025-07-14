@@ -126,7 +126,16 @@ extension UpgradeAccountViewModel {
         viewModel.customTitle = customTitle
         viewModel.parentController = parentController
 
-        return controller
+        if parentController == nil {
+            // Create our own nav controller if we're not already going in one
+            let navController = UINavigationController(rootViewController: controller)
+            navController.modalPresentationStyle = .fullScreen            
+            viewModel.navigationController = navController
+            viewModel.parentController = navController
+            return navController
+        } else {
+            return controller
+        }
     }
 
     private static func product(for plan: Plan, frequency: PlanFrequency) -> IAPProductID {
