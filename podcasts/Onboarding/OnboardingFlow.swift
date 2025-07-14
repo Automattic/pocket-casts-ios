@@ -32,7 +32,7 @@ struct OnboardingFlow {
             self.source = source ?? "unknown"
             let product = context?["product"] as? ProductInfo
             if FeatureFlag.newOnboardingUpgrade.enabled {
-                flowController = UpgradeAccountViewModel.make(in: navigationController,
+                flowController = UpgradeAccountViewModel.make(in: controller,
                                                               plan: product?.plan ?? .plus,
                                                               frequency: product?.frequency ?? .yearly,
                                                               viewSource: PlusUpgradeViewSource.from(string: source),

@@ -6,9 +6,7 @@ struct UpgradeBannerView: View {
 
     @State var isPresented: Bool = false
 
-    var isiPad: Bool {
-        return UIDevice.current.isiPad()
-    }
+    let onSubscribeTap: (() -> Void)?
 
     var body: some View {
         VStack(spacing: 12) {
@@ -22,7 +20,7 @@ struct UpgradeBannerView: View {
                 .font(size: 13, style: .footnote, weight: .regular)
                 .multilineTextAlignment(.center)
             SubscriptionPurchaseButton(viewModel: viewModel) {
-                isPresented.toggle()
+                onSubscribeTap?()
             }
             .frame(maxWidth: 440)
         }
@@ -32,16 +30,5 @@ struct UpgradeBannerView: View {
         .shadow(color: .black.opacity(0.2), radius: 1.5, x: 0, y: 1)
         .padding(16)
         .background(theme.primaryUi03)
-        .if(!isiPad) {
-            $0.fullScreenCover(isPresented: $isPresented) {
-                UpgradeAccountView(model: viewModel)
-            }
-        }
-        .if(isiPad) {
-            $0.sheet(isPresented: $isPresented) {
-                UpgradeAccountView(model: viewModel)
-            }
-        }
-
     }
 }
