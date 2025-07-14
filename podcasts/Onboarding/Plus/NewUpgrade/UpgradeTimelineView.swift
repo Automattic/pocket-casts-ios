@@ -30,11 +30,8 @@ struct UpgradeTimelineView: View {
 
     var circle: some View {
         ZStack {
-            Rectangle()
+            Circle()
                 .fill(theme.primaryInteractive01)
-            Rectangle()
-                .inset(by: 0.5)
-                .stroke(theme.primaryInteractive01)
         }
     }
 
@@ -52,7 +49,6 @@ struct UpgradeTimelineView: View {
                 circle
                     .opacity(opacityValueForIndex(index))
                     .frame(width: circleSize, height: circleSize)
-                    .cornerRadius(circleSize)
                 Image(iconName)
                     .renderingMode(.template)
                     .resizable()
@@ -90,13 +86,12 @@ struct UpgradeTimelineView: View {
                             .foregroundColor(theme.primaryText02)
                             .multilineTextAlignment(.leading)
                     }
-                    .padding(.bottom, 32)
+                    .padding(.bottom, index != events.count - 1 ? 32 : 0)
                     .padding(.horizontal, 14)
                     Spacer()
                 }
                 .clipped()
             }
-            Spacer()
         }
     }
 }

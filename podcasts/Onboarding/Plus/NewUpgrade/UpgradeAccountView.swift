@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsUtils
 
 struct UpgradeAccountView: View {
 
@@ -55,14 +56,34 @@ struct UpgradeAccountView: View {
         }
     }
 
+    @ViewBuilder
+    var pageOne: some View {
+        VStack(spacing: 0) {
+            if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                UpgradeTimelineView(events: model.timelineEvents)
+            } else {
+                UpgradeFeaturesView(features: model.features)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var pageTwo: some View {
+        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+            UpgradeFeaturesView(features: model.features)
+        } else {
+            UpgradeTimelineView(events: model.timelineEvents)
+        }
+    }
+
     var scrollableContent: some View {
         GeometryReader() { sizeProxy in
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        title
-                            .id(ScrollPosition.firstPage)
-                        UpgradeFeaturesView(features: model.features)
+                    VStack(alignment: .leading, spacing: 0) {
+                        title.id(ScrollPosition.firstPage)
+                        Spacer().frame(height: 24)
+                        pageOne
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand = true
@@ -70,15 +91,19 @@ struct UpgradeAccountView: View {
                                     proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                                 }
                             } label: {
-                                Text(L10n.subscriptionPlanFreeTrialInfoLink)
+                                Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
                                     .font(size: 15, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryInteractive01)
                             }
+                            .padding(.vertical, 24)
                         }
                         if expand, model.isFreeTrialAvailable {
-                            UpgradeTimelineView(events: model.timelineEvents)
-                                .id(ScrollPosition.secondPage)
-                                .frame(minHeight: sizeProxy.size.height)
+                            VStack {
+                                pageTwo
+                                Spacer()
+                            }
+                            .id(ScrollPosition.secondPage)
+                            .frame(minHeight: sizeProxy.size.height)
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)

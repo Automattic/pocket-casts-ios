@@ -203,8 +203,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enabled the attributed text view in the Data Usage warning Sheet
     case useDescriptiveActionAttributedTextView
 
-    /// Use the new updgrade screens
+    /// Use the new upgrade screens
     case newOnboardingUpgrade
+
+    /// Use the new upgrade screens with Variant B timeline before features
+    case newOnboardingVariant
 
     /// Enable the new playlists rebranding
     case playlistsRebranding
@@ -356,6 +359,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
+            false
+        case .newOnboardingVariant:
             false
         case .playlistsRebranding:
             false

@@ -5267,3 +5267,7 @@
 
 /* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.*/
 "upgrade_account_timeline_charging_day" = "You’ll be charged on %1$@. Cancel anytime before.";
+
+/* Subscription Plan text linking to feaures information */
+"subscription_plan_features_info_link" = "See all Plus features";
+
