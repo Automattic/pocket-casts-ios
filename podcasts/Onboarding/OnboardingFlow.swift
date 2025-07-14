@@ -47,7 +47,7 @@ struct OnboardingFlow {
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
             if FeatureFlag.newOnboardingUpgrade.enabled {
-                flowController = UpgradeAccountViewModel.make(in: navigationController,
+                flowController = UpgradeAccountViewModel.make(in: controller,
                                                               plan: .patron,
                                                               frequency: .yearly,
                                                               viewSource: PlusUpgradeViewSource.from(string: source),

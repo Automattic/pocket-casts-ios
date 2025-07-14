@@ -178,7 +178,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             break
         case .upgradeAccount:
-            let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, source: "account")
+            let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, in: self, source: "account")
             navigationController?.present(controller, animated: true)
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()

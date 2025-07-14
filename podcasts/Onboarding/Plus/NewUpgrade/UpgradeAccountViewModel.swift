@@ -116,7 +116,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
 extension UpgradeAccountViewModel {
 
-    static func make(in navigationController: UINavigationController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, flowCategorySource: PlusLandingViewModel.Source, customTitle: String? = nil) -> UIViewController {
+    static func make(in parentController: UIViewController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, flowCategorySource: PlusLandingViewModel.Source, customTitle: String? = nil) -> UIViewController {
         let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowCategorySource: flowCategorySource)
 
         let view = UpgradeAccountView(model: viewModel)
@@ -124,13 +124,7 @@ extension UpgradeAccountViewModel {
         controller.modalPresentationStyle = .fullScreen
         controller.navBarIsHidden = true
         viewModel.customTitle = customTitle
-
-        // Create our own nav controller if we're not already going in one
-        if let navController = navigationController {
-            navController.modalPresentationStyle = .fullScreen
-            viewModel.navigationController = navController
-            viewModel.parentController = navController
-        }
+        viewModel.parentController = parentController
 
         return controller
     }
