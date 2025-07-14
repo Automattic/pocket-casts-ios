@@ -3811,9 +3811,9 @@ internal enum L10n {
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account", fallback: "Upgrade Account") }
   /// Upgrade account information for onboarding banner
   internal static var upgradeAccountInfo: String { return L10n.tr("Localizable", "upgrade_account_info", fallback: "Unlock all paid features like Folders, Shuffle, Bookmarks and many more") }
-  /// Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on  September 31th Cancel anytime before.
+  /// Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.
   internal static func upgradeAccountTimelineChargingDay(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "upgrade_account_timeline_charging_day", String(describing: p1), fallback: "You’ll be charged on  %1$@. Cancel anytime before.")
+    return L10n.tr("Localizable", "upgrade_account_timeline_charging_day", String(describing: p1), fallback: "You’ll be charged on %1$@. Cancel anytime before.")
   }
   /// Upgrade account timeline day 1 of free trial message.
   internal static var upgradeAccountTimelineDay1: String { return L10n.tr("Localizable", "upgrade_account_timeline_day_1", fallback: "Get access to Folders, Shuffle, Bookmarks, and exclusive content") }

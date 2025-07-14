@@ -5250,6 +5250,5 @@
 /* Upgrade account timeline one week before charging message. */
 "upgrade_account_timeline_week_before" = "We’ll notify you about your trial ending.";
 
-/* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on  September 31th Cancel anytime before.*/
-"upgrade_account_timeline_charging_day" = "You’ll be charged on  %1$@. Cancel anytime before.";
-
+/* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.*/
+"upgrade_account_timeline_charging_day" = "You’ll be charged on %1$@. Cancel anytime before.";
