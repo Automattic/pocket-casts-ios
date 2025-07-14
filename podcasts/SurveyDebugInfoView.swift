@@ -113,7 +113,7 @@ struct SurveyDebugInfoView: View {
     }
 
     private var defaultEvent: SurveyTriggerEvent {
-        return SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .firstEpisodeCompleted
+        return SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .episodeStarred
     }
 
     private func loadDebugData() {

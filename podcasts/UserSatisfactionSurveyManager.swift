@@ -38,7 +38,7 @@ public class UserSatisfactionSurveyManager {
         let isPlus = SubscriptionHelper.hasActiveSubscription()
 
         switch event {
-        case .firstEpisodeCompleted, .thirdEpisodeCompleted, .episodeStarred, .showRated, .filterCreated:
+        case .thirdEpisodeCompleted, .episodeStarred, .showRated, .filterCreated:
             return !isPlus ? .canShow : .wrongUserType // Free user events
         case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
             return isPlus ? .canShow : .wrongUserType // Plus user events
@@ -142,7 +142,6 @@ enum SurveyCheckResult {
 
 enum SurveyTriggerEvent: String, CaseIterable {
     // Free user events
-    case firstEpisodeCompleted = "first_episode_completed"
     case thirdEpisodeCompleted = "third_episode_completed"
     case episodeStarred = "episode_starred"
     case showRated = "show_rated"
@@ -178,12 +177,8 @@ public class SurveyEventTracker {
     @MainActor public func trackEpisodeCompleted() {
         episodeCompletionCount += 1
 
-        // Check for first episode completion
-        if episodeCompletionCount == 1 {
-            checkAndTriggerSurvey(for: .firstEpisodeCompleted)
-        }
         // Check for third episode completion
-        else if episodeCompletionCount == 3 {
+        if episodeCompletionCount == 3 {
             checkAndTriggerSurvey(for: .thirdEpisodeCompleted)
         }
     }
