@@ -58,10 +58,12 @@ struct UpgradeAccountView: View {
 
     @ViewBuilder
     var pageOne: some View {
-        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-            UpgradeTimelineView(events: model.timelineEvents)
-        } else {
-            UpgradeFeaturesView(features: model.features)
+        VStack(spacing: 0) {
+            if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                UpgradeTimelineView(events: model.timelineEvents)
+            } else {
+                UpgradeFeaturesView(features: model.features)
+            }
         }
     }
 
@@ -92,12 +94,13 @@ struct UpgradeAccountView: View {
                                 Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
                                     .font(size: 15, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryInteractive01)
-                                    .padding(.vertical, 8)
                             }
+                            .padding(.vertical, 24)
                         }
                         if expand, model.isFreeTrialAvailable {
-                            ZStack {
+                            VStack {
                                 pageTwo
+                                Spacer()
                             }
                             .id(ScrollPosition.secondPage)
                             .frame(minHeight: sizeProxy.size.height)

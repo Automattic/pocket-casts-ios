@@ -5244,14 +5244,25 @@
 /* Patron early access to new features marketing message*/
 "feature_marketing_early_access" = "Early access to new features";
 
+/* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
+"user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
+
+/* A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app */
+"user_satisfaction_survey_subtitle" = "Hi there! We'd love to know if you're enjoying our app.";
+
+/* An option to say "no" when when asked if the user enjoys the app. */
+"user_satisfaction_survey_no_response" = "Not really";
+
+/* An option to say "yes" when when asked if the user enjoys the app. */
+"user_satisfaction_survey_yes_response" = "Yes!";
 /* Upgrade account timeline day 1 of free trial message. */
 "upgrade_account_timeline_day_1" = "Get access to Folders, Shuffle, Bookmarks, and exclusive content";
 
 /* Upgrade account timeline one week before charging message. */
 "upgrade_account_timeline_week_before" = "We’ll notify you about your trial ending.";
 
-/* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on  September 31th Cancel anytime before.*/
-"upgrade_account_timeline_charging_day" = "You’ll be charged on  %1$@. Cancel anytime before.";
+/* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.*/
+"upgrade_account_timeline_charging_day" = "You’ll be charged on %1$@. Cancel anytime before.";
 
 /* Subscription Plan text linking to feaures information */
 "subscription_plan_features_info_link" = "See all Plus features";

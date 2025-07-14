@@ -23,6 +23,7 @@ struct UpgradeProductsView: View {
                     termsAndConditions
                     Spacer()
                 }
+                Spacer().frame(height: 6)
             }
         }
     }

@@ -90,13 +90,12 @@ struct UpgradeTimelineView: View {
                             .foregroundColor(theme.primaryText02)
                             .multilineTextAlignment(.leading)
                     }
-                    .padding(.bottom, 32)
+                    .padding(.bottom, index != events.count - 1 ? 32 : 0)
                     .padding(.horizontal, 14)
                     Spacer()
                 }
                 .clipped()
             }
-            Spacer()
         }
     }
 }
