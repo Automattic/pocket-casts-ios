@@ -196,13 +196,6 @@ class Theme: ObservableObject {
 
         guard userInitiated else { return }
         Settings.trackValueChanged(.settingsAppearanceDarkThemeChanged, value: preferredType)
-
-        #if !APPCLIP
-        // Track custom theme setting for survey purposes (Plus themes only)
-        if preferredType.isPlusOnly {
-            SurveyEventTracker.shared.trackCustomThemeSet()
-        }
-        #endif
     }
 
     class func preferredLightTheme() -> ThemeType {
@@ -237,13 +230,6 @@ class Theme: ObservableObject {
             Theme.sharedTheme.activeTheme = preferredType
             Settings.trackValueChanged(.settingsAppearanceThemeChanged, value: preferredType)
         }
-
-        #if !APPCLIP
-        // Track custom theme setting for survey purposes (Plus themes only)
-        if preferredType.isPlusOnly {
-            SurveyEventTracker.shared.trackCustomThemeSet()
-        }
-        #endif
     }
 
     func toggleTheme() {

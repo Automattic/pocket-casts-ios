@@ -837,6 +837,7 @@ private extension MainTabBarController {
                 bookmarkManager.bookmark(for: event.uuid)
             }
             .sink { [weak self] bookmark in
+                SurveyEventTracker.shared.trackBookmarkCreated()
                 self?.showToast(for: bookmark)
             }
             .store(in: &cancellables)

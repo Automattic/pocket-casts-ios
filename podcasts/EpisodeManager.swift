@@ -282,7 +282,9 @@ class EpisodeManager: NSObject {
             analyticsHelper.star(episode: episode)
             // Track episode starring for survey purposes
             #if !os(watchOS) && !APPCLIP
-            SurveyEventTracker.shared.trackEpisodeStarred()
+            DispatchQueue.main.async {
+                SurveyEventTracker.shared.trackEpisodeStarred()
+            }
             #endif
         } else {
             analyticsHelper.unstar(episode: episode)

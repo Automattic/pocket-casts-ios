@@ -175,7 +175,7 @@ public class SurveyEventTracker {
 
     // MARK: - Event Tracking Methods
 
-    public func trackEpisodeCompleted() {
+    @MainActor public func trackEpisodeCompleted() {
         episodeCompletionCount += 1
 
         // Check for first episode completion
@@ -188,15 +188,15 @@ public class SurveyEventTracker {
         }
     }
 
-    public func trackEpisodeStarred() {
+    @MainActor public func trackEpisodeStarred() {
         checkAndTriggerSurvey(for: .episodeStarred)
     }
 
-    public func trackShowRated() {
+    @MainActor public func trackShowRated() {
         checkAndTriggerSurvey(for: .showRated)
     }
 
-    public func trackFilterCreated() {
+    @MainActor public func trackFilterCreated() {
         checkAndTriggerSurvey(for: .filterCreated)
     }
 
@@ -204,26 +204,26 @@ public class SurveyEventTracker {
         plusUpgradeDate = Date()
     }
 
-    public func trackFolderCreated() {
+    @MainActor public func trackFolderCreated() {
         checkAndTriggerSurvey(for: .folderCreated)
     }
 
-    public func trackBookmarkCreated() {
+    @MainActor public func trackBookmarkCreated() {
         checkAndTriggerSurvey(for: .bookmarkCreated)
     }
 
-    public func trackCustomThemeSet() {
+    @MainActor public func trackCustomThemeSet() {
         checkAndTriggerSurvey(for: .customThemeSet)
     }
 
-    public func trackReferralShared() {
+    @MainActor public func trackReferralShared() {
         checkAndTriggerSurvey(for: .referralShared)
     }
 
     // MARK: - Helper Methods
 
     /// Call this method during app launch or lifecycle events to check for eligible plus upgrade surveys
-    public func checkPlusUpgradeSurveyEligibility() {
+    @MainActor public func checkPlusUpgradeSurveyEligibility() {
         guard let upgradeDate = plusUpgradeDate else { return }
 
         let daysAgo: Double = 2
@@ -233,7 +233,7 @@ public class SurveyEventTracker {
         }
     }
 
-    private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
+    @MainActor private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
         guard let topViewController = UIApplication.shared.topViewController else { return }
 
         if UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: event) {
@@ -245,7 +245,7 @@ public class SurveyEventTracker {
 // MARK: - UIApplication Extension
 
 extension UIApplication {
-    var topViewController: UIViewController? {
+    @MainActor var topViewController: UIViewController? {
         guard let windowScene = connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else { return nil }
 

@@ -176,7 +176,12 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
             persistThemeChange(theme)
             self.updateTableAndData()
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                #if !APPCLIP
+                // Track custom theme setting for survey purposes
+                SurveyEventTracker.shared.trackCustomThemeSet()
+                #endif
+            })
         }, dismissAction: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }, selectedTheme: selectedTheme).environmentObject(Theme.sharedTheme)

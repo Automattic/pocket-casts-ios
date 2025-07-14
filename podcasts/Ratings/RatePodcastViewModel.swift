@@ -73,9 +73,9 @@ class RatePodcastViewModel: ObservableObject {
                                             "stars": stars])
 
         // Track show rating for survey purposes
-        SurveyEventTracker.shared.trackShowRated()
         Task { @MainActor [weak self] in
             guard let self else { return }
+            SurveyEventTracker.shared.trackShowRated()
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
             self.isSubmitting = false
             if success {

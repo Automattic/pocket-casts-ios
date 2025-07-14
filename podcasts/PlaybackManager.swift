@@ -1056,7 +1056,9 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             #if !os(watchOS) && !APPCLIP
             // Track episode completion for survey purposes
-            SurveyEventTracker.shared.trackEpisodeCompleted()
+            DispatchQueue.main.async {
+                SurveyEventTracker.shared.trackEpisodeCompleted()
+            }
             #endif
 
             if SyncManager.isUserLoggedIn() {
@@ -2238,11 +2240,6 @@ extension PlaybackManager {
             "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
             "time": Int(currentTime)
         ])
-
-        #if !os(watchOS) && !APPCLIP
-        // Track bookmark creation for survey purposes
-        SurveyEventTracker.shared.trackBookmarkCreated()
-        #endif
     }
 
     /// Plays the bookmark creation sound only if:

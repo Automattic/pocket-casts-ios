@@ -34,9 +34,6 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 
             Analytics.track(.referralPassShared)
 
-            // Track referral sharing for survey purposes
-            SurveyEventTracker.shared.trackReferralShared()
-
             var items: [Any] = [TextAndURLShareSource.makeFrom(viewModel: viewModel)]
             if let url = viewModel.referralURL {
                 items.append(url)
@@ -49,6 +46,9 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
                 if completed {
                     originalOnShareGuestPassTap?()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        SurveyEventTracker.shared.trackReferralShared()
+                    }
                 }
             }
             if let popoverVC  = viewController.popoverPresentationController {
