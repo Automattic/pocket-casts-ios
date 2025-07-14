@@ -34,6 +34,12 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         updateValue(nil, forKey: key)
     }
 
+    func removeAll() {
+        queue.async(flags: .barrier) { [weak self] in
+            self?.table.removeAll()
+        }
+    }
+
     func contains(where predicate: ((key: Key, value: Value)) throws -> Bool) rethrows -> Bool {
         var result = false
         try queue.sync { [weak self] in
