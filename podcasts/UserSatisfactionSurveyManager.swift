@@ -195,10 +195,6 @@ public class SurveyEventTracker {
         checkAndTriggerSurvey(for: .filterCreated)
     }
 
-    public func trackPlusUpgrade() {
-        plusUpgradeDate = Date()
-    }
-
     @MainActor public func trackFolderCreated() {
         checkAndTriggerSurvey(for: .folderCreated)
     }
@@ -219,7 +215,16 @@ public class SurveyEventTracker {
 
     /// Call this method during app launch or lifecycle events to check for eligible plus upgrade surveys
     @MainActor public func checkPlusUpgradeSurveyEligibility() {
-        guard let upgradeDate = plusUpgradeDate else { return }
+        guard let upgradeDate = plusUpgradeDate else {
+            // Instead of tracking the exact moment the user upgrades, we check if status has changed each launch
+            // This won't be exact, but at least gets us a rough estimate of a point in time where upgrade occurred
+            // and a relevant point in the future from that
+            if SubscriptionHelper.hasActiveSubscription() {
+                plusUpgradeDate = Date()
+            }
+
+            return
+        }
 
         let daysAgo: Double = 2
         let timeAgo = Date().addingTimeInterval(-daysAgo * 24 * 60 * 60)
