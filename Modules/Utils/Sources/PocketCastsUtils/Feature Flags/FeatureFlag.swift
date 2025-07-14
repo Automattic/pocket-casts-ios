@@ -209,6 +209,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new upgrade screens with Variant B timeline before features
     case newOnboardingVariant
 
+    /// Retry failed downloads and stream without the user agent
+    case retryWithoutUserAgent
+
+    /// Show a satisfaction survey before prompting to rate
+    case userSatisfactionSurvey
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -352,6 +358,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgrade:
             false
         case .newOnboardingVariant:
+            false
+        case .retryWithoutUserAgent:
+            true
+        case .userSatisfactionSurvey:
             false
         }
     }

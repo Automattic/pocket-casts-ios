@@ -29,6 +29,9 @@ extension DownloadManager {
 
                 // cancel the foreground task, and transfer it to the background. Try to use the resume data if some is returned so it doesn't have to start again
                 foregroundTask.cancel { data in
+                    // Transfer tracking data from foreground to background task
+                    let oldAttempt = self.downloadAttempts.removeValue(forKey: foregroundTask.taskIdentifier)
+
                     let backgroundTask: URLSessionDownloadTask
                     if let data = data {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(withResumeData: data)
@@ -36,6 +39,12 @@ extension DownloadManager {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(with: request)
                     }
                     backgroundTask.taskDescription = savedTaskDescription
+
+                    // Transfer the tracking data to the new task
+                    if let attempt = oldAttempt {
+                        self.downloadAttempts[backgroundTask.taskIdentifier] = attempt
+                    }
+
                     backgroundTask.resume()
                 }
             }
@@ -53,8 +62,14 @@ extension DownloadManager {
         let tasks = await allTasks()
 
         tasks.forEach { task in
-            if let taskId = task.taskDescription, let episode = dataManager.findBaseEpisode(downloadTaskId: taskId), let index = episodeUuids.firstIndex(of: episode.uuid) {
-                episodeUuids.remove(at: index)
+            if let taskDescription = task.taskDescription {
+                if let episode = dataManager.findBaseEpisode(downloadTaskId: taskDescription), let index = episodeUuids.firstIndex(of: episode.uuid) {
+                    episodeUuids.remove(at: index)
+                } else {
+                    if FeatureFlag.downloadFixes.enabled {
+                        task.cancel()
+                    }
+                }
             } else {
                 if FeatureFlag.downloadFixes.enabled {
                     task.cancel()
