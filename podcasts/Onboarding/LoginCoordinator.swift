@@ -214,9 +214,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
             let controller = UpgradeAccountViewModel.make(in: navigationController,
                                                           plan: .plus,
                                                           frequency: .yearly,
-                                                          viewSource: .onboarding)
+                                                          viewSource: .onboarding,
+                                                          flowCategorySource: source)
             controller.modalPresentationStyle = .fullScreen
-            navigationController?.topViewController?.present(controller, animated: true)
+            navigationController?.setViewControllers([controller], animated: true)
         } else {
             let controller = PlusLandingViewModel.make(in: navigationController,
                                                        from: source,

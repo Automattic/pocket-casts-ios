@@ -35,7 +35,8 @@ struct OnboardingFlow {
                 flowController = UpgradeAccountViewModel.make(in: navigationController,
                                                               plan: product?.plan ?? .plus,
                                                               frequency: product?.frequency ?? .yearly,
-                                                              viewSource: PlusUpgradeViewSource.from(string: source))
+                                                              viewSource: PlusUpgradeViewSource.from(string: source),
+                                                              flowCategorySource: .accountScreen)
             } else {
                 flowController = PlusPurchaseModel.make(in: controller,
                                                         plan: product?.plan ?? .plus,
@@ -49,7 +50,8 @@ struct OnboardingFlow {
                 flowController = UpgradeAccountViewModel.make(in: navigationController,
                                                               plan: .patron,
                                                               frequency: .yearly,
-                                                              viewSource: PlusUpgradeViewSource.from(string: source))
+                                                              viewSource: PlusUpgradeViewSource.from(string: source),
+                                                              flowCategorySource: .upsell)
             } else {
                 let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
                 flowController = PlusLandingViewModel.make(in: navigationController,
@@ -79,7 +81,8 @@ struct OnboardingFlow {
             return UpgradeAccountViewModel.make(in: controller,
                                                 plan: product?.plan ?? .plus,
                                                 frequency: product?.frequency ?? .yearly,
-                                                viewSource: PlusUpgradeViewSource.from(string: source))
+                                                viewSource: PlusUpgradeViewSource.from(string: source),
+                                                flowCategorySource: .upsell)
         } else {
             return PlusLandingViewModel.make(in: controller,
                                              from: .upsell,

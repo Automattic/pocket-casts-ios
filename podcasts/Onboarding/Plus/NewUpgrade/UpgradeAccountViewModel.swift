@@ -1,4 +1,9 @@
+import Foundation
+import SwiftUI
+
 class UpgradeAccountViewModel: PlusPurchaseModel {
+
+    weak var navigationController: UINavigationController? = nil
 
     @Published var upgradeTier: UpgradeTier = .plus
     @Published var selectedProduct: IAPProductID = .yearly
@@ -8,10 +13,13 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     let viewSource: PlusUpgradeViewSource
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown) {
+    let flowCategorySource: PlusLandingViewModel.Source
+
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowCategorySource: PlusLandingViewModel.Source) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
         self.viewSource = viewSource
+        self.flowCategorySource = flowCategorySource
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in
@@ -90,16 +98,39 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
         return L10n.subscriptionPlanSavings(percentSavings)
     }
+
+    func dismissTapped(originalDismiss dismiss: DismissAction?) {
+        guard flowCategorySource == .accountCreated, let navigationController else {
+            if navigationController == nil {
+                dismiss?()
+            } else {
+                navigationController?.dismiss(animated: true)
+            }
+            return
+        }
+
+        let controller = WelcomeViewModel.make(in: navigationController, displayType: .newAccount)
+        navigationController.pushViewController(controller, animated: true)
+    }
 }
 
 extension UpgradeAccountViewModel {
-    static func make(in navigationController: UINavigationController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {
-        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource)
+
+    static func make(in navigationController: UINavigationController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, flowCategorySource: PlusLandingViewModel.Source, customTitle: String? = nil) -> UIViewController {
+        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowCategorySource: flowCategorySource)
 
         let view = UpgradeAccountView(model: viewModel)
         let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
         controller.modalPresentationStyle = .fullScreen
         controller.navBarIsHidden = true
+        viewModel.customTitle = customTitle
+
+        // Create our own nav controller if we're not already going in one
+        if let navController = navigationController {
+            navController.modalPresentationStyle = .fullScreen
+            viewModel.navigationController = navController
+            viewModel.parentController = navController
+        }
 
         return controller
     }
