@@ -210,12 +210,20 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     private func goToPlus(from source: PlusLandingViewModel.Source) {
         // Update the flow to make sure the correct analytics source is passed on
         OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
-
-        let controller = PlusLandingViewModel.make(in: navigationController,
-                                                   from: source,
-                                                   viewSource: .onboarding,
-                                                   config: .init(continuePurchasing: continuePurchasing))
-        navigationController?.setViewControllers([controller], animated: true)
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            let controller = UpgradeAccountViewModel.make(in: navigationController,
+                                                          plan: .plus,
+                                                          frequency: .yearly,
+                                                          viewSource: .onboarding)
+            controller.modalPresentationStyle = .fullScreen
+            navigationController?.topViewController?.present(controller, animated: true)
+        } else {
+            let controller = PlusLandingViewModel.make(in: navigationController,
+                                                       from: source,
+                                                       viewSource: .onboarding,
+                                                       config: .init(continuePurchasing: continuePurchasing))
+            navigationController?.setViewControllers([controller], animated: true)
+        }
     }
 }
 
