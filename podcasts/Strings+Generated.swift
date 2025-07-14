@@ -2243,6 +2243,8 @@ internal enum L10n {
   internal static var playerUserEpisodePlaybackError: String { return L10n.tr("Localizable", "player_user_episode_playback_error", fallback: "Playback Error") }
   /// Error title when there is an upload error.
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
+  /// A common string used throughout the app. Often refers to the Playlists screen.
+  internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.

@@ -5244,6 +5244,9 @@
 /* Patron early access to new features marketing message*/
 "feature_marketing_early_access" = "Early access to new features";
 
+/* A common string used throughout the app. Often refers to the Playlists screen. */
+"playlists" = "Playlists";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
@@ -5255,6 +5258,7 @@
 
 /* An option to say "yes" when when asked if the user enjoys the app. */
 "user_satisfaction_survey_yes_response" = "Yes!";
+
 /* Upgrade account timeline day 1 of free trial message. */
 "upgrade_account_timeline_day_1" = "Get access to Folders, Shuffle, Bookmarks, and exclusive content";
 
