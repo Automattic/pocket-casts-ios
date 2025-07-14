@@ -351,15 +351,24 @@ extension IAPHelper {
         return formattedPrice ?? ""
     }
 
-    /// Return the offer localized string for the end date of a product offer
+    /// Return the offer end date of a product offer, if one is available
     /// - Parameter identifier: the product id that we want to check the offer
-    /// - Returns: the localized string for the end date of a product offer
-    func offerEndDate(_ identifier: IAPProductID) -> String? {
+    /// - Returns: the end date of a product offer
+    func offerEndDate(_ identifier: IAPProductID) -> Date? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
 
         let date = offer.subscriptionPeriod.offerEndDate
+
+        return date
+    }
+
+    /// Return the offer localized string for the end date of a product offer
+    /// - Parameter identifier: the product id that we want to check the offer
+    /// - Returns: the localized string for the end date of a product offer
+    func offerEndDateLocalized(_ identifier: IAPProductID) -> String? {
+        let date = offerEndDate(identifier)
 
         return date?.formatted(date: .long, time: .omitted)
     }

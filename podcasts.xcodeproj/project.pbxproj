@@ -1989,6 +1989,7 @@
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF0E95512E1C043300486A0D /* UpgradeTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0E95502E1C042E00486A0D /* UpgradeTier.swift */; };
+		FF0E95532E1D474700486A0D /* UpgradeTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0E95522E1D474000486A0D /* UpgradeTimelineView.swift */; };
 		FF0F407A2D5E32920036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
 		FF0F407B2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
 		FF0F407C2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */; };
@@ -4051,6 +4052,7 @@
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
 		FF0E95502E1C042E00486A0D /* UpgradeTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeTier.swift; sourceTree = "<group>"; };
+		FF0E95522E1D474000486A0D /* UpgradeTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeTimelineView.swift; sourceTree = "<group>"; };
 		FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		FF146C292D5F445B00D2FCCE /* ThreadSafeDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionaryTests.swift; sourceTree = "<group>"; };
 		FF146C2B2D674A5400D2FCCE /* SuggestedFoldersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedFoldersView.swift; sourceTree = "<group>"; };
@@ -8524,6 +8526,7 @@
 				FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */,
 				FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */,
 				FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */,
+				FF0E95522E1D474000486A0D /* UpgradeTimelineView.swift */,
 				FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */,
 				FF267FB42E16C8230004EF02 /* UpgradeBannerView.swift */,
 				FF267FB22E16C8230004EF02 /* SubscriptionPurchaseButton.swift */,
@@ -10054,6 +10057,7 @@
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
+				FF0E95532E1D474700486A0D /* UpgradeTimelineView.swift in Sources */,
 				4084262D2134CBCD0076D82E /* LargeListCell.swift in Sources */,
 				91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */,
 				C701C25C2A8E82DC00AD9FAB /* PaidFeature.swift in Sources */,
