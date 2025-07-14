@@ -19,7 +19,7 @@ struct UpgradeFeaturesView: View {
                         .foregroundColor(theme.primaryText02)
                         .tint(theme.primaryText02)
                 }
-            }            
+            }
         }
     }
 }

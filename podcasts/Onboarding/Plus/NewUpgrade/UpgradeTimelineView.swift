@@ -30,7 +30,7 @@ struct UpgradeTimelineView: View {
 
     var circle: some View {
         ZStack {
-            Circle()                
+            Circle()
                 .fill(theme.primaryInteractive01)
         }
     }
