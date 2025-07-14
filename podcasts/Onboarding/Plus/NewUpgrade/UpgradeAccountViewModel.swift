@@ -112,6 +112,10 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         let controller = WelcomeViewModel.make(in: navigationController, displayType: .newAccount)
         navigationController.pushViewController(controller, animated: true)
     }
+
+    var title: String {
+        return customTitle ?? upgradeTier.header
+    }
 }
 
 extension UpgradeAccountViewModel {
@@ -129,7 +133,7 @@ extension UpgradeAccountViewModel {
         if parentController == nil {
             // Create our own nav controller if we're not already going in one
             let navController = UINavigationController(rootViewController: controller)
-            navController.modalPresentationStyle = .fullScreen            
+            navController.modalPresentationStyle = .fullScreen
             viewModel.navigationController = navController
             viewModel.parentController = navController
             return navController
