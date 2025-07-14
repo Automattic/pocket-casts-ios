@@ -33,10 +33,10 @@ struct OnboardingFlow {
             let product = context?["product"] as? ProductInfo
             if FeatureFlag.newOnboardingUpgrade.enabled {
                 flowController = UpgradeAccountViewModel.make(in: controller,
-                                                              plan: product?.plan ?? .plus,
-                                                              frequency: product?.frequency ?? .yearly,
+                                                              flowSource: .accountScreen,
                                                               viewSource: PlusUpgradeViewSource.from(string: source),
-                                                              flowCategorySource: .accountScreen)
+                                                              plan: product?.plan ?? .plus,
+                                                              frequency: product?.frequency ?? .yearly)
             } else {
                 flowController = PlusPurchaseModel.make(in: controller,
                                                         plan: product?.plan ?? .plus,
@@ -48,10 +48,11 @@ struct OnboardingFlow {
             self.source = source ?? "unknown"
             if FeatureFlag.newOnboardingUpgrade.enabled {
                 flowController = UpgradeAccountViewModel.make(in: controller,
+                                                              flowSource: .upsell,
+                                                              viewSource: PlusUpgradeViewSource.from(string: source),
                                                               plan: .patron,
                                                               frequency: .yearly,
-                                                              viewSource: PlusUpgradeViewSource.from(string: source),
-                                                              flowCategorySource: .upsell)
+                                                              )
             } else {
                 let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
                 flowController = PlusLandingViewModel.make(in: navigationController,
@@ -79,10 +80,10 @@ struct OnboardingFlow {
         let product = context?["product"] as? ProductInfo
         if FeatureFlag.newOnboardingUpgrade.enabled {
             return UpgradeAccountViewModel.make(in: controller,
+                                                flowSource: .upsell,
+                                                viewSource: PlusUpgradeViewSource.from(string: source),
                                                 plan: product?.plan ?? .plus,
                                                 frequency: product?.frequency ?? .yearly,
-                                                viewSource: PlusUpgradeViewSource.from(string: source),
-                                                flowCategorySource: .upsell,
                                                 customTitle: customTitle)
         } else {
             return PlusLandingViewModel.make(in: controller,

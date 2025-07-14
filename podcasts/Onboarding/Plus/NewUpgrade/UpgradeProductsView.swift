@@ -149,7 +149,7 @@ extension L10n {
 }
 
 #Preview {
-    UpgradeProductsView(model: UpgradeAccountViewModel(flowCategorySource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
+    UpgradeProductsView(model: UpgradeAccountViewModel(flowSource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
 }
 
 extension PlusPricingInfoModel.PlusProductPricingInfo {

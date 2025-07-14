@@ -212,10 +212,11 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
         if FeatureFlag.newOnboardingUpgrade.enabled {
             let controller = UpgradeAccountViewModel.make(in: navigationController,
+                                                          flowSource: source,
+                                                          viewSource: .onboarding,
                                                           plan: .plus,
                                                           frequency: .yearly,
-                                                          viewSource: .onboarding,
-                                                          flowCategorySource: source)
+                                                          )
             controller.modalPresentationStyle = .fullScreen
             navigationController?.setViewControllers([controller], animated: true)
         } else {

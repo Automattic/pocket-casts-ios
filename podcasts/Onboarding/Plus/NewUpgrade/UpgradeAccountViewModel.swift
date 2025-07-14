@@ -13,13 +13,13 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     let viewSource: PlusUpgradeViewSource
 
-    let flowCategorySource: PlusLandingViewModel.Source
+    let flowSource: PlusLandingViewModel.Source
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowCategorySource: PlusLandingViewModel.Source) {
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
         self.viewSource = viewSource
-        self.flowCategorySource = flowCategorySource
+        self.flowSource = flowSource
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in
@@ -100,7 +100,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func dismissTapped(originalDismiss dismiss: DismissAction?) {
-        guard flowCategorySource == .accountCreated, let navigationController else {
+        guard flowSource == .accountCreated, let navigationController else {
             if navigationController == nil {
                 dismiss?()
             } else {
@@ -120,8 +120,12 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
 extension UpgradeAccountViewModel {
 
-    static func make(in parentController: UIViewController? = nil, plan: Plan, frequency: PlanFrequency, viewSource: PlusUpgradeViewSource, flowCategorySource: PlusLandingViewModel.Source, customTitle: String? = nil) -> UIViewController {
-        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowCategorySource: flowCategorySource)
+    static func make(in parentController: UIViewController? = nil,
+                     flowSource: PlusLandingViewModel.Source,
+                     viewSource: PlusUpgradeViewSource,
+                     plan: Plan, frequency: PlanFrequency,
+                     customTitle: String? = nil) -> UIViewController {
+        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowSource: flowSource)
 
         let view = UpgradeAccountView(model: viewModel)
         let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())

@@ -172,5 +172,5 @@ extension View {
 }
 
 #Preview {
-    UpgradeAccountView(model: UpgradeAccountViewModel(flowCategorySource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
+    UpgradeAccountView(model: UpgradeAccountViewModel(flowSource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
 }
