@@ -105,7 +105,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     func dismissTapped(originalDismiss dismiss: DismissAction?) {
         OnboardingFlow.shared.track(.plusPromotionDismissed)
-        
+
         guard flowSource == .accountCreated, let navigationController else {
             if navigationController == nil {
                 dismiss?()
@@ -125,7 +125,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     func purchaseTapped() {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
-        
+
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: ProductInfo.init(plan: upgradeTier.plan, frequency: selectedFrequency))
             return
