@@ -69,3 +69,11 @@ Replace the `{API_PATH}` with the full path to the `pocketcasts-api/api/modules/
 ```
 make update_proto API_PATH={API_PATH}
 ```
+
+## Debugging
+
+### Crash Log Symbolication
+
+All [releases](https://github.com/Automattic/pocket-casts-ios/releases) include dSYMs inside of the `xcarchive` file.
+
+These can be used along with the [MacSymbolicator](https://github.com/inket/MacSymbolicator) app to symbolicate any crash logs.
