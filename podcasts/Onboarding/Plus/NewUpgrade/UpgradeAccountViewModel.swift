@@ -1,6 +1,9 @@
 import Foundation
 import SwiftUI
 
+import PocketCastsServer
+import PocketCastsUtils
+
 class UpgradeAccountViewModel: PlusPurchaseModel {
 
     weak var navigationController: UINavigationController? = nil
@@ -116,6 +119,20 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     var title: String {
         return customTitle ?? upgradeTier.header
     }
+
+    func purchaseTapped() {
+        guard SyncManager.isUserLoggedIn() else {
+            presentLogin(with: ProductInfo.init(plan: upgradeTier.plan, frequency: selectedFrequency))
+            return
+        }
+        purchase(product: selectedProduct)
+    }
+
+    func presentLogin(with product: ProductInfo? = nil) {
+        let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
 }
 
 extension UpgradeAccountViewModel {
