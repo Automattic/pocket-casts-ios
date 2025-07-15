@@ -27,6 +27,8 @@ extension AppDelegate {
             adapters.append(NotificationsCoordinator.shared)
         }
 
+        adapters.append(UserSatisfactionSurveyManager.shared)
+
         Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }

@@ -174,8 +174,6 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             "color": filterToEdit.playlistColor().hexString(),
             "icon_name": filterToEdit.iconImageName() ?? "unknown"
         ])
-
-        SurveyEventTracker.shared.checkAndTriggerSurvey(for: .filterCreated)
     }
 
     @objc func backgroundTapped(_ sender: UITapGestureRecognizer) {

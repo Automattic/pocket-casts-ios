@@ -46,9 +46,6 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
                 if completed {
                     originalOnShareGuestPassTap?()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        SurveyEventTracker.shared.checkAndTriggerSurvey(for: .referralShared)
-                    }
                 }
             }
             if let popoverVC  = viewController.popoverPresentationController {

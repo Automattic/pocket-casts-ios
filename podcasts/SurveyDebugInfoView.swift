@@ -120,7 +120,7 @@ struct SurveyDebugInfoView: View {
         surveyPresentationDates = Settings.surveyPresentationDates()
         lastSurveyNotReallyDate = Settings.lastSurveyNotReallyDate()
         reviewRequestDates = Settings.reviewRequestDates()
-        episodeCompletionCount = SurveyEventTracker.shared.episodeCompletionCount
+        episodeCompletionCount = UserSatisfactionSurveyManager.shared.episodeCompletionCount
 
         if SubscriptionHelper.hasActiveSubscription(),
            let expiryDate = SubscriptionHelper.subscriptionRenewalDate() {

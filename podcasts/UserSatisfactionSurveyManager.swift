@@ -9,6 +9,16 @@ public class UserSatisfactionSurveyManager: NSObject {
 
     private var currentEvent: SurveyTriggerEvent?
 
+    var episodeCompletionCount: Int {
+        get { UserDefaults.standard.integer(forKey: "surveyEpisodeCompletionCount") }
+        set { UserDefaults.standard.set(newValue, forKey: "surveyEpisodeCompletionCount") }
+    }
+
+    private var plusUpgradeDate: Date? {
+        get { UserDefaults.standard.object(forKey: "surveyPlusUpgradeDate") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "surveyPlusUpgradeDate") }
+    }
+
     // MARK: - Survey Entry Points
 
     /// Checks if the survey should be shown based on the event and user context
@@ -142,6 +152,89 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
     }
 }
 
+// MARK: - AnalyticsAdapter
+
+extension UserSatisfactionSurveyManager: AnalyticsAdapter {
+    public func track(name: String, properties: [AnyHashable: Any]?) {
+        guard let analyticsEvent = mapAnalyticsEventToSurveyTrigger(name: name) else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+
+            if self.shouldShowSurvey(for: analyticsEvent) {
+                guard let topViewController = SceneHelper.rootViewController() else { return }
+                self.presentSurvey(from: topViewController, event: analyticsEvent)
+            }
+        }
+    }
+
+    private func mapAnalyticsEventToSurveyTrigger(name: String) -> SurveyTriggerEvent? {
+        switch name {
+        case "episode_starred":
+            return .episodeStarred
+        case "rating_screen_submit_tapped":
+            return .showRated
+        case "filter_created":
+            return .filterCreated
+        case "folder_saved":
+            return .folderCreated
+        case "bookmark_created":
+            return .bookmarkCreated
+        case "referral_pass_shared":
+            return .referralShared
+        case "settings_appearance_theme_changed":
+            return .customThemeSet
+        case "episode_marked_as_played":
+            return handleEpisodeCompletion()
+        case "purchase_successful":
+            return handlePlusUpgrade()
+        case "application_opened":
+            return handleAppOpened()
+        default:
+            return nil
+        }
+    }
+
+    private func handleEpisodeCompletion() -> SurveyTriggerEvent? {
+        episodeCompletionCount += 1
+
+        if episodeCompletionCount == 3 {
+            return .thirdEpisodeCompleted
+        }
+
+        return nil
+    }
+
+    private func handlePlusUpgrade() -> SurveyTriggerEvent? {
+        let date = Date()
+        FileLog.shared.addMessage("UserSatisfactionSurveyManager: Saved plus upgrade date at \(date)")
+        plusUpgradeDate = date
+
+        return nil
+    }
+
+    private func handleAppOpened() -> SurveyTriggerEvent? {
+        // Check plus upgrade survey eligibility when app opens
+        guard let upgradeDate = plusUpgradeDate else {
+            // Track upgrade date if user has active subscription but no stored date
+            if SubscriptionHelper.hasActiveSubscription() {
+                let date = Date()
+                FileLog.shared.addMessage("UserSatisfactionSurveyManager: Saved plus upgrade date at \(date)")
+                plusUpgradeDate = date
+            }
+            return nil
+        }
+
+        let daysAgo: Double = 2
+        let timeAgo = Date().addingTimeInterval(-daysAgo * 24 * 60 * 60)
+        if upgradeDate <= timeAgo {
+            return .plusUpgraded
+        }
+
+        return nil
+    }
+}
+
 // MARK: - Survey Check Result
 
 enum SurveyCheckResult {
@@ -182,63 +275,4 @@ enum SurveyTriggerEvent: String, CaseIterable {
     case bookmarkCreated = "bookmark_created"
     case customThemeSet = "custom_theme_set"
     case referralShared = "referral_shared"
-}
-
-// MARK: - Survey Event Tracker
-
-public class SurveyEventTracker {
-    public static let shared = SurveyEventTracker()
-
-    var episodeCompletionCount: Int {
-        get { UserDefaults.standard.integer(forKey: "surveyEpisodeCompletionCount") }
-        set { UserDefaults.standard.set(newValue, forKey: "surveyEpisodeCompletionCount") }
-    }
-
-    private var plusUpgradeDate: Date? {
-        get { UserDefaults.standard.object(forKey: "surveyPlusUpgradeDate") as? Date }
-        set { UserDefaults.standard.set(newValue, forKey: "surveyPlusUpgradeDate") }
-    }
-
-    private init() {}
-
-    @MainActor public func trackEpisodeCompleted() {
-        episodeCompletionCount += 1
-
-        // Check for third episode completion
-        if episodeCompletionCount == 3 {
-            checkAndTriggerSurvey(for: .thirdEpisodeCompleted)
-        }
-    }
-
-    // MARK: - Helper Methods
-
-    /// Call this method during app launch or lifecycle events to check for eligible plus upgrade surveys
-    @MainActor public func checkPlusUpgradeSurveyEligibility() {
-        guard let upgradeDate = plusUpgradeDate else {
-            // Instead of tracking the exact moment the user upgrades, we check if status has changed each launch
-            // This won't be exact, but at least gets us a rough estimate of a point in time where upgrade occurred
-            // and a relevant point in the future from that
-            if SubscriptionHelper.hasActiveSubscription() {
-                let date = Date()
-                FileLog.shared.addMessage("UserSatisfactionSurveyManager:Saved plus upgrade date at \(date)")
-                plusUpgradeDate = date
-            }
-
-            return
-        }
-
-        let daysAgo: Double = 2
-        let timeAgo = Date().addingTimeInterval(-daysAgo * 24 * 60 * 60)
-        if upgradeDate <= timeAgo {
-            checkAndTriggerSurvey(for: .plusUpgraded)
-        }
-    }
-
-    @MainActor func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
-        guard let topViewController = SceneHelper.rootViewController() else { return }
-
-        if UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: event) {
-            UserSatisfactionSurveyManager.shared.presentSurvey(from: topViewController, event: event)
-        }
-    }
 }

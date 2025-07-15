@@ -1054,12 +1054,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
-            #if !os(watchOS) && !APPCLIP
-            // Track episode completion for survey purposes
-            DispatchQueue.main.async {
-                SurveyEventTracker.shared.trackEpisodeCompleted()
-            }
-            #endif
 
             if SyncManager.isUserLoggedIn() {
                 let currentUtcTime = TimeFormatter.currentUTCTimeInMillis()

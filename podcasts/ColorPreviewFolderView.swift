@@ -54,8 +54,6 @@ struct ColorPreviewFolderView: View {
                 Analytics.track(.folderSaved, properties: ["number_of_podcasts": model.selectedPodcastUuids.count, "color": UIColor(model.color).hexString()])
 
                 dismissAction(folderUuid)
-
-                SurveyEventTracker.shared.checkAndTriggerSurvey(for: .folderCreated)
             } label: {
                 Text(L10n.folderSaveFolder)
                     .textStyle(RoundedButton())
