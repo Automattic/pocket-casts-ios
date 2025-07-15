@@ -104,6 +104,8 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func dismissTapped(originalDismiss dismiss: DismissAction?) {
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
+        
         guard flowSource == .accountCreated, let navigationController else {
             if navigationController == nil {
                 dismiss?()

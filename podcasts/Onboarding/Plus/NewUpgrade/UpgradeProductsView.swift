@@ -110,9 +110,9 @@ struct UpgradeProductsView: View {
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
                 case privacyPolicy:
-                    break
+                    model.privacyPolicyTapped()
                 case termsOfUse:
-                    break
+                    model.termsOfUseTapped()
                 default:
                     break
             }
