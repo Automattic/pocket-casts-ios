@@ -42,7 +42,7 @@ extension NetworkUtils {
         let streamAction = OptionAction(label: L10n.podcastStreamConfirmation, icon: nil) {
             allowed?()
         }
-        optionsPicker.addDescriptiveActions(title: L10n.notOnWifi, message: L10n.podcastStreamDataWarning, icon: "option-alert", actions: [streamAction])
+        optionsPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: L10n.podcastStreamDataWarning("pktc://settings/storage-and-data"), icon: "option-alert", actions: [streamAction])
 
         optionsPicker.setNoActionCallback {
             disallowed?()

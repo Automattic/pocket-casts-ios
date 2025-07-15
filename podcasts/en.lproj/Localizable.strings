@@ -1945,7 +1945,7 @@
 "podcast_stream_confirmation" = "Stream Anyway";
 
 /* Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi. */
-"podcast_stream_data_warning" = "Streaming this episode will use data";
+"podcast_stream_data_warning" = "Streaming this episode will use data. You can turn off this warning in [Settings](%@).";
 
 /* Used to reference the episode was published this month. */
 "podcast_this_month" = "This Month";

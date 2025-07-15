@@ -492,6 +492,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.profile)
         guard let navController = selectedViewController as? UINavigationController else { return }
 
+        if navController.presentedViewController != nil {
+            navController.dismiss(animated: false)
+        }
+
         navController.popViewController(animated: false)
         let settingViewController = SettingsViewController()
         navController.pushViewController(settingViewController, animated: row == nil)
