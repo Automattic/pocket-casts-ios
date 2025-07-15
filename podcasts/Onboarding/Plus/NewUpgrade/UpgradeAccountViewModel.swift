@@ -150,7 +150,7 @@ extension UpgradeAccountViewModel {
         controller.navBarIsHidden = true
         viewModel.customTitle = customTitle
         viewModel.parentController = parentController
-
+        viewModel.navigationController = parentController as? UINavigationController
         if parentController == nil {
             // Create our own nav controller if we're not already going in one
             let navController = UINavigationController(rootViewController: controller)
