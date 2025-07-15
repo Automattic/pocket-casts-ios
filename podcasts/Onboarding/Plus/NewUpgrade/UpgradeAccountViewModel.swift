@@ -124,6 +124,8 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func purchaseTapped() {
+        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+        
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: ProductInfo.init(plan: upgradeTier.plan, frequency: selectedFrequency))
             return
