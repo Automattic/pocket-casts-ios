@@ -2,11 +2,12 @@ import Foundation
 import PocketCastsServer
 import SwiftUI
 import PocketCastsUtils
+import StoreKit
 
-public class UserSatisfactionSurveyManager {
+public class UserSatisfactionSurveyManager: NSObject {
     public static let shared = UserSatisfactionSurveyManager()
 
-    private init() {}
+    private var currentEvent: SurveyTriggerEvent?
 
     // MARK: - Survey Entry Points
 
@@ -55,13 +56,38 @@ public class UserSatisfactionSurveyManager {
             return
         }
 
-        let surveyView = UserSatisfactionSurveyView(presentSupportView: {
-            EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
-        })
+        let surveyView = UserSatisfactionSurveyView() { [weak self] response in
+            switch response {
+            case .yes:
+                Analytics.track(.userSatisfactionSurveyYesResponse, properties: [
+                    "trigger_event": event.rawValue,
+                    "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
+                ])
+                DispatchQueue.main.async {
+                    if let windowScene = UIApplication.shared.connectedScenes
+                        .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                        AppStore.requestReview(in: windowScene)
+                        Settings.addReviewRequested()
+                        Analytics.track(.appStoreReviewRequested, properties: ["source": AnalyticsSource.userSatisfactionSurvey])
+                    }
+                }
+                self?.currentEvent = nil
+            case .no:
+                Analytics.track(.userSatisfactionSurveyNoResponse, properties: [
+                    "trigger_event": event.rawValue,
+                    "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
+                ])
+                Settings.setSurveyNotReallyResponse()
+                EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
+                self?.currentEvent = nil
+            }
+        }
+
         let hostingController = ThemedHostingController(rootView: surveyView, background: \.primaryUi01)
 
         // Let the hosting controller size itself
         hostingController.sizingOptions = .intrinsicContentSize
+        hostingController.presentationController?.delegate = self
 
         if let sheet = hostingController.sheetPresentationController {
             sheet.detents = [
@@ -104,12 +130,15 @@ public class UserSatisfactionSurveyManager {
         let sixtyDaysAgo = Date().addingTimeInterval(-60 * 24 * 60 * 60)
         return lastDeclineDate > sixtyDaysAgo
     }
+}
 
-    private func presentSupportView(from viewController: UIViewController) {
-        // Present support/help view
-        // This would typically navigate to the help/support section
-        // For now, we'll just dismiss the current view
-        viewController.dismiss(animated: true)
+extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        Analytics.track(.userSatisfactionSurveyDismissed, properties: [
+            "trigger_event": currentEvent?.rawValue ?? "unknown",
+            "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
+        ])
+        currentEvent = nil
     }
 }
 
