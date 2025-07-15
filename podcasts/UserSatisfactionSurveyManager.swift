@@ -265,25 +265,10 @@ public class SurveyEventTracker {
     }
 
     @MainActor private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
-        guard let topViewController = UIApplication.shared.topViewController else { return }
+        guard let topViewController = SceneHelper.rootViewController() else { return }
 
         if UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: event) {
             UserSatisfactionSurveyManager.shared.presentSurvey(from: topViewController, event: event)
         }
-    }
-}
-
-// MARK: - UIApplication Extension
-
-extension UIApplication {
-    @MainActor var topViewController: UIViewController? {
-        guard let windowScene = connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return nil }
-
-        var topController = window.rootViewController
-        while let presentedViewController = topController?.presentedViewController {
-            topController = presentedViewController
-        }
-        return topController
     }
 }
