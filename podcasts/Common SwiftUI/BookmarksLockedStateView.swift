@@ -27,9 +27,9 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
 class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature
     let bookmarksSource: BookmarkAnalyticsSource
-    let upgradeSource: String
+    let upgradeSource: PlusUpgradeViewSource
 
-    init(feature: PaidFeature, source: BookmarkAnalyticsSource, upgradeSource: String = "bookmarks_locked") {
+    init(feature: PaidFeature, source: BookmarkAnalyticsSource, upgradeSource: PlusUpgradeViewSource = .bookmarksLocked) {
         self.feature = feature
         self.bookmarksSource = source
         self.upgradeSource = upgradeSource

@@ -7,11 +7,11 @@ struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
-    private(set) var source: String? = nil
+    private(set) var source: PlusUpgradeViewSource? = nil
 
     private(set) var accountCreated: ((Bool)->())?
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: PlusUpgradeViewSource, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
         self.accountCreated = accountCreated
@@ -22,19 +22,19 @@ struct OnboardingFlow {
         switch flow {
         case .plusUpsell, .endOfYearUpsell, .suggestedFolderUpsell:
             // Only the upsell flow needs an unknown source
-            self.source = source ?? "unknown"
+            self.source = source
             flowController = upgradeController(in: navigationController,
                                                viewSource: source,
                                                context: context,
                                                customTitle: customTitle)
 
         case .plusAccountUpgrade:
-            self.source = source ?? "unknown"
+            self.source = source
             let product = context?["product"] as? ProductInfo
             if FeatureFlag.newOnboardingUpgrade.enabled {
                 flowController = UpgradeAccountViewModel.make(in: controller,
                                                               flowSource: .accountScreen,
-                                                              viewSource: PlusUpgradeViewSource.from(string: source),
+                                                              viewSource: source,
                                                               plan: product?.plan ?? .plus,
                                                               frequency: product?.frequency ?? .yearly)
             } else {
@@ -45,11 +45,11 @@ struct OnboardingFlow {
             }
 
         case .patronAccountUpgrade:
-            self.source = source ?? "unknown"
+            self.source = source
             if FeatureFlag.newOnboardingUpgrade.enabled {
                 flowController = UpgradeAccountViewModel.make(in: controller,
                                                               flowSource: .upsell,
-                                                              viewSource: PlusUpgradeViewSource.from(string: source),
+                                                              viewSource: source,
                                                               plan: .patron,
                                                               frequency: .yearly,
                                                               )
@@ -57,7 +57,7 @@ struct OnboardingFlow {
                 let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
                 flowController = PlusLandingViewModel.make(in: navigationController,
                                                            from: .upsell,
-                                                           viewSource: PlusUpgradeViewSource.from(string: source),
+                                                           viewSource: source,
                                                            config: config,
                                                            customTitle: customTitle)
             }
@@ -76,19 +76,19 @@ struct OnboardingFlow {
         return flowController
     }
 
-    private func upgradeController(in controller: UINavigationController?, viewSource: String?, context: Context?, customTitle: String? = nil) -> UIViewController {
+    private func upgradeController(in controller: UINavigationController?, viewSource: PlusUpgradeViewSource, context: Context?, customTitle: String? = nil) -> UIViewController {
         let product = context?["product"] as? ProductInfo
         if FeatureFlag.newOnboardingUpgrade.enabled {
             return UpgradeAccountViewModel.make(in: controller,
                                                 flowSource: .upsell,
-                                                viewSource: PlusUpgradeViewSource.from(string: source),
+                                                viewSource: viewSource,
                                                 plan: product?.plan ?? .plus,
                                                 frequency: product?.frequency ?? .yearly,
                                                 customTitle: customTitle)
         } else {
             return PlusLandingViewModel.make(in: controller,
                                              from: .upsell,
-                                             viewSource: PlusUpgradeViewSource.from(string: viewSource),
+                                             viewSource: viewSource,
                                              config: .init(displayProduct: product),
                                              customTitle: customTitle)
         }
@@ -99,7 +99,7 @@ struct OnboardingFlow {
         if FeatureFlag.notificationsRevamp.enabled, (currentFlow == .initialOnboarding) || (currentFlow == .encourageAccountCreation) {
             NavigationManager.sharedManager.showNotificationsPermissionsModal()
         }
-        source = nil
+        source = .unknown
         currentFlow = .none
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
@@ -107,7 +107,7 @@ struct OnboardingFlow {
 
     /// Updates the source passed for analytics
     /// Any `track` events will use this new source
-    mutating func updateAnalyticsSource(_ source: String) {
+    mutating func updateAnalyticsSource(_ source: PlusUpgradeViewSource) {
         self.source = source
     }
 
@@ -116,7 +116,7 @@ struct OnboardingFlow {
 
         // Append the source, only if it's set because not every event needs a source
         if let source {
-            defaultProperties["source"] = source
+            defaultProperties["source"] = source.rawValue
         }
 
         let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }

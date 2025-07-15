@@ -105,7 +105,7 @@ class SlumberAnnouncementViewModel: ObservableObject {
 
 class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature = .slumber
-    let upgradeSource: String = "slumber"
+    let upgradeSource: PlusUpgradeViewSource = .slumber
 
     var upgradeLabel: String {
         return L10n.plusSubscribeTo

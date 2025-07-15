@@ -209,7 +209,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 
     private func goToPlus(from source: PlusLandingViewModel.Source) {
         // Update the flow to make sure the correct analytics source is passed on
-        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
+        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? .login: .accountCreated)
         if FeatureFlag.newOnboardingUpgrade.enabled {
             let controller = UpgradeAccountViewModel.make(in: navigationController,
                                                           flowSource: source,
