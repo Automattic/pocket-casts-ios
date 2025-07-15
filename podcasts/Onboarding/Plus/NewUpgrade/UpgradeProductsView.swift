@@ -91,7 +91,7 @@ struct UpgradeProductsView: View {
     }
 
     var actionButton: some View {
-        SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency) {
+        SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency, showPurchaseErrors: true) {
             model.purchaseTapped()
         }
     }

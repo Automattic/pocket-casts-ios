@@ -5,12 +5,14 @@ struct SubscriptionPurchaseButton: View {
     let viewModel: PlusPurchaseModel
     let tier: UpgradeTier
     let frequency: PlanFrequency
+    let showPurchaseErrors: Bool
     let action: (() -> Void)?
 
-    init(viewModel: PlusPurchaseModel, tier: UpgradeTier = .plus, frequency: PlanFrequency = .yearly, action: (() -> Void)? = nil) {
+    init(viewModel: PlusPurchaseModel, tier: UpgradeTier = .plus, frequency: PlanFrequency = .yearly, showPurchaseErrors: Bool = false, action: (() -> Void)? = nil) {
         self.viewModel = viewModel
         self.tier = tier
         self.frequency = frequency
+        self.showPurchaseErrors = showPurchaseErrors
         self.action = action
     }
 
@@ -33,7 +35,9 @@ struct SubscriptionPurchaseButton: View {
 
     var body: some View {
         let hasError = Binding<Bool>(
-            get: { self.viewModel.priceAvailability == .failed || self.viewModel.state == .failed },
+            get: {
+                self.viewModel.priceAvailability == .failed || (self.showPurchaseErrors && self.viewModel.state == .failed)
+            },
             set: { _ in }
         )
         Button(action: {
