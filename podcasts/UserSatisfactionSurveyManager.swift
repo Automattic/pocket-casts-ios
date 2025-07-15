@@ -220,7 +220,9 @@ public class SurveyEventTracker {
             // This won't be exact, but at least gets us a rough estimate of a point in time where upgrade occurred
             // and a relevant point in the future from that
             if SubscriptionHelper.hasActiveSubscription() {
-                plusUpgradeDate = Date()
+                let date = Date()
+                FileLog.shared.addMessage("UserSatisfactionSurveyManager:Saved plus upgrade date at \(date)")
+                plusUpgradeDate = date
             }
 
             return
