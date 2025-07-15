@@ -72,6 +72,24 @@ make update_proto API_PATH={API_PATH}
 
 ## Debugging
 
+### Logs
+
+Logs can be found in the app as a view and shared from there through the system sheet or mail:
+* Profile > Help & Feedback > ⋯ > Logs
+
+When debugging analytics, the `tracksLogging` feature flag will enable logging for these events.
+
+### Export Files
+
+An export can be created with the database, settings plist, and logs for debugging purposes:
+* Profile > Help & Feedback > ⋯ > Export Database - the export will include all log files and settings
+* Profile > Settings > Developer > Export Bundle
+
+These exports can also be imported to the app, replacing the database and settings with the ones from the file. This will prompt the user before replacement.
+* Open the file with Pocket Casts directly from Files
+* Drag and drop the file on the Simulator
+* Profile > Settings > Developer > Import Bundle
+
 ### Crash Log Symbolication
 
 All [releases](https://github.com/Automattic/pocket-casts-ios/releases) include dSYMs inside of the `xcarchive` file.
