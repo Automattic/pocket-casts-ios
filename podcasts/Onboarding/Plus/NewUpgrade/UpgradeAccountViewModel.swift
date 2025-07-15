@@ -85,6 +85,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         } else {
             selectedFrequency = .monthly
         }
+        changedSubscriptionPeriod(selectedFrequency)
     }
 
     var savingsOnBestValue: String? {
@@ -133,8 +134,31 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func changedSubscriptionPeriod(_ value: PlanFrequency) {
+        OnboardingFlow.shared.track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
+    }
+
+    func termsOfUseTapped() {
+        OnboardingFlow.shared.track(.plusPromotionTermsAndConditionsTapped)
+    }
+
+    func privacyPolicyTapped() {
+        OnboardingFlow.shared.track(.plusPromotionPrivacyPolicyTapped)
+    }
+
+    // MARK: - Onboarding Model overrides
+    override func didAppear() {
+        OnboardingFlow.shared.track(.plusPromotionShown)
+    }
+
+    override func didDismiss(type: OnboardingDismissType) {
+        guard type == .swipe else { return }
+
+        OnboardingFlow.shared.track(.plusPromotionDismissed)
+    }
 }
 
+// MARK: - Factory methods
 extension UpgradeAccountViewModel {
 
     static func make(in parentController: UIViewController? = nil,
@@ -148,9 +172,12 @@ extension UpgradeAccountViewModel {
         let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
         controller.modalPresentationStyle = .fullScreen
         controller.navBarIsHidden = true
+        controller.viewModel = viewModel
+
         viewModel.customTitle = customTitle
         viewModel.parentController = parentController
         viewModel.navigationController = parentController as? UINavigationController
+
         if parentController == nil {
             // Create our own nav controller if we're not already going in one
             let navController = UINavigationController(rootViewController: controller)
