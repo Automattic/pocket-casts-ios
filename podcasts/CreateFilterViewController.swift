@@ -175,8 +175,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
             "icon_name": filterToEdit.iconImageName() ?? "unknown"
         ])
 
-        // Track filter creation for survey purposes
-        SurveyEventTracker.shared.trackFilterCreated()
+        SurveyEventTracker.shared.checkAndTriggerSurvey(for: .filterCreated)
     }
 
     @objc func backgroundTapped(_ sender: UITapGestureRecognizer) {

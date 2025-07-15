@@ -201,8 +201,6 @@ public class SurveyEventTracker {
 
     private init() {}
 
-    // MARK: - Event Tracking Methods
-
     @MainActor public func trackEpisodeCompleted() {
         episodeCompletionCount += 1
 
@@ -210,34 +208,6 @@ public class SurveyEventTracker {
         if episodeCompletionCount == 3 {
             checkAndTriggerSurvey(for: .thirdEpisodeCompleted)
         }
-    }
-
-    @MainActor public func trackEpisodeStarred() {
-        checkAndTriggerSurvey(for: .episodeStarred)
-    }
-
-    @MainActor public func trackShowRated() {
-        checkAndTriggerSurvey(for: .showRated)
-    }
-
-    @MainActor public func trackFilterCreated() {
-        checkAndTriggerSurvey(for: .filterCreated)
-    }
-
-    @MainActor public func trackFolderCreated() {
-        checkAndTriggerSurvey(for: .folderCreated)
-    }
-
-    @MainActor public func trackBookmarkCreated() {
-        checkAndTriggerSurvey(for: .bookmarkCreated)
-    }
-
-    @MainActor public func trackCustomThemeSet() {
-        checkAndTriggerSurvey(for: .customThemeSet)
-    }
-
-    @MainActor public func trackReferralShared() {
-        checkAndTriggerSurvey(for: .referralShared)
     }
 
     // MARK: - Helper Methods
@@ -264,7 +234,7 @@ public class SurveyEventTracker {
         }
     }
 
-    @MainActor private func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
+    @MainActor func checkAndTriggerSurvey(for event: SurveyTriggerEvent) {
         guard let topViewController = SceneHelper.rootViewController() else { return }
 
         if UserSatisfactionSurveyManager.shared.shouldShowSurvey(for: event) {

@@ -178,8 +178,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             self.updateTableAndData()
             self.dismiss(animated: true, completion: {
                 #if !APPCLIP
-                // Track custom theme setting for survey purposes
-                SurveyEventTracker.shared.trackCustomThemeSet()
+                SurveyEventTracker.shared.checkAndTriggerSurvey(for: .customThemeSet)
                 #endif
             })
         }, dismissAction: { [weak self] in

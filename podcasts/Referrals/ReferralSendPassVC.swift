@@ -47,7 +47,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 if completed {
                     originalOnShareGuestPassTap?()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        SurveyEventTracker.shared.trackReferralShared()
+                        SurveyEventTracker.shared.checkAndTriggerSurvey(for: .referralShared)
                     }
                 }
             }

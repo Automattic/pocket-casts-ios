@@ -283,7 +283,7 @@ class EpisodeManager: NSObject {
             // Track episode starring for survey purposes
             #if !os(watchOS) && !APPCLIP
             DispatchQueue.main.async {
-                SurveyEventTracker.shared.trackEpisodeStarred()
+                SurveyEventTracker.shared.checkAndTriggerSurvey(for: .episodeStarred)
             }
             #endif
         } else {
