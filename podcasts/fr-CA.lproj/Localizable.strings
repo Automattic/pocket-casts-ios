@@ -2268,8 +2268,6 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>TRIER L’ORDRE</string>
     <key>podcast_stream_confirmation</key>
     <string>Lire tout de même</string>
-    <key>podcast_stream_data_warning</key>
-    <string>La lecture en continu de cet épisode utilisera des données.</string>
     <key>podcast_this_month</key>
     <string>Ce mois-ci</string>
     <key>podcast_time_left</key>

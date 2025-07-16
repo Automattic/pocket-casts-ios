@@ -2268,8 +2268,6 @@ Pocket Casts на полную мощность.</string>
     <string>ПОРЯДОК СОРТИРОВКИ</string>
     <key>podcast_stream_confirmation</key>
     <string>Транслировать в любом случае</string>
-    <key>podcast_stream_data_warning</key>
-    <string>При трансляции этого выпуска будут использоваться мобильные данные</string>
     <key>podcast_this_month</key>
     <string>В этом месяце</string>
     <key>podcast_time_left</key>

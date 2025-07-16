@@ -2268,8 +2268,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>ORDENAR</string>
     <key>podcast_stream_confirmation</key>
     <string>Transmitir de todas formas</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Se utilizarán los datos para la transmición de este episodio</string>
     <key>podcast_this_month</key>
     <string>Este mes</string>
     <key>podcast_time_left</key>

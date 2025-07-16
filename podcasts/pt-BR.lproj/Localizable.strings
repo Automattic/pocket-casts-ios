@@ -2268,8 +2268,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>ORDEM DE CLASSIFICAÇÃO</string>
     <key>podcast_stream_confirmation</key>
     <string>Reproduzir mesmo assim</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Reproduzir este episódio consumirá seus dados</string>
     <key>podcast_this_month</key>
     <string>Este mês</string>
     <key>podcast_time_left</key>

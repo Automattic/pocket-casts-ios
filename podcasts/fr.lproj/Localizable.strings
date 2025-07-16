@@ -2268,8 +2268,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>ORDRE DE TRI</string>
     <key>podcast_stream_confirmation</key>
     <string>Diffuser quand même en streaming</string>
-    <key>podcast_stream_data_warning</key>
-    <string>La diffusion en streaming de cet épisode va consommer des données</string>
     <key>podcast_this_month</key>
     <string>Ce mois-ci</string>
     <key>podcast_time_left</key>

@@ -2266,8 +2266,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sorteervolgorde</string>
     <key>podcast_stream_confirmation</key>
     <string>Toch streamen</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Voor het streamen van deze aflevering wordt data gebruikt</string>
     <key>podcast_this_month</key>
     <string>Deze maand</string>
     <key>podcast_time_left</key>

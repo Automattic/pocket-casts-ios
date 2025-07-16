@@ -2268,8 +2268,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>SORTIERUNG</string>
     <key>podcast_stream_confirmation</key>
     <string>Trotzdem streamen</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Beim Streamen dieser Folge werden mobile Daten verbraucht</string>
     <key>podcast_this_month</key>
     <string>Dieser Monat</string>
     <key>podcast_time_left</key>

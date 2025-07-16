@@ -2268,8 +2268,6 @@ Pocket Casts。</string>
     <string>排序</string>
     <key>podcast_stream_confirmation</key>
     <string>仍然流式传输</string>
-    <key>podcast_stream_data_warning</key>
-    <string>流式传输此剧集将使用数据</string>
     <key>podcast_this_month</key>
     <string>本月</string>
     <key>podcast_time_left</key>

@@ -2268,8 +2268,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>SORTERINGSORDNING</string>
     <key>podcast_stream_confirmation</key>
     <string>Streama ändå</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Att streama det här avsnittet använder data</string>
     <key>podcast_this_month</key>
     <string>Den här månaden</string>
     <key>podcast_time_left</key>

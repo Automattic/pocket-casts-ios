@@ -2261,8 +2261,6 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>ORDENAR PER</string>
     <key>podcast_stream_confirmation</key>
     <string>Reprodueix-ho de totes maneres</string>
-    <key>podcast_stream_data_warning</key>
-    <string>La reproducció d'aquest episodi consumirà dades</string>
     <key>podcast_this_month</key>
     <string>Aquest mes</string>
     <key>podcast_time_left</key>
