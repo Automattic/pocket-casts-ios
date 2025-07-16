@@ -25,7 +25,8 @@ class EpisodeFilterDataManager {
         "wasDeleted",
         "filterDuration",
         "longerThan",
-        "shorterThan"
+        "shorterThan",
+        "rawPlaylistType"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
