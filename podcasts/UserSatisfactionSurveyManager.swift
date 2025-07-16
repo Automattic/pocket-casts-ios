@@ -170,25 +170,25 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
 
     private func mapAnalyticsEventToSurveyTrigger(name: String) -> SurveyTriggerEvent? {
         switch name {
-        case "episode_starred":
+        case AnalyticsEvent.episodeStarred.eventName:
             return .episodeStarred
-        case "rating_screen_submit_tapped":
+        case AnalyticsEvent.ratingScreenSubmitTapped.eventName:
             return .showRated
-        case "filter_created":
+        case AnalyticsEvent.filterCreated.eventName:
             return .filterCreated
-        case "folder_saved":
+        case AnalyticsEvent.folderSaved.eventName:
             return .folderCreated
-        case "bookmark_created":
+        case AnalyticsEvent.bookmarkCreated.eventName:
             return .bookmarkCreated
-        case "referral_pass_shared":
+        case AnalyticsEvent.referralPassShared.eventName:
             return .referralShared
-        case "settings_appearance_theme_changed":
+        case AnalyticsEvent.settingsAppearanceThemeChanged.eventName:
             return .customThemeSet
-        case "episode_marked_as_played":
+        case AnalyticsEvent.episodeMarkedAsPlayed.eventName:
             return handleEpisodeCompletion()
-        case "purchase_successful":
+        case AnalyticsEvent.purchaseSuccessful.eventName:
             return handlePlusUpgrade()
-        case "application_opened":
+        case AnalyticsEvent.applicationOpened.eventName:
             return handleAppOpened()
         default:
             return nil
