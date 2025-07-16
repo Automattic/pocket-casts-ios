@@ -2956,6 +2956,7 @@
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
+		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
@@ -5342,6 +5343,7 @@
 		8BE36DC928734F6500E35313 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				9A72B65E2E210E750078FC84 /* DependencyInjection */,
 				8BCB22AE28F47EFC001A0315 /* End of Year */,
 				8BE36DCA28734F7000E35313 /* DataModel */,
 				8BE36DCC28734F7000E35313 /* Server */,
