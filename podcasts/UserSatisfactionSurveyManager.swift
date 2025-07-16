@@ -178,7 +178,7 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
             return .filterCreated
         case AnalyticsEvent.folderSaved.eventName:
             return .folderCreated
-        case AnalyticsEvent.bookmarkCreated.eventName:
+        case AnalyticsEvent.bookmarkEditFormSubmitted.eventName:
             return .bookmarkCreated
         case AnalyticsEvent.referralPassShared.eventName:
             return .referralShared
