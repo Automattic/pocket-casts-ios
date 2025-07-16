@@ -427,6 +427,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 struct SentryLogger: ErrorLogger {
     func log(error: Error, context: [String: String]?) {
+        guard BuildEnvironment.current != .appStore else {
+            return
+        }
+
     #if os(iOS)
     CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
     #endif
