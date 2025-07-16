@@ -30,7 +30,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
                 cell.accessoryType = .none
-                cell.configure(playlist: playlist)
+                cell.configure(playlist: playlist, resetConfiguration: cell.tag != indexPath.row)
+                cell.tag = indexPath.row
             }
             return cell
         }

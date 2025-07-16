@@ -5,11 +5,13 @@ class PlaylistCellViewModel: ObservableObject {
     @Published var episodesCount: Int = 0
     @Published var images: [Image] = []
 
-    private let playlist: EpisodeFilter
+    private var playlist: EpisodeFilter
+    private var isLoadingCount: Bool = false
+    private var isLoadingImages: Bool = false
+
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    private var isLoadingCount: Bool = false
     private let episodeArtWork: EpisodeArtwork
 
     init(
@@ -47,6 +49,8 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     func loadImages() {
+        if isLoadingImages { return }
+        isLoadingImages = true
         Task { [weak self] in
             guard let self else { return }
             do {
@@ -54,19 +58,24 @@ class PlaylistCellViewModel: ObservableObject {
                 let images = try await self.loadImages(episodes: list)
                 await MainActor.run {
                     self.images = images
+                    self.isLoadingImages = false
                 }
-            } catch {}
+            } catch {
+                await MainActor.run {
+                    self.isLoadingImages = false
+                }
+            }
         }
     }
 
-    func loadListEpisodes() async -> [ListEpisode] {
+    private func loadListEpisodes() async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
             self?.episodesDataManager.episodes(for: playlist, limit: 4) ?? []
         }.value
     }
 
-    func loadImages(episodes: [ListEpisode]) async throws -> [Image] {
+    private func loadImages(episodes: [ListEpisode]) async throws -> [Image] {
         try await withThrowingTaskGroup(of: UIImage?.self) { group in
             for episode in episodes {
                 group.addTask {

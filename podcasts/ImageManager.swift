@@ -29,6 +29,9 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    // Track in-progress artwork loads by UUID
+    private var inProgressArtworkLoads = Set<String>()
+
     public var biggestPodcastImageSize: Int {
         availablePodcastImageSizes.max()!
     }
@@ -212,21 +215,29 @@ class ImageManager {
             completionHandler(image)
         }
     }
-    
+
     func loadArtwork(from url: String, uuid: String, size: Int? = nil) async throws -> UIImage? {
-        guard let url = URL(string: url) else {
+        guard let url = URL(string: url), !inProgressArtworkLoads.contains(uuid) else {
             return nil
         }
+
+        inProgressArtworkLoads.insert(uuid)
+
         let size = size ?? biggestPodcastImageSize
         let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
 
         return await withCheckedContinuation { [weak self] continuation in
-            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
-                if let image = try? result.get().image {
-                    self?.save(image, for: uuid)
-                    return continuation.resume(returning: image)
+            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { [weak self] result in
+                defer {
+                    self?.inProgressArtworkLoads.remove(uuid)
                 }
-                return continuation.resume(returning: nil)
+                do {
+                    let image = try result.get().image
+                    self?.save(image, for: uuid)
+                    continuation.resume(returning: image)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
             }
         }
     }

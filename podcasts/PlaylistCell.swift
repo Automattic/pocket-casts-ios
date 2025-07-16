@@ -5,12 +5,10 @@ import PocketCastsDataModel
 class PlaylistCell: ThemeableCell {
     static let reuseIdentifier = "PlaylistCell"
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        contentConfiguration = nil
-    }
-
-    func configure(playlist: EpisodeFilter) {
+    func configure(playlist: EpisodeFilter, resetConfiguration: Bool) {
+        if !resetConfiguration {
+            return
+        }
         contentConfiguration = UIHostingConfiguration {
             PlaylistCellView(viewModel: PlaylistCellViewModel(playlist: playlist))
                 .environmentObject(Theme.sharedTheme)
