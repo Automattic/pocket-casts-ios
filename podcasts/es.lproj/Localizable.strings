@@ -807,6 +807,8 @@ Deja que te ayudemos</string>
     <string>Descargar todo</string>
     <key>download_data_warning</key>
     <string>La descarga utilizará datos.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Esta descarga utilizará datos móviles. Puedes desactivar esta advertencia en [Settings] (%@).</string>
     <key>download_episode_plural_format</key>
     <string>Descargar %1$@ episodios</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ ACTUALIZACIONES</string>
     <string>No se puede cargar la información del podcast :(</string>
     <key>podcast_error_title</key>
     <string>Estoy tan sorprendido como tu</string>
+    <key>podcast_extras</key>
+    <string>Extras</string>
     <key>podcast_failed_download</key>
     <string>Se ha producido un error en la descarga del episodio.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <key>podcast_no_date</key>
     <string>Fecha sin determinar</string>
     <key>podcast_no_season</key>
-    <string>No hay temporadas</string>
+    <string>Extras</string>
     <key>podcast_pause_download</key>
     <string>Pausar descarga</string>
     <key>podcast_pause_playback</key>
@@ -2302,6 +2306,8 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>De más nuevos a más antiguos</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>De más antiguos a más nuevos</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Serie</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>De más cortos a más largos</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3397,8 @@ Esta aplicación puede ser tan sencilla o difícil de usar como tú quieras. Pue
     <string>De más largos a más cortos</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De más cortos a más largos</string>
+    <key>view_transcript</key>
+    <string>Ver transcripción</string>
     <key>volume_boost</key>
     <string>Subir volumen</string>
     <key>volume_boost_description</key>

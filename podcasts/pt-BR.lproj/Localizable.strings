@@ -807,6 +807,8 @@ Deixe a gente ajudar você primeiro</string>
     <string>Fazer download de tudo</string>
     <key>download_data_warning</key>
     <string>O download usará dados.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Este download usará dados móveis. Você pode desativar este aviso em [Configurações](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Fazer download de %1$@ episódios</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ ATUALIZAÇÕES</string>
     <string>Não foi possível carregar os dados do podcast :(</string>
     <key>podcast_error_title</key>
     <string>Não rolou</string>
+    <key>podcast_extras</key>
+    <string>Extras</string>
     <key>podcast_failed_download</key>
     <string>Falha no download do episódio.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <key>podcast_no_date</key>
     <string>Data não definida</string>
     <key>podcast_no_season</key>
-    <string>Nenhuma temporada</string>
+    <string>Extras</string>
     <key>podcast_pause_download</key>
     <string>Pausar download</string>
     <key>podcast_pause_playback</key>
@@ -2302,6 +2306,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Mais recente para mais antigo</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Mais antigo para mais recente</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Serial</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Mais curto para mais longo</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3397,8 @@ Dá para personalizar o aplicativo como você quiser. Então, você pode optar p
     <string>Mais longo para o mais curto</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Mais curto para o mais longo</string>
+    <key>view_transcript</key>
+    <string>Visualizar transcrição</string>
     <key>volume_boost</key>
     <string>Aumento de volume</string>
     <key>volume_boost_description</key>

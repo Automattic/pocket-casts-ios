@@ -807,6 +807,8 @@ Lass uns dir zuerst helfen</string>
     <string>Alle herunterladen</string>
     <key>download_data_warning</key>
     <string>Beim Download werden mobile Daten verbraucht.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Dieser Download verwendet mobile Daten. Du kannst diese Warnung unter [Einstellungen](%@) deaktivieren.</string>
     <key>download_episode_plural_format</key>
     <string>%1$@ Folgen herunterladen</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Podcast-Details können nicht geladen werden :(</string>
     <key>podcast_error_title</key>
     <string>Das hat wohl nicht gefunzt</string>
+    <key>podcast_extras</key>
+    <string>Extras</string>
     <key>podcast_failed_download</key>
     <string>Download der Folge fehlgeschlagen.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>podcast_no_date</key>
     <string>Ohne Datum</string>
     <key>podcast_no_season</key>
-    <string>Keine Staffel</string>
+    <string>Extras</string>
     <key>podcast_pause_download</key>
     <string>Download anhalten</string>
     <key>podcast_pause_playback</key>
@@ -2302,6 +2306,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Neu nach alt</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Alt nach neu</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Aufeinanderfolgend</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3392,7 +3398,7 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <key>upload_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
     <key>view_transcript</key>
-    <string>Transkript</string>
+    <string>Transkript anzeigen</string>
     <key>volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>volume_boost_description</key>

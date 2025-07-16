@@ -807,6 +807,8 @@ Pocket Casts Plus</string>
     <string>下载全部</string>
     <key>download_data_warning</key>
     <string>下载将使用数据。</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>此次下载将使用移动数据。 您可以在 [设置](%@) 中关闭此警告。</string>
     <key>download_episode_plural_format</key>
     <string>下载 %1$@ 集</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ Pocket Casts。</string>
     <string>无法加载播客详情 :(</string>
     <key>podcast_error_title</key>
     <string>失败了</string>
+    <key>podcast_extras</key>
+    <string>其他</string>
     <key>podcast_failed_download</key>
     <string>剧集下载失败。</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Pocket Casts。</string>
     <key>podcast_no_date</key>
     <string>未设置日期</string>
     <key>podcast_no_season</key>
-    <string>无剧季</string>
+    <string>其他</string>
     <key>podcast_pause_download</key>
     <string>暂停下载</string>
     <key>podcast_pause_playback</key>
@@ -2302,6 +2306,8 @@ Pocket Casts。</string>
     <string>最新到最旧</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>最旧到最新</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>连载</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>最短到最长</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3397,8 @@ Pocket Casts。</string>
     <string>最长到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最长</string>
+    <key>view_transcript</key>
+    <string>查看文字转录稿</string>
     <key>volume_boost</key>
     <string>音量增强</string>
     <key>volume_boost_description</key>

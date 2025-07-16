@@ -807,6 +807,8 @@ Laissez-nous d’abord vous aider</string>
     <string>Tout télécharger</string>
     <key>download_data_warning</key>
     <string>Le téléchargement consommera des données.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Ce téléchargement utilisera des données mobiles. Vous pouvez désactiver cet avertissement dans [Réglages](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Télécharger %1$@ épisodes</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ MISES À JOUR</string>
     <string>Impossible de charger les données du podcast :(</string>
     <key>podcast_error_title</key>
     <string>Il n’y a absolument rien à faire</string>
+    <key>podcast_extras</key>
+    <string>Hors série</string>
     <key>podcast_failed_download</key>
     <string>Le téléchargement de l’épisode a échoué.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>podcast_no_date</key>
     <string>Date non définie</string>
     <key>podcast_no_season</key>
-    <string>Hors saison</string>
+    <string>Hors série</string>
     <key>podcast_pause_download</key>
     <string>Suspendre le téléchargement</string>
     <key>podcast_pause_playback</key>
@@ -2302,6 +2306,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Du plus récent au plus ancien</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Du plus ancien au plus récent</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Série</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Du plus court au plus long</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3397,8 @@ Usage simple ou complexe, cette application est telle que vous la souhaitez. Uti
     <string>Du plus long au plus court</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Du plus court au plus long</string>
+    <key>view_transcript</key>
+    <string>Voir la transcription</string>
     <key>volume_boost</key>
     <string>Augmenter le volume</string>
     <key>volume_boost_description</key>

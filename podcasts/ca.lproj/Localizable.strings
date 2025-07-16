@@ -807,6 +807,8 @@ Deixa'ns ajudar-te primer</string>
     <string>Descarregar-ho tot</string>
     <key>download_data_warning</key>
     <string>La descàrrega consumirà dades mòbils.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Aquesta descàrrega utilitzarà dades mòbils. Pots desactivar aquesta advertència a [Configuració](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Descarregar %1$@ episodis</string>
     <key>download_episode_singular</key>
@@ -2173,6 +2175,8 @@ ACTUALITZACIONS</string>
     <string>No s'ha pogut carregar la informació del pòdcast :(</string>
     <key>podcast_error_title</key>
     <string>Literalment, ni tan sols</string>
+    <key>podcast_extras</key>
+    <string>Extres</string>
     <key>podcast_failed_download</key>
     <string>Error en descarregar l'episodi.</string>
     <key>podcast_failed_upload</key>
@@ -2210,7 +2214,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>podcast_no_date</key>
     <string>Data sense determinar</string>
     <key>podcast_no_season</key>
-    <string>No hi ha temporades</string>
+    <string>Extres</string>
     <key>podcast_pause_download</key>
     <string>Posar en pausa la descàrrega</string>
     <key>podcast_pause_playback</key>
@@ -2295,6 +2299,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Del més nou al més antic</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Del més antic al més nou</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Sèrie</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Del més curt al més llarg</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
