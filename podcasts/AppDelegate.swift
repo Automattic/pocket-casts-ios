@@ -8,6 +8,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 import FacebookCore
+import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -427,7 +428,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 struct SentryLogger: ErrorLogger {
     func log(error: Error, context: [String: String]?) {
-        guard BuildEnvironment.current != .appStore else {
+        if BuildEnvironment.current == .appStore {
+            let crumb = Breadcrumb()
+            crumb.level = SentryLevel.info
+            crumb.category = "grdb"
+            crumb.message = error.localizedDescription
+            SentrySDK.addBreadcrumb(crumb)
             return
         }
 
