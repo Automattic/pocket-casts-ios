@@ -2576,8 +2576,8 @@ internal enum L10n {
   /// Confirmation option to stream the selected episode. Used in tandem with a notice that the user is not on WiFi.
   internal static var podcastStreamConfirmation: String { return L10n.tr("Localizable", "podcast_stream_confirmation", fallback: "Stream Anyway") }
   /// Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi.
-  internal static func podcastStreamDataWarning(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "podcast_stream_data_warning", String(describing: p1), fallback: "Streaming this episode will use data. You can turn off this warning in [Settings](%@).")
+  internal static func podcastStreamDataWarningWithSettings(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "podcast_stream_data_warning_with_settings", String(describing: p1), fallback: "Streaming this episode will use data. You can turn off this warning in [Settings](%@).")
   }
   /// Used to reference the episode was published this month.
   internal static var podcastThisMonth: String { return L10n.tr("Localizable", "podcast_this_month", fallback: "This Month") }
