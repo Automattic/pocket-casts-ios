@@ -709,6 +709,7 @@
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
+		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -2960,6 +2961,7 @@
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
 		9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptExcerptView.swift; sourceTree = "<group>"; };
+		9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArtworkView.swift; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
@@ -6662,6 +6664,7 @@
 				BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */,
 				9A72B65F2E2115120078FC84 /* PlaylistCell.swift */,
 				9A72B6622E214C580078FC84 /* PlaylistCellView.swift */,
+				9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -10715,6 +10718,7 @@
 				C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */,
 				FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */,
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
+				9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */,
 				FFF17EC62B979B5500E116C8 /* BookmarksProfileListView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
 				F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */,

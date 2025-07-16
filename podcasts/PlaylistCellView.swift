@@ -7,17 +7,21 @@ class PlaylistCellViewModel: ObservableObject {
 
     private let playlist: EpisodeFilter
     private let dataManager: DataManager
+    private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
     private var isLoadingCount: Bool = false
-    private let episodeArtWork = EpisodeArtwork()
+    private let episodeArtWork: EpisodeArtwork
 
     init(
         playlist: EpisodeFilter,
         dataManager: DataManager = .sharedManager,
+        imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.playlist = playlist
         self.dataManager = dataManager
+        self.imageManager = imageManager
+        self.episodeArtWork = .init(imageManager: imageManager)
         self.episodesDataManager = episodesDataManager
     }
 
@@ -55,16 +59,6 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    private func getEpisodesCount() async -> Int {
-        let playlist = self.playlist
-        return await Task.detached(priority: .userInitiated) {
-            DataManager.sharedManager.episodeCount(
-                forFilter: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-            )
-        }.value
-    }
-
     func loadListEpisodes() async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
@@ -80,8 +74,8 @@ class PlaylistCellViewModel: ObservableObject {
                     if let episodeImage {
                         return episodeImage
                     }
-                    let url = ImageManager.sharedManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
-                    guard let podcastImage = try await self.episodeArtWork.loadArtwork(from: url.absoluteString, uuid: episode.episode.podcastUuid, size: 168) else {
+                    let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                    guard let podcastImage = try await self.imageManager.loadArtwork(from: url.absoluteString, uuid: episode.episode.podcastUuid, size: 168) else {
                         return nil
                     }
                     return podcastImage
@@ -97,64 +91,15 @@ class PlaylistCellViewModel: ObservableObject {
             return results
         }
     }
-}
 
-struct PlaylistArtworkView: View {
-    @EnvironmentObject var theme: Theme
-    let images: [Image]
-
-    var body: some View {
-        GeometryReader { geometry in
-            let size = geometry.size
-            ZStack {
-                Rectangle()
-                    .foregroundColor(theme.primaryUi05)
-                if images.isEmpty {
-                    Image("playlists_tab")
-                        .renderingMode(.template)
-                        .foregroundColor(theme.primaryIcon03)
-                        .frame(width: size.width, height: size.height)
-                } else {
-                    switch images.count {
-                    case 4:
-                        VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                images[0]
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: size.width / 2, height: size.height / 2)
-                                    .clipped()
-                                images[1]
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: size.width / 2, height: size.height / 2)
-                                    .clipped()
-                            }
-                            HStack(spacing: 0) {
-                                images[2]
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: size.width / 2, height: size.height / 2)
-                                    .clipped()
-                                images[3]
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: size.width / 2, height: size.height / 2)
-                                    .clipped()
-                            }
-                        }
-                    default:
-                        images[0]
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: size.width, height: size.height)
-                            .clipped()
-                    }
-                }
-            }
-            .cornerRadius(4)
-            .clipped()
-        }
+    private func getEpisodesCount() async -> Int {
+        let playlist = self.playlist
+        return await Task.detached(priority: .userInitiated) {
+            DataManager.sharedManager.episodeCount(
+                forFilter: playlist,
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
+            )
+        }.value
     }
 }
 

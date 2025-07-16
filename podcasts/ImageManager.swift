@@ -212,6 +212,30 @@ class ImageManager {
             completionHandler(image)
         }
     }
+    
+    func loadArtwork(from url: String, uuid: String, size: Int? = nil) async throws -> UIImage? {
+        guard let url = URL(string: url) else {
+            return nil
+        }
+        let size = size ?? biggestPodcastImageSize
+        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
+
+        return await withCheckedContinuation { [weak self] continuation in
+            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
+                if let image = try? result.get().image {
+                    self?.save(image, for: uuid)
+                    return continuation.resume(returning: image)
+                }
+                return continuation.resume(returning: nil)
+            }
+        }
+    }
+
+    func save(_ image: UIImage, for episodeUuid: String) {
+        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
+        }
+    }
 
     private func loadEmbeddedImageIfRequired(in episode: BaseEpisode, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) -> Bool {
         // if the user has opted to use embedded artwork, try to load that

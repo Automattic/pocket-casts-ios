@@ -26,7 +26,7 @@ class EpisodeArtwork {
         }
 
         if let assetEpisodeArtwork = loadEpisodeArtwork(from: asset) {
-            save(assetEpisodeArtwork, for: episodeUuid)
+            imageManager.save(assetEpisodeArtwork, for: episodeUuid)
             return
         }
 
@@ -42,25 +42,7 @@ class EpisodeArtwork {
             let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return nil
         }
-        return try await loadArtwork(from: imageUrl, uuid: episodeUuid, size: size)
-    }
-
-    func loadArtwork(from url: String, uuid: String, size: Int? = nil) async throws -> UIImage? {
-        guard let url = URL(string: url) else {
-            return nil
-        }
-        let size = size ?? self.imageManager.biggestPodcastImageSize
-        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
-
-        return await withCheckedContinuation { [weak self] continuation in
-            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
-                if let image = try? result.get().image {
-                    self?.save(image, for: uuid)
-                    return continuation.resume(returning: image)
-                }
-                return continuation.resume(returning: nil)
-            }
-        }
+        return try await imageManager.loadArtwork(from: imageUrl, uuid: episodeUuid, size: size)
     }
 
     private func loadEpisodeArtwork(from asset: AVAsset?) -> UIImage? {
@@ -90,15 +72,9 @@ class EpisodeArtwork {
             let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
             KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
                 if let image = try? result.get().image {
-                    self.save(image, for: episodeUuid)
+                    self.imageManager.save(image, for: episodeUuid)
                 }
             }
-        }
-    }
-
-    private func save(_ image: UIImage, for episodeUuid: String) {
-        imageManager.subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
-            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
 }
