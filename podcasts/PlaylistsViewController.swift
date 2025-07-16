@@ -6,6 +6,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: UITableView! {
         didSet {
             registerCells()
+            if FeatureFlag.playlistsRebranding.enabled {
+                filtersTable.separatorStyle = .none
+            }
         }
     }
 

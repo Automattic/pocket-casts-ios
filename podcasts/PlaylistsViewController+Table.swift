@@ -8,7 +8,9 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func registerCells() {
         filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
-        filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+        if FeatureFlag.playlistsRebranding.enabled {
+            filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+        }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -27,8 +29,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         if FeatureFlag.playlistsRebranding.enabled {
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
-                cell.configure(playlist: playlist, resetConfiguration: cell.tag != indexPath.row)
-                cell.tag = indexPath.row
+                cell.accessoryType = .none
+                cell.configure(playlist: playlist)
             }
             return cell
         }

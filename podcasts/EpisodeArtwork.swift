@@ -37,6 +37,32 @@ class EpisodeArtwork {
         imageManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 
+    func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String, size: Int? = nil) async throws -> UIImage? {
+        guard
+            let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
+            return nil
+        }
+        return try await loadArtwork(from: imageUrl, uuid: episodeUuid, size: size)
+    }
+
+    func loadArtwork(from url: String, uuid: String, size: Int? = nil) async throws -> UIImage? {
+        guard let url = URL(string: url) else {
+            return nil
+        }
+        let size = size ?? self.imageManager.biggestPodcastImageSize
+        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
+
+        return await withCheckedContinuation { [weak self] continuation in
+            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
+                if let image = try? result.get().image {
+                    self?.save(image, for: uuid)
+                    return continuation.resume(returning: image)
+                }
+                return continuation.resume(returning: nil)
+            }
+        }
+    }
+
     private func loadEpisodeArtwork(from asset: AVAsset?) -> UIImage? {
         guard let asset else {
             return nil
