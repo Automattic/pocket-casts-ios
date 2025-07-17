@@ -359,7 +359,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
-            true
+            false
         case .newOnboardingVariant:
             false
         case .playlistsRebranding:
