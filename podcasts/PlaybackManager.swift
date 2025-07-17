@@ -211,8 +211,23 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
+    private var cellularAllowedEpisodeUUID: String?
+
+    func play(completion: (() -> Void)? = nil, userInitiated: Bool = true, allowed: Bool = false) {
         guard let currEpisode = currentEpisode() else { return }
+
+        if allowed {
+            cellularAllowedEpisodeUUID = currEpisode.uuid
+        }
+
+        #if !os(watchOS) && !APPCLIP
+        if !allowed && cellularAllowedEpisodeUUID != currEpisode.uuid && !currEpisode.downloaded(pathFinder: DownloadManager.shared) {
+            NetworkUtils.shared.streamEpisodeRequested({ [weak self] in
+                self?.play(completion: completion, userInitiated: userInitiated, allowed: true)
+            }, disallowed: nil)
+            return
+        }
+        #endif
 
         FileLog.shared.addMessage("PlaybackManager Play \(currentEpisode()?.title ?? "unknown episode") userInitiated: \(userInitiated)")
 

@@ -14,13 +14,7 @@ class PlaybackActionHelper {
             return
         }
 
-        if !episode.downloaded(pathFinder: DownloadManager.shared) {
-            NetworkUtils.shared.streamEpisodeRequested({
-                performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
-            }, disallowed: nil)
-        } else {
-            performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
-        }
+        performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
     }
 
     class func pause() {
