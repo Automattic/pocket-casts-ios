@@ -357,7 +357,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
-            false
+            true
         }
     }
 
