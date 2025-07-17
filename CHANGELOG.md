@@ -8,6 +8,7 @@
 - Fix iPad Login Text Field alignment when the keyboard is presented [#3283](https://github.com/Automattic/pocket-casts-ios/pull/3283)
 - Fix Player Shelf buttons when changing the size category on iPad or the Larger Text Display Zoom on iPhone [3309](https://github.com/Automattic/pocket-casts-ios/pull/3309)
 - Add Smart Categories sorting feature to show the user's most visited categories first [#3267](https://github.com/Automattic/pocket-casts-ios/pull/3267)
+- Enable "Warn Before Using Data" over cellular by default [#3301](https://github.com/Automattic/pocket-casts-ios/pull/3301)
 
 7.92
 -----

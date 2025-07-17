@@ -805,6 +805,8 @@ Laat ons eerst helpen</string>
     <string>Alles downloaden</string>
     <key>download_data_warning</key>
     <string>Downloaden verbruikt data.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Deze download maakt gebruik van mobiele data. Je kan deze waarschuwing uitschakelen in [Instellingen](%@).</string>
     <key>download_episode_plural_format</key>
     <string>%1$@ afleveringen downloaden</string>
     <key>download_episode_singular</key>
@@ -2177,6 +2179,8 @@ UPDATES</string>
     <string>Kan podcastgegevens niet laden :(</string>
     <key>podcast_error_title</key>
     <string>Het kan echt niet</string>
+    <key>podcast_extras</key>
+    <string>Extra's</string>
     <key>podcast_failed_download</key>
     <string>Downloaden van aflevering mislukt.</string>
     <key>podcast_failed_upload</key>
@@ -2215,7 +2219,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>podcast_no_date</key>
     <string>Datum niet ingesteld</string>
     <key>podcast_no_season</key>
-    <string>Geen seizoen</string>
+    <string>Extra's</string>
     <key>podcast_pause_download</key>
     <string>Downloaden pauzeren</string>
     <key>podcast_pause_playback</key>
@@ -2262,8 +2266,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sorteervolgorde</string>
     <key>podcast_stream_confirmation</key>
     <string>Toch streamen</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Voor het streamen van deze aflevering wordt data gebruikt</string>
     <key>podcast_this_month</key>
     <string>Deze maand</string>
     <key>podcast_time_left</key>
@@ -2300,6 +2302,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Nieuwste naar oudste</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Oudste naar nieuwste</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Serieel</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kortste naar langste</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3389,6 +3393,8 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Langste naar kortste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortste naar langste</string>
+    <key>view_transcript</key>
+    <string>Transcriptie bekijken</string>
     <key>volume_boost</key>
     <string>Volumeboost</string>
     <key>volume_boost_description</key>
