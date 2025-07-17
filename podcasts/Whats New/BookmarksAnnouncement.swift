@@ -21,7 +21,7 @@ class BookmarkAnnouncementViewModel {
     // We use a lazy var here instead of subclassing to only get the product info if needed
     private lazy var upgradeModel = BookmarksUpgradeViewModel(feature: .bookmarks,
                                                               source: .whatsNew,
-                                                              upgradeSource: "whats_new")
+                                                              upgradeSource: .whatsNew)
     private let userDefaults: UserDefaults
 
     init(feature: PaidFeature = .bookmarks,

@@ -91,8 +91,8 @@ struct UpgradeProductsView: View {
     }
 
     var actionButton: some View {
-        SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency) {
-            //TODO: Execute purchase
+        SubscriptionPurchaseButton(viewModel: model, tier: model.upgradeTier, frequency: model.selectedFrequency, showPurchaseErrors: true) {
+            model.purchaseTapped()
         }
     }
 
@@ -110,9 +110,9 @@ struct UpgradeProductsView: View {
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
                 case privacyPolicy:
-                    break
+                    model.privacyPolicyTapped()
                 case termsOfUse:
-                    break
+                    model.termsOfUseTapped()
                 default:
                     break
             }
@@ -149,7 +149,7 @@ extension L10n {
 }
 
 #Preview {
-    UpgradeProductsView(model: UpgradeAccountViewModel()).setupDefaultEnvironment()
+    UpgradeProductsView(model: UpgradeAccountViewModel(flowSource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
 }
 
 extension PlusPricingInfoModel.PlusProductPricingInfo {

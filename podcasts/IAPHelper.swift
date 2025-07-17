@@ -663,7 +663,7 @@ private extension IAPHelper {
                                               "tier": productId.subscriptionTier.rawValue.lowercased(),
                                               "frequency": productId.frequency.rawValue]
         if let source = OnboardingFlow.shared.source {
-            properties["source"] = source
+            properties["source"] = source.rawValue
         }
         if let error = error {
             properties["error_code"] = error.code

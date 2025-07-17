@@ -40,7 +40,7 @@ struct UpgradeAccountView: View {
             SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
             Spacer()
             Button() {
-                dismiss()
+                model.dismissTapped(originalDismiss: dismiss)
             } label: {
                 HStack {
                     Image("close")
@@ -130,7 +130,7 @@ struct UpgradeAccountView: View {
 
     var title: some View {
         HStack {
-            Text(model.upgradeTier.header)
+            Text(model.title)
                 .font(size: 32, style: .largeTitle, weight: .bold)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)
@@ -172,5 +172,5 @@ extension View {
 }
 
 #Preview {
-    UpgradeAccountView(model: UpgradeAccountViewModel()).setupDefaultEnvironment()
+    UpgradeAccountView(model: UpgradeAccountViewModel(flowSource: PlusLandingViewModel.Source.upsell)).setupDefaultEnvironment()
 }

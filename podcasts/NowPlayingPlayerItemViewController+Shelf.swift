@@ -375,7 +375,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         shelfButtonTapped(action)
 
         guard action.isUnlocked else {
-            action.paidFeature?.presentUpgradeController(from: self, source: "bookmarks_shelf_action")
+            action.paidFeature?.presentUpgradeController(from: self, source: .bookmarksShelfAction)
             return
         }
 
