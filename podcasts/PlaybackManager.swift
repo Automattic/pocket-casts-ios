@@ -1054,7 +1054,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
-
             if SyncManager.isUserLoggedIn() {
                 let currentUtcTime = TimeFormatter.currentUTCTimeInMillis()
                 episode.playingStatusModified = currentUtcTime
