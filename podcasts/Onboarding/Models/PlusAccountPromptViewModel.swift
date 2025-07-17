@@ -3,7 +3,7 @@ import UIKit
 class PlusAccountPromptViewModel: PlusPricingInfoModel {
     weak var parentController: UIViewController? = nil
 
-    var source: Source = .unknown
+    var source: PlusUpgradeViewSource = .unknown
 
     let subscription: UserInfo.Subscription? = .init()
 
@@ -80,17 +80,11 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }
 
-    enum Source: String {
-        case unknown
-        case profile = "profile"
-        case plusDetails = "plus_details"
-    }
-
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController, let product else { return }
 
         let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
-        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: .profile, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source, context: context)
         let sizeCategory = UIApplication.shared.preferredContentSizeCategory
         let isAccessibility = sizeCategory.isAccessibilityCategory
 
