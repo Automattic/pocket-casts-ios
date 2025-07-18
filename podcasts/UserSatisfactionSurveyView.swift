@@ -32,14 +32,14 @@ struct UserSatisfactionSurveyView: View {
 
             HStack(spacing: 24) {
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "pensive", text: L10n.userSatisfactionSurveyNoResponse) {
+                    surveyResponseButton(emoji: "pensive", text: L10n.userSatisfactionSurveyNoResponse, haptic: provideSadHaptic) {
                         handleResponse(.no)
                         dismiss()
                     }
                 }
 
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "heart-eyes", text: L10n.userSatisfactionSurveyYesResponse) {
+                    surveyResponseButton(emoji: "heart-eyes", text: L10n.userSatisfactionSurveyYesResponse, haptic: provideHappyHaptic) {
                         handleResponse(.yes)
                         dismiss()
                     }
@@ -53,8 +53,32 @@ struct UserSatisfactionSurveyView: View {
     }
 
     @ViewBuilder
-    private func surveyResponseButton(emoji: String, text: String, action: @escaping () -> Void) -> some View {
-        PressableLottieButton(emoji: emoji, text: text, theme: theme, constantlyAnimating: constantlyAnimating, action: action)
+    private func surveyResponseButton(emoji: String, text: String, haptic: @escaping () -> Void, action: @escaping () -> Void) -> some View {
+        PressableLottieButton(emoji: emoji, text: text, theme: theme, constantlyAnimating: constantlyAnimating, haptic: haptic, action: action)
+    }
+
+    private func provideHappyHaptic() {
+        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+        impactFeedback.impactOccurred()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            impactFeedback.impactOccurred()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let successFeedback = UINotificationFeedbackGenerator()
+            successFeedback.notificationOccurred(.success)
+        }
+    }
+
+    private func provideSadHaptic() {
+        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+        impactFeedback.impactOccurred()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            let heavyFeedback = UIImpactFeedbackGenerator(style: .heavy)
+            heavyFeedback.impactOccurred()
+        }
     }
 }
 
@@ -63,6 +87,7 @@ struct PressableLottieButton: View {
     let text: String
     let theme: Theme
     let constantlyAnimating: Bool
+    let haptic: () -> Void
     let action: () -> Void
 
     var body: some View {
@@ -79,7 +104,7 @@ struct PressableLottieButton: View {
                 .cornerRadius(12)
         }
         .buttonStyle(
-            PressableLottieButtonStyle { isPressed in
+            PressableLottieButtonStyle(haptic: haptic) { isPressed in
                 AnyView(
                     LottieView(animation: .named(emoji, animationCache: nil))
                         .playbackMode(
@@ -99,6 +124,7 @@ struct PressableLottieButton: View {
 }
 
 struct PressableLottieButtonStyle: ButtonStyle {
+    let haptic: () -> Void
     let lottieView: (Bool) -> AnyView
 
     func makeBody(configuration: Configuration) -> some View {
@@ -106,6 +132,11 @@ struct PressableLottieButtonStyle: ButtonStyle {
             lottieView(configuration.isPressed)
 
             configuration.label
+        }
+        .onChange(of: configuration.isPressed) { isPressed in
+            if isPressed {
+                haptic()
+            }
         }
     }
 }
