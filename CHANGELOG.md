@@ -1,6 +1,7 @@
 7.94
 -----
 - Retry failed requests without user agent [#3323](https://github.com/Automattic/pocket-casts-ios/pull/3323)
+- Add Feedback Prompt before asking for App Review [#3331](https://github.com/Automattic/pocket-casts-ios/pull/3331)
 
 7.93
 -----
