@@ -21,8 +21,14 @@ struct UpgradeAccountView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
-            Spacer().frame(height: 24)
+            Spacer().frame(height: 8)
             scrollableContent
+                .overlay(alignment: .top) {
+                    gradient(up: true)
+                }
+                .overlay(alignment: .bottom) {
+                    gradient(up: false)
+                }
             UpgradeProductsView(model: model)
         }
         .padding(.horizontal, 24)
@@ -99,23 +105,21 @@ struct UpgradeAccountView: View {
                         }
                         if expand, model.isFreeTrialAvailable {
                             VStack {
+                                Spacer()
                                 pageTwo
+                                    .id(ScrollPosition.secondPage)
                                 Spacer()
                             }
-                            .id(ScrollPosition.secondPage)
-                            .frame(minHeight: sizeProxy.size.height)
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
                                 .frame(height: 8)
                         }
                     }
+                    .padding(.vertical, 16)
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
-                .overlay(alignment: .bottom, content: {
-                    gradientSpacer
-                })
                 .onChange(of: model.selectedProduct) { _ in
                     if !model.isFreeTrialAvailable {
                         withAnimation {
@@ -138,14 +142,13 @@ struct UpgradeAccountView: View {
         }
     }
 
-    var gradientSpacer: some View {
-        HStack() {
-            Spacer()
-        }
-        .frame(height: 40)
-        .background(LinearGradient(colors: [
-            theme.primaryUi01.opacity(0),
-            theme.primaryUi01.opacity(1)
+    @ViewBuilder
+    func gradient(height: CGFloat = 16, up: Bool ) -> some View {
+        Rectangle()
+        .frame(height: height)
+        .foregroundStyle(LinearGradient(colors: [
+            theme.primaryUi01.opacity(up ? 1 : 0),
+            theme.primaryUi01.opacity(up ? 0 : 1)
         ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
         .allowsHitTesting(false)
     }
