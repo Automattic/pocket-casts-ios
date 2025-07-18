@@ -1,4 +1,5 @@
 import SwiftUI
+import Lottie
 
 struct UserSatisfactionSurveyView: View {
     @Environment(\.dismiss) private var dismiss
@@ -30,14 +31,14 @@ struct UserSatisfactionSurveyView: View {
 
             HStack(spacing: 24) {
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "😔", text: L10n.userSatisfactionSurveyNoResponse) {
+                    surveyResponseButton(emoji: "pensive", text: L10n.userSatisfactionSurveyNoResponse) {
                         handleResponse(.no)
                         dismiss()
                     }
                 }
 
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "🥰", text: L10n.userSatisfactionSurveyYesResponse) {
+                    surveyResponseButton(emoji: "heart-eyes", text: L10n.userSatisfactionSurveyYesResponse) {
                         handleResponse(.yes)
                         dismiss()
                     }
@@ -54,8 +55,9 @@ struct UserSatisfactionSurveyView: View {
     private func surveyResponseButton(emoji: String, text: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 8) {
-                Text(emoji)
-                    .font(.system(size: 68))
+                LottieView(animation: .named(emoji, animationCache: nil))
+                    .looping()
+                    .frame(height: 72)
 
                 Text(text)
                     .font(.body)
@@ -69,7 +71,15 @@ struct UserSatisfactionSurveyView: View {
             }
             .cornerRadius(12)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(ScaleButtonStyle())
+    }
+}
+
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 1.1 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 
