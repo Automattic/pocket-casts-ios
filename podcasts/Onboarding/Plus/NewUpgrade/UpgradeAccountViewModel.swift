@@ -6,6 +6,11 @@ import PocketCastsUtils
 
 class UpgradeAccountViewModel: PlusPurchaseModel {
 
+    enum UpgradeStyle {
+        case generic
+        case contextual
+    }
+
     weak var navigationController: UINavigationController? = nil
 
     @Published var upgradeTier: UpgradeTier = .plus
@@ -18,11 +23,14 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     let flowSource: PlusLandingViewModel.Source
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source) {
+    let type: UpgradeStyle
+
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source, type: UpgradeStyle = .generic) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
         self.viewSource = viewSource
         self.flowSource = flowSource
+        self.type = type
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in
