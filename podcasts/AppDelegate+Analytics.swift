@@ -27,6 +27,10 @@ extension AppDelegate {
             adapters.append(NotificationsCoordinator.shared)
         }
 
+        if FeatureFlag.userSatisfactionSurvey.enabled {
+            adapters.append(UserSatisfactionSurveyManager.shared)
+        }
+
         Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }

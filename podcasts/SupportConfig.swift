@@ -47,7 +47,7 @@ struct SupportConfig: ZDConfig {
     let apiKey = ApiCredentials.zendeskAPIKey
     let baseURL = ApiCredentials.zendeskUrl
     let newBaseURL = ApiCredentials.zendeskNewUrl
-    let isFeedback: Bool
+    let type: ZDType
     private let maxCharacterCount = 65000
     private let logsOptedOutMessage = "No log file uploaded: User opted out"
     private let optedOutMessage = "User opted out"
@@ -58,6 +58,11 @@ struct SupportConfig: ZDConfig {
         if SubscriptionHelper.hasActiveSubscription() {
             tagList.append("plus")
         }
+
+        if case .satisfactionSurvey = type {
+            tagList.append("satisfaction_survey")
+        }
+
         return tagList
     }
 

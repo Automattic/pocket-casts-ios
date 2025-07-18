@@ -6,10 +6,16 @@ protocol ZDConfig {
     var baseURL: String { get }
     var newBaseURL: String { get }
     var subject: String { get }
-    var isFeedback: Bool { get }
+    var type: ZDType { get }
     var tags: [String] { get }
 
     func customFields(forDisplay: Bool, optOut: Bool) -> AnyPublisher<[ZDCustomField], Never>
+}
+
+enum ZDType {
+    case feedback
+    case satisfactionSurvey
+    case support
 }
 
 extension ZDConfig {
@@ -27,6 +33,15 @@ extension ZDConfig {
 
     func authToken(forEmail email: String) -> String? {
         "\(email)/token:\(apiKey)".data(using: String.Encoding.utf8)?.base64EncodedString()
+    }
+
+    var isFeedback: Bool {
+        switch type {
+        case .feedback, .satisfactionSurvey:
+            return true
+        default:
+            return false
+        }
     }
 }
 

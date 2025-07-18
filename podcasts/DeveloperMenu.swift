@@ -330,11 +330,10 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Show User Satisfaction Survey") {
-                    (SceneHelper.rootViewController() as? MainTabBarController)?.showUserSatisfactionSurvey()
-                }
-                Button("Reset Review Requests") {
-                    Settings.resetReviewRequests()
+                NavigationLink("Debug Info") {
+                    SurveyDebugInfoView()
+                        .navigationTitle("Survey Debug Info")
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             } header: {
                 Text("Ratings")

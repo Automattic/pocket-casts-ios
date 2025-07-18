@@ -119,7 +119,7 @@ extension AnalyticsAdapter {
 
 // MARK: - Dynamic Event Name
 
-private extension AnalyticsEvent {
+extension AnalyticsEvent {
     var eventName: String {
         return rawValue.toSnakeCaseFromCamelCase()
     }

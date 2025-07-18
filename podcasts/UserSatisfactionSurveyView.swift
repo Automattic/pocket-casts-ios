@@ -1,11 +1,15 @@
 import SwiftUI
-import StoreKit
 
 struct UserSatisfactionSurveyView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var theme: Theme
 
-    var presentSupportView: (() -> Void)?
+    enum Response {
+        case yes
+        case no
+    }
+
+    var handleResponse: (Response) -> Void
 
     var body: some View {
         VStack(spacing: 32) {
@@ -26,11 +30,17 @@ struct UserSatisfactionSurveyView: View {
 
             HStack(spacing: 24) {
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "😔", text: L10n.userSatisfactionSurveyNoResponse, action: handleNotReallyResponse)
+                    surveyResponseButton(emoji: "😔", text: L10n.userSatisfactionSurveyNoResponse) {
+                        handleResponse(.no)
+                        dismiss()
+                    }
                 }
 
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "🥰", text: L10n.userSatisfactionSurveyYesResponse, action: handleYesResponse)
+                    surveyResponseButton(emoji: "🥰", text: L10n.userSatisfactionSurveyYesResponse) {
+                        handleResponse(.yes)
+                        dismiss()
+                    }
                 }
             }
             .padding(.horizontal, 24)
@@ -38,20 +48,6 @@ struct UserSatisfactionSurveyView: View {
         .padding(.top, 32)
         .padding(.bottom, 32)
         .background(theme.primaryUi01)
-    }
-
-    private func handleYesResponse() {
-        if let windowScene = UIApplication.shared.connectedScenes
-            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            AppStore.requestReview(in: windowScene)
-            Settings.addReviewRequested()
-            Analytics.track(.appStoreReviewRequested, properties: ["source": AnalyticsSource.userSatisfactionSurvey])
-        }
-        dismiss()
-    }
-
-    private func handleNotReallyResponse() {
-        presentSupportView?()
     }
 
     @ViewBuilder
@@ -78,5 +74,5 @@ struct UserSatisfactionSurveyView: View {
 }
 
 #Preview {
-    UserSatisfactionSurveyView()
+    UserSatisfactionSurveyView(handleResponse: { _ in })
 }
