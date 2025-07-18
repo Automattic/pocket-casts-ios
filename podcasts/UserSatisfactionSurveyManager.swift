@@ -57,7 +57,7 @@ public class UserSatisfactionSurveyManager: NSObject {
     }
 
     /// Presents the survey view
-    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent, skipCheck: Bool = false) {
+    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent, skipCheck: Bool = false, constantlyAnimating: Bool = false) {
         guard shouldShowSurvey(for: event) || skipCheck else { return }
 
         guard let source = SceneHelper.rootViewController() else {
@@ -66,7 +66,7 @@ public class UserSatisfactionSurveyManager: NSObject {
             return
         }
 
-        let surveyView = UserSatisfactionSurveyView() { [weak self] response in
+        let surveyView = UserSatisfactionSurveyView(constantlyAnimating: constantlyAnimating) { [weak self] response in
             switch response {
             case .yes:
                 Analytics.track(.userSatisfactionSurveyYesResponse, properties: [

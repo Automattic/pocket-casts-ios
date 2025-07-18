@@ -10,6 +10,7 @@ struct SurveyDebugInfoView: View {
     @State private var plusUpgradeDate: Date?
     @State private var canShowSurvey: Bool = false
     @State private var surveyCheckResult: SurveyCheckResult = .canShow
+    @State private var constantlyAnimating: Bool = false
 
     var body: some View {
         List {
@@ -89,6 +90,10 @@ struct SurveyDebugInfoView: View {
                     }
                 }
             }
+            Section(header: Text("Emoji Animations")) {
+                Toggle("Constantly Animating", isOn: $constantlyAnimating)
+            }
+
             Section {
                 Button("Reset Survey & Reviews") {
                     Settings.resetReviewRequests()
@@ -102,7 +107,7 @@ struct SurveyDebugInfoView: View {
                         Toast.show("Failed to find root view controller from SceneHelper")
                         return
                     }
-                    UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
+                    presentSurveyWithAnimation(from: rootViewController)
                 }
             }
         }
@@ -114,6 +119,10 @@ struct SurveyDebugInfoView: View {
 
     private var defaultEvent: SurveyTriggerEvent {
         return SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .episodeStarred
+    }
+
+    private func presentSurveyWithAnimation(from rootViewController: UIViewController) {
+        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true, constantlyAnimating: constantlyAnimating)
     }
 
     private func loadDebugData() {
