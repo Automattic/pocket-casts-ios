@@ -18,16 +18,20 @@ struct UpgradeAccountView: View {
         case secondPage
     }
 
+    enum Constants {
+        static let gradientHeight: CGFloat = 24
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
             Spacer().frame(height: 8)
             scrollableContent
                 .overlay(alignment: .top) {
-                    gradient(up: true)
+                    gradient(height: Constants.gradientHeight, up: true)
                 }
                 .overlay(alignment: .bottom) {
-                    gradient(up: false)
+                    gradient(height: Constants.gradientHeight, up: false)
                 }
             UpgradeProductsView(model: model)
         }
@@ -116,7 +120,7 @@ struct UpgradeAccountView: View {
                                 .frame(height: 8)
                         }
                     }
-                    .padding(.vertical, 16)
+                    .padding(.vertical, Constants.gradientHeight)
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
