@@ -808,7 +808,7 @@ Deja que te ayudemos</string>
     <key>download_data_warning</key>
     <string>Se utilizarán los datos para la descarga.</string>
     <key>download_data_warning_with_settings_link</key>
-    <string>Esta descarga utilizará datos móviles. Puedes desactivar esta advertencia en [Settings] (%@).</string>
+    <string>Esta descarga utilizará datos móviles. Puedes desactivar esta advertencia en [Configuración] (%@).</string>
     <key>download_episode_plural_format</key>
     <string>Descargar %1$@ episodios</string>
     <key>download_episode_singular</key>

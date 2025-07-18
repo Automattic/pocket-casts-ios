@@ -808,7 +808,7 @@ Deixa'ns ajudar-te primer</string>
     <key>download_data_warning</key>
     <string>La descàrrega consumirà dades mòbils.</string>
     <key>download_data_warning_with_settings_link</key>
-    <string>Aquesta descàrrega utilitzarà dades mòbils. Pots desactivar aquesta advertència a [Configuració](%@).</string>
+    <string>Aquesta descàrrega consumirà dades mòbils. Pots desactivar aquesta advertència a [Configuració](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Descarregar %1$@ episodis</string>
     <key>download_episode_singular</key>
@@ -2261,6 +2261,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>ORDENAR PER</string>
     <key>podcast_stream_confirmation</key>
     <string>Reprodueix-ho de totes maneres</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>L'escolta d'aquest episodi per streaming consumirà dades. Pots desactivar aquesta advertència a [Configuració](%@).</string>
     <key>podcast_this_month</key>
     <string>Aquest mes</string>
     <key>podcast_time_left</key>
