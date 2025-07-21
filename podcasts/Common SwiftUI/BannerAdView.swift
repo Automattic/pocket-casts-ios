@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 class BannerAdModel: ObservableObject {
     let adText: String
@@ -16,6 +17,16 @@ class BannerAdModel: ObservableObject {
         self.titleLabel = linkTitle
         self.onLinkTap = onLinkTap
         self.adID = adID
+        self.source = source
+    }
+
+    init(promotion: BlazePromotion, source: String, onLinkTap: (() -> Void)? = nil) {
+        self.adText = promotion.text
+        self.imageURL = URL(string: promotion.imageURL)! //TODO: Use default image?
+        self.adLabel = promotion.urlTitle
+        self.titleLabel = L10n.bannerAdsInfoLabel
+        self.onLinkTap = onLinkTap
+        self.adID = promotion.id
         self.source = source
     }
 }

@@ -6,6 +6,7 @@ import SafariServices
 import UIKit
 import PocketCastsUtils
 import SwiftUI
+import PocketCastsServer
 
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
@@ -205,7 +206,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         routePicker.delegate = self
 
         if FeatureFlag.bannerAds.enabled {
-            addAdBanner()
+            //TODO: Store and cancel this task
+            Task {
+                guard let promotion = await BlazeServerHandler.shared.promotion(for: .player) else { return }
+                addAdBanner(promotion: promotion)
+            }
         }
         #endif
     }
@@ -486,22 +491,22 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     // MARK: Banner Ad
 
-    func addAdBanner() {
+    func addAdBanner(promotion: BlazePromotion) {
         removeBannerAd()
 
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
-        let model = BannerAdModel(adText: "Listen to your favorite books while supporting your local indie bookstore",
-                                  imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-                                  linkTitle: "Libro.fm",
-                                  adID: "1234",
-                                  source: "player") {
-            let url = URL(string: "https://libro.fm/")!
+        let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
+            guard let url = URL(string: promotion.url) else {
+                FileLog.shared.addMessage("Failed to open Banner Ad URL \(promotion.url) for \(promotion.id)")
+                return
+            }
             let safariViewController = SFSafariViewController(with: url)
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
         }
+
         let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(8)
         let hostingController = PCHostingController(rootView: AnyView(adView))
 

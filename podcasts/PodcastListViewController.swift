@@ -67,7 +67,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupRefreshControl()
 
         if FeatureFlag.bannerAds.enabled {
-            setupBannerAd()
+            Task {
+                guard let promotion = await BlazeServerHandler.shared.promotion(for: .podcastList) else { return }
+                setupBannerAd(promotion: promotion)
+            }
         }
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -434,16 +437,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.reloadData()
     }
 
-    private func setupBannerAd() {
-        // Example banner ad - in future implementation this will come from ad service
-        bannerAdModel = BannerAdModel(
-            adText: "Listen to your favorite books while supporting your local indie bookstore",
-            imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-            linkTitle: "Libro.fm",
-            adID: "12345",
-            source: "podcast_list"
-        ) {
-            let url = URL(string: "https://libro.fm/")!
+    private func setupBannerAd(promotion: BlazePromotion) {
+        bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
+            guard let url = URL(string: promotion.url) else {
+                FileLog.shared.addMessage("Failed to open Banner Ad URL \(promotion.url) for \(promotion.id)")
+                return
+            }
             let safariViewController = SFSafariViewController(with: url)
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
