@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlaylistArtworkView: View {
     @EnvironmentObject var theme: Theme
-    let images: [Image]
+    let urls: [URL]
 
     var body: some View {
         GeometryReader { geometry in
@@ -10,44 +10,34 @@ struct PlaylistArtworkView: View {
             ZStack {
                 Rectangle()
                     .foregroundColor(theme.primaryUi05)
-                if images.isEmpty {
+                if urls.isEmpty {
                     Image("playlists_tab")
                         .renderingMode(.template)
                         .foregroundColor(theme.primaryIcon03)
                         .frame(width: size.width, height: size.height)
                 } else {
-                    switch images.count {
+                    switch urls.count {
                     case 4:
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                images[0]
-                                    .resizable()
-                                    .scaledToFill()
+                                image(url: urls[0])
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                images[1]
-                                    .resizable()
-                                    .scaledToFill()
+                                image(url: urls[1])
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                             HStack(spacing: 0) {
-                                images[2]
-                                    .resizable()
-                                    .scaledToFill()
+                                image(url: urls[2])
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                images[3]
-                                    .resizable()
-                                    .scaledToFill()
+                                image(url: urls[3])
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                         }
                     default:
-                        images[0]
-                            .resizable()
-                            .scaledToFill()
+                        image(url: urls[0])
                             .frame(width: size.width, height: size.height)
                             .clipped()
                     }
@@ -55,6 +45,20 @@ struct PlaylistArtworkView: View {
             }
             .cornerRadius(4)
             .clipped()
+        }
+    }
+
+    @ViewBuilder
+    func image(url: URL) -> some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+            default:
+                Color.clear
+            }
         }
     }
 }

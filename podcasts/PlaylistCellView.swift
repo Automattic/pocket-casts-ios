@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 class PlaylistCellViewModel: ObservableObject {
     @Published var episodesCount: Int = 0
-    @Published var images: [Image] = []
+    @Published var imageURLs: [URL] = []
 
     private var playlist: EpisodeFilter
     private var isLoadingCount: Bool = false
@@ -55,9 +55,9 @@ class PlaylistCellViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let list = await self.loadListEpisodes()
-                let images = try await self.loadImages(episodes: list)
+                let imageURLs = try await self.loadImagesURLs(episodes: list)
                 await MainActor.run {
-                    self.images = images
+                    self.imageURLs = imageURLs
                     self.isLoadingImages = false
                 }
             } catch {
@@ -75,27 +75,20 @@ class PlaylistCellViewModel: ObservableObject {
         }.value
     }
 
-    private func loadImages(episodes: [ListEpisode]) async throws -> [Image] {
-        try await withThrowingTaskGroup(of: UIImage?.self) { group in
+    private func loadImagesURLs(episodes: [ListEpisode]) async throws -> [URL] {
+        try await withThrowingTaskGroup(of: URL.self) { group in
             for episode in episodes {
                 group.addTask {
-                    let episodeImage = try await self.episodeArtWork.loadEpisodeArtworkFromUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid, size: 168)
-                    if let episodeImage {
-                        return episodeImage
+                    if let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
+                       let url = URL(string: imageUrl) {
+                        return url
                     }
-                    let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
-                    guard let podcastImage = try await self.imageManager.loadArtwork(from: url.absoluteString, uuid: episode.episode.podcastUuid, size: 168) else {
-                        return nil
-                    }
-                    return podcastImage
+                    return self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
                 }
             }
-
-            var results: [Image] = []
-            for try await image in group {
-                if let image {
-                    results.append(Image(uiImage: image))
-                }
+            var results: [URL] = []
+            for try await url in group {
+                results.append(url)
             }
             return results
         }
@@ -126,7 +119,7 @@ struct PlaylistCellView: View {
                     .padding(.leading, 16.0)
             }
             HStack(spacing: 16.0) {
-                PlaylistArtworkView(images: viewModel.images)
+                PlaylistArtworkView(urls: viewModel.imageURLs)
                     .frame(width: 56.0, height: 56.0)
                     .padding(.leading, 16.0)
                 VStack(alignment: .leading) {

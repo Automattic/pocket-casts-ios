@@ -216,32 +216,6 @@ class ImageManager {
         }
     }
 
-    func loadArtwork(from url: String, uuid: String, size: Int? = nil) async throws -> UIImage? {
-        guard let url = URL(string: url), !inProgressArtworkLoads.contains(uuid) else {
-            return nil
-        }
-
-        inProgressArtworkLoads.insert(uuid)
-
-        let size = size ?? biggestPodcastImageSize
-        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
-
-        return await withCheckedContinuation { [weak self] continuation in
-            KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { [weak self] result in
-                defer {
-                    self?.inProgressArtworkLoads.remove(uuid)
-                }
-                do {
-                    let image = try result.get().image
-                    self?.save(image, for: uuid)
-                    continuation.resume(returning: image)
-                } catch {
-                    continuation.resume(returning: nil)
-                }
-            }
-        }
-    }
-
     func save(_ image: UIImage, for episodeUuid: String) {
         subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
             NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)

@@ -37,14 +37,6 @@ class EpisodeArtwork {
         imageManager.subscribedPodcastsCache.isCached(forKey: episodeUuid)
     }
 
-    func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String, size: Int? = nil) async throws -> UIImage? {
-        guard
-            let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
-            return nil
-        }
-        return try await imageManager.loadArtwork(from: imageUrl, uuid: episodeUuid, size: size)
-    }
-
     private func loadEpisodeArtwork(from asset: AVAsset?) -> UIImage? {
         guard let asset else {
             return nil
