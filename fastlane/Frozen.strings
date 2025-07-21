@@ -3603,8 +3603,8 @@
 /* The title of the purchase promo for Patron. Do not translate Patron. */
 "patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
 
-/* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
-"purchase_terms" = "By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+/* The purchase agreement terms, the %1$@, %2$@ are intended to be "Privacy Policy" and "Terms of Use" */
+"purchase_terms" = "By continuing, you agree to our %1$@ and %2$@";
 
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
@@ -5197,6 +5197,83 @@
 /* Name for group of episodes that don't have a season defined when sorting in serial mode*/
 "podcast_extras" = "Extras";
 
+/* Upgrade account Title for onboarding banner*/
+"upgrade_account_title" = "Superpowers for your podcasts";
+
+/* Upgrade account information for onboarding banner*/
+"upgrade_account_info" = "Unlock all paid features like Folders, Shuffle, Bookmarks and many more";
+
+/* Subscription Yearly*/
+"subscription_plan_year" = "Yearly Plan";
+
+/* Subscription Monthly*/
+"subscription_plan_month" = "Monthly Plan";
+
+/* Subscription Savings on a Yearly Plan. The %1$@ argument is the amount of saving in percentage. Ex: Save 16%*/
+"subscription_plan_savings" = "Save %1$@ ";
+
+/* Subscription Plan text linking to free trial detail information */
+"subscription_plan_free_trial_info_link" = "How does the free trial work?";
+
+/* Folders feature marketing message */
+"feature_marketing_folders" = "Tidy your collection with Folders";
+
+/* Shuffle up next queue feature marketing message */
+"feature_marketing_up_next_shuffle" = "Shuffle your queue";
+
+/* Bookmarks feature marketing message */
+"feature_marketing_bookmarks" = "Keep timestamps with Bookmarks";
+
+/* SKip Chapters feature marketing message */
+"feature_marketing_skip_chapters" = "Save time with Preselect Chapters";
+
+/* Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files */
+"feature_marketing_cloud_storage" = "%1$@ Cloud Storage for your files";
+
+/* Watch playback feature marketing message */
+"feature_marketing_watch_playback" = "Apps for Wear OS and Apple Watch";
+
+/* Extra Themes And App Icons feature marketing message */
+"feature_marketing_extra_themes_icons" = "Extra Themes and App Icons";
+
+/* Slumber Studios feature marketing message */
+"feature_marketing_slumber" = "1 year of content from Slumber Studios";
+
+/* Patron has all features of plus marketing message*/
+"feature_marketing_all_plus_features" = "All the features in Plus";
+
+/* Patron early access to new features marketing message*/
+"feature_marketing_early_access" = "Early access to new features";
+
+/* Patron early access to new features marketing message*/
+"feature_marketing_early_access" = "Early access to new features";
+
+/* A common string used throughout the app. Often refers to the Playlists screen. */
+"playlists" = "Playlists";
+
+/* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
+"user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
+
+/* A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app */
+"user_satisfaction_survey_subtitle" = "Hi there! We'd love to know if you're enjoying our app.";
+
+/* An option to say "no" when when asked if the user enjoys the app. */
+"user_satisfaction_survey_no_response" = "Not really";
+
+/* An option to say "yes" when when asked if the user enjoys the app. */
+"user_satisfaction_survey_yes_response" = "Yes!";
+
+/* Upgrade account timeline day 1 of free trial message. */
+"upgrade_account_timeline_day_1" = "Get access to Folders, Shuffle, Bookmarks, and exclusive content";
+
+/* Upgrade account timeline one week before charging message. */
+"upgrade_account_timeline_week_before" = "We’ll notify you about your trial ending.";
+
+/* Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.*/
+"upgrade_account_timeline_charging_day" = "You’ll be charged on %1$@. Cancel anytime before.";
+
+/* Subscription Plan text linking to feaures information */
+"subscription_plan_features_info_link" = "See all Plus features";
 
 
 /* MARK: - InfoPlist.strings */
