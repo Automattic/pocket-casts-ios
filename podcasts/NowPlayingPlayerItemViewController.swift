@@ -501,10 +501,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
                 FileLog.shared.addMessage("Failed to open Banner Ad URL \(promotion.url) for \(promotion.id)")
                 return
             }
-            let safariViewController = SFSafariViewController(with: url)
-
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-            SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+            UIApplication.shared.openSafariVCIfPossible(url)
         }
 
         let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(8)
