@@ -29,7 +29,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         if FeatureFlag.playlistsRebranding.enabled {
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
-                cell.accessoryType = .none
+                cell.accessoryType = .disclosureIndicator
                 cell.configure(playlist: playlist, resetConfiguration: cell.tag != indexPath.row)
                 cell.tag = indexPath.row
             }

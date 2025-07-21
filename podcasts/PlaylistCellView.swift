@@ -1,181 +1,62 @@
 import SwiftUI
 import PocketCastsDataModel
 
-class PlaylistCellViewModel: ObservableObject {
-    @Published var episodesCount: Int = 0
-    @Published var imageURLs: [URL] = []
-
-    private var playlist: EpisodeFilter
-    private var isLoadingCount: Bool = false
-    private var isLoadingImages: Bool = false
-
-    private let dataManager: DataManager
-    private let imageManager: ImageManager
-    private let episodesDataManager: EpisodesDataManager
-    private let episodeArtWork: EpisodeArtwork
-
-    init(
-        playlist: EpisodeFilter,
-        dataManager: DataManager = .sharedManager,
-        imageManager: ImageManager = .sharedManager,
-        episodesDataManager: EpisodesDataManager = .init()
-    ) {
-        self.playlist = playlist
-        self.dataManager = dataManager
-        self.imageManager = imageManager
-        self.episodeArtWork = .init(imageManager: imageManager)
-        self.episodesDataManager = episodesDataManager
-    }
-
-    func playListName() -> String {
-        playlist.playlistName
-    }
-
-    func isSmartPlaylist() -> Bool {
-        playlist.playlistType == .smart
-    }
-
-    func loadCount() {
-        if isLoadingCount { return }
-        isLoadingCount = true
-        Task { [weak self] in
-            guard let self else { return }
-            let count = await self.getEpisodesCount()
-            await MainActor.run {
-                self.episodesCount = count
-                self.isLoadingCount = false
-            }
-        }
-    }
-
-    func loadImages() {
-        if isLoadingImages { return }
-        isLoadingImages = true
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let list = await self.loadListEpisodes()
-                let imageURLs = try await self.loadImagesURLs(episodes: list)
-                await MainActor.run {
-                    self.imageURLs = imageURLs
-                    self.isLoadingImages = false
-                }
-            } catch {
-                await MainActor.run {
-                    self.isLoadingImages = false
-                }
-            }
-        }
-    }
-
-    private func loadListEpisodes() async -> [ListEpisode] {
-        let playlist = self.playlist
-        return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.episodes(for: playlist, limit: 4) ?? []
-        }.value
-    }
-
-    private func loadImagesURLs(episodes: [ListEpisode]) async throws -> [URL] {
-        try await withThrowingTaskGroup(of: URL.self) { group in
-            for episode in episodes {
-                group.addTask {
-                    if let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
-                       let url = URL(string: imageUrl) {
-                        return url
-                    }
-                    return self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
-                }
-            }
-            var results: [URL] = []
-            for try await url in group {
-                results.append(url)
-            }
-            return results
-        }
-    }
-
-    private func getEpisodesCount() async -> Int {
-        let playlist = self.playlist
-        return await Task.detached(priority: .userInitiated) {
-            DataManager.sharedManager.episodeCount(
-                forFilter: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-            )
-        }.value
-    }
-}
-
 struct PlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistCellViewModel
 
     var body: some View {
-        ZStack {
-            VStack {
-                Spacer()
-                Rectangle()
-                    .foregroundColor(theme.primaryUi05)
-                    .frame(height: 1)
-                    .padding(.leading, 16.0)
-            }
-            HStack(spacing: 16.0) {
-                PlaylistArtworkView(urls: viewModel.imageURLs)
-                    .frame(width: 56.0, height: 56.0)
-                    .padding(.leading, 16.0)
-                VStack(alignment: .leading) {
-                    Text(viewModel.playListName())
-                        .foregroundStyle(theme.primaryText01)
-                        .font(size: 15.0, style: .body, weight: .medium)
-                    if viewModel.isSmartPlaylist() {
-                        Text("Smart Playlist")
-                            .foregroundStyle(theme.secondaryText02)
-                            .font(size: 14.0, style: .body, weight: .regular)
-                    }
-                }
-                Spacer()
-                HStack(spacing: 5.0) {
-                    Text("\(viewModel.episodesCount)")
+        HStack(spacing: 16.0) {
+            PlaylistArtworkView(urls: viewModel.imageURLs)
+                .frame(width: 56.0, height: 56.0)
+                .padding(.leading, 16.0)
+            VStack(alignment: .leading) {
+                Text(viewModel.playListName())
+                    .foregroundStyle(theme.primaryText01)
+                    .font(size: 15.0, style: .body, weight: .medium)
+                if viewModel.isSmartPlaylist() {
+                    Text("Smart Playlist")
                         .foregroundStyle(theme.secondaryText02)
                         .font(size: 14.0, style: .body, weight: .regular)
-                    Image("cs-chevron")
-                        .renderingMode(.template)
-                        .foregroundStyle(theme.primaryIcon02)
-                        .frame(width: 24, height: 24)
                 }
-                .padding(.trailing, 16.0)
             }
+            Spacer()
+            HStack(spacing: 5.0) {
+                Text("\(viewModel.episodesCount)")
+                    .foregroundStyle(theme.secondaryText02)
+                    .font(size: 14.0, style: .body, weight: .regular)
+            }
+            .padding(.trailing, 8.0)
         }
         .background(.clear)
-        .onAppear {
-            viewModel.loadCount()
-            viewModel.loadImages()
-        }
     }
 }
 
 #Preview {
     struct PreviewWrapper: View {
         @EnvironmentObject var theme: Theme
+        private let vm1 = PlaylistCellViewModel()
+        private let vm2 = PlaylistCellViewModel()
 
         var body: some View {
             List {
                 PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model()
-                    )
+                    viewModel: vm1
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)
                 .listRowSeparator(.hidden)
 
                 PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model()
-                    )
+                    viewModel: vm2
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)
                 .listRowSeparator(.hidden)
+            }
+            .onAppear {
+                vm1.set(playlist: model())
+                vm2.set(playlist: model())
             }
         }
 

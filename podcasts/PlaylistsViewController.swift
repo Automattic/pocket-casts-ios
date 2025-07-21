@@ -6,9 +6,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: UITableView! {
         didSet {
             registerCells()
-            if FeatureFlag.playlistsRebranding.enabled {
-                filtersTable.separatorStyle = .none
-            }
         }
     }
 
@@ -71,9 +68,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        if FeatureFlag.playlistsRebranding.enabled {
-            
-        } else {
+        if !FeatureFlag.playlistsRebranding.enabled {
             setupNewFilterButton()
         }
         handleThemeChanged()
@@ -114,7 +109,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     @objc private func editTapped() {
         filtersTable.isEditing = !filtersTable.isEditing
-        filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
         if FeatureFlag.playlistsRebranding.enabled {
             if filtersTable.isEditing {
                 customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTapped))
@@ -122,6 +116,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
             }
         } else {
+            filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
             customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
         }
         refreshRightButtons()
