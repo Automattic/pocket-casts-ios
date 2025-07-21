@@ -85,7 +85,6 @@ struct UpgradeTimelineView: View {
                     .padding(.horizontal, 14)
                     Spacer()
                 }
-                //.offset(x: 0, y: 2)
                 .clipped()
             }
         }
