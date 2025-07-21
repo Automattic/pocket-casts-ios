@@ -45,9 +45,6 @@ struct ChapterRow: View {
         .onAppear {
             animate(Double(index))
         }
-        .onTapGesture {
-            animate(Double(index))
-        }
     }
 
     private func animate(_ index: Double) {
