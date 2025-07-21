@@ -109,10 +109,10 @@ struct UpgradeAccountView: View {
                         }
                         if expand, model.isFreeTrialAvailable {
                             VStack {
-                                Spacer()
+                                Spacer().frame(height: 76)
                                 pageTwo
                                     .id(ScrollPosition.secondPage)
-                                Spacer()
+                                Spacer().frame(height: 62)
                             }
                         } else {
                             Spacer()

@@ -126,8 +126,8 @@ extension L10n {
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 
-        let privacyPolicyText = L10n.accountPrivacyPolicy
-        let termsOfUseText = L10n.termsOfUse
+        let privacyPolicyText = L10n.accountPrivacyPolicy.nonBreakingSpaces()
+        let termsOfUseText = L10n.termsOfUse.nonBreakingSpaces()
 
         // Create markdown formatted text with proper localization
         let termsMarkdown = L10n.purchaseTerms(
