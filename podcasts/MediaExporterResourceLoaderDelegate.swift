@@ -27,17 +27,17 @@ fileprivate extension Int {
 }
 
 /// Responsible for downloading media data and providing the requested data parts.
-final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelegate, URLSessionDelegate, URLSessionDataDelegate, URLSessionTaskDelegate {
+class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelegate, URLSessionDelegate, URLSessionDataDelegate, URLSessionTaskDelegate {
     private let lock = NSLock()
 
-    private var bufferData = Data()
+    var bufferData = Data()
     private let downloadBufferLimit = MediaExporterItemConfiguration.downloadBufferLimit
     private let readDataLimit = MediaExporterItemConfiguration.readDataLimit
 
-    private lazy var fileHandle = MediaFileHandle(filePath: saveFilePath)
+    private var fileHandle: MediaFileHandle
 
     private var session: URLSession?
-    private var response: URLResponse?
+    var response: URLResponse?
     private let queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate", qos: .userInitiated, attributes: .concurrent)
     private var pendingRequests: Set<AVAssetResourceLoadingRequest> {
         get { queue.sync { return pendingRequestsValue } }
@@ -45,6 +45,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     }
     private var pendingRequestsValue = Set<AVAssetResourceLoadingRequest>()
     private var isDownloadComplete = false
+    var hasRetriedWithoutUserAgent = false
 
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
@@ -61,6 +62,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     init(saveFilePath: String, callback: FileExporterProgressReport?) {
         self.saveFilePath = saveFilePath
         self.callback = callback
+        self.fileHandle = MediaFileHandle(filePath: saveFilePath)
         super.init()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
@@ -145,6 +147,11 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         let error = verifyResponse()
 
         guard error == nil else {
+            if shouldRetryWithoutUserAgent(error: error!) {
+                retryWithoutUserAgent(originalURL: task.originalRequest?.url)
+                return
+            }
+
             downloadFailed(with: error!)
             return
         }
@@ -155,6 +162,10 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     // MARK: Internal methods
 
     func startDataRequest(with url: URL) {
+        startDataRequest(with: url, retryWithoutUserAgent: false)
+    }
+
+    @objc func startDataRequest(with url: URL, retryWithoutUserAgent: Bool) {
         guard session == nil else { return }
 
         let configuration = URLSessionConfiguration.default
@@ -170,7 +181,15 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         }
 
         var urlRequest = URLRequest(url: url)
-        urlRequest.setValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        if !retryWithoutUserAgent {
+            urlRequest.setValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        }
+
+        if retryWithoutUserAgent {
+            hasRetriedWithoutUserAgent = true
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Starting request without User-Agent header")
+        }
+
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         session?.dataTask(with: urlRequest).resume()
     }
@@ -280,6 +299,31 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         }
 
         return error
+    }
+
+    private func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
+        // Only retry if we haven't already retried without User-Agent and the error is a status code >= 400
+        return !hasRetriedWithoutUserAgent && error.code >= 400
+    }
+
+    private func retryWithoutUserAgent(originalURL: URL?) {
+        guard let originalURL = originalURL else {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cannot retry without User-Agent - no original URL")
+            return
+        }
+
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Retrying without User-Agent header for URL: \(originalURL)")
+
+        fileHandle.close()
+
+        invalidateAndCancelSession(shouldResetData: false)
+
+        response = nil
+        bufferData = Data()
+
+        fileHandle = MediaFileHandle(filePath: saveFilePath)
+
+        startDataRequest(with: originalURL, retryWithoutUserAgent: true)
     }
 
     private func downloadFailed(with error: Error) {

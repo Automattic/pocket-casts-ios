@@ -330,6 +330,16 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                NavigationLink("Debug Info") {
+                    SurveyDebugInfoView()
+                        .navigationTitle("Survey Debug Info")
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            } header: {
+                Text("Ratings")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")

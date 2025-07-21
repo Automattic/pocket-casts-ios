@@ -203,11 +203,20 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enabled the attributed text view in the Data Usage warning Sheet
     case useDescriptiveActionAttributedTextView
 
-    /// Use the new updgrade screens
+    /// Use the new upgrade screens
     case newOnboardingUpgrade
+
+    /// Use the new upgrade screens with Variant B timeline before features
+    case newOnboardingVariant
 
     /// Enable the new playlists rebranding
     case playlistsRebranding
+
+    /// Retry failed downloads and stream without the user agent
+    case retryWithoutUserAgent
+
+    /// Show a satisfaction survey before prompting to rate
+    case userSatisfactionSurvey
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -314,11 +323,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .libroFm:
             false
         case .grdb:
-            #if DEBUG
             true
-            #else
-            false
-            #endif
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
@@ -351,8 +356,14 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newOnboardingUpgrade:
             false
+        case .newOnboardingVariant:
+            false
         case .playlistsRebranding:
             false
+        case .retryWithoutUserAgent:
+            true
+        case .userSatisfactionSurvey:
+            true
         }
     }
 
@@ -376,8 +387,6 @@ public enum FeatureFlag: String, CaseIterable {
             "use_podcast_html_description"
         case .podcastViewChanges:
             "podcast_view_changes_2025"
-        case .grdb:
-            "grdb_testflight"
         default:
             rawValue.lowerSnakeCased()
         }
@@ -391,9 +400,9 @@ extension FeatureFlag: OverrideableFlag {
 
     public var canOverride: Bool {
         switch self {
-            // GRDB can only change in TestFlight versions
+            // GRDB can only change to `false` in non-TestFlight versions
             case .grdb:
-                Self.isTestFlight
+                !Self.isTestFlight
             default:
                 true
         }

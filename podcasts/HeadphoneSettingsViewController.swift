@@ -155,7 +155,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
             .sink { unlocked() }
             .store(in: &cancellables)
 
-        feature.presentUpgradeController(from: self, source: "headphone_settings")
+        feature.presentUpgradeController(from: self, source: .headphoneSettings)
     }
 
     // MARK: - Data Struct

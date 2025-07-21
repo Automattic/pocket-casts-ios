@@ -4,6 +4,7 @@ import SafariServices
 import UIKit
 import Combine
 import PocketCastsUtils
+import SwiftUI
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
 
@@ -439,7 +440,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        let controller = OnboardingFlow.shared.begin(flow: flow, source: source.rawValue, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: flow, source: source, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -495,6 +496,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func showSettings(row: SettingsViewController.TableRow?) {
         switchToTab(.profile)
         guard let navController = selectedViewController as? UINavigationController else { return }
+
+        if navController.presentedViewController != nil {
+            navController.dismiss(animated: false)
+        }
 
         navController.popViewController(animated: false)
         let settingViewController = SettingsViewController()
@@ -623,7 +628,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
-        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding)
+        let controller = OnboardingFlow.shared.begin(flow: flow ?? .initialOnboarding, source: .onboarding)
         guard let presentedViewController else {
             present(controller, animated: true)
             return

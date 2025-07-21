@@ -807,6 +807,8 @@ Pocket Casts Plus</string>
     <string>Скачать все</string>
     <key>download_data_warning</key>
     <string>При скачивании будут использоваться данные.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Загрузка будет производиться по тарифу мобильной связи. Вы можете отключить это предупреждение в разделе [Настройки](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Скачать выпуски (%1$@)</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ Pocket Casts на полную мощность.</string>
     <string>Не удается загрузить сведения о подкасте :(</string>
     <key>podcast_error_title</key>
     <string>Ничего не получается</string>
+    <key>podcast_extras</key>
+    <string>Дополнения</string>
     <key>podcast_failed_download</key>
     <string>Не удалось скачать выпуск.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Pocket Casts на полную мощность.</string>
     <key>podcast_no_date</key>
     <string>Дата не установлена</string>
     <key>podcast_no_season</key>
-    <string>Нет сезона</string>
+    <string>Дополнения</string>
     <key>podcast_pause_download</key>
     <string>Приостановить скачивание</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Pocket Casts на полную мощность.</string>
     <string>ПОРЯДОК СОРТИРОВКИ</string>
     <key>podcast_stream_confirmation</key>
     <string>Транслировать в любом случае</string>
-    <key>podcast_stream_data_warning</key>
-    <string>При трансляции этого выпуска будут использоваться мобильные данные</string>
     <key>podcast_this_month</key>
     <string>В этом месяце</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Pocket Casts на полную мощность.</string>
     <string>От новых к старым</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>От старых к новым</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>По порядку серий</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>От коротких к длинным</string>
     <key>podcasts_episode_sort_title_a_to_z</key>

@@ -17,9 +17,12 @@ class PlusAccountPromptTableCell: ThemeableCell {
 
         let view: UIView
         if FeatureFlag.newOnboardingUpgrade.enabled {
-            view = UpgradeBannerView(viewModel: PlusLandingViewModel(source: .accountScreen, viewSource: .profile)).themedUIView
+            view = UpgradeBannerView(viewModel: UpgradeAccountViewModel(upgradeTier: .plus, selectedProduct: .yearly, viewSource: .profile, flowSource: .accountScreen), onSubscribeTap: {
+                let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: .profile, context: nil)
+                model.parentController?.present(controller, animated: true)
+            }).themedUIView
         } else if FeatureFlag.newAccountUpgradePromptFlow.enabled {
-            let _ = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: PlusAccountPromptViewModel.Source.profile.rawValue, context: nil)
+            let _ = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: .profile, context: nil)
             view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .accountScreen, viewSource: .profile)) { [weak self] size in
                 self?.contentSizeUpdated?(size)
             }.themedUIView

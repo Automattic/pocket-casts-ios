@@ -986,6 +986,35 @@ class Settings: NSObject {
         UserDefaults.standard.array(forKey: Constants.UserDefaults.reviewRequestDates) as? [Date] ?? [Date]()
     }
 
+    class func resetReviewRequests() {
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.reviewRequestDates)
+    }
+
+    // MARK: - User Satisfaction Survey
+
+    class func addSurveyPresented() {
+        var surveyDates = Self.surveyPresentationDates()
+        surveyDates.append(Date())
+        UserDefaults.standard.set(surveyDates, forKey: Constants.UserDefaults.surveyPresentationDates)
+    }
+
+    class func surveyPresentationDates() -> [Date] {
+        UserDefaults.standard.array(forKey: Constants.UserDefaults.surveyPresentationDates) as? [Date] ?? [Date]()
+    }
+
+    class func lastSurveyNotReallyDate() -> Date? {
+        UserDefaults.standard.object(forKey: Constants.UserDefaults.lastSurveyNotReallyDate) as? Date
+    }
+
+    class func setSurveyNotReallyResponse() {
+        UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastSurveyNotReallyDate)
+    }
+
+    class func resetSurveyData() {
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.surveyPresentationDates)
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.lastSurveyNotReallyDate)
+    }
+
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {

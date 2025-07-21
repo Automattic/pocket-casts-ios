@@ -807,6 +807,8 @@ Pocket Casts Plus</string>
     <string>すべてをダウンロード</string>
     <key>download_data_warning</key>
     <string>ダウンロードするとデータが消費されます。</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>このダウンロードにはモバイルデータが使用されます。 [Settings](%@) でこの警告をオフにできます。</string>
     <key>download_episode_plural_format</key>
     <string>%1$@件のエピソードをダウンロード</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストの詳細を読み込めませんでした :(</string>
     <key>podcast_error_title</key>
     <string>読み込めません</string>
+    <key>podcast_extras</key>
+    <string>その他</string>
     <key>podcast_failed_download</key>
     <string>エピソードのダウンロードに失敗しました。</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>podcast_no_date</key>
     <string>日付設定なし</string>
     <key>podcast_no_season</key>
-    <string>シーズンなし</string>
+    <string>その他</string>
     <key>podcast_pause_download</key>
     <string>ダウンロードを一時停止</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>並び替えオプション</string>
     <key>podcast_stream_confirmation</key>
     <string>ストリーミング</string>
-    <key>podcast_stream_data_warning</key>
-    <string>このエピソードのストリーミングではデータが消費されます</string>
     <key>podcast_this_month</key>
     <string>今月</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>新しい順</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>古い順</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>シリーズ</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>短い順</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3387,6 +3391,8 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>長い順</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>短い順</string>
+    <key>view_transcript</key>
+    <string>トランスクリプトを表示</string>
     <key>volume_boost</key>
     <string>ボリュームブースト</string>
     <key>volume_boost_description</key>

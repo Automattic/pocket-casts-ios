@@ -144,7 +144,7 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     private func signup() {
-        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode) { [weak self] accountCreated in
+        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode, source: .referral) { [weak self] accountCreated in
             self?.accountCreated = accountCreated
         }
 

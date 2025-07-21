@@ -156,6 +156,8 @@ struct Constants {
         static let lastRunVersion = "lastRunVersion"
 
         static let reviewRequestDates = "reviewRequestDates"
+        static let surveyPresentationDates = "surveyPresentationDates"
+        static let lastSurveyNotReallyDate = "lastSurveyNotReallyDate"
 
         static let showBadgeForEndOfYear = "showBadgeFor%dEndOfYear"
         static let modalHasBeenShown = "modal%dHasBeenShown"
@@ -418,6 +420,20 @@ enum PlusUpgradeViewSource: String {
     case onboarding
     case suggestedFolders = "suggested_folders"
     case bannerAd = "banner_ad"
+    case login
+    case accountCreated = "account_created"
+    case account
+    case settings
+    case referral
+    case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case bookmarksLocked = "bookmarks_locked"
+    case overflowMenu = "overflow_menu"
+    case slumber
+    case deselectChapters = "deselect_chapters"
+    case headphoneSettings =  "headphone_settings"
+    case bookmarksShelfAction = "bookmarks_shelf_action"
+    case whatsNew
+    case sonosLink = "sonos_link"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

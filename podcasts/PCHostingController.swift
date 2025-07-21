@@ -35,13 +35,25 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
 /// }
 class ThemedHostingController<Content>: ModifedHostingController<Content, ThemedEnvironment> where Content: View {
 
-    init(rootView: Content, theme: Theme = Theme.sharedTheme) {
+    private var background: KeyPath<Theme, Color>?
+
+    init(rootView: Content, theme: Theme = Theme.sharedTheme, background: KeyPath<Theme, Color>? = nil) {
+        self.background = background
         super.init(rootView: rootView, modifier: ThemedEnvironment(theme: theme))
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
+        themeDidChange()
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+    }
+
+    @objc func themeDidChange() {
+        if let background {
+            view.backgroundColor = UIColor(Theme.sharedTheme[keyPath: background])
+        } else {
+            view.backgroundColor = .clear
+        }
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
@@ -62,7 +74,7 @@ class PCHostingController<Content>: ThemedHostingController<Content> where Conte
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
-    @objc private func themeDidChange() {
+    @objc override func themeDidChange() {
         setupNavBar()
     }
 

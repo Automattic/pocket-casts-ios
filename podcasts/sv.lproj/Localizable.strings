@@ -807,6 +807,8 @@ Låt oss hjälpa dig först</string>
     <string>Ladda ner alla</string>
     <key>download_data_warning</key>
     <string>Nedladdning använder data.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Denna nedladdning kommer att använda mobildata. Du kan stänga av denna varning i [Inställningar](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Ladda ner %1$@ avsnitt</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ UPPDATERINGAR</string>
     <string>Kan inte läsa in podcastinformationen :(</string>
     <key>podcast_error_title</key>
     <string>Funkar inte överhuvudtaget</string>
+    <key>podcast_extras</key>
+    <string>Extra</string>
     <key>podcast_failed_download</key>
     <string>Nedladdningen av avsnittet misslyckades.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>podcast_no_date</key>
     <string>Datum ej angivet</string>
     <key>podcast_no_season</key>
-    <string>Ingen säsong</string>
+    <string>Extra</string>
     <key>podcast_pause_download</key>
     <string>Pausa nedladdning</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>SORTERINGSORDNING</string>
     <key>podcast_stream_confirmation</key>
     <string>Streama ändå</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Att streama det här avsnittet använder data</string>
     <key>podcast_this_month</key>
     <string>Den här månaden</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Nyaste till äldsta</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Äldsta till nyaste</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Seriellt</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3395,8 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Längsta till kortaste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>view_transcript</key>
+    <string>Visa transkription</string>
     <key>volume_boost</key>
     <string>Volymökning</string>
     <key>volume_boost_description</key>

@@ -807,6 +807,8 @@ Pocket Casts Plus</string>
     <string>全部下載</string>
     <key>download_data_warning</key>
     <string>下載須使用行動數據。</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>若要繼續下載，系統將使用行動數據。 您可以在「[設定](%@)」中關閉此警告。</string>
     <key>download_episode_plural_format</key>
     <string>下載 %1$@ 集</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ Pocket Casts Plus</string>
     <string>無法上傳 Podcast 節目詳細資訊 :(</string>
     <key>podcast_error_title</key>
     <string>真是難以言喻</string>
+    <key>podcast_extras</key>
+    <string>額外內容</string>
     <key>podcast_failed_download</key>
     <string>單集下載失敗。</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Pocket Casts Plus</string>
     <key>podcast_no_date</key>
     <string>未設定日期</string>
     <key>podcast_no_season</key>
-    <string>沒有季別</string>
+    <string>額外內容</string>
     <key>podcast_pause_download</key>
     <string>暫停下載</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Pocket Casts Plus</string>
     <string>排序</string>
     <key>podcast_stream_confirmation</key>
     <string>仍要串流</string>
-    <key>podcast_stream_data_warning</key>
-    <string>本集將使用行動數據串流</string>
     <key>podcast_this_month</key>
     <string>本月</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Pocket Casts Plus</string>
     <string>從最新到最舊</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>從最舊到最新</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>序列</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>從最短到最長</string>
     <key>podcasts_episode_sort_title_a_to_z</key>

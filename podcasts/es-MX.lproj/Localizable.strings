@@ -807,6 +807,8 @@ Deja que te ayudemos</string>
     <string>Descargar todos</string>
     <key>download_data_warning</key>
     <string>Se utilizarán los datos para la descarga.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Esta descarga utilizará datos móviles. Puedes desactivar esta advertencia en [Configuración] (%@).</string>
     <key>download_episode_plural_format</key>
     <string>Descargar %1$@ episodios</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ ACTUALIZACIONES</string>
     <string>No es posible cargar los detalles del podcast :(</string>
     <key>podcast_error_title</key>
     <string>Literalmente, no lo puedo creer</string>
+    <key>podcast_extras</key>
+    <string>Extras</string>
     <key>podcast_failed_download</key>
     <string>Error al descargar el episodio.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <key>podcast_no_date</key>
     <string>Fecha no establecida</string>
     <key>podcast_no_season</key>
-    <string>No hay temporada</string>
+    <string>Extras</string>
     <key>podcast_pause_download</key>
     <string>Pausar descarga</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>ORDENAR</string>
     <key>podcast_stream_confirmation</key>
     <string>Transmitir de todas formas</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Se utilizarán los datos para la transmición de este episodio</string>
     <key>podcast_this_month</key>
     <string>Este mes</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Del más nuevo al más antiguo</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Del más antiguo al más nuevo</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Serie</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Del más corto al más largo</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3395,8 @@ Esta aplicación puede ser tan sencilla o difícil de usar como tú quieras. Pue
     <string>De más largos a más cortos</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De más cortos a más largos</string>
+    <key>view_transcript</key>
+    <string>Ver transcripción</string>
     <key>volume_boost</key>
     <string>Aumento de volumen</string>
     <key>volume_boost_description</key>

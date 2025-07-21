@@ -2600,7 +2600,9 @@ internal enum L10n {
   /// Confirmation option to stream the selected episode. Used in tandem with a notice that the user is not on WiFi.
   internal static var podcastStreamConfirmation: String { return L10n.tr("Localizable", "podcast_stream_confirmation", fallback: "Stream Anyway") }
   /// Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi.
-  internal static var podcastStreamDataWarning: String { return L10n.tr("Localizable", "podcast_stream_data_warning", fallback: "Streaming this episode will use data") }
+  internal static func podcastStreamDataWarningWithSettings(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "podcast_stream_data_warning_with_settings", String(describing: p1), fallback: "Streaming this episode will use data. You can turn off this warning in [Settings](%@).")
+  }
   /// Used to reference the episode was published this month.
   internal static var podcastThisMonth: String { return L10n.tr("Localizable", "podcast_this_month", fallback: "This Month") }
   /// Indicates the remaining amount of time left in the episode. '%1$@' is a placeholder for the remaining time.
@@ -3663,6 +3665,8 @@ internal enum L10n {
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")
   }
+  /// Subscription Plan text linking to feaures information
+  internal static var subscriptionPlanFeaturesInfoLink: String { return L10n.tr("Localizable", "subscription_plan_features_info_link", fallback: "See all Plus features") }
   /// Subscription Plan text linking to free trial detail information
   internal static var subscriptionPlanFreeTrialInfoLink: String { return L10n.tr("Localizable", "subscription_plan_free_trial_info_link", fallback: "How does the free trial work?") }
   /// Subscription Monthly
@@ -3813,6 +3817,14 @@ internal enum L10n {
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account", fallback: "Upgrade Account") }
   /// Upgrade account information for onboarding banner
   internal static var upgradeAccountInfo: String { return L10n.tr("Localizable", "upgrade_account_info", fallback: "Unlock all paid features like Folders, Shuffle, Bookmarks and many more") }
+  /// Upgrade account timeline charging day message. The %1$@ argument is the day of the charge. Ex: You’ll be charged on September 31th Cancel anytime before.
+  internal static func upgradeAccountTimelineChargingDay(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_account_timeline_charging_day", String(describing: p1), fallback: "You’ll be charged on %1$@. Cancel anytime before.")
+  }
+  /// Upgrade account timeline day 1 of free trial message.
+  internal static var upgradeAccountTimelineDay1: String { return L10n.tr("Localizable", "upgrade_account_timeline_day_1", fallback: "Get access to Folders, Shuffle, Bookmarks, and exclusive content") }
+  /// Upgrade account timeline one week before charging message.
+  internal static var upgradeAccountTimelineWeekBefore: String { return L10n.tr("Localizable", "upgrade_account_timeline_week_before", fallback: "We’ll notify you about your trial ending.") }
   /// Upgrade account Title for onboarding banner
   internal static var upgradeAccountTitle: String { return L10n.tr("Localizable", "upgrade_account_title", fallback: "Superpowers for your podcasts") }
   /// Upgrade Experiment message informing the user that they have been granted 50% discount.
@@ -3871,6 +3883,14 @@ internal enum L10n {
   internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest", fallback: "Longest to shortest") }
   /// A duration (shortest to longest) sort option for uploaded files.
   internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest", fallback: "Shortest to longest") }
+  /// An option to say "no" when when asked if the user enjoys the app.
+  internal static var userSatisfactionSurveyNoResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_no_response", fallback: "Not really") }
+  /// A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app
+  internal static var userSatisfactionSurveySubtitle: String { return L10n.tr("Localizable", "user_satisfaction_survey_subtitle", fallback: "Hi there! We'd love to know if you're enjoying our app.") }
+  /// A title shown for the user satisfaction survey to ask whether a user enjoys the app
+  internal static var userSatisfactionSurveyTitle: String { return L10n.tr("Localizable", "user_satisfaction_survey_title", fallback: "Enjoying Pocket Casts?") }
+  /// An option to say "yes" when when asked if the user enjoys the app.
+  internal static var userSatisfactionSurveyYesResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_yes_response", fallback: "Yes!") }
   /// Title of the Transcript excerpt in Episode detail
   internal static var viewTranscript: String { return L10n.tr("Localizable", "view_transcript", fallback: "View Transcript") }
   /// The Volume Boost feature. Makes voices louder.

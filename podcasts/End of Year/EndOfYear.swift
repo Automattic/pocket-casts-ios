@@ -146,7 +146,7 @@ struct EndOfYear {
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
 
-            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear)
+            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear)
             viewController.present(onboardingController, animated: true)
             return
         }

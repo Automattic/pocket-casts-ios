@@ -96,7 +96,7 @@ struct MessageSupportView_Previews: PreviewProvider {
         let baseURL = "https://example.com"
         let newBaseURL = "https://example.com"
         let subject = "For Previews"
-        let isFeedback = true
+        let type: ZDType = .feedback
     }
 
     static var previews: some View {

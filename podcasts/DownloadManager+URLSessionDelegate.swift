@@ -76,13 +76,19 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let error = error as NSError?, let task = task as? URLSessionDownloadTask else {
-            // if there's no error then no need for us to do anything
+        guard let downloadTask = task as? URLSessionDownloadTask else { return }
+
+        guard let error = error as NSError? else {
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
 
-        // check for ones we cancelled
-        guard let episode = episodeForTask(task, forceReload: true) else { return } // we no longer have this episode
+        // Check for downloads that were cancelled
+        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+            return
+        }
+
         removeEpisodeFromCache(episode)
 
         switch error.code {
@@ -110,12 +116,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             ()
         }
 
+        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+
         dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+
         guard let episode = episodeForTask(downloadTask, forceReload: true) else { return }
 
         removeEpisodeFromCache(episode)
@@ -126,6 +136,14 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         if response.statusCode >= 400, response.statusCode < 600 {
+            if shouldRetryWithoutUserAgent(task: downloadTask), FeatureFlag.retryWithoutUserAgent.enabled {
+                FileLog.shared.addMessage("DownloadManager: Retrying download without User-Agent for episode: \(episode.uuid), status code: \(response.statusCode)")
+                Task {
+                    await retryDownloadWithoutUserAgent(episode: episode)
+                }
+                return
+            }
+
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
                 message = L10n.downloadErrorContactAuthorVersion2
@@ -192,17 +210,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
-        guard let downloadId = task.taskDescription else { return nil }
+        guard let taskDescription = task.taskDescription else { return nil }
 
         if !forceReload {
-            if let episode = downloadingEpisodesCache[downloadId] {
+            if let episode = downloadingEpisodesCache[taskDescription] {
                 return episode
             }
         }
 
-        let episode = dataManager.findBaseEpisode(downloadTaskId: downloadId)
+        let episode = dataManager.findBaseEpisode(downloadTaskId: taskDescription)
         if let episode = episode {
-            downloadingEpisodesCache[downloadId] = episode
+            downloadingEpisodesCache[taskDescription] = episode
         }
 
         return episode
@@ -256,5 +274,23 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         taskFailure[episode.uuid] = reason
+    }
+
+    private func shouldRetryWithoutUserAgent(task: URLSessionDownloadTask) -> Bool {
+        guard let attempt = downloadAttempts[task.taskIdentifier] else { return true }
+        return !attempt.hasRetriedWithoutUserAgent
+    }
+
+    private func retryDownloadWithoutUserAgent(episode: BaseEpisode) async {
+        guard let downloadUrl = episode.downloadUrl else {
+            FileLog.shared.addMessage("DownloadManager: Cannot retry download without User-Agent: no download URL for episode \(episode.uuid)")
+            return
+        }
+
+        FileLog.shared.addMessage("DownloadManager: Retrying download without User-Agent for episode: \(episode.uuid) at URL: \(downloadUrl)")
+
+        let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified
+
+        await performDownload(episode: episode, url: downloadUrl, previousDownloadFailed: true, fireNotification: true, autoDownloadStatus: autoDownloadStatus, retryWithoutUserAgent: true)
     }
 }

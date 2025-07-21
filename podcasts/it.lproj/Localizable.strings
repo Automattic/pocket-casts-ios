@@ -807,6 +807,8 @@ Prima vorremmo aiutarti</string>
     <string>Scarica tutto</string>
     <key>download_data_warning</key>
     <string>Il download utilizzerà i dati.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Per questo download verranno utilizzati i dati mobili. Puoi disattivare questo avviso in [Impostazioni] (%@).</string>
     <key>download_episode_plural_format</key>
     <string>Scarica %1$@ episodi</string>
     <key>download_episode_singular</key>
@@ -2179,6 +2181,8 @@ AGGIORNAMENTI</string>
     <string>Impossibile caricare i dettagli del podcast :(</string>
     <key>podcast_error_title</key>
     <string>Non è letteralmente perfino possibile</string>
+    <key>podcast_extras</key>
+    <string>Extra</string>
     <key>podcast_failed_download</key>
     <string>Download dell'episodio non riuscito.</string>
     <key>podcast_failed_upload</key>
@@ -2217,7 +2221,7 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <key>podcast_no_date</key>
     <string>Data non impostata</string>
     <key>podcast_no_season</key>
-    <string>Nessuna stagione</string>
+    <string>Extra</string>
     <key>podcast_pause_download</key>
     <string>Sospendi il download</string>
     <key>podcast_pause_playback</key>
@@ -2264,8 +2268,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>ORDINA ORDINE</string>
     <key>podcast_stream_confirmation</key>
     <string>Trasmetti comunque</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Lo streaming di questo episodio utilizzerà i dati</string>
     <key>podcast_this_month</key>
     <string>Questo mese</string>
     <key>podcast_time_left</key>
@@ -2302,6 +2304,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Dal più recente al più vecchio</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Dal più vecchio al più recente</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>In serie</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Dal più corto al più lungo</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -3391,6 +3395,8 @@ Questa app soddisfa le esigenze di ogni utente, Che si cerchi un approccio plug 
     <string>Dal più lungo al più corto</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Dal più corto al più lungo</string>
+    <key>view_transcript</key>
+    <string>Visualizza trascrizione</string>
     <key>volume_boost</key>
     <string>Aumenta il volume</string>
     <key>volume_boost_description</key>

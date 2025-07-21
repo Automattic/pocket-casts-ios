@@ -47,7 +47,7 @@ struct SupportLogsView: View {
 struct SupportLogsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SupportLogsView(SupportLogsViewModel(SupportConfig(isFeedback: true)))
+            SupportLogsView(SupportLogsViewModel(SupportConfig(type: .feedback)))
                 .environmentObject(Theme(previewTheme: .light))
         }
     }
