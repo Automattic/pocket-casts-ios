@@ -53,11 +53,11 @@ struct ChapterRow: View {
     private func animate(_ index: Double) {
         offset = 10
         opacity = 0
-        withAnimation(.easeInOut(duration: 0.8).delay(1 + (0.05 * index))) {
+        withAnimation(.easeInOut(duration: 0.8).delay(1 + (0.1 * index))) {
             offset = 0
             opacity = 1
         }
-        withAnimation(.easeInOut(duration: 0.6).delay(0.8 + (1 + (0.05 * index)) + (0.7 + (index * 0.05)))) {
+        withAnimation(.easeInOut(duration: 0.6).delay(0.8 + (1 + (0.1 * index)) + (0.7 + (index * 0.1)))) {
             if !chapter.selected {
                 offset = 0
                 opacity = 0.2
@@ -81,7 +81,7 @@ struct PreSelectChaptersAnimationView: View {
             ForEach(Array(zip(chapters.indices, chapters)), id: \.0) { (index, chapter) in
                 ChapterRow(chapter: chapter, index: index)
             }
-        }        
+        }
     }
 
 }
