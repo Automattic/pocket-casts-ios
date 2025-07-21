@@ -710,8 +710,13 @@
 		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
 		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
-		9A9004C02E2E5A96005879CB /* imageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BF2E2E5A89005879CB /* imageLoader.swift */; };
-		9A9004C12E2E5A96005879CB /* imageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BF2E2E5A89005879CB /* imageLoader.swift */; };
+		9A9004C62E2E62EA005879CB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; };
+		9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; };
+		9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; };
+		9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -2198,6 +2203,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2272,6 +2278,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36DF52873533F00E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2285,6 +2292,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				F5F508F62CEBE985007D6E39 /* PocketCastsUtils in Embed Frameworks */,
 				F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */,
 				F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2963,15 +2971,14 @@
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
+		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
 		9A72B65F2E2115120078FC84 /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		9A72B6622E214C580078FC84 /* PlaylistCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCellView.swift; sourceTree = "<group>"; };
-		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
 		9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptExcerptView.swift; sourceTree = "<group>"; };
 		9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArtworkView.swift; sourceTree = "<group>"; };
-		9A9004BF2E2E5A89005879CB /* imageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageLoader.swift; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
@@ -4189,6 +4196,7 @@
 				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
 				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
+				9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */,
 				8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */,
 			);
@@ -4243,11 +4251,13 @@
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
+				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				9A11FC932D91CBF300A1EF3E /* AppsFlyerLib-Dynamic in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
+				9A9004C62E2E62EA005879CB /* (null) in Frameworks */,
 				9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
@@ -4275,6 +4285,7 @@
 				F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */,
 				F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */,
 				F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */,
 				F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */,
 			);
@@ -5936,7 +5947,6 @@
 		BD3E3CC1170426340066AE3D /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				9A9004BF2E2E5A89005879CB /* imageLoader.swift */,
 				BD9FF6111B8EC90C009F075E /* ImageManager.swift */,
 				BDA156E9187E5EE600F5D412 /* SJMediaMetadataHelper.h */,
 				BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */,
@@ -8877,6 +8887,7 @@
 				9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */,
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				F5FFC2342DBAF06D0091429C /* FacebookCore */,
+				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -8902,6 +8913,7 @@
 				FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */,
 				FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */,
 				FF2CD5812B9F4B2D009B58B5 /* Kingfisher */,
+				9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */,
 			);
 			productName = "Pocket Casts Watch App";
 			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
@@ -10733,7 +10745,6 @@
 				10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */,
 				FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */,
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
-				9A9004C02E2E5A96005879CB /* imageLoader.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
@@ -11315,7 +11326,6 @@
 				F5F509192CEBEC4E007D6E39 /* EpisodeFilter+Formatting.swift in Sources */,
 				F5F5093E2CEBF253007D6E39 /* FloatingVideoView.swift in Sources */,
 				F5F509332CEBEFD5007D6E39 /* FileManager+Helper.swift in Sources */,
-				9A9004C12E2E5A96005879CB /* imageLoader.swift in Sources */,
 				F5D5F7BC2CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift in Sources */,
 				F5D5F7C92CEBE86C001F492D /* PlayerItemViewController.swift in Sources */,
 				F5F5091F2CEBEDE9007D6E39 /* ColorManager.swift in Sources */,
@@ -13857,6 +13867,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */;
 			productName = GoogleCast;
+		};
+		9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
+		};
+		9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
+		};
+		9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
