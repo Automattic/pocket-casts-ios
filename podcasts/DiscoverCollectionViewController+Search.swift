@@ -79,6 +79,8 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
             searchView.alpha = 1
         }
+
+        searchResultsController.searchShown()
     }
 
     func searchDidEnd() {
@@ -91,7 +93,7 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
             self.resultsControllerDelegate.clearSearch()
         }
 
-        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.discover])
+        searchResultsController.searchDismissed()
     }
 
     func searchWasCleared() {
