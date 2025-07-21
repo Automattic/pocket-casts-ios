@@ -125,7 +125,7 @@ struct PlaylistCellView: View {
                 VStack(alignment: .leading) {
                     Text(viewModel.playListName())
                         .foregroundStyle(theme.primaryText01)
-                        .font(size: 15.0, style: .body, weight: .regular)
+                        .font(size: 15.0, style: .body, weight: .medium)
                     if viewModel.isSmartPlaylist() {
                         Text("Smart Playlist")
                             .foregroundStyle(theme.secondaryText02)
@@ -142,6 +142,7 @@ struct PlaylistCellView: View {
                         .foregroundStyle(theme.primaryIcon02)
                         .frame(width: 24, height: 24)
                 }
+                .padding(.trailing, 16.0)
             }
         }
         .background(.clear)

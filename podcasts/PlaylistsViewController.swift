@@ -50,10 +50,10 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         if FeatureFlag.playlistsRebranding.enabled {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
-            customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
+        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
@@ -71,7 +71,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        setupNewFilterButton()
+        if FeatureFlag.playlistsRebranding.enabled {
+            
+        } else {
+            setupNewFilterButton()
+        }
         handleThemeChanged()
     }
 
@@ -111,7 +115,15 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @objc private func editTapped() {
         filtersTable.isEditing = !filtersTable.isEditing
         filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
-        customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
+        if FeatureFlag.playlistsRebranding.enabled {
+            if filtersTable.isEditing {
+                customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTapped))
+            } else {
+                customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
+            }
+        } else {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
+        }
         refreshRightButtons()
 
         Analytics.track(.filterListEditButtonToggled, properties: ["editing": filtersTable.isEditing])
