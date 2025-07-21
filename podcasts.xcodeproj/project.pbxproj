@@ -710,6 +710,8 @@
 		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
 		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
+		9A9004C02E2E5A96005879CB /* imageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BF2E2E5A89005879CB /* imageLoader.swift */; };
+		9A9004C12E2E5A96005879CB /* imageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BF2E2E5A89005879CB /* imageLoader.swift */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -2962,6 +2964,7 @@
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
 		9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptExcerptView.swift; sourceTree = "<group>"; };
 		9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArtworkView.swift; sourceTree = "<group>"; };
+		9A9004BF2E2E5A89005879CB /* imageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageLoader.swift; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
@@ -5918,6 +5921,7 @@
 		BD3E3CC1170426340066AE3D /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				9A9004BF2E2E5A89005879CB /* imageLoader.swift */,
 				BD9FF6111B8EC90C009F075E /* ImageManager.swift */,
 				BDA156E9187E5EE600F5D412 /* SJMediaMetadataHelper.h */,
 				BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */,
@@ -10703,6 +10707,7 @@
 				10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */,
 				FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */,
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
+				9A9004C02E2E5A96005879CB /* imageLoader.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
@@ -11284,6 +11289,7 @@
 				F5F509192CEBEC4E007D6E39 /* EpisodeFilter+Formatting.swift in Sources */,
 				F5F5093E2CEBF253007D6E39 /* FloatingVideoView.swift in Sources */,
 				F5F509332CEBEFD5007D6E39 /* FileManager+Helper.swift in Sources */,
+				9A9004C12E2E5A96005879CB /* imageLoader.swift in Sources */,
 				F5D5F7BC2CEBE7CE001F492D /* Pocket_Casts_App_ClipApp.swift in Sources */,
 				F5D5F7C92CEBE86C001F492D /* PlayerItemViewController.swift in Sources */,
 				F5F5091F2CEBEDE9007D6E39 /* ColorManager.swift in Sources */,
