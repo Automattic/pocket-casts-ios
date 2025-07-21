@@ -23,14 +23,14 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     let flowSource: PlusLandingViewModel.Source
 
-    let type: UpgradeStyle
+    let style: UpgradeStyle
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source, type: UpgradeStyle = .generic) {
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source, style: UpgradeStyle = .generic) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
         self.viewSource = viewSource
         self.flowSource = flowSource
-        self.type = type
+        self.style = style
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in
@@ -178,7 +178,14 @@ extension UpgradeAccountViewModel {
                      viewSource: PlusUpgradeViewSource,
                      plan: Plan, frequency: PlanFrequency,
                      customTitle: String? = nil) -> UIViewController {
-        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowSource: flowSource)
+        var style = UpgradeStyle.generic
+        switch viewSource {
+            case .deselectChapters, .deselectChapterWhatsNew:
+                style = .contextual
+            default:
+                style = .generic
+        }
+        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowSource: flowSource, style: style)
 
         let view = UpgradeAccountView(model: viewModel)
         let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())

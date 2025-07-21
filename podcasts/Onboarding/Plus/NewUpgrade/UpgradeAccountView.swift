@@ -66,23 +66,40 @@ struct UpgradeAccountView: View {
         }
     }
 
+    var contextualAnimation: some View {
+        VStack {
+            Text("Animation")
+        }
+    }
+
     @ViewBuilder
     var pageOne: some View {
         VStack(spacing: 0) {
-            if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-                UpgradeTimelineView(events: model.timelineEvents)
-            } else {
-                UpgradeFeaturesView(features: model.features)
+            switch model.style {
+                case .generic:
+                    if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                        UpgradeTimelineView(events: model.timelineEvents)
+                    } else {
+                        UpgradeFeaturesView(features: model.features)
+                    }
+                case .contextual:
+                    contextualAnimation
             }
+
         }
     }
 
     @ViewBuilder
     var pageTwo: some View {
-        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-            UpgradeFeaturesView(features: model.features)
-        } else {
-            UpgradeTimelineView(events: model.timelineEvents)
+        switch model.style {
+            case .generic:
+                if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                    UpgradeFeaturesView(features: model.features)
+                } else {
+                    UpgradeTimelineView(events: model.timelineEvents)
+                }
+            case .contextual:
+                UpgradeFeaturesView(features: model.features)
         }
     }
 
@@ -92,9 +109,24 @@ struct UpgradeAccountView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         title.id(ScrollPosition.firstPage)
-                        Spacer().frame(height: 24)
+                        switch model.style {
+                            case .generic:
+                                Spacer().frame(height: 24)
+                            case .contextual:
+                                Button {
+                                    expand = true
+                                    withAnimation {
+                                        proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+                                    }
+                                } label: {
+                                    Text(L10n.subscriptionPlanFeaturesInfoLink)
+                                        .font(size: 15, style: .subheadline, weight: .medium)
+                                        .foregroundColor(theme.primaryInteractive01)
+                                }
+                                .padding(.vertical, 10)
+                        }
                         pageOne
-                        if model.isFreeTrialAvailable {
+                        if model.isFreeTrialAvailable && model.style == .generic {
                             Button {
                                 expand = true
                                 withAnimation {
