@@ -3661,6 +3661,8 @@ internal enum L10n {
   internal static func subscriptionExpiresIn(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1), fallback: "Expires in %1$@")
   }
+  /// Subscription Plan title for custom upgrade screen for the preselected chapters feature
+  internal static var subscriptionFeatureCustomTitlePreSelectedChapters: String { return L10n.tr("Localizable", "subscription_feature_custom_title_pre_selected_chapters", fallback: "Preselect Chapters: cut to the good stuff") }
   /// Subscription pricing format, %1$@ is the price, %2$@ is the subscription period
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")

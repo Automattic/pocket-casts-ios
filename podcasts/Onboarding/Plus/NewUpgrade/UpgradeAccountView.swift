@@ -67,7 +67,7 @@ struct UpgradeAccountView: View {
     }
 
     var contextualAnimation: some View {
-        PreSelectChaptersAnimationView()
+        model.customAnimation
     }
 
     @ViewBuilder
