@@ -5,17 +5,14 @@ struct PlaylistArtworkView: View {
     @EnvironmentObject var theme: Theme
     let urls: [URL]
 
-    private let size: Int
-    private let cache: ImageCache
+    private let imageSize: Int
 
     init(
         urls: [URL],
-        size: Int = ImageManager.sharedManager.biggestPodcastImageSize,
-        cache: ImageCache = ImageManager.sharedManager.subscribedPodcastsCache
+        imageSize: Int
     ) {
         self.urls = urls
-        self.size = size
-        self.cache = cache
+        self.imageSize = imageSize
     }
 
     var body: some View {
@@ -34,24 +31,24 @@ struct PlaylistArtworkView: View {
                     case 4:
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                image(url: urls[0])
+                                AsyncImageView(url: urls[0], size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                image(url: urls[1])
+                                AsyncImageView(url: urls[1], size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                             HStack(spacing: 0) {
-                                image(url: urls[2])
+                                AsyncImageView(url: urls[2], size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                image(url: urls[3])
+                                AsyncImageView(url: urls[3], size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                         }
                     default:
-                        image(url: urls[0])
+                        AsyncImageView(url: urls[0], size: imageSize)
                             .frame(width: size.width, height: size.height)
                             .clipped()
                     }
@@ -60,15 +57,5 @@ struct PlaylistArtworkView: View {
             .cornerRadius(4)
             .clipped()
         }
-    }
-
-    @ViewBuilder
-    func image(url: URL) -> some View {
-        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
-        KFImage(url)
-            .resizable()
-            .setProcessor(resizeProcessor)
-            .targetCache(cache)
-            .fade(duration: 0.25)
     }
 }
