@@ -38,7 +38,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let viewModel = InformationalBannerViewModel(bannerType: .filters)
+        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
+        let viewModel = InformationalBannerViewModel(bannerType: bannerType)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
@@ -47,6 +48,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         if FeatureFlag.playlistsRebranding.enabled {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
+            extraRightButtons = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))]
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
@@ -63,7 +65,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                     self.navigationController?.pushViewController(playlistViewController, animated: false)
                 }
             }
-
         }
 
         loadingIndicator = ThemeLoadingIndicator()
@@ -98,7 +99,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
-        showNewFilterTipIfNeeded()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            showNewFilterTipIfNeeded()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -108,17 +111,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @objc private func editTapped() {
-        filtersTable.isEditing = !filtersTable.isEditing
         if FeatureFlag.playlistsRebranding.enabled {
-            if filtersTable.isEditing {
-                customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(editTapped))
-            } else {
-                customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
-            }
-        } else {
-            filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
-            customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
+            // TODO: Add sheet panel
+            return
         }
+        filtersTable.isEditing = !filtersTable.isEditing
+        filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
+        customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
         refreshRightButtons()
 
         Analytics.track(.filterListEditButtonToggled, properties: ["editing": filtersTable.isEditing])

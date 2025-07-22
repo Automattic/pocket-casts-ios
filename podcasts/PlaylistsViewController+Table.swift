@@ -7,9 +7,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     private static let playlistCellId = "PlaylistCell"
 
     func registerCells() {
-        filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
         if FeatureFlag.playlistsRebranding.enabled {
             filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+        } else {
+            filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
         }
     }
 
