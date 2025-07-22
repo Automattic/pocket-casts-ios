@@ -16,6 +16,7 @@ struct ChapterRow: View {
 
     @State private var offset = 10.0
     @State private var opacity = 0.0
+    @State private var selected = true
 
     var body: some View {
         HStack(alignment: .center) {
@@ -29,7 +30,7 @@ struct ChapterRow: View {
                     .foregroundStyle(theme.primaryText01)
             }
             Spacer()
-            Image(chapter.selected ? "rounded-selected" : "rounded-deselected")
+            Image(selected ? "rounded-selected" : "rounded-deselected")
                 .renderingMode(.template)
                 .resizable()
                 .foregroundStyle(theme.primaryIcon02)
@@ -55,6 +56,7 @@ struct ChapterRow: View {
         }
         withAnimation(.easeInOut(duration: 0.6).delay(0.8 + (1 + (0.1 * index)) + (0.7 + (index * 0.1)))) {
             if !chapter.selected {
+                selected = false
                 offset = 0
                 opacity = 0.2
             }
