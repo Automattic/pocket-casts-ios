@@ -7,7 +7,7 @@ struct PlaylistCellView: View {
 
     var body: some View {
         HStack(spacing: 16.0) {
-            PlaylistArtworkView(urls: viewModel.imageURLs)
+            PlaylistArtworkView(urls: viewModel.imageURLs, size: 168)
                 .frame(width: 56.0, height: 56.0)
                 .padding(.leading, 16.0)
             VStack(alignment: .leading) {
