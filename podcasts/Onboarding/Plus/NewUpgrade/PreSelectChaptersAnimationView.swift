@@ -19,12 +19,6 @@ struct ChapterRow: View {
 
     var body: some View {
         HStack(alignment: .center) {
-            Image(chapter.selected ? "rounded-selected" : "rounded-deselected")
-                .renderingMode(.template)
-                .resizable()
-                .foregroundStyle(theme.primaryIcon02)
-                .frame(width: 24, height: 24)
-            Spacer().frame(width: 16)
             VStack(alignment: .leading) {
                 Text(chapter.chapter)
                     .font(size: 12, style: .footnote, weight: .semibold)
@@ -35,6 +29,11 @@ struct ChapterRow: View {
                     .foregroundStyle(theme.primaryText01)
             }
             Spacer()
+            Image(chapter.selected ? "rounded-selected" : "rounded-deselected")
+                .renderingMode(.template)
+                .resizable()
+                .foregroundStyle(theme.primaryIcon02)
+                .frame(width: 24, height: 24)
         }
         .padding(16)
         .background(theme.primaryUi03)
@@ -79,6 +78,7 @@ struct PreSelectChaptersAnimationView: View {
                 ChapterRow(chapter: chapter, index: index)
             }
         }
+        .padding(.horizontal, 16)
     }
 
 }
