@@ -1,8 +1,22 @@
 import SwiftUI
+import Kingfisher
 
 struct PlaylistArtworkView: View {
     @EnvironmentObject var theme: Theme
     let urls: [URL]
+
+    private let size: Int
+    private let cache: ImageCache
+
+    init(
+        urls: [URL],
+        size: Int = ImageManager.sharedManager.biggestPodcastImageSize,
+        cache: ImageCache = ImageManager.sharedManager.subscribedPodcastsCache
+    ) {
+        self.urls = urls
+        self.size = size
+        self.cache = cache
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -50,15 +64,11 @@ struct PlaylistArtworkView: View {
 
     @ViewBuilder
     func image(url: URL) -> some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-            default:
-                Color.clear
-            }
-        }
+        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
+        KFImage(url)
+            .resizable()
+            .setProcessor(resizeProcessor)
+            .targetCache(cache)
+            .fade(duration: 0.25)
     }
 }
