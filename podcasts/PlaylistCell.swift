@@ -21,6 +21,12 @@ class PlaylistCell: ThemeableCell {
             rowView.topAnchor.constraint(equalTo: contentView.topAnchor),
             rowView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+
+        accessoryType = .disclosureIndicator
+
+        iconStyle = .primaryIcon02
+
+        updateColor()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

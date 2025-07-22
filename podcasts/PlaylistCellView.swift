@@ -16,14 +16,14 @@ struct PlaylistCellView: View {
                     .font(size: 15.0, style: .body, weight: .medium)
                 if viewModel.isSmartPlaylist() {
                     Text("Smart Playlist")
-                        .foregroundStyle(theme.secondaryText02)
+                        .foregroundStyle(theme.primaryText02)
                         .font(size: 14.0, style: .body, weight: .regular)
                 }
             }
             Spacer()
             HStack(spacing: 5.0) {
                 Text("\(viewModel.episodesCount)")
-                    .foregroundStyle(theme.secondaryText02)
+                    .foregroundStyle(theme.primaryText02)
                     .font(size: 14.0, style: .body, weight: .regular)
             }
             .padding(.trailing, 8.0)
