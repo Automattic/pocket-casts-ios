@@ -29,34 +29,32 @@ struct PlaylistCellView: View {
             .padding(.trailing, 8.0)
         }
         .background(.clear)
+        .onAppear {
+            viewModel.loadCount()
+            viewModel.loadImages()
+        }
     }
 }
 
 #Preview {
     struct PreviewWrapper: View {
         @EnvironmentObject var theme: Theme
-        private let vm1 = PlaylistCellViewModel()
-        private let vm2 = PlaylistCellViewModel()
 
         var body: some View {
             List {
                 PlaylistCellView(
-                    viewModel: vm1
+                    viewModel: PlaylistCellViewModel(playlist: model())
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)
                 .listRowSeparator(.hidden)
 
                 PlaylistCellView(
-                    viewModel: vm2
+                    viewModel: PlaylistCellViewModel(playlist: model())
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)
                 .listRowSeparator(.hidden)
-            }
-            .onAppear {
-                vm1.set(playlist: model())
-                vm2.set(playlist: model())
             }
         }
 

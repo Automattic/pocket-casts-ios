@@ -5,7 +5,7 @@ class PlaylistCellViewModel: ObservableObject {
     @Published var episodesCount: Int = 0
     @Published var imageURLs: [URL] = []
 
-    private var playlist: EpisodeFilter?
+    private var playlist: EpisodeFilter
     private var isLoadingCount: Bool = false
     private var isLoadingImages: Bool = false
 
@@ -15,10 +15,12 @@ class PlaylistCellViewModel: ObservableObject {
     private let episodeArtWork: EpisodeArtwork
 
     init(
+        playlist: EpisodeFilter,
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
+        self.playlist = playlist
         self.dataManager = dataManager
         self.imageManager = imageManager
         self.episodeArtWork = .init(imageManager: imageManager)
@@ -26,11 +28,11 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     func playListName() -> String {
-        playlist?.playlistName ?? ""
+        playlist.playlistName
     }
 
     func isSmartPlaylist() -> Bool {
-        playlist?.playlistType == .smart
+        playlist.playlistType == .smart
     }
 
     func set(playlist: EpisodeFilter) {
@@ -76,9 +78,7 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     private func loadListEpisodes() async -> [ListEpisode] {
-        guard let playlist = self.playlist else {
-            return []
-        }
+        let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
             self?.episodesDataManager.episodes(for: playlist, limit: 4) ?? []
         }.value
@@ -104,11 +104,10 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     private func getEpisodesCount() async -> Int {
-        guard let playlist = self.playlist else {
-            return 0
-        }
+        let playlist = self.playlist
+        let dataManager = self.dataManager
         return await Task.detached(priority: .userInitiated) {
-            DataManager.sharedManager.episodeCount(
+            dataManager.episodeCount(
                 forFilter: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
