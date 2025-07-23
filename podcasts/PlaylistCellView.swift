@@ -10,7 +10,7 @@ struct PlaylistCellView: View {
             PlaylistArtworkView(urls: viewModel.imageURLs, imageSize: 168)
                 .frame(width: 56.0, height: 56.0)
                 .padding(.leading, 16.0)
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 2.0) {
                 Text(viewModel.playListName())
                     .foregroundStyle(theme.primaryText01)
                     .font(size: 15.0, style: .body, weight: .medium)
