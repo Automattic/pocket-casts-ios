@@ -2268,6 +2268,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>ORDENAR</string>
     <key>podcast_stream_confirmation</key>
     <string>Transmitir de todas formas</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Se usarán los datos móviles para reproducir este episodio. Puedes desactivar esta advertencia en [Configuración] (%@).</string>
     <key>podcast_this_month</key>
     <string>Este mes</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2380,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Marca como favoritos los episodios que te gusten y vuelve a ellos cuando quieras.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Guarda tus favoritos</string>
-    <key>purchase_terms</key>
-    <string>Si continúas, aceptas nuestra %1$@Política de privacidad%2$@ y los %3$@términos y condiciones%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Borrar %1$@ episodios</string>
     <key>queue_clear_episode_queue_singular</key>

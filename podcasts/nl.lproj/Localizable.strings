@@ -2266,6 +2266,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sorteervolgorde</string>
     <key>podcast_stream_confirmation</key>
     <string>Toch streamen</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Voor het streamen van deze aflevering wordt data gebruikt. Je kan deze waarschuwing uitschakelen in [Instellingen](%@).</string>
     <key>podcast_this_month</key>
     <string>Deze maand</string>
     <key>podcast_time_left</key>
@@ -2376,8 +2378,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Geef afleveringen die je leuk vindt een ster en kom er op elk gewenst moment naar terug.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Sla je favorieten op</string>
-    <key>purchase_terms</key>
-    <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_episode_queue_singular</key>

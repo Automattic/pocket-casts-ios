@@ -2268,6 +2268,8 @@ Pocket Casts на полную мощность.</string>
     <string>ПОРЯДОК СОРТИРОВКИ</string>
     <key>podcast_stream_confirmation</key>
     <string>Транслировать в любом случае</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>При трансляции этого выпуска будет расходоваться трафик. Вы можете отключить это предупреждение в разделе [Настройки](%@).</string>
     <key>podcast_this_month</key>
     <string>В этом месяце</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2380,6 @@ Pocket Casts на полную мощность.</string>
     <string>Отмечайте понравившиеся выпуски и возвращайтесь к ним, когда захотите.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Сохраняйте то, что вам понравилось</string>
-    <key>purchase_terms</key>
-    <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_episode_queue_singular</key>

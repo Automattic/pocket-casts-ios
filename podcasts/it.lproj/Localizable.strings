@@ -2268,6 +2268,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>ORDINA ORDINE</string>
     <key>podcast_stream_confirmation</key>
     <string>Trasmetti comunque</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Lo streaming di questo episodio utilizzerà i dati. Puoi disattivare questo avviso in [Impostazioni] (%@).</string>
     <key>podcast_this_month</key>
     <string>Questo mese</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2380,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Salva tra i preferiti gli episodi che ami e recuperali in qualsiasi momento.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Salva i tuoi preferiti</string>
-    <key>purchase_terms</key>
-    <string>Continuando, accetti %1$@l'Informativa sulla privacy%2$@ e i %3$@Termini di servizio%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Cancella %1$@ episodi </string>
     <key>queue_clear_episode_queue_singular</key>
