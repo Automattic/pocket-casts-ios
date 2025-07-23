@@ -47,8 +47,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidLoad()
 
         if FeatureFlag.playlistsRebranding.enabled {
-            customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(editTapped))
-            extraRightButtons = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))]
+            setRighBarButtons()
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
@@ -108,6 +107,34 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
         navigationController?.navigationBar.shadowImage = nil
+    }
+
+    private func setRighBarButtons() {
+        let plusButton = UIButton(type: .system)
+        plusButton.setImage(UIImage(named: "add-playlist"), for: .normal)
+        plusButton.addTarget(self, action: #selector(addNewFilter), for: .touchUpInside)
+
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.setImage(UIImage(named: "more"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
+
+        let stackView = UIStackView(arrangedSubviews: [plusButton, settingsButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 16
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+
+        let container = UIView()
+        container.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: container.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+
+        customRightBtn = UIBarButtonItem(customView: container)
     }
 
     @objc private func editTapped() {
