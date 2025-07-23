@@ -1070,6 +1070,26 @@ Ens veiem el 2024!</string>
     <string>Exportant la base dades...</string>
     <key>failed_recommendations</key>
     <string>No s'han pogut carregar les recomanacions</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Totes les funcions de Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Conserva moments destacats amb els marcadors</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ d'emmagatzematge al núvol per als teus fitxers</string>
+    <key>feature_marketing_early_access</key>
+    <string>Accés anticipat a noves funcions</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Temes extra i imatges d'icones</string>
+    <key>feature_marketing_folders</key>
+    <string>Organitza la teva col·lecció amb les carpetes</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Estalvia temps amb els capítols preseleccionats</string>
+    <key>feature_marketing_slumber</key>
+    <string>1 any de contingut d'Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Posa en mode aleatori la teva cua</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Apps per a Wear OS i Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Acabar la guia</string>
     <key>feature_tour_new</key>
@@ -1949,6 +1969,8 @@ ACTUALITZACIONS</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>playlists</key>
+    <string>Llistes de reproducció</string>
     <key>please_try_again</key>
     <string>Per favor, torna-ho a intentar</string>
     <key>please_try_again_later</key>
@@ -2374,7 +2396,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Desar els teus favorits</string>
     <key>purchase_terms</key>
-    <string>Si segueixes, acceptes la %1$@política de privacitat%2$@ i els %3$@termes i condicions%4$@</string>
+    <string>En continuar, acceptes el nostre %1$@ i %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Esborrar %1$@ episodis</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3203,6 +3225,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Expira en %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Veure totes les funcions Plus</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Com funciona la prova gratuïta?</string>
+    <key>subscription_plan_month</key>
+    <string>Pla mensual</string>
+    <key>subscription_plan_savings</key>
+    <string>Estalvia %1$@</string>
+    <key>subscription_plan_year</key>
+    <string>Pla anual</string>
     <key>subscriptions_thank_you</key>
     <string>Gràcies pel teu suport!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3335,6 +3367,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Shuffle està activat. Els episodis es reproduiran en ordre aleatori.</string>
     <key>upgrade_account</key>
     <string>Actualitzar el compte</string>
+    <key>upgrade_account_info</key>
+    <string>Desbloqueja totes les funcions de pagament com ara les carpetes, mode aleatori, marques de temps i moltes més</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Se't cobrarà el %1$@. Cancel·la en qualsevol moment abans.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Accedeix a carpetes, mode aleatori, marcadors i contingut exclusiu</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>T'informarem del final del teu període gratuït.</string>
+    <key>upgrade_account_title</key>
+    <string>Superpoders per als teus pòdcasts</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>Estalvia un 50%% en el teu primer any</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3389,6 +3431,14 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>De més llarg a més curt</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De més curt a més llarg</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Realment no</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Hola! Ens encantaria saber si estàs gaudint de la nostra app.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Gaudeixes de Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Sí!</string>
     <key>view_transcript</key>
     <string>Veure la transcripció</string>
     <key>volume_boost</key>

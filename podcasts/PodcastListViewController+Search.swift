@@ -135,6 +135,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
             searchView.alpha = 1
         }
+
+        searchResultsController.searchShown()
     }
 
     func searchDidEnd() {
@@ -150,7 +152,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             self.searchResultsController.clearSearch()
         }
 
-        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
+        searchResultsController.searchDismissed()
     }
 
     func searchWasCleared() {

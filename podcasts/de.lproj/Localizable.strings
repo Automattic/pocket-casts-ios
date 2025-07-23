@@ -1955,6 +1955,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wiedergabefehler</string>
     <key>player_user_episode_upload_error</key>
     <string>Fehler beim Upload</string>
+    <key>playlists</key>
+    <string>Wiedergabelisten</string>
     <key>please_try_again</key>
     <string>Versuche es bitte noch einmal</string>
     <key>please_try_again_later</key>
@@ -2268,6 +2270,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>SORTIERUNG</string>
     <key>podcast_stream_confirmation</key>
     <string>Trotzdem streamen</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Beim Streamen dieser Folge werden mobile Daten verbraucht. Du kannst diese Warnung unter [Einstellungen](%@) deaktivieren.</string>
     <key>podcast_this_month</key>
     <string>Dieser Monat</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2382,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Markiere Folgen, die du liebst, mit einem Stern und kehre jederzeit zu ihnen zurück.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Deine Lieblingsfolgen speichern</string>
-    <key>purchase_terms</key>
-    <string>Indem du fortfährst, erklärst du dich mit unserer %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_episode_queue_singular</key>

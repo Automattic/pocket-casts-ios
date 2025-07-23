@@ -1955,6 +1955,8 @@ UPPDATERINGAR</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>playlists</key>
+    <string>Spellistor</string>
     <key>please_try_again</key>
     <string>Vänligen försök igen</string>
     <key>please_try_again_later</key>
@@ -2268,6 +2270,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>SORTERINGSORDNING</string>
     <key>podcast_stream_confirmation</key>
     <string>Streama ändå</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Att streama det här avsnittet använder data. Du kan stänga av denna varning i [Inställningar](%@).</string>
     <key>podcast_this_month</key>
     <string>Den här månaden</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2382,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Stjärnmärk avsnitt du älskar och kom tillbaka till dem när du vill.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Spara dina favoriter</string>
-    <key>purchase_terms</key>
-    <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_episode_queue_singular</key>

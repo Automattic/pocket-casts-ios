@@ -2268,6 +2268,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>ORDRE DE TRI</string>
     <key>podcast_stream_confirmation</key>
     <string>Diffuser quand même en streaming</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>La diffusion en streaming de cet épisode va consommer des données. Vous pouvez désactiver cet avertissement dans [Réglages](%@).</string>
     <key>podcast_this_month</key>
     <string>Ce mois-ci</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2380,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Appuyez sur l’étoile pour les épisodes que vous aimez et revenez vers eux à tout moment.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Enregistrer vos favoris</string>
-    <key>purchase_terms</key>
-    <string>En continuant, vous acceptez notre %1$@politique de confidentialité%2$@ et nos %3$@conditions d’utilisation%4$@.</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Supprimer %1$@ épisodes</string>
     <key>queue_clear_episode_queue_singular</key>
