@@ -176,7 +176,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             configuration.timeoutIntervalForRequest = 60 // seconds
             configuration.timeoutIntervalForResource = 3600 // seconds
             configuration.waitsForConnectivity = true
-            configuration.multipathServiceType = .handover // allows switching between celular/wifi            
+            configuration.multipathServiceType = .handover // allows switching between celular/wifi
         }
 
         var urlRequest = URLRequest(url: url)
