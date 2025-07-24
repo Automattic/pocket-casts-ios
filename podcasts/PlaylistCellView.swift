@@ -30,8 +30,7 @@ struct PlaylistCellView: View {
         }
         .background(.clear)
         .onAppear {
-            viewModel.loadCount()
-            viewModel.loadImages()
+            viewModel.loadData()
         }
     }
 }

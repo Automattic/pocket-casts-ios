@@ -35,10 +35,8 @@ class PlaylistCellViewModel: ObservableObject {
         playlist.playlistType == .smart
     }
 
-    func set(playlist: EpisodeFilter) {
+    func loadData() {
         imageURLs.removeAll()
-
-        self.playlist = playlist
 
         loadCount()
         loadImages()
