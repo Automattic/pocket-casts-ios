@@ -12,6 +12,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
 
+    private var bannerTask: Task<Void, Never>? = nil
+
     var videoViewController: VideoViewController?
 
     @IBOutlet var skipBackBtn: SkipButton! {
@@ -204,14 +206,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
-
-        if FeatureFlag.bannerAds.enabled {
-            //TODO: Store and cancel this task
-            Task {
-                guard let promotion = await BlazeServerHandler.shared.promotion(for: .player) else { return }
-                addAdBanner(promotion: promotion)
-            }
-        }
         #endif
     }
 
@@ -226,6 +220,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         #endif
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadBannerAd()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        bannerTask?.cancel()
+    }
+
     private var lastBoundsAdjustedFor = CGRect.zero
 
     var analyticsSource: AnalyticsSource {
@@ -238,6 +242,21 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             toggleTranscript()
 #endif
         }
+    }
+
+    private func loadBannerAd() {
+#if !APPCLIP
+        if FeatureFlag.bannerAds.enabled {
+            bannerTask = Task { [weak self] in
+                if let promotion = await BlazeServerHandler.shared.promotion(for: .player) {
+                    guard Task.isCancelled == false else { return }
+                    await MainActor.run {
+                        self?.addAdBanner(promotion: promotion)
+                    }
+                }
+            }
+        }
+#endif
     }
 
     private var playerContainer: PlayerContainerViewController? {

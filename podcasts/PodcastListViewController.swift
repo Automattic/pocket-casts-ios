@@ -12,6 +12,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var refreshControl: PCRefreshControl?
     var bannerAdModel: BannerAdModel?
 
+    private var bannerTask: Task<Void, Never>? = nil
+
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
@@ -66,13 +68,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupSearchBar()
         setupRefreshControl()
 
-        if FeatureFlag.bannerAds.enabled {
-            Task {
-                guard let promotion = await BlazeServerHandler.shared.promotion(for: .podcastList) else { return }
-                setupBannerAd(promotion: promotion)
-            }
-        }
-
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
@@ -124,10 +119,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewWillAppear(animated)
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        loadBannerAd()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        bannerTask?.cancel()
         refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
@@ -157,6 +154,20 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let self = self else { return }
 
             self.updateNavigationButtons()
+        }
+    }
+
+    private func loadBannerAd() {
+        if FeatureFlag.bannerAds.enabled {
+            bannerTask?.cancel()
+            bannerTask = Task { [weak self] in
+                if let promotion = await BlazeServerHandler.shared.promotion(for: .podcastList) {
+                    guard Task.isCancelled == false else { return }
+                    await MainActor.run {
+                        self?.setupBannerAd(promotion: promotion)
+                    }
+                }
+            }
         }
     }
 
