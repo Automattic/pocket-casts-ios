@@ -67,21 +67,59 @@ struct UpgradeAccountView: View {
     }
 
     var contextualAnimation: some View {
-        model.customAnimation
+        HStack {
+            Spacer()
+            VStack {
+                Spacer()
+                model.customAnimation
+                Spacer()
+            }
+            Spacer()
+        }
     }
 
     @ViewBuilder
-    var pageOne: some View {
-        VStack(spacing: 0) {
+    func pageOne(proxy: ScrollViewProxy) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            title.id(ScrollPosition.firstPage)
             switch model.style {
                 case .generic:
-                    if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-                        UpgradeTimelineView(events: model.timelineEvents)
-                    } else {
-                        UpgradeFeaturesView(features: model.features)
+                    VStack(alignment: .leading) {
+                        Spacer().frame(height: 24)
+                        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                            UpgradeTimelineView(events: model.timelineEvents)
+                        } else {
+                            UpgradeFeaturesView(features: model.features)
+                        }
+                        if model.isFreeTrialAvailable {
+                            Button {
+                                expand = true
+                                withAnimation {
+                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+                                }
+                            } label: {
+                                Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
+                                    .font(size: 15, style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryInteractive01)
+                            }
+                            .padding(.vertical, 24)
+                        }
                     }
                 case .contextual:
-                    contextualAnimation
+                    VStack(alignment: .leading) {
+                        Button {
+                            expand = true
+                            withAnimation {
+                                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+                            }
+                        } label: {
+                            Text(L10n.subscriptionPlanFeaturesInfoLink)
+                                .font(size: 15, style: .subheadline, weight: .medium)
+                                .foregroundColor(theme.primaryInteractive01)
+                        }
+                        .padding(.vertical, 10)
+                        contextualAnimation
+                    }
             }
 
         }
@@ -106,37 +144,8 @@ struct UpgradeAccountView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        title.id(ScrollPosition.firstPage)
-                        switch model.style {
-                            case .generic:
-                                Spacer().frame(height: 24)
-                            case .contextual:
-                                Button {
-                                    expand = true
-                                    withAnimation {
-                                        proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                                    }
-                                } label: {
-                                    Text(L10n.subscriptionPlanFeaturesInfoLink)
-                                        .font(size: 15, style: .subheadline, weight: .medium)
-                                        .foregroundColor(theme.primaryInteractive01)
-                                }
-                                .padding(.vertical, 10)
-                        }
-                        pageOne
-                        if model.isFreeTrialAvailable && model.style == .generic {
-                            Button {
-                                expand = true
-                                withAnimation {
-                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                                }
-                            } label: {
-                                Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
-                                    .font(size: 15, style: .subheadline, weight: .medium)
-                                    .foregroundColor(theme.primaryInteractive01)
-                            }
-                            .padding(.vertical, 24)
-                        }
+                        pageOne(proxy: proxy)
+                            .frame(height: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
                         if expand, model.isFreeTrialAvailable {
                             VStack {
                                 Spacer().frame(height: 76)
