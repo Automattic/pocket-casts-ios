@@ -23,7 +23,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FeatureFlag.playlistsRebranding.enabled ? 81.0 : 72.0
+        return FeatureFlag.playlistsRebranding.enabled ? PlaylistCell.cellHeight : FilterNameCell.cellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

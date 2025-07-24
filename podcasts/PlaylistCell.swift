@@ -4,6 +4,7 @@ import PocketCastsDataModel
 
 class PlaylistCell: ThemeableCell {
     static let reuseIdentifier = "PlaylistCell"
+    static let cellHeight = 81.0
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,7 +42,7 @@ class PlaylistCell: ThemeableCell {
         contentConfiguration = UIHostingConfiguration {
             PlaylistCellView(viewModel: PlaylistCellViewModel(playlist: playlist))
                 .environmentObject(Theme.sharedTheme)
-                .frame(maxWidth: .infinity, minHeight: 81.0, alignment: .leading)
+                .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
         }
         .margins(.horizontal, 0)
         .margins(.vertical, 0)
