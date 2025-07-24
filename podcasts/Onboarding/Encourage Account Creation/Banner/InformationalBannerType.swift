@@ -4,10 +4,11 @@ enum InformationalBannerType: String, CaseIterable {
     case filters
     case listeningHistory
     case profile
+    case playlists
 
     var iconName: String {
         switch self {
-        case .filters:
+        case .filters, .playlists:
             return "eac_filters_banner"
         case .listeningHistory:
             return "eac_listening_history_banner"
@@ -24,6 +25,8 @@ enum InformationalBannerType: String, CaseIterable {
             return L10n.eacInformationalBannerListeningHistoryTitle
         case .profile:
             return L10n.eacInformationalBannerProfileTitle
+        case .playlists:
+            return L10n.eacInformationalBannerPlaylistsTitle
         }
     }
 
@@ -35,6 +38,8 @@ enum InformationalBannerType: String, CaseIterable {
             return L10n.eacInformationalBannerListeningHistoryDescription
         case .profile:
             return L10n.eacInformationalBannerProfileDescription
+        case .playlists:
+            return L10n.eacInformationalBannerPlaylistsDescription
         }
     }
 
@@ -46,6 +51,8 @@ enum InformationalBannerType: String, CaseIterable {
             return L10n.eacInformationalBannerListeningHistoryIconAccessibility
         case .profile:
             return L10n.eacInformationalBannerProfileIconAccessibility
+        case .playlists:
+            return L10n.eacInformationalBannerPlaylistsIconAccessibility
         }
     }
 }

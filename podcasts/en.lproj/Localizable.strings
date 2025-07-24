@@ -5065,6 +5065,9 @@
 /* Encourage Account Creation: title for the banner in the filters view */
 "eac_informational_banner_filters_title" = "Keep your filters in sync";
 
+/* Encourage Account Creation: title for the banner in the playlists view */
+"eac_informational_banner_playlists_title" = "Keep your playlists in sync";
+
 /* Encourage Account Creation: title for the banner in the listening history */
 "eac_informational_banner_listening_history_title" = "Keep track of what you’ve played";
 
@@ -5074,6 +5077,9 @@
 /* Encourage Account Creation: description for the banner in the filters view */
 "eac_informational_banner_filters_description" = "Create a free account to sync your filters on any device.";
 
+/* Encourage Account Creation: description for the banner in the playlists view */
+"eac_informational_banner_playlists_description" = "Create a free account to sync your playlists on any device.";
+
 /* Encourage Account Creation: description for the banner in the listening history */
 "eac_informational_banner_listening_history_description" = "Create a free account to sync your listening history everywhere.";
 
@@ -5082,6 +5088,9 @@
 
 /* Encourage Account Creation: accessibility label for the banner in the filters view */
 "eac_informational_banner_filters_icon_accessibility" = "Filters Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the playlists view */
+"eac_informational_banner_playlists_icon_accessibility" = "Playlists Icon";
 
 /* Encourage Account Creation: accessibility label for the banner in the profile view */
 "eac_informational_banner_profile_icon_accessibility" = "Profile Icon";
@@ -5270,4 +5279,7 @@
 
 /* Subscription Plan text linking to feaures information */
 "subscription_plan_features_info_link" = "See all Plus features";
+
+/* Subscription Plan title for custom upgrade screen for the preselected chapters feature */
+"subscription_feature_custom_title_pre_selected_chapters" = "Preselect Chapters: cut to the good stuff";
 

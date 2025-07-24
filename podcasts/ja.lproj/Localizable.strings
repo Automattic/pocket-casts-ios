@@ -2268,6 +2268,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>並び替えオプション</string>
     <key>podcast_stream_confirmation</key>
     <string>ストリーミング</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>このエピソードのストリーミングではデータが消費されます。 [Settings](%@) でこの警告をオフにできます。</string>
     <key>podcast_this_month</key>
     <string>今月</string>
     <key>podcast_time_left</key>
@@ -2378,8 +2380,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>お気に入りのエピソードに星を付けると、いつでも戻ることができます。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>お気に入りを保存</string>
-    <key>purchase_terms</key>
-    <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_episode_queue_singular</key>

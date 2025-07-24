@@ -25,7 +25,8 @@ class EpisodeFilterDataManager {
         "wasDeleted",
         "filterDuration",
         "longerThan",
-        "shorterThan"
+        "shorterThan",
+        "rawPlaylistType"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -227,6 +228,7 @@ class EpisodeFilterDataManager {
         filter.filterDuration = rs.bool(forColumn: "filterDuration")
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
+        filter.rawPlaylistType = rs.int(forColumn: "rawPlaylistType")
 
         return filter
     }
@@ -256,6 +258,7 @@ class EpisodeFilterDataManager {
         values.append(filter.filterDuration)
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
+        values.append(filter.rawPlaylistType)
 
         if includeUuidForWhere {
             values.append(filter.uuid)

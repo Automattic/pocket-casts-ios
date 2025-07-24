@@ -18,11 +18,21 @@ struct UpgradeAccountView: View {
         case secondPage
     }
 
+    enum Constants {
+        static let gradientHeight: CGFloat = 24
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
-            Spacer().frame(height: 24)
+            Spacer().frame(height: 8)
             scrollableContent
+                .overlay(alignment: .top) {
+                    gradient(height: Constants.gradientHeight, up: true)
+                }
+                .overlay(alignment: .bottom) {
+                    gradient(height: Constants.gradientHeight, up: false)
+                }
             UpgradeProductsView(model: model)
         }
         .padding(.horizontal, 24)
@@ -56,23 +66,38 @@ struct UpgradeAccountView: View {
         }
     }
 
+    var contextualAnimation: some View {
+        model.customAnimation
+    }
+
     @ViewBuilder
     var pageOne: some View {
         VStack(spacing: 0) {
-            if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-                UpgradeTimelineView(events: model.timelineEvents)
-            } else {
-                UpgradeFeaturesView(features: model.features)
+            switch model.style {
+                case .generic:
+                    if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                        UpgradeTimelineView(events: model.timelineEvents)
+                    } else {
+                        UpgradeFeaturesView(features: model.features)
+                    }
+                case .contextual:
+                    contextualAnimation
             }
+
         }
     }
 
     @ViewBuilder
     var pageTwo: some View {
-        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-            UpgradeFeaturesView(features: model.features)
-        } else {
-            UpgradeTimelineView(events: model.timelineEvents)
+        switch model.style {
+            case .generic:
+                if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                    UpgradeFeaturesView(features: model.features)
+                } else {
+                    UpgradeTimelineView(events: model.timelineEvents)
+                }
+            case .contextual:
+                UpgradeFeaturesView(features: model.features)
         }
     }
 
@@ -82,9 +107,24 @@ struct UpgradeAccountView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
                         title.id(ScrollPosition.firstPage)
-                        Spacer().frame(height: 24)
+                        switch model.style {
+                            case .generic:
+                                Spacer().frame(height: 24)
+                            case .contextual:
+                                Button {
+                                    expand = true
+                                    withAnimation {
+                                        proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+                                    }
+                                } label: {
+                                    Text(L10n.subscriptionPlanFeaturesInfoLink)
+                                        .font(size: 15, style: .subheadline, weight: .medium)
+                                        .foregroundColor(theme.primaryInteractive01)
+                                }
+                                .padding(.vertical, 10)
+                        }
                         pageOne
-                        if model.isFreeTrialAvailable {
+                        if model.isFreeTrialAvailable && model.style == .generic {
                             Button {
                                 expand = true
                                 withAnimation {
@@ -99,23 +139,21 @@ struct UpgradeAccountView: View {
                         }
                         if expand, model.isFreeTrialAvailable {
                             VStack {
+                                Spacer().frame(height: 76)
                                 pageTwo
-                                Spacer()
+                                    .id(ScrollPosition.secondPage)
+                                Spacer().frame(height: 62)
                             }
-                            .id(ScrollPosition.secondPage)
-                            .frame(minHeight: sizeProxy.size.height)
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
                                 .frame(height: 8)
                         }
                     }
+                    .padding(.vertical, Constants.gradientHeight)
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
-                .overlay(alignment: .bottom, content: {
-                    gradientSpacer
-                })
                 .onChange(of: model.selectedProduct) { _ in
                     if !model.isFreeTrialAvailable {
                         withAnimation {
@@ -138,14 +176,13 @@ struct UpgradeAccountView: View {
         }
     }
 
-    var gradientSpacer: some View {
-        HStack() {
-            Spacer()
-        }
-        .frame(height: 40)
-        .background(LinearGradient(colors: [
-            theme.primaryUi01.opacity(0),
-            theme.primaryUi01.opacity(1)
+    @ViewBuilder
+    func gradient(height: CGFloat = 16, up: Bool ) -> some View {
+        Rectangle()
+        .frame(height: height)
+        .foregroundStyle(LinearGradient(colors: [
+            theme.primaryUi01.opacity(up ? 1 : 0),
+            theme.primaryUi01.opacity(up ? 0 : 1)
         ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
         .allowsHitTesting(false)
     }

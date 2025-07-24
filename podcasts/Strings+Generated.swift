@@ -944,6 +944,12 @@ internal enum L10n {
   internal static var eacInformationalBannerListeningHistoryIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_icon_accessibility", fallback: "Listening History Icon") }
   /// Encourage Account Creation: title for the banner in the listening history
   internal static var eacInformationalBannerListeningHistoryTitle: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_title", fallback: "Keep track of what you’ve played") }
+  /// Encourage Account Creation: description for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsDescription: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_description", fallback: "Create a free account to sync your playlists on any device.") }
+  /// Encourage Account Creation: accessibility label for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_icon_accessibility", fallback: "Playlists Icon") }
+  /// Encourage Account Creation: title for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsTitle: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_title", fallback: "Keep your playlists in sync") }
   /// Encourage Account Creation: description for the banner in the profile view
   internal static var eacInformationalBannerProfileDescription: String { return L10n.tr("Localizable", "eac_informational_banner_profile_description", fallback: "Create a free account to sync your shows and listen anywhere.") }
   /// Encourage Account Creation: accessibility label for the banner in the profile view
@@ -3661,6 +3667,8 @@ internal enum L10n {
   internal static func subscriptionExpiresIn(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1), fallback: "Expires in %1$@")
   }
+  /// Subscription Plan title for custom upgrade screen for the preselected chapters feature
+  internal static var subscriptionFeatureCustomTitlePreSelectedChapters: String { return L10n.tr("Localizable", "subscription_feature_custom_title_pre_selected_chapters", fallback: "Preselect Chapters: cut to the good stuff") }
   /// Subscription pricing format, %1$@ is the price, %2$@ is the subscription period
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")

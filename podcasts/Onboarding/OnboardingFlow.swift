@@ -83,8 +83,7 @@ struct OnboardingFlow {
                                                 flowSource: .upsell,
                                                 viewSource: viewSource,
                                                 plan: product?.plan ?? .plus,
-                                                frequency: product?.frequency ?? .yearly,
-                                                customTitle: customTitle)
+                                                frequency: product?.frequency ?? .yearly)
         } else {
             return PlusLandingViewModel.make(in: controller,
                                              from: .upsell,
