@@ -4,9 +4,9 @@ import PocketCastsUtils
 public struct BlazePromotion: Decodable {
     public let id: String
     public let text: String
-    public let imageURL: String
+    public let imageURL: URL
     public let urlTitle: String
-    public let url: String
+    public let url: URL
     public let promotion: PromotionType
 
     public enum PromotionType: String, Decodable {

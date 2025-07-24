@@ -439,11 +439,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func setupBannerAd(promotion: BlazePromotion) {
         bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
-            guard let url = URL(string: promotion.url) else {
-                FileLog.shared.addMessage("Failed to open Banner Ad URL \(promotion.url) for \(promotion.id)")
-                return
-            }
-            UIApplication.shared.openSafariVCIfPossible(url)
+            UIApplication.shared.openSafariVCIfPossible(promotion.url)
         }
     }
 }

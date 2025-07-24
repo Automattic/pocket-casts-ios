@@ -3,7 +3,7 @@ import PocketCastsServer
 
 class BannerAdModel: ObservableObject {
     let adText: String
-    let imageURL: URL
+    let imageURL: URL?
     let adLabel: String
     let titleLabel: String
     let adID: String
@@ -22,7 +22,7 @@ class BannerAdModel: ObservableObject {
 
     init(promotion: BlazePromotion, source: String, onLinkTap: (() -> Void)? = nil) {
         self.adText = promotion.text
-        self.imageURL = URL(string: promotion.imageURL)! //TODO: Use default image?
+        self.imageURL = promotion.imageURL
         self.adLabel = promotion.urlTitle
         self.titleLabel = L10n.bannerAdsInfoLabel
         self.onLinkTap = onLinkTap
