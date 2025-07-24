@@ -2065,6 +2065,7 @@
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
+		FFCCF6C02E2E87FE00BFC9E5 /* PreSelectChaptersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */; };
 		FFD044192C4FE9F400CCB192 /* TranscriptModelFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */; };
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
@@ -4124,6 +4125,7 @@
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
+		FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreSelectChaptersAnimationView.swift; sourceTree = "<group>"; };
 		FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptModelFilterTests.swift; sourceTree = "<group>"; };
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClipAppDelegate.swift; sourceTree = "<group>"; };
@@ -8531,6 +8533,7 @@
 		FF267FB52E16C8230004EF02 /* NewUpgrade */ = {
 			isa = PBXGroup;
 			children = (
+				FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */,
 				FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */,
 				FF267FB32E16C8230004EF02 /* UpgradeAccountView.swift */,
 				FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */,
@@ -10063,6 +10066,7 @@
 				C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */,
 				8BC0600B2AB1FB8100A4FEC6 /* AppPlayEpisodeIntentExtension.swift in Sources */,
 				F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */,
+				FFCCF6C02E2E87FE00BFC9E5 /* PreSelectChaptersAnimationView.swift in Sources */,
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
