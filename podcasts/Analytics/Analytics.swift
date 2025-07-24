@@ -76,7 +76,7 @@ extension Analytics {
     func optOutOfAnalytics() {
         Analytics.track(.analyticsOptOut)
         Settings.setAnalytics(optOut: true)
-        Analytics.unregister()
+        refreshRegistered()
     }
 
     func optInOfAnalytics() {
@@ -90,11 +90,12 @@ extension Analytics {
     func refreshRegistered() {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
-        } else {
-#if !os(watchOS) && !APPCLIP
-            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-#endif
         }
+#if !os(watchOS) && !APPCLIP
+        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+#endif
+        FileLog.shared.addMessage("Analytics: Refreshed Registered Adapters")
+        Analytics.logCurrentAdapters()
     }
 }
 
