@@ -190,7 +190,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-        session?.dataTask(with: urlRequest).resume()
+        if let task = session?.dataTask(with: urlRequest) {
+            task.priority = URLSessionTask.highPriority
+            task.resume()
+        }
     }
 
     func invalidateAndCancelSession(shouldResetData: Bool = true, error: Error? = nil) {
