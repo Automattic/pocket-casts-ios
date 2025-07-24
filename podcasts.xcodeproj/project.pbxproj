@@ -703,10 +703,22 @@
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
 		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
+		9A72B6602E2115120078FC84 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B65F2E2115120078FC84 /* PlaylistCell.swift */; };
+		9A72B6632E214C580078FC84 /* PlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B6622E214C580078FC84 /* PlaylistCellView.swift */; };
 		9A74B4D12D83113B00D10858 /* BlurEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74B4D02D83113900D10858 /* BlurEffectView.swift */; };
 		9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */; };
 		9A86AB2B2DE6008800474E0F /* empty_sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = 9A86AB2A2DE6008800474E0F /* empty_sample.vtt */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
+		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
+		9A9004C62E2E62EA005879CB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; };
+		9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; };
+		9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; };
+		9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */; };
+		9A9004D32E2FF2A4005879CB /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D22E2FF29B005879CB /* AsyncImageView.swift */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -2194,6 +2206,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2268,6 +2281,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36DF52873533F00E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2281,6 +2295,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				F5F508F62CEBE985007D6E39 /* PocketCastsUtils in Embed Frameworks */,
 				F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */,
 				F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */,
@@ -2960,10 +2975,15 @@
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
+		9A72B65F2E2115120078FC84 /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
+		9A72B6622E214C580078FC84 /* PlaylistCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCellView.swift; sourceTree = "<group>"; };
 		9A74B4D02D83113900D10858 /* BlurEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurEffectView.swift; sourceTree = "<group>"; };
 		9A821DCA2DA549830056D860 /* InformationalBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModel.swift; sourceTree = "<group>"; };
 		9A86AB2A2DE6008800474E0F /* empty_sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = empty_sample.vtt; sourceTree = "<group>"; };
 		9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptExcerptView.swift; sourceTree = "<group>"; };
+		9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArtworkView.swift; sourceTree = "<group>"; };
+		9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCellViewModel.swift; sourceTree = "<group>"; };
+		9A9004D22E2FF29B005879CB /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
@@ -4182,6 +4202,7 @@
 				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
 				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
+				9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */,
 				8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */,
 			);
@@ -4236,11 +4257,13 @@
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
+				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				9A11FC932D91CBF300A1EF3E /* AppsFlyerLib-Dynamic in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
+				9A9004C62E2E62EA005879CB /* (null) in Frameworks */,
 				9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
@@ -4268,6 +4291,7 @@
 				F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */,
 				F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */,
 				F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */,
 				F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */,
 			);
@@ -5744,7 +5768,7 @@
 				BD7455C627B0E6C000D4D5B0 /* Folders */,
 				BD92B3891C7FD438007725E9 /* Podcasts */,
 				BDD62973200EC2E600168DF7 /* Episode */,
-				BD618BD91702BE9D00967A6B /* Filters */,
+				BD618BD91702BE9D00967A6B /* Playlists */,
 				BD78221E170D4BEA008E1A7E /* Player */,
 				D4DA5CAA1739ED4C003FE24B /* Discovery */,
 				BD55C9F11FB9200C0084A7CB /* Profile */,
@@ -6311,7 +6335,7 @@
 			name = "Managers and Helpers";
 			sourceTree = "<group>";
 		};
-		BD618BD91702BE9D00967A6B /* Filters */ = {
+		BD618BD91702BE9D00967A6B /* Playlists */ = {
 			isa = PBXGroup;
 			children = (
 				BD4FC1DC1FA6EB310013364F /* Edit */,
@@ -6319,7 +6343,7 @@
 				BD93FDAF2015A24800F6EF55 /* List */,
 				406D9F7B253D483100B654C6 /* Create */,
 			);
-			name = Filters;
+			name = Playlists;
 			sourceTree = "<group>";
 		};
 		BD618BE51702D3FC00967A6B /* Categories */ = {
@@ -6673,6 +6697,10 @@
 			children = (
 				BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */,
 				BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */,
+				9A72B65F2E2115120078FC84 /* PlaylistCell.swift */,
+				9A72B6622E214C580078FC84 /* PlaylistCellView.swift */,
+				9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */,
+				9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -7528,6 +7556,7 @@
 		C74887782919DC7B00EBC926 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				9A9004D22E2FF29B005879CB /* AsyncImageView.swift */,
 				FF0753952D721AAC00BE8B3B /* ModalMessage.swift */,
 				FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */,
 				FF0753852D6CB70200BE8B3B /* NavigationContainer.swift */,
@@ -8867,6 +8896,7 @@
 				9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */,
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				F5FFC2342DBAF06D0091429C /* FacebookCore */,
+				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -8892,6 +8922,7 @@
 				FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */,
 				FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */,
 				FF2CD5812B9F4B2D009B58B5 /* Kingfisher */,
+				9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */,
 			);
 			productName = "Pocket Casts Watch App";
 			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
@@ -10042,6 +10073,7 @@
 				F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */,
 				F57D8F182C66CDF40004C4DF /* View+CVPixelBuffer.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
+				9A9004D32E2FF2A4005879CB /* AsyncImageView.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
 				C7F4C66B2A8FDCB800483C37 /* BookmarksLockedStateView.swift in Sources */,
@@ -10471,6 +10503,7 @@
 				F52B4F8C2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift in Sources */,
 				BD5C39541B5E0A2A00C3A499 /* ShiftyLoadingAlert.swift in Sources */,
 				FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */,
+				9A72B6602E2115120078FC84 /* PlaylistCell.swift in Sources */,
 				BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */,
 				C7E99F092A5E105600E7CBAF /* MultiSelectRow.swift in Sources */,
 				9A11FCCC2D9EA20300A1EF3E /* HorizontalCarouselCardViewContainer.swift in Sources */,
@@ -10595,6 +10628,7 @@
 				4029E3E02292686C0003BEEB /* ChangeEmailViewController.swift in Sources */,
 				4011B9432164641800661A7D /* EditFilterNameCell.swift in Sources */,
 				C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */,
+				9A72B6632E214C580078FC84 /* PlaylistCellView.swift in Sources */,
 				C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */,
 				F54E0F542CC764C0006D4DA2 /* PositionModifier.swift in Sources */,
 				8B67A26729A7D80E0076886D /* SearchResultCell.swift in Sources */,
@@ -10714,6 +10748,7 @@
 				FF9B6B772D0733670057A504 /* LogsView.swift in Sources */,
 				9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */,
 				BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */,
+				9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */,
 				BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */,
 				F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */,
 				BD9313531D7970F1007A70FC /* SelectPodcastCell.swift in Sources */,
@@ -10737,6 +10772,7 @@
 				C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */,
 				FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */,
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
+				9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */,
 				FFF17EC62B979B5500E116C8 /* BookmarksProfileListView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
 				F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */,
@@ -13843,6 +13879,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */;
 			productName = GoogleCast;
+		};
+		9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
+		};
+		9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
+		};
+		9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDependencyInjection;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
