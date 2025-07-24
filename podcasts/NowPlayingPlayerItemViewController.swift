@@ -248,7 +248,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #if !APPCLIP
         if FeatureFlag.bannerAds.enabled {
             bannerTask = Task { [weak self] in
-                if let promotion = await BlazeServerHandler.shared.promotion(for: .player) {
+                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
                     await MainActor.run {
                         self?.addAdBanner(promotion: promotion)
