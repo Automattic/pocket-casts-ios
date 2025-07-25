@@ -195,5 +195,13 @@ extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDeleg
                 coordinator.drop(item.dragItem, toRowAt: destinationIndexPath)
             }
         }
+
+        for (index, playlist) in playlists.enumerated() {
+            DataManager.sharedManager.updatePosition(filter: playlist, newPosition: Int32(index))
+        }
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+
+        Analytics.track(.filterListReordered)
     }
 }
