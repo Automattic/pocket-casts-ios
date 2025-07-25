@@ -452,6 +452,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
             UIApplication.shared.openSafariVCIfPossible(promotion.url)
         }
+        podcastsCollectionView.reloadData()
     }
 }
 
