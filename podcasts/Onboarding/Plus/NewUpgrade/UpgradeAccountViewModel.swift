@@ -258,7 +258,7 @@ private extension PlusUpgradeViewSource {
             case .deselectChapters, .deselectChapterWhatsNew:
                 return L10n.subscriptionFeatureCustomTitlePreSelectedChapters
             case .upNextShuffle:
-                return "Shuffle: The joy of not choosing"
+                return L10n.subscriptionFeatureCustomTitleShuffleUpnext
             default:
                 return nil
         }
@@ -270,7 +270,7 @@ private extension PlusUpgradeViewSource {
             case .deselectChapters, .deselectChapterWhatsNew:
                 PreSelectChaptersAnimationView()
             case .upNextShuffle:
-                Text("UpNext Shuffle")
+                UpNextShuffleAnimationView()
             default:
                 EmptyView()
         }
