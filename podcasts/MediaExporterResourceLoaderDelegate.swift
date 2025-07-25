@@ -171,7 +171,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         if FeatureFlag.streamingCustomSessionConfiguration.enabled {
-            configuration.networkServiceType = .responsiveData
+            configuration.networkServiceType = .avStreaming
             configuration.allowsCellularAccess = true
             configuration.timeoutIntervalForRequest = 60 // seconds
             configuration.timeoutIntervalForResource = 3600 // seconds
