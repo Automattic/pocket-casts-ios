@@ -10,7 +10,6 @@ struct UserSatisfactionSurveyView: View {
         case no
     }
 
-    var constantlyAnimating: Bool = false
     var handleResponse: (Response) -> Void
 
     var body: some View {
@@ -54,7 +53,7 @@ struct UserSatisfactionSurveyView: View {
 
     @ViewBuilder
     private func surveyResponseButton(emoji: String, text: String, haptic: @escaping () -> Void, action: @escaping () -> Void) -> some View {
-        PressableLottieButton(emoji: emoji, text: text, theme: theme, constantlyAnimating: constantlyAnimating, haptic: haptic, action: action)
+        PressableLottieButton(emoji: emoji, text: text, theme: theme, haptic: haptic, action: action)
     }
 
     private func provideHappyHaptic() {
@@ -86,7 +85,6 @@ struct PressableLottieButton: View {
     let emoji: String
     let text: String
     let theme: Theme
-    let constantlyAnimating: Bool
     let haptic: () -> Void
     let action: () -> Void
 

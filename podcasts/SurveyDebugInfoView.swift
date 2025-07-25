@@ -10,7 +10,6 @@ struct SurveyDebugInfoView: View {
     @State private var plusUpgradeDate: Date?
     @State private var canShowSurvey: Bool = false
     @State private var surveyCheckResult: SurveyCheckResult = .canShow
-    @State private var constantlyAnimating: Bool = false
 
     var body: some View {
         List {
@@ -90,9 +89,6 @@ struct SurveyDebugInfoView: View {
                     }
                 }
             }
-            Section(header: Text("Emoji Animations")) {
-                Toggle("Constantly Animating", isOn: $constantlyAnimating)
-            }
 
             Section {
                 Button("Reset Survey & Reviews") {
@@ -122,7 +118,7 @@ struct SurveyDebugInfoView: View {
     }
 
     private func presentSurveyWithAnimation(from rootViewController: UIViewController) {
-        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true, constantlyAnimating: constantlyAnimating)
+        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
     }
 
     private func loadDebugData() {
