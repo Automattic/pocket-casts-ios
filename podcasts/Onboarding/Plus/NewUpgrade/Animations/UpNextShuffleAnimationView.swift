@@ -98,30 +98,25 @@ struct UpNextShuffleAnimationView: View {
         }
     }
 
+    @ViewBuilder
+    func groupOfEpisodes(position: Int) -> some View {
+        VStack(spacing: -16) {
+            ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { (index, episode) in
+                EpisodeShuffleRow(episode: episode, index: index)
+            }
+        }
+        .padding(.horizontal, 32)
+    }
+
     var body: some View {
         ZStack {
             switch position {
                 case 0:
-                    VStack(spacing: -16) {
-                        ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { (index, episode) in
-                            EpisodeShuffleRow(episode: episode, index: index)
-                        }
-                    }
-                    .padding(.horizontal, 32)                    
+                    groupOfEpisodes(position: 0)
                 case 1:
-                    VStack(spacing: -16) {
-                        ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { (index, episode) in
-                            EpisodeShuffleRow(episode: episode, index: index)
-                        }
-                    }
-                    .padding(.horizontal, 32)
+                    groupOfEpisodes(position: 1)
                 case 2:
-                    VStack(spacing: -16) {
-                        ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { (index, episode) in
-                            EpisodeShuffleRow(episode: episode, index: index)
-                        }
-                    }
-                    .padding(.horizontal, 32)
+                    groupOfEpisodes(position: 2)
                 default:
                     EmptyView()
             }
