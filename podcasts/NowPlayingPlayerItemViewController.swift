@@ -250,6 +250,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
+                    try? await Task.sleep(nanoseconds: 2_000_000_000) // Delay by 2 seconds so we don't immediately show
                     await MainActor.run {
                         self?.addAdBanner(promotion: promotion)
                     }
@@ -529,14 +530,35 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let size = hostingController.sizeThatFits(in: targetSize)
 
         addChild(hostingController)
-        stackView.insertArrangedSubview(hostingController.view, at: 0)
+        let adUiView = hostingController.view!
+
+        stackView.insertArrangedSubview(adUiView, at: 0)
+
+        adUiView.alpha = 0
+        let topConstraint = adUiView.topAnchor.constraint(equalTo: view.topAnchor, constant: -120)
 
         let heightConstraint = hostingController.view.heightAnchor.constraint(equalToConstant: size.height)
-        NSLayoutConstraint.activate([heightConstraint])
+        NSLayoutConstraint.activate([
+            heightConstraint,
+            topConstraint,
+        ])
 
         hostingController.didMove(toParent: self)
         bannerAdHostingController = hostingController
         bannerAdHeightConstraint = heightConstraint
+
+        view.layoutIfNeeded()
+
+        // Animate move first
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+            topConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+
+        // Animate opacity second so it's more noticeable
+        UIView.animate(withDuration: 0.2, delay: 0.05) {
+            adUiView.alpha = 1
+        }
     }
 
     private func removeBannerAd() {
