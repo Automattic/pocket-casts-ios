@@ -23,8 +23,8 @@ class BannerAdModel: ObservableObject {
     init(promotion: BlazePromotion, source: String, onLinkTap: (() -> Void)? = nil) {
         self.adText = promotion.text
         self.imageURL = promotion.imageURL
-        self.adLabel = promotion.urlTitle
-        self.titleLabel = L10n.bannerAdsInfoLabel
+        self.adLabel = L10n.bannerAdsInfoLabel
+        self.titleLabel = promotion.urlTitle
         self.onLinkTap = onLinkTap
         self.adID = promotion.id
         self.source = source
