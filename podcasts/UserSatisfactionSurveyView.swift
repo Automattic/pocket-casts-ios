@@ -104,40 +104,14 @@ struct PressableLottieButton: View {
                 .cornerRadius(12)
         }
         .buttonStyle(
-            PressableLottieButtonStyle(haptic: haptic) { isPressed in
-                AnyView(
-                    LottieView(animation: .named(emoji, animationCache: nil))
-                        .playbackMode(
-                            constantlyAnimating
-                            ? .playing(.toProgress(0.99, loopMode: .loop))
-                            : (isPressed
-                               ? .playing(.toProgress(0.99, loopMode: .loop))
-                               : .paused)
-                        )
-                        .scaleEffect(isPressed ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
-                        .frame(height: 72)
-                )
-            }
+            PressableLottieButtonStyle(
+                animation: .named(emoji),
+                haptic: {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                },
+                replayOnPress: true
+            )
         )
-    }
-}
-
-struct PressableLottieButtonStyle: ButtonStyle {
-    let haptic: () -> Void
-    let lottieView: (Bool) -> AnyView
-
-    func makeBody(configuration: Configuration) -> some View {
-        VStack(spacing: 8) {
-            lottieView(configuration.isPressed)
-
-            configuration.label
-        }
-        .onChange(of: configuration.isPressed) { isPressed in
-            if isPressed {
-                haptic()
-            }
-        }
     }
 }
 
