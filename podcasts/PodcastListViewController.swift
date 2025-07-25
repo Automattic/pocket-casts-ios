@@ -166,7 +166,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
                     guard Task.isCancelled == false else { return }
-                    try? await Task.sleep(nanoseconds: 2_000_000_000) // Delay by 2 seconds so we don't immediately show
+                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
                     await MainActor.run {
                         self?.setupBannerAd(promotion: promotion)
                     }
