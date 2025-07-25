@@ -276,7 +276,7 @@ private extension PlusUpgradeViewSource {
             case .upNextShuffle:
                 UpNextShuffleAnimationView()
             case .bookmarksLocked, .bookmarksShelfAction:
-                Text("Bookmarks")
+                BookmarksAnimationView()
             default:
                 EmptyView()
         }
