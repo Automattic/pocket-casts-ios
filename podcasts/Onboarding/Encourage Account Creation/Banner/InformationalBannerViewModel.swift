@@ -25,14 +25,14 @@ class InformationalBannerViewModel: BannerModel, InformationalBannerPresenting {
     var onCloseBannerTap: (() -> Void)? = nil
     var onCreateFreeAccountTap: (() -> Void)? = nil
 
-    init(bannerType: InformationalBannerType) {
+    init(bannerType: InformationalBannerType, invertedColor: Bool? = nil) {
         self.bannerType = bannerType
         super.init(
             title: bannerType.title,
             message: bannerType.description,
             action: L10n.eacInformationalBannerCreateAccount,
             iconName: bannerType.iconName,
-            invertedColor: bannerType == .profile)
+            invertedColor: invertedColor ?? (bannerType == .profile))
         setupBinding()
     }
 
