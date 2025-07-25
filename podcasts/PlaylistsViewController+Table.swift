@@ -174,3 +174,26 @@ extension PlaylistsViewController: UIPopoverPresentationControllerDelegate {
         dismissTipView()
     }
 }
+
+extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDelegate {
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let movedObject = playlists[indexPath.row]
+        let itemProvider = NSItemProvider(object: "\(movedObject.id)" as NSString)
+        return [UIDragItem(itemProvider: itemProvider)]
+    }
+
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
+
+        coordinator.items.forEach { item in
+            if let sourceIndexPath = item.sourceIndexPath {
+                tableView.performBatchUpdates {
+                    let movedItem = playlists.remove(at: sourceIndexPath.row)
+                    playlists.insert(movedItem, at: destinationIndexPath.row)
+                    tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
+                }
+                coordinator.drop(item.dragItem, toRowAt: destinationIndexPath)
+            }
+        }
+    }
+}
