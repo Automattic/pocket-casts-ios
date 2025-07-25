@@ -11,6 +11,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
     var bannerAdModel: BannerAdModel?
+    
+    /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
+    var isAnimatingBannerAd = false
 
     private var bannerTask: Task<Void, Never>? = nil
 
@@ -163,6 +166,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
                     guard Task.isCancelled == false else { return }
+                    try? await Task.sleep(nanoseconds: 2_000_000_000) // Delay by 2 seconds so we don't immediately show
                     await MainActor.run {
                         self?.setupBannerAd(promotion: promotion)
                     }
@@ -452,7 +456,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
             UIApplication.shared.openSafariVCIfPossible(promotion.url)
         }
-        podcastsCollectionView.reloadData()
+        isAnimatingBannerAd = true
+
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+            self.isAnimatingBannerAd = false
+            self.podcastsCollectionView.performBatchUpdates({
+                self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+            })
+        }
     }
 }
 
