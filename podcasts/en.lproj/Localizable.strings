@@ -5117,7 +5117,7 @@
 "notifications_recommendations_trending_title" = "Trending this week";
 
 /* Notification body for recommendations trending message */
-"notifications_recommendations_trending_body" = "Check out what everyone else is listening this week.";
+"notifications_recommendations_trending_body" = "Check out what everyone else is listening to this week.";
 
 /* Notification title for offer upsell message */
 "notifications_offers_upsell_title" = "Level up your podcast game";

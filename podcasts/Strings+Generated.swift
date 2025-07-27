@@ -1903,7 +1903,7 @@ internal enum L10n {
   /// Settings to control sending of pocket casts offers notifications
   internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers", fallback: "Pocket Casts Offers") }
   /// Notification body for recommendations trending message
-  internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body", fallback: "Check out what everyone else is listening this week.") }
+  internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body", fallback: "Check out what everyone else is listening to this week.") }
   /// Notification title for recommendations trending message
   internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title", fallback: "Trending this week") }
   /// Notification body for recommendations you might like message
