@@ -282,7 +282,7 @@ private extension PlusUpgradeViewSource {
             case .bookmarksLocked, .bookmarksShelfAction:
                 BookmarksAnimationView()
             case .folders, .suggestedFolders:
-                Text("Folders")
+                FoldersAnimationView()
             default:
                 EmptyView()
         }
