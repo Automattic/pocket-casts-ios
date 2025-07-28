@@ -3569,6 +3569,10 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1), fallback: "Sleep Timer on, %1$@ remaining")
   }
+  /// The description shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewDescription: String { return L10n.tr("Localizable", "smart_playlists_tip_view_description", fallback: "We made these to help you get started. They auto-update based on your listening.") }
+  /// The title shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewTitle: String { return L10n.tr("Localizable", "smart_playlists_tip_view_title", fallback: "Smart Playlists, ready to go") }
   /// Label of a button that lets the user login/signup with Apple
   internal static var socialSignInContinueWithApple: String { return L10n.tr("Localizable", "social_sign_in_continue_with_apple", fallback: "Continue with Apple") }
   /// Label of a button that lets the user login/signup with Google

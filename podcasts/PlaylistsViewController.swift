@@ -108,9 +108,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
-        if !FeatureFlag.playlistsRebranding.enabled {
-            showNewFilterTipIfNeeded()
-        }
+        showNewFilterTipIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -120,10 +118,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @objc private func editTapped() {
-        if FeatureFlag.playlistsRebranding.enabled {
-            // TODO: Add sheet panel
-            return
-        }
         filtersTable.isEditing = !filtersTable.isEditing
         filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
         customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))

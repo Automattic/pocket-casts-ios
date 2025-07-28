@@ -5256,6 +5256,12 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* The title shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
+
+/* The description shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
