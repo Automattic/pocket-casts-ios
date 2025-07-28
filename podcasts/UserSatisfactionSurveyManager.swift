@@ -66,7 +66,7 @@ public class UserSatisfactionSurveyManager: NSObject {
             return
         }
 
-        let surveyView = UserSatisfactionSurveyView() { [weak self] response in
+        let surveyView = UserSatisfactionSurveyView { [weak self] response in
             switch response {
             case .yes:
                 Analytics.track(.userSatisfactionSurveyYesResponse, properties: [

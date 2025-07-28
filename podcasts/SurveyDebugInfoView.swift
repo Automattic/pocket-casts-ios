@@ -89,6 +89,7 @@ struct SurveyDebugInfoView: View {
                     }
                 }
             }
+
             Section {
                 Button("Reset Survey & Reviews") {
                     Settings.resetReviewRequests()
@@ -102,7 +103,7 @@ struct SurveyDebugInfoView: View {
                         Toast.show("Failed to find root view controller from SceneHelper")
                         return
                     }
-                    UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
+                    presentSurveyWithAnimation(from: rootViewController)
                 }
             }
         }
@@ -114,6 +115,10 @@ struct SurveyDebugInfoView: View {
 
     private var defaultEvent: SurveyTriggerEvent {
         return SubscriptionHelper.hasActiveSubscription() ? .folderCreated : .episodeStarred
+    }
+
+    private func presentSurveyWithAnimation(from rootViewController: UIViewController) {
+        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
     }
 
     private func loadDebugData() {

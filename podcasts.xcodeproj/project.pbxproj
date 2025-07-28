@@ -1703,6 +1703,9 @@
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		F508F0FB2C4F1EC000822159 /* ClipPlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F508F0FA2C4F1EC000822159 /* ClipPlaybackManager.swift */; };
+		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
+		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
+		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50DF4242DC5851E00E4A01E /* YouMightLikeSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DF4232DC5851E00E4A01E /* YouMightLikeSectionHeaderView.swift */; };
 		F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
@@ -1808,6 +1811,7 @@
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
 		F5B6FDAD2CADFEFB00356909 /* ContentUnavailableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */; };
+		F5BA0D742E3443ED005931D3 /* PressableLottieButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA0D732E3443ED005931D3 /* PressableLottieButtonStyle.swift */; };
 		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BA5C9C2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */; };
 		F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */; };
@@ -3945,6 +3949,8 @@
 		E3665F532936CD13001C8372 /* ChaptersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersTests.swift; sourceTree = "<group>"; };
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		F508F0FA2C4F1EC000822159 /* ClipPlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPlaybackManager.swift; sourceTree = "<group>"; };
+		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
+		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
 		F50DF4232DC5851E00E4A01E /* YouMightLikeSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouMightLikeSectionHeaderView.swift; sourceTree = "<group>"; };
 		F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsWhatsNewView.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
@@ -4015,6 +4021,7 @@
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtilsTests.swift; sourceTree = "<group>"; };
 		F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUnavailableConfiguration.swift; sourceTree = "<group>"; };
+		F5BA0D732E3443ED005931D3 /* PressableLottieButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableLottieButtonStyle.swift; sourceTree = "<group>"; };
 		F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewController.swift; sourceTree = "<group>"; };
 		F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerContentConfiguration.swift; sourceTree = "<group>"; };
 		F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+DiscoverDelegate.swift"; sourceTree = "<group>"; };
@@ -6521,6 +6528,8 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				F50D723B2E29F17800764D9B /* heart-eyes.json */,
+				F50D723D2E29F17F00764D9B /* pensive.json */,
 				BDAA3CF82122A2DA00649F81 /* effects_button.json */,
 				BDAA3CF42122A2D900649F81 /* player_play_button.json */,
 				BD43BDE52122AD0600E63165 /* skip_button.json */,
@@ -6955,6 +6964,7 @@
 				BD2A49EE1701AA8500C2F192 /* User Interface */,
 				BD585C1C204785EF00AC842C /* AppDelegate.swift */,
 				F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */,
+				F5BA0D732E3443ED005931D3 /* PressableLottieButtonStyle.swift */,
 				F53481C52E21C07B00E80253 /* UserSatisfactionSurveyManager.swift */,
 				C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */,
 				BD585C1E2047887700AC842C /* AppDelegate+UrlHandling.swift */,
@@ -9209,6 +9219,7 @@
 				46C3D554275EA19B00DDE116 /* SingleEpisodeViewController.xib in Resources */,
 				8BD5A50A2A1F96C200F473C6 /* AppIcon-Pride40x40@3x.png in Resources */,
 				BDE954EA236684E300CEB6DA /* ChaptersViewController.xib in Resources */,
+				F50D723E2E29F17F00764D9B /* pensive.json in Resources */,
 				BDBCE6D2244E7755004FFE13 /* AppIcon-Radioactive76x76~ipad.png in Resources */,
 				BD056F0F1F6F8BE300AF8260 /* Main.storyboard in Resources */,
 				BD6B664D245BC24C00CF5245 /* AppIcon-Pocket-Cats40x40@3x.png in Resources */,
@@ -9311,6 +9322,7 @@
 				BDCA84F31C1FB7260022ED4D /* DownloadSettingsViewController.xib in Resources */,
 				BDA002F61F7B318B00DCB4AE /* AppIcon-Round76x76~ipad.png in Resources */,
 				BDA002EA1F7B318B00DCB4AE /* AppIcon-Round20x20~ipad.png in Resources */,
+				F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */,
 				BD12931522F809F8004608A6 /* AppIcon-Electric-Pink76x76@2x~ipad.png in Resources */,
 				BDBCE6C9244E7755004FFE13 /* AppIcon-Radioactive83.5x83.5@2x~ipad.png in Resources */,
 				466DE3F7278794D50046F722 /* EpisodeListTableViewCell.xib in Resources */,
@@ -9720,6 +9732,7 @@
 				F5F5097D2CEBFDE2007D6E39 /* skip_button.json in Resources */,
 				F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */,
 				F55566FF2D14E3D000231367 /* VideoViewController.xib in Resources */,
+				F50D723F2E29F17F00764D9B /* pensive.json in Resources */,
 				F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */,
 				F5F5097C2CEBFDDE007D6E39 /* player_play_button.json in Resources */,
 				F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */,
@@ -10785,6 +10798,7 @@
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
 				FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */,
+				F5BA0D742E3443ED005931D3 /* PressableLottieButtonStyle.swift in Sources */,
 				BDF15A401B54E064000EC323 /* PlaybackQueue.swift in Sources */,
 				F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */,
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,
