@@ -250,6 +250,8 @@ private extension PlusUpgradeViewSource {
                 return .contextual
             case .bookmarksLocked, .bookmarksShelfAction:
                 return .contextual
+            case .folders, .suggestedFolders:
+                return .contextual
             default:
                 return .generic
         }
@@ -263,6 +265,8 @@ private extension PlusUpgradeViewSource {
                 return L10n.subscriptionFeatureCustomTitleShuffleUpnext
             case .bookmarksLocked, .bookmarksShelfAction:
                 return L10n.subscriptionFeatureCustomTitleBookmarks
+            case .folders, .suggestedFolders:
+                return L10n.subscriptionFeatureCustomTitleFolders
             default:
                 return nil
         }
@@ -277,6 +281,8 @@ private extension PlusUpgradeViewSource {
                 UpNextShuffleAnimationView()
             case .bookmarksLocked, .bookmarksShelfAction:
                 BookmarksAnimationView()
+            case .folders, .suggestedFolders:
+                Text("Folders")
             default:
                 EmptyView()
         }
