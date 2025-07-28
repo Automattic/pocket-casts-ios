@@ -90,7 +90,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     lazy var wifiOnlyBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
-        config.allowsCellularAccess = false
+        config.allowsExpensiveNetworkAccess = false
         addStandardConfig(to: &config)
 
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
@@ -99,7 +99,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     lazy var cellularBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: DownloadManager.cellBackgroundSessionId)
-        config.allowsCellularAccess = true
+        config.allowsExpensiveNetworkAccess = true
         addStandardConfig(to: &config)
 
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
