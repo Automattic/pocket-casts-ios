@@ -11,7 +11,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
     var bannerAdModel: BannerAdModel?
-    
+
     /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
     var isAnimatingBannerAd = false
 
