@@ -109,6 +109,7 @@ struct BannerAdView: View {
 
             text()
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 5)
 
             closeButton()
                 .fixedSize()
@@ -138,12 +139,14 @@ struct BannerAdView: View {
     }
 
     @ViewBuilder func text() -> some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 5) {
             Text(model.adText)
                 .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
                 .lineSpacing(-1)
                 .foregroundColor(colors.adText)
                 .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
 
             HStack(spacing: 4) {
                 Text(model.adLabel)
