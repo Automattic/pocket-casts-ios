@@ -168,7 +168,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
         if FeatureFlag.playlistsRebranding.enabled {
-            view.backgroundColor = ThemeColor.primaryUi01()
+            view.backgroundColor = ThemeColor.primaryUi04()
         }
     }
 
@@ -250,7 +250,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         view.insertSubview(emptyState, belowSubview: filtersTable)
         NSLayoutConstraint.activate([
             emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyState.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyState.topAnchor.constraint(equalTo: view.topAnchor, constant: 175),
             emptyState.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             emptyState.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
