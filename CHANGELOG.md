@@ -1,6 +1,6 @@
 7.95
 -----
-
+- Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
 
 7.94
 -----

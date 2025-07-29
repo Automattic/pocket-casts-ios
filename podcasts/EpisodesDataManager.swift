@@ -135,8 +135,8 @@ class EpisodesDataManager {
 
     // MARK: - Filters
 
-    func episodes(for filter: EpisodeFilter) -> [ListEpisode] {
-        let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxFilterItems)
+    func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems) -> [ListEpisode] {
+        let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: limit)
         let tintColor = filter.playlistColor()
         return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
     }

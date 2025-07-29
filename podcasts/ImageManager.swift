@@ -29,6 +29,9 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    // Track in-progress artwork loads by UUID
+    private var inProgressArtworkLoads = Set<String>()
+
     public var biggestPodcastImageSize: Int {
         availablePodcastImageSizes.max()!
     }
@@ -210,6 +213,12 @@ class ImageManager {
         KingfisherManager.shared.retrieveImage(with: imageURL, options: [.targetCache(imageCache)]) { result in
             let image = try? result.get().image
             completionHandler(image)
+        }
+    }
+
+    func save(_ image: UIImage, for episodeUuid: String) {
+        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
 

@@ -3,13 +3,22 @@ import PocketCastsUtils
 import UIKit
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
-    @IBOutlet var filtersTable: UITableView! {
+    @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
+            if FeatureFlag.playlistsRebranding.enabled {
+                filtersTable.themeStyle = .primaryUi01
+                filtersTable.dragDelegate = self
+                filtersTable.dropDelegate = self
+            } else {
+                filtersTable.themeStyle = .primaryUi04
+                filtersTable.dragDelegate = nil
+                filtersTable.dropDelegate = nil
+            }
         }
     }
 
-    var episodeFilters = [EpisodeFilter]()
+    var playlists = [EpisodeFilter]()
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
@@ -38,14 +47,21 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let viewModel = InformationalBannerViewModel(bannerType: .filters)
+        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
+        let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
+        let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        if FeatureFlag.playlistsRebranding.enabled {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
+        } else {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        }
+        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
@@ -58,12 +74,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                     self.navigationController?.pushViewController(playlistViewController, animated: false)
                 }
             }
-
         }
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        setupNewFilterButton()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            setupNewFilterButton()
+        }
         handleThemeChanged()
     }
 
@@ -89,9 +106,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
+        Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
-        showNewFilterTipIfNeeded()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            showNewFilterTipIfNeeded()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -101,6 +120,10 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @objc private func editTapped() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            // TODO: Add sheet panel
+            return
+        }
         filtersTable.isEditing = !filtersTable.isEditing
         filtersTable.reloadData() // this is needed to ensure the cell re-arrange controls are tinted correctly
         customRightBtn = UIBarButtonItem(barButtonSystemItem: filtersTable.isEditing ? .done : .edit, target: self, action: #selector(editTapped))
@@ -155,7 +178,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+            playlists = DataManager.sharedManager.allFilters(includeDeleted: false)
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
