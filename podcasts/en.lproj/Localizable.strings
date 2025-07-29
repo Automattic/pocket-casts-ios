@@ -5283,3 +5283,6 @@
 /* Subscription Plan title for custom upgrade screen for the preselected chapters feature */
 "subscription_feature_custom_title_pre_selected_chapters" = "Preselect Chapters: cut to the good stuff";
 
+/* Subscription Plan title for custom upgrade screen for the shuffle upnext feature */
+"subscription_feature_custom_title_shuffle_upnext" = "Shuffle: The joy of not choosing";
+

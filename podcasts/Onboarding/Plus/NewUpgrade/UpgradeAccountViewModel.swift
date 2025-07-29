@@ -246,6 +246,8 @@ private extension PlusUpgradeViewSource {
         switch self {
             case .deselectChapters, .deselectChapterWhatsNew:
                 return .contextual
+            case .upNextShuffle:
+                return .contextual
             default:
                 return .generic
         }
@@ -255,6 +257,8 @@ private extension PlusUpgradeViewSource {
         switch self {
             case .deselectChapters, .deselectChapterWhatsNew:
                 return L10n.subscriptionFeatureCustomTitlePreSelectedChapters
+            case .upNextShuffle:
+                return L10n.subscriptionFeatureCustomTitleShuffleUpnext
             default:
                 return nil
         }
@@ -265,6 +269,8 @@ private extension PlusUpgradeViewSource {
         switch self {
             case .deselectChapters, .deselectChapterWhatsNew:
                 PreSelectChaptersAnimationView()
+            case .upNextShuffle:
+                UpNextShuffleAnimationView()
             default:
                 EmptyView()
         }
