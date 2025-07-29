@@ -1798,6 +1798,7 @@
 		F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5954D5F2C3F2864004A8C04 /* TrimHandle.swift */; };
 		F59F08132DF289C400668EA7 /* BannerAdReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59F08122DF289C400668EA7 /* BannerAdReporter.swift */; };
 		F5A292162DE95F9000C49AC4 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A292152DE95F8C00C49AC4 /* BannerAdView.swift */; };
+		F5A4299E2E2DF108004035AE /* UIApplication+OpenSafariVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A4299D2E2DF108004035AE /* UIApplication+OpenSafariVC.swift */; };
 		F5AA0FD42E21D05D00ECDEEA /* SurveyDebugInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AA0FD32E21D05D00ECDEEA /* SurveyDebugInfoView.swift */; };
 		F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */; };
 		F5ADE2F42CF52AF100F2CEA7 /* AnalyticsLoggingAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAEA28AB05A800CFC8CF /* AnalyticsLoggingAdapter.swift */; };
@@ -4017,6 +4018,7 @@
 		F5954D5F2C3F2864004A8C04 /* TrimHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrimHandle.swift; sourceTree = "<group>"; };
 		F59F08122DF289C400668EA7 /* BannerAdReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdReporter.swift; sourceTree = "<group>"; };
 		F5A292152DE95F8C00C49AC4 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+		F5A4299D2E2DF108004035AE /* UIApplication+OpenSafariVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenSafariVC.swift"; sourceTree = "<group>"; };
 		F5AA0FD32E21D05D00ECDEEA /* SurveyDebugInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyDebugInfoView.swift; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
@@ -7455,6 +7457,7 @@
 			isa = PBXGroup;
 			children = (
 				FF4D65D32DAFF0BC003DC1F0 /* UIApplication+OpenStandardURLs.swift */,
+				F5A4299D2E2DF108004035AE /* UIApplication+OpenSafariVC.swift */,
 				FF6C9DAF2D916AA000BF2711 /* String+MD5.swift */,
 				FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */,
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
@@ -10907,6 +10910,7 @@
 				BDFB53CB2362B9080001806E /* UpNextViewController.swift in Sources */,
 				9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */,
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
+				F5A4299E2E2DF108004035AE /* UIApplication+OpenSafariVC.swift in Sources */,
 				BD240C3F231E8BE000FB2CDD /* PCSearchBarController.swift in Sources */,
 				C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */,
 				F5235EE82C3DE13100C98739 /* ScrollableScrollView.swift in Sources */,
