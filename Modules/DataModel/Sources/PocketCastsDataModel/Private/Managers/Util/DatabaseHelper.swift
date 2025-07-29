@@ -812,6 +812,19 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 57 {
+            do {
+                // During the FMDB to GRDB migration, we found some users had corrupted episodes
+                // with all columns set to NULL. This cleanup prevents crashes caused by those entries.
+                try db.executeUpdate("DELETE FROM SJEpisode WHERE id IS NULL", values: nil)
+                try db.executeUpdate("DELETE FROM SJPodcast WHERE id IS NULL", values: nil)
+                schemaVersion = 57
+            } catch {
+                failedAt(57)
+                return
+            }
+        }
         db.commit()
     }
 }
