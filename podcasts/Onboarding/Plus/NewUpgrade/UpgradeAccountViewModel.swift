@@ -186,7 +186,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         var baseProperties: [String: Any] = [:]
 
         baseProperties["version"] = "1"
-        baseProperties["variant"] = shouldShowVariation ? "B" : "A"
+        baseProperties["variant"] = style == .generic && shouldShowVariation ? "B" : "A"
 
         let mergedProperties = baseProperties.merging(properties ?? [:]) { current, _ in current }
         OnboardingFlow.shared.track(event, properties: mergedProperties)
