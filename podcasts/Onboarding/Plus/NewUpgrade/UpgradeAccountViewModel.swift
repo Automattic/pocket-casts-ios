@@ -50,6 +50,13 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         }
     }
 
+    var shouldShowVariation: Bool {
+        guard FeatureFlag.newOnboardingVariant.enabled, isFreeTrialAvailable else {
+            return false
+        }
+        return true
+    }
+
     var isFreeTrialAvailable: Bool {
         guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
             return false
@@ -112,7 +119,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func dismissTapped(originalDismiss dismiss: DismissAction?) {
-        OnboardingFlow.shared.track(.plusPromotionDismissed)
+        track(.plusPromotionDismissed)
 
         guard flowSource == .accountCreated, let navigationController else {
             if navigationController == nil {
@@ -132,7 +139,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func purchaseTapped() {
-        OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
+        track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
             presentLogin(with: ProductInfo.init(plan: upgradeTier.plan, frequency: selectedFrequency))
@@ -147,32 +154,42 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     func changedSubscriptionPeriod(_ value: PlanFrequency) {
-        OnboardingFlow.shared.track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
+        track(.plusPromotionSubscriptionFrequencyChanged, properties: ["value": value.rawValue])
     }
 
     func termsOfUseTapped() {
-        OnboardingFlow.shared.track(.plusPromotionTermsAndConditionsTapped)
+        track(.plusPromotionTermsAndConditionsTapped)
     }
 
     func privacyPolicyTapped() {
-        OnboardingFlow.shared.track(.plusPromotionPrivacyPolicyTapped)
+        track(.plusPromotionPrivacyPolicyTapped)
     }
 
     // MARK: - Onboarding Model overrides
     override func didAppear() {
-        OnboardingFlow.shared.track(.plusPromotionShown)
+        track(.plusPromotionShown)
     }
 
     override func didDismiss(type: OnboardingDismissType) {
         guard type == .swipe else { return }
 
-        OnboardingFlow.shared.track(.plusPromotionDismissed)
+        track(.plusPromotionDismissed)
     }
 
     // MARK: - custom animation
 
     var customAnimation: some View {
         viewSource.customAnimation
+    }
+
+    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
+        var baseProperties: [String: Any] = [:]
+
+        baseProperties["version"] = "1"
+        baseProperties["variant"] = shouldShowVariation ? "B" : "A"
+
+        let mergedProperties = baseProperties.merging(properties ?? [:]) { current, _ in current }
+        OnboardingFlow.shared.track(event, properties: mergedProperties)
     }
 }
 
