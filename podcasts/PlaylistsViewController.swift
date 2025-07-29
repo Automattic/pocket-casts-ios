@@ -234,12 +234,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     private func addEmptyStateView() {
         let emptyState = EmptyStateView(
-            title: "Organize episodes your way",
-            message: "Playlists let you organize episodes manually or automatically with Smart Rules.",
+            title: L10n.playlistsEmptyStateTitle,
+            message: L10n.playlistsEmptyStateDescription,
             icon: { Image("filter_list") },
             actions: [
                 .init(
-                    title: "New Playlist",
+                    title: L10n.playlistsEmptyStateButton,
                     action: { [weak self] in
                         self?.addNewFilter()
                     })
