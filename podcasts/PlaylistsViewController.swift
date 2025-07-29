@@ -1,7 +1,8 @@
-import PocketCastsDataModel
 import SwiftUI
-import PocketCastsUtils
 import UIKit
+import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
@@ -200,8 +201,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func showOnboardingScreenIfNeeded() {
+        let userIsLoggedIn = SyncManager.isUserLoggedIn()
         let appInstallStateUpdated = (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .updated
-        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && FeatureFlag.playlistsRebranding.enabled
+        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && FeatureFlag.playlistsRebranding.enabled && userIsLoggedIn
         guard shouldDisplayOnboarding else { return }
         let vc = ThemedHostingController(
             rootView: PlaylistsOnboardingView(

@@ -55,6 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
                     Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
                 }
+                if FeatureFlag.playlistsRebranding.enabled {
+                    Settings.shouldShowNewFilterTip = false
+                }
             case .installed:
                 //Never show the podcast feed reload tooltip for fresh install
                 Settings.shouldShowPodcastFeeReloadTip = false
