@@ -61,6 +61,7 @@ struct PlaylistsOnboardingCardView: View {
                 Text(card.description)
                     .font(size: 15.0, style: .body, weight: .regular)
                     .foregroundStyle(theme.primaryText02)
+                    .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.center)
             }
             .padding(.horizontal, 48.0)

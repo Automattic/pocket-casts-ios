@@ -18,7 +18,6 @@ struct PlaylistsOnboardingView: View {
                                 ForEach(Array(cards.enumerated()), id: \.element.id) { i, card in
                                     PlaylistsOnboardingCardView(card: card)
                                         .frame(width: size.size.width)
-                                        .frame(maxHeight: size.size.height)
                                         .id(i)
                                 }
                             }
