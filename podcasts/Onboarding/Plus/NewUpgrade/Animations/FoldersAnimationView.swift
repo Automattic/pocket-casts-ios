@@ -95,9 +95,9 @@ fileprivate struct FolderPodcastAnimation: View {
 struct FoldersAnimationView: View {
 
     fileprivate let folders: [FolderPodcastAnimationInfo] = { [
-        .init(name: "BooksBooks", image1: "login-cover-2", image2: "login-cover-10", image3: "login-cover-5", image4: "login-cover-6", color: Color(hex: "#9BA2FF")),
+        .init(name: "Books", image1: "login-cover-2", image2: "login-cover-10", image3: "login-cover-5", image4: "login-cover-6", color: Color(hex: "#9BA2FF")),
         .init(name: "Favorites", image1: "login-cover-9", image2: "login-cover-4", image3: "login-cover-7", image4: "login-cover-8", color: Color(hex: "#1AB8FF")),
-        .init(name: "GamesGames", image1: "login-cover-3", image2: "login-cover-2", image3: "login-cover-9", image4: "login-cover-5", color: Color(hex: "#32D9A9")),
+        .init(name: "Games", image1: "login-cover-3", image2: "login-cover-2", image3: "login-cover-9", image4: "login-cover-5", color: Color(hex: "#32D9A9")),
     ] }()
 
     @EnvironmentObject var theme: Theme
