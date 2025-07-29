@@ -5286,3 +5286,6 @@
 /* Subscription Plan title for custom upgrade screen for the shuffle upnext feature */
 "subscription_feature_custom_title_shuffle_upnext" = "Shuffle: The joy of not choosing";
 
+/* Subscription Plan title for custom upgrade screen for the bookmarks feature */
+"subscription_feature_custom_title_bookmarks" = "Bookmarks: no more “where was that?”";
+

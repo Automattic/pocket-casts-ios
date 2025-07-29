@@ -248,6 +248,8 @@ private extension PlusUpgradeViewSource {
                 return .contextual
             case .upNextShuffle:
                 return .contextual
+            case .bookmarksLocked, .bookmarksShelfAction:
+                return .contextual
             default:
                 return .generic
         }
@@ -259,6 +261,8 @@ private extension PlusUpgradeViewSource {
                 return L10n.subscriptionFeatureCustomTitlePreSelectedChapters
             case .upNextShuffle:
                 return L10n.subscriptionFeatureCustomTitleShuffleUpnext
+            case .bookmarksLocked, .bookmarksShelfAction:
+                return L10n.subscriptionFeatureCustomTitleBookmarks
             default:
                 return nil
         }
@@ -271,6 +275,8 @@ private extension PlusUpgradeViewSource {
                 PreSelectChaptersAnimationView()
             case .upNextShuffle:
                 UpNextShuffleAnimationView()
+            case .bookmarksLocked, .bookmarksShelfAction:
+                BookmarksAnimationView()
             default:
                 EmptyView()
         }
