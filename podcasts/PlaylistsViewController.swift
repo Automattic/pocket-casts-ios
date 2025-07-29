@@ -20,10 +20,19 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    var playlists = [EpisodeFilter]()
+    var playlists = [EpisodeFilter]() {
+        didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                DispatchQueue.main.async { [weak self] in
+                    self?.showEmptyStateIfNeeded()
+                }
+            }
+        }
+    }
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
+
     @IBOutlet var footerView: ThemeableView! {
         didSet {
             footerView.style = .primaryUi04
@@ -47,6 +56,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var newFilterTip: UIViewController? = nil
 
     private var firstTimeLoading = true
+    private var emptyStateView: UIView?
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
@@ -59,9 +69,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidLoad()
 
         if FeatureFlag.playlistsRebranding.enabled {
+            addEmptyStateView()
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+            self.emptyStateView?.removeFromSuperview()
+            self.emptyStateView = nil
         }
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
@@ -100,6 +113,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewWillAppear(animated)
         reloadFilters()
         setupInformationalBanner()
+        removeEptyStateViewIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -153,6 +167,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         updateNavTintColors()
         newFilterButton.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
+        if FeatureFlag.playlistsRebranding.enabled {
+            view.backgroundColor = ThemeColor.primaryUi01()
+        }
     }
 
     private func updateNavTintColors() {
@@ -213,6 +230,45 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             )
         )
         present(vc, animated: true)
+    }
+
+    private func addEmptyStateView() {
+        let emptyState = EmptyStateView(
+            title: "Organize episodes your way",
+            message: "Playlists let you organize episodes manually or automatically with Smart Rules.",
+            icon: { Image("filter_list") },
+            actions: [
+                .init(
+                    title: "New Playlist",
+                    action: { [weak self] in
+                        self?.addNewFilter()
+                    })
+            ],
+            style: .defaultStyle).themedUIView
+        emptyState.translatesAutoresizingMaskIntoConstraints = false
+        emptyState.isHidden = true
+        view.insertSubview(emptyState, belowSubview: filtersTable)
+        NSLayoutConstraint.activate([
+            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyState.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyState.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyState.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        self.emptyStateView = emptyState
+    }
+
+    func removeEptyStateViewIfNeeded() {
+        if FeatureFlag.playlistsRebranding.enabled ||
+            emptyStateView == nil {
+            return
+        }
+        emptyStateView?.removeFromSuperview()
+        emptyStateView = nil
+    }
+
+    private func showEmptyStateIfNeeded() {
+        filtersTable.isHidden = playlists.isEmpty
+        emptyStateView?.isHidden = !playlists.isEmpty
     }
 
     // MARK: - FilterCreationDelegate

@@ -5270,6 +5270,12 @@
 
 "playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
 
+"playlists_empty_state_title" = "";
+
+"playlists_empty_state_description" = "";
+
+"playlists_empty_state_button" = "";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
