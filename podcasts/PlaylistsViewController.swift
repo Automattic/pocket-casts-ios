@@ -264,11 +264,14 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
         emptyStateView?.removeFromSuperview()
         emptyStateView = nil
+        customRightBtn?.isHidden = false
+        filtersTable.isHidden = false
     }
 
     private func showEmptyStateIfNeeded() {
         filtersTable.isHidden = playlists.isEmpty
         emptyStateView?.isHidden = !playlists.isEmpty
+        customRightBtn?.isHidden = playlists.isEmpty
     }
 
     // MARK: - FilterCreationDelegate
