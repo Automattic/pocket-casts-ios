@@ -29,7 +29,6 @@ fileprivate struct FolderPodcastImage: View {
 fileprivate struct FolderPodcastAnimation: View {
 
     let folder: FolderPodcastAnimationInfo
-    let index: Int
 
     @EnvironmentObject var theme: Theme
 
@@ -83,14 +82,14 @@ fileprivate struct FolderPodcastAnimation: View {
         )
         .cornerRadius(30 * animationProgress)
         .onAppear {
-            animate(Double(index))
+            animate()
         }
         .opacity(folder.focus ? 1 : unFocusOpacity)
         .scaleEffect(folder.focus ? 1 : scale, anchor: folder.scalePoint)
         .offset(x: 0, y: folder.focus ? 0 : offset)
     }
 
-    private func animate(_ index: Double) {
+    private func animate() {
         animationProgress = 0
         unFocusOpacity = 1
         size = Self.originalSize
@@ -132,7 +131,7 @@ struct FoldersAnimationView: View {
                 Spacer()
                 HStack(spacing: (animationProgress * 10) + 5) {
                     ForEach(Array(zip(folders.indices, folders)), id: \.0) { (index, folder) in
-                        FolderPodcastAnimation(folder: folder, index: index)
+                        FolderPodcastAnimation(folder: folder)
                     }
                 }
                 .frame(width: geometry.size.width)
@@ -157,7 +156,7 @@ struct FoldersAnimationView: View {
     HStack {
         Spacer()
         VStack(alignment: .leading) {
-            Spacer()            
+            Spacer()
             FoldersAnimationView().setupDefaultEnvironment()
             Spacer()
         }
