@@ -60,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.shouldShowPodcastFeeReloadTip = false
                 Settings.shouldShowPodcastViewChangesTip = false
                 Settings.shouldShowRecentlyPlayedSortingTip = false
+                Settings.shouldShowPlaylistsOnboarding = false
             case .sameVersion:
                 break
             }

@@ -2251,6 +2251,14 @@ internal enum L10n {
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
   /// A common string used throughout the app. Often refers to the Playlists screen.
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
+  /// Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.
+  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.") }
+  /// Introducing Playlists
+  internal static var playlistsOnboardingManualTitle: String { return L10n.tr("Localizable", "playlists_onboarding_manual_title", fallback: "Introducing Playlists") }
+  /// They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.
+  internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
+  /// Filters are now Smart Playlists
+  internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.

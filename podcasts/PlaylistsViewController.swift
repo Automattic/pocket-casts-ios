@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import SwiftUI
 import PocketCastsUtils
 import UIKit
 
@@ -109,6 +110,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
         showNewFilterTipIfNeeded()
+        showOnboardingScreenIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -195,6 +197,20 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self?.filtersTable.tableHeaderView = nil
             }
         }
+    }
+
+    private func showOnboardingScreenIfNeeded() {
+        let appInstallStateUpdated = (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .updated
+        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && FeatureFlag.playlistsRebranding.enabled
+        guard shouldDisplayOnboarding else { return }
+        let vc = ThemedHostingController(
+            rootView: PlaylistsOnboardingView(
+                onClose: { [weak self] in
+                    self?.dismiss(animated: true)
+                }
+            )
+        )
+        present(vc, animated: true)
     }
 
     // MARK: - FilterCreationDelegate

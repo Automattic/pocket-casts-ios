@@ -5262,6 +5262,14 @@
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
 
+"playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
+
+"playlists_onboarding_smart_description" = "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.";
+
+"playlists_onboarding_manual_title" = "Introducing Playlists";
+
+"playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
