@@ -157,7 +157,7 @@ extension PlaylistsViewController {
     }
 
     private func smartPlaylistsTip() -> UIHostingController<AnyView>? {
-        guard let indexPath = filtersTable.indexPathsForVisibleRows?.last else { return nil }
+        guard let indexPath = filtersTable.indexPathsForVisibleRows?.last, !playlists.isEmpty else { return nil }
         return tip(
             title: L10n.smartPlaylistsTipViewTitle,
             message: L10n.smartPlaylistsTipViewDescription,
