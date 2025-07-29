@@ -95,6 +95,7 @@ struct UpgradeAccountView: View {
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand = true
+                                model.track(.plusPromotionDetailsTapped)
                                 withAnimation {
                                     proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                                 }
