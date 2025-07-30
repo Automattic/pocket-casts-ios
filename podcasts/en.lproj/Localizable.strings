@@ -5319,3 +5319,6 @@
 /* Subscription Plan title for custom upgrade screen for the bookmarks feature */
 "subscription_feature_custom_title_bookmarks" = "Bookmarks: no more “where was that?”";
 
+/* Subscription Plan title for custom upgrade screen for the folders feature */
+"subscription_feature_custom_title_folders" = "Folders: your podcasts, perfectly placed";
+

@@ -3689,6 +3689,8 @@ internal enum L10n {
   }
   /// Subscription Plan title for custom upgrade screen for the bookmarks feature
   internal static var subscriptionFeatureCustomTitleBookmarks: String { return L10n.tr("Localizable", "subscription_feature_custom_title_bookmarks", fallback: "Bookmarks: no more “where was that?”") }
+  /// Subscription Plan title for custom upgrade screen for the folders feature
+  internal static var subscriptionFeatureCustomTitleFolders: String { return L10n.tr("Localizable", "subscription_feature_custom_title_folders", fallback: "Folders: your podcasts, perfectly placed") }
   /// Subscription Plan title for custom upgrade screen for the preselected chapters feature
   internal static var subscriptionFeatureCustomTitlePreSelectedChapters: String { return L10n.tr("Localizable", "subscription_feature_custom_title_pre_selected_chapters", fallback: "Preselect Chapters: cut to the good stuff") }
   /// Subscription Plan title for custom upgrade screen for the shuffle upnext feature

@@ -2058,6 +2058,7 @@
 		FF5453EF2DFC6C890045977B /* DiscoveryPageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5453EE2DFC6C890045977B /* DiscoveryPageIndicatorView.swift */; };
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
+		FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
 		FF68E8BA2DF338A800114FC7 /* HorizontalCollectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */; };
@@ -4136,6 +4137,7 @@
 		FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormat.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoldersAnimationView.swift; sourceTree = "<group>"; };
 		FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceNavigationView.swift; sourceTree = "<group>"; };
 		FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsApp.swift; sourceTree = "<group>"; };
 		FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionList.swift; sourceTree = "<group>"; };
@@ -8695,6 +8697,7 @@
 			children = (
 				FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */,
 				FF21C18C2E33D13600DFA3FC /* BookmarksAnimationView.swift */,
+				FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */,
 				FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */,
 			);
 			path = Animations;
@@ -10751,6 +10754,7 @@
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
 				C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */,
 				102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */,
+				FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
 				BDF7BDD21CA2248E0045AB6D /* StatsTopCell.swift in Sources */,
 				BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */,

@@ -25,6 +25,7 @@ struct UpgradeAccountView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
+                .padding(.horizontal, 24)
             Spacer().frame(height: 8)
             scrollableContent
                 .overlay(alignment: .top) {
@@ -34,8 +35,8 @@ struct UpgradeAccountView: View {
                     gradient(height: Constants.gradientHeight, up: false)
                 }
             UpgradeProductsView(model: model)
+                .padding(.horizontal, 24)
         }
-        .padding(.horizontal, 24)
         .padding(.top, 16)
         .background(theme.primaryUi01)
         .onAppear() {
@@ -160,6 +161,7 @@ struct UpgradeAccountView: View {
                         }
                     }
                     .padding(.vertical, Constants.gradientHeight)
+                    .padding(.horizontal, 24)
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
