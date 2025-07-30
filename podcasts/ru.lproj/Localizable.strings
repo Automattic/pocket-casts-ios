@@ -1074,6 +1074,26 @@ Pocket Casts на полную мощность.</string>
     <string>Экспорт базы данных…</string>
     <key>failed_recommendations</key>
     <string>Не удалось загрузить рекомендации</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Все функции Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Сохраняйте отметки времени в закладках</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ облачного хранилища для ваших файлов</string>
+    <key>feature_marketing_early_access</key>
+    <string>Ранний доступ к новым возможностям</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Дополнительные темы и значки приложений</string>
+    <key>feature_marketing_folders</key>
+    <string>Наведите порядок в подкастах, разложив их по папкам</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Экономьте время, пользуясь функцией «Предварительный выбор глав»</string>
+    <key>feature_marketing_slumber</key>
+    <string>Контент от Slumber Studios на 1 год</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Прослушивайте подкасты в случайном порядке</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Приложения для Wear OS и Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Завершить ознакомительный тур</string>
     <key>feature_tour_new</key>
@@ -1955,6 +1975,8 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка воспроизведения</string>
     <key>player_user_episode_upload_error</key>
     <string>Ошибка загрузки</string>
+    <key>playlists</key>
+    <string>Плейлисты</string>
     <key>please_try_again</key>
     <string>Попробуйте еще раз</string>
     <key>please_try_again_later</key>
@@ -2380,6 +2402,8 @@ Pocket Casts на полную мощность.</string>
     <string>Отмечайте понравившиеся выпуски и возвращайтесь к ним, когда захотите.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Сохраняйте то, что вам понравилось</string>
+    <key>purchase_terms</key>
+    <string>Продолжая, вы принимаете %1$@ и %2$@.</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3209,6 +3233,16 @@ Pocket Casts на полную мощность.</string>
     <string>Срок действия истекает %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ за %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Все преимущества Plus</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Что такое бесплатный пробный период?</string>
+    <key>subscription_plan_month</key>
+    <string>Тарифный план с помесячной оплатой</string>
+    <key>subscription_plan_savings</key>
+    <string>Сэкономьте %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>Годовой тарифный план</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3341,6 +3375,16 @@ Pocket Casts на полную мощность.</string>
     <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
+    <key>upgrade_account_info</key>
+    <string>Пользуйтесь всеми платными функциями: папками, закладками, воспроизведением в случайном порядке и др.</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Плата будет списана %1$@. Можно отменить в любой момент до этой даты.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Пользуйтесь папками и закладками, прослушивайте подкасты в случайном порядке, в том числе эксклюзивный контент</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>Мы уведомим вас об окончании пробного периода.</string>
+    <key>upgrade_account_title</key>
+    <string>Новый уровень подкастинга</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>Скидка 50%% на первый год</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3395,6 +3439,14 @@ Pocket Casts на полную мощность.</string>
     <string>От длинных к коротким</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>От коротких к длинным</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Пожалуй, нет</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Здравствуйте! Мы хотели бы знать, нравится ли вам наше приложение.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Вам нравится Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Да!</string>
     <key>view_transcript</key>
     <string>Просмотреть расшифровку</string>
     <key>volume_boost</key>

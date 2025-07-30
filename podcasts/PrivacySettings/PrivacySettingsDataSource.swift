@@ -27,7 +27,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = "First-party analytics"
+            cell.cellLabel.text = L10n.settingsFirstPartyAnalytics
             cell.cellSwitch.isOn = !Settings.analyticsOptOut()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
@@ -37,13 +37,13 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.style = .primaryUi02
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
-            cell.textLabel?.text = "Allow us to collect analytics."
+            cell.textLabel?.text = L10n.settingsAllowCollectionFirstParty
             cell.textLabel?.font = .systemFont(ofSize: 16)
             cell.textLabel?.numberOfLines = 0
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = "Third-party analytics"
+            cell.cellLabel.text = L10n.settingsThirdPartyAnalytics
             cell.cellSwitch.isOn = AppTrackingTransparencyController.shared.userGaveConsent()
             cell.cellSwitch.isEnabled = AppTrackingTransparencyController.shared.userSawPrompt()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
@@ -54,7 +54,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.style = .primaryUi02
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
-            cell.textLabel?.text = "Allow us to use trusted third-party services to collect anonymous data."
+            cell.textLabel?.text = L10n.settingsAllowCollectionThirdParty
             cell.textLabel?.font = .systemFont(ofSize: 16)
             cell.textLabel?.numberOfLines = 0
             return cell

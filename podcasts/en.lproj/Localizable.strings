@@ -2734,8 +2734,20 @@
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
 "settings_collect_information" = "Collect information";
 
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_first_party_analytics" = "First-party analytics";
+
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_third_party_analytics" = "Third-party analytics";
+
 /* Additional information about how the information collected is and how it's used */
 "settings_collect_information_additional_information" = "Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.";
+
+/* Label displayed below the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_allow_collection_first_party" = "Allow us to collect analytics.";
+
+/* Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking */
+"settings_allow_collection_third_party" = "Allow us to use trusted third-party services to collect anonymous data.";
 
 /* Label for an input that takes the user to the privacy policy */
 "settings_read_privacy_policy" = "Read privacy policy";

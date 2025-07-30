@@ -3013,6 +3013,10 @@ internal enum L10n {
   internal static var settings: String { return L10n.tr("Localizable", "settings", fallback: "Settings") }
   /// A common string used throughout the app. Refers to the About settings menu
   internal static var settingsAbout: String { return L10n.tr("Localizable", "settings_about", fallback: "About") }
+  /// Label displayed below the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsAllowCollectionFirstParty: String { return L10n.tr("Localizable", "settings_allow_collection_first_party", fallback: "Allow us to collect analytics.") }
+  /// Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking
+  internal static var settingsAllowCollectionThirdParty: String { return L10n.tr("Localizable", "settings_allow_collection_third_party", fallback: "Allow us to use trusted third-party services to collect anonymous data.") }
   /// A common string used throughout the app. Refers to the Appearance settings menu.
   internal static var settingsAppearance: String { return L10n.tr("Localizable", "settings_appearance", fallback: "Appearance") }
   /// Provides a prompt for the user to configure the settings related to Inactive Episodes. Used in places like configuring Auto Archive settings.
@@ -3175,6 +3179,8 @@ internal enum L10n {
   internal static var settingsFilesDeleteCloudFile: String { return L10n.tr("Localizable", "settings_files_delete_cloud_file", fallback: "Delete Cloud File") }
   /// Prompt for the toggle to enable the option to delete the local file after playing.
   internal static var settingsFilesDeleteLocalFile: String { return L10n.tr("Localizable", "settings_files_delete_local_file", fallback: "Delete Local File") }
+  /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsFirstPartyAnalytics: String { return L10n.tr("Localizable", "settings_first_party_analytics", fallback: "First-party analytics") }
   /// A common string used throughout the app. Reference to the General settings menu.
   internal static var settingsGeneral: String { return L10n.tr("Localizable", "settings_general", fallback: "General") }
   /// Confirmation to apply a setting change to all podcasts.
@@ -3373,6 +3379,8 @@ internal enum L10n {
   internal static var settingsStorageMobileData: String { return L10n.tr("Localizable", "settings_storage_mobile_data", fallback: "MOBILE DATA") }
   /// Section header for information about storage space used.
   internal static var settingsStorageUsage: String { return L10n.tr("Localizable", "settings_storage_usage", fallback: "USAGE") }
+  /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsThirdPartyAnalytics: String { return L10n.tr("Localizable", "settings_third_party_analytics", fallback: "Third-party analytics") }
   /// Title for the settings screen
   internal static var settingsTitle: String { return L10n.tr("Localizable", "settings_title", fallback: "Podcast Settings") }
   /// Provides a prompt for the user to configure the sensitivity associated to the auto trimming silence setting.

@@ -1072,6 +1072,26 @@ waar je naar hebt geluisterd was
     <string>Database exporteren ...</string>
     <key>failed_recommendations</key>
     <string>Aanbevelingen konden niet worden geladen</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Alle functies van Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Tijdstempels bewaren met bladwijzers</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ cloudopslag voor je bestanden</string>
+    <key>feature_marketing_early_access</key>
+    <string>Vroegtijdige toegang tot nieuwe functies</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Extra thema's en app-pictogrammen</string>
+    <key>feature_marketing_folders</key>
+    <string>Ruim je collectie op met mappen</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Bespaar tijd met voorselectie van hoofdstukken</string>
+    <key>feature_marketing_slumber</key>
+    <string>1 jaar lang content van Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Shuffle je wachtrij</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Apps voor Wear OS en Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Einde rondleiding</string>
     <key>feature_tour_new</key>
@@ -1953,6 +1973,8 @@ UPDATES</string>
     <string>Afspeelfout</string>
     <key>player_user_episode_upload_error</key>
     <string>Uploadfout</string>
+    <key>playlists</key>
+    <string>Afspeellijsten</string>
     <key>please_try_again</key>
     <string>Probeer het nog eens</string>
     <key>please_try_again_later</key>
@@ -3207,6 +3229,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Verloopt over %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Bekijk alle functies van Plus</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Hoe werkt de gratis proefversie?</string>
+    <key>subscription_plan_month</key>
+    <string>Maandabonnement</string>
+    <key>subscription_plan_savings</key>
+    <string>Bespaar %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>Jaarbonnement</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3339,6 +3371,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
+    <key>upgrade_account_info</key>
+    <string>Ontgrendel alle betaalde functies zoals mappen, shuffle, bladwijzers en nog veel meer</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Je wordt op %1$@ gefactureerd. Zeg je abonnement op ieder moment voor deze datum op.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Krijg toegang tot mappen, shuffle, bladwijzers en exclusieve content</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>We laten je weten wanneer je proefabonnement afloopt.</string>
+    <key>upgrade_account_title</key>
+    <string>Superkrachten voor je podcasts</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>50%% korting op je eerste jaar.</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3393,6 +3435,14 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Langste naar kortste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortste naar langste</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Niet echt</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Hallo! We willen graag weten of je onze app leuk vindt.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Vind je Pocket Casts leuk?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Ja!</string>
     <key>view_transcript</key>
     <string>Transcriptie bekijken</string>
     <key>volume_boost</key>
