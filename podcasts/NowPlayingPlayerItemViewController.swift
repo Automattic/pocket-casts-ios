@@ -520,7 +520,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.url)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(8)
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(EdgeInsets(top: 16, leading: 16, bottom: 24, trailing: 16))
         let hostingController = PCHostingController(rootView: AnyView(adView))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
