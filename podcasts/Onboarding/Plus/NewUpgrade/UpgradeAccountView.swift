@@ -87,7 +87,7 @@ struct UpgradeAccountView: View {
                 case .generic:
                     VStack(alignment: .leading) {
                         Spacer().frame(height: 24)
-                        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                        if model.shouldShowVariation {
                             UpgradeTimelineView(events: model.timelineEvents)
                         } else {
                             UpgradeFeaturesView(features: model.features)
@@ -95,11 +95,12 @@ struct UpgradeAccountView: View {
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand = true
+                                model.track(.plusPromotionDetailsTapped)
                                 withAnimation {
                                     proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                                 }
                             } label: {
-                                Text(FeatureFlag.newOnboardingVariant.enabled ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
+                                Text(model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
                                     .font(size: 15, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryInteractive01)
                             }
@@ -130,7 +131,7 @@ struct UpgradeAccountView: View {
     var pageTwo: some View {
         switch model.style {
             case .generic:
-                if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                if model.shouldShowVariation {
                     UpgradeFeaturesView(features: model.features)
                 } else {
                     UpgradeTimelineView(events: model.timelineEvents)
