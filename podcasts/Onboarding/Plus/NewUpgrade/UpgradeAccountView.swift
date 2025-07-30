@@ -18,11 +18,21 @@ struct UpgradeAccountView: View {
         case secondPage
     }
 
+    enum Constants {
+        static let gradientHeight: CGFloat = 24
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
-            Spacer().frame(height: 24)
+            Spacer().frame(height: 8)
             scrollableContent
+                .overlay(alignment: .top) {
+                    gradient(height: Constants.gradientHeight, up: true)
+                }
+                .overlay(alignment: .bottom) {
+                    gradient(height: Constants.gradientHeight, up: false)
+                }
             UpgradeProductsView(model: model)
         }
         .padding(.horizontal, 24)
@@ -56,34 +66,31 @@ struct UpgradeAccountView: View {
         }
     }
 
-    @ViewBuilder
-    var pageOne: some View {
-        VStack(spacing: 0) {
-            if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-                UpgradeTimelineView(events: model.timelineEvents)
-            } else {
-                UpgradeFeaturesView(features: model.features)
+    var contextualAnimation: some View {
+        HStack {
+            Spacer()
+            VStack {
+                Spacer()
+                model.customAnimation
+                Spacer()
             }
+            Spacer()
         }
     }
 
     @ViewBuilder
-    var pageTwo: some View {
-        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
-            UpgradeFeaturesView(features: model.features)
-        } else {
-            UpgradeTimelineView(events: model.timelineEvents)
-        }
-    }
-
-    var scrollableContent: some View {
-        GeometryReader() { sizeProxy in
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        title.id(ScrollPosition.firstPage)
+    func pageOne(proxy: ScrollViewProxy) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            title.id(ScrollPosition.firstPage)
+            switch model.style {
+                case .generic:
+                    VStack(alignment: .leading) {
                         Spacer().frame(height: 24)
-                        pageOne
+                        if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                            UpgradeTimelineView(events: model.timelineEvents)
+                        } else {
+                            UpgradeFeaturesView(features: model.features)
+                        }
                         if model.isFreeTrialAvailable {
                             Button {
                                 expand = true
@@ -97,25 +104,65 @@ struct UpgradeAccountView: View {
                             }
                             .padding(.vertical, 24)
                         }
-                        if expand, model.isFreeTrialAvailable {
-                            VStack {
-                                pageTwo
-                                Spacer()
+                    }
+                case .contextual:
+                    VStack(alignment: .leading) {
+                        Button {
+                            expand = true
+                            withAnimation {
+                                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                             }
-                            .id(ScrollPosition.secondPage)
-                            .frame(minHeight: sizeProxy.size.height)
+                        } label: {
+                            Text(L10n.subscriptionPlanFeaturesInfoLink)
+                                .font(size: 15, style: .subheadline, weight: .medium)
+                                .foregroundColor(theme.primaryInteractive01)
+                        }
+                        .padding(.vertical, 10)
+                        contextualAnimation
+                    }
+            }
+
+        }
+    }
+
+    @ViewBuilder
+    var pageTwo: some View {
+        switch model.style {
+            case .generic:
+                if FeatureFlag.newOnboardingVariant.enabled, model.isFreeTrialAvailable {
+                    UpgradeFeaturesView(features: model.features)
+                } else {
+                    UpgradeTimelineView(events: model.timelineEvents)
+                }
+            case .contextual:
+                UpgradeFeaturesView(features: model.features)
+        }
+    }
+
+    var scrollableContent: some View {
+        GeometryReader() { sizeProxy in
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        pageOne(proxy: proxy)
+                            .frame(height: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
+                        if expand, model.isFreeTrialAvailable || model.style == .contextual {
+                            VStack {
+                                Spacer().frame(height: 76)
+                                pageTwo
+                                    .id(ScrollPosition.secondPage)
+                                Spacer().frame(height: 62)
+                            }
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
                                 .frame(height: 8)
                         }
                     }
+                    .padding(.vertical, Constants.gradientHeight)
                 }
                 .scrollIndicators(.visible)
                 .withScrollFlashIndicator(trigger: flash)
-                .overlay(alignment: .bottom, content: {
-                    gradientSpacer
-                })
                 .onChange(of: model.selectedProduct) { _ in
                     if !model.isFreeTrialAvailable {
                         withAnimation {
@@ -138,14 +185,13 @@ struct UpgradeAccountView: View {
         }
     }
 
-    var gradientSpacer: some View {
-        HStack() {
-            Spacer()
-        }
-        .frame(height: 40)
-        .background(LinearGradient(colors: [
-            theme.primaryUi01.opacity(0),
-            theme.primaryUi01.opacity(1)
+    @ViewBuilder
+    func gradient(height: CGFloat = 16, up: Bool ) -> some View {
+        Rectangle()
+        .frame(height: height)
+        .foregroundStyle(LinearGradient(colors: [
+            theme.primaryUi01.opacity(up ? 1 : 0),
+            theme.primaryUi01.opacity(up ? 0 : 1)
         ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
         .allowsHitTesting(false)
     }

@@ -8,7 +8,7 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = 128.KB
+    public static var downloadBufferLimit: Int = 16.KB
 
     /// How much data is allowed to be read in memory at a time.
     public static var readDataLimit: Int = 10.MB
@@ -177,7 +177,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             configuration.timeoutIntervalForResource = 3600 // seconds
             configuration.waitsForConnectivity = true
             configuration.multipathServiceType = .handover // allows switching between celular/wifi
-            configuration.httpMaximumConnectionsPerHost = 1
         }
 
         var urlRequest = URLRequest(url: url)
@@ -191,7 +190,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-        session?.dataTask(with: urlRequest).resume()
+        if let task = session?.dataTask(with: urlRequest) {
+            task.priority = URLSessionTask.highPriority
+            task.resume()
+        }
     }
 
     func invalidateAndCancelSession(shouldResetData: Bool = true, error: Error? = nil) {

@@ -340,6 +340,19 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Show Playlists Onboarding") {
+                    showing = true
+                }
+                .sheet(isPresented: $showing) {
+                    PlaylistsOnboardingView(onClose: {
+                        showing = false
+                    })
+                }
+            } header: {
+                Text("Playlists")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")

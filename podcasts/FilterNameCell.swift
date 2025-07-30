@@ -1,6 +1,8 @@
 import UIKit
 
 class FilterNameCell: ThemeableCell {
+    static let cellHeight = 72.0
+
     @IBOutlet var filterImage: UIImageView!
     @IBOutlet var filterName: ThemeableLabel!
     @IBOutlet var episodeCount: UILabel!

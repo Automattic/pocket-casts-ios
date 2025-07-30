@@ -944,6 +944,12 @@ internal enum L10n {
   internal static var eacInformationalBannerListeningHistoryIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_icon_accessibility", fallback: "Listening History Icon") }
   /// Encourage Account Creation: title for the banner in the listening history
   internal static var eacInformationalBannerListeningHistoryTitle: String { return L10n.tr("Localizable", "eac_informational_banner_listening_history_title", fallback: "Keep track of what you’ve played") }
+  /// Encourage Account Creation: description for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsDescription: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_description", fallback: "Create a free account to sync your playlists on any device.") }
+  /// Encourage Account Creation: accessibility label for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsIconAccessibility: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_icon_accessibility", fallback: "Playlists Icon") }
+  /// Encourage Account Creation: title for the banner in the playlists view
+  internal static var eacInformationalBannerPlaylistsTitle: String { return L10n.tr("Localizable", "eac_informational_banner_playlists_title", fallback: "Keep your playlists in sync") }
   /// Encourage Account Creation: description for the banner in the profile view
   internal static var eacInformationalBannerProfileDescription: String { return L10n.tr("Localizable", "eac_informational_banner_profile_description", fallback: "Create a free account to sync your shows and listen anywhere.") }
   /// Encourage Account Creation: accessibility label for the banner in the profile view
@@ -1897,7 +1903,7 @@ internal enum L10n {
   /// Settings to control sending of pocket casts offers notifications
   internal static var notificationsPocketCastOffers: String { return L10n.tr("Localizable", "notifications_pocket_cast_offers", fallback: "Pocket Casts Offers") }
   /// Notification body for recommendations trending message
-  internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body", fallback: "Check out what everyone else is listening this week.") }
+  internal static var notificationsRecommendationsTrendingBody: String { return L10n.tr("Localizable", "notifications_recommendations_trending_body", fallback: "Check out what everyone else is listening to this week.") }
   /// Notification title for recommendations trending message
   internal static var notificationsRecommendationsTrendingTitle: String { return L10n.tr("Localizable", "notifications_recommendations_trending_title", fallback: "Trending this week") }
   /// Notification body for recommendations you might like message
@@ -2245,6 +2251,14 @@ internal enum L10n {
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
   /// A common string used throughout the app. Often refers to the Playlists screen.
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
+  /// Playlists Onboarding screen: description for the manual playlist card
+  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.") }
+  /// Playlists Onboarding screen: title for the manual playlist card
+  internal static var playlistsOnboardingManualTitle: String { return L10n.tr("Localizable", "playlists_onboarding_manual_title", fallback: "Introducing Playlists") }
+  /// Playlists Onboarding screen: description for the smart playlist card
+  internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
+  /// Playlists Onboarding screen: title for the smart playlist card
+  internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.
@@ -3571,6 +3585,10 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1), fallback: "Sleep Timer on, %1$@ remaining")
   }
+  /// The description shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewDescription: String { return L10n.tr("Localizable", "smart_playlists_tip_view_description", fallback: "We made these to help you get started. They auto-update based on your listening.") }
+  /// The title shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewTitle: String { return L10n.tr("Localizable", "smart_playlists_tip_view_title", fallback: "Smart Playlists, ready to go") }
   /// Label of a button that lets the user login/signup with Apple
   internal static var socialSignInContinueWithApple: String { return L10n.tr("Localizable", "social_sign_in_continue_with_apple", fallback: "Continue with Apple") }
   /// Label of a button that lets the user login/signup with Google
@@ -3669,6 +3687,12 @@ internal enum L10n {
   internal static func subscriptionExpiresIn(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1), fallback: "Expires in %1$@")
   }
+  /// Subscription Plan title for custom upgrade screen for the bookmarks feature
+  internal static var subscriptionFeatureCustomTitleBookmarks: String { return L10n.tr("Localizable", "subscription_feature_custom_title_bookmarks", fallback: "Bookmarks: no more “where was that?”") }
+  /// Subscription Plan title for custom upgrade screen for the preselected chapters feature
+  internal static var subscriptionFeatureCustomTitlePreSelectedChapters: String { return L10n.tr("Localizable", "subscription_feature_custom_title_pre_selected_chapters", fallback: "Preselect Chapters: cut to the good stuff") }
+  /// Subscription Plan title for custom upgrade screen for the shuffle upnext feature
+  internal static var subscriptionFeatureCustomTitleShuffleUpnext: String { return L10n.tr("Localizable", "subscription_feature_custom_title_shuffle_upnext", fallback: "Shuffle: The joy of not choosing") }
   /// Subscription pricing format, %1$@ is the price, %2$@ is the subscription period
   internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2), fallback: "%1$@ per %2$@")

@@ -26,7 +26,7 @@ class EpisodeArtwork {
         }
 
         if let assetEpisodeArtwork = loadEpisodeArtwork(from: asset) {
-            save(assetEpisodeArtwork, for: episodeUuid)
+            imageManager.save(assetEpisodeArtwork, for: episodeUuid)
             return
         }
 
@@ -64,15 +64,9 @@ class EpisodeArtwork {
             let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
             KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
                 if let image = try? result.get().image {
-                    self.save(image, for: episodeUuid)
+                    self.imageManager.save(image, for: episodeUuid)
                 }
             }
-        }
-    }
-
-    private func save(_ image: UIImage, for episodeUuid: String) {
-        imageManager.subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
-            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
 }

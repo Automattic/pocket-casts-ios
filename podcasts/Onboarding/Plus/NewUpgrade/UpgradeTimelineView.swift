@@ -28,13 +28,6 @@ struct UpgradeTimelineView: View {
 
     let events: [TimelineEvent]
 
-    var circle: some View {
-        ZStack {
-            Circle()
-                .fill(theme.primaryInteractive01)
-        }
-    }
-
     private func opacityValueForIndex(_ index: Int) -> Double {
         guard events.isEmpty == false else {
             return 0
@@ -46,7 +39,9 @@ struct UpgradeTimelineView: View {
     func iconRow(iconName: String, index: Int) -> some View {
         ZStack(alignment: .top) {
             ZStack(alignment: .center) {
-                circle
+                Circle()
+                    .inset(by: index == 0 ? 0 : -0.2)
+                    .fill(theme.primaryInteractive01)
                     .opacity(opacityValueForIndex(index))
                     .frame(width: circleSize, height: circleSize)
                 Image(iconName)
@@ -60,10 +55,10 @@ struct UpgradeTimelineView: View {
                     ZStack {
                         Rectangle()
                             .frame(width: timelineBarWidth, height: timelineBarHeight)
-                            .offset(x: 0, y: (timelineBarHeight / 2.0) + (circleSize / 2.0))
+                            .offset(x: 0, y: (timelineBarHeight / 2.0) + (circleSize / 2.0) - (index == 0 ? 1 : 0))
                             .foregroundStyle(LinearGradient(colors: [
                                 theme.primaryInteractive01.opacity(opacityValueForIndex(index)),
-                                theme.primaryInteractive01.opacity(opacityValueForIndex(index+1))
+                                theme.primaryInteractive01.opacity(opacityValueForIndex(index+1)),
                             ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
                     }
                 }
@@ -86,7 +81,7 @@ struct UpgradeTimelineView: View {
                             .foregroundColor(theme.primaryText02)
                             .multilineTextAlignment(.leading)
                     }
-                    .padding(.bottom, index != events.count - 1 ? 32 : 0)
+                    .padding(.bottom, index != events.count - 1 ? 48 : 0)
                     .padding(.horizontal, 14)
                     Spacer()
                 }

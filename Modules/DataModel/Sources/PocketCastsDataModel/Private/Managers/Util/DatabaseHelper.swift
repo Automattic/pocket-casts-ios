@@ -825,6 +825,16 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 58 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN rawPlaylistType INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 58
+            } catch {
+                failedAt(58)
+                return
+            }
+        }
         db.commit()
     }
 }

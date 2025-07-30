@@ -1,15 +1,26 @@
-import PocketCastsDataModel
-import PocketCastsUtils
+import SwiftUI
 import UIKit
+import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
-    @IBOutlet var filtersTable: UITableView! {
+    @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
+            if FeatureFlag.playlistsRebranding.enabled {
+                filtersTable.themeStyle = .primaryUi01
+                filtersTable.dragDelegate = self
+                filtersTable.dropDelegate = self
+            } else {
+                filtersTable.themeStyle = .primaryUi04
+                filtersTable.dragDelegate = nil
+                filtersTable.dropDelegate = nil
+            }
         }
     }
 
-    var episodeFilters = [EpisodeFilter]()
+    var playlists = [EpisodeFilter]()
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
@@ -38,14 +49,21 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let viewModel = InformationalBannerViewModel(bannerType: .filters)
+        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
+        let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
+        let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        if FeatureFlag.playlistsRebranding.enabled {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
+        } else {
+            customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        }
+        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
@@ -58,12 +76,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                     self.navigationController?.pushViewController(playlistViewController, animated: false)
                 }
             }
-
         }
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        setupNewFilterButton()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            setupNewFilterButton()
+        }
         handleThemeChanged()
     }
 
@@ -89,9 +108,10 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        Analytics.track(.filterListShown, properties: ["filter_count": episodeFilters.count])
+        Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
         showNewFilterTipIfNeeded()
+        showOnboardingScreenIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -155,7 +175,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+            playlists = DataManager.sharedManager.allFilters(includeDeleted: false)
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
@@ -178,6 +198,21 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self?.filtersTable.tableHeaderView = nil
             }
         }
+    }
+
+    private func showOnboardingScreenIfNeeded() {
+        let userIsLoggedIn = SyncManager.isUserLoggedIn()
+        let appInstallStateUpdated = (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .updated
+        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && FeatureFlag.playlistsRebranding.enabled && userIsLoggedIn
+        guard shouldDisplayOnboarding else { return }
+        let vc = ThemedHostingController(
+            rootView: PlaylistsOnboardingView(
+                onClose: { [weak self] in
+                    self?.dismiss(animated: true)
+                }
+            )
+        )
+        present(vc, animated: true)
     }
 
     // MARK: - FilterCreationDelegate

@@ -6,6 +6,11 @@ import PocketCastsUtils
 
 class UpgradeAccountViewModel: PlusPurchaseModel {
 
+    enum PresentationStyle {
+        case generic
+        case contextual
+    }
+
     weak var navigationController: UINavigationController? = nil
 
     @Published var upgradeTier: UpgradeTier = .plus
@@ -18,11 +23,14 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
     let flowSource: PlusLandingViewModel.Source
 
-    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source) {
+    let style: PresentationStyle
+
+    init(upgradeTier: UpgradeTier = .plus, selectedProduct: IAPProductID = .yearly, viewSource: PlusUpgradeViewSource = .unknown, flowSource: PlusLandingViewModel.Source, style: PresentationStyle = .generic) {
         self.upgradeTier = upgradeTier
         self.selectedProduct = selectedProduct
         self.viewSource = viewSource
         self.flowSource = flowSource
+        self.style = style
         super.init()
         loadPrices() {
             Task { @MainActor [weak self] in
@@ -160,6 +168,12 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
 
         OnboardingFlow.shared.track(.plusPromotionDismissed)
     }
+
+    // MARK: - custom animation
+
+    var customAnimation: some View {
+        viewSource.customAnimation
+    }
 }
 
 // MARK: - Factory methods
@@ -168,9 +182,9 @@ extension UpgradeAccountViewModel {
     static func make(in parentController: UIViewController? = nil,
                      flowSource: PlusLandingViewModel.Source,
                      viewSource: PlusUpgradeViewSource,
-                     plan: Plan, frequency: PlanFrequency,
-                     customTitle: String? = nil) -> UIViewController {
-        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowSource: flowSource)
+                     plan: Plan, frequency: PlanFrequency) -> UIViewController {
+
+        let viewModel = UpgradeAccountViewModel(upgradeTier: plan.tier, selectedProduct: product(for: plan, frequency: frequency), viewSource: viewSource, flowSource: flowSource, style: viewSource.presentationStyle)
 
         let view = UpgradeAccountView(model: viewModel)
         let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
@@ -178,7 +192,7 @@ extension UpgradeAccountViewModel {
         controller.navBarIsHidden = true
         controller.viewModel = viewModel
 
-        viewModel.customTitle = customTitle
+        viewModel.customTitle = viewSource.customTitle
         viewModel.parentController = parentController
         viewModel.navigationController = parentController as? UINavigationController
 
@@ -222,6 +236,49 @@ extension Plan {
                 return .patron
             case .plus:
                 return .plus
+        }
+    }
+}
+
+private extension PlusUpgradeViewSource {
+
+    var presentationStyle: UpgradeAccountViewModel.PresentationStyle {
+        switch self {
+            case .deselectChapters, .deselectChapterWhatsNew:
+                return .contextual
+            case .upNextShuffle:
+                return .contextual
+            case .bookmarksLocked, .bookmarksShelfAction:
+                return .contextual
+            default:
+                return .generic
+        }
+    }
+
+    var customTitle: String? {
+        switch self {
+            case .deselectChapters, .deselectChapterWhatsNew:
+                return L10n.subscriptionFeatureCustomTitlePreSelectedChapters
+            case .upNextShuffle:
+                return L10n.subscriptionFeatureCustomTitleShuffleUpnext
+            case .bookmarksLocked, .bookmarksShelfAction:
+                return L10n.subscriptionFeatureCustomTitleBookmarks
+            default:
+                return nil
+        }
+    }
+
+    @ViewBuilder
+    var customAnimation: some View {
+        switch self {
+            case .deselectChapters, .deselectChapterWhatsNew:
+                PreSelectChaptersAnimationView()
+            case .upNextShuffle:
+                UpNextShuffleAnimationView()
+            case .bookmarksLocked, .bookmarksShelfAction:
+                BookmarksAnimationView()
+            default:
+                EmptyView()
         }
     }
 }

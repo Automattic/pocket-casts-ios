@@ -5077,6 +5077,9 @@
 /* Encourage Account Creation: title for the banner in the filters view */
 "eac_informational_banner_filters_title" = "Keep your filters in sync";
 
+/* Encourage Account Creation: title for the banner in the playlists view */
+"eac_informational_banner_playlists_title" = "Keep your playlists in sync";
+
 /* Encourage Account Creation: title for the banner in the listening history */
 "eac_informational_banner_listening_history_title" = "Keep track of what you’ve played";
 
@@ -5086,6 +5089,9 @@
 /* Encourage Account Creation: description for the banner in the filters view */
 "eac_informational_banner_filters_description" = "Create a free account to sync your filters on any device.";
 
+/* Encourage Account Creation: description for the banner in the playlists view */
+"eac_informational_banner_playlists_description" = "Create a free account to sync your playlists on any device.";
+
 /* Encourage Account Creation: description for the banner in the listening history */
 "eac_informational_banner_listening_history_description" = "Create a free account to sync your listening history everywhere.";
 
@@ -5094,6 +5100,9 @@
 
 /* Encourage Account Creation: accessibility label for the banner in the filters view */
 "eac_informational_banner_filters_icon_accessibility" = "Filters Icon";
+
+/* Encourage Account Creation: accessibility label for the banner in the playlists view */
+"eac_informational_banner_playlists_icon_accessibility" = "Playlists Icon";
 
 /* Encourage Account Creation: accessibility label for the banner in the profile view */
 "eac_informational_banner_profile_icon_accessibility" = "Profile Icon";
@@ -5120,7 +5129,7 @@
 "notifications_recommendations_trending_title" = "Trending this week";
 
 /* Notification body for recommendations trending message */
-"notifications_recommendations_trending_body" = "Check out what everyone else is listening this week.";
+"notifications_recommendations_trending_body" = "Check out what everyone else is listening to this week.";
 
 /* Notification title for offer upsell message */
 "notifications_offers_upsell_title" = "Level up your podcast game";
@@ -5259,6 +5268,24 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* The title shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
+
+/* The description shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
+
+/* Playlists Onboarding screen: title for the smart playlist card */
+"playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
+
+/* Playlists Onboarding screen: description for the smart playlist card */
+"playlists_onboarding_smart_description" = "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.";
+
+/* Playlists Onboarding screen: title for the manual playlist card */
+"playlists_onboarding_manual_title" = "Introducing Playlists";
+
+/* Playlists Onboarding screen: description for the manual playlist card */
+"playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
@@ -5282,4 +5309,13 @@
 
 /* Subscription Plan text linking to feaures information */
 "subscription_plan_features_info_link" = "See all Plus features";
+
+/* Subscription Plan title for custom upgrade screen for the preselected chapters feature */
+"subscription_feature_custom_title_pre_selected_chapters" = "Preselect Chapters: cut to the good stuff";
+
+/* Subscription Plan title for custom upgrade screen for the shuffle upnext feature */
+"subscription_feature_custom_title_shuffle_upnext" = "Shuffle: The joy of not choosing";
+
+/* Subscription Plan title for custom upgrade screen for the bookmarks feature */
+"subscription_feature_custom_title_bookmarks" = "Bookmarks: no more “where was that?”";
 

@@ -171,7 +171,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
-    private func discoverRequest<T>(
+    func discoverRequest<T>(
         path: String,
         type: T.Type,
         authenticated: Bool?,
