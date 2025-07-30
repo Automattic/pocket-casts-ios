@@ -2251,6 +2251,14 @@ internal enum L10n {
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
   /// A common string used throughout the app. Often refers to the Playlists screen.
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
+  /// Playlists Onboarding screen: description for the manual playlist card
+  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.") }
+  /// Playlists Onboarding screen: title for the manual playlist card
+  internal static var playlistsOnboardingManualTitle: String { return L10n.tr("Localizable", "playlists_onboarding_manual_title", fallback: "Introducing Playlists") }
+  /// Playlists Onboarding screen: description for the smart playlist card
+  internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
+  /// Playlists Onboarding screen: title for the smart playlist card
+  internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.
@@ -3005,6 +3013,10 @@ internal enum L10n {
   internal static var settings: String { return L10n.tr("Localizable", "settings", fallback: "Settings") }
   /// A common string used throughout the app. Refers to the About settings menu
   internal static var settingsAbout: String { return L10n.tr("Localizable", "settings_about", fallback: "About") }
+  /// Label displayed below the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsAllowCollectionFirstParty: String { return L10n.tr("Localizable", "settings_allow_collection_first_party", fallback: "Allow us to collect analytics.") }
+  /// Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking
+  internal static var settingsAllowCollectionThirdParty: String { return L10n.tr("Localizable", "settings_allow_collection_third_party", fallback: "Allow us to use trusted third-party services to collect anonymous data.") }
   /// A common string used throughout the app. Refers to the Appearance settings menu.
   internal static var settingsAppearance: String { return L10n.tr("Localizable", "settings_appearance", fallback: "Appearance") }
   /// Provides a prompt for the user to configure the settings related to Inactive Episodes. Used in places like configuring Auto Archive settings.
@@ -3167,6 +3179,8 @@ internal enum L10n {
   internal static var settingsFilesDeleteCloudFile: String { return L10n.tr("Localizable", "settings_files_delete_cloud_file", fallback: "Delete Cloud File") }
   /// Prompt for the toggle to enable the option to delete the local file after playing.
   internal static var settingsFilesDeleteLocalFile: String { return L10n.tr("Localizable", "settings_files_delete_local_file", fallback: "Delete Local File") }
+  /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsFirstPartyAnalytics: String { return L10n.tr("Localizable", "settings_first_party_analytics", fallback: "First-party analytics") }
   /// A common string used throughout the app. Reference to the General settings menu.
   internal static var settingsGeneral: String { return L10n.tr("Localizable", "settings_general", fallback: "General") }
   /// Confirmation to apply a setting change to all podcasts.
@@ -3365,6 +3379,8 @@ internal enum L10n {
   internal static var settingsStorageMobileData: String { return L10n.tr("Localizable", "settings_storage_mobile_data", fallback: "MOBILE DATA") }
   /// Section header for information about storage space used.
   internal static var settingsStorageUsage: String { return L10n.tr("Localizable", "settings_storage_usage", fallback: "USAGE") }
+  /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
+  internal static var settingsThirdPartyAnalytics: String { return L10n.tr("Localizable", "settings_third_party_analytics", fallback: "Third-party analytics") }
   /// Title for the settings screen
   internal static var settingsTitle: String { return L10n.tr("Localizable", "settings_title", fallback: "Podcast Settings") }
   /// Provides a prompt for the user to configure the sensitivity associated to the auto trimming silence setting.
@@ -3569,6 +3585,10 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1), fallback: "Sleep Timer on, %1$@ remaining")
   }
+  /// The description shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewDescription: String { return L10n.tr("Localizable", "smart_playlists_tip_view_description", fallback: "We made these to help you get started. They auto-update based on your listening.") }
+  /// The title shown in a Tip View when the user hasn't yet added a smart playlist
+  internal static var smartPlaylistsTipViewTitle: String { return L10n.tr("Localizable", "smart_playlists_tip_view_title", fallback: "Smart Playlists, ready to go") }
   /// Label of a button that lets the user login/signup with Apple
   internal static var socialSignInContinueWithApple: String { return L10n.tr("Localizable", "social_sign_in_continue_with_apple", fallback: "Continue with Apple") }
   /// Label of a button that lets the user login/signup with Google

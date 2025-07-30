@@ -1074,6 +1074,26 @@ Pocket Casts。</string>
     <string>正在导出数据库…</string>
     <key>failed_recommendations</key>
     <string>无法加载推荐内容</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Plus 中的所有功能</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>使用书签保留时间戳</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>供您存放文件的 %1$@ 云存储空间</string>
+    <key>feature_marketing_early_access</key>
+    <string>抢先体验新功能</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>更多主题和应用程序图标</string>
+    <key>feature_marketing_folders</key>
+    <string>使用文件夹整理您的收藏</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>通过预选章节功能节省时间</string>
+    <key>feature_marketing_slumber</key>
+    <string>由 Slumber Studios 提供的一年内容</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>随机播放您的队列</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>适用于 Wear OS 和 Apple Watch 的应用程序</string>
     <key>feature_tour_end_tour</key>
     <string>结束浏览</string>
     <key>feature_tour_new</key>
@@ -1955,6 +1975,8 @@ Pocket Casts。</string>
     <string>播放错误</string>
     <key>player_user_episode_upload_error</key>
     <string>上传错误</string>
+    <key>playlists</key>
+    <string>播放列表</string>
     <key>please_try_again</key>
     <string>请重试</string>
     <key>please_try_again_later</key>
@@ -2380,6 +2402,8 @@ Pocket Casts。</string>
     <string>为您喜爱的剧集添加星标，以便随时重温。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>保存您喜爱的剧集</string>
+    <key>purchase_terms</key>
+    <string>继续即表示您同意我们的 %1$@ 和 %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3209,6 +3233,16 @@ Pocket Casts。</string>
     <string>到期日期：%1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ 每 %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>查看所有 Plus 功能</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>免费试用版如何使用？</string>
+    <key>subscription_plan_month</key>
+    <string>月度套餐</string>
+    <key>subscription_plan_savings</key>
+    <string>节省 %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>年度套餐</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3341,6 +3375,16 @@ Pocket Casts。</string>
     <string>随机播放功能已启用。 剧集将按随机顺序播放。</string>
     <key>upgrade_account</key>
     <string>升级账户</string>
+    <key>upgrade_account_info</key>
+    <string>解锁文件夹、随机播放、书签等所有付费功能</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>系统将于 %1$@ 向您收取费用。 您在此之前可以随时取消。</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>获取文件夹、随机播放功能、书签及独家内容的专属访问权限</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>我们会在试用期结束时通知您。</string>
+    <key>upgrade_account_title</key>
+    <string>为您的播客赋予强大功能</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>首年享 50%% 优惠</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3395,6 +3439,14 @@ Pocket Casts。</string>
     <string>最长到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最长</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>不太喜欢</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>您好！ 我们很想知道您是否喜欢我们的应用程序。</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>喜欢 Pocket Casts？</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>是！</string>
     <key>view_transcript</key>
     <string>查看文字转录稿</string>
     <key>volume_boost</key>

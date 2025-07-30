@@ -2734,8 +2734,20 @@
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
 "settings_collect_information" = "Collect information";
 
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_first_party_analytics" = "First-party analytics";
+
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_third_party_analytics" = "Third-party analytics";
+
 /* Additional information about how the information collected is and how it's used */
 "settings_collect_information_additional_information" = "Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.";
+
+/* Label displayed below the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_allow_collection_first_party" = "Allow us to collect analytics.";
+
+/* Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking */
+"settings_allow_collection_third_party" = "Allow us to use trusted third-party services to collect anonymous data.";
 
 /* Label for an input that takes the user to the privacy policy */
 "settings_read_privacy_policy" = "Read privacy policy";
@@ -5255,6 +5267,24 @@
 
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
+
+/* The title shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
+
+/* The description shown in a Tip View when the user hasn't yet added a smart playlist */
+"smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
+
+/* Playlists Onboarding screen: title for the smart playlist card */
+"playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
+
+/* Playlists Onboarding screen: description for the smart playlist card */
+"playlists_onboarding_smart_description" = "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.";
+
+/* Playlists Onboarding screen: title for the manual playlist card */
+"playlists_onboarding_manual_title" = "Introducing Playlists";
+
+/* Playlists Onboarding screen: description for the manual playlist card */
+"playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

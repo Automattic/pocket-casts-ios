@@ -1074,6 +1074,26 @@ que has escuchado dura
     <string>Exportando base de datos...</string>
     <key>failed_recommendations</key>
     <string>No se han podido cargar las recomendaciones</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Todas las funciones de Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Guarda las marcas de tiempo con los marcadores</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ de almacenamiento en la nube para tus archivos</string>
+    <key>feature_marketing_early_access</key>
+    <string>Acceso anticipado a las nuevas funciones</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Temas e iconos de aplicaciones adicionales</string>
+    <key>feature_marketing_folders</key>
+    <string>Ordena tu colección con carpetas</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Ahorra tiempo con la preselección de capítulos</string>
+    <key>feature_marketing_slumber</key>
+    <string>Un año de contenido de Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Reproducir la cola aleatoriamente</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Aplicaciones para Wear OS y Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Finalizar visita</string>
     <key>feature_tour_new</key>
@@ -1955,6 +1975,8 @@ ACTUALIZACIONES</string>
     <string>Error de reproducción</string>
     <key>player_user_episode_upload_error</key>
     <string>Error de subida</string>
+    <key>playlists</key>
+    <string>Listas de reproducción</string>
     <key>please_try_again</key>
     <string>Inténtalo de nuevo.</string>
     <key>please_try_again_later</key>
@@ -2380,6 +2402,8 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Marca como favoritos los episodios que te gusten y vuelve a ellos cuando quieras.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Guarda tus favoritos</string>
+    <key>purchase_terms</key>
+    <string>Al continuar, aceptas nuestra %1$@ y nuestros %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Borrar %1$@ episodios</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3209,6 +3233,16 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Caduca el %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ por %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Ver todas las funciones de Plus</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>¿Cómo funciona la prueba gratuita?</string>
+    <key>subscription_plan_month</key>
+    <string>Plan mensual</string>
+    <key>subscription_plan_savings</key>
+    <string>Ahorra %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>Plan anual</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3341,6 +3375,16 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>La reproducción aleatoria está activada. Los episodios se reproducirán en orden aleatorio.</string>
     <key>upgrade_account</key>
     <string>Mejorar cuenta</string>
+    <key>upgrade_account_info</key>
+    <string>Obtén acceso a todas las funciones de pago, como las carpetas, el modo aleatorio y los marcadores, entre otras</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Se te cobrará el %1$@. Cancela antes de ese día, en cualquier momento.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Accede a las carpetas, a los marcadores, a la función de reproducción aleatoria y al contenido exclusivo</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>Te avisaremos de la finalización del periodo de prueba.</string>
+    <key>upgrade_account_title</key>
+    <string>Tus podcasts, mejor que nunca</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>Ahorra un 50 %% de descuento en tu primer año</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3395,6 +3439,14 @@ Esta aplicación puede ser tan sencilla o difícil de usar como tú quieras. Pue
     <string>De más largos a más cortos</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De más cortos a más largos</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>En realidad no.</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>¡Hola! Nos encantaría saber si estás disfrutando de nuestra aplicación.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>¿Te gusta Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Sí.</string>
     <key>view_transcript</key>
     <string>Ver transcripción</string>
     <key>volume_boost</key>
