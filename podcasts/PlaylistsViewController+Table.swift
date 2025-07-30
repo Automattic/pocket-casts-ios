@@ -120,26 +120,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PlaylistsViewController {
     func showNewFilterTip() {
-        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let idealSize = CGSizeMake(290, 100)
-        let tipView = TipViewStatic(title: L10n.filtersTipViewTitle,
-                                    message: L10n.filtersTipViewDescription,
-                              onTap: { [weak self] in
-            self?.dismissTipView()
-        })
-            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
-            .setupDefaultEnvironment()
-        vc.rootView = AnyView(tipView)
-        vc.view.backgroundColor = .clear
-        vc.view.clipsToBounds = false
-        vc.modalPresentationStyle = .popover
-        vc.sizingOptions = [.preferredContentSize]
-        if let popoverPresentationController = vc.popoverPresentationController {
-            popoverPresentationController.delegate = self
-            popoverPresentationController.permittedArrowDirections = [.up]
-            popoverPresentationController.sourceView = newFilterButton
-            popoverPresentationController.sourceRect = newFilterButton.bounds.offsetBy(dx: 0, dy: 10)
-            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        guard
+            let vc = FeatureFlag.playlistsRebranding.enabled ? smartPlaylistsTip() : filtersTip()
+        else {
+            return
         }
         newFilterTip = vc
         Analytics.track(.filterTooltipShown)
@@ -161,6 +145,56 @@ extension PlaylistsViewController {
             return
         }
         showNewFilterTip()
+    }
+
+    private func filtersTip() -> UIHostingController<AnyView>? {
+        return tip(
+            title: L10n.filtersTipViewTitle,
+            message: L10n.filtersTipViewDescription,
+            sourceView: newFilterButton,
+            sourceRect: newFilterButton.bounds.offsetBy(dx: 0, dy: 10)
+        )
+    }
+
+    private func smartPlaylistsTip() -> UIHostingController<AnyView>? {
+        guard let indexPath = filtersTable.indexPathsForVisibleRows?.last, !playlists.isEmpty else { return nil }
+        return tip(
+            title: L10n.smartPlaylistsTipViewTitle,
+            message: L10n.smartPlaylistsTipViewDescription,
+            sourceView: filtersTable,
+            sourceRect: filtersTable.rectForRow(at: indexPath)
+        )
+    }
+
+    private func tip(
+        idealSize: CGSize = CGSizeMake(290, 100),
+        title: String,
+        message: String,
+        sourceView: UIView?,
+        sourceRect: CGRect
+    ) -> UIHostingController<AnyView>? {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipViewStatic(title: title,
+                                    message: message,
+                              onTap: { [weak self] in
+            self?.dismissTipView()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.sizingOptions = [.preferredContentSize]
+        guard let popoverPresentationController = vc.popoverPresentationController else {
+            return nil
+        }
+        popoverPresentationController.delegate = self
+        popoverPresentationController.permittedArrowDirections = [.up]
+        popoverPresentationController.sourceView = sourceView
+        popoverPresentationController.sourceRect = sourceRect
+        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        return vc
     }
 }
 
