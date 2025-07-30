@@ -55,7 +55,7 @@ struct BannerAdView: View {
 
         static func podcastList(_ theme: Theme) -> Self {
             return Self(
-                background: theme.primaryUi06,
+                background: .clear,
                 adText: theme.primaryText01,
                 titleLabel: theme.primaryInteractive01,
                 adLabelBackground: theme.primaryInteractive01,
