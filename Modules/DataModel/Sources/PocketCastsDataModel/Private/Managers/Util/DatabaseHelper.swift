@@ -14,6 +14,7 @@ class DatabaseHelper {
                 upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
 
                 if newSchemaVersion != startingSchemaVersion {
+                    FileLog.shared.addMessage("Schema update from \(startingSchemaVersion) to \(newSchemaVersion)")
                     try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
                 }
             } catch {
