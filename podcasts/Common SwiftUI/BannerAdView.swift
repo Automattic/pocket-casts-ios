@@ -1,8 +1,9 @@
 import SwiftUI
+import PocketCastsServer
 
 class BannerAdModel: ObservableObject {
     let adText: String
-    let imageURL: URL
+    let imageURL: URL?
     let adLabel: String
     let titleLabel: String
     let adID: String
@@ -16,6 +17,16 @@ class BannerAdModel: ObservableObject {
         self.titleLabel = linkTitle
         self.onLinkTap = onLinkTap
         self.adID = adID
+        self.source = source
+    }
+
+    init(promotion: BlazePromotion, source: String, onLinkTap: (() -> Void)? = nil) {
+        self.adText = promotion.text
+        self.imageURL = promotion.imageURL
+        self.adLabel = L10n.bannerAdsInfoLabel
+        self.titleLabel = promotion.urlTitle
+        self.onLinkTap = onLinkTap
+        self.adID = promotion.id
         self.source = source
     }
 }
@@ -69,51 +80,18 @@ struct BannerAdView: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
-            creative()
-            VStack(alignment: .leading, spacing: 14) {
-                Text(model.adText)
-                    .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
-                    .lineSpacing(-1)
-                    .foregroundColor(colors.adText)
-                    .fixedSize(horizontal: false, vertical: true)
-                HStack(spacing: 4) {
-                    Text(model.adLabel)
-                        .font(size: 8, style: .caption2, weight: .semibold, maxSizeCategory: maxSizeCategory)
-                        .foregroundColor(colors.adLabel)
-                        .padding(.horizontal, 3)
-                        .padding(.vertical, 2)
-                        .background(colors.adLabelBackground)
-                        .cornerRadius(4)
-                    Text(model.titleLabel)
-                        .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
-                        .foregroundColor(colors.titleLabel)
-                }
-            }
-            VStack {
-                Button(action: {
-                    BannerAdReporter.show()
-                }, label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12))
-                        .bold()
-                        .foregroundStyle(colors.icon)
-                })
-                .padding(2)
-                Spacer()
-            }
-        }
-        .padding(8)
-        .background(colors.background)
-        .modify {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(colors.background)
+
             if let border = colors.border {
-                $0.overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(border, lineWidth: 1)
-                )
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(border, lineWidth: 1)
             }
+
+            adContent()
         }
-        .cornerRadius(8)
+
         .padding(.vertical, 10)
         .onAppear {
             AnalyticsHelper.bannerImpression(adID: model.adID, source: model.source)
@@ -122,6 +100,22 @@ struct BannerAdView: View {
             AnalyticsHelper.bannerTapped(adID: model.adID, source: model.source)
             model.onLinkTap?()
         }
+    }
+
+    @ViewBuilder func adContent() -> some View {
+        HStack(alignment: .top, spacing: 16) {
+            creative()
+                .fixedSize()
+
+            text()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 5)
+
+            closeButton()
+                .fixedSize()
+        }
+        .padding(8)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     @ViewBuilder func creative() -> some View {
@@ -142,6 +136,47 @@ struct BannerAdView: View {
         }
         .aspectRatio(1, contentMode: .fit)
         .frame(width: 86, height: 86)
+    }
+
+    @ViewBuilder func text() -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(model.adText)
+                .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
+                .lineSpacing(-1)
+                .foregroundColor(colors.adText)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
+
+            HStack(spacing: 4) {
+                Text(model.adLabel)
+                    .font(size: 8, style: .caption2, weight: .semibold, maxSizeCategory: maxSizeCategory)
+                    .foregroundColor(colors.adLabel)
+                    .padding(.horizontal, 3)
+                    .padding(.vertical, 2)
+                    .background(colors.adLabelBackground)
+                    .cornerRadius(4)
+
+                Text(model.titleLabel)
+                    .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
+                    .foregroundColor(colors.titleLabel)
+            }
+        }
+    }
+
+    @ViewBuilder func closeButton() -> some View {
+        VStack {
+            Button(action: {
+                BannerAdReporter.show()
+            }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12))
+                    .bold()
+                    .foregroundStyle(colors.icon)
+            }
+            .padding(2)
+            Spacer(minLength: 0)
+        }
     }
 }
 
