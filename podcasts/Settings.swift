@@ -1497,6 +1497,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - New Filter Tip
+
+    static var shouldShowPlaylistsOnboarding: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.playlistsOnboarding) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.playlistsOnboarding)
+        }
+    }
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {

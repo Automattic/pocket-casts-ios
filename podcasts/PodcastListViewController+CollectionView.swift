@@ -198,6 +198,29 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
                     hostingController.view.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
                     hostingController.view.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
                 ])
+
+                hostingController.view.alpha = 0
+
+                // Set initial position constraint
+                let topConstraint = hostingController.view.topAnchor.constraint(equalTo: headerView.topAnchor, constant: -120)
+                topConstraint.isActive = true
+
+                headerView.layoutIfNeeded()
+
+                // Set alpha to 0 after layout is complete
+                DispatchQueue.main.async {
+
+                    // Animate the banner down first
+                    UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                        topConstraint.constant = 0
+                        headerView.layoutIfNeeded()
+                    }
+
+                    // Animate opacity second so it's more noticeable
+                    UIView.animate(withDuration: 0.2, delay: 0.05) {
+                        hostingController.view.alpha = 1
+                    }
+                }
             }
 
             return headerView
@@ -219,6 +242,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         let targetSize = CGSize(width: collectionView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
         let size = hostingController.sizeThatFits(in: targetSize)
 
-        return size
+        // Return zero height initially for animation, then full size after animation starts
+        return isAnimatingBannerAd ? .zero : size
     }
 }
