@@ -32,7 +32,7 @@ fileprivate struct FolderPodcastAnimation: View {
 
     @EnvironmentObject var theme: Theme
 
-    static let originalSize: Double = CGFloat(108)
+    static let originalSize: Double = CGFloat(100)
 
     @State private var animationProgress = CGFloat(0)
     @State private var size = CGFloat(originalSize)
