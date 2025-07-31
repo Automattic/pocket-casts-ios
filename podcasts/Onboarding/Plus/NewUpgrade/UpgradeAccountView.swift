@@ -92,38 +92,33 @@ struct UpgradeAccountView: View {
                             UpgradeFeaturesView(features: model.features)
                         }
                         if model.isFreeTrialAvailable {
-                            Button {
-                                expand = true
-                                model.track(.plusPromotionDetailsTapped)
-                                withAnimation(.easeOut(duration: 1)) {
-                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                                }
-                            } label: {
-                                Text(model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
-                                    .font(size: 15, style: .subheadline, weight: .medium)
-                                    .foregroundColor(theme.primaryInteractive01)
-                            }
+                            detailsButton(text: model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink, proxy: proxy)
                             .padding(.vertical, 24)
                         }
                     }
                 case .contextual:
                     VStack(alignment: .leading) {
-                        Button {
-                            expand = true
-                            model.track(.plusPromotionDetailsTapped)
-                            withAnimation(.easeOut(duration: 1)) {
-                                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                            }
-                        } label: {
-                            Text(L10n.subscriptionPlanFeaturesInfoLink)
-                                .font(size: 15, style: .subheadline, weight: .medium)
-                                .foregroundColor(theme.primaryInteractive01)
-                        }
+                        detailsButton(text: L10n.subscriptionPlanFeaturesInfoLink, proxy: proxy)
                         .padding(.vertical, 10)
                         contextualAnimation
                     }
             }
 
+        }
+    }
+
+    @ViewBuilder
+    func detailsButton(text: String, proxy: ScrollViewProxy) -> some View {
+        Button {
+            expand = true
+            model.track(.plusPromotionDetailsTapped)
+            withAnimation(.easeOut(duration: 1)) {
+                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+            }
+        } label: {
+            Text(text)
+                .font(size: 15, style: .subheadline, weight: .medium)
+                .foregroundColor(theme.primaryInteractive01)
         }
     }
 
