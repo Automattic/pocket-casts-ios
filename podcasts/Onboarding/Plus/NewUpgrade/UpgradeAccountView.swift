@@ -93,7 +93,8 @@ struct UpgradeAccountView: View {
                         }
                         if model.isFreeTrialAvailable {
                             detailsButton(text: model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink, proxy: proxy)
-                            .padding(.vertical, 24)
+                            .padding(.bottom, 32)
+                            .padding(.top, 16)
                         }
                     }
                 case .contextual:
@@ -103,7 +104,6 @@ struct UpgradeAccountView: View {
                         contextualAnimation
                     }
             }
-
         }
     }
 
@@ -112,7 +112,7 @@ struct UpgradeAccountView: View {
         Button {
             expand = true
             model.track(.plusPromotionDetailsTapped)
-            withAnimation(.easeOut(duration: 1)) {
+            withAnimation(.interpolatingSpring(stiffness: 44.44, damping: 10)) {
                 proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
             }
         } label: {
@@ -145,11 +145,12 @@ struct UpgradeAccountView: View {
                             .frame(height: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
                         if expand, model.isFreeTrialAvailable || model.style == .contextual {
                             VStack {
-                                Spacer().frame(height: 76)
+                                Spacer().frame(height: 8)
                                 pageTwo
                                     .id(ScrollPosition.secondPage)
-                                Spacer().frame(height: 62)
+                                Spacer()
                             }
+                            .frame(minHeight: sizeProxy.size.height - (Constants.gradientHeight * 2))
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
