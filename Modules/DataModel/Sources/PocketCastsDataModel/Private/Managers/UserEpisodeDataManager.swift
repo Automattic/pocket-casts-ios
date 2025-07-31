@@ -97,7 +97,7 @@ class UserEpisodeDataManager {
     }
 
     func removeOrphaned(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uploadStatus = ? AND  ( episodeStatus = ? OR episodeStatus = ? ) ", values: [UploadStatus.notUploaded.rawValue, DownloadStatus.notDownloaded.rawValue, DownloadStatus.downloadFailed.rawValue])
             } catch {
@@ -122,7 +122,7 @@ class UserEpisodeDataManager {
 
     private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> UserEpisode? {
         var episode: UserEpisode?
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
@@ -141,7 +141,7 @@ class UserEpisodeDataManager {
     func findFrameCount(episodeId: Int64, dbQueue: PCDBQueue) -> Int64 {
         var frameCount = 0 as Int64
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT cachedFrameCount from \(DataManager.userEpisodeTableName) WHERE id = ?", values: [episodeId])
                 defer { resultSet.close() }
@@ -159,7 +159,7 @@ class UserEpisodeDataManager {
 
     private func loadMultiple(query: String, values: [Any]?, dbQueue: PCDBQueue) -> [UserEpisode] {
         var episodes = [UserEpisode]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
@@ -179,7 +179,7 @@ class UserEpisodeDataManager {
     func downloadedEpisodeCount(dbQueue: PCDBQueue) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.userEpisodeTableName) WHERE episodeStatus = \(DownloadStatus.downloaded.rawValue)"
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
@@ -197,7 +197,7 @@ class UserEpisodeDataManager {
     // MARK: - Updates
 
     func save(episode: UserEpisode, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if episode.id == 0 {
                     episode.id = DBUtils.generateUniqueId()
@@ -360,7 +360,7 @@ class UserEpisodeDataManager {
     }
 
     func bulkSave(episodes: [UserEpisode], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -384,7 +384,7 @@ class UserEpisodeDataManager {
     func bulkMarkAsPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -416,7 +416,7 @@ class UserEpisodeDataManager {
     func bulkMarkAsUnPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -449,7 +449,7 @@ class UserEpisodeDataManager {
     func bulkUserFileDelete(episodes: [UserEpisode], dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -484,7 +484,7 @@ class UserEpisodeDataManager {
     }
 
     func delete(userEpisodeUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: [userEpisodeUuid])
             } catch {
@@ -494,7 +494,7 @@ class UserEpisodeDataManager {
     }
 
     func delete(userEpisodeUuids: [String], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: userEpisodeUuids)
             } catch {
@@ -533,7 +533,7 @@ class UserEpisodeDataManager {
     }
 
     private func save(fieldName: String, value: Any, episodeId: Int64, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) SET \(fieldName) = ? WHERE id = ?", values: [value, episodeId])
             } catch {
@@ -543,7 +543,7 @@ class UserEpisodeDataManager {
     }
 
     private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                 let idColumn = useId ? "id" : "uuid"
