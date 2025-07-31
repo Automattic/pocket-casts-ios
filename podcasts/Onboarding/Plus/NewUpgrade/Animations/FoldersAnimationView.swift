@@ -129,7 +129,7 @@ struct FoldersAnimationView: View {
         GeometryReader { geometry in
             VStack {
                 Spacer()
-                HStack(spacing: (animationProgress * 20) + 5) {
+                HStack(spacing: (animationProgress * 20) + 10) {
                     ForEach(Array(zip(folders.indices, folders)), id: \.0) { (index, folder) in
                         FolderPodcastAnimation(folder: folder)
                     }
