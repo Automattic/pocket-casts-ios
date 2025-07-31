@@ -181,6 +181,7 @@ struct UpgradeAccountView: View {
         HStack {
             Text(model.title)
                 .font(size: 32, style: .largeTitle, weight: .bold)
+                .kerning(-1)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)
             Spacer()
