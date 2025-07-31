@@ -95,7 +95,7 @@ struct UpgradeAccountView: View {
                             Button {
                                 expand = true
                                 model.track(.plusPromotionDetailsTapped)
-                                withAnimation {
+                                withAnimation(.easeOut(duration: 1)) {
                                     proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                                 }
                             } label: {
@@ -110,7 +110,8 @@ struct UpgradeAccountView: View {
                     VStack(alignment: .leading) {
                         Button {
                             expand = true
-                            withAnimation {
+                            model.track(.plusPromotionDetailsTapped)
+                            withAnimation(.easeOut(duration: 1)) {
                                 proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
                             }
                         } label: {
