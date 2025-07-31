@@ -10,7 +10,7 @@ public struct AutoAddCandidatesDataManager {
 
     /// Adds a new auto add candidate to the database
     public func add(podcastUUID: String, episodeUUID: String) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("INSERT INTO \(Constants.tableName) (episode_uuid, podcast_uuid) VALUES (?, ?)", values: [episodeUUID, podcastUUID])
             } catch {
@@ -21,7 +21,7 @@ public struct AutoAddCandidatesDataManager {
 
     /// Removes a single candidate from the DB
     public func remove(_ candidate: AutoAddCandidate) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("""
                 DELETE FROM \(Constants.tableName) WHERE id = ? LIMIT 1
@@ -34,7 +34,7 @@ public struct AutoAddCandidatesDataManager {
 
     /// Reset the the entire candidates table
     public func clearAll() {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(Constants.tableName)", values: nil)
             } catch {
@@ -48,7 +48,7 @@ public struct AutoAddCandidatesDataManager {
     public func candidates() -> [AutoAddCandidate] {
         var results: [AutoAddCandidate] = []
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
 
                 let query: String
