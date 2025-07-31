@@ -160,7 +160,7 @@ struct UpgradeAccountView: View {
                                 .frame(height: 8)
                         }
                     }
-                    .padding(.vertical, Constants.gradientHeight)
+                    .padding(.vertical, Constants.gradientHeight - 8)
                     .padding(.horizontal, 24)
                 }
                 .scrollIndicators(.visible)
