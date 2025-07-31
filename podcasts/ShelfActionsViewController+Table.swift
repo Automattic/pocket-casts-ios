@@ -89,7 +89,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         dismiss(animated: true) {
             guard action.isUnlocked else {
-                action.paidFeature?.presentUpgradeController(from: self, source: .overflowMenu)
+                action.paidFeature?.presentUpgradeController(from: self, source: action == .addBookmark ? .bookmarksShelfAction : .overflowMenu)
                 return
             }
 
