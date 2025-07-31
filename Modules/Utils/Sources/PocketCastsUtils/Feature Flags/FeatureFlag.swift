@@ -368,7 +368,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .userSatisfactionSurvey:
             true
         case .concurrentDatabaseReads:
+            #if DEBUG
             true
+            #else
+            false
+            #endif
         }
     }
 
