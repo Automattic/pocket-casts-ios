@@ -78,7 +78,7 @@ class UpNextDataManager {
     // MARK: - Updates
 
     func save(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 // move every episode after this one down one, if there are any
                 try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + 1 WHERE episodePosition >= ? AND episodeUuid != ? AND wasDeleted = 0", values: [playlistEpisode.episodePosition, playlistEpisode.episodeUuid])
@@ -99,7 +99,7 @@ class UpNextDataManager {
     }
 
     func save(playlistEpisodes: [PlaylistEpisode], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let topPosition = playlistEpisodes[0].episodePosition
                 let uuids = playlistEpisodes.map(\.episodeUuid)
@@ -127,7 +127,7 @@ class UpNextDataManager {
     }
 
     func delete(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", values: [playlistEpisode.id])
             } catch {
@@ -140,7 +140,7 @@ class UpNextDataManager {
     }
 
     func deleteAllUpNextEpisodes(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
             } catch {
@@ -152,7 +152,7 @@ class UpNextDataManager {
     }
 
     func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", values: [episodeUuid])
             } catch {
@@ -164,7 +164,7 @@ class UpNextDataManager {
     }
 
     func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if uuids.count == 0 {
                     try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
@@ -181,7 +181,7 @@ class UpNextDataManager {
 
     func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: PCDBQueue) {
         guard uuids.count > 0 else { return }
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
             } catch {
@@ -208,7 +208,7 @@ class UpNextDataManager {
         }
 
         // persist index changes
-        dbQueue.inTransaction { db, _ in
+        dbQueue.write { db in
             do {
                 for (index, episode) in resortedItems.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
@@ -229,7 +229,7 @@ class UpNextDataManager {
     // MARK: - Caching
 
     private func cacheEpisodes(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) ORDER by episodePosition", values: nil)
                 defer { resultSet.close() }
@@ -256,7 +256,7 @@ class UpNextDataManager {
     private func saveOrdering(dbQueue: PCDBQueue) {
         cacheEpisodes(dbQueue: dbQueue)
         let sortedItems = cachedItems
-        dbQueue.inTransaction { db, _ in
+        dbQueue.write { db in
             do {
                 for (index, episode) in sortedItems.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
