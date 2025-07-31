@@ -62,8 +62,8 @@ fileprivate struct FolderPodcastAnimation: View {
         .padding(.vertical, 16 * animationProgress)
         .padding(.horizontal, 28 * animationProgress)
         .frame(
-            width: 219,
-            height: 219
+            width: 210,
+            height: 210
         )
         .background(
             ZStack {
@@ -129,9 +129,10 @@ struct FoldersAnimationView: View {
         GeometryReader { geometry in
             VStack {
                 Spacer()
-                HStack(spacing: (animationProgress * 20) + 10) {
+                HStack(spacing: 0) {
                     ForEach(Array(zip(folders.indices, folders)), id: \.0) { (index, folder) in
                         FolderPodcastAnimation(folder: folder)
+                        Spacer().frame(width: (animationProgress * 20) + 10)
                     }
                 }
                 .frame(width: geometry.size.width)
