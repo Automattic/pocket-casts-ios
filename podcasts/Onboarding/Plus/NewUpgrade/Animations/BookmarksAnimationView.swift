@@ -38,6 +38,8 @@ fileprivate struct BookmarkUpgradeRow: View {
                     .font(size: 16, style: .body, weight: .medium)
                     .foregroundStyle(.black)
                 Image("bookmarks-icon-play")
+                    .renderingMode(.template)
+                    .foregroundStyle(.black)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
