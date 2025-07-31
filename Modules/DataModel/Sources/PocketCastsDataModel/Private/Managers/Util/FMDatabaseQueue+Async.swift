@@ -16,7 +16,7 @@ extension PCDBQueue {
     ///
     func perform<T>(_ action: (PCDatabase) throws -> T) async -> Result<T, Error> {
         await withCheckedContinuation { continuation in
-            inDatabase { db in
+            write { db in
                 do {
                     continuation.resume(returning: .success(try action(db)))
                 } catch {
