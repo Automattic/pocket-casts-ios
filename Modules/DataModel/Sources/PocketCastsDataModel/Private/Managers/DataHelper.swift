@@ -12,7 +12,7 @@ class DataHelper {
     }
 
     class func run(query: String, values: [Any]?, methodName: String, onQueue: PCDBQueue) {
-        onQueue.inTransaction { db, _ in
+        onQueue.write { db in
             do {
                 try db.executeUpdate(query, values: values)
             } catch {
