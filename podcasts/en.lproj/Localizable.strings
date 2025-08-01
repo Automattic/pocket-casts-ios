@@ -1885,7 +1885,7 @@
 "podcast_no_date" = "Date Not Set";
 
 /* Label used to indicate that the podcast episode isn't grouped into a season. */
-"podcast_no_season" = "Extras";
+"podcast_no_season" = "No Season";
 
 /* Accessibility label to prompt to pause an active download. */
 "podcast_pause_download" = "Pause download";

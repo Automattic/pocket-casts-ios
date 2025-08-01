@@ -46,9 +46,9 @@ class EpisodesDataManager {
         case .season:
             let groupedEpisodes = EpisodeTableHelper.loadSortedSectionedEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil, sectionComparator: { name1, name2 -> Bool in
                 if sortOrder == .serial {
-                    if name2 == L10n.podcastNoSeason {
+                    if name2 == L10n.podcastExtras {
                         return true
-                    } else if name1 == L10n.podcastNoSeason {
+                    } else if name1 == L10n.podcastExtras {
                         return false
                     } else {
                         return name2.digits > name1.digits
