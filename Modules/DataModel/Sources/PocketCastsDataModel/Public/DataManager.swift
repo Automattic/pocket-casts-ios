@@ -120,7 +120,7 @@ public class DataManager {
 
         FileLog.shared.addMessage("VACUUM -> Start")
         let duration =  DBUtils.measureTime {
-            dbQueue.inDatabase { db in
+            dbQueue.write { db in
                 do {
                     try db.executeUpdate("VACUUM;", values: nil)
                 } catch {
@@ -999,7 +999,7 @@ public class DataManager {
 
     public func count(query: String, values: [Any]?) -> Int {
         var count = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 if resultSet.next() {
@@ -1105,7 +1105,7 @@ public extension DataManager {
     }
 
     func deleteGhostsEpisodes(uuids: [String]) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             let query = "DELETE FROM \(Self.episodeTableName) WHERE uuid IN (\(uuids.joined(separator: ",")))"
 
             try? db.executeUpdate(query, values: nil)
