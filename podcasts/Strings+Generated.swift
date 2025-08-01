@@ -2560,7 +2560,7 @@ internal enum L10n {
   /// Used to indicate no date was provided.
   internal static var podcastNoDate: String { return L10n.tr("Localizable", "podcast_no_date", fallback: "Date Not Set") }
   /// Label used to indicate that the podcast episode isn't grouped into a season.
-  internal static var podcastNoSeason: String { return L10n.tr("Localizable", "podcast_no_season", fallback: "Extras") }
+  internal static var podcastNoSeason: String { return L10n.tr("Localizable", "podcast_no_season", fallback: "No Season") }
   /// Accessibility label to prompt to pause an active download.
   internal static var podcastPauseDownload: String { return L10n.tr("Localizable", "podcast_pause_download", fallback: "Pause download") }
   /// Accessibility label to prompt to pause a playback.
