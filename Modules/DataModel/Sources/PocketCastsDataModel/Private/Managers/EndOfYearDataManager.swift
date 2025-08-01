@@ -23,7 +23,7 @@ class EndOfYearDataManager {
     func isEligible(in year: Int, dbQueue: PCDBQueue) -> Bool {
         var isEligible = false
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT playedUpTo from \(DataManager.episodeTableName)
@@ -58,7 +58,7 @@ class EndOfYearDataManager {
     func isFullListeningHistory(in year: Int, dbQueue: PCDBQueue) -> Bool {
         var isFullListeningHistory = false
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT * from \(DataManager.episodeTableName)
@@ -84,7 +84,7 @@ class EndOfYearDataManager {
     func numberOfEpisodes(year: Int, dbQueue: PCDBQueue) -> Int {
         var numberOfEpisodes: Int = 0
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as numberOfEpisodes from \(DataManager.episodeTableName)
@@ -113,7 +113,7 @@ class EndOfYearDataManager {
     func listeningTime(in year: Int, dbQueue: PCDBQueue) -> Double? {
         var listeningTime: Double?
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year))"
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -136,7 +136,7 @@ class EndOfYearDataManager {
     func listenedCategories(in year: Int, dbQueue: PCDBQueue) -> [ListenedCategory] {
         var listenedCategories: [ListenedCategory] = []
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT DISTINCT \(DataManager.episodeTableName).uuid,
@@ -183,7 +183,7 @@ class EndOfYearDataManager {
     func listenedNumbers(in year: Int, dbQueue: PCDBQueue) -> ListenedNumbers {
         var listenedNumbers = ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodes,
@@ -212,7 +212,7 @@ class EndOfYearDataManager {
     /// Return the top podcasts ordered by number of played episodes
     func topPodcasts(in year: Int, dbQueue: PCDBQueue, limit: Int = 5) -> [TopPodcast] {
         var allPodcasts = [TopPodcast]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT DISTINCT \(DataManager.episodeTableName).uuid,
@@ -251,7 +251,7 @@ class EndOfYearDataManager {
     /// Return the longest listened episode
     func longestEpisode(in year: Int, dbQueue: PCDBQueue) -> Episode? {
         var episode: Episode?
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT *
@@ -278,7 +278,7 @@ class EndOfYearDataManager {
     func episodesThatExist(year: Int, dbQueue: PCDBQueue, uuids: [String]) -> [String] {
         var episodes: [String] = []
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                             SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
@@ -329,7 +329,7 @@ class EndOfYearDataManager {
         var listeningTimeThisYear: Double = 0
         var listeningTimePreviousYear: Double = 0
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year)) UNION ALL SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year - 1))"
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -356,7 +356,7 @@ class EndOfYearDataManager {
         var started: Int = 0
         var completed: Int = 0
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE (playingStatus = 3 OR playedUpTo >= 0.9 * duration) AND \(listenedEpisodes(year: year)) UNION SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE \(listenedEpisodes(year: year))"
                 let resultSet = try db.executeQuery(query, values: nil)
