@@ -221,6 +221,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether to use database concurrent reads or not
     case concurrentDatabaseReads
 
+    /// Limit playback position changes when switching episodes
+    case limitPlaybackPositionChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -373,6 +376,8 @@ public enum FeatureFlag: String, CaseIterable {
             #else
             false
             #endif
+        case .limitPlaybackPositionChanges:
+            true
         }
     }
 
