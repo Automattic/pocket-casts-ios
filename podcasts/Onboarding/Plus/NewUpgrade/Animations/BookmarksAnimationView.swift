@@ -38,6 +38,8 @@ fileprivate struct BookmarkUpgradeRow: View {
                     .font(size: 16, style: .body, weight: .medium)
                     .foregroundStyle(.black)
                 Image("bookmarks-icon-play")
+                    .renderingMode(.template)
+                    .foregroundStyle(.black)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
@@ -47,7 +49,7 @@ fileprivate struct BookmarkUpgradeRow: View {
             }
         }
         .padding(.vertical, 24)
-        .frame(width: 202, height: 202)
+        .frame(width: 180, height: 180)
         .background(
             LinearGradient(
                 stops: [
@@ -59,7 +61,7 @@ fileprivate struct BookmarkUpgradeRow: View {
             )
         )
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.2), radius: 32, x: 0, y: 2)
+        .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 2)
         .rotationEffect(rotation)
         .opacity(opacity)
         .scaleEffect(scale)

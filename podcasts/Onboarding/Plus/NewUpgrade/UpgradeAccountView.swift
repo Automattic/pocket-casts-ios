@@ -26,7 +26,6 @@ struct UpgradeAccountView: View {
         VStack(alignment: .leading, spacing: 0) {
             header
                 .padding(.horizontal, 24)
-            Spacer().frame(height: 8)
             scrollableContent
                 .overlay(alignment: .top) {
                     gradient(height: Constants.gradientHeight, up: true)
@@ -35,7 +34,7 @@ struct UpgradeAccountView: View {
                     gradient(height: Constants.gradientHeight, up: false)
                 }
             UpgradeProductsView(model: model)
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 16)
         }
         .padding(.top, 16)
         .background(theme.primaryUi01)
@@ -93,37 +92,33 @@ struct UpgradeAccountView: View {
                             UpgradeFeaturesView(features: model.features)
                         }
                         if model.isFreeTrialAvailable {
-                            Button {
-                                expand = true
-                                model.track(.plusPromotionDetailsTapped)
-                                withAnimation {
-                                    proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                                }
-                            } label: {
-                                Text(model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink)
-                                    .font(size: 15, style: .subheadline, weight: .medium)
-                                    .foregroundColor(theme.primaryInteractive01)
-                            }
-                            .padding(.vertical, 24)
+                            detailsButton(text: model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink, proxy: proxy)
+                            .padding(.bottom, 32)
+                            .padding(.top, 16)
                         }
                     }
                 case .contextual:
                     VStack(alignment: .leading) {
-                        Button {
-                            expand = true
-                            withAnimation {
-                                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
-                            }
-                        } label: {
-                            Text(L10n.subscriptionPlanFeaturesInfoLink)
-                                .font(size: 15, style: .subheadline, weight: .medium)
-                                .foregroundColor(theme.primaryInteractive01)
-                        }
+                        detailsButton(text: L10n.subscriptionPlanFeaturesInfoLink, proxy: proxy)
                         .padding(.vertical, 10)
                         contextualAnimation
                     }
             }
+        }
+    }
 
+    @ViewBuilder
+    func detailsButton(text: String, proxy: ScrollViewProxy) -> some View {
+        Button {
+            expand = true
+            model.track(.plusPromotionDetailsTapped)
+            withAnimation(.interpolatingSpring(stiffness: 44.44, damping: 10)) {
+                proxy.scrollTo(ScrollPosition.secondPage, anchor: .top)
+            }
+        } label: {
+            Text(text)
+                .font(size: 15, style: .subheadline, weight: .medium)
+                .foregroundColor(theme.primaryInteractive01)
         }
     }
 
@@ -150,18 +145,19 @@ struct UpgradeAccountView: View {
                             .frame(height: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
                         if expand, model.isFreeTrialAvailable || model.style == .contextual {
                             VStack {
-                                Spacer().frame(height: 76)
+                                Spacer().frame(height: 16)
                                 pageTwo
                                     .id(ScrollPosition.secondPage)
-                                Spacer().frame(height: 62)
+                                Spacer()
                             }
+                            .frame(minHeight: sizeProxy.size.height - (Constants.gradientHeight * 2))
                         } else {
                             Spacer()
                                 .id(ScrollPosition.secondPage)
                                 .frame(height: 8)
                         }
                     }
-                    .padding(.vertical, Constants.gradientHeight)
+                    .padding(.vertical, Constants.gradientHeight - 8)
                     .padding(.horizontal, 24)
                 }
                 .scrollIndicators(.visible)
@@ -182,6 +178,7 @@ struct UpgradeAccountView: View {
         HStack {
             Text(model.title)
                 .font(size: 32, style: .largeTitle, weight: .bold)
+                .kerning(-1)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(theme.primaryText01)
             Spacer()

@@ -32,7 +32,7 @@ fileprivate struct FolderPodcastAnimation: View {
 
     @EnvironmentObject var theme: Theme
 
-    static let originalSize: Double = CGFloat(108)
+    static let originalSize: Double = CGFloat(100)
 
     @State private var animationProgress = CGFloat(0)
     @State private var size = CGFloat(originalSize)
@@ -59,11 +59,11 @@ fileprivate struct FolderPodcastAnimation: View {
                     .opacity(animationProgress * 1)
             }
         }
-        .padding(.vertical, 20 * animationProgress)
-        .padding(.horizontal, 32 * animationProgress)
+        .padding(.vertical, 16 * animationProgress)
+        .padding(.horizontal, 28 * animationProgress)
         .frame(
-            width: 231,
-            height: 231
+            width: 210,
+            height: 210
         )
         .background(
             ZStack {
@@ -80,7 +80,7 @@ fileprivate struct FolderPodcastAnimation: View {
             }
             .opacity(folder.focus ? animationProgress * 1 : animationProgress * unFocusOpacity * 3)
         )
-        .cornerRadius(30 * animationProgress)
+        .cornerRadius(animationProgress > 0.7 ? 30 * animationProgress : 0)
         .onAppear {
             animate()
         }
@@ -129,9 +129,10 @@ struct FoldersAnimationView: View {
         GeometryReader { geometry in
             VStack {
                 Spacer()
-                HStack(spacing: (animationProgress * 10) + 5) {
+                HStack(spacing: 0) {
                     ForEach(Array(zip(folders.indices, folders)), id: \.0) { (index, folder) in
                         FolderPodcastAnimation(folder: folder)
+                        Spacer().frame(width: (animationProgress * 20) + 10)
                     }
                 }
                 .frame(width: geometry.size.width)
