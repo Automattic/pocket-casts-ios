@@ -1740,7 +1740,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                         if FeatureFlag.limitPlaybackPositionChanges.enabled {
                             // Check if we're still in the limiting window after an episode change
                             if let switchTime = episodeSwitchTime,
-                               Date().timeIntervalSince(switchTime) < 2.0 {
+                               Date.now.timeIntervalSince(switchTime) < 2.0 {
                                 FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand due to recent episode switch")
                                 return .commandFailed
                             }
