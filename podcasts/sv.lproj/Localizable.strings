@@ -1074,6 +1074,26 @@ du lyssnade på var
     <string>Exporterar databas …</string>
     <key>failed_recommendations</key>
     <string>Kunde inte ladda rekommendationer</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Alla funktionerna i Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Behåll tidsstämplar med bokmärken</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ molnlagring för dina filer</string>
+    <key>feature_marketing_early_access</key>
+    <string>Tidig åtkomst till nya funktioner</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Extra teman och appikoner</string>
+    <key>feature_marketing_folders</key>
+    <string>Organisera din samling med mappar</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Spara tid med förvalda kapitel</string>
+    <key>feature_marketing_slumber</key>
+    <string>1 års innehåll från Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Blanda din kö</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Appar för Wear OS och Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Avsluta rundtur</string>
     <key>feature_tour_new</key>
@@ -2382,6 +2402,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Stjärnmärk avsnitt du älskar och kom tillbaka till dem när du vill.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Spara dina favoriter</string>
+    <key>purchase_terms</key>
+    <string>Genom att fortsätta godkänner du vår %1$@ och våra %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3211,6 +3233,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Löper ut om %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Se alla Plus-funktioner</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Hur fungerar den kostnadsfria provperioden?</string>
+    <key>subscription_plan_month</key>
+    <string>Månatligt paket</string>
+    <key>subscription_plan_savings</key>
+    <string>Spara %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>Årligt paket</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3343,6 +3375,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
+    <key>upgrade_account_info</key>
+    <string>Lås upp alla betalfunktioner, såsom mappar, slumpmässig uppspelning, bokmärken med mera.</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Du kommer att debiteras den %1$@. Du kan avbryta när som helst innan dess.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Få åtkomst till mappar, slumpvis uppspelning, bokmärken och exklusivt innehåll</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>Vi meddelar dig när din provperiod är på väg att löpa ut.</string>
+    <key>upgrade_account_title</key>
+    <string>Superkrafter för dina podcasts</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>Få 50 %% rabatt på ditt första år</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3397,6 +3439,14 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Längsta till kortaste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Inte direkt</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Hej där! Vi skulle gärna vilja veta om du gillar vår app.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Gillar du Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Ja!</string>
     <key>view_transcript</key>
     <string>Visa transkription</string>
     <key>volume_boost</key>
