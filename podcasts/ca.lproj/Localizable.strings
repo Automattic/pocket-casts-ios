@@ -2624,6 +2624,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Configuració</string>
     <key>settings_about</key>
     <string>Quant a</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Permet-nos recopilar dades analítiques.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Permet-nos utilitzar serveis de tercers de confiança per a recollir dades anònimes.</string>
     <key>settings_appearance</key>
     <string>Aspecte</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2770,6 +2774,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Esborrar l'arxiu del núvol</string>
     <key>settings_files_delete_local_file</key>
     <string>Esborrar l'arxiu local</string>
+    <key>settings_first_party_analytics</key>
+    <string>Analítiques pròpies</string>
     <key>settings_general</key>
     <string>General</string>
     <key>settings_general_apply_all_conf</key>
@@ -2956,6 +2962,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>DADES MÒBILS</string>
     <key>settings_storage_usage</key>
     <string>ÚS</string>
+    <key>settings_third_party_analytics</key>
+    <string>Analítiques de tercers</string>
     <key>settings_title</key>
     <string>Configuració del pòdcast</string>
     <key>settings_trim_level</key>
