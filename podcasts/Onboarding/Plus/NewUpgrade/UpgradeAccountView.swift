@@ -145,7 +145,7 @@ struct UpgradeAccountView: View {
                             .frame(height: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
                         if expand, model.isFreeTrialAvailable || model.style == .contextual {
                             VStack {
-                                Spacer().frame(height: 8)
+                                Spacer().frame(height: 16)
                                 pageTwo
                                     .id(ScrollPosition.secondPage)
                                 Spacer()
