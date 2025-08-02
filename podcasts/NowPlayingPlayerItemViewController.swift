@@ -246,7 +246,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private func loadBannerAd() {
 #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }

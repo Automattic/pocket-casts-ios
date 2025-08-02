@@ -161,7 +161,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func loadBannerAd() {
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask?.cancel()
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
