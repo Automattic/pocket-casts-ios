@@ -1074,6 +1074,26 @@ Folge dauerte
     <string>Datenbank wird exportiert …</string>
     <key>failed_recommendations</key>
     <string>Empfehlungen konnten nicht geladen werden</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Alle Funktionen in Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Zeitstempel mit Lesezeichen behalten</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ Cloud-Speicher für deine Dateien</string>
+    <key>feature_marketing_early_access</key>
+    <string>Frühzeitiger Zugriff auf neue Funktionen</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Zusätzliche Themes und App-Icons</string>
+    <key>feature_marketing_folders</key>
+    <string>Sortiere deine Sammlung mit Ordnern</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Spare Zeit mit der Funktion „Kapitel vorauswählen“</string>
+    <key>feature_marketing_slumber</key>
+    <string>1 Jahr Inhalte von Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Warteschlange zufällig abspielen</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Apps für Wear OS und Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Tour beenden</string>
     <key>feature_tour_new</key>
@@ -2382,6 +2402,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Markiere Folgen, die du liebst, mit einem Stern und kehre jederzeit zu ihnen zurück.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Deine Lieblingsfolgen speichern</string>
+    <key>purchase_terms</key>
+    <string>Indem du fortfährst, stimmst du unserer %1$@ und unseren %2$@ zu.</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3211,6 +3233,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Läuft ab in: %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ für %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Alle Plus-Funktionen anzeigen</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Wie funktioniert das mit dem kostenlosen Testzeitraum?</string>
+    <key>subscription_plan_month</key>
+    <string>Monatsabonnement</string>
+    <key>subscription_plan_savings</key>
+    <string>%1$@ Rabatt </string>
+    <key>subscription_plan_year</key>
+    <string>Jahresabonnement</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3343,6 +3375,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>„Mischen“ ist aktiviert. Folgen werden in zufälliger Reihenfolge wiedergegeben.</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
+    <key>upgrade_account_info</key>
+    <string>Schalte alle kostenpflichtigen Funktionen frei, wie Ordner, Mischen der Warteschlange, Lesezeichen und viele mehr</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Die Rechnung ist fällig am %1$@. Jederzeit kündbar.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Erhalte Zugriff auf Ordner, Mischen der Warteschlange, Lesezeichen und exklusive Inhalte</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>Wir benachrichtigen dich über das Ende deines Testzeitraums.</string>
+    <key>upgrade_account_title</key>
+    <string>Superkräfte für deine Podcasts</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>50 %% Rabatt auf dein erstes Jahr</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3397,6 +3439,14 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <string>Lang nach kurz</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Nicht wirklich</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Hallo! Wir würden gerne wissen, ob dir unsere App gefällt.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Gefällt dir Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Ja!</string>
     <key>view_transcript</key>
     <string>Transkript anzeigen</string>
     <key>volume_boost</key>

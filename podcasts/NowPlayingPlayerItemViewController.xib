@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NowPlayingPlayerItemViewController" customModule="podcasts" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NowPlayingPlayerItemViewController" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
             <connections>
                 <outlet property="bottomControlsStackView" destination="UmO-Rc-jIG" id="hwW-jm-hhg"/>
                 <outlet property="chapterCounter" destination="98m-xR-mw0" id="tsa-Tf-HrX"/>
@@ -66,7 +65,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t3O-EF-0h2">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="105"/>
                                     <subviews>
-                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chapter label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKZ-O9-o9V" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chapter label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKZ-O9-o9V" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="36" y="30.5" width="302" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -103,7 +102,7 @@
                                                 <action selector="chapterSkipBackTapped:" destination="-1" eventType="touchUpInside" id="sne-9O-0gD"/>
                                             </connections>
                                         </button>
-                                        <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIg-29-bKj" customClass="ProgressCircleView" customModule="podcasts" customModuleProvider="target">
+                                        <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIg-29-bKj" customClass="ProgressCircleView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="344" y="26" width="30" height="30"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -111,7 +110,7 @@
                                                 <constraint firstAttribute="width" constant="30" id="xzW-4b-iWo"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="4 of 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98m-xR-mw0" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="4 of 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98m-xR-mw0" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="167" y="58" width="40.5" height="13"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="13" id="crQ-di-aPO"/>
@@ -146,13 +145,13 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRc-dE-Q3s">
                                             <rect key="frame" x="0.0" y="8.5" width="374" height="88"/>
                                             <subviews>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="335" placeholderIntrinsicHeight="64.666666666666671" text="Episode Name Really Really Really Really Really Long Long Long  yyyyyyyyyyyyy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ool-HF-az4" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="335" placeholderIntrinsicHeight="64.666666666666671" text="Episode Name Really Really Really Really Really Long Long Long  yyyyyyyyyyyyy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ool-HF-az4" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="65"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aMx-eC-OGM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aMx-eC-OGM" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="71" width="374" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -209,7 +208,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2E-0H-hwM" userLabel="Time Slide">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
                                     <subviews>
-                                        <view opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="v3N-m7-an0" customClass="TimeSlider" customModule="podcasts" customModuleProvider="target">
+                                        <view opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="v3N-m7-an0" customClass="TimeSlider" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="10" y="-45" width="394" height="80"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" adjustable="YES"/>
@@ -219,7 +218,7 @@
                                                 <constraint firstAttribute="height" constant="80" id="seG-rc-zHm"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjS-kB-x8Y" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjS-kB-x8Y" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="30" y="27" width="35" height="14.5"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="NO"/>
@@ -228,7 +227,7 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nY-hc-503" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nY-hc-503" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="349" y="27" width="35" height="14.5"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <bool key="isElement" value="NO"/>
@@ -252,7 +251,7 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="0FS-5h-EyM" userLabel="Play Skip Stack View">
                                     <rect key="frame" x="10" y="146.5" width="394" height="80"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooq-fV-tVm" customClass="SkipButton" customModule="podcasts" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooq-fV-tVm" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="137" height="80"/>
                                             <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                                             <constraints>
@@ -266,7 +265,7 @@
                                                 <action selector="skipBackTapped:" destination="-1" eventType="touchUpInside" id="5Xg-Ay-LH2"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXp-BW-AVr" customClass="PlayPauseButton" customModule="podcasts" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXp-BW-AVr" customClass="PlayPauseButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="157" y="0.0" width="80" height="80"/>
                                             <accessibility key="accessibilityConfiguration" label="Play/Pause"/>
                                             <constraints>
@@ -276,7 +275,7 @@
                                                 <action selector="playPauseTapped:" destination="-1" eventType="touchUpInside" id="PEr-2t-anW"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDG-Tg-2mf" customClass="SkipButton" customModule="podcasts" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDG-Tg-2mf" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="257" y="0.0" width="137" height="80"/>
                                             <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -299,7 +298,7 @@
                                         <constraint firstItem="fDG-Tg-2mf" firstAttribute="width" secondItem="ooq-fV-tVm" secondAttribute="width" id="tz5-gX-pl8"/>
                                     </constraints>
                                 </stackView>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IM8-JJ-Wfy" userLabel="Action Buttons" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IM8-JJ-Wfy" userLabel="Action Buttons" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="20" y="343" width="374" height="56"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ACg-CR-Hm8">
@@ -371,7 +370,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auM-3f-elA" userLabel="Floating Video View" customClass="FloatingVideoView" customModule="podcasts" customModuleProvider="target">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auM-3f-elA" userLabel="Floating Video View" customClass="FloatingVideoView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                     <rect key="frame" x="30" y="8" width="354" height="354"/>
                     <color key="backgroundColor" red="0.45803546909999998" green="0.83982247109999997" blue="0.28705134989999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
@@ -389,7 +388,7 @@
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
-                <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="top" constant="10" id="fgs-F6-NzZ"/>
+                <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>

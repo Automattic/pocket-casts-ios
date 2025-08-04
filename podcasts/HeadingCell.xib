@@ -45,6 +45,9 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="rMW-Kn-y3c"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

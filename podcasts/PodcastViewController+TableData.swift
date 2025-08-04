@@ -185,7 +185,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             } else if let heading = itemAtRow as? ListHeader {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PodcastViewController.groupHeadingCellId, for: indexPath) as! HeadingCell
                 cell.heading.text = heading.headerTitle
-                if heading.sectionNumber > 0 {
+                if podcast?.episodeGrouping == PodcastGrouping.season.rawValue {
                     cell.button.isHidden = false
                     cell.button.isEnabled = !isMultiSelectEnabled
                     cell.action = { [weak self] in

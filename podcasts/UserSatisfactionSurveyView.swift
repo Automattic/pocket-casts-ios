@@ -1,4 +1,5 @@
 import SwiftUI
+import Lottie
 
 struct UserSatisfactionSurveyView: View {
     @Environment(\.dismiss) private var dismiss
@@ -30,14 +31,14 @@ struct UserSatisfactionSurveyView: View {
 
             HStack(spacing: 24) {
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "😔", text: L10n.userSatisfactionSurveyNoResponse) {
+                    surveyResponseButton(emoji: "pensive", text: L10n.userSatisfactionSurveyNoResponse, haptic: provideSadHaptic) {
                         handleResponse(.no)
                         dismiss()
                     }
                 }
 
                 VStack(spacing: 12) {
-                    surveyResponseButton(emoji: "🥰", text: L10n.userSatisfactionSurveyYesResponse) {
+                    surveyResponseButton(emoji: "heart-eyes", text: L10n.userSatisfactionSurveyYesResponse, haptic: provideHappyHaptic) {
                         handleResponse(.yes)
                         dismiss()
                     }
@@ -51,25 +52,64 @@ struct UserSatisfactionSurveyView: View {
     }
 
     @ViewBuilder
-    private func surveyResponseButton(emoji: String, text: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            VStack(spacing: 8) {
-                Text(emoji)
-                    .font(.system(size: 68))
+    private func surveyResponseButton(emoji: String, text: String, haptic: @escaping () -> Void, action: @escaping () -> Void) -> some View {
+        PressableLottieButton(emoji: emoji, text: text, theme: theme, haptic: haptic, action: action)
+    }
 
-                Text(text)
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(theme.primaryText01)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 20)
-            .if(UIAccessibility.buttonShapesEnabled) {
-                $0.background(theme.primaryUi05)
-            }
-            .cornerRadius(12)
+    private func provideHappyHaptic() {
+        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+        impactFeedback.impactOccurred()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            impactFeedback.impactOccurred()
         }
-        .buttonStyle(PlainButtonStyle())
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let successFeedback = UINotificationFeedbackGenerator()
+            successFeedback.notificationOccurred(.success)
+        }
+    }
+
+    private func provideSadHaptic() {
+        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+        impactFeedback.impactOccurred()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            let heavyFeedback = UIImpactFeedbackGenerator(style: .heavy)
+            heavyFeedback.impactOccurred()
+        }
+    }
+}
+
+struct PressableLottieButton: View {
+    let emoji: String
+    let text: String
+    let theme: Theme
+    let haptic: () -> Void
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(text)
+                .font(.body)
+                .fontWeight(.medium)
+                .foregroundColor(theme.primaryText01)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .if(UIAccessibility.buttonShapesEnabled) {
+                    $0.background(theme.primaryUi05)
+                }
+                .cornerRadius(12)
+        }
+        .buttonStyle(
+            PressableLottieButtonStyle(
+                animation: .named(emoji),
+                haptic: {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                },
+                replayOnPress: true
+            )
+        )
     }
 }
 

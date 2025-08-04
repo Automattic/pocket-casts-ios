@@ -1885,7 +1885,7 @@
 "podcast_no_date" = "Date Not Set";
 
 /* Label used to indicate that the podcast episode isn't grouped into a season. */
-"podcast_no_season" = "Extras";
+"podcast_no_season" = "No Season";
 
 /* Accessibility label to prompt to pause an active download. */
 "podcast_pause_download" = "Pause download";
@@ -2734,8 +2734,20 @@
 /* Label displayed right next the button to opt-in/out for Analytics tracking */
 "settings_collect_information" = "Collect information";
 
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_first_party_analytics" = "First-party analytics";
+
+/* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_third_party_analytics" = "Third-party analytics";
+
 /* Additional information about how the information collected is and how it's used */
 "settings_collect_information_additional_information" = "Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.";
+
+/* Label displayed below the toggle to opt-in/out for First-Party Analytics tracking */
+"settings_allow_collection_first_party" = "Allow us to collect analytics.";
+
+/* Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking */
+"settings_allow_collection_third_party" = "Allow us to use trusted third-party services to collect anonymous data.";
 
 /* Label for an input that takes the user to the privacy policy */
 "settings_read_privacy_policy" = "Read privacy policy";
@@ -5318,4 +5330,13 @@
 
 /* Subscription Plan title for custom upgrade screen for the preselected chapters feature */
 "subscription_feature_custom_title_pre_selected_chapters" = "Preselect Chapters: cut to the good stuff";
+
+/* Subscription Plan title for custom upgrade screen for the shuffle upnext feature */
+"subscription_feature_custom_title_shuffle_upnext" = "Shuffle: The joy of not choosing";
+
+/* Subscription Plan title for custom upgrade screen for the bookmarks feature */
+"subscription_feature_custom_title_bookmarks" = "Bookmarks: no more “where was that?”";
+
+/* Subscription Plan title for custom upgrade screen for the folders feature */
+"subscription_feature_custom_title_folders" = "Folders: your podcasts, perfectly placed";
 

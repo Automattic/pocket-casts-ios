@@ -1,6 +1,11 @@
+7.96
+-----
+
+
 7.95
 -----
 - Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
+- New subscription upgrade screens [#3372](https://github.com/Automattic/pocket-casts-ios/pull/3372)
 
 7.94
 -----

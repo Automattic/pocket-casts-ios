@@ -9,7 +9,10 @@ struct ABTestProvider: ABTestProviding {
     /// - Parameter abTest: A given ab test
     /// - Returns: The variation in which a user is allocated
     func variation(for abTest: ABTest) -> Variation {
-        ExPlat.shared.experiment(abTest.rawValue) ?? .control
+        if ExPlat.shared == nil {
+            return .control
+        }
+        return ExPlat.shared.experiment(abTest.rawValue) ?? .control
     }
 
     /// Registers the experiments and refreshes `ExPlat`

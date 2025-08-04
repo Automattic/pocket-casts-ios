@@ -218,6 +218,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show a satisfaction survey before prompting to rate
     case userSatisfactionSurvey
 
+    /// Whether to use database concurrent reads or not
+    case concurrentDatabaseReads
+
+    /// Limit playback position changes when switching episodes
+    case limitPlaybackPositionChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -355,14 +361,22 @@ public enum FeatureFlag: String, CaseIterable {
         case .useDescriptiveActionAttributedTextView:
             true
         case .newOnboardingUpgrade:
-            false
+            true
         case .newOnboardingVariant:
-            false
+            true
         case .playlistsRebranding:
             false
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
+            true
+        case .concurrentDatabaseReads:
+            #if DEBUG
+            true
+            #else
+            false
+            #endif
+        case .limitPlaybackPositionChanges:
             true
         }
     }

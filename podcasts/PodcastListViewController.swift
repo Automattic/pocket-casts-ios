@@ -12,6 +12,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var refreshControl: PCRefreshControl?
     var bannerAdModel: BannerAdModel?
 
+    /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
+    var isAnimatingBannerAd = false
+
+    private var bannerTask: Task<Void, Never>? = nil
+
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
@@ -66,10 +71,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupSearchBar()
         setupRefreshControl()
 
-        if FeatureFlag.bannerAds.enabled {
-            setupBannerAd()
-        }
-
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
@@ -121,10 +122,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewWillAppear(animated)
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        loadBannerAd()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        bannerTask?.cancel()
         refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
@@ -154,6 +157,21 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let self = self else { return }
 
             self.updateNavigationButtons()
+        }
+    }
+
+    private func loadBannerAd() {
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+            bannerTask?.cancel()
+            bannerTask = Task { [weak self] in
+                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
+                    guard Task.isCancelled == false else { return }
+                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
+                    await MainActor.run {
+                        self?.setupBannerAd(promotion: promotion)
+                    }
+                }
+            }
         }
     }
 
@@ -434,20 +452,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.reloadData()
     }
 
-    private func setupBannerAd() {
-        // Example banner ad - in future implementation this will come from ad service
-        bannerAdModel = BannerAdModel(
-            adText: "Listen to your favorite books while supporting your local indie bookstore",
-            imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
-            linkTitle: "Libro.fm",
-            adID: "12345",
-            source: "podcast_list"
-        ) {
-            let url = URL(string: "https://libro.fm/")!
-            let safariViewController = SFSafariViewController(with: url)
+    private func setupBannerAd(promotion: BlazePromotion) {
+        bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
+            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+        }
+        isAnimatingBannerAd = true
 
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-            SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+            self.isAnimatingBannerAd = false
+            self.podcastsCollectionView.performBatchUpdates({
+                self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+            })
         }
     }
 }

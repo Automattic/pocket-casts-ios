@@ -1074,6 +1074,26 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>データベースをエクスポート中...</string>
     <key>failed_recommendations</key>
     <string>おすすめを読み込めませんでした</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Plus のすべての機能</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>ブックマークでタイムスタンプを保存</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>ファイル用の%1$@ のクラウドストレージ</string>
+    <key>feature_marketing_early_access</key>
+    <string>新機能への早期アクセス</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>追加のテーマとアプリアイコン</string>
+    <key>feature_marketing_folders</key>
+    <string>フォルダーでコレクションを整理</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>チャプターをあらかじめ選択して時間を節約</string>
+    <key>feature_marketing_slumber</key>
+    <string>Slumber Studios のコンテンツを1年間聴取可能</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>キューをシャッフル</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Wear OS と Apple Watch 向けアプリ</string>
     <key>feature_tour_end_tour</key>
     <string>ツアーを終了</string>
     <key>feature_tour_new</key>
@@ -1955,6 +1975,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エラー</string>
     <key>player_user_episode_upload_error</key>
     <string>アップロードエラー</string>
+    <key>playlists</key>
+    <string>プレイリスト</string>
     <key>please_try_again</key>
     <string>もう一度お試しください</string>
     <key>please_try_again_later</key>
@@ -2380,6 +2402,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>お気に入りのエピソードに星を付けると、いつでも戻ることができます。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>お気に入りを保存</string>
+    <key>purchase_terms</key>
+    <string>続行すると、%1$@と%2$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -3205,6 +3229,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@に期限切れ</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ / %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Plus のすべての機能を確認</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>無料お試しの仕組みは ?</string>
+    <key>subscription_plan_month</key>
+    <string>月額プラン</string>
+    <key>subscription_plan_savings</key>
+    <string>%1$@ 節約 </string>
+    <key>subscription_plan_year</key>
+    <string>年額プラン</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>suggested_folders_create_custom_folder</key>
@@ -3337,6 +3371,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>シャッフルはオンです。 エピソードはランダムな順序で再生されます。</string>
     <key>upgrade_account</key>
     <string>アカウントをアップグレード</string>
+    <key>upgrade_account_info</key>
+    <string>フォルダー、シャッフル、ブックマークなどの有料機能をすべて利用</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>%1$@に請求されます。 その前にいつでもキャンセルできます。</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>フォルダー、シャッフル、ブックマーク、限定コンテンツにアクセス</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>お試し期間の終了をお知らせします。</string>
+    <key>upgrade_account_title</key>
+    <string>ポッドキャストをパワーアップ</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>初年度は50%% オフ。</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3391,6 +3435,14 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>長い順</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>短い順</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>そこまででない</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>こんにちは。 アプリをお楽しみいただいているかどうかお知らせください。</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Pocket Casts をお楽しみいただいていますか ?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>はい。</string>
     <key>view_transcript</key>
     <string>トランスクリプトを表示</string>
     <key>volume_boost</key>
