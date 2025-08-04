@@ -5,8 +5,9 @@ struct ShareImageInfo {
     let name: String
     let title: String
     let description: String
-    let artwork: URL
     let gradient: Gradient
+    let podcastUuid: String?
+    let episodeUuid: String?
 }
 
 enum ShareImageStyle: CaseIterable {
@@ -136,9 +137,17 @@ struct ShareImageView: View {
     }
 
     @ViewBuilder func image() -> some View {
-        KFImage(info.artwork)
-            .resizable()
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+        if let episodeUuid = info.episodeUuid,
+           ImageManager.sharedManager.subscribedPodcastsCache.isCached(forKey: episodeUuid) {
+            let path = ImageManager.sharedManager.subscribedPodcastsCache.cachePath(forKey: episodeUuid)
+            KFImage(URL(fileURLWithPath: path))
+                .resizable()
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else if let podcastUuid = info.podcastUuid {
+            KFImage(ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcastUuid))
+                .resizable()
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
     }
 
     @ViewBuilder func text(alignment: HorizontalAlignment = .center, textAlignment: TextAlignment = .center, lineLimit: Int = 2) -> some View {
@@ -201,7 +210,7 @@ extension View {
         return itemProvider
     }
 }
-let previewInfo = ShareImageInfo(name: "This American Life", title: "Dylan Field, Figma Co-founder, Talks Design, Economy, and life after failed Adobe acquisitions", description: Date().formatted(), artwork: URL(string: "https://static.pocketcasts.com/discover/images/280/3782b780-0bc5-012e-fb02-00163e1b201c.jpg")!, gradient: Gradient(colors: [Color.red, Color(hex: "620603")]))
+let previewInfo = ShareImageInfo(name: "This American Life", title: "Dylan Field, Figma Co-founder, Talks Design, Economy, and life after failed Adobe acquisitions", description: Date().formatted(), gradient: Gradient(colors: [Color.red, Color(hex: "620603")]), podcastUuid: nil, episodeUuid: nil)
 
 #Preview("large") {
     ShareImageView(info: previewInfo, style: .large, angle: .constant(0))

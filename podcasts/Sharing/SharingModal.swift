@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
+import AVFoundation
 
 enum SharingModal {
 
@@ -189,12 +190,12 @@ extension SharingModal.Option {
             Color(uiColor: ColorManager.lightThemeTintForPodcast(podcast)),
             Color(uiColor: UIColor.calculateColor(orgColor: UIColor.black, overlayColor: ColorManager.lightThemeTintForPodcast(podcast).withAlphaComponent(0.8))),
         ])
-        let artwork = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
         let imageInfo = ShareImageInfo(name: name ?? "",
                                        title: title ?? "",
                                        description: description ?? "",
-                                       artwork: artwork,
-                                       gradient: gradient)
+                                       gradient: gradient,
+                                       podcastUuid: podcast.uuid,
+                                       episodeUuid: episode?.uuid)
         return imageInfo
     }
 
