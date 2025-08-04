@@ -66,7 +66,7 @@ class EpisodeDataManager {
         """
 
         var episodes = [String]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
                 defer { resultSet.close() }
@@ -86,7 +86,7 @@ class EpisodeDataManager {
         return await withCheckedContinuation { continuation in
             var count = 0
             let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE podcast_id = ? AND playedUpTo > (duration / 2)"
-            dbQueue.inDatabase { db in
+            dbQueue.read { db in
                 do {
                     let resultSet = try db.executeQuery(query, values: [podcastId])
                     defer { resultSet.close() }
@@ -105,7 +105,7 @@ class EpisodeDataManager {
 
     func downloadedEpisodeExists(uuid: String, dbQueue: PCDBQueue) -> Bool {
         var found = false
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT id from \(DataManager.episodeTableName) WHERE episodeStatus = ? AND uuid = ?", values: [DownloadStatus.downloaded.rawValue, uuid])
                 defer { resultSet.close() }
@@ -175,7 +175,7 @@ class EpisodeDataManager {
 
     private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> Episode? {
         var episode: Episode?
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
@@ -193,7 +193,7 @@ class EpisodeDataManager {
 
     private func loadMultiple(query: String, values: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
         var episodes = [Episode]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
@@ -213,7 +213,7 @@ class EpisodeDataManager {
     func downloadedEpisodeCount(dbQueue: PCDBQueue) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloaded.rawValue)"
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
@@ -232,7 +232,7 @@ class EpisodeDataManager {
     func failedDownloadEpisodeCount(dbQueue: PCDBQueue) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue)"
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
@@ -252,7 +252,7 @@ class EpisodeDataManager {
         let orderDirection = sortOrder == .forward ? "DESC" : "ASC"
         var date: Date?
         let query = "SELECT * from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate IS NOT NULL ORDER BY lastDownloadAttemptDate \(orderDirection) LIMIT 1"
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
@@ -294,7 +294,7 @@ class EpisodeDataManager {
     }
 
     func save(episode: Episode, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if episode.id == 0 {
                     episode.id = DBUtils.generateUniqueId()
@@ -310,7 +310,7 @@ class EpisodeDataManager {
     }
 
     func bulkSave(episodes: [Episode], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -334,7 +334,7 @@ class EpisodeDataManager {
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -371,7 +371,7 @@ class EpisodeDataManager {
     func bulkUserFileDelete(episodes: [Episode], dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -415,7 +415,7 @@ class EpisodeDataManager {
     func saveBulkEpisodeSyncInfo(episodes: [EpisodeBasicData], dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -474,7 +474,7 @@ class EpisodeDataManager {
     func findFrameCount(episodeId: Int64, dbQueue: PCDBQueue) -> Int64 {
         var frameCount = 0 as Int64
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT cachedFrameCount from \(DataManager.episodeTableName) WHERE id = ?", values: [episodeId])
                 defer { resultSet.close() }
@@ -530,7 +530,7 @@ class EpisodeDataManager {
     }
 
     func markAllEpisodePlaybackHistorySynced(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", values: [SyncStatus.synced.rawValue])
             } catch {
@@ -540,7 +540,7 @@ class EpisodeDataManager {
     }
 
     func clearEpisodePlaybackInteractionDatesBefore(date: Date, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate <= ?", values: [date])
             } catch {
@@ -550,7 +550,7 @@ class EpisodeDataManager {
     }
 
     func clearAllEpisodePlaybackInteractions(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate > 0", values: [])
             } catch {
@@ -708,7 +708,7 @@ class EpisodeDataManager {
     }
 
     func delete(episodeUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE uuid = ?", values: [episodeUuid])
             } catch {
@@ -718,7 +718,7 @@ class EpisodeDataManager {
     }
 
     func deleteAllEpisodesInPodcast(podcastId: Int64, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [podcastId])
             } catch {
@@ -732,7 +732,7 @@ class EpisodeDataManager {
             return
         }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
                 if FeatureFlag.markAllSyncedInSingleStatement.enabled {
@@ -755,7 +755,7 @@ class EpisodeDataManager {
             return
         }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
                 if FeatureFlag.markAllSyncedInSingleStatement.enabled {
@@ -779,7 +779,7 @@ class EpisodeDataManager {
     func bulkMarkAsPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -811,7 +811,7 @@ class EpisodeDataManager {
     func bulkMarkAsUnPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -844,7 +844,7 @@ class EpisodeDataManager {
     func bulkArchive(episodes: [Episode], markAsNotDownloaded: Bool, markAsPlayed: Bool, updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -894,7 +894,7 @@ class EpisodeDataManager {
     func bulkUnarchive(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -928,7 +928,7 @@ class EpisodeDataManager {
     }
 
     private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                 let idColumn = useId ? "id" : "uuid"
@@ -941,7 +941,7 @@ class EpisodeDataManager {
     }
 
     private func save(fieldName: String, value: Any, episodeId: Int64, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE id = ?", values: [value, episodeId])
             } catch {
@@ -951,7 +951,7 @@ class EpisodeDataManager {
     }
 
     private func save(fieldName: String, value: Any, episodeUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ?", values: [value, episodeUuid])
             } catch {
@@ -962,7 +962,7 @@ class EpisodeDataManager {
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, episodeUuid: String, dbQueue: PCDBQueue) -> Bool {
         var saved = false
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
                 saved = (db.changes > 0)
@@ -976,7 +976,7 @@ class EpisodeDataManager {
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: PCDBQueue) -> Bool {
         var saved = false
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) < ?", values: [value, episodeUuid, remoteModified])
                 saved = (db.changes > 0)
@@ -989,7 +989,7 @@ class EpisodeDataManager {
     }
 
     private func updateAll(fields: [String], values: [Any], whereClause: String?, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 var query = "UPDATE \(DataManager.episodeTableName) SET \(fields.joined(separator: " = ?, ")) = ?"
                 if let whereClause = whereClause {
