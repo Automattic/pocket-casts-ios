@@ -2249,6 +2249,12 @@ internal enum L10n {
   internal static var playerUserEpisodePlaybackError: String { return L10n.tr("Localizable", "player_user_episode_playback_error", fallback: "Playback Error") }
   /// Error title when there is an upload error.
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
+  /// Header subtitle for smart rule podcasts
+  internal static var playlistSmartRulePodcastsHeaderSubtitle: String { return L10n.tr("Localizable", "playlist_smart_rule_podcasts_header_subtitle", fallback: "New podcasts you follow will be automatically added.") }
+  /// Header title for smart rule podcasts
+  internal static var playlistSmartRulePodcastsHeaderTitle: String { return L10n.tr("Localizable", "playlist_smart_rule_podcasts_header_title", fallback: "All Followed Podcasts") }
+  /// Title of the save button dislayed in each smart rule
+  internal static var playlistSmartRuleSaveButton: String { return L10n.tr("Localizable", "playlist_smart_rule_save_button", fallback: "Save Smart Rule") }
   /// A common string used throughout the app. Often refers to the Playlists screen.
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
   /// Playlists Empty State: button title for the empty state visible when no playlists are displayed
