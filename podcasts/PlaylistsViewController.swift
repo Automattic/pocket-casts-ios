@@ -24,7 +24,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 DispatchQueue.main.async { [weak self] in
-                    self?.showEmptyStateIfNeeded()
+                    self?.refreshContentUnavailable()
                 }
             }
         }
@@ -56,7 +56,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var newFilterTip: UIViewController? = nil
 
     private var firstTimeLoading = true
-    private var emptyStateView: UIView?
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
@@ -69,12 +68,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidLoad()
 
         if FeatureFlag.playlistsRebranding.enabled {
-            addEmptyStateView()
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-            self.emptyStateView?.removeFromSuperview()
-            self.emptyStateView = nil
         }
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
@@ -113,7 +109,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewWillAppear(animated)
         reloadFilters()
         setupInformationalBanner()
-        removeEptyStateViewIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -232,46 +227,44 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         present(vc, animated: true)
     }
 
-    private func addEmptyStateView() {
-        let emptyState = EmptyStateView(
-            title: L10n.playlistsEmptyStateTitle,
-            message: L10n.playlistsEmptyStateDescription,
-            icon: { Image("filter_list") },
-            actions: [
+    private func refreshContentUnavailable() {
+        guard FeatureFlag.playlistsRebranding.enabled else {
+            set(configuration: nil)
+            return
+        }
+
+        customRightBtn?.isHidden = playlists.isEmpty
+
+        var config: UIContentConfiguration?
+
+        if playlists.isEmpty {
+            // Empty State when playlists is empty
+            let title = L10n.playlistsEmptyStateTitle
+            let message = L10n.playlistsEmptyStateDescription
+            config = ContentUnavailableConfiguration.emptyState(
+                title: title,
+                message: message,
+                icon: {
+                    Image("filter_list")
+                },
+                actions: [
                 .init(
                     title: L10n.playlistsEmptyStateButton,
                     action: { [weak self] in
-                        self?.addNewFilter()
-                    })
-            ],
-            style: .defaultStyle).themedUIView
-        emptyState.translatesAutoresizingMaskIntoConstraints = false
-        emptyState.isHidden = true
-        view.insertSubview(emptyState, belowSubview: filtersTable)
-        NSLayoutConstraint.activate([
-            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyState.topAnchor.constraint(equalTo: view.topAnchor, constant: 175),
-            emptyState.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emptyState.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        self.emptyStateView = emptyState
-    }
-
-    func removeEptyStateViewIfNeeded() {
-        if FeatureFlag.playlistsRebranding.enabled ||
-            emptyStateView == nil {
-            return
+                    self?.addNewFilter()
+                    }
+                )
+            ])
         }
-        emptyStateView?.removeFromSuperview()
-        emptyStateView = nil
-        customRightBtn?.isHidden = false
-        filtersTable.isHidden = false
+        set(configuration: config)
     }
 
-    private func showEmptyStateIfNeeded() {
-        filtersTable.isHidden = playlists.isEmpty
-        emptyStateView?.isHidden = !playlists.isEmpty
-        customRightBtn?.isHidden = playlists.isEmpty
+    private func set(configuration: UIContentConfiguration?) {
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = configuration
+        } else {
+            self.setContentUnavailableConfiguration(configuration)
+        }
     }
 
     // MARK: - FilterCreationDelegate
