@@ -1,2 +1,2 @@
-- Retry failed requests without user agent [#3323](https://github.com/Automattic/pocket-casts-ios/pull/3323)
-- Add Feedback Prompt before asking for App Review [#3331](https://github.com/Automattic/pocket-casts-ios/pull/3331)
+- Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
+- New subscription upgrade screens [#3372](https://github.com/Automattic/pocket-casts-ios/pull/3372)
