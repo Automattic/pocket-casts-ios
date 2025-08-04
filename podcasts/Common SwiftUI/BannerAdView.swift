@@ -55,7 +55,7 @@ struct BannerAdView: View {
 
         static func podcastList(_ theme: Theme) -> Self {
             return Self(
-                background: theme.primaryUi06,
+                background: .clear,
                 adText: theme.primaryText01,
                 titleLabel: theme.primaryInteractive01,
                 adLabelBackground: theme.primaryInteractive01,
@@ -91,8 +91,7 @@ struct BannerAdView: View {
 
             adContent()
         }
-
-        .padding(.vertical, 10)
+        .padding(.vertical, 4)
         .onAppear {
             AnalyticsHelper.bannerImpression(adID: model.adID, source: model.source)
         }
@@ -139,7 +138,7 @@ struct BannerAdView: View {
     }
 
     @ViewBuilder func text() -> some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading) {
             Text(model.adText)
                 .font(size: 14, style: .subheadline, weight: .medium, maxSizeCategory: maxSizeCategory)
                 .lineSpacing(-1)
@@ -155,7 +154,7 @@ struct BannerAdView: View {
                     .padding(.horizontal, 3)
                     .padding(.vertical, 2)
                     .background(colors.adLabelBackground)
-                    .cornerRadius(4)
+                    .cornerRadius(2)
 
                 Text(model.titleLabel)
                     .font(size: 12, style: .footnote, weight: .semibold, maxSizeCategory: maxSizeCategory)
