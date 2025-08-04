@@ -1073,11 +1073,6 @@ public class DataManager {
         upNextHistoryManager.entries(dbQueue: dbQueue)
     }
 
-    public func replaceUpNext(entry: Date) {
-        upNextHistoryManager.replaceUpNext(entry: entry, dbQueue: dbQueue)
-        upNextManager.refresh(dbQueue: dbQueue)
-    }
-
     public func upNextHistoryEpisodes(entry: Date) -> [String] {
         upNextHistoryManager.episodes(entry: entry, dbQueue: dbQueue)
     }

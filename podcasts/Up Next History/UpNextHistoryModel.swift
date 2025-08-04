@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class UpNextHistoryModel: ObservableObject {
     @Published var historyEntries: [UpNextHistoryManager.UpNextHistoryEntry] = []
@@ -29,6 +30,7 @@ class UpNextHistoryModel: ObservableObject {
     func reAddMissingItems(entry: Date) {
         Task {
             let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)
+            FileLog.shared.addMessage("UpNextHistory: Restoring entries from \(entry) with episodes: [\(episodesUuid.joined(separator: ","))]")
             episodesUuid.forEach { episodeUuid in
                 if let episode = dataManager.findBaseEpisode(uuid: episodeUuid) {
                     PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)

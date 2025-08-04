@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension DownloadManager {
     func logDownload(_ episode: BaseEpisode, failure: FailureReason, extraProperties: [String: Any?] = [:]) {
@@ -62,6 +63,9 @@ extension DownloadManager {
             "response_body_bytes_received": responseBodyBytesReceived,
             "in_background": inBackground
         ])
+
+        let url = metrics.transactionMetrics.last?.request.url?.absoluteString ?? "unknown"
+        FileLog.shared.addMessage("DownloadManager: Failed download \(episode.uuid) \(url) statusCode:\(String(describing: statusCode)) isCell:\(isCellular) isProxy: \(isProxy) errorCode:\(String(describing: errorCode)) errorDomain:\(String(describing: errorDomain))")
     }
 }
 
