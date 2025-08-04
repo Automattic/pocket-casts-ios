@@ -1,6 +1,45 @@
 import PocketCastsDataModel
+import Combine
 import PocketCastsUtils
 import UIKit
+import SwiftUI
+
+fileprivate class PodcastFilterOverlayViewModel: ObservableObject {
+    @Published var filterAllPodcasts: Bool = false
+
+    init(filterAllPodcasts: Bool) {
+        self.filterAllPodcasts = filterAllPodcasts
+    }
+}
+
+fileprivate struct PodcastFilterOverlayView: View {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: PodcastFilterOverlayViewModel
+
+    var body: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 4.0) {
+                Text(L10n.playlistSmartRulePodcastsHeaderTitle)
+                    .font(size: 18.0, style: .body, weight: .semibold)
+                    .lineLimit(2)
+                    .foregroundStyle(theme.primaryText01)
+                if viewModel.filterAllPodcasts {
+                    Text(L10n.playlistSmartRulePodcastsHeaderSubtitle)
+                        .font(size: 14.0, style: .body, weight: .regular)
+                        .lineLimit(2)
+                        .foregroundStyle(theme.primaryText02)
+                }
+            }
+            Spacer()
+            Toggle("", isOn: $viewModel.filterAllPodcasts)
+                .labelsHidden()
+                .tint(theme.primaryInteractive01)
+        }
+        .background(theme.primaryUi01)
+        .padding(.horizontal, 16.0)
+        .padding(.vertical, 22.0)
+    }
+}
 
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
     var filterToEdit: EpisodeFilter!
@@ -11,7 +50,14 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     var footerView: ThemeableView!
 
     let podcastFilterCellId = "PodcastFilterCell"
+    let podcastsSmartRuleHeaderCellId = "PodcastsSmartRuleHeaderCellId"
     var saveButton: UIButton!
+
+    private var cancellables = Set<AnyCancellable>()
+    private var viewModel: PodcastFilterOverlayViewModel!
+    private var switchIsOn: Bool {
+        FeatureFlag.playlistsRebranding.enabled ? viewModel.filterAllPodcasts : selectAllSwitch.isOn
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +66,21 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.dataSource = self
         podcastTable.separatorStyle = .none
         podcastTable.register(UINib(nibName: "PodcastFilterSelectionCell", bundle: nil), forCellReuseIdentifier: podcastFilterCellId)
+        if FeatureFlag.playlistsRebranding.enabled {
+            podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
+        }
 
         setupNavBar()
         navigationController?.navigationBar.sizeToFit()
+        if FeatureFlag.playlistsRebranding.enabled {
+            viewModel = PodcastFilterOverlayViewModel(filterAllPodcasts: filterToEdit.filterAllPodcasts)
+            viewModel.$filterAllPodcasts
+                .receive(on: RunLoop.main)
+                .sink { [weak self] newValue in
+                    self?.selectAllSwitchValueChanged()
+                }
+                .store(in: &cancellables)
+        }
         setupHeader()
         setupSaveButton()
 
@@ -34,13 +92,19 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             let allPodcastUuids = allPodcasts.map(\.uuid)
             selectedUuids = filterToEdit.podcastUuids.components(separatedBy: ",").compactMap { allPodcastUuids.contains($0) ? $0 : nil }
         }
-        updateSwitchStatus()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            updateSwitchStatus()
+        }
         updateRightBarBtn()
     }
 
     func setupNavBar() {
         setupCloseButton()
-        changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
+        if FeatureFlag.playlistsRebranding.enabled {
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+        } else {
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
+        }
         title = L10n.filterChoosePodcasts
         navigationController?.navigationBar.prefersLargeTitles = true
 
@@ -57,6 +121,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupCloseButton() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            return
+        }
         let closeButton = createStandardCloseButton(imageName: "cancel")
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
 
@@ -65,6 +132,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupHeader() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            return
+        }
         headerView = PodcastSelectionHeaderView()
         let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         headerView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -80,7 +150,11 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         footerView = ThemeableView()
         footerView.backgroundColor = AppTheme.viewBackgroundColor()
         saveButton = UIButton(type: .custom)
-        saveButton.backgroundColor = filterToEdit.playlistColor()
+        if FeatureFlag.playlistsRebranding.enabled {
+            saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
+        } else {
+            saveButton.backgroundColor = filterToEdit.playlistColor()
+        }
         setupSaveButtonTitle()
         saveButton.layer.cornerRadius = 12
         saveButton.addTarget(self, action: #selector(saveTapped(sender:)), for: .touchUpInside)
@@ -107,8 +181,19 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.filterUpdate, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+        let title = FeatureFlag.playlistsRebranding.enabled ? "Save Smart Rule" : L10n.filterUpdate
+        let attributedTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
+    }
+
+    private func updateSaveButtonEnabledState() {
+        guard FeatureFlag.playlistsRebranding.enabled else {
+            saveButton.isEnabled = true
+            saveButton.alpha = 1.0
+            return
+        }
+        saveButton.alpha = selectedUuids.isEmpty ? 0.4 : 1.0
+        saveButton.isEnabled = !selectedUuids.isEmpty
     }
 
     // MARK: - Actions
@@ -152,7 +237,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func updateRightBarBtn() {
-        if selectAllSwitch.isOn {
+        if switchIsOn {
             customRightBtn = nil
         } else {
             updateSelectBtn()
@@ -163,14 +248,17 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     @objc func selectAllSwitchValueChanged() {
         selectedUuids.removeAll()
-        if selectAllSwitch.isOn {
+        if switchIsOn {
             for podcast in allPodcasts {
                 selectedUuids.append(podcast.uuid)
             }
         }
-        Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": selectAllSwitch.isOn, "source": analyticsSource])
-        setSwitchSubtitle()
+        Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": switchIsOn, "source": analyticsSource])
+        if !FeatureFlag.playlistsRebranding.enabled {
+            setSwitchSubtitle()
+        }
         updateRightBarBtn()
+        updateSaveButtonEnabledState()
         podcastTable.reloadData()
     }
 
@@ -178,48 +266,97 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func bulkSelectionChange(selected: Bool) {
         updateRightBarBtn()
+        updateSaveButtonEnabledState()
     }
 
     func podcastSelected(podcast: String) {
         updateRightBarBtn()
+        updateSaveButtonEnabledState()
     }
 
     func podcastUnselected(podcast: String) {
         updateRightBarBtn()
+        updateSaveButtonEnabledState()
     }
 
     func didChangePodcasts(numberSelected: Int) {}
 
     // MARK: - TableView data source and delegate
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return FeatureFlag.playlistsRebranding.enabled ? 2 : 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if FeatureFlag.playlistsRebranding.enabled, section == 0 {
+            return 1
+        }
+        return allPodcasts.count
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastsSmartRuleHeaderCellId)!
+            cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+            cell.contentConfiguration = UIHostingConfiguration {
+                PodcastFilterOverlayView(viewModel: viewModel)
+                    .environmentObject(Theme.sharedTheme)
+                    .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
+            }
+            .margins(.horizontal, 0)
+            .margins(.vertical, 0)
+            return cell
+        }
         let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastFilterCellId) as! PodcastFilterSelectionCell
-        cell.setTintColor(color: filterToEdit.playlistColor())
+        if FeatureFlag.playlistsRebranding.enabled {
+            cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
+        } else {
+            cell.setTintColor(color: filterToEdit.playlistColor())
+        }
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            return
+        }
+        super.tableView(tableView, didSelectRowAt: indexPath)
+    }
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            return
+        }
         let podcastCell = cell as! PodcastFilterSelectionCell
 
         let podcast = allPodcasts[indexPath.row]
         podcastCell.populateFrom(podcast)
-        podcastCell.contentView.alpha = selectAllSwitch.isOn ? 0.3 : 1
+        podcastCell.contentView.alpha = switchIsOn ? 0.3 : 1
         podcastCell.setSelected(selectedUuids.contains(podcast.uuid), animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        72
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            return UITableView.automaticDimension
+        }
+        return 72
     }
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if selectAllSwitch.isOn {
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            return false
+        }
+        if switchIsOn {
             return false
         }
         return true
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if selectAllSwitch.isOn {
+        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
+            return nil
+        }
+        if switchIsOn {
             return nil
         }
         return indexPath

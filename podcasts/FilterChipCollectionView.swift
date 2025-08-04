@@ -65,7 +65,11 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             filterSettingsVC.analyticsSource = .filters
             filterSettingsVC.filterToEdit = filter
             let navVC = SJUIUtils.navController(for: filterSettingsVC)
-            chipActionDelegate?.presentingViewController().present(navVC, animated: true, completion: nil)
+            if FeatureFlag.playlistsRebranding.enabled {
+                chipActionDelegate?.presentingViewController().navigationController?.pushViewController(filterSettingsVC, animated: true)
+            } else {
+                chipActionDelegate?.presentingViewController().present(navVC, animated: true, completion: nil)
+            }
 
         case .downloadStatus:
             let filterSettingsVC = DownloadFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)

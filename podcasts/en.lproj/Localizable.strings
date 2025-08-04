@@ -5286,6 +5286,24 @@
 /* Playlists Onboarding screen: description for the manual playlist card */
 "playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
 
+/* Playlists Empty State: title for the empty state visible when no playlists are displayed */
+"playlists_empty_state_title" = "Organize episodes your way";
+
+/* Playlists Empty State: description for the empty state visible when no playlists are displayed */
+"playlists_empty_state_description" = "Playlists let you organize episodes manually or automatically with Smart Rules.";
+
+/* Playlists Empty State: button title for the empty state visible when no playlists are displayed */
+"playlists_empty_state_button" = "New Playlist";
+
+/* Title of the save button dislayed in each smart rule */
+"playlist_smart_rule_save_button" = "Save Smart Rule";
+
+/* Header title for smart rule podcasts */
+"playlist_smart_rule_podcasts_header_title" = "All Followed Podcasts";
+
+/* Header subtitle for smart rule podcasts */
+"playlist_smart_rule_podcasts_header_subtitle" = "New podcasts you follow will be automatically added.";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
