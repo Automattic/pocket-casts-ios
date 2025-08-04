@@ -137,7 +137,8 @@ struct ShareImageView: View {
     }
 
     @ViewBuilder func image() -> some View {
-        if let episodeUuid = info.episodeUuid,
+        if Settings.loadEmbeddedImages,
+            let episodeUuid = info.episodeUuid,
            ImageManager.sharedManager.subscribedPodcastsCache.isCached(forKey: episodeUuid) {
             let path = ImageManager.sharedManager.subscribedPodcastsCache.cachePath(forKey: episodeUuid)
             KFImage(URL(fileURLWithPath: path))
