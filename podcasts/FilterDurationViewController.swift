@@ -7,7 +7,51 @@ class FilterDurationViewController: PCViewController {
 
     @IBOutlet var longerThanLabel: ThemeableLabel! {
         didSet {
-            longerThanLabel.style = .primaryText02
+            if FeatureFlag.playlistsRebranding.enabled {
+                longerThanLabel.style = .primaryText02
+                longerThanLabel.font = .systemFont(ofSize: 15.0, weight: .medium)
+            } else {
+                longerThanLabel.style = .primaryText01
+                longerThanLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
+            }
+        }
+    }
+
+    @IBOutlet var longerThanDescription: ThemeableLabel! {
+        didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                longerThanDescription.style = .primaryText02
+                longerThanDescription.font = .systemFont(ofSize: 15.0, weight: .medium)
+            } else {
+                longerThanDescription.style = .primaryText01
+                longerThanDescription.font = .systemFont(ofSize: 17.0, weight: .regular)
+            }
+            longerThanDescription.text = L10n.filterLongerThanLabel
+        }
+    }
+
+    @IBOutlet var shorterThanLabel: ThemeableLabel! {
+        didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                shorterThanLabel.style = .primaryText02
+                shorterThanLabel.font = .systemFont(ofSize: 15.0, weight: .medium)
+            } else {
+                shorterThanLabel.style = .primaryText01
+                shorterThanLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
+            }
+        }
+    }
+
+    @IBOutlet var shorterThanDescription: ThemeableLabel! {
+        didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                shorterThanDescription.style = .primaryText02
+                shorterThanDescription.font = .systemFont(ofSize: 15.0, weight: .medium)
+            } else {
+                shorterThanDescription.style = .primaryText01
+                shorterThanDescription.font = .systemFont(ofSize: 17.0, weight: .regular)
+            }
+            shorterThanDescription.text = L10n.filterShorterThanLabel
         }
     }
 
@@ -18,28 +62,10 @@ class FilterDurationViewController: PCViewController {
         }
     }
 
-    @IBOutlet var longerThanDescription: ThemeableLabel! {
-        didSet {
-            longerThanDescription.text = L10n.filterLongerThanLabel
-        }
-    }
-
-    @IBOutlet var shorterThanLabel: ThemeableLabel! {
-        didSet {
-            shorterThanLabel.style = .primaryText02
-        }
-    }
-
     @IBOutlet var shorterThanStepper: CustomTimeStepper! {
         didSet {
             shorterThanStepper.minimumValue = 5.minutes
             shorterThanStepper.maximumValue = 10.hours
-        }
-    }
-
-    @IBOutlet var shorterThanDescription: ThemeableLabel! {
-        didSet {
-            shorterThanDescription.text = L10n.filterShorterThanLabel
         }
     }
 
@@ -56,13 +82,48 @@ class FilterDurationViewController: PCViewController {
             saveBtn.backgroundColor = filter.playlistColor()
             saveBtn.layer.cornerRadius = 12
             saveBtn.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
-            saveBtn.setTitle(L10n.filterUpdate, for: .normal)
+            if FeatureFlag.playlistsRebranding.enabled {
+                saveBtn.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+            } else {
+                saveBtn.setTitle(L10n.filterUpdate, for: .normal)
+            }
         }
     }
 
     @IBOutlet var filterDurationLabel: ThemeableLabel! {
         didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                filterDurationLabel.font = .systemFont(ofSize: 18.0, weight: .semibold)
+            } else {
+                filterDurationLabel.font = .systemFont(ofSize: 18.0, weight: .regular)
+            }
             filterDurationLabel.text = L10n.episodeFilterByDurationLabel
+        }
+    }
+
+    @IBOutlet weak var dividerView: ThemeDividerView! {
+        didSet {
+            dividerView.isHidden = FeatureFlag.playlistsRebranding.enabled
+        }
+    }
+    @IBOutlet weak var dividerTopConstraint: NSLayoutConstraint! {
+        didSet {
+            dividerTopConstraint.constant = FeatureFlag.playlistsRebranding.enabled ? 16.0 : 20.0
+        }
+    }
+    @IBOutlet weak var dividerBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            dividerBottomConstraint.constant = FeatureFlag.playlistsRebranding.enabled ? 16.0 : 20.0
+        }
+    }
+    @IBOutlet weak var linesSpacing: NSLayoutConstraint! {
+        didSet {
+            linesSpacing.constant = FeatureFlag.playlistsRebranding.enabled ? 30.0 : 36.0
+        }
+    }
+    @IBOutlet weak var topShadowView: TopShadowView! {
+        didSet {
+            topShadowView.hideShadow = FeatureFlag.playlistsRebranding.enabled
         }
     }
 
@@ -104,7 +165,13 @@ class FilterDurationViewController: PCViewController {
     override func handleThemeChanged() {
         setupNavigationBar()
 
-        let playlistColor = filter.playlistColor()
+        let playlistColor: UIColor
+        if FeatureFlag.playlistsRebranding.enabled {
+            playlistColor = AppTheme.colorForStyle(.primaryInteractive01)
+        } else {
+            playlistColor = filter.playlistColor()
+        }
+
         saveBtn.backgroundColor = playlistColor
         filterSwitch.onTintColor = playlistColor
         shorterThanStepper.tintColor = playlistColor
@@ -113,7 +180,11 @@ class FilterDurationViewController: PCViewController {
 
     private func setupNavigationBar() {
         title = L10n.filterOptionEpisodeDuration
-        changeNavTint(titleColor: nil, iconsColor: ThemeColor.primaryIcon02())
+        if FeatureFlag.playlistsRebranding.enabled {
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+        } else {
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
+        }
 
         let navigationBar = navigationController?.navigationBar
         navigationBar?.prefersLargeTitles = true
