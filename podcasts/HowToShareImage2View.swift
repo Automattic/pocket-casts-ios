@@ -20,7 +20,7 @@ struct HowToShareImage2View: View {
         }
         .frame(width: 220, height: 150)
     }
-    
+ 
     @ViewBuilder
     func background() -> some View {
         ZStack {
