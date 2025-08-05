@@ -23,12 +23,11 @@ fileprivate struct PodcastFilterOverlayView: View {
                     .font(size: 18.0, style: .body, weight: .semibold)
                     .lineLimit(2)
                     .foregroundStyle(theme.primaryText01)
-                if viewModel.filterAllPodcasts {
-                    Text(L10n.playlistSmartRulePodcastsHeaderSubtitle)
-                        .font(size: 14.0, style: .body, weight: .regular)
-                        .lineLimit(2)
-                        .foregroundStyle(theme.primaryText02)
-                }
+                let subtitle = viewModel.filterAllPodcasts ? L10n.playlistSmartRulePodcastsHeaderSubtitleAutoAdd : L10n.playlistSmartRulePodcastsHeaderSubtitleManualAdd
+                Text(subtitle)
+                    .font(size: 14.0, style: .body, weight: .regular)
+                    .lineLimit(2)
+                    .foregroundStyle(theme.primaryText02)
             }
             Spacer()
             Toggle("", isOn: $viewModel.filterAllPodcasts)
