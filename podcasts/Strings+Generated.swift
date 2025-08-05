@@ -1569,8 +1569,16 @@ internal enum L10n {
   internal static var hoursSaved: String { return L10n.tr("Localizable", "hours_saved", fallback: "Hours saved") }
   /// The initial informational text explaining how to upload a file
   internal static var howToUploadExplanation: String { return L10n.tr("Localizable", "how_to_upload_explanation", fallback: "First, open an app that has the audio files you'd like to save") }
+  /// The text for the button tapped first when uploading a file
+  internal static var howToUploadFirstImageBackgroundButtonText: String { return L10n.tr("Localizable", "how_to_upload_first_image_background_button_text", fallback: "Audio File") }
+  /// The text for a generic menu option tapped first when uploading a file
+  internal static var howToUploadFirstImageForegroundMenuOptionText: String { return L10n.tr("Localizable", "how_to_upload_first_image_foreground_menu_option_text", fallback: "Menu Option") }
   /// The title for the first instructional image that explains how to upload a file
   internal static var howToUploadFirstInstruction: String { return L10n.tr("Localizable", "how_to_upload_first_instruction", fallback: "Choose to share that file") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadSecondImageCenterText: String { return L10n.tr("Localizable", "how_to_upload_second_image_center_text", fallback: "Copy to Pocket Casts") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadSecondImageSidesText: String { return L10n.tr("Localizable", "how_to_upload_second_image_sides_text", fallback: "Something Else") }
   /// The title for the second instructional image that explains how to upload a file
   internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction", fallback: "In the menu tap \"Copy to Pocket Casts\"") }
   /// The summary text at the end of the screen explaining how to upload a file
