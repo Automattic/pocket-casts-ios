@@ -5301,8 +5301,11 @@
 /* Header title for smart rule podcasts */
 "playlist_smart_rule_podcasts_header_title" = "All Followed Podcasts";
 
-/* Header subtitle for smart rule podcasts */
-"playlist_smart_rule_podcasts_header_subtitle" = "New podcasts you follow will be automatically added.";
+/* Header subtitle for smart rule podcasts when select all is on */
+"playlist_smart_rule_podcasts_header_subtitle_auto_add" = "New podcasts you follow will be automatically added.";
+
+/* Header subtitle for smart rule podcasts when select all is off */
+"playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
