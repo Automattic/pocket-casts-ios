@@ -123,7 +123,7 @@ class PodcastDataManager {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 var values: [Any]?
                 var whereClause = "WHERE p.subscribed = 1"
@@ -151,7 +151,7 @@ class PodcastDataManager {
         if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
 
         var allPodcasts = [Podcast]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 var values: [Any]?
                 var whereClause = "WHERE p.subscribed = 1"
@@ -179,7 +179,7 @@ class PodcastDataManager {
     /// This is here for development purposes.
     func randomPodcasts(dbQueue: PCDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT * FROM SJPodcast ORDER BY RANDOM() LIMIT 5"
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -325,7 +325,7 @@ class PodcastDataManager {
 
     func unfinishedCounts(dbQueue: PCDBQueue) -> [String: Int32] {
         var counts = [String: Int32]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT p.uuid as uuid, count(e.id) as count FROM \(DataManager.episodeTableName) e, \(DataManager.podcastTableName) p WHERE e.podcast_id = p.id AND playingStatus <> \(PlayingStatus.completed.rawValue) AND archived = 0 GROUP BY p.uuid"
                 let rs = try db.executeQuery(query, values: nil)
@@ -348,7 +348,7 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if podcast.id == 0 {
                     podcast.id = DBUtils.generateUniqueId()
@@ -365,7 +365,7 @@ class PodcastDataManager {
     }
 
     func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 // clear out any that shouldn't be in this folder
                 try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid])
@@ -465,7 +465,7 @@ class PodcastDataManager {
     }
 
     func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let uuids = podcasts.map { $0.uuid }
 
@@ -508,7 +508,7 @@ class PodcastDataManager {
     }
 
     func setOnAllPodcasts<Value: Codable & Equatable>(value: Value, settingName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
 
                 let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
@@ -535,7 +535,7 @@ class PodcastDataManager {
     }
 
     func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 var query = "UPDATE \(DataManager.podcastTableName) SET \(propertyName) = ?"
                 if subscribedOnly {
@@ -551,7 +551,7 @@ class PodcastDataManager {
     }
 
     func saveSortOrders(podcasts: [Podcast], dbQueue: PCDBQueue) {
-        dbQueue.inTransaction { db, _ in
+        dbQueue.write { db in
             do {
                 for podcast in podcasts {
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE id = ?", values: [podcast.sortOrder, podcast.id])
@@ -596,7 +596,7 @@ class PodcastDataManager {
     }
 
     private func saveSingleSetting<Value: Codable & Equatable>(_ name: String, value: Value, podcastUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
                 let json = try JSONEncoder().encode(modified)
@@ -627,7 +627,7 @@ class PodcastDataManager {
         let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_PODCAST_CACHE")
         defer { TraceManager.shared.endTracing(trace: trace) }
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName) ORDER BY sortOrder ASC", values: nil)
                 defer { resultSet.close() }
