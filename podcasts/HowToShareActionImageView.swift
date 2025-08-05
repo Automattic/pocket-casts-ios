@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct HowToShareImage2View: View {
+struct HowToShareActionImageView: View {
     @EnvironmentObject var theme: Theme
 
-    let labelStrings = [L10n.howToUploadSecondImageSidesText, L10n.howToUploadSecondImageCenterText, L10n.howToUploadSecondImageSidesText]
+    let labelStrings = [L10n.howToUploadShareActionImageSidesText, L10n.howToUploadShareActionImageCenterText, L10n.howToUploadShareActionImageSidesText]
 
     var body: some View {
         ZStack {
@@ -16,11 +16,11 @@ struct HowToShareImage2View: View {
                 .shadow(color: .black.opacity(0.25), radius: 4.5, y: 1.5)
                 .padding(.top, 6)
                 .padding(.bottom, 25)
-            HowToShareImage1View.touchCircle(at: .init(x: 0, y: 52.5))
+            HowToShareMenuImageView.touchCircle(at: .init(x: 0, y: 52.5))
         }
         .frame(width: 220, height: 150)
     }
- 
+
     @ViewBuilder
     func background() -> some View {
         ZStack {
@@ -83,5 +83,5 @@ struct HowToShareImage2View: View {
 
 
 #Preview {
-    HowToShareImage2View()
+    HowToShareActionImageView()
 }

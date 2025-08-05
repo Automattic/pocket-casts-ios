@@ -1276,10 +1276,6 @@
 		BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB0C5C2231F74D60071FBA2 /* PCSearchBarController+Search.swift */; };
 		BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DD20806F86007B57CD /* DownloadManager.swift */; };
 		BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */; };
-		BDB1E4DD1B8C5998009AD30F /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */; };
-		BDB1E4DE1B8C5998009AD30F /* DiscoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */; };
-		BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */; };
-		BDB1DC642316964E00119B81 /* HowToUploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1DC622316964E00119B81 /* HowToUploadViewController.xib */; };
 		BDB1E4ED1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4EB1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift */; };
 		BDB1E4EE1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB1E4EC1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib */; };
 		BDB1E4F61B8C5BF9009AD30F /* NetworkSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1E4F41B8C5BF9009AD30F /* NetworkSummaryViewController.swift */; };
@@ -1991,10 +1987,10 @@
 		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
-		FCCC80732DD56B380080EB2C /* HowToUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC80722DD56B380080EB2C /* HowToUploadView.swift */; };
-		FCE96E142D922FEF00AC50E3 /* HowToShareImage1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */; };
-		FCE96E162D9230A800AC50E3 /* HowToShareImage2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */; };
 		F5FFC2352DBAF06D0091429C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = F5FFC2342DBAF06D0091429C /* FacebookCore */; };
+		FCCC80732DD56B380080EB2C /* HowToUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC80722DD56B380080EB2C /* HowToUploadView.swift */; };
+		FCE96E142D922FEF00AC50E3 /* HowToShareMenuImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E132D922FEF00AC50E3 /* HowToShareMenuImageView.swift */; };
+		FCE96E162D9230A800AC50E3 /* HowToShareActionImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE96E152D9230A800AC50E3 /* HowToShareActionImageView.swift */; };
 		FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */; };
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
@@ -3580,10 +3576,6 @@
 		BDB0C5C2231F74D60071FBA2 /* PCSearchBarController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Search.swift"; sourceTree = "<group>"; };
 		BDB165DD20806F86007B57CD /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+URLSessionDelegate.swift"; sourceTree = "<group>"; };
-		BDB1E4DB1B8C5998009AD30F /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
-		BDB1E4DC1B8C5998009AD30F /* DiscoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverViewController.xib; sourceTree = "<group>"; };
-		BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUploadViewController.swift; sourceTree = "<group>"; };
-		BDB1DC622316964E00119B81 /* HowToUploadViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HowToUploadViewController.xib; sourceTree = "<group>"; };
 		BDB1E4EB1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedSummaryViewController.swift; sourceTree = "<group>"; };
 		BDB1E4EC1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedSummaryViewController.xib; sourceTree = "<group>"; };
 		BDB1E4F41B8C5BF9009AD30F /* NetworkSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSummaryViewController.swift; sourceTree = "<group>"; };
@@ -4086,11 +4078,9 @@
 		F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsLogoPill.swift; sourceTree = "<group>"; };
 		F5FF61282BD6D88C00190711 /* SharingModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingModal.swift; sourceTree = "<group>"; };
 		F5FF612A2BD6EB3B00190711 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
-		F88E534BDAFFD21F2017D2B9 /* Pods-Pocket Casts App ClipTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App ClipTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App ClipTests/Pods-Pocket Casts App ClipTests.release.xcconfig"; sourceTree = "<group>"; };
-		FC7ED004592D8F6B73D5DCEE /* Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests/Pods-Pocket Casts App Clip-Pocket Casts App ClipUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FCCC80722DD56B380080EB2C /* HowToUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUploadView.swift; sourceTree = "<group>"; };
-		FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToShareImage1View.swift; sourceTree = "<group>"; };
-		FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToShareImage2View.swift; sourceTree = "<group>"; };
+		FCE96E132D922FEF00AC50E3 /* HowToShareMenuImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToShareMenuImageView.swift; sourceTree = "<group>"; };
+		FCE96E152D9230A800AC50E3 /* HowToShareActionImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToShareActionImageView.swift; sourceTree = "<group>"; };
 		FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceModel.swift; sourceTree = "<group>"; };
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
@@ -4520,8 +4510,8 @@
 				407B21E52231F6A300B4E492 /* UploadedSettingsViewController.swift */,
 				407B21E62231F6A300B4E492 /* UploadedSettingsViewController.xib */,
 				FCCC80722DD56B380080EB2C /* HowToUploadView.swift */,
-				FCE96E132D922FEF00AC50E3 /* HowToShareImage1View.swift */,
-				FCE96E152D9230A800AC50E3 /* HowToShareImage2View.swift */,
+				FCE96E132D922FEF00AC50E3 /* HowToShareMenuImageView.swift */,
+				FCE96E152D9230A800AC50E3 /* HowToShareActionImageView.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -10192,7 +10182,7 @@
 				40164A6723D696E00043907B /* PromotionViewController.swift in Sources */,
 				BD93FDA920159B6B00F6EF55 /* PlaylistsViewController+Table.swift in Sources */,
 				C7FF770C291C2C4D0082A464 /* LoginLandingView.swift in Sources */,
-				FCE96E142D922FEF00AC50E3 /* HowToShareImage1View.swift in Sources */,
+				FCE96E142D922FEF00AC50E3 /* HowToShareMenuImageView.swift in Sources */,
 				BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */,
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */,
@@ -10895,7 +10885,7 @@
 				8BC862672B714782000627B9 /* UnderlineLinkTextView.swift in Sources */,
 				4005F27522C057EA006BB8B8 /* AVFileUtil.swift in Sources */,
 				BDEAA17D1BB140CE001097D9 /* SwitchCell.swift in Sources */,
-				FCE96E162D9230A800AC50E3 /* HowToShareImage2View.swift in Sources */,
+				FCE96E162D9230A800AC50E3 /* HowToShareActionImageView.swift in Sources */,
 				4041FE95218A828F0089D4A1 /* SiriShortcutSuggestedCell.swift in Sources */,
 				BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */,
 				8BC8626B2B718042000627B9 /* SlumberViews.swift in Sources */,

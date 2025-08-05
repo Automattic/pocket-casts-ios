@@ -33,10 +33,10 @@ struct HowToUploadView: View {
                 Text(L10n.howToUploadExplanation)
                     .padding()
 
-                instructionsSection(first: true)
+                instructionsSection(section: .menu)
                     .padding(.bottom, 10)
 
-                instructionsSection(first: false)
+                instructionsSection(section: .action)
 
                 Text(L10n.howToUploadSummary)
                     .padding()
@@ -50,16 +50,31 @@ struct HowToUploadView: View {
         }
     }
 
+    enum Section {
+        case menu
+        case action
+
+        var title: String {
+            switch self {
+            case .menu:
+                L10n.howToUploadShareMenuInstruction
+            case .action:
+                L10n.howToUploadShareActionInstruction
+            }
+        }
+    }
+
     @ViewBuilder
-    func instructionsSection(first isFirst: Bool) -> some View {
+    func instructionsSection(section: Section) -> some View {
         HStack {
             Spacer()
             VStack {
-                Text(isFirst ? L10n.howToUploadFirstInstruction : L10n.howToUploadSecondInstruction)
-                if isFirst {
-                    HowToShareImage1View()
-                } else {
-                    HowToShareImage2View()
+                Text(section.title)
+                switch section {
+                case .menu:
+                    HowToShareMenuImageView()
+                case .action:
+                    HowToShareActionImageView()
                         .offset(y: 10)
                 }
             }

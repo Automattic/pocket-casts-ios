@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HowToShareImage1View: View {
+struct HowToShareMenuImageView: View {
     @EnvironmentObject var theme: Theme
 
     var body: some View {
@@ -17,7 +17,7 @@ struct HowToShareImage1View: View {
             HStack {
                 Spacer()
                 HStack(spacing: 46) {
-                    Text(L10n.howToUploadFirstImageBackgroundButtonText)
+                    Text(L10n.howToUploadShareMenuImageBackgroundButtonText)
                         .lineLimit(1)
                         .font(.system(size: 12).weight(.bold))
 
@@ -40,7 +40,7 @@ struct HowToShareImage1View: View {
     func bottomLeadingForegroundMenu() -> some View {
         ZStack {
             VStack(spacing: 0) {
-                Text(L10n.howToUploadFirstImageForegroundMenuOptionText)
+                Text(L10n.howToUploadShareMenuImageForegroundMenuOptionText)
                     .lineLimit(1)
                     .font(.system(size: 11).weight(.bold))
                     .foregroundStyle(theme.primaryField03)
@@ -77,5 +77,5 @@ struct HowToShareImage1View: View {
 }
 
 #Preview {
-    HowToShareImage1View()
+    HowToShareMenuImageView()
 }
