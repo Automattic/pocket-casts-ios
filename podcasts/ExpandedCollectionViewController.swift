@@ -61,7 +61,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             title = item.title?.localized.localizedCapitalized
         }
 
-        if item.source != nil {
+        if item.source != nil && item.isAuthenticated == false {
             customRightBtn = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(handleShare))
         }
 

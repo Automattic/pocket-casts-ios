@@ -10,11 +10,14 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         showNotesHolderView.insertSubview(showNotesWebView, belowSubview: loadingIndicator)
         showNotesWebView.translatesAutoresizingMaskIntoConstraints = false
+
+        let showNotesWebViewTopConstraint = showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 20)
+        self.showNotesWebViewTopConstraint = showNotesWebViewTopConstraint
         NSLayoutConstraint.activate([
             showNotesWebView.leadingAnchor.constraint(equalTo: showNotesHolderView.leadingAnchor),
             showNotesWebView.trailingAnchor.constraint(equalTo: showNotesHolderView.trailingAnchor),
             showNotesWebView.bottomAnchor.constraint(equalTo: showNotesHolderView.bottomAnchor),
-            showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 20)
+            showNotesWebViewTopConstraint
         ])
 
         showNotesWebView.allowsLinkPreview = true
@@ -26,6 +29,25 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         showNotesWebView.scrollView.isScrollEnabled = false
 
         showNotesWebView.scrollView.showsVerticalScrollIndicator = false
+
+        setupTranscriptExcerptView()
+    }
+
+    func setupTranscriptExcerptView() {
+        let transcriptExcerpt = UIView()
+        transcriptExcerpt.backgroundColor = .clear
+        transcriptExcerpt.translatesAutoresizingMaskIntoConstraints = false
+        transcriptExcerpt.isHidden = true
+        mainScrollView.insertSubview(transcriptExcerpt, aboveSubview: showNotesHolderView)
+
+        NSLayoutConstraint.activate([
+            transcriptExcerpt.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            transcriptExcerpt.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+            transcriptExcerpt.bottomAnchor.constraint(equalTo: showNotesHolderView.topAnchor),
+            transcriptExcerpt.heightAnchor.constraint(equalToConstant: 78)
+        ])
+
+        self.transcriptExcerpt = transcriptExcerpt
     }
 
     func loadShowNotes() {
@@ -37,7 +59,42 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         Task { [weak self] in
             guard let self else { return }
 
-            let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+            let parentIdentifier = episode.parentIdentifier()
+            let episodeUUID = episode.uuid
+            let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: parentIdentifier, episodeUuid: episodeUUID)
+
+            if FeatureFlag.episodeDetailTranscript.enabled {
+                let hideExcerpt: (EpisodeDetailViewController?) -> Void = { vc in
+                    vc?.transcriptExcerpt?.isHidden = true
+                    vc?.showNotesHolderTopAnchor?.constant = 0.0
+                    vc?.showNotesWebViewTopConstraint?.constant = 20.0
+                }
+                if let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier, episodeUuid: episodeUUID), !metadata.transcripts.isEmpty {
+                    let viewModel = TranscriptExcerptViewModel(episodeUUID: episodeUUID, podcastUUID: parentIdentifier, isGeneratedTranscript: metadata.hasGeneratedTranscripts) {
+                        DispatchQueue.main.async { [weak self] in
+                            let playbackManager = TranscriptEpisodeInfoProvider(episodeUUID: episodeUUID, podcastUUID: parentIdentifier)
+                            let controller = TranscriptContainerViewController(playbackManager: playbackManager)
+                            controller.playButtonTapped = { [weak self] playing in
+                                self?.playPauseEpisode(isPlaying: playing)
+                            }
+                            self?.present(controller, animated: true)
+                        }
+                    }
+                    await MainActor.run { [weak self] in
+                        let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
+                        view.translatesAutoresizingMaskIntoConstraints = false
+                        self?.transcriptExcerpt?.addSubview(view)
+                        view.anchorToAllSidesOf(view: self?.transcriptExcerpt)
+                        self?.transcriptExcerpt?.isHidden = false
+                        self?.showNotesHolderTopAnchor?.constant = 78.0
+                        self?.showNotesWebViewTopConstraint?.constant = 0.0
+                    }
+                } else {
+                    await MainActor.run { [weak self] in
+                        hideExcerpt(self)
+                    }
+                }
+            }
             downloadingShowNotes = false
             showNotesDidLoad(showNotes: showNotes ?? CacheServerHandler.noShowNotesMessage)
         }

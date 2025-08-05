@@ -40,7 +40,7 @@ extension DiscoverCollectionViewController: UICollectionViewDelegate {
         switch item {
         case .item(let item):
             let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? DiscoverSummaryProtocol & UIViewController
-            viewController?.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
+            viewController?.populateFrom(item: item.model.item, region: item.model.region, category: item.model.selectedCategory)
             viewController?.beginAppearanceTransition(true, animated: false)
             viewController?.endAppearanceTransition()
         default:
@@ -79,6 +79,8 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
             searchView.alpha = 1
         }
+
+        searchResultsController.searchShown()
     }
 
     func searchDidEnd() {
@@ -91,7 +93,7 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
             self.resultsControllerDelegate.clearSearch()
         }
 
-        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.discover])
+        searchResultsController.searchDismissed()
     }
 
     func searchWasCleared() {

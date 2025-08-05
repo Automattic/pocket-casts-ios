@@ -102,6 +102,8 @@ struct Constants {
 
         // Gravatar
         static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
+
+        static let discoverNavigateToCategory = Notification.Name(rawValue: "DiscoverNavigateToCategory")
     }
 
     enum UserDefaults {
@@ -154,6 +156,8 @@ struct Constants {
         static let lastRunVersion = "lastRunVersion"
 
         static let reviewRequestDates = "reviewRequestDates"
+        static let surveyPresentationDates = "surveyPresentationDates"
+        static let lastSurveyNotReallyDate = "lastSurveyNotReallyDate"
 
         static let showBadgeForEndOfYear = "showBadgeFor%dEndOfYear"
         static let modalHasBeenShown = "modal%dHasBeenShown"
@@ -161,6 +165,7 @@ struct Constants {
         static let hasSyncedEpisodesForPlaybackAsPlusUser = "hasSyncedEpisodesForPlayback%dAsPlusUser"
         static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
+        static let shouldShowEncourageAccountCreationModal = "shouldShowEncourageAccountCreationModal"
 
         static let autoplay = "autoplay"
 
@@ -173,6 +178,11 @@ struct Constants {
         static let sleepTimerSetting = "sleepTimerSetting"
 
         static let isLockScreenScrubbingDisabled = "IsLockScreenScrubbingDisabled"
+
+        static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
+
+        static let newFilterTip = "NewFilterTip"
+        static let playlistsOnboarding = "PlaylistsOnboarding"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
@@ -215,6 +225,24 @@ struct Constants {
         enum suggestedFolders {
             static let lastUpsellDate = "suggestedFolders.lastUpsellDate"
             static let upsellCount = "suggestedFolders.upsellCount"
+            static let lastPodcastsUsed = "suggestedFolders.lastPodcastsUsed"
+        }
+
+        enum podcastViewChanges {
+            static let showTip = "podcastViewChanges.showtip"
+        }
+
+        enum notifications {
+            static let newEpisodes = "notifications.newEpisodes"
+            static let dailyReminders = "notifications.dailyReminders"
+            static let newFeaturesAndTips = "notifications.newFeaturesAndTips"
+            static let recommendations = "notifications.recommendations"
+            static let offers = "notifications.offers"
+            static let triggerDates = "notifications.triggerDates"
+        }
+
+        enum informationalModal {
+            static let hasShownViewModal = "hasShownViewModal"
         }
     }
 
@@ -391,6 +419,23 @@ enum PlusUpgradeViewSource: String {
     case upNextShuffle
     case generatedTranscripts
     case onboarding
+    case suggestedFolders = "suggested_folders"
+    case bannerAd = "banner_ad"
+    case login
+    case accountCreated = "account_created"
+    case account
+    case settings
+    case referral
+    case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case bookmarksLocked = "bookmarks_locked"
+    case overflowMenu = "overflow_menu"
+    case slumber
+    case deselectChapters = "deselect_chapters"
+    case headphoneSettings =  "headphone_settings"
+    case bookmarksShelfAction = "bookmarks_shelf_action"
+    case whatsNew
+    case sonosLink = "sonos_link"
+    case deepLink
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
@@ -434,6 +479,8 @@ enum PlusUpgradeViewSource: String {
             return L10n.paywallDynamicHeadlineIcons
         case .files:
             return L10n.paywallDynamicHeadlineFiles
+        case .bannerAd:
+            return L10n.paywallDynamicHeadlineBannerAd
         default:
             return L10n.plusMarketingTitle
         }

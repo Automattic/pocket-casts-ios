@@ -6,8 +6,6 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     weak var delegate: ExpandableLabelDelegate?
     var heightChanged: (CGFloat) -> ()
 
-    static var cache: [String: RichExpandableLabel] = [:]
-
     init(htmlDescription: String, delegate: ExpandableLabelDelegate?, heightChanged: @escaping (CGFloat) -> ()) {
         _htmlDescription = .init(initialValue: htmlDescription)
         self.delegate = delegate
@@ -15,15 +13,7 @@ struct PodcastHeaderDescriptionView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> RichExpandableLabel {
-        let view: RichExpandableLabel
-        if let cachedView = Self.cache[htmlDescription] {
-            view = cachedView
-            view.removeFromSuperview()
-        } else {
-            view = RichExpandableLabel()
-            Self.cache.removeAll()
-            Self.cache[htmlDescription] = view
-        }
+        let view = RichExpandableLabel()
         // we need this or else the webview will not expand to the width
         view.translatesAutoresizingMaskIntoConstraints = true
         view.delegate = self.delegate

@@ -7,6 +7,7 @@ struct PlusAccountUpgradePrompt: View {
 
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlusAccountPromptViewModel
+    @Environment(\.sizeCategory) private var sizeCategory
 
     @State private var currentPage = 0
     @State private var waitingToLoad = false
@@ -15,6 +16,14 @@ struct PlusAccountUpgradePrompt: View {
 
     /// Allows UIKit to listen for content size changes
     var contentSizeUpdated: ((CGSize) -> Void)? = nil
+
+    private var vSpacing: CGFloat {
+        max(16.0, 16.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
+
+    private var hSpacing: CGFloat {
+        max(10.0, 10.0 * ScaleFactorModifier.scaleFactor(for: sizeCategory))
+    }
 
     init(viewModel: PlusAccountPromptViewModel, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
         self.viewModel = viewModel
@@ -49,17 +58,18 @@ struct PlusAccountUpgradePrompt: View {
 
     @ViewBuilder
     func card(for product: ProductInfo, geometryProxy: GeometryProxy) -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: vSpacing) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     SubscriptionPriceAndOfferView(product: product, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
                     productFeatures[product.identifier].map {
                         ForEach($0) { feature in
-                            HStack(spacing: 10) {
+                            HStack(spacing: hSpacing) {
                                 Image(feature.iconName)
                                     .renderingMode(.template)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
+                                    .scaleFactor(for: sizeCategory)
                                     .frame(width: 16)
                                     .foregroundColor(theme.primaryText01)
 
@@ -71,7 +81,8 @@ struct PlusAccountUpgradePrompt: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
 
                                 Spacer()
-                            }.frame(maxWidth: .infinity)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                     }
                 }
@@ -104,14 +115,17 @@ struct PlusAccountUpgradePrompt: View {
 
     private let productFeatures: [IAPProductID: [Feature]] = [
         .yearly: ([
-            .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
+            FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil,
+            .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersTitle),
             .init(iconName: "plus-feature-up-next-shuffle", title: L10n.plusMarketingUpNextShuffle),
+            .init(iconName: "plus-feature-bookmarks", title: L10n.plusMarketingBookmarksTitle),
+            PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl) : nil,
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons),
-            PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
-            FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
+            FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil,
+            libroFmFeature()
         ]
             .compactMap { $0 }),
 
@@ -126,6 +140,13 @@ struct PlusAccountUpgradePrompt: View {
         ]
             .compactMap { $0 }
     ]
+
+    private static func libroFmFeature() -> Feature? {
+        if FeatureFlag.libroFm.enabled {
+            return Feature(iconName: "plus-feature-librofm", title: L10n.plusFeatureLibrofm.libroFmWithURL)
+        }
+        return nil
+    }
 
     // MARK: - Model
     private struct Feature: Identifiable, Hashable {

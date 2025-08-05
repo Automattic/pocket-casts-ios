@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "New recommendations for you",
+      "body": "Wondering what to listen to next? Check out these shows!"
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://discover/recommendations_user"
+}

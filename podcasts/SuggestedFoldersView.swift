@@ -45,14 +45,14 @@ struct SuggestedFoldersView: View {
                                     onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
-                                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
                                 }
                                 .accessibilityLabel(L10n.close)
                             }
                         }
                 }
                 .navigationViewStyle(.stack)
-                .tint(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                .tint(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
             case .failed:
                 CreateFolderView(isInsideNavigation: false) { uuid in
                     if let uuid {
@@ -132,7 +132,7 @@ struct SuggestedFoldersView: View {
         .padding(.horizontal, Constants.margin)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            track(.suggestedFoldersPageShow)
+            track(.suggestedFoldersPageShown)
         }
         .onChange(of: createFolderActive) { newFolder in
             if newFolder {
@@ -156,14 +156,8 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.fraction(0.4)])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
+        .presentationDetents([.fraction(0.4)])
+            .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {

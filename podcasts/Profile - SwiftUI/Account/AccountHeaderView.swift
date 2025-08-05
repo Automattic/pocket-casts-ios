@@ -42,12 +42,8 @@ struct AccountHeaderView: View {
                         ZStack {
                             theme.primaryUi01.ignoresSafeArea()
 
-                            if #available(iOS 16.0, *) {
-                                ChampionView()
-                                    .presentationDetents([.medium])
-                            } else {
-                                ChampionView()
-                            }
+                            ChampionView()
+                                .presentationDetents([.medium])
                         }
                     }
                 }

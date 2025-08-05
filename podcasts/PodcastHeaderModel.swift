@@ -44,6 +44,9 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     lazy var podcastRatingViewModel: PodcastRatingViewModel = {
         let podcastRatingViewModel = PodcastRatingViewModel()
         podcastRatingViewModel.update(podcast: podcast)
+        podcastRatingViewModel.presentLogin = { [weak self] _ in
+            self?.delegate?.showLogin(message: L10n.ratingLoginRequired)
+        }
         return podcastRatingViewModel
     }()
 
@@ -53,12 +56,22 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return folderImage
     }
 
-    var displayCategory: String {
-        var result = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        if let author = podcast.author {
-            result += " · \(author)"
+    var firstCategory: String {
+        guard let category = podcast.podcastCategory,
+              let substring = category.split(whereSeparator: \.isNewline).first
+        else {
+            return ""
         }
-        return result
+        return String(substring).lowercased()
+    }
+
+    var displayCategoryAndAuthor: AttributedString {
+        let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
+        var markdown = "[\(category)](http://pocketcasts.com)"
+        if let author = podcast.author {
+            markdown += " · \(author)"
+        }
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
     }
 
     var displayAuthor: String? {
@@ -101,7 +114,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     func subscribeButtonTapped() {
         guard let delegate = delegate else { return }
 
-        if podcast.isSubscribed() {
+        if podcast.isSubscribed() || isSubscribed {
             delegate.unsubscribe()
             // do not switch variable here because there is still a confimation screen
         } else {
@@ -126,6 +139,14 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     var htmlDescription: String {
         return podcast.podcastHTMLDescription ?? podcast.podcastDescription ?? ""
+    }
+
+    func categoryTapped() {
+        delegate?.categoryTapped(firstCategory)
+    }
+
+    func podcastArtworkTapped() {
+        delegate?.refreshArtwork()
     }
 }
 

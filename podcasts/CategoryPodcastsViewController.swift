@@ -48,13 +48,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsTable)
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if FeatureFlag.discoverCollectionView.enabled == false {
-            loadPodcasts()
-        }
-    }
 
     @IBAction func tryAgainTapped(_ sender: AnyObject) {
         loadPodcasts()
@@ -132,7 +125,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         noNetworkView.isHidden = true
         loadingIndicator.startAnimating()
 
-        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, completion: { [weak self] categoryDetails in
+        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
             DispatchQueue.main.async {
                 guard let strongSelf = self, let podcasts = categoryDetails?.podcasts else {
                     return
@@ -148,7 +141,8 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 }
 
                 if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
-                    AnalyticsHelper.listImpression(listId: promotionUuid)
+                    let categoryId = strongSelf.category?.id.map(String.init)
+                    AnalyticsHelper.listImpression(listId: promotionUuid, category: categoryId)
                 }
             }
         })

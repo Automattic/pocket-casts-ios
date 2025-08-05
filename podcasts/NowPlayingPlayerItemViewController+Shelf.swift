@@ -307,16 +307,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     // MARK: - Player Actions
     private func presentUsingSheet(_ viewController: UIViewController, forceLarge: Bool = false) {
         if let sheetController = viewController.sheetPresentationController {
-            if #available(iOS 16.0, *) {
-                // We create a custom detent height of a bit more than half the hosting VC to try and
-                // ensure that all of the shelf content is visible in the sheet. We offer a large detent
-                // as a fallback so that the user can pull the sheet up if any content is ever cut off.
-                let maxWidth = sheetController.containerView?.bounds.width ?? .greatestFiniteMagnitude
-                let sheetDetentHeight = sheetController.presentedViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
-            } else {
-                sheetController.detents = forceLarge || UIScreen.isSmallScreen ? [.large()] : [.medium()]
-            }
+            // We create a custom detent height of a bit more than half the hosting VC to try and
+            // ensure that all of the shelf content is visible in the sheet. We offer a large detent
+            // as a fallback so that the user can pull the sheet up if any content is ever cut off.
+            let maxWidth = sheetController.containerView?.bounds.width ?? .greatestFiniteMagnitude
+            let sheetDetentHeight = sheetController.presentedViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
+            sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
 
             // The Shelf Actions VC implements its own grabber UI.
             sheetController.prefersGrabberVisible = false
@@ -379,7 +375,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         shelfButtonTapped(action)
 
         guard action.isUnlocked else {
-            action.paidFeature?.presentUpgradeController(from: self, source: "bookmarks_shelf_action")
+            action.paidFeature?.presentUpgradeController(from: self, source: .bookmarksShelfAction)
             return
         }
 

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import PocketCastsUtils
 
 class LoginLandingHostingController<Content>: OnboardingHostingViewController<Content> where Content: View {
     override func viewWillAppear(_ animated: Bool) {
@@ -12,9 +13,15 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
         navigationItem.titleView = imageView
 
         if navigationController?.viewControllers.first == self {
-            let dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
-            dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
-                                                NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
+            let dismissItem: UIBarButtonItem
+            if FeatureFlag.fullScreenLogin.enabled {
+                dismissItem = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
+                dismissItem.tintColor = ThemeColor.primaryText01()
+            } else {
+                dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
+                dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
+                                                    NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
+            }
             navigationItem.rightBarButtonItem = dismissItem
         }
 

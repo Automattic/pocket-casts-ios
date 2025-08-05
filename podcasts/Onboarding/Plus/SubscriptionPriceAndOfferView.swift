@@ -2,12 +2,19 @@ import SwiftUI
 
 /// View to display the price of a subscription and any offer associated.
 struct SubscriptionPriceAndOfferView: View {
+    @Environment(\.sizeCategory) private var sizeCategory
 
     typealias ProductInfo = PlusPricingInfoModel.PlusProductPricingInfo
 
     private let product: ProductInfo
     private let mainTextColor: Color
     private let secondaryTextColor: Color
+    private var insets: EdgeInsets {
+        if sizeCategory.isAccessibilityCategory {
+            return EdgeInsets(top: 10, leading: 25, bottom: 10, trailing: 25)
+        }
+        return EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8)
+    }
 
     init(product: ProductInfo, mainTextColor: Color, secondaryTextColor: Color) {
         self.product = product
@@ -25,25 +32,28 @@ struct SubscriptionPriceAndOfferView: View {
                 if let offerDescription = offerDescription(for: product) {
                     Text(offerDescription)
                         .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
-                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                        .padding(insets)
                         .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
                         .textCase(.uppercase)
                         .font(style: .caption2, weight: .semibold)
                         .clipShape(.capsule)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
-            Text(price(for: product))
+            Text(price(for: product, sizeCategory: sizeCategory))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 12)
     }
 
-    private func price(for subscriptionInfo: ProductInfo) -> AttributedString {
+    private func price(for subscriptionInfo: ProductInfo, sizeCategory: ContentSizeCategory) -> AttributedString {
         let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
 
-        let priceFont = UIFont.font(with: .headline, maxSizeCategory: .extraExtraExtraLarge)
-        let periodFont = UIFont.font(with: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+        let priceFont = UIFont.font(with: .headline)
+        let periodFont = UIFont.font(with: .footnote)
 
         // Only show the offer price for the intro discount
         guard let offer = subscriptionInfo.offer, offer.type == .discount else {
@@ -87,17 +97,11 @@ private struct OfferStack<Content: View>: View {
     @ViewBuilder let content: () -> Content
 
     var body: some View {
-        if #available(iOS 16.0, *) {
-            ViewThatFits(in: .horizontal) {
-                HStack(spacing: 10) {
-                    content()
-                }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    content()
-                }
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 10) {
+                content()
             }
-        } else {
+
             VStack(alignment: .leading, spacing: 10) {
                 content()
             }
@@ -106,5 +110,5 @@ private struct OfferStack<Content: View>: View {
 }
 
 #Preview {
-    SubscriptionPriceAndOfferView(product: PlusPricingInfoModel.PlusProductPricingInfo(identifier: .monthly, price: "9.99", rawPrice: "9.99", offer: nil), mainTextColor: .black, secondaryTextColor: .gray)
+    SubscriptionPriceAndOfferView(product: PlusPricingInfoModel.PlusProductPricingInfo(identifier: .monthly, price: "9.99", rawPrice: "9.99", weeklyPrice: "0.70", monthlyPrice: nil, offer: nil, basePrice: 9.99), mainTextColor: .black, secondaryTextColor: .gray)
 }

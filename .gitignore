@@ -1,5 +1,4 @@
-podcasts.xcodeproj/xcuserdata/
-podcasts.xcworkspace/xcuserdata/
+**/xcuserdata/
 Pods/
 /.DS_Store
 /Themes.txt
@@ -38,3 +37,6 @@ artifacts/*
 *.app.dSYM.zip
 *.ipa
 *.build
+
+# Claude Code ignored personal preferences
+.claude/settings.local.json

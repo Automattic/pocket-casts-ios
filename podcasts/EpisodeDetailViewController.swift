@@ -46,7 +46,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var showNotesHolderView: UIView!
     @IBOutlet var showNotesHolderViewHeight: NSLayoutConstraint!
+    @IBOutlet var showNotesHolderTopAnchor: NSLayoutConstraint!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
+    var showNotesWebViewTopConstraint: NSLayoutConstraint?
+    var transcriptExcerpt: UIView?
 
     @IBOutlet var mainScrollView: UIScrollView! {
         didSet {

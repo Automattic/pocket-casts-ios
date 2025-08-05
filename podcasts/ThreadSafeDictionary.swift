@@ -9,15 +9,15 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
 
     func value(forKey key: Key) -> Value? {
         var value: Value?
-        queue.sync {
-            value = table[key]
+        queue.sync { [weak self] in
+            value = self?.table[key]
         }
         return value
     }
 
     func updateValue(_ value: Value?, forKey key: Key) {
-        queue.async(flags: .barrier) {
-            self.table[key] = value
+        queue.async(flags: .barrier) { [weak self] in
+            self?.table[key] = value
         }
     }
 
@@ -34,10 +34,16 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         updateValue(nil, forKey: key)
     }
 
+    func removeAll() {
+        queue.async(flags: .barrier) { [weak self] in
+            self?.table.removeAll()
+        }
+    }
+
     func contains(where predicate: ((key: Key, value: Value)) throws -> Bool) rethrows -> Bool {
         var result = false
-        try queue.sync {
-            result = try table.contains(where: predicate)
+        try queue.sync { [weak self] in
+            result = try self?.table.contains(where: predicate) ?? false
         }
         return result
     }

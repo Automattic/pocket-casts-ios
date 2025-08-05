@@ -2,6 +2,8 @@ import Combine
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import UIKit
+import SwiftUI
 
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private let episodesDataManager = EpisodesDataManager()
@@ -14,50 +16,44 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
-    @IBOutlet var noEpisodesScrollView: UIScrollView! {
+    var uploadedEpisodes = [UserEpisode]() {
         didSet {
-            noEpisodesScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+            refreshContentUnavailable()
         }
     }
-
-    @IBOutlet var noFilesImage: ThemeableImageView! {
-        didSet {
-            noFilesImage.imageNameFunc = AppTheme.noFilesImageName
-        }
-    }
-
-    @IBOutlet var noEpisodeTitleLabel: ThemeableLabel! {
-        didSet {
-            noEpisodeTitleLabel.style = .primaryText01
-            noEpisodeTitleLabel.text = L10n.fileUploadNoFilesTitle
-        }
-    }
-
-    @IBOutlet var noEpisodeDetailLabel: ThemeableLabel! {
-        didSet {
-            noEpisodeDetailLabel.style = .primaryText02
-            noEpisodeDetailLabel.text = L10n.fileUploadNoFilesDescription
-        }
-    }
-
-    @IBOutlet var howToBtn: ThemeableUIButton! {
-        didSet {
-            howToBtn.setTitle(L10n.fileUploadNoFilesHelper, for: .normal)
-        }
-    }
-
-    @IBOutlet weak var addFilesButton: ThemeableRoundedButton! {
-        didSet {
-            addFilesButton.setTitle(L10n.fileUploadAddFile, for: .normal)
-        }
-    }
-
-    var uploadedEpisodes = [UserEpisode]()
     let headerView = UploadedStorageHeaderView()
 
     private var tableRefreshControl: UploadedRefreshControl?
     private var noEpisodeRefreshControl: UploadedRefreshControl?
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
+
+    private func refreshContentUnavailable() {
+        var config: UIContentConfiguration?
+
+        if uploadedEpisodes.isEmpty {
+            let title = L10n.fileUploadNoFilesTitle
+            let message = L10n.fileUploadNoFilesDescription
+            config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("profile_files") }, actions: [
+                .init(title: L10n.fileUploadAddFile) {
+                    self.addFile()
+                },
+                .init(id: L10n.fileUploadNoFilesHelper) {
+                    Button(action: {
+                        self.howTo()
+                    }, label: {
+                        Text(L10n.fileUploadNoFilesHelper)
+                            .font(.body)
+                    }).buttonStyle(SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01))
+                }
+            ])
+        }
+
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.setContentUnavailableConfiguration(config)
+        }
+    }
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -108,7 +104,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     override func viewDidLoad() {
         setupNavBar()
-        setupAddFilesButton()
         super.viewDidLoad()
 
         registerCells()
@@ -116,10 +111,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
             tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: .files)
-            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
+            //TODO: Check that we don't need a refresh control
+//            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
         }
-
-        noEpisodesScrollView.alwaysBounceVertical = true
 
         let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         headerView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -198,10 +192,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
-    func setupAddFilesButton() {
-        addFilesButton.shouldFill = false
-    }
-
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         Analytics.track(.uploadedFilesOptionsButtonTapped)
 
@@ -209,7 +199,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         let addFileAction = OptionAction(label: L10n.fileUploadAddFile, icon: "filter_add") { [weak self] in
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "add_file"])
-            self?.addFilesTapped(UIButton())
+            self?.addFile()
 
         }
         optionsPicker.addAction(action: addFileAction)
@@ -259,7 +249,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
-    @IBAction func howToTapped(_ sender: Any) {
+    func howTo() {
         Analytics.track(.uploadedFilesHelpButtonTapped)
 
         let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.sharedTheme)
@@ -267,7 +257,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         present(navController, animated: true, completion: nil)
     }
 
-    @IBAction func addFilesTapped(_ sender: Any) {
+    func addFile() {
         Analytics.track(.uploadedFilesAddButtonTapped)
 
         let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: FileTypeUtil.supportedUserFileTypes, asCopy: true)
@@ -360,27 +350,27 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     // MARK: - UIScrollView
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let selectedRefreshControl: UploadedRefreshControl?
-        if scrollView == noEpisodesScrollView {
-            selectedRefreshControl = noEpisodeRefreshControl
-        } else {
-            selectedRefreshControl = tableRefreshControl
-        }
-
-        selectedRefreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let selectedRefreshControl: UploadedRefreshControl?
-        if scrollView == noEpisodesScrollView {
-            selectedRefreshControl = noEpisodeRefreshControl
-        } else {
-            selectedRefreshControl = tableRefreshControl
-        }
-
-        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let selectedRefreshControl: UploadedRefreshControl?
+//        if scrollView == noEpisodesScrollView {
+//            selectedRefreshControl = noEpisodeRefreshControl
+//        } else {
+//            selectedRefreshControl = tableRefreshControl
+//        }
+//
+//        selectedRefreshControl?.scrollViewDidScroll(scrollView)
+//    }
+//
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        let selectedRefreshControl: UploadedRefreshControl?
+//        if scrollView == noEpisodesScrollView {
+//            selectedRefreshControl = noEpisodeRefreshControl
+//        } else {
+//            selectedRefreshControl = tableRefreshControl
+//        }
+//
+//        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
+//    }
 
     override func handleThemeChanged() {
         uploadsTable.reloadData()

@@ -137,7 +137,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
     @IBOutlet var bookmarkTabsView: UIStackView!
-    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+    private var tabsViewController: ThemedHostingController<PodcastDetailsTabView>? = nil
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -154,7 +154,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         bookmarkTabsView.removeAllSubviews()
-        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+        let controller = ThemedHostingController(rootView: PodcastDetailsTabView(delegate: delegate))
 
         bookmarkTabsView.addArrangedSubview(controller.view)
         parentController.addChild(controller)
@@ -227,7 +227,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            delegate?.refreshArtwork(fromRect: podcastImageView.frame, inView: self)
+            delegate?.refreshArtwork()
         }
     }
 
@@ -368,6 +368,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
         delegate.setSummaryExpanded(expanded: willBeExpanded)
         extraContentStackView.alpha = willBeExpanded ? 0 : 1
+        roundedBorder.alpha = willBeExpanded ? 0 : 1
 
         Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": willBeExpanded])
 
@@ -375,6 +376,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         if willBeExpanded {
             UIView.animate(withDuration: 0.2, delay: 0.10, options: [], animations: {
                 self.extraContentStackView.alpha = 1
+                self.roundedBorder.alpha = 1
             }, completion: nil)
 
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
@@ -387,6 +389,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         } else {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.extraContentStackView.alpha = 0
+                self.roundedBorder.alpha = 0
                 self.podcastImageHeightConstraint.constant = self.artworkSize()
                 self.updateLayout()
                 self.superview?.layoutIfNeeded()

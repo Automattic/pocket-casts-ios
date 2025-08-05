@@ -7,7 +7,10 @@ import UIKit
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        UITableView.automaticDimension
+        if section == 0, FeatureFlag.newOnboardingUpgrade.enabled {
+            return 1
+        }
+        return UITableView.automaticDimension
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -24,10 +27,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return upgradePromptViewSize?.height ?? UITableView.automaticDimension
 
-        case .newsletter:
-            return UITableView.automaticDimension
         default:
-            return 64
+            return UITableView.automaticDimension
         }
     }
 
@@ -37,7 +38,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             return 350
         default:
-            return 64
+            return 70
         }
     }
 
@@ -46,7 +47,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch row {
         case .upgradeView:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier, for: indexPath) as! PlusAccountPromptTableCell
+            let cell: PlusAccountPromptTableCell
+            if let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: PlusAccountPromptTableCell.reuseIdentifier) as? PlusAccountPromptTableCell {
+                cell = dequeuedCell
+            } else {
+                cell = PlusAccountPromptTableCell(reuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier, model: model)
+            }
             cell.updateParent(self)
             cell.contentSizeUpdated = { [weak self] size in
                 self?.upgradePromptViewSize = size
@@ -172,10 +178,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .upgradeView:
             break
         case .upgradeAccount:
-            let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, source: "account")
+                let controller = OnboardingFlow.shared.begin(flow: .patronAccountUpgrade, in: self, source: .account)
             navigationController?.present(controller, animated: true)
-            break
-
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
@@ -276,5 +280,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         firstAlert.addAction(cancelAction)
 
         present(firstAlert, animated: true, completion: nil)
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0, FeatureFlag.newOnboardingUpgrade.enabled {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 2))
+            view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
+            return view
+        }
+        return nil
     }
 }

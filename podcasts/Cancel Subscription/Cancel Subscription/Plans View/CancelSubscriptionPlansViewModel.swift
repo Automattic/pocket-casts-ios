@@ -40,6 +40,12 @@ class CancelSubscriptionPlansViewModel: CancelSubscriptionViewModel {
         Analytics.track(.winbackScreenDismissed, properties: ["screen": "available_plans"])
     }
 
+    func getOrderedProducts() -> [PlusPricingInfoModel.PlusProductPricingInfo] {
+        let order: [IAPProductID] = [.monthly, .patronMonthly, .yearly, .patronYearly, .yearlyReferral]
+        let productMap = Dictionary(uniqueKeysWithValues: pricingInfo.products.map { ($0.identifier, $0) })
+        return order.compactMap { productMap[$0] }
+    }
+
     func loadCurrentProduct() async {
         if currentProductAvailability == .loading { return }
 

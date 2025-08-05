@@ -1,3 +1,2 @@
-- Revert episode detail screen dismiss action when archiving [#2802](https://github.com/Automattic/pocket-casts-ios/pull/2802)
-- Implement the possibility to display generated transcripts [#2812](https://github.com/Automattic/pocket-casts-ios/issues/2812)
-- Add Suggested Folder feature [#2828](https://github.com/Automattic/pocket-casts-ios/issues/2828)
+- Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
+- New subscription upgrade screens [#3372](https://github.com/Automattic/pocket-casts-ios/pull/3372)

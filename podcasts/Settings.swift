@@ -356,14 +356,17 @@ class Settings: NSObject {
 
     private static let chartRegion = "SJChartRegion"
     class func discoverRegion(discoverLayout: DiscoverLayout) -> String {
+        return convertRegion(userRegion: userRegion(), discoverLayout: discoverLayout)
+    }
+
+    class func userRegion() -> String? {
         var userRegion: String?
         if let savedRegion = UserDefaults.standard.string(forKey: chartRegion) {
             userRegion = savedRegion.lowercased()
         } else if let region = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
             userRegion = region.lowercased()
         }
-
-        return convertRegion(userRegion: userRegion, discoverLayout: discoverLayout)
+        return userRegion
     }
 
     private class func convertRegion(userRegion: String?, discoverLayout: DiscoverLayout) -> String {
@@ -662,6 +665,16 @@ class Settings: NSObject {
 
     class func subscriptionCancelledAcknowledged() -> Bool {
         UserDefaults.standard.bool(forKey: subscriptionCancelledAcknowledgedKey)
+    }
+
+    private static let subscriptionCancelledSurveyShowedKey = "SJCancelledSurveyShowed"
+    static var subscriptionCancelledSurveyShown: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: subscriptionCancelledSurveyShowedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: subscriptionCancelledSurveyShowedKey)
+        }
     }
 
     // MARK: Promotion Finished Acknowledgement
@@ -971,6 +984,35 @@ class Settings: NSObject {
 
     class func reviewRequestDates() -> [Date] {
         UserDefaults.standard.array(forKey: Constants.UserDefaults.reviewRequestDates) as? [Date] ?? [Date]()
+    }
+
+    class func resetReviewRequests() {
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.reviewRequestDates)
+    }
+
+    // MARK: - User Satisfaction Survey
+
+    class func addSurveyPresented() {
+        var surveyDates = Self.surveyPresentationDates()
+        surveyDates.append(Date())
+        UserDefaults.standard.set(surveyDates, forKey: Constants.UserDefaults.surveyPresentationDates)
+    }
+
+    class func surveyPresentationDates() -> [Date] {
+        UserDefaults.standard.array(forKey: Constants.UserDefaults.surveyPresentationDates) as? [Date] ?? [Date]()
+    }
+
+    class func lastSurveyNotReallyDate() -> Date? {
+        UserDefaults.standard.object(forKey: Constants.UserDefaults.lastSurveyNotReallyDate) as? Date
+    }
+
+    class func setSurveyNotReallyResponse() {
+        UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastSurveyNotReallyDate)
+    }
+
+    class func resetSurveyData() {
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.surveyPresentationDates)
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.lastSurveyNotReallyDate)
     }
 
     // MARK: - Tracks
@@ -1409,6 +1451,137 @@ class Settings: NSObject {
 
         get {
             UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.upsellCount) as? Int ?? 0
+        }
+    }
+
+    class var suggestedFoldersLastPodcastsUsed: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.suggestedFolders.lastPodcastsUsed) as? String
+        }
+    }
+
+    // MARK: - Podcast View Changes Tip
+
+    static var shouldShowPodcastViewChangesTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.podcastViewChanges.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.podcastViewChanges.showTip)
+        }
+    }
+
+    // MARK: - Recent Played Sorting Tip
+
+    static var shouldShowRecentlyPlayedSortingTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldShowRecentlyPlayedSortingTip)
+        }
+    }
+
+    // MARK: - New Filter Tip
+
+    static var shouldShowNewFilterTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.newFilterTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.newFilterTip)
+        }
+    }
+
+    // MARK: - New Filter Tip
+
+    static var shouldShowPlaylistsOnboarding: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.playlistsOnboarding) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.playlistsOnboarding)
+        }
+    }
+
+    // MARK: - Informational Banner
+#if !os(watchOS) && !APPCLIP
+    static func dismissBanner(for type: InformationalBannerType) {
+        UserDefaults.standard.set(true, forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+
+    static func shouldShowBanner(for type: InformationalBannerType) -> Bool {
+        return !UserDefaults.standard.bool(forKey: "kInformational\(type.rawValue.capitalized)Banner")
+    }
+#endif
+
+    // MARK: - Notifications
+    static var notificationsNewEpisodes: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newEpisodes) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newEpisodes)
+        }
+    }
+
+    static var notificationsDailyReminders: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.dailyReminders) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.dailyReminders)
+        }
+    }
+
+    static var notificationsNewFeaturesAndTips: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.newFeaturesAndTips) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.newFeaturesAndTips)
+        }
+    }
+
+    static var notificationsRecommendations: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.recommendations) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.recommendations)
+        }
+    }
+
+    static var notificationsOffers: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.offers) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.offers)
+        }
+    }
+
+    static var notificationsLastTriggerDate: [String: Date] {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.notifications.triggerDates) as? [String: Date] ?? [:]
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.notifications.triggerDates)
+        }
+    }
+
+    // MARK: - Encourage Account Creation
+
+    static var hasShownInformationalViewModal: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.informationalModal.hasShownViewModal) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.informationalModal.hasShownViewModal)
         }
     }
 

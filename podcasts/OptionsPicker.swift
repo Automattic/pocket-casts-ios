@@ -37,11 +37,15 @@ class OptionsPicker {
         optionsController?.addDescriptiveActions(title: title, message: message, icon: icon, actions: actions)
     }
 
+    func addAttributedDescriptiveActions(title: String, message: String, icon: String, actions: [OptionAction]) {
+        optionsController?.addAttributedDescriptiveActions(title: title, message: message, icon: icon, actions: actions)
+    }
+
     func setNoActionCallback(_ callback: @escaping () -> Void) {
         noActionCallback = callback
     }
 
-    func show(statusBarStyle: UIStatusBarStyle) {
+    func show(statusBarStyle: UIStatusBarStyle? = nil) {
         guard let rootController = optionsController else { return }
         //TODO: Figure this out and fix it
         #if !APPCLIP
@@ -52,7 +56,9 @@ class OptionsPicker {
         window?.makeKeyAndVisible()
 
         let additionalPaddingRequired: CGFloat = window?.safeAreaInsets.bottom ?? 0
-        rootController.overrideStatusBarStyle = statusBarStyle
+        if let statusBarStyle {
+            rootController.overrideStatusBarStyle = statusBarStyle
+        }
         rootController.aboutToPresentOptions(bottomPadding: additionalPaddingRequired)
         rootController.animateIn()
     }

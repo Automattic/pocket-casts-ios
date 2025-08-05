@@ -66,9 +66,16 @@ class DatabaseExport {
             try fileManager.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
 
             FileLog.shared.forceFlush()
-            let logFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
-            let logsFile = exportDirectory.appendingPathComponent("logs.txt", isDirectory: false)
-            try fileManager.copyItem(at: URL(fileURLWithPath: logFile), to: logsFile)
+            let phoneLogFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
+            try moveFile(phoneLogFile, exportDirectory: exportDirectory, exportFileName: "ios-logs.txt")
+
+            let debugInfoFile = exportDirectory.appendingPathComponent("info.txt")
+            fileManager.createFile(atPath: debugInfoFile.path, contents: DebugInfo.string(optOut: UserDefaults.standard.debugOptedOut).data(using: .utf8))
+
+            let watchLogFile = await FileLog.shared.watchLogFileForUpload().awaitFirstValue(in: &cancellables)
+            if let watchLogFile {
+                try moveFile(watchLogFile, exportDirectory: exportDirectory, exportFileName: "watchos-logs.txt")
+            }
 
             // Write the bundle document
             let exportFile = exportDirectory.appendingPathComponent("export", conformingTo: .pcasts)
@@ -80,5 +87,10 @@ class DatabaseExport {
             FileLog.shared.addMessage("[Export] Prepare failed with error: \(error)")
             return nil
         }
+    }
+
+    private func moveFile(_ logFilePath: String, exportDirectory: URL, exportFileName: String) throws {
+        let exportFilePath = exportDirectory.appendingPathComponent(exportFileName, isDirectory: false)
+        try fileManager.copyItem(at: URL(fileURLWithPath: logFilePath), to: exportFilePath)
     }
 }

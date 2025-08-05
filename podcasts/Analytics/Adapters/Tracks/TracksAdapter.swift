@@ -3,10 +3,20 @@ import AutomatticTracksModel
 import Foundation
 import os
 import PocketCastsServer
+#if DEBUG
+import PocketCastsUtils
+#endif
 
-class TracksAdapter: AnalyticsAdapter {
+class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     // Dependencies
-    private let userDefaults: UserDefaults
+    let userDefaults: UserDefaults
+
+    /// Returns a UUID id to use if the user is in a logged out state
+    ///
+    var anonymousUUID: String {
+        generateAnonymousUUID()
+    }
+
     private let subscriptionData: TracksSubscriptionData
     private let notificationCenter: NotificationCenter
     private let abTestProvider: ABTestProviding
@@ -17,28 +27,7 @@ class TracksAdapter: AnalyticsAdapter {
     private enum TracksConfig {
         static let prefix = "pcios"
         static let userKey = "pocketcasts:user_id"
-        static let anonymousUUIDKey = "TracksAnonymousUUID"
         static let platform = "pocketcasts"
-    }
-
-    /// Returns a UUID id to use if the user is in a logged out state
-    ///
-    private var anonymousUUID: String {
-        let key = TracksConfig.anonymousUUIDKey
-
-        // Generate a new UUID if there isn't currently one
-        guard let uuid = userDefaults.string(forKey: key) else {
-            // Check the old standard UserDefaults so we don't lose that one
-            if let oldUuid = UserDefaults.standard.string(forKey: key) {
-                userDefaults.set(oldUuid, forKey: key)
-                return oldUuid
-            }
-            let uuid = UUID().uuidString
-            userDefaults.set(uuid, forKey: key)
-            return uuid
-        }
-
-        return uuid
     }
 
     deinit {
@@ -61,7 +50,9 @@ class TracksAdapter: AnalyticsAdapter {
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
-
+#if DEBUG
+        FileLog.shared.console("TracksAdapter anonymous UUID \(anonymousUUID)")
+#endif
         // Setup the rest of the properties
         reloadExPlat()
         updateUserProperties()

@@ -20,5 +20,5 @@ public class Folder: NSObject, Identifiable {
 
 // This is the data side equivalent of LibrarySort
 enum FolderSort: Int32 {
-    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6, recentlyPlayed = 7
 }

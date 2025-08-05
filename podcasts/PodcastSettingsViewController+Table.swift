@@ -362,9 +362,19 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     @objc private func notificationChanged(_ sender: UISwitch) {
-        PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: sender.isOn)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         Analytics.track(.podcastSettingsNotificationsToggled, properties: ["enabled": sender.isOn])
+        NotificationsHelper.shared.registerForPushNotifications() { [weak self] granted in
+            guard let self, granted || !sender.isOn else {
+                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
+                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
+                    UIApplication.shared.openNotificationSettings()
+                })])
+                sender.isOn = false
+                return
+            }
+            PodcastManager.shared.setNotificationsEnabled(podcast: self.podcast, enabled: sender.isOn)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        }
     }
 
     private func tableData() -> [[TableRow]] {

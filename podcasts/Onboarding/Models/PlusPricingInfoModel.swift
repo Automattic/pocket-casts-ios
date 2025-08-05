@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsServer
+import PocketCastsUtils
 
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
@@ -26,21 +27,28 @@ class PlusPricingInfoModel: ObservableObject {
         var pricing: [PlusProductPricingInfo] = []
 
         for product in availableProductIds {
+            let basePrice = purchaseHandler.getWeeklyReferencePrice(for: product)
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
+            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
+            let monthlyPrice = product.isYearlyProduct ? purchaseHandler.getMonthlyPrice(for: product) : nil
             var offer: ProductOfferInfo?
             if purchaseHandler.isEligibleForOffer,
                let duration = purchaseHandler.localizedFreeTrialDuration(product),
                let type = purchaseHandler.offerType(product),
                let price = purchaseHandler.localizedOfferPrice(product),
+               let offerEndDateLocalized = purchaseHandler.offerEndDateLocalized(product),
                let offerEndDate = purchaseHandler.offerEndDate(product) {
-                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, dateAfterOffer: offerEndDate)
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized)
             }
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
                                               rawPrice: rawPrice,
-                                              offer: offer)
+                                              weeklyPrice: weeklyPrice,
+                                              monthlyPrice: monthlyPrice,
+                                              offer: offer,
+                                              basePrice: basePrice ?? 0)
             pricing.append(info)
         }
 
@@ -62,7 +70,11 @@ class PlusPricingInfoModel: ObservableObject {
         let identifier: IAPProductID
         let price: String
         let rawPrice: String
+        let weeklyPrice: String
+        let monthlyPrice: String?
         let offer: ProductOfferInfo?
+
+        let basePrice: Double
 
         var id: String { identifier.rawValue }
     }
@@ -77,7 +89,8 @@ class PlusPricingInfoModel: ObservableObject {
         let duration: String
         let price: String
         let rawPrice: String
-        let dateAfterOffer: String
+        let offerEndDate: Date?
+        let offerEndDateLocalized: String
 
         var title: String {
             switch type {
@@ -100,9 +113,9 @@ class PlusPricingInfoModel: ObservableObject {
         var terms: String {
             switch type {
             case .freeTrial:
-                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer.nonBreakingSpaces())
+                return L10n.pricingTermsAfterTrialLong(duration, offerEndDateLocalized.nonBreakingSpaces())
             case .discount:
-                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer.nonBreakingSpaces())
+                return L10n.pricingTermsAfterDiscount(rawPrice, duration, offerEndDateLocalized.nonBreakingSpaces())
             }
         }
 
@@ -111,6 +124,21 @@ class PlusPricingInfoModel: ObservableObject {
     enum PriceAvailablity {
         case unknown, available, loading, failed
     }
+
+    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
+        }
+        return pricingInfo
+    }
+
+    func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
+    }
+
+    func product(for productID: IAPProductID) -> PlusProductPricingInfo? {
+        pricingInfo.products.first(where: { $0.identifier == productID })
+    }
 }
 
 // MARK: - Price Loading
@@ -118,8 +146,16 @@ extension PlusPricingInfoModel {
     func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
+                self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
+            }
             return
         }
 
@@ -128,13 +164,19 @@ extension PlusPricingInfoModel {
         let notificationCenter = NotificationCenter.default
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
-            guard let self else {
-                return
+            guard let self else { return }
+            if FeatureFlag.newOfferEligibilityCheck.enabled {
+                purchaseHandler.updateTrialEligibility() { [weak self] in
+                    guard let self else { return }
+                    priceAvailability = .available
+                    pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                    completion?()
+                }
+            } else {
+                priceAvailability = .available
+                pricingInfo = Self.getPricingInfo(from: purchaseHandler)
+                completion?()
             }
-
-            self.priceAvailability = .available
-            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
-            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in

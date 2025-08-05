@@ -6,6 +6,8 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     private let stackView = UIStackView()
     private var customDetentHeight: CGFloat = 0
 
+    private weak var hostingController: UIHostingController<ContentView>?
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
     }
@@ -35,7 +37,8 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
 
         let hostingController = UIHostingController(
@@ -43,6 +46,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.sharedTheme)
         )
+        addChild(hostingController)
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
 
@@ -52,13 +56,21 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
             hostingController.view.backgroundColor = backgroundColor
         }
 
-        hostingController.view.layoutIfNeeded()
+        updatePreferredContentSize()
+    }
+
+    private func updatePreferredContentSize() {
+        hostingController?.view.layoutIfNeeded()
         stackView.layoutIfNeeded()
-        customDetentHeight = stackView.systemLayoutSizeFitting(
+
+        let fittingSize = stackView.systemLayoutSizeFitting(
             CGSize(width: UIScreen.main.bounds.width, height: UIView.layoutFittingExpandedSize.height),
-            withHorizontalFittingPriority: .required,
+            withHorizontalFittingPriority: .fittingSizeLevel,
             verticalFittingPriority: .fittingSizeLevel
-        ).height
+        )
+
+        customDetentHeight = fittingSize.height
+        preferredContentSize = CGSize(width: fittingSize.width, height: fittingSize.height)
     }
 
     override func loadView() {
@@ -77,9 +89,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        preferredContentSize = .init(width: .zero, height: stackView.frame.height)
-
-        // Reset the alpha
+        updatePreferredContentSize()
         view.alpha = 1
     }
 
@@ -91,14 +101,10 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     static func present(_ content: ContentView, autoSize: Bool = false, in viewController: UIViewController) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content)
         if autoSize {
-            if #available(iOS 16.0, *) {
-                let customDetent = UISheetPresentationController.Detent.custom { _ in
-                    return wrapperController.customDetentHeight
-                }
-                wrapperController.presentModally(in: viewController, detents: [customDetent])
-            } else {
-                wrapperController.presentModally(in: viewController, detents: [.large()])
+            let customDetent = UISheetPresentationController.Detent.custom { _ in
+                return wrapperController.customDetentHeight
             }
+            wrapperController.presentModally(in: viewController, detents: [customDetent])
         } else {
             wrapperController.presentModally(in: viewController)
         }

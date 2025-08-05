@@ -233,7 +233,7 @@ class PlayerCell: ThemeableSwipeCell {
         selectView.backgroundColor = showTick ? AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride) : AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
         selectView.layer.borderWidth = showTick ? 0 : 2
         selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
-
+        downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         // Update the reorder control color
         let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
         overrideUserInterfaceStyle = activeTheme.isDark ? .dark : .light

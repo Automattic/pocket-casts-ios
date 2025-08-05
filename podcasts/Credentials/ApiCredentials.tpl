@@ -42,4 +42,16 @@ struct ApiCredentials {
     /// AppsFlyer Dev Key
     ///
     static let appsFlyerDevKey = "%{appsflyer_dev_key}"
+    
+    /// A8C Facebook App ID
+    ///
+    static let a8cFBAppID = "%{a8c_fb_app_id}"
+    
+    /// A8C Facebook App Name
+    ///
+    static let a8cFBAppName = "%{a8c_fb_app_name}"
+
+    /// A8C Facebook Client Token
+    ///
+    static let a8cFBClientToken = "%{a8c_fb_client_token}"
 }

@@ -63,7 +63,7 @@ struct EpisodeTableHelper {
 
         var newData = ArraySection<String, ListItem>(model: "episodes", elements: [])
         for section in sortedSections {
-            newData.elements.append(ListHeader(headerTitle: section.key, isSectionHeader: false))
+            newData.elements.append(ListHeader(headerTitle: section.key, isSectionHeader: false, sectionNumber: Int(section.value.first?.episode.seasonNumber ?? -1)))
             newData.elements.append(contentsOf: section.value)
         }
 

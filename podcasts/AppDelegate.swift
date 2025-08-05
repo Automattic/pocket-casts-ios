@@ -1,4 +1,5 @@
 import BackgroundTasks
+import AutomatticRemoteLogging
 import Firebase
 import FirebasePerformance
 import Foundation
@@ -6,6 +7,8 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
+import FacebookCore
+import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -25,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
+    private(set) var appInstallState: AppLifecycleAnalytics.AppInstallState?
 
     lazy var whatsNew: WhatsNew = WhatsNew()
 
@@ -38,10 +42,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         addAnalyticsObservers()
         setupAnalytics()
 
-        if let appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded(),
-           appInstallState == .installed {
-            //Never show the podcast feed reload tooltip for fresh install
-            Settings.shouldShowPodcastFeeReloadTip = false
+        DataManager.logger = SentryLogger()
+
+        appInstallState = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
+
+        if let appInstallState {
+            switch appInstallState {
+            case .updated:
+                if FeatureFlag.notificationsRevamp.enabled {
+                    Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+                }
+                if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
+                    Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
+                }
+                if FeatureFlag.playlistsRebranding.enabled {
+                    Settings.shouldShowNewFilterTip = false
+                }
+            case .installed:
+                //Never show the podcast feed reload tooltip for fresh install
+                Settings.shouldShowPodcastFeeReloadTip = false
+                Settings.shouldShowPodcastViewChangesTip = false
+                Settings.shouldShowRecentlyPlayedSortingTip = false
+                Settings.shouldShowPlaylistsOnboarding = false
+            case .sameVersion:
+                break
+            }
         }
 
         let defaults = UserDefaults.standard
@@ -96,6 +121,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
+
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
 
         return true
     }
@@ -288,33 +317,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func updateRemoteFeatureFlags() {
-        guard BuildEnvironment.current != .debug else { return }
-        do {
-            if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
-                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-                try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
+    func updateRemoteFeatureFlags(forceReload: Bool = false) {
+        guard BuildEnvironment.current != .debug || forceReload else { return }
+
+        if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
+            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+            try? FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
+        }
+
+        if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.importUserDefaults()
+                DataManager.sharedManager.importPodcastSettings()
             }
+        }
 
-            if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
-                if FeatureFlag.newSettingsStorage.enabled {
-                    SettingsStore.appSettings.importUserDefaults()
-                    DataManager.sharedManager.importPodcastSettings()
-                }
-            }
+        try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
-            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
-
-            try FeatureFlag.allCases.forEach { flag in
-                if let remoteKey = flag.remoteKey {
-                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
-                    if remoteValue.source == .remote {
+        FeatureFlag.allCases.forEach { flag in
+            if let remoteKey = flag.remoteKey {
+                let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+                if remoteValue.source == .remote {
+                    do {
+                        FileLog.shared.console("Override \(flag): \(remoteValue.boolValue)")
                         try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+                    } catch {
+                        FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
                     }
                 }
             }
-        } catch {
-            FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
     }
 
@@ -396,5 +427,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
+    }
+}
+
+struct SentryLogger: ErrorLogger {
+    func log(error: Error, context: [String: String]?) {
+        if BuildEnvironment.current == .appStore {
+            let crumb = Breadcrumb()
+            crumb.level = SentryLevel.info
+            crumb.category = "grdb"
+            crumb.message = error.localizedDescription
+            SentrySDK.addBreadcrumb(crumb)
+            return
+        }
+
+    #if os(iOS)
+    CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
+    #endif
     }
 }

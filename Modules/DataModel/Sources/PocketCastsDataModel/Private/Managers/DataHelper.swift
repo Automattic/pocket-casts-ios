@@ -5,8 +5,8 @@ import PocketCastsUtils
 class DataHelper {
     class func convertArrayToInString(_ strArray: [String]) -> String {
         var inString = strArray.joined(separator: ",")
-        inString = inString.replacingOccurrences(of: ",", with: "\",\"")
-        inString = "\"" + inString + "\""
+        inString = inString.replacingOccurrences(of: ",", with: "','")
+        inString = "'" + inString + "'"
 
         return inString
     }

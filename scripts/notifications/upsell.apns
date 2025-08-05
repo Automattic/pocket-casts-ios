@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Level up your podcast game",
+      "body": "Unlock exclusive features like folders, bookmarks, and more with Plus!"
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://upsell"
+}

@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {
@@ -45,7 +46,13 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     func showSortOrderOptions() {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
-        let sortOption = Settings.homeFolderSortOrder()
+        let sortOption: LibrarySort
+        if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
+            Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+            sortOption = .dateAddedNewestToOldest
+        } else {
+            sortOption = Settings.homeFolderSortOrder()
+        }
 
         let podcastNameAction = OptionAction(label: LibrarySort.titleAtoZ.description, selected: sortOption == .titleAtoZ) { [weak self] in
             guard let strongSelf = self else { return }
@@ -54,7 +61,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.titleAtoZ])
         }
-        options.addAction(action: podcastNameAction)
 
         let releaseDateAction = OptionAction(label: LibrarySort.episodeDateNewestToOldest.description, selected: sortOption == .episodeDateNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
@@ -63,7 +69,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.episodeDateNewestToOldest])
         }
-        options.addAction(action: releaseDateAction)
 
         let subscribedOrder = OptionAction(label: LibrarySort.dateAddedNewestToOldest.description, selected: sortOption == .dateAddedNewestToOldest) { [weak self] in
             guard let strongSelf = self else { return }
@@ -72,7 +77,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest])
         }
-        options.addAction(action: subscribedOrder)
 
         let dragAndDropAction = OptionAction(label: LibrarySort.custom.description, selected: sortOption == .custom) { [weak self] in
             guard let strongSelf = self else { return }
@@ -81,7 +85,27 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             strongSelf.refreshGridItems()
             Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom])
         }
-        options.addAction(action: dragAndDropAction)
+
+        let recentlyPlayedOrder = OptionAction(label: LibrarySort.recentlyPlayed.description, selected: sortOption == .recentlyPlayed) { [weak self] in
+            guard let strongSelf = self else { return }
+
+            Settings.setHomeFolderSortOrder(order: .recentlyPlayed)
+            strongSelf.refreshGridItems()
+            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.recentlyPlayed])
+        }
+
+        if FeatureFlag.podcastsSortChanges.enabled {
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: releaseDateAction)
+            options.addAction(action: recentlyPlayedOrder)
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: dragAndDropAction)
+        } else {
+            options.addAction(action: podcastNameAction)
+            options.addAction(action: releaseDateAction)
+            options.addAction(action: subscribedOrder)
+            options.addAction(action: dragAndDropAction)
+        }
 
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
@@ -111,6 +135,8 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
             searchView.alpha = 1
         }
+
+        searchResultsController.searchShown()
     }
 
     func searchDidEnd() {
@@ -126,7 +152,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             self.searchResultsController.clearSearch()
         }
 
-        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
+        searchResultsController.searchDismissed()
     }
 
     func searchWasCleared() {

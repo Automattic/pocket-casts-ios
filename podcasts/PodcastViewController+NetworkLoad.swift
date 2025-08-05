@@ -87,6 +87,9 @@ extension PodcastViewController {
                 if FeatureFlag.podcastFeedUpdate.enabled {
                     self.showPodcastFeedReloadTipIfNeeded()
                 }
+                if FeatureFlag.podcastViewChanges.enabled {
+                    self.showViewChangesTipIfNeeded()
+                }
             }
         }
     }

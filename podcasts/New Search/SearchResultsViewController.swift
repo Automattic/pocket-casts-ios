@@ -34,6 +34,14 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func searchShown() {
+        searchAnalyticsHelper.trackShown()
+    }
+
+    func searchDismissed() {
+        searchAnalyticsHelper.trackDismissed()
+    }
 }
 
 extension SearchResultsViewController: SearchResultsDelegate {

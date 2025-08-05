@@ -287,6 +287,22 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om automatiskt om du spelar upp ett avsnitt inom 5 minuter efter den senaste pausen.</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>banner_ads_info_label</key>
+    <string>Annons</string>
+    <key>banner_ads_remove_ads</key>
+    <string>Ta bort annonser</string>
+    <key>banner_ads_report_ad</key>
+    <string>Rapportera annonsen</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>Varför rapporterar du annonsen?</string>
+    <key>banner_ads_report_broken</key>
+    <string>Annonsen verkar trasig</string>
+    <key>banner_ads_report_malicious</key>
+    <string>Det här är en skadlig annons</string>
+    <key>banner_ads_report_other</key>
+    <string>Övrigt</string>
+    <key>banner_ads_report_too_often</key>
+    <string>Får upp denna annons för ofta</string>
     <key>beta_purchase_disabled</key>
     <string>Ladda ner Pocket Casts från App Store för att köpa %1$@.</string>
     <key>beta_thank_you</key>
@@ -327,22 +343,28 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Avbryt</string>
     <key>cancel_confirm_item_folders</key>
     <string>Dina mappar kommer att tas bort och deras innehåll kommer att flyttas tillbaka till skärmen Podcasts.</string>
+    <key>cancel_confirm_item_history</key>
+    <string>Dina podcasts och din lyssningshistorik kommer fortsätta att vara tillgängliga. </string>
     <key>cancel_confirm_item_plus</key>
-    <string>Åtkomst till Pocket Casts Plus-funktioner kommer att låsas efter detta datum.</string>
+    <string>Efter detta datum kommer åtkomsten till Plus-funktioner som bokmärken, slumpmässig uppspelning, bärbara tillbehör med mera att tas bort.</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdade filer på dina mobila enheter kommer att vara kvar)</string>
+    <string>Alla filer som har laddats upp till ditt Pocket Casts-konto kommer att tas bort (men nedladdningar på dina mobila enheter kommer att vara kvar).</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>Din nuvarande prenumeration förblir aktiv till %1$@.</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>ditt utgångsdatum</string>
     <key>cancel_confirm_subtitle</key>
-    <string>Detta kommer att ändra ditt paket till ett gratiskonto.</string>
+    <string>Om du avslutar ändras ditt paket till ett gratiskonto.</string>
+    <key>cancel_confirm_title</key>
+    <string>Saker du bör veta innan du avslutar</string>
     <key>cancel_download</key>
     <string>Avbryt nedladdning</string>
     <key>cancel_failed</key>
     <string>Det gick inte att avbryta</string>
     <key>cancel_subscription</key>
     <string>Avbryt prenumeration</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>Mest för pengarna</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>Ditt nya paket kommer att aktiveras i slutet av din nuvarande faktureringsperiod.</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +386,11 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <key>cancel_subscription_new_plan_title</key>
     <string>Letar du efter ett annat paket?</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>Tack för att du väljer Pocket Casts. Fakturering startar när din gratismånad har löpt ut.</string>
+    <string>Tack för att du väljer Pocket Casts. Din gratismånad kommer att läggas till i din nuvarande prenumeration.</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>Njut av din gratismånad!</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>Tack för att du väljer Pocket Casts. Din rabatterade paketprenumeration startar efter din nuvarande faktureringsperiod.</string>
+    <string>Tack för att du väljer Pocket Casts. Ditt rabatterade år börjar efter att ditt nuvarande paket löper ut.</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>50 %% rabatt på nästa år.</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,8 +399,42 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Betala %@ nu för ytterligare ett år med 50 %% rabatt</string>
     <key>cancel_subscription_promotion_title</key>
     <string>Få nästa månad gratis</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>Vi vill gärna veta varför du avslutade prenumerationen. Din feedback hjälper oss att bli bättre.</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>Jag hittade en bättre app</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>Kostnadsrelaterade orsaker</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>Jag använder det inte tillräckligt</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>Övrigt</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>Tekniska problem</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>Skicka feedback</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>Tack för att du provade
+Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>Något gick fel.</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>Tack för din feedback!</string>
     <key>cancel_subscription_title</key>
-    <string>Innan du avslutar, kolla in dessa erbjudanden</string>
+    <string>Funderar du på att lämna oss?
+Låt oss hjälpa dig först</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>Acceptera erbjudandet</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>Fortsätt med annullering</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>Få en månad med Pocket Casts Plus utan kostnad! Erbjudandet kommer att läggas till i din nuvarande prenumeration.</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>Betala %@ nu för att säkra ett år med Pocket Casts Plus till halva priset. Ditt rabatterade år börjar efter att ditt nuvarande paket löper ut.</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>Få nästa månad gratis och spara %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>Få 50 %% rabatt på ditt nästa år och spara %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>50 %% rabatt på ditt nästa år.</string>
     <key>canceling</key>
@@ -505,6 +561,12 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Skapa klipp</string>
     <key>create_filter</key>
     <string>Skapa filter</string>
+    <key>creator_pick_modal_description</key>
+    <string>Creator Picks är podcasts som rekommenderas av showens skapare med hjälp av Podroll.</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>Läs mer</string>
+    <key>creator_pick_modal_title</key>
+    <string>Vad är Creator Picks?</string>
     <key>current_email_prompt</key>
     <string>Nuvarande e-post</string>
     <key>current_password_prompt</key>
@@ -745,6 +807,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Ladda ner alla</string>
     <key>download_data_warning</key>
     <string>Nedladdning använder data.</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>Denna nedladdning kommer att använda mobildata. Du kan stänga av denna varning i [Inställningar](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Ladda ner %1$@ avsnitt</string>
     <key>download_episode_singular</key>
@@ -780,13 +844,52 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <key>downloads_auto_download</key>
     <string>Inställningar för automatisk nedladdning</string>
     <key>downloads_no_downloads_desc</key>
-    <string>Du har inga nedladdade avsnitt. När du har laddat ner ett avsnitt så kommer det att visas här.</string>
+    <string>Spara avsnitt för lyssning offline och missa aldrig ett ögonblick.</string>
     <key>downloads_no_downloads_title</key>
-    <string>Inga nedladdade avsnitt</string>
+    <string>Njut av lyssning offline</string>
     <key>downloads_retry_failed_downloads</key>
     <string>Försök genomföra misslyckade nedladdningar igen</string>
     <key>downloads_stop_all_downloads</key>
     <string>Stoppa alla nedladdningar</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>Skapa ett gratis konto</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>Skapa ett gratis konto för att synkronisera dina filter på vilken enhet som helst.</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>Filterikon</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>Håll dina filter synkroniserade</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>Skapa ett gratis konto för att synkronisera din lyssningshistorik överallt.</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>Ikon för lyssningshistorik</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>Håll koll på vad du har spelat upp</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>Profilikon</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>Dina shower, på vilken enhet som helst</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>Ditt bibliotek och dina inställningar är säkert sparade.</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>Tillförlitliga säkerhetskopior</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>Få skräddarsydda podcastförslag baserat på dina lyssningsvanor.</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>Personliga rekommendationer</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>Synkronisera ditt lyssningsförlopp och dina shower på alla enheter.</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>Synkronisera mellan enheter</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>Skapa ett konto eller logga in för att ta del av
+Pocket Casts till fullo.</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>Kom igång</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>Vi har noterat att du inte är inloggad</string>
     <key>edit</key>
     <string>Redigera</string>
     <key>edit_clip</key>
@@ -933,6 +1036,8 @@ du lyssnade på var
     <string>Avsnitt</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ avsnitt</string>
+    <key>episode_description_title</key>
+    <string>Avsnittsbeskrivning</string>
     <key>episode_details_title</key>
     <string>Detaljer</string>
     <key>episode_filter_by_duration_label</key>
@@ -967,6 +1072,28 @@ du lyssnade på var
     <string>EXPORTERA</string>
     <key>exporting_database</key>
     <string>Exporterar databas …</string>
+    <key>failed_recommendations</key>
+    <string>Kunde inte ladda rekommendationer</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Alla funktionerna i Plus</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>Behåll tidsstämplar med bokmärken</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ molnlagring för dina filer</string>
+    <key>feature_marketing_early_access</key>
+    <string>Tidig åtkomst till nya funktioner</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>Extra teman och appikoner</string>
+    <key>feature_marketing_folders</key>
+    <string>Organisera din samling med mappar</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>Spara tid med förvalda kapitel</string>
+    <key>feature_marketing_slumber</key>
+    <string>1 års innehåll från Slumber Studios</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>Blanda din kö</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>Appar för Wear OS och Apple Watch</string>
     <key>feature_tour_end_tour</key>
     <string>Avsluta rundtur</string>
     <key>feature_tour_new</key>
@@ -998,12 +1125,11 @@ du lyssnade på var
     <key>file_upload_name_required</key>
     <string>Namn obligatoriskt</string>
     <key>file_upload_no_files_description</key>
-    <string>Vill du lyssna på dina egna filer?
-När du har delat dem med Pocket Casts så kommer de att visas här.</string>
+    <string>Ladda upp dina egna filer till Pocket Casts och lyssna eller titta på dem när som helst.</string>
     <key>file_upload_no_files_helper</key>
     <string>Hur gör jag det?</string>
     <key>file_upload_no_files_title</key>
-    <string>Inga filer</string>
+    <string>Lyssna eller titta på dina egna filer</string>
     <key>file_upload_remove_image</key>
     <string>Ta bort bild</string>
     <key>file_upload_save</key>
@@ -1108,6 +1234,10 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Nya släpp</string>
     <key>filters_new_filter_button</key>
     <string>+ Nytt filter</string>
+    <key>filters_tip_view_description</key>
+    <string>Skapa smarta filter för att organisera dina avsnitt. Filtrera efter varaktighet, utgivningsdatum, mediatyp med mera.</string>
+    <key>filters_tip_view_title</key>
+    <string>Organisera dina avsnitt</string>
     <key>folder</key>
     <string>Mapp</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1136,6 +1266,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Är du säker?</string>
     <key>folder_edit</key>
     <string>Redigera mapp</string>
+    <key>folder_empty_button_title</key>
+    <string>Lägg till podcasts</string>
     <key>folder_empty_description</key>
     <string>Lägg till podcasts i din mapp så visas de här.</string>
     <key>folder_empty_title</key>
@@ -1180,6 +1312,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Starta kostnadsfri testperiod</string>
     <key>free_trial_title_label</key>
     <string>Prova Plus med %1$@ gratis</string>
+    <key>funding</key>
+    <string>Finansiering</string>
     <key>funny_conf_msg</key>
     <string>Den matchar verkligen dina ögon ✨</string>
     <key>funny_time_not_enough</key>
@@ -1210,6 +1344,14 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Under den här tiden kunde du ha knutit %1$@ skosnören. Kanske. 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>Under den här tiden skrevs %1$@ tweets. Tut! Tut! 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>Den här transkriptionen genereras automatiskt och är endast tillgänglig för Plus-prenumeranter.</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>Prenumerera på Plus för att få åtkomst till den och andra Premium-funktioner som bokmärken och mappar.</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>Den här transkriptionen genereras automatiskt av Pocket Casts.</string>
+    <key>go_to_discover</key>
+    <string>Gå till Upptäck</string>
     <key>go_to_podcast</key>
     <string>Gå till podcasten</string>
     <key>got_it</key>
@@ -1250,6 +1392,10 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Något annat</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/månad</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/vecka</string>
     <key>import</key>
     <string>Importera</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1480,20 +1626,106 @@ podcasts med dig</string>
     <string>Nästa betalning: %1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>Hörlursinställningar</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>Hämta bokmärken</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>Du kan spara tidsstämplar för viktiga ögonblick i ett avsnitt.</string>
     <key>no_bookmarks_message</key>
     <string>Du kan spara tidsstämplar för avsnitt från åtgärdsmenyn i spelaren eller genom att konfigurera en åtgärd med dina hörlurar.</string>
     <key>no_bookmarks_title</key>
-    <string>Inga bokmärken än</string>
+    <string>Bokmärk det ögonblicket</string>
     <key>none</key>
     <string>Ingen</string>
     <key>not_on_wifi</key>
     <string>Du har inte tillgång till WiFi</string>
+    <key>notifications_app_clip_body</key>
+    <string>Installera Pocket Casts för att få den fullständiga upplevelsen med kraftfulla uppspelnings- och anpassningsverktyg.</string>
+    <key>notifications_app_clip_title</key>
+    <string>Redo för fler podcasts?</string>
+    <key>notifications_daily_reminders</key>
+    <string>Dagliga påminnelser</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>Prova Plus och organisera dina shower automatiskt med mappar.</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>Dina podcasts organiserade.</string>
+    <key>notifications_new_features_tips</key>
+    <string>Nya funktioner och tips</string>
     <key>notifications_off</key>
     <string>Aviseringar av</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>Lås upp exklusiva funktioner som mappar, bokmärken och mycket annat med Plus.</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>Ta ditt podcastlyssnande till nästa nivå</string>
     <key>notifications_on</key>
     <string>Aviseringar på</string>
+    <key>notifications_on_for_podcast</key>
+    <string>Du får ett meddelande om nya avsnitt av %1$@</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>Skapa smarta filter för att organisera dina avsnitt.</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>Organisera dina avsnitt</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>Byter du från en annan app? Ta med alla dina favoritshower till Pocket Casts.</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>Importera enkelt dina podcasts</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>Dina shower, på vilken enhet som helst.</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>Perfekt mogna podcasts, utvalda just för dig av riktiga, podcastälskande människor.</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>Utforska redaktionens favoriter</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>Bläddra bland våra teman och hitta det som passar din stil.</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>Dags för ett nytt utseende</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>Bygg en uppspelningskö och säg adjö till att hoppa runt mellan avsnitt.</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>Förenkla din kö</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>Lås upp exklusiva funktioner som mappar, bokmärken och mycket annat med Plus.</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>Ta ditt podcastlyssnande till nästa nivå</string>
+    <key>notifications_permissions_action</key>
+    <string>Tillåt aviseringar</string>
+    <key>notifications_permissions_body</key>
+    <string>Aviseringar är det bästa sättet att hålla koll på nya avsnitt, få rekommendationer om nya program och tips om Pocket Casts.</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>Tillåt aviseringar i dina enhetsinställningar</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>Öppna inställningar</string>
+    <key>notifications_permissions_title</key>
+    <string>Håll dig uppdaterad.</string>
     <key>notifications_play_now</key>
     <string>Spela upp nu</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts-erbjudanden</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Kolla in vad alla andra lyssnar på denna vecka.</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>Trendar denna vecka</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>Undrar du vad du ska lyssna på härnäst? Kolla in dessa shower.</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>Nya rekommendationer för dig</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>Du har %1$@ nya avsnitt nedladdade och redo att spelas upp.</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>Kom ikapp offline</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>Det var ett tag sedan du lyssnade. Hoppa in igen och njut.</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>Vi saknar dig.</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>Trendande och rekommendationer</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>Gå till enhetens inställningar</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>För att få notiser från Pocket Casts måste du aktivera dem i dina enhetsinställningar.</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>Tillåt push-notiser</string>
     <key>now_playing</key>
     <string>Spelar nu upp</string>
     <key>now_playing_item</key>
@@ -1508,6 +1740,10 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>Endast på WiFi utan datapriser</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>Om du inaktiverar det här alternativet tillåts nedladdningar på mobila nätverk såväl som andra nätverk med datapriser. Kontrollera dina nätverksinställningar för mer information.</string>
     <key>only_on_wifi</key>
     <string>Endast via WiFi</string>
     <key>opml_import_failed_message</key>
@@ -1583,6 +1819,8 @@ UPPDATERINGAR</string>
     <string>Låser upp</string>
     <key>pause</key>
     <string>Pause</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>Säg adjö till bannerannonser och mer med Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_files</key>
     <string>Ladda upp dina filer och mer därtill med Pocket Casts Plus</string>
     <key>paywall_dynamic_headline_folder</key>
@@ -1745,6 +1983,8 @@ UPPDATERINGAR</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>playlists</key>
+    <string>Spellistor</string>
     <key>please_try_again</key>
     <string>Vänligen försök igen</string>
     <key>please_try_again_later</key>
@@ -1803,22 +2043,28 @@ UPPDATERINGAR</string>
     <string>Apple Watch- och Wear OS-uppspelning</string>
     <key>plus_feature_gratitude</key>
     <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
+    <key>plus_feature_librofm</key>
+    <string>Gratis ljudbok från Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>1 års exklusivt innehåll från Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
     <string>Dröm med Slumber Studios-innehåll</string>
     <key>plus_feature_themes_icons</key>
-    <string>Extra ikoner för teman och appar</string>
+    <string>Extra teman och ikoner</string>
     <key>plus_features</key>
     <string>PLUS-FUNKTIONER</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis provperiod</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>Bokmärken</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Dator- och webbappar</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>Mappar och bokmärken</string>
     <key>plus_marketing_folders_description</key>
     <string>Skapa mappar för att organisera din podcastsamling.</string>
+    <key>plus_marketing_folders_title</key>
+    <string>Mappar</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Annonsfri upplevelse som ger dig mer av det du gillar och mindre av det du inte gillar</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1827,6 +2073,8 @@ UPPDATERINGAR</string>
     <string>Läs mer om Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Gör appen din egen och bli distribuerad på en och samma gång. Ladda upp dina egna ljudfiler till vår molnserver och få tillgång till ditt konto via vår webbspelare.</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>Inga bannerannonser</string>
     <key>plus_marketing_subtitle</key>
     <string>Få tillgång till exklusiva funktioner och anpassningsalternativ</string>
     <key>plus_marketing_themes_icons_title</key>
@@ -1963,6 +2211,8 @@ UPPDATERINGAR</string>
     <string>Kan inte läsa in podcastinformationen :(</string>
     <key>podcast_error_title</key>
     <string>Funkar inte överhuvudtaget</string>
+    <key>podcast_extras</key>
+    <string>Extra</string>
     <key>podcast_failed_download</key>
     <string>Nedladdningen av avsnittet misslyckades.</string>
     <key>podcast_failed_upload</key>
@@ -2001,11 +2251,13 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>podcast_no_date</key>
     <string>Datum ej angivet</string>
     <key>podcast_no_season</key>
-    <string>Ingen säsong</string>
+    <string>Extra</string>
     <key>podcast_pause_download</key>
     <string>Pausa nedladdning</string>
     <key>podcast_pause_playback</key>
     <string>Pausa uppspelning</string>
+    <key>podcast_podroll_header</key>
+    <string>Shower rekommenderade av skaparen</string>
     <key>podcast_queued</key>
     <string>Tillagt i kön</string>
     <key>podcast_queuing</key>
@@ -2034,6 +2286,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Öppna fil i...</string>
     <key>podcast_show_archived</key>
     <string>Visa arkiverade</string>
+    <key>podcast_similar_generic_header</key>
+    <string>Liknande shower</string>
+    <key>podcast_similar_header</key>
+    <string>Shower som liknar "%@"</string>
     <key>podcast_singular</key>
     <string>Podcast</string>
     <key>podcast_soon</key>
@@ -2042,8 +2298,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>SORTERINGSORDNING</string>
     <key>podcast_stream_confirmation</key>
     <string>Streama ändå</string>
-    <key>podcast_stream_data_warning</key>
-    <string>Att streama det här avsnittet använder data</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>Att streama det här avsnittet använder data. Du kan stänga av denna varning i [Inställningar](%@).</string>
     <key>podcast_this_month</key>
     <string>Den här månaden</string>
     <key>podcast_time_left</key>
@@ -2060,6 +2316,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Ladda upp nu</string>
     <key>podcast_uploading</key>
     <string>Laddar upp … %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>Tryck på podcastens rubrik för att minimera eller expandera dess beskrivning och detaljer</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>Vi har gjort några ändringar</string>
     <key>podcast_waiting_upload</key>
     <string>Inväntar uppladdning</string>
     <key>podcast_yesterday</key>
@@ -2076,6 +2336,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Nyaste till äldsta</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>Äldsta till nyaste</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>Seriellt</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -2090,6 +2352,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Dra och släpp</string>
     <key>podcasts_library_sort_date_added</key>
     <string>Tilläggsdatum</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>Senast spelade</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>Nu kan du sortera efter "senast spelade" och snabbt fortsätta där du slutade.</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>Sortera efter "senast spelade"</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>Utgivningsdatum</string>
     <key>podcasts_library_sort_title</key>
@@ -2118,6 +2386,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Hjälp till att stödja Pocket Casts genom att uppgradera ditt konto</string>
     <key>profile_last_app_refresh</key>
     <string>Appen uppdaterades senast %1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>Börja lyssna på podcasts och se tillbaka på din lyssningshistorik här.</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>Nu kan du börja lyssna.</string>
     <key>profile_number_of_files</key>
     <string>%1$@ filer</string>
     <key>profile_percent_full</key>
@@ -2135,11 +2407,11 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>profile_single_file</key>
     <string>1 fil</string>
     <key>profile_starred_no_episodes_desc</key>
-    <string>Du har inte stjärnmärkt några avsnitt.</string>
+    <string>Stjärnmärk avsnitt du älskar och kom tillbaka till dem när du vill.</string>
     <key>profile_starred_no_episodes_title</key>
-    <string>Inget stjärnmärkt</string>
+    <string>Spara dina favoriter</string>
     <key>purchase_terms</key>
-    <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
+    <string>Genom att fortsätta godkänner du vår %1$@ och våra %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -2969,10 +3241,32 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Löper ut om %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>Se alla Plus-funktioner</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>Hur fungerar den kostnadsfria provperioden?</string>
+    <key>subscription_plan_month</key>
+    <string>Månatligt paket</string>
+    <key>subscription_plan_savings</key>
+    <string>Spara %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>Årligt paket</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
     <key>suggested_folders_create_custom_folder</key>
     <string>Skapa anpassad mapp</string>
+    <key>suggested_folders_description</key>
+    <string>Vi har organiserat dina podcasts i mappar. Spara nu och anpassa senare.</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>Vi har organiserat dina podcasts i mappar. Spara nu och anpassa senare. Detta kommer att ersätta befintliga mappar.</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>Ersätt mappar</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>Om du godkänner de föreslagna mapparna skrivs dina befintliga mappar över. Det här kan inte ångras.</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>Ersätt befintliga mappar?</string>
+    <key>suggested_folders_title</key>
+    <string>Smarta mappar</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>Använd dessa mappar</string>
     <key>support_watch_help_message</key>
@@ -3074,7 +3368,7 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <key>up_next_empty_description</key>
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
     <key>up_next_empty_title</key>
-    <string>Inget i Nästa</string>
+    <string>Sammanställ din lyssningssession</string>
     <key>up_next_history</key>
     <string>Up Next-historik</string>
     <key>up_next_history_explanation</key>
@@ -3089,6 +3383,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Slumpmässig uppspelning är på. Avsnitten kommer att spelas upp i slumpmässig ordning.</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
+    <key>upgrade_account_info</key>
+    <string>Lås upp alla betalfunktioner, såsom mappar, slumpmässig uppspelning, bokmärken med mera.</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>Du kommer att debiteras den %1$@. Du kan avbryta när som helst innan dess.</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>Få åtkomst till mappar, slumpvis uppspelning, bokmärken och exklusivt innehåll</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>Vi meddelar dig när din provperiod är på väg att löpa ut.</string>
+    <key>upgrade_account_title</key>
+    <string>Superkrafter för dina podcasts</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>Få 50 %% rabatt på ditt första år</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3143,6 +3447,16 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Längsta till kortaste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>Inte direkt</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>Hej där! Vi skulle gärna vilja veta om du gillar vår app.</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>Gillar du Pocket Casts?</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>Ja!</string>
+    <key>view_transcript</key>
+    <string>Visa transkription</string>
     <key>volume_boost</key>
     <string>Volymökning</string>
     <key>volume_boost_description</key>
@@ -3251,5 +3565,7 @@ Detta innebär att du kan koppla av med vetskapen om att allt det hårda arbete 
     <string>år</string>
     <key>yearly</key>
     <string>Årligen</string>
+    <key>you_might_like</key>
+    <string>Du kanske gillar</string>
   </dict>
 </plist>

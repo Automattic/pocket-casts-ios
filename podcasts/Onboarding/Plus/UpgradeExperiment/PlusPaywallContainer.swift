@@ -78,14 +78,8 @@ struct PlusPaywallContainer: View {
             PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
                 .setupDefaultEnvironment()
         }
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.custom(PlusPurchaseModalDetent.self)])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
+        .presentationDetents([.custom(PlusPurchaseModalDetent.self)])
+        .presentationDragIndicator(.visible)
     }
 
     init(viewModel: PlusLandingViewModel, type: ContainerType) {
@@ -156,7 +150,6 @@ struct PlusPaywallContainer: View {
         static let sheetBackgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     }
 
-    @available(iOS 16.0, *)
     struct PlusPurchaseModalDetent: CustomPresentationDetent {
         static func height(in context: Context) -> CGFloat? {
             min(460, context.maxDetentValue)

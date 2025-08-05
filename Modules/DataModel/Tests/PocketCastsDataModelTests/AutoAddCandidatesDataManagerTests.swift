@@ -13,8 +13,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
     }
 
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        DataManager.newTestDataManager()
     }
 
     /// Tests new query and autoAddToUpNext property for UpNext candidates

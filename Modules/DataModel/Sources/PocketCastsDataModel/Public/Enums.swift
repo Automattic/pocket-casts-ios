@@ -80,7 +80,7 @@ public struct EpisodeBasicData {
 }
 
 public enum LibrarySort: Int32, CaseIterable, Codable {
-    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3, recentlyPlayed = 4
 }
 
 public enum LibraryType: Int32, Codable {
@@ -98,9 +98,10 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest
     case shortestToLongest
     case longestToShortest
+    case serial
 
     public enum Old: Int32 {
-        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest, titleAtoZ, titleZtoA
+        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest, titleAtoZ, titleZtoA, serial
     }
 
     public init(old: Old) {
@@ -117,6 +118,8 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
             self = .titleAtoZ
         case .titleZtoA:
             self = .titleZtoA
+        case .serial:
+            self = .serial
         }
     }
 
@@ -134,6 +137,8 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
             .titleAtoZ
         case .titleZtoA:
             .titleZtoA
+        case .serial:
+            .serial
         }
     }
 }

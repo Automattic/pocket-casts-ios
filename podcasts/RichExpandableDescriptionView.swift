@@ -127,6 +127,10 @@ class RichExpandableLabel: WKWebView {
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
         a {
             color:\(linkColor.hexString());
         }
@@ -156,7 +160,8 @@ class RichExpandableLabel: WKWebView {
     }
 
     static func estimateHeightFor(maxLines: Int, lineHeightMultiple: CGFloat, font: UIFont) -> CGFloat {
-        return (font.lineHeight * lineHeightMultiple * CGFloat(maxLines)).rounded(.up)
+        //We don't take in account the extra space added by the line height multiple on the top and bottom lines
+        return ((font.lineHeight * lineHeightMultiple * CGFloat(maxLines-2)) + (2 * font.lineHeight)).rounded(.up)
     }
 
     private func update() {

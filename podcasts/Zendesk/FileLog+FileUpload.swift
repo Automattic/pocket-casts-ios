@@ -42,7 +42,7 @@ extension FileLog: EventLoggingDelegate {
             .eraseToAnyPublisher()
     }
 
-    private func watchLogFileForUpload() -> AnyPublisher<String?, Never> {
+    func watchLogFileForUpload() -> AnyPublisher<String?, Never> {
         Future<String?, Error> { promise in
             WatchManager.shared.requestLogFile { watchLog in
                 guard let wearableLog = watchLog else {

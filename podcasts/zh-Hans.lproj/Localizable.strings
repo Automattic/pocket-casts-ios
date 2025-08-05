@@ -287,6 +287,22 @@
     <string>如果打开，则如果您在最后一次暂停后的 5 分钟内播放了剧集，睡眠计时器将自动重启。</string>
     <key>back</key>
     <string>返回</string>
+    <key>banner_ads_info_label</key>
+    <string>广告</string>
+    <key>banner_ads_remove_ads</key>
+    <string>删除广告</string>
+    <key>banner_ads_report_ad</key>
+    <string>举报广告</string>
+    <key>banner_ads_report_ad_title</key>
+    <string>您为何要举报此广告？</string>
+    <key>banner_ads_report_broken</key>
+    <string>这则广告似乎显示异常</string>
+    <key>banner_ads_report_malicious</key>
+    <string>这是一则恶意广告</string>
+    <key>banner_ads_report_other</key>
+    <string>其他</string>
+    <key>banner_ads_report_too_often</key>
+    <string>看到此广告的频率过高</string>
     <key>beta_purchase_disabled</key>
     <string>请从 App Store 中下载 Pocket Casts，以购买 %1$@。</string>
     <key>beta_thank_you</key>
@@ -327,22 +343,28 @@
     <string>取消</string>
     <key>cancel_confirm_item_folders</key>
     <string>您的文件夹将被删除，并且其中的内容将移回“播客”屏幕。</string>
+    <key>cancel_confirm_item_history</key>
+    <string>您仍可继续访问您的播客和收听历史记录。 </string>
     <key>cancel_confirm_item_plus</key>
-    <string>在此日期后，对 Pocket Casts Plus 功能的访问将被锁定。</string>
+    <string>在此日期之后，Plus 功能（如书签、随机播放、可穿戴设备等）将被停用。</string>
     <key>cancel_confirm_item_uploads</key>
-    <string>上传至您的 Pocket Casts 帐户的文件将会删除（但下载到您移动设备上的文件会保留）</string>
+    <string>上传至您的 Pocket Casts 账户的所有文件都将删除，但您移动设备上的下载文件会保留。</string>
     <key>cancel_confirm_sub_expiry</key>
     <string>您的当前订阅将保持启用状态，直到 %1$@。</string>
     <key>cancel_confirm_sub_expiry_date_fallback</key>
     <string>您的到期日期</string>
     <key>cancel_confirm_subtitle</key>
-    <string>这会将您的套餐更改为免费帐户。</string>
+    <string>取消后，您的套餐将更改为免费账户。</string>
+    <key>cancel_confirm_title</key>
+    <string>取消前的须知事项</string>
     <key>cancel_download</key>
     <string>取消下载</string>
     <key>cancel_failed</key>
     <string>无法取消</string>
     <key>cancel_subscription</key>
     <string>取消订阅</string>
+    <key>cancel_subscription_available_plans_best_value_badge</key>
+    <string>最佳价值</string>
     <key>cancel_subscription_available_plans_footer</key>
     <string>您的新套餐将在当前计费周期结束时激活。</string>
     <key>cancel_subscription_available_plans_retry_screen_text</key>
@@ -364,11 +386,11 @@
     <key>cancel_subscription_new_plan_title</key>
     <string>想换个套餐？</string>
     <key>cancel_subscription_offer_success_view_description</key>
-    <string>感谢您选用 Pocket Casts。 免费月结束后开始计费。</string>
+    <string>感谢您选用 Pocket Casts。 您的免费月份将添加到您当前的订阅中。</string>
     <key>cancel_subscription_offer_success_view_title</key>
     <string>享受一个月的免费体验！</string>
     <key>cancel_subscription_offer_yearly_success_view_description</key>
-    <string>感谢您选用 Pocket Casts。 您的折扣套餐将在您当前的计费周期结束后开始生效。</string>
+    <string>感谢您选用 Pocket Casts。 您的年度折扣套餐将从您当前的套餐结束后开始计算。</string>
     <key>cancel_subscription_offer_yearly_success_view_title</key>
     <string>下一年享 5%% 折优惠！</string>
     <key>cancel_subscription_promotion_description_monthly</key>
@@ -377,8 +399,42 @@
     <string>现在支付 %@ 即可再享一年 50%% 优惠</string>
     <key>cancel_subscription_promotion_title</key>
     <string>下个月免费</string>
+    <key>cancel_subscription_survey_description</key>
+    <string>我们很想知道您取消订单的原因。 您的反馈有助于我们做出改进。</string>
+    <key>cancel_subscription_survey_row_better_app</key>
+    <string>我找到了一款更好的应用程序</string>
+    <key>cancel_subscription_survey_row_cost</key>
+    <string>费用太高</string>
+    <key>cancel_subscription_survey_row_not_enough</key>
+    <string>我不常使用</string>
+    <key>cancel_subscription_survey_row_other</key>
+    <string>其他</string>
+    <key>cancel_subscription_survey_row_technical_issue</key>
+    <string>技术问题</string>
+    <key>cancel_subscription_survey_submit_feedback</key>
+    <string>提交反馈</string>
+    <key>cancel_subscription_survey_title</key>
+    <string>感谢您试用
+Pocket Casts Plus</string>
+    <key>cancel_subscription_survey_toast_fail</key>
+    <string>抱歉，出错了。</string>
+    <key>cancel_subscription_survey_toast_success</key>
+    <string>感谢您的反馈！</string>
     <key>cancel_subscription_title</key>
-    <string>在取消之前，请查看以下优惠</string>
+    <string>想要离开？
+不妨先与我们聊聊</string>
+    <key>cancel_subscription_winback_view_accept_offer_button</key>
+    <string>接受优惠</string>
+    <key>cancel_subscription_winback_view_continue_cancellation_button</key>
+    <string>继续取消</string>
+    <key>cancel_subscription_winback_view_description_montly</key>
+    <string>免费畅享一个月的 Pocket Casts Plus！ 该优惠将添加到您当前的订阅中。</string>
+    <key>cancel_subscription_winback_view_description_yearly</key>
+    <string>现在支付 %@，即可以半价锁定 Pocket Casts Plus 一年使用权。 您的年度折扣套餐将从您当前的套餐结束后开始计算。</string>
+    <key>cancel_subscription_winback_view_title_montly</key>
+    <string>下个月免费，可节省 %@</string>
+    <key>cancel_subscription_winback_view_title_yearly</key>
+    <string>下一年获享 50%% 优惠，可节省 %@</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>下一年获享 5%% 折优惠</string>
     <key>canceling</key>
@@ -505,6 +561,12 @@
     <string>创建片段</string>
     <key>create_filter</key>
     <string>创建过滤器</string>
+    <key>creator_pick_modal_description</key>
+    <string>“创作者精选”是节目创作者使用 Podroll 推荐的播客。</string>
+    <key>creator_pick_modal_learn_more</key>
+    <string>了解更多</string>
+    <key>creator_pick_modal_title</key>
+    <string>什么是“创作者精选”？</string>
     <key>current_email_prompt</key>
     <string>当前电子邮件</string>
     <key>current_password_prompt</key>
@@ -745,6 +807,8 @@
     <string>下载全部</string>
     <key>download_data_warning</key>
     <string>下载将使用数据。</string>
+    <key>download_data_warning_with_settings_link</key>
+    <string>此次下载将使用移动数据。 您可以在 [设置](%@) 中关闭此警告。</string>
     <key>download_episode_plural_format</key>
     <string>下载 %1$@ 集</string>
     <key>download_episode_singular</key>
@@ -780,13 +844,52 @@
     <key>downloads_auto_download</key>
     <string>自动下载设置</string>
     <key>downloads_no_downloads_desc</key>
-    <string>糟糕！ 下载文件没有了。 下载更多文件，这些文件将显示在此处。</string>
+    <string>保存剧集以便离线收听，不错过任何精彩时刻。</string>
     <key>downloads_no_downloads_title</key>
-    <string>没有已下载剧集</string>
+    <string>享受离线收听</string>
     <key>downloads_retry_failed_downloads</key>
     <string>重试失败的下载</string>
     <key>downloads_stop_all_downloads</key>
     <string>停止所有下载</string>
+    <key>eac_informational_banner_create_account</key>
+    <string>创建一个免费账户</string>
+    <key>eac_informational_banner_filters_description</key>
+    <string>创建一个免费账户，即可在任何设备上同步您的筛选条件。</string>
+    <key>eac_informational_banner_filters_icon_accessibility</key>
+    <string>筛选条件图标</string>
+    <key>eac_informational_banner_filters_title</key>
+    <string>同步筛选条件</string>
+    <key>eac_informational_banner_listening_history_description</key>
+    <string>创建一个免费账户，即可随时随地同步您的收听历史记录。</string>
+    <key>eac_informational_banner_listening_history_icon_accessibility</key>
+    <string>收听历史记录图标</string>
+    <key>eac_informational_banner_listening_history_title</key>
+    <string>记录播放历史</string>
+    <key>eac_informational_banner_profile_description</key>
+    <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
+    <key>eac_informational_banner_profile_icon_accessibility</key>
+    <string>个人资料图标</string>
+    <key>eac_informational_banner_profile_title</key>
+    <string>全端畅听节目</string>
+    <key>eac_informational_card_backups_description</key>
+    <string>您的媒体库和首选项设置将得到安全存储。</string>
+    <key>eac_informational_card_backups_title</key>
+    <string>安全备份</string>
+    <key>eac_informational_card_recommendation_description</key>
+    <string>根据您的收听习惯，获取量身定制的播客推荐。</string>
+    <key>eac_informational_card_recommendation_title</key>
+    <string>个性化推荐</string>
+    <key>eac_informational_card_sync_description</key>
+    <string>收听进度与节目内容将在所有设备上自动同步。</string>
+    <key>eac_informational_card_sync_title</key>
+    <string>跨设备同步</string>
+    <key>eac_informational_view_modal_description</key>
+    <string>创建账户或登录，即可尽情使用
+Pocket Casts。</string>
+    <key>eac_informational_view_modal_get_started_button</key>
+    <string>开始</string>
+    <key>eac_informational_view_modal_title</key>
+    <string>我们注意到您尚未登录</string>
     <key>edit</key>
     <string>编辑</string>
     <key>edit_clip</key>
@@ -933,6 +1036,8 @@
     <string>剧集</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ 集</string>
+    <key>episode_description_title</key>
+    <string>剧集描述</string>
     <key>episode_details_title</key>
     <string>详细信息</string>
     <key>episode_filter_by_duration_label</key>
@@ -967,6 +1072,28 @@
     <string>导出</string>
     <key>exporting_database</key>
     <string>正在导出数据库…</string>
+    <key>failed_recommendations</key>
+    <string>无法加载推荐内容</string>
+    <key>feature_marketing_all_plus_features</key>
+    <string>Plus 中的所有功能</string>
+    <key>feature_marketing_bookmarks</key>
+    <string>使用书签保留时间戳</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>供您存放文件的 %1$@ 云存储空间</string>
+    <key>feature_marketing_early_access</key>
+    <string>抢先体验新功能</string>
+    <key>feature_marketing_extra_themes_icons</key>
+    <string>更多主题和应用程序图标</string>
+    <key>feature_marketing_folders</key>
+    <string>使用文件夹整理您的收藏</string>
+    <key>feature_marketing_skip_chapters</key>
+    <string>通过预选章节功能节省时间</string>
+    <key>feature_marketing_slumber</key>
+    <string>由 Slumber Studios 提供的一年内容</string>
+    <key>feature_marketing_up_next_shuffle</key>
+    <string>随机播放您的队列</string>
+    <key>feature_marketing_watch_playback</key>
+    <string>适用于 Wear OS 和 Apple Watch 的应用程序</string>
     <key>feature_tour_end_tour</key>
     <string>结束浏览</string>
     <key>feature_tour_new</key>
@@ -998,12 +1125,11 @@
     <key>file_upload_name_required</key>
     <string>必须填写名称</string>
     <key>file_upload_no_files_description</key>
-    <string>想要收听您自己的文件？
-与 Pocket Casts 共享这些文件，它们将显示在这里</string>
+    <string>将您自己的文件上传至 Pocket Casts，以便随时收听或观看。</string>
     <key>file_upload_no_files_helper</key>
     <string>我该怎么做？</string>
     <key>file_upload_no_files_title</key>
-    <string>无文件</string>
+    <string>收听或观看您自己的文件</string>
     <key>file_upload_remove_image</key>
     <string>删除图片</string>
     <key>file_upload_save</key>
@@ -1108,6 +1234,10 @@
     <string>新发布</string>
     <key>filters_new_filter_button</key>
     <string>+ 新建过滤器</string>
+    <key>filters_tip_view_description</key>
+    <string>创建智能筛选条件来整理您的剧集。 按时长、发布日期、媒体类型等进行筛选。</string>
+    <key>filters_tip_view_title</key>
+    <string>整理您的剧集</string>
     <key>folder</key>
     <string>文件夹</string>
     <key>folder_add_podcasts_plural_format</key>
@@ -1136,6 +1266,8 @@
     <string>是否确定？</string>
     <key>folder_edit</key>
     <string>编辑文件夹</string>
+    <key>folder_empty_button_title</key>
+    <string>添加播客</string>
     <key>folder_empty_description</key>
     <string>播客添加到您的文件夹后，会显示在此处</string>
     <key>folder_empty_title</key>
@@ -1180,6 +1312,8 @@
     <string>开始免费试用</string>
     <key>free_trial_title_label</key>
     <string>免费试用 Plus %1$@</string>
+    <key>funding</key>
+    <string>赞助</string>
     <key>funny_conf_msg</key>
     <string>它真的很配您的双眼 ✨</string>
     <key>funny_time_not_enough</key>
@@ -1210,6 +1344,14 @@
     <string>在此期间，您应可以绑定 %1$@ 根鞋带。 也许。 👟</string>
     <key>funny_time_unit_tweets</key>
     <string>在此期间，发送了 %1$@ 篇推文。 太棒了！ 太棒了！ 🐣</string>
+    <key>generated_transcripts_banner</key>
+    <string>此文字转录稿为自动生成，仅供 Plus 订阅者使用</string>
+    <key>generated_transcripts_overlay_description</key>
+    <string>订阅 Plus 以使用此功能和其他高级功能（如书签和文件夹）。</string>
+    <key>generated_transcripts_overlay_title</key>
+    <string>此文字转录稿由 Pocket Casts 自动生成。</string>
+    <key>go_to_discover</key>
+    <string>前往探索</string>
     <key>go_to_podcast</key>
     <string>转至播客</string>
     <key>got_it</key>
@@ -1250,6 +1392,10 @@
     <string>别的东西</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
+    <key>iap_product_monthly_pricing_format</key>
+    <string>%1$@/月</string>
+    <key>iap_product_weekly_pricing_format</key>
+    <string>%1$@/周</string>
     <key>import</key>
     <string>导入</string>
     <key>import_instructions_apple_podcasts_steps</key>
@@ -1480,20 +1626,106 @@
     <string>下次付款日期：%1$@</string>
     <key>no_bookmarks_button_title</key>
     <string>耳机设置</string>
+    <key>no_bookmarks_locked_button_title</key>
+    <string>获取书签</string>
+    <key>no_bookmarks_locked_message</key>
+    <string>您可以保存剧集中重要时刻的时间戳。</string>
     <key>no_bookmarks_message</key>
     <string>您可以使用播放器的操作菜单或配置耳机的操作程序来保存剧集的时间戳。</string>
     <key>no_bookmarks_title</key>
-    <string>尚无书签</string>
+    <string>将该时刻加入书签</string>
     <key>none</key>
     <string>无</string>
     <key>not_on_wifi</key>
     <string>您没有使用 WiFi</string>
+    <key>notifications_app_clip_body</key>
+    <string>安装 Pocket Casts，通过强大的播放功能和自定义工具获得完整的体验。</string>
+    <key>notifications_app_clip_title</key>
+    <string>准备好收听更多播客了吗？</string>
+    <key>notifications_daily_reminders</key>
+    <string>每日提醒</string>
+    <key>notifications_new_feature_suggested_folders_body</key>
+    <string>试用 Plus，通过文件夹自动整理您的节目。</string>
+    <key>notifications_new_feature_suggested_folders_title</key>
+    <string>整理您的播客</string>
+    <key>notifications_new_features_tips</key>
+    <string>新功能和贴士</string>
     <key>notifications_off</key>
     <string>通知关闭</string>
+    <key>notifications_offers_upsell_body</key>
+    <string>使用 Plus 解锁文件夹、书签等专享功能！</string>
+    <key>notifications_offers_upsell_title</key>
+    <string>提升您的播客体验</string>
     <key>notifications_on</key>
     <string>通知开启</string>
+    <key>notifications_on_for_podcast</key>
+    <string>我们会向您通知 %1$@ 的剧集更新</string>
+    <key>notifications_onboarding_filters_body</key>
+    <string>创建智能筛选条件来整理您的剧集。</string>
+    <key>notifications_onboarding_filters_title</key>
+    <string>整理您的剧集</string>
+    <key>notifications_onboarding_import_body</key>
+    <string>考虑从其他应用程序迁移过来？ 将您喜爱的所有节目转移到 Pocket Casts。</string>
+    <key>notifications_onboarding_import_title</key>
+    <string>轻松导入您的播客</string>
+    <key>notifications_onboarding_signup_body</key>
+    <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
+    <key>notifications_onboarding_signup_title</key>
+    <string>全端畅听节目！</string>
+    <key>notifications_onboarding_staff_picks_body</key>
+    <string>专业播客团队严选推荐，每期内容都恰到好处。</string>
+    <key>notifications_onboarding_staff_picks_title</key>
+    <string>探索我们的员工精选</string>
+    <key>notifications_onboarding_themes_body</key>
+    <string>浏览我们的主题，找到适合您风格的一款。</string>
+    <key>notifications_onboarding_themes_title</key>
+    <string>焕新时刻</string>
+    <key>notifications_onboarding_upnext_body</key>
+    <string>建立播放队列，告别剧集来回切换的烦恼。</string>
+    <key>notifications_onboarding_upnext_title</key>
+    <string>简化您的队列</string>
+    <key>notifications_onboarding_upsell_body</key>
+    <string>使用 Plus 解锁文件夹、书签等专享功能！</string>
+    <key>notifications_onboarding_upsell_title</key>
+    <string>提升您的播客体验</string>
+    <key>notifications_permissions_action</key>
+    <string>允许通知</string>
+    <key>notifications_permissions_body</key>
+    <string>通知是跟踪新剧集、获取新节目推荐和 Pocket Casts 使用技巧的最佳方式。</string>
+    <key>notifications_permissions_needs_action</key>
+    <string>请在您的设备设置中允许通知</string>
+    <key>notifications_permissions_open_settings</key>
+    <string>打开设置</string>
+    <key>notifications_permissions_title</key>
+    <string>了解最新动态！</string>
     <key>notifications_play_now</key>
     <string>立即播放</string>
+    <key>notifications_pocket_cast_offers</key>
+    <string>Pocket Casts 优惠</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>看看其他人本周都在听什么。</string>
+    <key>notifications_recommendations_trending_title</key>
+    <string>本周热门话题</string>
+    <key>notifications_recommendations_you_might_like_body</key>
+    <string>不知道接下来该听什么？ 不妨看看这些节目！</string>
+    <key>notifications_recommendations_you_might_like_title</key>
+    <string>为您推荐的新内容</string>
+    <key>notifications_reengagement_downloads_body</key>
+    <string>您已下载 %1$@ 个新剧集，可随时收听！</string>
+    <key>notifications_reengagement_downloads_title</key>
+    <string>离线收听</string>
+    <key>notifications_reengagement_weekly_body</key>
+    <string>您已经有一段时间没收听播客了。 回来继续收听，尽情享受吧！</string>
+    <key>notifications_reengagement_weekly_title</key>
+    <string>我们想念您！</string>
+    <key>notifications_trending_and_recommendations</key>
+    <string>趋势与推荐</string>
+    <key>notitifications_permission_banner_action</key>
+    <string>转到设备设置</string>
+    <key>notitifications_permission_banner_message</key>
+    <string>要接收 Pocket Casts 发送的通知，您需要在设备设置中启用相关选项。</string>
+    <key>notitifications_permission_banner_title</key>
+    <string>允许推送通知</string>
     <key>now_playing</key>
     <string>正在播放</string>
     <key>now_playing_item</key>
@@ -1508,6 +1740,10 @@
     <string>关闭</string>
     <key>ok</key>
     <string>确定</string>
+    <key>only_on_unmetered_wifi</key>
+    <string>仅通过不计量的 Wifi 下载</string>
+    <key>only_on_unmetered_wifi_details</key>
+    <string>关闭此功能将允许在蜂窝网络和其他计量网络上下载。 请查看您的网络设置以获取更多信息。</string>
     <key>only_on_wifi</key>
     <string>仅在 WiFi 上</string>
     <key>opml_import_failed_message</key>
@@ -1583,6 +1819,8 @@
     <string>正在解锁</string>
     <key>pause</key>
     <string>暂停</string>
+    <key>paywall_dynamic_headline_banner_ad</key>
+    <string>使用 Pocket Casts Plus，告别横幅广告等干扰</string>
     <key>paywall_dynamic_headline_files</key>
     <string>通过 Pocket Casts Plus 上传文件，并享用更多功能</string>
     <key>paywall_dynamic_headline_folder</key>
@@ -1745,6 +1983,8 @@
     <string>播放错误</string>
     <key>player_user_episode_upload_error</key>
     <string>上传错误</string>
+    <key>playlists</key>
+    <string>播放列表</string>
     <key>please_try_again</key>
     <string>请重试</string>
     <key>please_try_again_later</key>
@@ -1803,22 +2043,28 @@
     <string>Apple Watch 和 Wear OS 播放功能</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 的每个人都对您感激不尽</string>
+    <key>plus_feature_librofm</key>
+    <string>来自 Libro.fm 的免费有声读物</string>
     <key>plus_feature_slumber</key>
     <string>由 Slumber Studios 提供的一年独家内容</string>
     <key>plus_feature_slumber_new</key>
     <string>通过 Slumber Studios 的内容圆梦</string>
     <key>plus_feature_themes_icons</key>
-    <string>其他主题和应用程序图标</string>
+    <string>其他主题和图标</string>
     <key>plus_features</key>
     <string>PLUS 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ 免费试用</string>
+    <key>plus_marketing_bookmarks_title</key>
+    <string>书签</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和 Web 应用程序</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
     <string>文件夹和书签</string>
     <key>plus_marketing_folders_description</key>
     <string>创建文件夹以整理您的播客集。</string>
+    <key>plus_marketing_folders_title</key>
+    <string>文件夹</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>无广告体验，提供更多您喜欢的内容，并减少您不喜欢内容</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -1827,6 +2073,8 @@
     <string>了解有关 Pocket Casts Plus 的更多信息</string>
     <key>plus_marketing_main_description</key>
     <string>同时进行个性化设计并分发。 将您的个人音频文件上传到我们的云服务器，通过我们的 Web 播放器访问您的账户，并将应用程序设置为您的应用程序。</string>
+    <key>plus_marketing_no_banner_ads</key>
+    <string>无横幅广告</string>
     <key>plus_marketing_subtitle</key>
     <string>使用专享功能和定制选项</string>
     <key>plus_marketing_themes_icons_title</key>
@@ -1963,6 +2211,8 @@
     <string>无法加载播客详情 :(</string>
     <key>podcast_error_title</key>
     <string>失败了</string>
+    <key>podcast_extras</key>
+    <string>其他</string>
     <key>podcast_failed_download</key>
     <string>剧集下载失败。</string>
     <key>podcast_failed_upload</key>
@@ -2001,11 +2251,13 @@
     <key>podcast_no_date</key>
     <string>未设置日期</string>
     <key>podcast_no_season</key>
-    <string>无剧季</string>
+    <string>其他</string>
     <key>podcast_pause_download</key>
     <string>暂停下载</string>
     <key>podcast_pause_playback</key>
     <string>暂停播放</string>
+    <key>podcast_podroll_header</key>
+    <string>创作者推荐的节目</string>
     <key>podcast_queued</key>
     <string>在排队</string>
     <key>podcast_queuing</key>
@@ -2034,6 +2286,10 @@
     <string>文件打开方式...</string>
     <key>podcast_show_archived</key>
     <string>显示已存档</string>
+    <key>podcast_similar_generic_header</key>
+    <string>类似节目</string>
+    <key>podcast_similar_header</key>
+    <string>“%@”的类似节目</string>
     <key>podcast_singular</key>
     <string>播客</string>
     <key>podcast_soon</key>
@@ -2042,8 +2298,8 @@
     <string>排序</string>
     <key>podcast_stream_confirmation</key>
     <string>仍然流式传输</string>
-    <key>podcast_stream_data_warning</key>
-    <string>流式传输此剧集将使用数据</string>
+    <key>podcast_stream_data_warning_with_settings</key>
+    <string>流式传输此剧集将使用数据。 您可以在 [设置](%@) 中关闭此警告。</string>
     <key>podcast_this_month</key>
     <string>本月</string>
     <key>podcast_time_left</key>
@@ -2060,6 +2316,10 @@
     <string>立即上传</string>
     <key>podcast_uploading</key>
     <string>正在上传... %1$@</string>
+    <key>podcast_view_changes_tip_details</key>
+    <string>轻点播客标题即可收起或展开其描述和详细信息</string>
+    <key>podcast_view_changes_tip_title</key>
+    <string>我们进行了一些更改</string>
     <key>podcast_waiting_upload</key>
     <string>正在等待上传</string>
     <key>podcast_yesterday</key>
@@ -2076,6 +2336,8 @@
     <string>最新到最旧</string>
     <key>podcasts_episode_sort_oldest_to_newest</key>
     <string>最旧到最新</string>
+    <key>podcasts_episode_sort_serial</key>
+    <string>连载</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>最短到最长</string>
     <key>podcasts_episode_sort_title_a_to_z</key>
@@ -2090,6 +2352,12 @@
     <string>拖放</string>
     <key>podcasts_library_sort_date_added</key>
     <string>添加日期</string>
+    <key>podcasts_library_sort_episode_recently_played</key>
+    <string>最近播放</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_description</key>
+    <string>您现在可以按“最近播放”排序，并快速接续上次播放进度。</string>
+    <key>podcasts_library_sort_episode_recently_played_tip_title</key>
+    <string>按“最近播放”排序</string>
     <key>podcasts_library_sort_episode_release_date</key>
     <string>剧集发布日期</string>
     <key>podcasts_library_sort_title</key>
@@ -2118,6 +2386,10 @@
     <string>通过升级您的账户，帮助支持 Pocket Casts</string>
     <key>profile_last_app_refresh</key>
     <string>应用程序上次刷新时间：%1$@</string>
+    <key>profile_listening_history_empty_description</key>
+    <string>在此开始收听播客并重温收听记录。</string>
+    <key>profile_listening_history_empty_title</key>
+    <string>现在开始收听吧！</string>
     <key>profile_number_of_files</key>
     <string>%1$@ 个文件</string>
     <key>profile_percent_full</key>
@@ -2135,11 +2407,11 @@
     <key>profile_single_file</key>
     <string>1 个文件</string>
     <key>profile_starred_no_episodes_desc</key>
-    <string>您尚未对任何剧集进行评分。</string>
+    <string>为您喜爱的剧集添加星标，以便随时重温。</string>
     <key>profile_starred_no_episodes_title</key>
-    <string>未对任何内容进行评分</string>
+    <string>保存您喜爱的剧集</string>
     <key>purchase_terms</key>
-    <string>继续即表示，您同意我们的%1$@隐私政策%2$@以及%3$@条款和条件%4$@</string>
+    <string>继续即表示您同意我们的 %1$@ 和 %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_episode_queue_singular</key>
@@ -2969,8 +3241,32 @@
     <string>到期日期：%1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ 每 %2$@</string>
+    <key>subscription_plan_features_info_link</key>
+    <string>查看所有 Plus 功能</string>
+    <key>subscription_plan_free_trial_info_link</key>
+    <string>免费试用版如何使用？</string>
+    <key>subscription_plan_month</key>
+    <string>月度套餐</string>
+    <key>subscription_plan_savings</key>
+    <string>节省 %1$@ </string>
+    <key>subscription_plan_year</key>
+    <string>年度套餐</string>
     <key>subscriptions_thank_you</key>
     <string>感谢您的支持！</string>
+    <key>suggested_folders_create_custom_folder</key>
+    <string>创建自定义文件夹</string>
+    <key>suggested_folders_description</key>
+    <string>我们已将您的播客整理到文件夹中。 立即保存，稍后进行自定义。</string>
+    <key>suggested_folders_description_with_existing_folders</key>
+    <string>我们已将您的播客整理到文件夹中。 立即保存，稍后进行自定义。 这将替换任何现有文件夹。</string>
+    <key>suggested_folders_replace_confirmation_button </key>
+    <string>替换文件夹</string>
+    <key>suggested_folders_replace_confirmation_details </key>
+    <string>接受建议的文件夹后，您当前的文件夹将被覆盖。 此操作无法撤销。</string>
+    <key>suggested_folders_replace_confirmation_title</key>
+    <string>替换现有文件夹？</string>
+    <key>suggested_folders_title</key>
+    <string>智能文件夹</string>
     <key>suggested_folders_use_suggested_folders</key>
     <string>使用这些文件夹</string>
     <key>support_watch_help_message</key>
@@ -3072,7 +3368,7 @@
     <key>up_next_empty_description</key>
     <string>您可以向右滑动剧集行或点按剧集卡上的图标，将剧集排队以供接下来播放。</string>
     <key>up_next_empty_title</key>
-    <string>“接下来播放”列表无内容</string>
+    <string>自主编排收听流程</string>
     <key>up_next_history</key>
     <string>“即将播出”历史</string>
     <key>up_next_history_explanation</key>
@@ -3087,6 +3383,16 @@
     <string>随机播放功能已启用。 剧集将按随机顺序播放。</string>
     <key>upgrade_account</key>
     <string>升级账户</string>
+    <key>upgrade_account_info</key>
+    <string>解锁文件夹、随机播放、书签等所有付费功能</string>
+    <key>upgrade_account_timeline_charging_day</key>
+    <string>系统将于 %1$@ 向您收取费用。 您在此之前可以随时取消。</string>
+    <key>upgrade_account_timeline_day_1</key>
+    <string>获取文件夹、随机播放功能、书签及独家内容的专属访问权限</string>
+    <key>upgrade_account_timeline_week_before</key>
+    <string>我们会在试用期结束时通知您。</string>
+    <key>upgrade_account_title</key>
+    <string>为您的播客赋予强大功能</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
     <string>首年享 50%% 优惠</string>
     <key>upgrade_experiment_free_membership_format</key>
@@ -3141,6 +3447,16 @@
     <string>最长到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最长</string>
+    <key>user_satisfaction_survey_no_response</key>
+    <string>不太喜欢</string>
+    <key>user_satisfaction_survey_subtitle</key>
+    <string>您好！ 我们很想知道您是否喜欢我们的应用程序。</string>
+    <key>user_satisfaction_survey_title</key>
+    <string>喜欢 Pocket Casts？</string>
+    <key>user_satisfaction_survey_yes_response</key>
+    <string>是！</string>
+    <key>view_transcript</key>
+    <string>查看文字转录稿</string>
     <key>volume_boost</key>
     <string>音量增强</string>
     <key>volume_boost_description</key>
@@ -3249,5 +3565,7 @@
     <string>年</string>
     <key>yearly</key>
     <string>每年</string>
+    <key>you_might_like</key>
+    <string>您可能会喜欢</string>
   </dict>
 </plist>

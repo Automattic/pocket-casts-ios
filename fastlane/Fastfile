@@ -95,9 +95,8 @@ ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_KEY
 ].freeze
 
-APPCENTER_OWNER_NAME = 'automattic'
-APPCENTER_OWNER_TYPE = 'organization'
-APPCENTER_APP_SLUG = 'Pocket-Casts-Prototype-Builds'
+FIREBASE_APP_ID = '1:124902176124:ios:3999f43bfa1fcd1b1620f9'
+FIREBASE_TESTERS_GROUP = 'pocketcasts-ios---prototype-builds'
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
 
@@ -651,21 +650,15 @@ platform :ios do
     remove_app_clip_dependency!
     UI.important('Remember not to commit the modified project file! The change is only meant to allow building for Enterprise where App Clips are not supported.')
 
-    version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    build_number = generate_prototype_build_number
-
-    UI.message("Updating build number to #{build_number}.")
-
-    version_settings[BUILD_CODE_KEY] = build_number
-
-    new_config = Xcodeproj::Config.new(version_settings)
-    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
+    build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', '0')
+    pr_or_branch = pull_request_number&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
 
     build_app(
       scheme: SCHEME_ENTERPRISE,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
+      xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
       output_directory: ARTIFACTS_FOLDER,
       output_name: PROTOTYPE_BUILD_NAME,
       export_options: {
@@ -675,39 +668,42 @@ platform :ios do
     )
   end
 
-  # Distributes the Prototype Build to App Center
+  # Distributes the Prototype Build to Firebase App Distribution
   #
   # Typically called after having built the binary with `build_enterprise`
   #
   # @note Expects the `.ipa` and `.dSYM` files to be present in `ARTIFACTS_FOLDER/PROTOTYPE_BUILD_NAME.{ipa,app.dSYM.zip}`
   #
   lane :upload_enterprise do
-    require_env_vars!('APPCENTER_API_TOKEN')
+    require_env_vars!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY')
 
-    commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
-    pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
     release_notes = <<~NOTES
-      - Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'Unknown')}`\n
-      - Commit: [#{commit[0...7]}](#{GITHUB_URL}/commit/#{commit})\n
-      - Pull Request: [##{pr}](#{GITHUB_URL}/pull/#{pr})\n
+      Pull Request: ##{pull_request_number || 'N/A'}
+      Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'N/A')}`
+      Commit: #{ENV.fetch('BUILDKITE_COMMIT', 'N/A')[0...7]}
     NOTES
 
-    appcenter_upload(
-      api_token: get_required_env!('APPCENTER_API_TOKEN'),
-      owner_name: APPCENTER_OWNER_NAME,
-      owner_type: APPCENTER_OWNER_TYPE,
-      app_name: APPCENTER_APP_SLUG,
-      file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
-      dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
+    firebase_app_distribution(
+      app: FIREBASE_APP_ID,
+      ipa_path: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
+      service_credentials_json_data: get_required_env!('FIREBASE_APP_DISTRIBUTION_ACCOUNT_KEY'),
       release_notes: release_notes,
-      destinations: 'Collaborators',
-      notify_testers: false
+      groups: FIREBASE_TESTERS_GROUP
     )
 
-    next unless is_ci
+    next if pull_request_number.nil?
 
-    annotate_pr_with_appcenter_link
-    annotate_buildkite_with_appcenter_link
+    # Post PR Comment
+    comment_body = prototype_build_details_comment(
+      app_display_name: 'Pocket Casts Prototype Build',
+      fold: true
+    )
+    comment_on_pr(
+      project: GITHUB_REPO,
+      pr_number: pull_request_number,
+      reuse_identifier: 'prototype-build-link',
+      body: comment_body
+    )
   end
 
   # Uploads DSYM Symbols
@@ -777,11 +773,6 @@ platform :ios do
   # @note Uses `genstrings` under the hood.
   #
   lane :generate_strings_file_for_glotpress do |skip_commit: false|
-    # For reference: Other apps run `cocoapods` here (equivalent to `bundle
-    # exec pod install`) because they have internal libraries that bring in
-    # their own strings. Pocket Casts does not have dependencies with strings
-    # fetched via CocoaPods, so we don't need to waste time on that.
-
     # Delete the previous frozen `.strings` file before generating it again, to
     # avoid duplicated keys.
     FileUtils.rm(FROZEN_STRINGS_PATH)
@@ -1097,7 +1088,7 @@ platform :ios do
 
     # Build once to speed up the other runs
     scan(
-      workspace: 'podcasts.xcworkspace',
+      project: 'podcasts.xcodeproj',
       scheme: 'Screenshot Automation',
       build_for_testing: true,
       clean: true,
@@ -1300,6 +1291,12 @@ platform :ios do
     UI.message "Checked out branch `#{git_branch}` as requested by user.\n"
   end
 
+  def pull_request_number
+    # Buildkite sets this env var to the PR number if on a PR, but to 'false' (and not nil) if not on a PR
+    pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', 'false')
+    pr_num == 'false' ? nil : Integer(pr_num)
+  end
+
   # Create a commit with the typical message to use for a version bump
   #
   def commit_version_bump
@@ -1307,59 +1304,6 @@ platform :ios do
       path: VERSION_XCCONFIG_PATH,
       message: 'Bump version number',
       allow_nothing_to_commit: false
-    )
-  end
-
-  # Generate a build number for Prototype Builds, based on the PR number and short commit SHA1
-  #
-  # @note This function uses Buildkite-specific ENV vars
-  #
-  def generate_prototype_build_number
-    if ENV['BUILDKITE']
-      commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
-      branch = ENV.fetch('BUILDKITE_BRANCH', nil)
-      pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
-
-      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}"
-    else
-      repo = Git.open(PROJECT_ROOT_FOLDER)
-      commit = repo.current_branch
-      branch = repo.revparse('HEAD')[0, 7]
-
-      "#{branch}-#{commit}"
-    end
-  end
-
-  # Post a comment on the PR with the info + QRCode to the Prototype Build in App Center
-  #
-  def annotate_pr_with_appcenter_link
-    comment_body = prototype_build_details_comment(
-      app_display_name: 'Pocket Casts Prototype Build',
-      app_center_org_name: APPCENTER_OWNER_NAME,
-      fold: true
-    )
-
-    comment_on_pr(
-      project: GITHUB_REPO,
-      pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
-      reuse_identifier: 'prototype-build-link-pocket-casts',
-      body: comment_body
-    )
-  end
-
-  # Annotate a Buildkite CI build with info + links to the Prototype Build in App Center
-  #
-  def annotate_buildkite_with_appcenter_link
-    appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
-    version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-    metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
-    appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
-    list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
-
-    buildkite_annotate(
-      context: 'appcenter-info-pocket-casts',
-      style: 'info',
-      message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}"
     )
   end
 

@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import PocketCastsUtils
 import MessageUI
+import UniformTypeIdentifiers
 
 class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDelegate {
     @Published var logs = ""
@@ -18,6 +19,24 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
         }
     }
 
+    var shareURL: URL? {
+        guard let data = logs.data(using: .utf8) else { return nil }
+        let date = Date()
+        let components = Calendar.current.dateComponents(in: .current, from: date)
+
+        let dateString = String(format: "%04d-%02d-%02d-%02d-%02d-%02d",
+            components.year ?? 0,
+            components.month ?? 0,
+            components.day ?? 0,
+            components.hour ?? 0,
+            components.minute ?? 0,
+            components.second ?? 0
+        )
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("pocketcasts-logs-\(dateString).txt")
+        try? data.write(to: tempURL)
+        return tempURL
+    }
+
     func mailLogs() {
         guard MFMailComposeViewController.canSendMail() else {
             Toast.show(L10n.logsNoEmailAccountConfigured)
@@ -25,7 +44,6 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
         }
         let mailVC = MFMailComposeViewController()
         mailVC.mailComposeDelegate = self
-
         mailVC.setSubject("iOS Logs \(Settings.appVersion())")
         mailVC.setToRecipients(["support@pocketcasts.com"])
         mailVC.setMessageBody("Please find attached my logs", isHTML: false)
@@ -40,7 +58,6 @@ class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDele
                                error: Error?) {
         presenter?.dismiss(animated: true)
     }
-
 }
 
 struct LogsView: View {
@@ -50,19 +67,29 @@ struct LogsView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $model.logs)
+            NonEditableTextView(text: model.logs, scrolledToBottom: true)
             Spacer()
         }
         .navigationTitle(L10n.logs)
-        .toolbar(content: {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    model.mailLogs()
-                }, label: {
-                    Image("mail")
-                })
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if MFMailComposeViewController.canSendMail() {
+                    Button(action: {
+                        model.mailLogs()
+                    }, label: {
+                        Image(systemName: "envelope")
+                            .bold()
+                    })
+                }
+                if let url = model.shareURL {
+                    ShareLink(item: url, preview: SharePreview("logs.txt")) {
+                        Image(systemName: "square.and.arrow.up")
+                            .bold()
+                    }
+                }
             }
-        })
+        }
+        .foregroundStyle(theme.primaryIcon01)
         .applyDefaultThemeOptions()
         .ignoresSafeArea()
         .task {

@@ -31,17 +31,10 @@ struct MediaTrimBar: View {
                 .frame(width: Constants.height)
                 .background(Constants.trimBorderColor)
                 .modify { view in
-                    if #available(iOS 16, *) {
-                        view.clipShape(.rect(topLeadingRadius: Constants.borderRadius,
-                                             bottomLeadingRadius: Constants.borderRadius,
-                                             bottomTrailingRadius: 0,
-                                             topTrailingRadius: 0))
-                    } else {
-                        view.clipShape(PCUnevenRoundedRectangle(topLeadingRadius: Constants.borderRadius,
-                                                                bottomLeadingRadius: Constants.borderRadius,
-                                                                bottomTrailingRadius: 0,
-                                                                topTrailingRadius: 0))
-                    }
+                    view.clipShape(.rect(topLeadingRadius: Constants.borderRadius,
+                                         bottomLeadingRadius: Constants.borderRadius,
+                                         bottomTrailingRadius: 0,
+                                         topTrailingRadius: 0))
                 }
                 .onChange(of: isPlaying) { isPlaying in
                     if isPlaying {

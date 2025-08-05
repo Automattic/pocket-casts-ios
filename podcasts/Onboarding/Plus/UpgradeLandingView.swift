@@ -69,8 +69,6 @@ struct UpgradeLandingView: View {
                                 PlusLabel(title, for: .title2)
                                     .transition(.opacity)
                                     .id("plus_title" + selectedTier.header)
-                                    .minimumScaleFactor(0.5)
-                                    .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
                                     .multilineTextAlignment(.center)
@@ -79,7 +77,7 @@ struct UpgradeLandingView: View {
 
                                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: false)
 
-                                if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
+                                if tiers.count > 1 && !isSmallScreen {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                                         .foregroundColor(.white)
                                         .padding(.top, 27)
@@ -166,6 +164,7 @@ struct UpgradeLandingView: View {
         }, label: {
             VStack {
                 Text(purchaseTitle)
+                    .multilineTextAlignment(.center)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -234,5 +233,9 @@ extension String {
 
     var newSlumberStudiosWithUrl: String {
         self.replacingOccurrences(of: self, with: "[\(self)](https://slumberstudios.com)")
+    }
+
+    var libroFmWithURL: String {
+        self.replacingOccurrences(of: "Libro.fm", with: "[Libro.fm](https://libro.fm)")
     }
 }

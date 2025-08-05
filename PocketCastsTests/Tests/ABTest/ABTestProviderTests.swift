@@ -43,6 +43,8 @@ fileprivate class ABTestProviderMock: ABTestProviding {
             return .treatment
         case .pocketcastsPaywallUpgradeIOSABTest:
             return .customTreatment(name: "features_treatment")
+        case .pocketcastsNewOnboardingIOSABTest:
+            return .treatment
         }
     }
 

@@ -4,10 +4,15 @@ import Agrume
 import AVKit
 import SafariServices
 import UIKit
+import PocketCastsUtils
+import SwiftUI
+import PocketCastsServer
 
 class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
+
+    private var bannerTask: Task<Void, Never>? = nil
 
     var videoViewController: VideoViewController?
 
@@ -183,6 +188,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var lastShelfLoadState = ShelfLoadState()
 
+    private var bannerAdHostingController: PCHostingController<AnyView>?
+    private var bannerAdHeightConstraint: NSLayoutConstraint?
+
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
     override func viewDidLoad() {
@@ -212,6 +220,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         #endif
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadBannerAd()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        bannerTask?.cancel()
+    }
+
     private var lastBoundsAdjustedFor = CGRect.zero
 
     var analyticsSource: AnalyticsSource {
@@ -224,6 +242,22 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             toggleTranscript()
 #endif
         }
+    }
+
+    private func loadBannerAd() {
+#if !APPCLIP
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+            bannerTask = Task { [weak self] in
+                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
+                    guard Task.isCancelled == false else { return }
+                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
+                    await MainActor.run {
+                        self?.addAdBanner(promotion: promotion)
+                    }
+                }
+            }
+        }
+#endif
     }
 
     private var playerContainer: PlayerContainerViewController? {
@@ -239,14 +273,27 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         lastBoundsAdjustedFor = view.bounds
 
         resizeControls()
+
+        #if !APPCLIP
+        if FeatureFlag.bannerAds.enabled {
+            updateBannerAdHeight()
+        }
+        #endif
     }
 
     private func resizeControls() {
-        let screenHeight = view.bounds.height
-        let spacing: CGFloat = screenHeight > 600 ? 30 : 20
+        let spacing: CGFloat
+        if view.bounds.width <= 320 {
+            spacing = 8
+        } else if view.bounds.width <= 375 {
+            spacing = 20
+        } else {
+            spacing = 30
+        }
+
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
+        let height: CGFloat = displayTranscript ? 40 : view.bounds.height > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
 
         view.layoutIfNeeded()
@@ -259,11 +306,30 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+
+        #if !APPCLIP
+        if FeatureFlag.bannerAds.enabled {
+            removeBannerAd()
+        }
+        #endif
     }
 
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
         update()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        #if !APPCLIP
+        if FeatureFlag.bannerAds.enabled {
+            // Update banner height when text size category changes
+            if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+                updateBannerAdHeight()
+            }
+        }
+        #endif
     }
 
     // MARK: - Interface Actions
@@ -442,5 +508,80 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.finishedTransition()
         })
     }
+
+    // MARK: Banner Ad
+
+    func addAdBanner(promotion: BlazePromotion) {
+        removeBannerAd()
+
+        guard let stackView = episodeImage.superview as? UIStackView else { return }
+
+        let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
+            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+        }
+
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)
+        let hostingController = PCHostingController(rootView: AnyView(adView))
+
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = .clear
+
+        let targetSize = CGSize(width: stackView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        let size = hostingController.sizeThatFits(in: targetSize)
+
+        addChild(hostingController)
+        let adUiView = hostingController.view!
+
+        stackView.insertArrangedSubview(adUiView, at: 0)
+
+        adUiView.alpha = 0
+        let topConstraint = adUiView.topAnchor.constraint(equalTo: view.topAnchor, constant: -120)
+
+        let heightConstraint = hostingController.view.heightAnchor.constraint(equalToConstant: size.height)
+        NSLayoutConstraint.activate([
+            heightConstraint,
+            topConstraint,
+        ])
+
+        hostingController.didMove(toParent: self)
+        bannerAdHostingController = hostingController
+        bannerAdHeightConstraint = heightConstraint
+
+        view.layoutIfNeeded()
+
+        // Animate move first
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+            topConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+
+        // Animate opacity second so it's more noticeable
+        UIView.animate(withDuration: 0.2, delay: 0.05) {
+            adUiView.alpha = 1
+        }
+    }
+
+    private func removeBannerAd() {
+        guard let hostingController = bannerAdHostingController else { return }
+
+        hostingController.willMove(toParent: nil)
+        hostingController.view.removeFromSuperview()
+        hostingController.removeFromParent()
+        bannerAdHostingController = nil
+        bannerAdHeightConstraint = nil
+    }
+
+    private func updateBannerAdHeight() {
+        guard let hostingController = bannerAdHostingController,
+              let heightConstraint = bannerAdHeightConstraint,
+              let stackView = episodeImage.superview as? UIStackView else { return }
+
+        let targetSize = CGSize(width: stackView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+        let size = hostingController.sizeThatFits(in: targetSize)
+
+        heightConstraint.constant = size.height
+        view.layoutIfNeeded()
+    }
+
     #endif
 }

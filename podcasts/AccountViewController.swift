@@ -9,6 +9,8 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     static let newsletterCellId = "NewsletterCellId"
     static let actionCellId = "AccountActionCellId"
 
+    let model = PlusAccountPromptViewModel()
+
     private var isUsernamePasswordLogin: Bool {
         ServerSettings.syncingPassword() != nil
     }
@@ -18,7 +20,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             tableView.applyInsetForMiniPlayer()
             tableView.register(UINib(nibName: "NewsletterCell", bundle: nil), forCellReuseIdentifier: AccountViewController.newsletterCellId)
             tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: AccountViewController.actionCellId)
-            tableView.register(PlusAccountPromptTableCell.self, forCellReuseIdentifier: PlusAccountPromptTableCell.reuseIdentifier)
         }
     }
 
@@ -43,7 +44,12 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let headerView = AccountHeaderView(viewModel: headerViewModel)
 
         let view = headerView.themedUIView
-        view.backgroundColor = .clear
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            view.backgroundColor = AppTheme.colorForStyle(.primaryUi03, themeOverride: nil)
+            self.tableView.themeStyle =  ThemeStyle.primaryUi03
+        } else {
+            view.backgroundColor = .clear
+        }
 
         return view
     }()

@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Your podcasts organized",
+      "body": "Try Plus and automatically organize your shows with folders."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://features/suggestedFolders"
+}

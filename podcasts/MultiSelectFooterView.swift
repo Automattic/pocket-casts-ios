@@ -149,7 +149,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             // is too large.
             let hostingControllerHeight = presentingVC.view.bounds.height
             let sheetDetentHeight = hostingControllerHeight * 0.45
-            if #available(iOS 16.0, *), actions.count < 7 {
+            if actions.count < 7 {
                 sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), ]
             } else {
                 sheetController.detents = [.medium()]

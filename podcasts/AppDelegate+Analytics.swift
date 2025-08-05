@@ -4,16 +4,34 @@ import PocketCastsDataModel
 
 extension AppDelegate {
     private var shouldRegisterAdapters: Bool {
-        UIApplication.shared.isProtectedDataAvailable && !Settings.analyticsOptOut() && !Analytics.shared.adaptersRegistered
+        UIApplication.shared.isProtectedDataAvailable && !Analytics.shared.adaptersRegistered
     }
 
     func setupAnalytics() {
-        // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
         guard shouldRegisterAdapters else {
             return
         }
 
-        Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
+        var adapters: [AnalyticsAdapter] = []
+
+        // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
+        if !Settings.analyticsOptOut() {
+            adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
+        }
+
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
+        }
+
+        if FeatureFlag.notificationsRevamp.enabled {
+            adapters.append(NotificationsCoordinator.shared)
+        }
+
+        if FeatureFlag.userSatisfactionSurvey.enabled {
+            adapters.append(UserSatisfactionSurveyManager.shared)
+        }
+
+        Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
     }
 

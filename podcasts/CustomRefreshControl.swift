@@ -13,6 +13,13 @@ class CustomRefreshControl: UIRefreshControl {
     private var refreshLabel = UILabel()
     private var isAnimating = false
     private var didTriggerHaptic = true
+    var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
+        didSet {
+            refreshLabel.textColor = customTintColor
+            refreshInnerImage.tintColor = customTintColor
+            refreshOuterImage.tintColor = customTintColor
+        }
+    }
 
     override init() {
         super.init(frame: .zero)
@@ -52,13 +59,15 @@ class CustomRefreshControl: UIRefreshControl {
         refreshLabel.text = L10n.refreshControlPullToRefresh
         refreshLabel.textAlignment = NSTextAlignment.center
         refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
-        refreshLabel.textColor = UIColor(hex: "#B8C3C9")
+        refreshLabel.textColor = customTintColor
         addSubview(refreshLabel)
 
-        refreshInnerImage.image = UIImage(named: "refresh_inner")
+        refreshInnerImage.image = UIImage(named: "refresh_inner")?.withRenderingMode(.alwaysTemplate)
+        refreshInnerImage.tintColor = customTintColor
         addSubview(refreshInnerImage)
 
-        refreshOuterImage.image = UIImage(named: "refresh_outer")
+        refreshOuterImage.image = UIImage(named: "refresh_outer")?.withRenderingMode(.alwaysTemplate)
+        refreshOuterImage.tintColor = customTintColor
         addSubview(refreshOuterImage)
 
         addTarget(self, action: #selector(beginRefreshing), for: .valueChanged)

@@ -21,6 +21,8 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case downloadStatus = "download_status"
     case episodeDetail = "episode_detail"
     case episodeStatus = "episode_status"
+    case episodeTranscript = "episode_transcript"
+    case episode
     case files
     case filters
     case incomingShareList = "incoming_share_list"
@@ -35,6 +37,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case playerPlaybackEffects = "player_playback_effects"
     case playerSkipForwardLongPress = "player_skip_forward_long_press"
     case podcastScreen = "podcast_screen"
+    case podcastScreenYouMightLike = "podcast_screen_you_might_like"
     case podcastSettings = "podcast_settings"
     case podcastsList = "podcasts_list"
     case profile
@@ -53,6 +56,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case episodeSwipeAction = "episode_swipe_action"
     case handleUserActivity = "handle_user_activity"
     case suggestedFolderPopup = "popup"
+    case userSatisfactionSurvey = "user_satisfaction_survey"
     case unknown
 
     var analyticsDescription: String { rawValue }

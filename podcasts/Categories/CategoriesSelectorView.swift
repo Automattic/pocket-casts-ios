@@ -1,24 +1,26 @@
 import SwiftUI
 import PocketCastsServer
-
-struct Category {
-    let title: String
-    let image: String
-}
+import PocketCastsUtils
 
 struct CategoriesSelectorView: View {
     @ObservedObject var discoverItemObservable: CategoriesSelectorViewController.DiscoverItemObservable
 
     @State private var categories: [DiscoverCategory]?
-    @State private var popular: [DiscoverCategory]?
+    @State private var prioritized: [DiscoverCategory]?
 
     @EnvironmentObject private var theme: Theme
 
     var body: some View {
         Group {
-            if let categories, let popular {
-                CategoriesPillsView(pillCategories: popular,
-                                    overflowCategories: categories,
+            if let categories, let prioritized {
+                let sponsoredCategoryIDs = discoverItemObservable.item?.sponsoredCategoryIDs
+                let recommendations = UserDefaults.standard.visitations(for: .discoverCategory)
+
+                let prioritizedCategories = Category.create(from: prioritized, sponsoredCategoryIDs: sponsoredCategoryIDs, recommendations: recommendations)
+                let overflowCategories = Category.create(from: categories, sponsoredCategoryIDs: sponsoredCategoryIDs, recommendations: recommendations)
+
+                CategoriesPillsView(categories: prioritizedCategories,
+                                    overflowCategories: overflowCategories,
                                     selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)),
                                     region: discoverItemObservable.region)
             } else {
@@ -29,9 +31,7 @@ struct CategoriesSelectorView: View {
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
-            self.popular = discoverItemObservable.item?.popular?.compactMap({ orderedItem in
-                result?.popular.first(where: { $0.id == orderedItem }) ?? result?.categories.first(where: { $0.id == orderedItem })
-            }) ?? result?.popular
+            self.prioritized = result?.prioritized
         }
     }
 }
@@ -54,9 +54,31 @@ struct PlaceholderPillsView: View {
     }
 }
 
+struct Category {
+    let category: DiscoverCategory
+    let isSponsored: Bool
+    let visits: Int
+
+    init(category: DiscoverCategory, sponsoredCategoryIDs: [Int]?, recommendations: [String: Int]?) {
+        self.category = category
+
+        let sponsoredIDs = Set(sponsoredCategoryIDs?.map { String($0) } ?? [])
+        let categoryID = category.id.map(String.init) ?? ""
+
+        self.isSponsored = sponsoredIDs.contains(categoryID)
+        self.visits = recommendations?[categoryID] ?? 0
+    }
+
+    static func create(from categories: [DiscoverCategory], sponsoredCategoryIDs: [Int]?, recommendations: [String: Int]?) -> [Category] {
+        return categories.map { category in
+            Category(category: category, sponsoredCategoryIDs: sponsoredCategoryIDs, recommendations: recommendations)
+        }
+    }
+}
+
 struct CategoriesPillsView: View {
-    let pillCategories: [DiscoverCategory]
-    let overflowCategories: [DiscoverCategory]
+    let categories: [Category]
+    let overflowCategories: [Category]
     @Binding var selectedCategory: DiscoverCategory?
 
     let region: String?
@@ -71,10 +93,10 @@ struct CategoriesPillsView: View {
 
     var body: some View {
         if let selectedCategory {
+            let selectedCategoryItem = categories.first { $0.category.id == selectedCategory.id }
             HStack {
                 CloseButton(selectedCategory: $selectedCategory)
-                CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory, region: region)
-                    .matchedGeometryEffect(id: selectedCategory.id, in: animation)
+                CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory, model: .init(region: region, index: 0, isSponsored: selectedCategoryItem?.isSponsored ?? false, visits: selectedCategoryItem?.visits ?? 0))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(Constants.buttonInsets)
@@ -102,14 +124,8 @@ struct CategoriesPillsView: View {
         .buttonStyle(CategoryButtonStyle())
         .sheet(isPresented: $showingCategories) {
             CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory, region: region)
-                .modify {
-                    if #available(iOS 16.0, *) {
-                        $0.presentationDetents([.medium, .large])
-                            .presentationDragIndicator(.hidden)
-                    } else {
-                        $0
-                    }
-                }
+                .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.hidden)
         }
         .onChange(of: showingCategories) { isShowing in
             if isShowing {
@@ -124,9 +140,9 @@ struct CategoriesPillsView: View {
     }
 
     @ViewBuilder private var categoryButtons: some View {
-        ForEach(pillCategories, id: \.id) { category in
-            CategoryButton(category: category, selectedCategory: $selectedCategory, region: region)
-                .matchedGeometryEffect(id: category.id, in: animation)
+        ForEach(Array(categories.enumerated()), id: \.element.category.id) { index, categoryItem in
+            CategoryButton(category: categoryItem.category, selectedCategory: $selectedCategory, model: .init(region: region, index: index, isSponsored: categoryItem.isSponsored, visits: categoryItem.visits))
+                .matchedGeometryEffect(id: categoryItem.category.id, in: animation)
         }
     }
 }
@@ -157,7 +173,14 @@ struct CategoryButton: View {
 
     @Binding var selectedCategory: DiscoverCategory?
 
-    let region: String?
+    struct Model {
+        let region: String?
+        let index: Int
+        let isSponsored: Bool
+        let visits: Int
+    }
+
+    let model: Model
 
     var isSelected: Bool {
         category.id == selectedCategory?.id
@@ -166,7 +189,10 @@ struct CategoryButton: View {
     var body: some View {
         Button(action: {
             selectedCategory = category
-            Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": region ?? "none", "id": category.id ?? -1])
+            Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": model.region ?? "none", "id": category.id ?? -1, "index": model.index, "sponsored": model.isSponsored, "visits": model.visits])
+            if FeatureFlag.smartCategories.enabled, let categoryID = category.id {
+                UserDefaults.standard.trackVisitation(event: .discoverCategory, id: String(categoryID))
+            }
         }, label: {
             Text(category.name ?? "")
         })

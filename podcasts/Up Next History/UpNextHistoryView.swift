@@ -8,12 +8,6 @@ struct UpNextHistoryView: View {
     @State var presentingEntry = false
     @State var selectedEntry: UpNextHistoryManager.UpNextHistoryEntry?
 
-    init() {
-        if #unavailable(iOS 16.0) {
-            UITableView.appearance().backgroundColor = .clear
-        }
-    }
-
     var body: some View {
         List {
             Section {
@@ -51,15 +45,9 @@ struct UpNextHistoryView: View {
 
 struct HiddenScrollContentBackground: ViewModifier {
     public func body(content: Content) -> some View {
-        if #available(iOS 16.0, *) {
-            content
-                .scrollContentBackground(.hidden)
-        } else {
-            content
-        }
+        content
+            .scrollContentBackground(.hidden)
     }
-
-
 }
 
 #Preview {

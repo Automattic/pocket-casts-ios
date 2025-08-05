@@ -13,31 +13,21 @@ struct FeaturesCarousel: View {
 
     @State var calculatedCardHeight: CGFloat?
     @State var calculatedCardMaxHeight: CGFloat?
+    @State private var cardHeights: [UpgradeTier.ID: CGFloat] = [:]
 
     var body: some View {
-        // Store the calculated card heights
-        var cardHeights: [CGFloat] = []
-
-        HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue), showPurchaseButton: showInlinePurchaseButton)
+        HorizontalCarousel(currentIndex: currentIndex, items: tiers) { tier in
+            UpgradeCard(tier: tier, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: tier, frequency: currentSubscriptionPeriod.wrappedValue), showPurchaseButton: showInlinePurchaseButton)
                 .environmentObject(viewModel)
                 .overlay(
-                    // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
                         Action {
-                            // Add the calculated height to the array
-                            cardHeights.append(proxy.size.height)
+                            cardHeights[tier.id] = proxy.size.height
 
-                            // Determine the max height only once we've calculated all the heights
                             if cardHeights.count == tiers.count {
-                                calculatedCardHeight = cardHeights.max()
-
-                                if (calculatedCardHeight ?? 0) > (calculatedCardMaxHeight ?? 0) {
-                                    calculatedCardMaxHeight = calculatedCardHeight
-                                }
-
-                                // Reset the card heights so any view changes won't use old data
-                                cardHeights = []
+                                calculatedCardHeight = cardHeights[tier.id]
+                                calculatedCardMaxHeight = cardHeights.values.max()
+                                cardHeights = [:]
                             }
                         }
                     }
@@ -47,7 +37,6 @@ struct FeaturesCarousel: View {
         .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
         .carouselScrollEnabled(tiers.count > 1)
-        // Maintain the largest height
         .frame(height: calculatedCardMaxHeight, alignment: .top)
         .padding(.leading, 30)
     }

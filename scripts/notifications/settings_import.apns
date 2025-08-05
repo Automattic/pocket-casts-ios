@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Easily import your podcasts",
+      "body": "Switching from another app? Bring all your favorite shows to Pocket Casts."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://settings/import"
+}

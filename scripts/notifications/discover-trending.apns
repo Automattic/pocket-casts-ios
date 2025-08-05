@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Trending this week",
+      "body": "Everyone is listening to Good Hang with Amy Poehler."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://discover/trending"
+}

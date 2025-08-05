@@ -37,6 +37,16 @@ struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
     let isSelected: Bool
     let theme: Theme
 
+    private var foregroundColor: Color {
+        if isSelected {
+            return theme.primaryText01
+        }
+        if theme.activeTheme == .light {
+            return Color(hex: "#292B2E")
+        }
+        return theme.primaryText02
+    }
+
     init(isSelected: Bool = true, theme: Theme) {
         self.isSelected = isSelected
         self.theme = theme
@@ -50,7 +60,7 @@ struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
                 isSelected ? theme.primaryUi01 : configuration.isPressed ? theme.primaryUi01 : theme.primaryUi05
             )
             .font(style: .subheadline, weight: .medium)
-            .foregroundColor(isSelected ? theme.primaryText01 : theme.primaryText02)
+            .foregroundColor(foregroundColor)
             .cornerRadius(100)
             .contentShape(Rectangle())
     }

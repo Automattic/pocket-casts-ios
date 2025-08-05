@@ -168,7 +168,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
         if loadingIndicator.isAnimating || podcasts != nil { return }
 
         loadingIndicator.startAnimating()
-        DiscoverServerHandler.shared.discoverPodcastList(source: source) { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: nil) { [weak self] podcastList in
             guard let strongSelf = self, let podcastList = podcastList else { return }
 
             DispatchQueue.main.async {

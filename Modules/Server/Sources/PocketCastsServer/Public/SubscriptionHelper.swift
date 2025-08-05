@@ -4,6 +4,18 @@ import PocketCastsUtils
 open class SubscriptionHelper: NSObject {
     public static let shared = SubscriptionHelper()
 
+    public static var hasCancelledSubscription: Bool {
+        let renewing = SubscriptionHelper.hasRenewingSubscription()
+        let giftDays = SubscriptionHelper.subscriptionGiftDays()
+
+        if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate > Date(), giftDays == 0 {
+            return !renewing
+        }
+
+        let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
+        return !renewing && timeToSubscriptionExpiry < 0 && giftDays == 0
+    }
+
     /// Returns the users active subscription tier or .none if they don't currently have one
     open var activeTier: SubscriptionTier {
         // Right now we're just returning the class var to maintain compatibility. In the future this will change.

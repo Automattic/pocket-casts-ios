@@ -32,8 +32,6 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
         viewModel.onShareGuestPassTap = { [weak self] in
             guard let self else { return }
 
-            Analytics.track(.referralPassShared)
-
             var items: [Any] = [TextAndURLShareSource.makeFrom(viewModel: viewModel)]
             if let url = viewModel.referralURL {
                 items.append(url)
@@ -46,6 +44,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
                 if completed {
                     originalOnShareGuestPassTap?()
+                    Analytics.track(.referralPassShared)
                 }
             }
             if let popoverVC  = viewController.popoverPresentationController {

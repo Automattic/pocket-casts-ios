@@ -140,7 +140,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     // MARK: - Up Next
 
     func episodeAddedToUpNext(episode: BaseEpisode, toTop: Bool) {
-        track(.episodeAddedToUpNext, properties: ["episode_uuid": episode.uuid, "to_top": toTop])
+        track(.episodeAddedToUpNext, properties: ["episode_uuid": episode.uuid, "podcast_uuid": episode.parentIdentifier(), "to_top": toTop])
     }
 
     func bulkAddToUpNext(count: Int, toTop: Bool) {

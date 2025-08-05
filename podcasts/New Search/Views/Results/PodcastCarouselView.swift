@@ -37,7 +37,18 @@ struct PodcastsCarouselView: View {
 
     var body: some View {
         Group {
-            if shouldShowLoadingActivity {
+            if let _ = searchResults.podcastSearchError {
+                EmptyStateView(
+                    title: L10n.discoverSearchFailed,
+                    message: L10n.discoverSearchFailedMsg,
+                    icon: { Image("no-connection-grey").renderingMode(.template) },
+                    actions: [
+                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
+                            searchResults.search(term: searchResults.currentSearchTerm)
+                        }
+                    ]
+                )
+            } else if shouldShowLoadingActivity {
                 ZStack(alignment: .center) {
                     ProgressView()
                         .tint(AppTheme.loadingActivityColor().color)
@@ -95,16 +106,9 @@ struct PodcastsCarouselView: View {
                 .id(searchResults.podcasts.map { $0.id })
 
             } else if !searchResults.isShowingLocalResultsOnly {
-                VStack(spacing: 2) {
-                    Text(L10n.discoverNoPodcastsFound)
-                        .font(style: .subheadline, weight: .medium)
-
-                    Text(L10n.discoverNoPodcastsFoundMsg)
-                        .font(size: 14, style: .subheadline, weight: .medium)
-                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.all, 10)
+                EmptyStateView(title: L10n.discoverNoPodcastsFound,
+                               message: L10n.discoverNoPodcastsFoundMsg,
+                               icon: { Image(systemName: "info.circle") })
             }
 
             ThemedDivider()

@@ -15,6 +15,26 @@ enum IAPProductID: String {
             return L10n.accountPaymentRenewsMonthly
         }
     }
+
+    var isYearlyProduct: Bool {
+        switch self {
+        case .yearly, .yearlyReferral, .patronYearly:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+enum IAPPromotionID: String {
+    case referall = "com.pocketcasts.plus.yearly.referral.promo"
+}
+
+enum IAPOfferType: String {
+    case freeTrial = "free_trial"
+    case introOffer = "intro_offer"
+    case referral = "referral"
+    case winback = "winback"
 }
 
 enum Plan {

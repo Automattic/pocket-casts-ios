@@ -1,23 +1,41 @@
 import SwiftUI
 
-@available(iOS 16, *)
 // Many of these can be replaced with UIContentUnavailableConfigurations in iOS 17
 struct ContentUnavailableConfiguration {
     static func loading() -> UIContentConfiguration {
-        UIHostingConfiguration {
+        return UIHostingConfiguration {
             LoadingView().environmentObject(Theme.sharedTheme)
         }
     }
 
     static func noNetwork(tryAgainHandler: @escaping () -> Void) -> UIContentConfiguration {
-        UIHostingConfiguration {
+        return UIHostingConfiguration {
             NoNetworkView(tryAgainHandler: tryAgainHandler).environmentObject(Theme.sharedTheme)
         }
     }
 
     static func noResults() -> UIContentConfiguration {
-        UIHostingConfiguration {
+        return UIHostingConfiguration {
             NoResultsView().environmentObject(Theme.sharedTheme)
+        }
+    }
+
+    static func empty() -> UIContentConfiguration {
+        return UIHostingConfiguration {
+            EmptyView()
+        }
+    }
+
+    static func emptyState<Style: EmptyStateViewStyle>(
+        title: String,
+        message: String?,
+        icon: (() -> Image)? = nil,
+        actions: [EmptyStateAction] = [],
+        style: Style = DefaultEmptyStateStyle.defaultStyle
+    ) -> UIContentConfiguration {
+        return UIHostingConfiguration {
+            EmptyStateView(title: title, message: message, icon: icon, actions: actions, style: style)
+                .environmentObject(Theme.sharedTheme)
         }
     }
 }

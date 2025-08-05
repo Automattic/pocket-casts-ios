@@ -18,8 +18,12 @@ enum DiscoverCellType: CaseIterable {
     case categorySummary
     case singleEpisode
     case categoryPodcasts
+    case largeListWithPodcast
 
-    typealias ItemType = DiscoverCellModel
+    struct ItemType: Hashable {
+        let cellType: DiscoverCellType
+        let model: DiscoverCellModel
+    }
 
     func viewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
         switch self {
@@ -34,7 +38,11 @@ enum DiscoverCellType: CaseIterable {
         case .singlePodcast:
             SinglePodcastViewController()
         case .collectionSummary:
-            CollectionSummaryViewController()
+            if FeatureFlag.guestListsNetworkHighlightsRedesign.enabled {
+                HorizontalCollectionListViewController()
+            } else {
+                CollectionSummaryViewController()
+            }
         case .networkSummary:
             NetworkSummaryViewController()
         case .categorySummary:
@@ -43,18 +51,20 @@ enum DiscoverCellType: CaseIterable {
             SingleEpisodeViewController()
         case .categoryPodcasts:
             CategoryPodcastsViewController(region: region)
+        case .largeListWithPodcast:
+            LargeListSummaryViewController()
         }
     }
 
-    func createCellRegistration(delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
+    func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
         return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, indexPath, item in
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 
-            let vc = existingViewController ?? viewController(in: item.region)
+            let vc = existingViewController ?? item.cellType.viewController(in: item.model.region)
 
             if existingViewController == nil {
-                cell.contentConfiguration = UIViewControllerContentConfiguration(viewController: vc)
+                cell.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: parentViewController, viewController: vc)
             }
 
             vc.registerDiscoverDelegate(delegate)
@@ -87,6 +97,8 @@ extension DiscoverItem {
             return .collectionSummary
         case ("category_podcast_list", _, _):
             return .categoryPodcasts
+        case ("podcast_list", "large_list_with_podcast", _):
+            return .largeListWithPodcast
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
             assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")

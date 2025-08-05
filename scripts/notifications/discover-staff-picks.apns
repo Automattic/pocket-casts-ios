@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Explore our Staff Picks",
+      "body": "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://discover/staff-picks"
+}

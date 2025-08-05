@@ -42,25 +42,12 @@ extension View {
             throw CVPixelBufferError.failedToCreateContext
         }
 
-        if #available(iOS 16, *) {
-            let renderer = ImageRenderer(content: self)
-            renderer.isOpaque = true
-            renderer.scale = scale
+        let renderer = ImageRenderer(content: self)
+        renderer.isOpaque = true
+        renderer.scale = scale
 
-            let cgImage = renderer.cgImage!
-            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        } else {
-            let image = self.snapshot()
-            UIGraphicsPushContext(context)
-
-            let flipTransform = CGAffineTransform(scaleX: 1, y: -1)
-            let offsetTransform = CGAffineTransform(translationX: 0, y: -size.height)
-            context.concatenate(flipTransform)
-            context.concatenate(offsetTransform)
-
-            image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            UIGraphicsPopContext()
-        }
+        let cgImage = renderer.cgImage!
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 
         CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
 

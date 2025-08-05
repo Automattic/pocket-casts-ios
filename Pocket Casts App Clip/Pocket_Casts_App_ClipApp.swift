@@ -4,6 +4,9 @@ import AutomatticTracks
 
 @main
 struct Pocket_Casts_App_ClipApp: App {
+
+    @UIApplicationDelegateAdaptor private var appDelegate: AppClipAppDelegate
+
     init() {
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared

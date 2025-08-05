@@ -158,7 +158,7 @@ class EpisodeManager: NSObject {
     }
 
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
-        FileLog.shared.addMessage("Archive episode \(episode.displayableTitle()), fireNotification? \(fireNotification), removeFromPlayer? \(removeFromPlayer)")
+        FileLog.shared.addMessage("Archive episode \(episode.displayableTitle()), fireNotification? \(fireNotification), removeFromPlayer? \(removeFromPlayer) userInitiated? \(userInitiated)")
         // request to remove it from the download queue, just in case it's in there
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: fireNotification, userInitiated: true)
 

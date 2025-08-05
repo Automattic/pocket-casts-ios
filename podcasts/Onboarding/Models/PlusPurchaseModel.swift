@@ -214,8 +214,6 @@ private extension PlusPurchaseModel {
         Settings.setLoginDetailsUpdated()
         AnalyticsHelper.plusPlanPurchased()
 
-        purchaseHandler.purchaseWasSuccessful(purchasedProduct)
-
         handleNext()
     }
 
@@ -230,15 +228,10 @@ private extension PlusPurchaseModel {
             let purchasedProduct,
             let error = notification.userInfo?["error"] as? NSError
         else { return }
-
-        purchaseHandler.purchaseWasCancelled(purchasedProduct, error: error)
     }
 
     func handlePurchaseFailed(error: NSError?) {
-        defer { state = .failed }
-
-        guard let purchasedProduct else { return }
-        purchaseHandler.purchaseFailed(purchasedProduct, error: error ?? defaultError)
+        state = .failed
     }
 
     private var defaultError: NSError {

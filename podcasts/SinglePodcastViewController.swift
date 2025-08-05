@@ -64,7 +64,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         guard let listId = item?.uuid else { return }
 
-        AnalyticsHelper.listImpression(listId: listId)
+        let categoryId = category?.id.map(String.init)
+        AnalyticsHelper.listImpression(listId: listId, category: categoryId)
     }
 
     // MARK: DiscoverSummaryProtocol
@@ -75,7 +76,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         self.item = item
         self.region = region
         self.category = category
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             self?.podcast = discoverPodcast.first

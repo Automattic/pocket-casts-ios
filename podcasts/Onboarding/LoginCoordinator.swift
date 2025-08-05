@@ -209,13 +209,23 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 
     private func goToPlus(from source: PlusLandingViewModel.Source) {
         // Update the flow to make sure the correct analytics source is passed on
-        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
-
-        let controller = PlusLandingViewModel.make(in: navigationController,
-                                                   from: source,
-                                                   viewSource: .onboarding,
-                                                   config: .init(continuePurchasing: continuePurchasing))
-        navigationController?.setViewControllers([controller], animated: true)
+        OnboardingFlow.shared.updateAnalyticsSource(source == .login ? .login: .accountCreated)
+        if FeatureFlag.newOnboardingUpgrade.enabled {
+            let controller = UpgradeAccountViewModel.make(in: navigationController,
+                                                          flowSource: source,
+                                                          viewSource: .onboarding,
+                                                          plan: .plus,
+                                                          frequency: .yearly,
+                                                          )
+            controller.modalPresentationStyle = .fullScreen
+            navigationController?.setViewControllers([controller], animated: true)
+        } else {
+            let controller = PlusLandingViewModel.make(in: navigationController,
+                                                       from: source,
+                                                       viewSource: .onboarding,
+                                                       config: .init(continuePurchasing: continuePurchasing))
+            navigationController?.setViewControllers([controller], animated: true)
+        }
     }
 }
 
@@ -226,11 +236,14 @@ extension LoginCoordinator {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 
-        let view = LoginLandingView(coordinator: coordinator)
+        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         controller.viewModel = coordinator
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
+        if FeatureFlag.fullScreenLogin.enabled {
+            navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
+        }
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller

@@ -2,13 +2,22 @@ import Combine
 import Foundation
 import PocketCastsUtils
 
-public class DiscoverServerHandler {
+public protocol DiscoverServerHandling {
+    func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory]
+}
+
+public class DiscoverServerHandler: DiscoverServerHandling {
     enum DiscoverServerError: Error {
         case unknown
         case badRequest
     }
 
     public static let shared = DiscoverServerHandler()
+
+    private let tokenHelper = {
+        let connection = URLConnection(handler: URLSession.shared)
+        return TokenHelper(urlConnection: connection)
+    }()
 
     public private(set) lazy var discoveryCache: URLCache = {
         let cache = URLCache(memoryCapacity: 1024 * 1024, diskCapacity: 5 * 1024 * 1024, diskPath: "discovery")
@@ -29,63 +38,62 @@ public class DiscoverServerHandler {
     }
 
     public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
-        let contentPath = "ios/content_v2.json"
-        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self) { discoverItems, cachedResponse in
+        let contentPath: String
+        if FeatureFlag.recommendations.enabled {
+            contentPath = "ios/content_v3.json"
+        } else {
+            contentPath = "ios/content_v2.json"
+        }
+        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
             completion(discoverItems, cachedResponse)
         }
     }
 
-    public func discoverNetworkList(source: String, completion: @escaping ([PodcastNetwork]?) -> Void) {
-        discoverRequest(path: source, type: [PodcastNetwork].self) { networkList, _ in
+    public func discoverNetworkList(source: String, authenticated: Bool?, completion: @escaping ([PodcastNetwork]?) -> Void) {
+        discoverRequest(path: source, type: [PodcastNetwork].self, authenticated: authenticated) { networkList, _ in
             completion(networkList)
         }
     }
 
-    public func discoverPodcastList(source: String, completion: @escaping (PodcastList?) -> Void) {
-        discoverRequest(path: source, type: PodcastList.self) { podcastList, _ in
+    public func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void) {
+        discoverRequest(path: source, type: PodcastList.self, authenticated: authenticated) { podcastList, _ in
             completion(podcastList)
         }
     }
 
-    public func discoverCategories(source: String, completion: @escaping ([DiscoverCategory]?) -> Void) {
-        discoverRequest(path: source, type: [DiscoverCategory].self) { categories, _ in
+    public func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
+        discoverRequest(path: source, type: [DiscoverCategory].self, authenticated: authenticated) { categories, _ in
             completion(categories)
         }
     }
 
-    public func discoverCategories(source: String) async -> [DiscoverCategory] {
-        return await withCheckedContinuation { continuation in
-            DiscoverServerHandler.shared.discoverCategories(source: source, completion: { discoverCategories in
-                DispatchQueue.main.async {
-                    guard let discoverCategories = discoverCategories else {
-                        continuation.resume(returning: [])
-                        return
-                    }
-                    continuation.resume(returning: discoverCategories)
-                }
-            })
+    public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
+        await withCheckedContinuation { continuation in
+            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated) { result in
+                continuation.resume(returning: result ?? [])
+            }
         }
     }
 
-    public func discoverCategoryDetails(source: String, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
-        discoverRequest(path: source, type: DiscoverCategoryDetails.self) { categoryDetails, _ in
+    public func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
+        discoverRequest(path: source, type: DiscoverCategoryDetails.self, authenticated: authenticated) { categoryDetails, _ in
             completion(categoryDetails)
         }
     }
 
-    public func discoverPodcastCollection(source: String, completion: @escaping (PodcastCollection?) -> Void) {
-        discoverRequest(path: source, type: PodcastCollection.self) { podcastCollection, _ in
+    public func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void) {
+        discoverRequest(path: source, type: PodcastCollection.self, authenticated: authenticated) { podcastCollection, _ in
             completion(podcastCollection)
         }
     }
 
-    public func discoverItem<T>(_ source: String?, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
+    public func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
         guard let source = source else {
             return Fail(error: DiscoverServerError.badRequest).eraseToAnyPublisher()
         }
 
         return Future { [unowned self] promise in
-            self.discoverRequest(path: source, type: type) { discoverList, didError in
+            self.discoverRequest(path: source, type: type, authenticated: authenticated) { discoverList, didError in
                 if !didError, let discoverList = discoverList {
                     promise(.success(discoverList))
                 } else {
@@ -96,42 +104,101 @@ public class DiscoverServerHandler {
         .eraseToAnyPublisher()
     }
 
-    private func discoverRequest<T>(path: String, type: T.Type, completion: @escaping (T?, Bool) -> Void) where T: Decodable {
+    /// A method to check whether the response from the source URL authenticated successfully.
+    /// - Parameters:
+    ///   - item: An item which is `authenticated == true`
+    /// - Returns: Whether or not the authentication succeeded
+    public func checkSourceAuthentication(for item: DiscoverItem) async -> Bool {
+        // If there's no source URL, consider authentication failed. This shouldn't happen.
+        guard item.isAuthenticated, let source = item.source else {
+            return false
+        }
+
+        return await withCheckedContinuation { continuation in
+            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { data, response, error in
+                let success = response?.extractStatusCode() == 200
+                continuation.resume(returning: success)
+            }
+        }
+    }
+
+    private func performDiscoverRequest(
+        path: String,
+        authenticated: Bool?,
+        completion: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
-        if let cachedResponse = discoveryCache.cachedResponse(for: request) {
-            if let expiryDate = cachedResponse.response.cacheExpiryDate(), expiryDate.timeIntervalSinceNow > 0 {
-                do {
-                    let list = try JSONDecoder().decode(type, from: cachedResponse.data)
-                    completion(list, true)
-
-                    return
-                } catch {
-                    discoveryCache.removeCachedResponse(for: request)
-                }
-            }
+        if let cachedResponse = discoveryCache.cachedResponse(for: request),
+           let expiryDate = cachedResponse.response.cacheExpiryDate(),
+           expiryDate.timeIntervalSinceNow > 0 {
+            completion(cachedResponse.data, cachedResponse.response, nil)
+            return
         }
 
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, let response = response, error == nil else {
+        if FeatureFlag.recommendations.enabled && authenticated == true {
+            tokenHelper.callSecureUrl(request: request) { response, data, error in
+                completion(data, response, error)
+            }
+        } else {
+            URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+        }
+    }
+
+    private func decodeDiscoverResponse<T>(
+        data: Data,
+        response: URLResponse,
+        cacheRequest: URLRequest,
+        useCache: Bool,
+        type: T.Type
+    ) -> T? where T: Decodable {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        do {
+            let decoded = try decoder.decode(type, from: data)
+            if useCache {
+                let responseToCache = CachedURLResponse(response: response, data: data)
+                discoveryCache.storeCachedResponse(responseToCache, for: cacheRequest)
+            }
+            return decoded
+        } catch {
+            if useCache {
+                discoveryCache.removeCachedResponse(for: cacheRequest)
+            }
+            return nil
+        }
+    }
+
+    func discoverRequest<T>(
+        path: String,
+        type: T.Type,
+        authenticated: Bool?,
+        completion: @escaping (T?, Bool) -> Void
+    ) where T: Decodable {
+        let url = ServerHelper.asUrl(path)
+        let request = URLRequest(url: url)
+
+        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error in
+            guard
+                let self = self,
+                let data = data,
+                let response = response,
+                error == nil
+            else {
                 completion(nil, false)
                 return
             }
 
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-
-                let list = try decoder.decode(type, from: data)
-                completion(list, false)
-
-                // only cache successful responses
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                self?.discoveryCache.storeCachedResponse(responseToCache, for: request)
-            } catch {
-                completion(nil, false)
-            }
-        }.resume()
+            let decoded = self.decodeDiscoverResponse(
+                data: data,
+                response: response,
+                cacheRequest: request,
+                useCache: true,
+                type: type
+            )
+            completion(decoded, false)
+        }
     }
 }

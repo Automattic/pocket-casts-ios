@@ -5,10 +5,17 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import Kingfisher
+import SafariServices
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
+    var bannerAdModel: BannerAdModel?
+
+    /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
+    var isAnimatingBannerAd = false
+
+    private var bannerTask: Task<Void, Never>? = nil
 
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
@@ -20,33 +27,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
-    @IBOutlet var noPodcastsIcon: ThemeableImageView! {
-        didSet {
-            noPodcastsIcon.imageStyle = .primaryIcon01
-        }
-    }
-
-    @IBOutlet var noPodcastsView: UIView!
-    @IBOutlet var noPodcastsMessage: ThemeableLabel! {
-        didSet {
-            noPodcastsMessage.style = .primaryText02
-            noPodcastsMessage.text = L10n.podcastGridNoPodcastsMsg
-        }
-    }
-
     @IBOutlet var podcastsCollectionView: UICollectionView! {
         didSet {
             registerCells()
 
             if let layout = podcastsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                layout.sectionHeadersPinToVisibleBounds = true
+                layout.sectionHeadersPinToVisibleBounds = false
             }
-        }
-    }
-
-    @IBOutlet var noPodcastsTitle: ThemeableLabel! {
-        didSet {
-            noPodcastsTitle.text = L10n.podcastGridNoPodcastsTitle
         }
     }
 
@@ -63,6 +50,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         return queue
     }()
+
+    var recentlyPlayedSortingTip: UIViewController?
 
     var searchController: PCSearchBarController!
 
@@ -107,6 +96,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
             "number_of_folders": homeGridDataHelper.numberOfFolders
         ])
+
+        showRecentlyPlayedSortingTipIfNeeded()
     }
 
     override func viewWillLayoutSubviews() {
@@ -131,10 +122,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewWillAppear(animated)
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        loadBannerAd()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        bannerTask?.cancel()
         refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
@@ -164,6 +157,21 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let self = self else { return }
 
             self.updateNavigationButtons()
+        }
+    }
+
+    private func loadBannerAd() {
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+            bannerTask?.cancel()
+            bannerTask = Task { [weak self] in
+                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
+                    guard Task.isCancelled == false else { return }
+                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
+                    await MainActor.run {
+                        self?.setupBannerAd(promotion: promotion)
+                    }
+                }
+            }
         }
     }
 
@@ -269,7 +277,18 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
+            let sortOption: LibrarySort
+            if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
+                Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
+                sortOption = .dateAddedNewestToOldest
+            } else {
+                sortOption = Settings.homeFolderSortOrder()
+            }
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: sortOption, badgeType: Settings.podcastBadgeType())
+
+            if newData.isEmpty {
+                newData = [HomeGridListItem.empty]
+            }
 
             DispatchQueue.main.sync {
                 if strongSelf.gridLayout != Settings.libraryType() {
@@ -281,7 +300,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                         strongSelf.gridItems = data
                     })
                 }
-                strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
                 strongSelf.foldersCoordinator.showUpsellIfNeeded(from: strongSelf)
             }
         }
@@ -300,6 +318,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         return FoldersCoordinator()
     }()
 
+    func showSuggestedFolders() {
+        foldersCoordinator.showSuggestedFolders(from: self)
+    }
+
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
         foldersCoordinator.startFolderCreationFlow(from: self)
     }
@@ -307,7 +329,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
 
-        let sortOption = Settings.homeFolderSortOrder()
+        let sortOption: LibrarySort = if !FeatureFlag.podcastsSortChanges.enabled, Settings.homeFolderSortOrder() == .recentlyPlayed {
+            .dateAddedNewestToOldest
+        } else {
+            Settings.homeFolderSortOrder()
+        }
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])
@@ -424,6 +450,20 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func handleThemeChanged() {
         super.handleThemeChanged()
         podcastsCollectionView.reloadData()
+    }
+
+    private func setupBannerAd(promotion: BlazePromotion) {
+        bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
+            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+        }
+        isAnimatingBannerAd = true
+
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+            self.isAnimatingBannerAd = false
+            self.podcastsCollectionView.performBatchUpdates({
+                self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+            })
+        }
     }
 }
 

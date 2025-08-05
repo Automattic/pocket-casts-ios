@@ -3,24 +3,23 @@ import Foundation
 import PocketCastsUtils
 
 class DatabaseHelper {
-    class func setup(db: PCDatabase) {
-        do {
-            try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
+    class func setup(queue: PCDBQueue) {
+        queue.write { db in
+            do {
+                try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
 
-            var startingSchemaVersion: Int32 = 0
+                let startingSchemaVersion = db.pragmaUserVersion() ?? 0
 
-            let rs = try db.executeQuery("PRAGMA user_version", values: nil)
-            if rs.next() { startingSchemaVersion = rs.int(forColumnIndex: 0) }
-            rs.close()
+                var newSchemaVersion = startingSchemaVersion
+                upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
 
-            var newSchemaVersion = startingSchemaVersion
-            upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
-
-            if newSchemaVersion != startingSchemaVersion {
-                try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
+                if newSchemaVersion != startingSchemaVersion {
+                    FileLog.shared.addMessage("Schema update from \(startingSchemaVersion) to \(newSchemaVersion)")
+                    try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
+                }
+            } catch {
+                FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
-        } catch {
-            FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
         }
     }
 
@@ -805,6 +804,38 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 56 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN fundingURL TEXT;", values: nil)
+                schemaVersion = 56
+            } catch {
+                failedAt(56)
+                return
+            }
+        }
+
+        if schemaVersion < 57 {
+            do {
+                // During the FMDB to GRDB migration, we found some users had corrupted episodes
+                // with all columns set to NULL. This cleanup prevents crashes caused by those entries.
+                try db.executeUpdate("DELETE FROM SJEpisode WHERE id IS NULL", values: nil)
+                try db.executeUpdate("DELETE FROM SJPodcast WHERE id IS NULL", values: nil)
+                schemaVersion = 57
+            } catch {
+                failedAt(57)
+                return
+            }
+        }
+
+        if schemaVersion < 58 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN rawPlaylistType INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 58
+            } catch {
+                failedAt(58)
+                return
+            }
+        }
         db.commit()
     }
 }

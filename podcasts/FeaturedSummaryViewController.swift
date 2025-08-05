@@ -25,6 +25,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private var listIdImpressionTracked: [String] = []
 
     private weak var delegate: DiscoverDelegate?
+    private var category: DiscoverCategory?
     @IBOutlet var featuredCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var dividerHeightConstraint: NSLayoutConstraint! {
         didSet {
@@ -142,7 +143,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             return
         }
 
-        AnalyticsHelper.listImpression(listId: listId)
+        let categoryId = category?.id.map(String.init)
+        AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         listIdImpressionTracked.append(listId)
     }
 
@@ -171,6 +173,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             listType = delegate.replaceRegionName(string: title)
         }
 
+        self.category = category
+
         let dispatchGroup = DispatchGroup()
 
         var podcastsToShow: [DiscoverPodcast] = []
@@ -178,7 +182,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         var sponsoredPodcastsToAdd: [Int: DiscoverPodcast] = [:]
 
         dispatchGroup.enter()
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
             podcastsToShow = discoverPodcast
@@ -190,7 +194,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             for sponsored in sponsoredPodcasts {
                 if let source = sponsored.source, let position = sponsored.position {
                     dispatchGroup.enter()
-                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, completion: { [weak self] podcastList in
+                    DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
                         guard let podcastList = podcastList, let discoverPodcast = podcastList.podcasts?.first else { return }
 
                         sponsoredPodcastsToAdd[position] = discoverPodcast

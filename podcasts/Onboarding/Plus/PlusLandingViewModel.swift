@@ -90,20 +90,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionPrivacyPolicyTapped)
     }
 
-
-    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
-        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
-            return nil
-        }
-        return pricingInfo
-    }
-
     func showError() {
         SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
-    }
-
-    private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
-        pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 
     private func loadPricesAndContinue(product: ProductInfo) {

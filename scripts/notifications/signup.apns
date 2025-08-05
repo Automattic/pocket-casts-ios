@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "au.com.shiftyjelly.podcasts",
+  "aps": {
+    "alert": {
+      "title": "Your shows, on any device!",
+      "body": "Create a free account to sync your shows and listen anywhere."
+    },
+    "category": "DEEP_LINK"
+  },
+  "destination_url": "pktc://signup"
+}

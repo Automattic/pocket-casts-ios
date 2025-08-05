@@ -37,7 +37,7 @@ class FolderDataManager {
     }
 
     func save(folder: Folder, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if folder.uuid.isEmpty {
                     folder.uuid = UUID().uuidString.lowercased()
@@ -67,7 +67,7 @@ class FolderDataManager {
     }
 
     func saveSortOrders(folders: [Folder], syncModified: Int64, dbQueue: PCDBQueue) {
-        dbQueue.inTransaction { db, _ in
+        dbQueue.write { db in
             do {
                 for folders in folders {
                     try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET sortOrder = ?, syncModified = ? WHERE uuid = ?", values: [folders.sortOrder, syncModified, folders.uuid])
@@ -119,7 +119,7 @@ class FolderDataManager {
     }
 
     private func cacheFolders(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.folderTableName)", values: nil)
                 defer { resultSet.close() }

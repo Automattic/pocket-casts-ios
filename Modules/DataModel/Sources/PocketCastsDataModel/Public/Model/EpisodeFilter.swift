@@ -1,5 +1,10 @@
 import Foundation
 
+public enum PlaylistType: Int32 {
+    case smart = 0
+    case manual = 1
+}
+
 public class EpisodeFilter: NSObject {
     @objc public static let iconTypeCount = 8
     @objc public static let iconsPerType = 5
@@ -28,9 +33,14 @@ public class EpisodeFilter: NSObject {
     @objc public var shorterThan = 0 as Int32
     @objc public var syncStatus = 0 as Int32
     @objc public var wasDeleted = false
+    @objc public var rawPlaylistType = 0 as Int32
 
     // Internal tracking
     public var isNew: Bool = false
+
+    public var playlistType: PlaylistType {
+        PlaylistType(rawValue: rawPlaylistType) ?? .smart
+    }
 
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {

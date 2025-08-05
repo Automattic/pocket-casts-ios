@@ -29,6 +29,9 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    // Track in-progress artwork loads by UUID
+    private var inProgressArtworkLoads = Set<String>()
+
     public var biggestPodcastImageSize: Int {
         availablePodcastImageSizes.max()!
     }
@@ -210,6 +213,12 @@ class ImageManager {
         KingfisherManager.shared.retrieveImage(with: imageURL, options: [.targetCache(imageCache)]) { result in
             let image = try? result.get().image
             completionHandler(image)
+        }
+    }
+
+    func save(_ image: UIImage, for episodeUuid: String) {
+        subscribedPodcastsCache.store(image, forKey: episodeUuid) { _ in
+            NotificationCenter.postOnMainThread(notification: .episodeEmbeddedArtworkLoaded)
         }
     }
 
@@ -469,7 +478,7 @@ class ImageManager {
         case .list:
             let name = Theme.isDarkTheme() ? "noartwork-list-dark" : "noartwork-list"
             return UIImage(named: name)
-        case .page:
+        case .page, .detail:
             let name = Theme.isDarkTheme() ? "noartwork-page-dark" : "noartwork-page"
             return UIImage(named: name)
         }
@@ -509,7 +518,7 @@ class ImageManager {
             let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
 
             return Int(round(shortestSide * UIScreen.main.scale / 3.0))
-        case .page:
+        case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
     }

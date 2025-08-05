@@ -4,6 +4,7 @@ import PocketCastsServer
 struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
+    @Environment(\.sizeCategory) private var sizeCategory
 
     @State var selectedOption: IAPProductID
     @State var selectedOffer: PlusPricingInfoModel.ProductOfferInfo?
@@ -45,64 +46,72 @@ struct PlusPurchaseModal: View {
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            Label(coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo, for: .title)
-                .foregroundColor(Color.textColor)
-                .padding(.top, 32)
-                .padding(.bottom, pricingInfo.hasOffer ? 15 : 0)
+        ScrollView {
+            VStack(alignment: .center, spacing: 0) {
+                Label(coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo, for: .title)
+                    .foregroundColor(Color.textColor)
+                    .padding(.top, 32)
+                    .padding(.bottom, pricingInfo.hasOffer ? 15 : 0)
 
-            VStack(spacing: 16) {
-                ForEach(products) { product in
-                    // Hide any unselected items if we're in the failed state, this saves space for the error message
-                    if coordinator.state != .failed || selectedOption == product.identifier {
-                        ZStack(alignment: .center) {
-                            Button(price(for: product)) {
-                                selectedOption = product.identifier
-                                selectedOffer = product.offer
-                            }
-                            .disabled(coordinator.state == .failed)
-                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
-                            .overlay(
-                                ZStack(alignment: .center) {
-                                    if let offerDescription = product.offer?.description {
-                                        GeometryReader { proxy in
-                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
-                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
+                VStack(spacing: 16) {
+                    ForEach(products) { product in
+                        // Hide any unselected items if we're in the failed state, this saves space for the error message
+                        if coordinator.state != .failed || selectedOption == product.identifier {
+                            ZStack(alignment: .center) {
+                                Button(price(for: product)) {
+                                    selectedOption = product.identifier
+                                    selectedOffer = product.offer
+                                }
+                                .disabled(coordinator.state == .failed)
+                                .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
+                                .overlay(
+                                    ZStack(alignment: .center) {
+                                        if let offerDescription = product.offer?.description {
+                                            GeometryReader { proxy in
+                                                OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
+                                                    .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
+                                            }
                                         }
                                     }
-                                }
-                            )
-                            .frame(maxWidth: 500)
+                                )
+                                .frame(maxWidth: 500)
+                            }
                         }
                     }
-                }
 
-                Label(pricingTermsLabel, for: .freeTrialTerms)
-                    .foregroundColor(Color.textColor)
-                    .lineSpacing(1.2)
+                    Label(pricingTermsLabel, for: .freeTrialTerms)
+                        .foregroundColor(Color.textColor)
+                        .lineSpacing(1.2)
 
-                // Show the error message if we're in the failed state
-                if coordinator.state == .failed {
+                    // Show the error message if we're in the failed state
+                    if coordinator.state == .failed {
+                        PlusDivider()
+
+                        Label(L10n.plusPurchaseFailed, for: .error).foregroundColor(.error)
+                    }
+
                     PlusDivider()
 
-                    Label(L10n.plusPurchaseFailed, for: .error).foregroundColor(.error)
+                    let isLoading = (coordinator.state == .purchasing)
+                    Button(subscribeButton) {
+                        guard !isLoading else { return }
+                        coordinator.purchase(product: selectedOption)
+                    }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
+
+                    TermsView()
                 }
-
-                PlusDivider()
-
-                let isLoading = (coordinator.state == .purchasing)
-                Button(subscribeButton) {
-                    guard !isLoading else { return }
-                    coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
-
-                TermsView()
+                .padding(.top, 23)
+                .frame(maxWidth: 500)
             }
-            .padding(.top, 23)
-            .frame(maxWidth: 500)
+            .padding([.leading, .trailing])
+            .padding(.vertical, sizeCategory.isAccessibilityCategory ? 24 : 0)
         }
-        .padding([.leading, .trailing])
         .background(Color.backgroundColor.ignoresSafeArea())
+        .modify {
+            if #available(iOS 16.4, *) {
+                $0.scrollBounceBehavior(.basedOnSize)
+            }
+        }
     }
 
     private var pricingTermsLabel: String {
@@ -145,17 +154,7 @@ private struct PlusDivider: View {
 
 private struct TermsView: View {
     var body: some View {
-        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-
-        let privacyPolicy = ServerConstants.Urls.privacyPolicy
-        let termsOfUse = ServerConstants.Urls.termsOfUse
-
-        Group {
-            Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1]?.nonBreakingSpaces() ?? "")](\(privacyPolicy))")).underline() +
-            Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3]?.nonBreakingSpaces() ?? "")](\(termsOfUse))")).underline()
-        }
+        Text(L10n.termsAndConditions)
         .multilineTextAlignment(.center)
         .foregroundStyle(Color.textColor)
         .tint(.textColor)
@@ -192,11 +191,11 @@ private struct Label: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: 22, style: .title2, weight: .bold, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: 22, style: .title2, weight: .bold)
             case .freeTrialTerms:
-                return content.font(size: 13, style: .caption, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: 13, style: .caption)
             case .error:
-                return content.font(style: .subheadline, maxSizeCategory: .extraExtraExtraLarge)
+                return content.font(style: .subheadline)
             }
         }
     }

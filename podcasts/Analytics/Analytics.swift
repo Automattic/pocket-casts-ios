@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 class Analytics {
     static let shared = Analytics()
@@ -13,12 +14,20 @@ class Analytics {
     static func register(adapters: [AnalyticsAdapter]) {
         Self.shared.adapters = adapters
         shared.adaptersRegistered = true
+        logCurrentAdapters()
     }
 
     /// Unregisters all the registered adapters, disabling analytics
     static func unregister() {
-        Self.shared.adapters = nil
+        if FeatureFlag.podcastNewformAppsFlyer.enabled,
+           let adapters = Self.shared.adapters {
+            //Keep only third-party adapters
+            Self.shared.adapters = adapters.filter { $0.isThirdPartyAdapter }
+        } else {
+            Self.shared.adapters = nil
+        }
         shared.adaptersRegistered = false
+        logCurrentAdapters()
     }
 #if !os(watchOS) && !APPCLIP
     static func add(analyticsAppThemeProvider: AnalyticsAppThemeProviding) {
@@ -42,6 +51,12 @@ class Analytics {
             $0.track(name: event.eventName, properties: newProperties)
         }
     }
+
+    private static func logCurrentAdapters() {
+#if DEBUG
+        FileLog.shared.console("Analytics adapters: \(Self.shared.adapters ?? [])")
+#endif
+    }
 }
 
 // MARK: - Analytics + Source
@@ -61,25 +76,26 @@ extension Analytics {
     func optOutOfAnalytics() {
         Analytics.track(.analyticsOptOut)
         Settings.setAnalytics(optOut: true)
-        Analytics.unregister()
+        refreshRegistered()
     }
 
     func optInOfAnalytics() {
-        #if !os(watchOS) && !APPCLIP
-            Settings.setAnalytics(optOut: false)
-            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-            Analytics.track(.analyticsOptIn)
-        #endif
+#if !os(watchOS) && !APPCLIP
+        Settings.setAnalytics(optOut: false)
+        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+        Analytics.track(.analyticsOptIn)
+#endif
     }
 
     func refreshRegistered() {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
-        } else {
-            #if !os(watchOS) && !APPCLIP
-            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
-            #endif
         }
+#if !os(watchOS) && !APPCLIP
+        (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+#endif
+        FileLog.shared.addMessage("Analytics: Refreshed Registered Adapters")
+        Analytics.logCurrentAdapters()
     }
 }
 
@@ -92,12 +108,19 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
+    var isThirdPartyAdapter: Bool { get }
     func track(name: String, properties: [AnyHashable: Any]?)
+}
+
+extension AnalyticsAdapter {
+    var isThirdPartyAdapter: Bool {
+        false
+    }
 }
 
 // MARK: - Dynamic Event Name
 
-private extension AnalyticsEvent {
+extension AnalyticsEvent {
     var eventName: String {
         return rawValue.toSnakeCaseFromCamelCase()
     }

@@ -38,7 +38,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         self.playbackManager = playbackManager
         $discoverItem
             .dropFirst()
-            .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, type: PodcastCollection?.self) }
+            .flatMap { DiscoverServerHandler.shared.discoverItem($0?.source, authenticated: $0?.authenticated ?? false, type: PodcastCollection?.self) }
             .replaceError(with: nil)
             .assign(to: &$discoverCollection)
 
@@ -85,9 +85,9 @@ class DiscoverEpisodeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    public func registerListImpression() {
+    public func registerListImpression(category: String?) {
         guard let listId = discoverItem?.uuid else { return }
-        AnalyticsHelper.listImpression(listId: listId)
+        AnalyticsHelper.listImpression(listId: listId, category: category)
     }
 
     public func didSelectPlayEpisode(from button: BasePlayPauseButton) {

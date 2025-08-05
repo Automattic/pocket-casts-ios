@@ -40,7 +40,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+
+    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+        let viewModel = InformationalBannerViewModel(bannerType: .profile)
+        return InformationalBannerViewCoordinator(viewModel: viewModel)
+    }()
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -48,6 +53,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
             profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
+            profileTable.register(InformationalProfileBannerCell.self, forCellReuseIdentifier: InformationalProfileBannerCell.identifier)
         }
     }
 
@@ -132,7 +138,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
-        showReferralsHintIfNeeded()
+
+        if FeatureFlag.cancelSubscriptionSurvey.enabled,
+           SyncManager.isUserLoggedIn(),
+           SubscriptionHelper.hasCancelledSubscription,
+           !Settings.subscriptionCancelledSurveyShown {
+            let controller = CancelSubscriptionSurveyViewModel.make()
+            present(controller, animated: true)
+        } else {
+            showReferralsHintIfNeeded()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -260,6 +275,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
         }
 
+        if row == .informationalBanner {
+            let cell = tableView.dequeueReusableCell(withIdentifier: InformationalProfileBannerCell.identifier, for: indexPath) as! InformationalProfileBannerCell
+            cell.onCloseBannerTap = { [weak self] cell in
+                if let cell, let indexPath = tableView.indexPath(for: cell) {
+                    self?.tableData[indexPath.section].remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+            return cell
+        }
+
         if row == .kidsProfile {
             let cell = tableView.dequeueReusableCell(withIdentifier: KidsProfileBannerTableCell.identifier, for: indexPath) as! KidsProfileBannerTableCell
             cell.onCloseButtonTap = { [weak self] cell in
@@ -285,9 +311,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
+        cell.updateImageScale()
         cell.separatorInset = .zero
 
         switch row {
+        case .informationalBanner:
+            return InformationalProfileBannerCell()
         case .kidsProfile:
             return KidsProfileBannerTableCell()
         case .referralsClaim:
@@ -322,7 +351,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let row = tableData[indexPath.section][indexPath.row]
-        return row != .kidsProfile
+        return row != .kidsProfile && row != .informationalBanner
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -335,28 +364,35 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
-
-        if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            row == .kidsProfile || row == .referralsClaim {
-            return UITableView.automaticDimension
-        } else {
+        switch row {
+        case .informationalBanner:
+            return 160
+        default:
             return 70
         }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData[indexPath.section][indexPath.row]
+        navigateToRow(row)
+    }
+
+    func navigateToRow(_ row: TableRow) {
         switch row {
-        case .kidsProfile:
+        case .kidsProfile, .informationalBanner:
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self) {
-                tableView.reloadData()
+            ReferralsCoordinator.shared.startClaimFlow(from: self) { [weak self] in
+                self?.profileTable.reloadData()
             }
         case .allStats:
             let statsViewController = StatsViewController()
@@ -421,6 +457,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.referralsClaim, at: 0)
         }
 
+        if informationalBannerCoordinator.shouldShowBanner() {
+            data[0].insert(.informationalBanner, at: 0)
+        }
 
         tableData = data
         profileTable.reloadData()

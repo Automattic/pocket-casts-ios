@@ -4,7 +4,15 @@ import FMDB
 @testable import podcasts
 
 class DBTestCase: XCTestCase {
-    var dataManager: DataManager!
+    // We use a single DataManager instance for tests based on DBTestCase,
+    // since some tests interact with the download logic.
+    // Creating multiple DataManager instances cause the app delegate
+    // to reference an outdated one with a closed database.
+    // This issue is silently ignored when using FMDB, but GRDB surfaces an error.
+    static var dataManager: DataManager!
+    var dataManager: DataManager! {
+        Self.dataManager
+    }
     var downloadManager: DownloadManager!
     var podcast: Podcast!
     var episode: Episode!
@@ -15,12 +23,11 @@ class DBTestCase: XCTestCase {
     }
 
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        DataManager.newTestDataManager()
     }
 
     private func setupData() throws {
-        let dataManager = try setupDatabase()
+        let dataManager = Self.dataManager == nil ? try setupDatabase() : Self.dataManager!
         let downloadManager = DownloadManager(dataManager: dataManager)
 
         let podcast = Podcast()
@@ -40,7 +47,7 @@ class DBTestCase: XCTestCase {
         episode.playingStatus = PlayingStatus.notPlayed.rawValue
 
         dataManager.save(episode: episode)
-        self.dataManager = dataManager
+        Self.dataManager = dataManager
         self.downloadManager = downloadManager
         self.episode = episode
         self.podcast = podcast

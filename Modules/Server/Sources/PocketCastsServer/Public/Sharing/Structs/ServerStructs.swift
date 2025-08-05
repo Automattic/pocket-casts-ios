@@ -265,6 +265,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var expandedStyle: String?
     public var summaryItemCount: Int?
     public var source: String?
+    public var authenticated: Bool?
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
     public var curated: Bool?
@@ -272,6 +273,8 @@ public struct DiscoverItem: Decodable, Equatable {
     public var isSponsored: Bool?
     public var popular: [Int]?
     public var categoryID: Int?
+    public var dateTime: String?
+    public var sponsoredCategoryIDs: [Int]?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -280,7 +283,9 @@ public struct DiscoverItem: Decodable, Equatable {
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
         case categoryID = "category_id"
-        case type, title, source, regions, curated, uuid, popular, id
+        case dateTime = "datetime"
+        case sponsoredCategoryIDs = "sponsored_ids"
+        case type, title, source, regions, curated, uuid, popular, id, authenticated
     }
 
     public init(
@@ -298,7 +303,9 @@ public struct DiscoverItem: Decodable, Equatable {
         regions: [String],
         isSponsored: Bool? = nil,
         popular: [Int]? = nil,
-        categoryID: Int? = nil
+        categoryID: Int? = nil,
+        authenticated: Bool? = nil,
+        sponsoredCategoryIDs: [Int]? = nil
     ) {
         self.id = id
         self.uuid = uuid
@@ -315,6 +322,19 @@ public struct DiscoverItem: Decodable, Equatable {
         self.isSponsored = isSponsored
         self.popular = popular
         self.categoryID = categoryID
+        self.authenticated = authenticated
+        self.sponsoredCategoryIDs = sponsoredCategoryIDs
+    }
+
+    public var isAuthenticated: Bool {
+        authenticated == true
+    }
+}
+
+extension DiscoverItem: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(uuid)
     }
 }
 
@@ -341,6 +361,7 @@ public struct PodcastList: Decodable {
     public var title: String?
     public var description: String?
     public var podcasts: [DiscoverPodcast]?
+    public let datetime: String?
 }
 
 public struct PodcastCollection: Decodable {
@@ -349,22 +370,30 @@ public struct PodcastCollection: Decodable {
     public var subtitle: String?
     public var author: String?
     public var description: String?
+    public var shortDescription: String?
     public var podcasts: [DiscoverPodcast]?
     public let episodes: [DiscoverEpisode]?
+    public var podroll: [DiscoverPodcast]?
     public var collectionImage: String?
+    public var collectionRectangleImage: String?
     public var colors: PodcastCollectionColors?
     public var webTitle: String?
     public var webUrl: String?
     public var collageImages: [CollageImage]?
     public let headerImage: String?
+    public let featureImage: String?
+    public let datetime: String?
     public enum CodingKeys: String, CodingKey {
         case webUrl = "web_url"
         case webTitle = "web_title"
         case collectionImage = "collection_image"
+        case collectionRectangleImage = "collection_rectangle_image"
         case collageImages = "collage_images"
         case headerImage = "header_image"
         case listId = "list_id"
-        case title, description, subtitle, colors, podcasts, author, episodes
+        case featureImage = "feature_image"
+        case shortDescription = "short_description"
+        case title, description, subtitle, colors, podcasts, author, episodes, podroll, datetime
     }
 }
 
@@ -390,7 +419,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable, Equatable {
+public struct DiscoverCategory: Decodable, Equatable, Sendable {
     public var id: Int?
     public var name: String?
     public var source: String?
@@ -400,6 +429,11 @@ public struct DiscoverCategory: Decodable, Equatable {
         self.id = id
         self.name = name
     }
+}
+
+public struct DiscoverSource: Decodable, Equatable {
+    public var source: String?
+    public var authenticated: Bool?
 }
 
 public struct DiscoverCategoryDetails: Decodable {

@@ -42,7 +42,10 @@ class FoldersCoordinator: NSObject {
     }
 
     func startFolderCreationFlow(from vc: UIViewController) {
-        if FeatureFlag.suggestedFolders.enabled, suggestedFoldersModel.loadingState == .loaded {
+        if FeatureFlag.suggestedFolders.enabled,
+           dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+           suggestedFoldersModel.loadingState == .loaded,
+           didPodcastsChanged() {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
         } else {
             manualFolderCreationFlow(from: vc)
@@ -51,8 +54,17 @@ class FoldersCoordinator: NSObject {
         Analytics.track(.podcastsListFolderButtonTapped)
     }
 
+    func showSuggestedFolders(from vc: UIViewController, source: AnalyticsSource = .notifications) {
+        guard FeatureFlag.suggestedFolders.enabled,
+              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts else {
+            return
+        }
+        suggestedFolderCreationFlow(from: vc, source: source)
+    }
+
     func showUpsellIfNeeded(from vc: UIViewController) {
         guard FeatureFlag.suggestedFolders.enabled,
+              vc.presentedViewController == nil,
               !SubscriptionHelper.hasActiveSubscription(),
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
@@ -112,7 +124,7 @@ class FoldersCoordinator: NSObject {
                 })
             }
         }
-        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
     }
@@ -131,23 +143,38 @@ class FoldersCoordinator: NSObject {
                 return
             case .applySuggestedFolders, .createdManualFolder:
                 //Show upsell flow
-                startUpsellFlow(from: vc, source: source)
+                startUpsellFlow(from: vc, source: source, upgradeSource: .suggestedFolders)
                 return
             }
         }
-        let hostingController = PCHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
+        let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
 
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
+        saveLastUuidsUsed()
         DataManager.sharedManager.deleteAllFoldersAndMarkSync()
         for suggestedFolder in suggestedFolders {
             let folder = makeFolder(from: suggestedFolder)
             dataManager.bulkSetFolderUuid(folderUuid: folder.uuid, podcastUuids: suggestedFolder.podcastUuids)
         }
         NotificationCenter.postOnMainThread(notification: ServerNotifications.podcastsRefreshed, object: nil)
+    }
+
+    private var currentPodcastsHash: String {
+        let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
+        let md5 = String(uuids.joined(separator: "")).md5
+        return md5
+    }
+
+    private func saveLastUuidsUsed() {
+        Settings.suggestedFoldersLastPodcastsUsed = currentPodcastsHash
+    }
+
+    private func didPodcastsChanged() -> Bool {
+        return Settings.suggestedFoldersLastPodcastsUsed != currentPodcastsHash
     }
 
     private func makeFolder(from suggestedFolder: SuggestedFolder) -> Folder {
@@ -164,12 +191,12 @@ class FoldersCoordinator: NSObject {
         return folder
     }
 
-    private func startUpsellFlow(from vc: UIViewController, source: AnalyticsSource) {
+    private func startUpsellFlow(from vc: UIViewController, source: AnalyticsSource, upgradeSource: PlusUpgradeViewSource) {
         currentVC = vc
         currentSource = source
         addObservers()
         vc.dismiss(animated: false) {
-            self.navigationManager.showUpsellView(from: vc, source: .folders, flow: .suggestedFolderUpsell)
+            self.navigationManager.showUpsellView(from: vc, source: upgradeSource, flow: .suggestedFolderUpsell)
         }
     }
 

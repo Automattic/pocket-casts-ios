@@ -8,6 +8,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
+    /// Whether logging of AppsFlyer events in console are enabled
+    case appsFlyerLogging
+
     /// Whether End Of Year feature is enabled
     case endOfYear
 
@@ -75,9 +78,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is meant to fix an issue for users that were losing stats
     case syncStats
 
-    /// Enable the refactored discover collection view
-    case discoverCollectionView
-
     /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
     /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
     /// This makes the skip unusable as the player doesn't have its task set yet.
@@ -141,6 +141,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
+    case grdb
+
     /// Enable the generated transcript
     case generatedTranscripts
 
@@ -149,6 +151,78 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
+
+    /// Force full screen login on iPhone
+    case fullScreenLogin
+
+    /// Encourage Account Creation
+    case encourageAccountCreation
+
+    /// Enable Libro.fm icons in Paywall
+    case libroFm
+
+    /// Enable the new notifications types and settings
+    case notificationsRevamp
+
+    /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
+    case refreshAndSaveWatchLogsOnSend
+
+    /// Avoid replace actions for Up Next episode queue when swapping the currently playing episode
+    case avoidReplaceOnEpisodeSwap
+
+    /// Enable the new podcast sorting options
+    case podcastsSortChanges
+
+    /// Recommendations including discover v3 support
+    case recommendations
+
+    /// Cancel Subscription Survey
+    case cancelSubscriptionSurvey
+
+    /// Ignore server IAP check
+    case newOfferEligibilityCheck
+
+    /// When replacing an episode list with a new one, use the provided episode instead of Up Next Queue
+    case replaceSpecificEpisode
+
+    /// Shows transcript excerpt in episode detail
+    case episodeDetailTranscript
+
+    /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
+    case bannerAds
+
+    /// Improves configuration for the streaming requet download session
+    case streamingCustomSessionConfiguration
+
+    /// Guest List and Network Highligh Redesign
+    case guestListsNetworkHighlightsRedesign
+
+    /// Adds Discover category user recommendations
+    case smartCategories
+
+    /// Enabled the attributed text view in the Data Usage warning Sheet
+    case useDescriptiveActionAttributedTextView
+
+    /// Use the new upgrade screens
+    case newOnboardingUpgrade
+
+    /// Use the new upgrade screens with Variant B timeline before features
+    case newOnboardingVariant
+
+    /// Enable the new playlists rebranding
+    case playlistsRebranding
+
+    /// Retry failed downloads and stream without the user agent
+    case retryWithoutUserAgent
+
+    /// Show a satisfaction survey before prompting to rate
+    case userSatisfactionSurvey
+
+    /// Whether to use database concurrent reads or not
+    case concurrentDatabaseReads
+
+    /// Limit playback position changes when switching episodes
+    case limitPlaybackPositionChanges
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -163,6 +237,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .tracksLogging:
             false
         case .firebaseLogging:
+            false
+        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
@@ -201,8 +277,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .referralsSend:
             true
         case .syncStats:
-            true
-        case .discoverCollectionView:
             true
         case .playerIsReadyToPlay:
             true
@@ -247,9 +321,63 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedTranscripts:
             true
         case .podcastViewChanges:
-            false
+            true
         case .podcastNewformAppsFlyer:
+            true
+        case .fullScreenLogin:
+            true
+        case .libroFm:
             false
+        case .grdb:
+            true
+        case .encourageAccountCreation:
+            true
+        case .notificationsRevamp:
+            true
+        case .refreshAndSaveWatchLogsOnSend:
+            true
+        case .avoidReplaceOnEpisodeSwap:
+            true
+        case .podcastsSortChanges:
+            true
+        case .recommendations:
+            true
+        case .cancelSubscriptionSurvey:
+            true
+        case .newOfferEligibilityCheck:
+            true
+        case .replaceSpecificEpisode:
+            true
+        case .episodeDetailTranscript:
+            true
+        case .bannerAds:
+            false
+        case .streamingCustomSessionConfiguration:
+            true
+        case .guestListsNetworkHighlightsRedesign:
+            true
+        case .smartCategories:
+            true
+        case .useDescriptiveActionAttributedTextView:
+            true
+        case .newOnboardingUpgrade:
+            true
+        case .newOnboardingVariant:
+            true
+        case .playlistsRebranding:
+            false
+        case .retryWithoutUserAgent:
+            true
+        case .userSatisfactionSurvey:
+            true
+        case .concurrentDatabaseReads:
+            #if DEBUG
+            true
+            #else
+            false
+            #endif
+        case .limitPlaybackPositionChanges:
+            true
         }
     }
 
@@ -285,7 +413,13 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        true
+        switch self {
+            // GRDB can only change to `false` in non-TestFlight versions
+            case .grdb:
+                !Self.isTestFlight
+            default:
+                true
+        }
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"

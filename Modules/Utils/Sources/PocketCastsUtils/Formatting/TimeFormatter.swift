@@ -75,11 +75,7 @@ public class TimeFormatter {
         if showSeconds {
             return colonFormatterHours.string(from: time) ?? "0:00"
         } else {
-            if #available(iOS 16.0, watchOS 9.0, *) {
-                return Duration.seconds(time).formatted(.units(allowed: [.hours, .minutes], width: .narrow))
-            } else {
-                return shortTimeFormatter.string(from: time) ?? "0:00"
-            }
+            return Duration.seconds(time).formatted(.units(allowed: [.hours, .minutes], width: .narrow))
         }
     }
 

@@ -5,7 +5,7 @@ import UIKit
 import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
-    private enum TableRow: String {
+    enum TableRow: String {
         case general, notifications, appearance, storageAndDataUse
         case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
         case watch, customFiles, importSteps, opml
@@ -149,6 +149,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         tableView.deselectRow(at: indexPath, animated: true)
 
         let tableRow = tableData[indexPath.section][indexPath.row]
+        selectRow(tableRow)
+    }
+
+    func selectRow(_ tableRow: TableRow) {
         switch tableRow {
         case .general:
             navigationController?.pushViewController(GeneralSettingsViewController(), animated: true)
@@ -185,7 +189,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .watch:
             navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
         case .pocketCastsPlus:
-            navigationController?.present(OnboardingFlow.shared.begin(flow: .plusUpsell, source: "settings"), animated: true)
+                navigationController?.present(OnboardingFlow.shared.begin(flow: .plusUpsell, source: .settings), animated: true)
         case .privacy:
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         case .developer:

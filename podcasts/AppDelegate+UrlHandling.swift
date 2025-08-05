@@ -4,6 +4,7 @@ import JLRoutes
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -17,6 +18,14 @@ extension AppDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        if FeatureFlag.podcastNewformAppsFlyer.enabled {
+            ApplicationDelegate.shared.application(
+                app,
+                open: url,
+                sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+            )
+        }
         guard let progressViewController = SceneHelper.rootViewController() else { return false }
         return handleOpenUrl(url: url, rootViewController: progressViewController)
     }
@@ -143,12 +152,16 @@ extension AppDelegate {
         }
 
         // Open to discover
-        JLRoutes.global().addRoute("/discover") { paramDict -> Bool in
+        JLRoutes.global().addRoute("/discover/*") { paramDict -> Bool in
             if let sourceString = paramDict["source"] as? String, sourceString == "widget" {
                 Analytics.track(.widgetInteraction, properties: ["action": "discover"])
             }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+            var data: NSDictionary?
+            if let pathComponents = paramDict[JLRouteWildcardComponentsKey] as? [String], let itemID = pathComponents.first {
+                data = [NavigationManager.discoverListKey: itemID]
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: data)
 
             return true
         }
@@ -336,13 +349,19 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/upnext/*") { [weak self] paramDict -> Bool in
             var source: UpNextViewSource = .unknown
-
+            var showFromMiniPlayer: Bool = true
+            if let location = paramDict["location"] as? String, location == "tab" {
+                showFromMiniPlayer = false
+            }
             if let sourceString = paramDict["source"] as? String {
                 Analytics.track(.widgetInteraction, properties: ["action": "up_next"])
                 source = UpNextViewSource(rawValue: sourceString) ?? .unknown
             }
-
-            self?.miniPlayer()?.showUpNext(from: source)
+            if showFromMiniPlayer {
+                self?.miniPlayer()?.showUpNext(from: source)
+            } else {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.upNextPageKey)
+            }
 
             return true
         }
@@ -374,6 +393,75 @@ extension AppDelegate {
             }
 
             return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
+        }
+
+        setupOnboardingRoutes()
+        setupNewFeaturesRoutes()
+        setupProfileRoutes()
+    }
+
+    func setupOnboardingRoutes() {
+        JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [NavigationManager.settingsAppearanceShowThemeKey: true])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/signup") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.signUpPageKey)
+            return true
+        }
+
+        JLRoutes.global().addRoute("/settings/import") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.importSteps])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/settings/storage-and-data") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.storageAndDataUse])
+            return true
+        }
+
+        JLRoutes.global().addRoute("/filters") {[weak self] parameters -> Bool in
+            guard self != nil else { return false }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey)
+            return true
+        }
+
+        JLRoutes.global().addRoute("/upsell") { parameters -> Bool in
+            guard let viewController = SceneHelper.rootViewController() else { return false }
+            let source = PlusUpgradeViewSource(rawValue: ["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
+            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, NavigationManager.subscriptionUpgradeVCKey: viewController])
+            return true
+        }
+    }
+
+    func setupNewFeaturesRoutes() {
+        JLRoutes.global().addRoute("/features/*") {[weak self] parameters -> Bool in
+            guard self != nil,
+                  let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
+                  let feature = pathComponents.first
+            else {
+                return false
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.featurePageKey, data: [NavigationManager.featureKey: feature])
+            return true
+        }
+    }
+
+    func setupProfileRoutes() {
+        JLRoutes.global().addRoute("/profile/*") { [weak self] parameters -> Bool in
+            guard self != nil,
+                  let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
+                  let row = pathComponents.first
+            else {
+                return false
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [NavigationManager.profileRowKey: row])
+            return true
         }
     }
 

@@ -158,7 +158,7 @@ public struct BookmarkDataManager {
         SET \(Column.syncStatus) = ?
         """
 
-        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced])
+        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced.rawValue])
         switch result {
         case .success:
             return true

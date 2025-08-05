@@ -5,8 +5,7 @@ import FMDB
 
 final class PodcastDataManagerTests: XCTestCase {
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
-        return DataManager(dbQueue: FMDBQueue(fmdbQueue: dbQueue))
+        DataManager.newTestDataManager()
     }
 
     private func setupDataManager() throws -> DataManager {

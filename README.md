@@ -12,7 +12,7 @@
     <!-- Badge: "platform: ios|watchos" -->
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
     <!-- Badge: "Xcode: {version}+" -->
-    <img src="https://img.shields.io/badge/Xcode-v16.2%2B-informational" />
+    <img src="https://img.shields.io/badge/Xcode-v16.4%2B-informational" />
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@ If you don't already have it, you need to install Bundler:
 
 `gem install bundler`
 
-Next you'll need to install all the dependencies needed for CocoaPods and FastLane using this script:
+Next you'll need to install all the dependencies needed for [_fastlane_](https://docs.fastlane.tools/) using this script:
 
 `make install_dependencies`
 
@@ -45,7 +45,7 @@ You should do this before making a pull request.
 
 ## Running
 
-Open the .xcworkspace file, select the Pocket Casts project and the Simulator Device you want to run on, and hit the play button.
+Open the `.xcodeproj` file, select the Pocket Casts project and the Simulator Device you want to run on, and hit the play button.
 
 ## Localization
 
@@ -69,3 +69,29 @@ Replace the `{API_PATH}` with the full path to the `pocketcasts-api/api/modules/
 ```
 make update_proto API_PATH={API_PATH}
 ```
+
+## Debugging
+
+### Logs
+
+Logs can be found in the app as a view and shared from there through the system sheet or mail:
+* Profile > Help & Feedback > ⋯ > Logs
+
+When debugging analytics, the `tracksLogging` feature flag will enable logging for these events.
+
+### Export Files
+
+An export can be created with the database, settings plist, and logs for debugging purposes:
+* Profile > Help & Feedback > ⋯ > Export Database - the export will include all log files and settings
+* Profile > Settings > Developer > Export Bundle
+
+These exports can also be imported to the app, replacing the database and settings with the ones from the file. This will prompt the user before replacement.
+* Open the file with Pocket Casts directly from Files
+* Drag and drop the file on the Simulator
+* Profile > Settings > Developer > Import Bundle
+
+### Crash Log Symbolication
+
+All [releases](https://github.com/Automattic/pocket-casts-ios/releases) include dSYMs inside of the `xcarchive` file.
+
+These can be used along with the [MacSymbolicator](https://github.com/inket/MacSymbolicator) app to symbolicate any crash logs.

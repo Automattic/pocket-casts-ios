@@ -3,18 +3,28 @@ import SwiftUI
 struct PlusOpaqueButtonStyle: ButtonStyle {
     let isLoading: Bool
     let plan: Plan
+    let themeOverride: Theme?
 
     private var background: Color {
-        plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
+        if let themeOverride {
+            return themeOverride.primaryInteractive01
+        } else {
+            return plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
+        }
     }
 
     private var foregroundColor: Color {
-        plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
+        if let themeOverride {
+            return themeOverride.primaryInteractive02
+        } else {
+            return plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
+        }
     }
 
-    init(isLoading: Bool = false, plan: Plan) {
+    init(isLoading: Bool = false, plan: Plan, themeOverride: Theme? = nil) {
         self.isLoading = isLoading
         self.plan = plan
+        self.themeOverride = themeOverride
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -62,8 +72,12 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
     }
 
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
+        configuration
+            .label
             .applyButtonFont()
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity)
             .padding()
 
@@ -167,7 +181,7 @@ struct OfferLabel: View {
 
     var body: some View {
         Text(text.localizedUppercase)
-            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
+            .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             .multilineTextAlignment(.center)
             .padding([.top, .bottom], 4)
             .padding([.leading, .trailing], 13)

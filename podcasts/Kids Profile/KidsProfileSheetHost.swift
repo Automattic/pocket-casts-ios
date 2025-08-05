@@ -29,13 +29,9 @@ class KidsProfileSheetHost: ThemedHostingController<KidsProfileSheet> {
 
     private func setupSheetController() {
         if let sheetController = sheetPresentationController {
-            if #available(iOS 16.0, *) {
-                sheetController.detents = [.custom { _ in
-                    return 500.0
-                }]
-            } else {
-                sheetController.detents = [.large()]
-            }
+            sheetController.detents = [.custom { _ in
+                return 500.0
+            }]
             sheetController.prefersGrabberVisible = true
         }
     }

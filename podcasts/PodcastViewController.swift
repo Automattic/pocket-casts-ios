@@ -23,6 +23,7 @@ enum PodcastFeedReloadSource {
 }
 
 protocol PodcastActionsDelegate: AnyObject {
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> { get }
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
     func isDescriptionExpanded() -> Bool
@@ -35,11 +36,13 @@ protocol PodcastActionsDelegate: AnyObject {
 
     func manageSubscriptionTapped()
     func settingsTapped()
+    func fundingTapped()
     func folderTapped()
     func notificationTapped()
+    func categoryTapped(_ category: String)
     func subscribe()
     func unsubscribe()
-    func refreshArtwork(fromRect: CGRect, inView: UIView)
+    func refreshArtwork()
     func searchEpisodes(query: String)
     func clearSearch()
     func toggleShowArchived()
@@ -58,6 +61,9 @@ protocol PodcastActionsDelegate: AnyObject {
     var ratingView: UIView { get }
 
     func showBookmarks()
+    func showEpisodes()
+    func showYouMightLike()
+    func showLogin(message: String?)
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool
     func reloadPodcastFeed(source: PodcastFeedReloadSource)
@@ -73,6 +79,28 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var listUuid: String?
     var summaryExpanded = false
     var descriptionExpanded = false
+    var currentViewMode: ViewMode = .episodes
+    var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
+    var isLoadingRecommendations = CurrentValueSubject<Bool, Never>(false)
+    var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
+        hasSimilarShows.eraseToAnyPublisher()
+    }
+
+    var recommendations: PodcastCollection?
+
+    enum ViewMode {
+        case episodes
+        case bookmarks
+        case youMightLike
+
+        var analyticsValue: String {
+            switch self {
+            case .episodes: return "episodes"
+            case .bookmarks: return "bookmarks"
+            case .youMightLike: return "you_might_like"
+            }
+        }
+    }
 
     var searchController: EpisodeListSearchController?
 
@@ -129,7 +157,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.episodesTable.beginUpdates()
                 self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections([0], with: .none)
+                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
                 }
                 self.episodesTable.endUpdates()
                 if self.isMultiSelectEnabled {
@@ -207,6 +235,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     static let headerSection = 0
     static let allEpisodesSection = 1
+    static let podrollSection = 1
+    static let similarShowsSection = 2
 
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
@@ -290,7 +320,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
             episodesTable.themeStyle = .primaryUi02
             episodesTable.addSubview(blurHeaderView)
-            episodesTable.sendSubviewToBack(blurHeaderView)
             let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
             NSLayoutConstraint.activate([
                 blurHeaderPositionConstraint,
@@ -330,10 +359,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func setupLogin() {
         podcastRatingViewModel.presentLogin = { [weak self] viewModel in
-            let loginViewController = LoginCoordinator.make()
-            self?.present(loginViewController, animated: true)
+            self?.showLogin(message: L10n.ratingLoginRequired)
+        }
+    }
 
-            Toast.show(L10n.ratingLoginRequired)
+    func showLogin(message: String?) {
+        let loginViewController = LoginCoordinator.make()
+        present(loginViewController, animated: true)
+        if let message {
+            Toast.show(message)
         }
     }
 
@@ -371,7 +405,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
-
+        if FeatureFlag.podcastViewChanges.enabled {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         updateColors()
     }
 
@@ -379,6 +415,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
+        headerView.layer.zPosition = -1000
+        headerView.isUserInteractionEnabled = false
         return headerView
     }()
 
@@ -442,7 +480,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-        episodesTable.sendSubviewToBack(blurHeaderView)
+        if FeatureFlag.podcastViewChanges.enabled {
+            self.navigationController?.isNavigationBarHidden = true
+        }
+        showViewChangesTipIfNeeded()
+
+        // Load recommendations when view appears
+        if FeatureFlag.recommendations.enabled {
+            Task {
+                await loadRecommendations()
+            }
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -473,11 +521,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
-        episodesTable.sendSubviewToBack(blurHeaderView)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        AppTheme.defaultStatusBarStyle()
+        return .default
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -503,11 +550,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func reloadData() {
         episodesTable.reloadData()
-        if FeatureFlag.podcastViewChanges.enabled {
-            episodesTable.layoutIfNeeded()
-            // This is being done here because after a relayout of table data we need to send the header back
-            episodesTable.sendSubviewToBack(blurHeaderView)
-        }
     }
 
     private func updateColors() {
@@ -698,7 +740,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     // MARK: - PodcastActionsDelegate
 
-    func refreshArtwork(fromRect: CGRect, inView: UIView) {
+    func refreshArtwork() {
         guard let podcast = podcast else { return }
 
         let optionsPicker = OptionsPicker(title: nil)
@@ -820,6 +862,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Analytics.track(.podcastScreenSettingsTapped)
     }
 
+    func fundingTapped() {
+        Analytics.track(.podcastScreenFundingTapped, properties: ["podcast_uuid": podcast?.uuid ?? ""])
+        guard let urlString = podcast?.fundingURL, let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
     func manageSubscriptionTapped() {
         guard SyncManager.isUserLoggedIn() else {
             let signinPage = SyncSigninViewController()
@@ -869,10 +917,28 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             return
         }
         let newValue = !podcast.isPushEnabled
-        PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        Toast.show(newValue ? L10n.notificationsOn : L10n.notificationsOff)
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
+        NotificationsHelper.shared.registerForPushNotifications() { granted in
+            guard granted || !newValue else {
+                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
+                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
+                    UIApplication.shared.openNotificationSettings()
+                })])
+                return
+            }
+            PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+            var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
+            if let title = podcast.title, newValue {
+                message = L10n.notificationsOnForPodcast(title)
+            }
+            Toast.show(message)
+        }
+    }
+
+    func categoryTapped(_ category: String) {
+        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: [NavigationManager.discoverCategoryKey: category])
+        Analytics.track(.podcastScreenCategoryTapped, properties: ["category": category])
     }
 
     func searchEpisodes(query: String) {
@@ -963,6 +1029,118 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
             self.downloadItems(allObjects: allObjects)
         }
+    }
+
+    func showOptionsFor(season: Int) {
+        guard let podcast else {
+            return
+        }
+
+        Analytics.track(.podcastScreenSeasonOptionsTapped, properties: ["season": season])
+
+        let optionPicker = OptionsPicker(title: nil)
+
+        optionPicker.addActions([
+            .init(label: L10n.selectAll, icon: "option-multiselect") { [weak self] in
+                self?.selectSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsSelectAllTapped, properties: ["season": season])
+            },
+            downloadActionForSeason(season),
+            archiveActionForSeason(season)
+        ].compactMap(\.self))
+
+        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func downloadActionForSeason(_ season: Int) -> OptionAction? {
+        var allDownloaded = true
+        let episodes = episodesForSeason(season).map({ $0.episode })
+        for episode in episodes {
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
+                allDownloaded = false
+                break
+            }
+        }
+        if allDownloaded {
+            return .init(label: L10n.removeAll, icon: "episode-remove-download") {
+                EpisodeManager.removeDownloadForEpisodes(episodes)
+                Analytics.track(.podcastScreenSeasonOptionsRemoveAllTapped, properties: ["season": season])
+            }
+        } else {
+            return .init(label: L10n.downloadAll, icon: "player-download") { [weak self] in
+                self?.downloadSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsDownloadAllTapped, properties: ["season": season])
+            }
+        }
+    }
+
+    private func archiveActionForSeason(_ season: Int) -> OptionAction? {
+        guard let podcast else { return nil }
+        let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND seasonNumber = ?"
+        let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id, season])
+        if unarchivedCount > 0 {
+            return OptionAction(label: L10n.podcastArchiveAll, icon: "options-archiveall") { [weak self] in
+                self?.archiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsArchiveAllTapped, properties: ["season": season])
+            }
+        } else {
+            return OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
+                self?.unarchiveAllSeasonTapped(season: season)
+                Analytics.track(.podcastScreenSeasonOptionsUnarchiveAllTapped, properties: ["season": season])
+            }
+        }
+    }
+
+    private func episodesForSeason(_ season: Int) -> [ListEpisode] {
+        guard let allObjects = self.episodeInfo[safe: 1]?.elements,
+              allObjects.count > 0
+        else {
+            return []
+        }
+
+        let seasonObjects = allObjects.filter {
+            guard let listEpisode = $0 as? ListEpisode else {
+                return false
+            }
+            return listEpisode.episode.seasonNumber == season
+        }
+
+        let episodes = seasonObjects.compactMap { ($0 as? ListEpisode) }.filter { $0.episode.seasonNumber == season }
+        return episodes
+    }
+
+    private func selectSeasonTapped(season: Int) {
+        selectedEpisodes = episodesForSeason(season)
+        enableMultiSelect()
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadData()
+        }
+    }
+
+    func downloadSeasonTapped(season: Int) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+
+            let listEpisodesForSeason = episodesForSeason(season)
+            let episodes = listEpisodesForSeason.map { $0.episode }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
+            AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
+
+            self.downloadItems(allObjects: listEpisodesForSeason)
+        }
+    }
+
+    func archiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
+    }
+
+    func unarchiveAllSeasonTapped(season: Int) {
+        let listEpisodesForSeason = episodesForSeason(season)
+        let episodes = listEpisodesForSeason.map { $0.episode }
+        EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
     func downloadItems(allObjects: [ListItem]) {
@@ -1074,13 +1252,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         present(hostingController, animated: true, completion: nil)
     }
 
+    func showEpisodes() {
+        switchViewMode(to: .episodes)
+    }
+
     func showBookmarks() {
         guard let podcast else { return }
 
-        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
-
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
+    }
+
+    func showYouMightLike() {
+        switchViewMode(to: .youMightLike)
     }
 
     // MARK: - Podcast Feed Reload
@@ -1088,11 +1272,21 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
             refreshControl = CustomRefreshControl()
+            if FeatureFlag.podcastViewChanges.enabled {
+                refreshControl?.customTintColor = contrastColorForPodcastImage
+            }
             refreshControl?.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
             episodesTable.refreshControl = refreshControl
         }
+    }
+
+    private var contrastColorForPodcastImage: UIColor {
+        guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: self.podcastUUID, size: .grid) else {
+            return .white
+        }
+        return image.isDark ? .white : .black
     }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {
@@ -1145,12 +1339,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func dismissPodcastFeedReloadTip() {
-        guard Settings.shouldShowPodcastFeeReloadTip else {
+        guard Settings.shouldShowPodcastFeeReloadTip,
+            let podcastFeedReloadTooltip
+        else {
             return
         }
         Analytics.track(.podcastRefreshEpisodeTooltipDismissed)
         Settings.shouldShowPodcastFeeReloadTip = false
-        podcastFeedReloadTooltip?.dismiss(animated: true) { [weak self] in
+        podcastFeedReloadTooltip.dismiss(animated: true) { [weak self] in
             self?.podcastFeedReloadTooltip = nil
         }
     }
@@ -1196,11 +1392,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
-        if #available(iOS 16.0, *) {
-            vc.sizingOptions = [.preferredContentSize]
-        } else {
-            vc.preferredContentSize = idealSize
-        }
+        vc.sizingOptions = [.preferredContentSize]
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = [.down]
@@ -1208,6 +1400,68 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             popoverPresentationController.sourceRect = button.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
         }
+        return vc
+    }
+
+    private var viewChangesTipVC: UIViewController?
+    private var dimmingView: UIView?
+
+    func showViewChangesTipIfNeeded() {
+        guard FeatureFlag.podcastViewChanges.enabled,
+              Settings.shouldShowPodcastViewChangesTip,
+              self.podcast != nil,
+              viewChangesTipVC == nil
+        else {
+            return
+        }
+        Settings.shouldShowPodcastViewChangesTip = false
+        var point = podcastHeaderCell.center
+        point.y = summaryExpanded ? 1.4 * PodcastHeaderView.Constants.largeImageSize : 1.4 * PodcastHeaderView.Constants.smallImageSize
+        let rect = CGRect(origin: point, size: .zero)
+        viewChangesTipVC = showTip(title: L10n.podcastViewChangesTipTitle, message: L10n.podcastViewChangesTipDetails, sourceView: podcastHeaderCell, sourceRect: rect) { [weak self] in
+            self?.dismissViewChangesTip()
+        }
+    }
+
+    private func dismissViewChangesTip() {
+        guard let viewChangesTipVC else {
+            return
+        }
+        viewChangesTipVC.dismiss(animated: true)
+        dimmingView?.removeFromSuperview()
+        self.viewChangesTipVC = nil
+    }
+
+    private func showTip(title: String, message: String, sourceView: UIView, sourceRect: CGRect = CGRectNull, dimBackground: Bool = true, action: @escaping () -> ()) -> UIViewController {
+        if dimBackground {
+            let dimmingView = UIView(frame: self.view.bounds)
+            dimmingView.backgroundColor = .black.withAlphaComponent(0.3)
+            self.tabBarController?.view.addSubview(dimmingView)
+            self.dimmingView = dimmingView
+        }
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let idealSize = CGSizeMake(290, 100)
+        let tipView = TipViewStatic(title: title,
+                                    message: message,
+                                    showClose: true,
+                              onTap: {
+            action()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.sizingOptions = [.preferredContentSize]
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = [.down]
+            popoverPresentationController.sourceView = sourceView
+            popoverPresentationController.sourceRect = sourceRect
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        }
+        present(vc, animated: true)
         return vc
     }
 
@@ -1254,6 +1508,64 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func signingProcessCompleted() {
         navigationController?.popToViewController(self, animated: true)
     }
+
+    @MainActor
+    func loadRecommendations() async {
+        guard let podcast = podcast else { return }
+
+        isLoadingRecommendations.send(true)
+        updateEmptyStateVisibility()
+
+        do {
+            var originalRecommendations = try await ServerPodcastManager.shared.loadRecommendations(for: podcast.uuid, in: Settings.userRegion())
+            filterCurrentPodcast(from: &originalRecommendations)
+            recommendations = originalRecommendations
+            guard !Task.isCancelled else { return }
+            hasSimilarShows.send(recommendations?.podcasts?.isEmpty == false)
+        } catch {
+            // We won't do anything in the interface here since the You Might Like button is optional and hidden by default
+            FileLog.shared.addMessage("[PodcastViewController] Failed to load recommendations \(error)")
+            guard !Task.isCancelled else { return }
+            hasSimilarShows.send(false)
+        }
+
+        isLoadingRecommendations.send(false)
+        updateEmptyStateVisibility()
+    }
+
+    private func filterCurrentPodcast(from collection: inout PodcastCollection?) {
+        if var podcasts = collection?.podcasts {
+            podcasts = podcasts.filter { $0.uuid != self.podcast?.uuid }
+            collection?.podcasts = podcasts
+        }
+    }
+
+    private func updateEmptyStateVisibility() {
+        if currentViewMode == .youMightLike {
+            episodesTable.reloadData()
+        }
+    }
+
+    private func switchViewMode(to mode: ViewMode) {
+        currentViewMode = mode
+        switch mode {
+        case .episodes:
+            if let podcast = podcast {
+                loadLocalEpisodes(podcast: podcast, animated: true)
+            }
+        case .youMightLike:
+            updateEmptyStateVisibility()
+            if recommendations == nil {
+                Task {
+                    await loadRecommendations()
+                }
+            }
+        case .bookmarks:
+            break // Handled separately
+        }
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
+        reloadData()
+    }
 }
 
 // MARK: - Analytics
@@ -1278,6 +1590,7 @@ extension PodcastViewController: UIPopoverPresentationControllerDelegate {
 
     func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         dismissPodcastFeedReloadTip()
+        dismissViewChangesTip()
     }
 }
 

@@ -197,58 +197,9 @@ public class ServerPodcastManager: NSObject {
             return true
         }
 
-        let podcast = Podcast()
-        podcast.uuid = podcastUuid
-        podcast.subscribed = subscribe ? 1 : 0
-        // if we're adding a new podcast but not subscribing don't mark it as needing to be synced
-        if !subscribe {
-            podcast.syncStatus = SyncStatus.synced.rawValue
-        }
-        podcast.addedDate = Date()
+        let podcast = Podcast.from(podcastJson: podcastJson, podcastInfo: podcastInfo, uuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified, isoFormatter: isoFormatter)
+
         podcast.sortOrder = highestSortOrderForHomeGrid() + 1
-        podcast.autoDownloadSetting = (autoDownloads > 0 ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
-        podcast.lastUpdatedAt = lastModified
-        if let title = podcastJson["title"] as? String {
-            podcast.title = title
-        }
-        if let author = podcastJson["author"] as? String {
-            podcast.author = author
-        }
-        if let url = podcastJson["url"] as? String {
-            podcast.podcastUrl = url
-        }
-        if let description = podcastJson["description"] as? String {
-            podcast.podcastDescription = description
-        }
-
-        if let description = podcastJson["description_html"] as? String {
-            podcast.podcastHTMLDescription = description
-        }
-
-        if let category = podcastJson["category"] as? String {
-            podcast.podcastCategory = category
-        }
-        if let showType = podcastJson["show_type"] as? String {
-            podcast.showType = showType
-        }
-        if let estimatedNextEpisode = podcastInfo["estimated_next_episode_at"] as? String {
-            podcast.estimatedNextEpisode = isoFormatter.date(from: estimatedNextEpisode)
-        }
-        if let frequency = podcastInfo["episode_frequency"] as? String {
-            podcast.episodeFrequency = frequency
-        }
-        if let paid = podcastJson["paid"] as? Int {
-            podcast.isPaid = paid > 0
-        }
-        if let licensing = podcastJson["licensing"] as? Int {
-            podcast.licensing = Int32(licensing)
-        }
-        if let refreshAvailable = podcastInfo["refresh_allowed"] as? Bool {
-            podcast.refreshAvailable = refreshAvailable
-        }
-        if let isPrivate = podcastJson["is_private"] as? Bool {
-            podcast.isPrivate = isPrivate
-        }
 
         // we don't accept podcasts with no episodes
         guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }
@@ -258,43 +209,7 @@ public class ServerPodcastManager: NSObject {
 
         var episodes = [Episode]()
         for episodeJson in episodesJson {
-            let episode = Episode()
-            episode.addedDate = Date()
-            episode.podcast_id = podcast.id
-            episode.podcastUuid = podcast.uuid
-            episode.playingStatus = PlayingStatus.notPlayed.rawValue
-            episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
-            if let uuid = episodeJson["uuid"] as? String {
-                episode.uuid = uuid
-            }
-            if let title = episodeJson["title"] as? String {
-                episode.title = title
-            }
-            if let url = episodeJson["url"] as? String {
-                episode.downloadUrl = url
-            }
-            if let fileType = episodeJson["file_type"] as? String {
-                episode.fileType = fileType
-            }
-            if let fileSize = episodeJson["file_size"] as? Int64 {
-                episode.sizeInBytes = fileSize
-            }
-            if let duration = episodeJson["duration"] as? Double {
-                episode.duration = duration
-            }
-            if let publishedStr = episodeJson["published"] as? String {
-                episode.publishedDate = isoFormatter.date(from: publishedStr)
-            }
-            if let number = episodeJson["number"] as? Int64 {
-                episode.episodeNumber = number
-            }
-            if let season = episodeJson["season"] as? Int64 {
-                episode.seasonNumber = season
-            }
-            if let type = episodeJson["type"] as? String {
-                episode.episodeType = type
-            }
-
+            let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
             episodes.append(episode)
         }
         DataManager.sharedManager.bulkSave(episodes: episodes)
@@ -318,44 +233,52 @@ public class ServerPodcastManager: NSObject {
             return episode // we already have this episode
         }
 
-        let episode = Episode()
-        episode.addedDate = Date()
-        episode.podcast_id = podcast.id
-        episode.podcastUuid = podcast.uuid
-        episode.playingStatus = PlayingStatus.notPlayed.rawValue
-        episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
-        episode.uuid = uuid
-        if let title = firstEpisode["title"] as? String {
-            episode.title = title
-        }
-        if let url = firstEpisode["url"] as? String {
-            episode.downloadUrl = url
-        }
-        if let fileType = firstEpisode["file_type"] as? String {
-            episode.fileType = fileType
-        }
-        if let fileSize = firstEpisode["file_size"] as? Int64 {
-            episode.sizeInBytes = fileSize
-        }
-        if let duration = firstEpisode["duration"] as? Double {
-            episode.duration = duration
-        }
-        if let publishedStr = firstEpisode["published"] as? String {
-            episode.publishedDate = isoFormatter.date(from: publishedStr)
-        }
-        if let number = firstEpisode["number"] as? Int64 {
-            episode.episodeNumber = number
-        }
-        if let season = firstEpisode["season"] as? Int64 {
-            episode.seasonNumber = season
-        }
-        if let type = firstEpisode["type"] as? String {
-            episode.episodeType = type
-        }
+        let episode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
 
         DataManager.sharedManager.save(episode: episode)
 
         return episode
+    }
+
+    public func loadRecommendations(for podcastUUID: String, in region: String?) async throws -> PodcastCollection? {
+        let components = URLComponents(string: ServerConstants.Urls.api())
+
+        guard var components else {
+            assertionFailure("[ServerPodcastManager] Recommendations API URL failed")
+            throw URLError(.badURL)
+        }
+
+        components.path += "recommendations/podcast/\(podcastUUID)"
+
+        if let region {
+            components.queryItems = [
+                URLQueryItem(name: "country", value: region)
+            ]
+        }
+
+        guard let url = components.url else {
+            assertionFailure("[ServerPodcastManager] Recommendations API construction failed")
+            throw URLError(.badURL)
+        }
+
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
+        request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        let (data, response) = try await urlConnection.send(request: request)
+
+        if (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.notModified {
+            return nil
+        }
+
+        guard let data = data else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return try decoder.decode(PodcastCollection.self, from: data)
     }
 
     private func loadFrom(url: String) -> [String: Any]? {

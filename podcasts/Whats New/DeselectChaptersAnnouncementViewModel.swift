@@ -32,7 +32,7 @@ class DeselectChaptersAnnouncementViewModel {
         // If free user, show upgrade
         SceneHelper.rootViewController()?.dismiss(animated: true) {
             if !SubscriptionHelper.hasActiveSubscription(), let rootViewController = SceneHelper.rootViewController() {
-                PaidFeature.deselectChapters.presentUpgradeController(from: rootViewController, source: "deselect_chapters_whats_new")
+                PaidFeature.deselectChapters.presentUpgradeController(from: rootViewController, source: .deselectChapterWhatsNew)
             }
         }
     }

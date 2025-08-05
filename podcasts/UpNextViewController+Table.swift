@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import PocketCastsServer
+import SwiftUI
 
 extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView DataSource
@@ -15,7 +16,8 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         case .nowPlayingSection:
             return 1
         case .upNextSection:
-            return max(1, PlaybackManager.shared.queue.upNextCount())
+            let count = PlaybackManager.shared.queue.upNextCount()
+            return count == 0 ? 1 : count
         }
     }
 
@@ -81,9 +83,17 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         if PlaybackManager.shared.queue.upNextCount() == 0 {
-            let nothingCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.noUpNextCell, for: indexPath) as! NothingUpNextCell
-            nothingCell.themeOverride = themeOverride
-            return nothingCell
+            let emptyCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.emptyStateCell, for: indexPath) as! EmptyStateCell
+            emptyCell.configure(title: L10n.upNextEmptyTitle,
+                                message: L10n.upNextEmptyDescription,
+                                icon: { Image("upnext") },
+                actions: [
+                    .init(title: L10n.goToDiscover) {
+                        Analytics.shared.track(.upNextDiscoverButtonTapped)
+                        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
+                    }
+            ])
+            return emptyCell
         }
 
         let playerCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.playerCell, for: indexPath) as! PlayerCell
@@ -224,18 +234,17 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Cell Heights
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        rowHeightAt(indexPath: indexPath)
+        let section = tableData[indexPath.section]
+        if section == .nowPlayingSection { return UpNextViewController.nowPlayingRowHeight }
+        if PlaybackManager.shared.queue.upNextCount() == 0 { return UpNextViewController.emptyStateRowHeight }
+        return UpNextViewController.upNextRowHeight
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        rowHeightAt(indexPath: indexPath)
-    }
-
-    func rowHeightAt(indexPath: IndexPath) -> CGFloat {
         let section = tableData[indexPath.section]
         if section == .nowPlayingSection { return UpNextViewController.nowPlayingRowHeight }
-
-        return PlaybackManager.shared.queue.upNextCount() > 0 ? UpNextViewController.upNextRowHeight : UpNextViewController.noUpNextRowHeight
+        if PlaybackManager.shared.queue.upNextCount() == 0 { return UpNextViewController.emptyStateRowHeight }
+        return UpNextViewController.upNextRowHeight
     }
 
     // MARK: - Multiselect
@@ -262,6 +271,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
         if let _ = PlaybackManager.shared.currentEpisode() {
             sections.insert(.nowPlayingSection, at: 0)
+            upNextTable.themeStyle = .primaryUi04
+        } else {
+            upNextTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
         }
         tableData = sections
     }

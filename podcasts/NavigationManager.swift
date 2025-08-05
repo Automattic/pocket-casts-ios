@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class NavigationManager {
     static let podcastPageKey = "podcastPage"
@@ -17,6 +18,8 @@ class NavigationManager {
     private static let homePageKey = "homePage"
     static let podcastListPageKey = "podcastList"
     static let discoverPageKey = "discoverPage"
+    static let discoverCategoryKey = "discoverCategory"
+    static let discoverListKey = "discoverList"
 
     static let filterPageKey = "filterPage"
     static let filterUuidKey = "filterUuid"
@@ -52,8 +55,13 @@ class NavigationManager {
     static let openUrlInSafariVCKey = "openSafariVCUrlPage"
     static let safariVCUrlKey = "safariVCUrlKey"
 
+    static let settingsPageKey = "settingsPage"
+    static let settingsRowKey = "settingsRow"
     static let settingsAppearanceKey = "appearancePage"
+    static let settingsAppearanceShowThemeKey = "appearanceShowThemeKey"
     static let settingsProfileKey = "profilePage"
+    static let profileRowKey = "profileRow"
+    static let profileRowDownloadsKey = "downloads"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
     static let redeemGuestPassURLKey = "redeemGuestPassURLKey"
@@ -63,6 +71,13 @@ class NavigationManager {
 
     static let settingsGeneralKey = "generalSettingsPage"
     static let settingsGeneralRowKey = "generalSettingsRow"
+
+    static let upNextPageKey = "upNextPage"
+    static let signUpPageKey = "signUpPage"
+    static let importPageKey = "importPage"
+
+    static let featurePageKey = "featurePageKey"
+    static let featureKey = "featureKey"
 
     static let sharedManager = NavigationManager()
 
@@ -136,10 +151,12 @@ class NavigationManager {
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {
-            mainController?.navigateToDiscover(animated)
+            navigateToDiscover(data: data, animated: animated)
         } else if place == NavigationManager.filterPageKey {
             if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
+            } else {
+                mainController?.navigateToFilter(nil, animated: animated)
             }
         } else if place == NavigationManager.filterAddKey {
             mainController?.navigateToAddFilter()
@@ -169,9 +186,13 @@ class NavigationManager {
                 mainController?.showWhatsNew(whatsNewInfo: whatsNewInfo)
             }
         } else if place == NavigationManager.settingsAppearanceKey {
-            mainController?.showSettingsAppearance()
+            var showThemeSelection = false
+            if let data = data, let showThemeSelectionValue = data[NavigationManager.settingsAppearanceShowThemeKey] as? Bool {
+                showThemeSelection = showThemeSelectionValue
+            }
+            mainController?.showSettingsAppearance(showThemeSelection: showThemeSelection)
         } else if place == NavigationManager.settingsProfileKey {
-            mainController?.showProfilePage()
+            navigateToProfile(data: data, animated: animated)
         }
         else if place == NavigationManager.settingsHeadphoneKey {
             mainController?.showHeadphoneSettings()
@@ -215,7 +236,58 @@ class NavigationManager {
             mainController?.showOnboardingFlow(flow: flow)
         } else if place == NavigationManager.settingsGeneralKey {
             mainController?.showGeneralSettings(row: data?[NavigationManager.settingsGeneralRowKey] as? GeneralSettingsViewController.TableRow)
+        } else if place == NavigationManager.upNextPageKey {
+            mainController?.navigateToUpNext(true)
+        } else if place == NavigationManager.signUpPageKey {
+            mainController?.showSignUp()
+        } else if place == NavigationManager.settingsPageKey {
+            let row = data?[NavigationManager.settingsRowKey] as? SettingsViewController.TableRow
+            mainController?.showSettings(row: row)
+        } else if place == NavigationManager.featurePageKey {
+            navigateToFeature(data: data, animated: animated)
         }
+    }
+
+    func navigateToDiscover(data: NSDictionary?, animated: Bool) {
+        guard let data = data else {
+            mainController?.navigateToDiscover(animated)
+            return
+        }
+
+        if let category = data[NavigationManager.discoverCategoryKey] as? String {
+            mainController?.navigateToDiscover(category: category, animated: animated)
+            return
+        }
+
+        if let listId = data[NavigationManager.discoverListKey] as? String {
+            mainController?.navigateToDiscover(listID: listId, animated: animated)
+            return
+        }
+    }
+
+    func navigateToFeature(data: NSDictionary?, animated: Bool) {
+        guard let feature = data?[NavigationManager.featureKey] as? String else {
+            return
+        }
+        if feature == "suggestedFolders" {
+            mainController?.navigateToSuggestedFolders()
+        }
+    }
+
+    func navigateToProfile(data: NSDictionary?, animated: Bool) {
+        guard let row = data?[NavigationManager.profileRowKey] as? String else {
+            return
+        }
+        if row == NavigationManager.profileRowDownloadsKey {
+            mainController?.navigateToProfile(row: .downloaded, animated: animated)
+        }
+    }
+
+    func showNotificationsPermissionsModal() {
+        guard FeatureFlag.notificationsRevamp.enabled else {
+            return
+        }
+        mainController?.showNotificationsPermissions()
     }
 }
 

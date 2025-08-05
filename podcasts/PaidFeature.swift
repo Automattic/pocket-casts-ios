@@ -82,12 +82,12 @@ class PaidFeature: ObservableObject {
 #if !os(watchOS) && !APPCLIP
 extension PaidFeature {
     /// Returns the correct upgrade view controller for the feature
-    func upgradeController(source: String, customTitle: String? = nil) -> UIViewController {
+    func upgradeController(source: PlusUpgradeViewSource, customTitle: String? = nil) -> UIViewController {
         OnboardingFlow.shared.begin(flow: upgradeFlow, source: source, customTitle: customTitle)
     }
 
     /// Presents the `upgradeController` from the given view controller
-    func presentUpgradeController(from controller: UIViewController, source: String, customTitle: String? = nil) {
+    func presentUpgradeController(from controller: UIViewController, source: PlusUpgradeViewSource, customTitle: String? = nil) {
         controller.presentFromRootController(upgradeController(source: source, customTitle: customTitle))
     }
 

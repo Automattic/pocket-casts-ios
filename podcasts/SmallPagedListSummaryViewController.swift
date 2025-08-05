@@ -26,6 +26,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     private let maxFeaturedItems = 20
 
     private var item: DiscoverItem?
+    private var category: DiscoverCategory?
 
     private weak var delegate: DiscoverDelegate?
     @IBOutlet var smallPagedCollectionViewHeight: NSLayoutConstraint!
@@ -87,7 +88,8 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         super.viewDidAppear(animated)
 
         if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId)
+            let categoryId = category?.id.map(String.init)
+            AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastStatusChanged), name: Constants.Notifications.podcastDeleted, object: nil)
@@ -165,9 +167,10 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         guard let source = delegate?.replaceRegionCode(string: item.source), let title = item.title?.localized else { return }
 
         self.item = item
+        self.category = category
         titleLabel.text = delegate?.replaceRegionName(string: title)
 
-        DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
+        DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
             for podcast in discoverPodcast {
                 strongSelf.podcasts.append(podcast)

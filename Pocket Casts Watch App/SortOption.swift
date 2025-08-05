@@ -17,7 +17,7 @@ extension LibrarySort: SortOption {
     public var id: Int { Int(rawValue) }
 
     static var allCases: [LibrarySort] {
-        [.dateAddedNewestToOldest, .titleAtoZ, .episodeDateNewestToOldest] // custom not available on watch
+        [.dateAddedNewestToOldest, .titleAtoZ, .episodeDateNewestToOldest, .recentlyPlayed] // custom not available on watch
     }
 }
 

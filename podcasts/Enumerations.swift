@@ -78,7 +78,7 @@ enum PodcastFinishedAction: Int {
 }
 
 enum PodcastThumbnailSize {
-    case list, grid, page
+    case list, grid, page, detail
 }
 
 enum PodcastLicensing: Int32 {
@@ -100,6 +100,8 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
             return L10n.podcastsEpisodeSortShortestToLongest
         case .longestToShortest:
             return L10n.podcastsEpisodeSortLongestToShortest
+        case .serial:
+            return L10n.podcastsEpisodeSortSerial
         }
     }
 
@@ -117,6 +119,8 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
             return "shortest_to_longest"
         case .longestToShortest:
             return "longest_to_shortest"
+        case .serial:
+            return "serial"
         }
     }
 }
@@ -129,7 +133,7 @@ extension LibrarySort.Old: AnalyticsDescribable {
 
 extension LibrarySort: AnalyticsDescribable {
     enum Old: Int {
-        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6, recentlyPlayed = 7
     }
 
     init?(oldValue: Int) {
@@ -149,6 +153,8 @@ extension LibrarySort: AnalyticsDescribable {
             self = .episodeDateNewestToOldest
         case .custom:
             self = .custom
+        case .recentlyPlayed:
+            self = .recentlyPlayed
         }
     }
 
@@ -162,6 +168,8 @@ extension LibrarySort: AnalyticsDescribable {
             return .episodeDateNewestToOldest
         case .custom:
             return .custom
+        case .recentlyPlayed:
+            return .recentlyPlayed
         }
     }
 
@@ -175,6 +183,8 @@ extension LibrarySort: AnalyticsDescribable {
             return L10n.podcastsLibrarySortEpisodeReleaseDate
         case .custom:
             return L10n.podcastsLibrarySortCustom
+        case .recentlyPlayed:
+            return L10n.podcastsLibrarySortEpisodeRecentlyPlayed
         }
     }
 
@@ -188,6 +198,8 @@ extension LibrarySort: AnalyticsDescribable {
             return "episode_release_date"
         case .custom:
             return "drag_and_drop"
+        case .recentlyPlayed:
+            return "episode_recently_played"
         }
     }
 }

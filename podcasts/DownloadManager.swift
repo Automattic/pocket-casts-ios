@@ -19,6 +19,18 @@ extension Dictionary: DownloadManagerEpisodesCache where Self == Dictionary<Stri
 extension ThreadSafeDictionary: DownloadManagerEpisodesCache where ThreadSafeDictionary == ThreadSafeDictionary<String, BaseEpisode> {
 }
 
+protocol DownloadManagerStreamAndDownloadCache {
+    subscript(index: String) -> AVAssetResourceLoaderDelegate? { get set }
+
+    func contains(where predicate: ((key: String, value: AVAssetResourceLoaderDelegate)) throws -> Bool) rethrows -> Bool
+}
+
+extension Dictionary: DownloadManagerStreamAndDownloadCache where Self == Dictionary<String, AVAssetResourceLoaderDelegate> {
+}
+
+extension ThreadSafeDictionary: DownloadManagerStreamAndDownloadCache where ThreadSafeDictionary == ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate> {
+}
+
 class DownloadManager: NSObject, FilePathProtocol {
 
     static let shared: DownloadManager = {
@@ -39,9 +51,32 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }()
 
-    var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
+    lazy var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
+        if FeatureFlag.downloadsThreadSafeCache.enabled {
+            ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
+        } else {
+            Dictionary<String, AVAssetResourceLoaderDelegate>()
+        }
+    }()
 
     var taskFailure: [String: FailureReason] = [:]
+
+    // MARK: - Download Retry Tracking
+    struct DownloadAttempt {
+        let episodeUuid: String
+        let originalUrl: URL
+        let hasRetriedWithoutUserAgent: Bool
+
+        func withRetryAttempt() -> DownloadAttempt {
+            return DownloadAttempt(
+                episodeUuid: episodeUuid,
+                originalUrl: originalUrl,
+                hasRetriedWithoutUserAgent: true
+            )
+        }
+    }
+
+    var downloadAttempts: [Int: DownloadAttempt] = [:]
 
     #if os(watchOS)
         var pendingWatchBackgroundTask: WKURLSessionRefreshBackgroundTask?
@@ -356,7 +391,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes.removeValue(forKey: downloadTaskUUID)
+            downloadAndStreamEpisodes[downloadTaskUUID] = nil
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
             }
@@ -410,6 +445,10 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) async {
+        await performDownload(episode: episode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus, retryWithoutUserAgent: false)
+    }
+
+    func performDownload(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus, retryWithoutUserAgent: Bool) async {
 
         var downloadUrl = URL(string: url)
         if downloadUrl == nil {
@@ -431,7 +470,9 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         var request = URLRequest(url: url)
-        request.addValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        if !retryWithoutUserAgent {
+            request.addValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        }
         request.timeoutInterval = 30.seconds
 
         let tempFilePath = tempPathForEpisode(episode)
@@ -444,7 +485,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes[episode.uuid] != nil {
             return
         }
 
@@ -455,8 +496,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
 
-        FileLog.shared.addMessage("Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed)")
-        resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes)
+        let userAgentDescription = retryWithoutUserAgent ? "without User-Agent" : "with User-Agent"
+        FileLog.shared.addMessage("Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed), \(userAgentDescription)")
+        resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes, retryWithoutUserAgent: retryWithoutUserAgent)
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
     }
@@ -505,7 +547,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             saveRequired = true
         }
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes[episode.uuid] != nil {
             episode.downloadTaskId = episode.uuid
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             saveRequired = true
@@ -591,9 +633,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             if downloadTasks.count == 0 { return }
 
             for task in downloadTasks {
-                if taskId == task.taskDescription {
+                if let taskDescription = task.taskDescription, taskId == taskDescription {
                     self?.cancelTask(task, for: episode)
-
                     return
                 }
             }
@@ -617,7 +658,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     }
 
-    private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64) {
+    private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {
         let fileManager = FileManager.default
         var downloadTask: URLSessionDownloadTask?
         do {
@@ -649,6 +690,17 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         downloadTask?.taskDescription = taskId
+
+        // Store retry information in tracking dictionary
+        if let task = downloadTask, let url = request.url {
+            let attempt = DownloadAttempt(
+                episodeUuid: taskId,
+                originalUrl: url,
+                hasRetriedWithoutUserAgent: retryWithoutUserAgent
+            )
+            downloadAttempts[task.taskIdentifier] = attempt
+        }
+
         downloadTask?.resume()
     }
 
@@ -671,10 +723,12 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func tasks(for episodes: [BaseEpisode]) async -> [URLSessionTask] {
         let matchingTasks = await allTasks().filter { task in
-            let identifier = task.taskDescription
-            return episodes.contains { episode in
-                episode.downloadTaskId == identifier || episode.uuid == identifier
+            if let taskDescription = task.taskDescription {
+                return episodes.contains { episode in
+                    episode.downloadTaskId == taskDescription || episode.uuid == taskDescription
+                }
             }
+            return false
         }
 
         return matchingTasks

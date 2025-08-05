@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "PocketCastsDataModel",
     platforms: [
-        .iOS(.v15), .watchOS(.v8)
+        .iOS(.v16), .watchOS(.v9)
     ],
     products: [
         .library(
@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ccgus/fmdb.git", from: "2.0.0"),
+        .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.2.0"),
         .package(path: "../Utils/")
     ],
     targets: [
@@ -24,6 +25,7 @@ let package = Package(
             name: "PocketCastsDataModel",
             dependencies: [
                 .product(name: "FMDB", package: "fmdb"),
+                .product(name: "GRDB", package: "GRDB.swift"),
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],
             path: "Sources"

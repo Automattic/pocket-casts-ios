@@ -75,6 +75,9 @@ public extension SyncManager {
     enum SyncingReason: String {
         case accountCreated
         case login
+        case replace
+        case remove
+        case add
     }
 
     /// Defines a reason why a sync is being performed

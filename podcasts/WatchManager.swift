@@ -12,6 +12,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
 
+    var isWatchAppInstalled: Bool {
+        return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
+    }
+
     func setup() {
         if !WCSession.isSupported() { return }
 
@@ -34,6 +38,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(autoDownloadChanged), name: Constants.Notifications.watchAutoDownloadSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChapterChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
+
+        cachedLog = WatchManager.shared.readLogFile()
     }
 
     deinit {
@@ -393,7 +399,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
         DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.sendStateToWatch()
+            guard let self else { return }
+            sendStateToWatch()
         }
     }
 
