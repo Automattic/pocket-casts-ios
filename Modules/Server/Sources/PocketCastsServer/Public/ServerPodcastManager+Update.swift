@@ -254,7 +254,7 @@ extension ServerPodcastManager {
 
     private func cleanupDeletedEpisodes(podcast: Podcast, serverEpisodes: [[String: Any]]) {
         // looks for episodes we have locally, that no longer exist online and that the user hasn't done anything with and deletes them
-        let serverUuids = serverEpisodes.compactMap { $0["uuid"] as? String }.map { "\"\($0)\"" }
+        let serverUuids = serverEpisodes.compactMap { $0["uuid"] as? String }.map { "\'\($0)\'" }
         if serverUuids.count == 0 { return } // don't clean up based on empty episodes results
 
         let inStr = serverUuids.joined(separator: ",")
