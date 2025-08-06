@@ -10,7 +10,7 @@ struct PCBundleDoc: FileDocument {
     static var readableContentTypes = [UTType.pcasts]
 
     enum Constants {
-        static let databaseFilename = "database.sqlite"
+        static let databaseFilename = "database.sqlite3"
         static let preferencesFilename = "preferences.plist"
     }
 
