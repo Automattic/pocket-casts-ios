@@ -14,7 +14,7 @@ class UpNextChangesDataManager {
 
     func findReplaceAction(dbQueue: PCDBQueue) -> UpNextChanges? {
         var replaceAction: UpNextChanges?
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type = ?", values: [UpNextChanges.Actions.replace.rawValue])
                 defer { resultSet.close() }
@@ -32,7 +32,7 @@ class UpNextChangesDataManager {
 
     func findUpdateActions(dbQueue: PCDBQueue) -> [UpNextChanges] {
         var allUpdateActions = [UpNextChanges]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.upNextChangesTableName) WHERE type != ?", values: [UpNextChanges.Actions.replace.rawValue])
                 defer { resultSet.close() }
@@ -68,7 +68,7 @@ class UpNextChangesDataManager {
     }
 
     func saveReplace(episodeList: [String], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 // a replace literally replaces everything that came before it, so empty the table out
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName)", values: nil)
@@ -86,7 +86,7 @@ class UpNextChangesDataManager {
     }
 
     private func saveUpdate(action: UpNextChanges.Actions, episodeUuid: String, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 // an update replaces any other update that is for the same episode, so delete any that might exist
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) WHERE uuid = ?", values: [episodeUuid])
@@ -106,7 +106,7 @@ class UpNextChangesDataManager {
     // MARK: - Delete
 
     func deleteChangesOlderThan(utcTime: Int64, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.upNextChangesTableName) where utcTime <= ?", values: [utcTime])
             } catch {
