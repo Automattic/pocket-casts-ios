@@ -1,10 +1,63 @@
 import SwiftUI
+import PocketCastsUtils
+import PocketCastsServer
 
 class NotificationsPermissionsViewModel: ObservableObject {
+    @Published var newsletterOptIn: Bool = true
+    @Published var notificationsOptIn: Bool = false
 
     func setupPermissions() async {
         let coordinator = NotificationsCoordinator.shared
         await coordinator.requestAndSetupInitialPermissions()
+    }
+
+    func saveNewsletterOptIn() {
+        ServerSettings.setMarketingOptIn(newsletterOptIn)
+    }
+
+    func trackNewsletterOptIn() {
+        Analytics.track(.newsletterOptInChanged, properties: ["enabled": newsletterOptIn, "source": "notifications_permissions"])
+    }
+
+    enum NotificationOption: CaseIterable {
+        case newsletter
+        case notifications
+
+        var title: String {
+            switch self {
+            case .newsletter:
+                return "Subscribe to our Newsletter"
+            case .notifications:
+                return "Receive Notifications"
+            }
+        }
+
+        var subtitle: String {
+            switch self {
+            case .newsletter:
+                return "Once a month, all podcast goodness"
+            case .notifications:
+                return "Receive news, podcast suggestions and more"
+            }
+        }
+
+        func isSelected(_ viewModel: NotificationsPermissionsViewModel) -> Bool {
+            switch self {
+            case .newsletter:
+                return viewModel.newsletterOptIn
+            case .notifications:
+                return viewModel.notificationsOptIn
+            }
+        }
+
+        func toggle(_ viewModel: NotificationsPermissionsViewModel) {
+            switch self {
+            case .newsletter:
+                viewModel.newsletterOptIn.toggle()
+            case .notifications:
+                viewModel.notificationsOptIn.toggle()
+            }
+        }
     }
 
     static func makeController() -> UIViewController {
@@ -25,6 +78,36 @@ struct NotificationsPermissionsView: View {
 
     @StateObject var viewModel: NotificationsPermissionsViewModel = NotificationsPermissionsViewModel()
 
+    @ViewBuilder
+    private func optionRow(for option: NotificationsPermissionsViewModel.NotificationOption) -> some View {
+        Button {
+            option.toggle(viewModel)
+        } label: {
+            HStack(spacing: 17) {
+                Button {
+                    // This button is now only for the SelectCircleButtonStyle visual
+                } label: {
+                    EmptyView() // content is provided by the style
+                }
+                .buttonStyle(
+                    SelectCircleButtonStyle(selected: .constant(option.isSelected(viewModel)))
+                )
+                .environmentObject(Theme.sharedTheme)
+                .allowsHitTesting(false) // Disable interaction since parent button handles it
+                VStack(alignment: .leading) {
+                    Text(option.title)
+                        .font(style: .subheadline, weight: .medium)
+                        .foregroundStyle(theme.primaryText01)
+                    Text(option.subtitle)
+                        .font(.footnote)
+                        .foregroundStyle(theme.primaryText02)
+                }
+                Spacer()
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
     var body: some View {
         VStack {
             Button(action: {
@@ -43,20 +126,32 @@ struct NotificationsPermissionsView: View {
             Text(L10n.notificationsPermissionsTitle)
                 .textStyle(PrimaryText())
                 .font(.largeTitle.bold())
-            Spacer().frame(height: 16)
+            Spacer().frame(height: 20)
             Text(L10n.notificationsPermissionsBody)
                 .textStyle(SecondaryText())
                 .font(.body)
                 .multilineTextAlignment(.center)
             Spacer()
+            if FeatureFlag.newOnboardingAccountCreation.enabled {
+                VStack(alignment: .leading, spacing: 24) {
+                    optionRow(for: .newsletter)
+                    optionRow(for: .notifications)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 34)
+            }
             Button(action: {
                 Analytics.track(.notificationsPermissionsAllowTapped)
+                viewModel.saveNewsletterOptIn()
+                viewModel.trackNewsletterOptIn()
                 Task {
-                    await viewModel.setupPermissions()
+                    if viewModel.notificationsOptIn {
+                        await viewModel.setupPermissions()
+                    }
                     dismissAction()
                 }
             }) {
-                Text(L10n.notificationsPermissionsAction)
+                Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
                 .textStyle(RoundedButton())
             }
         }

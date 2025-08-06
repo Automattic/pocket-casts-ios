@@ -1783,6 +1783,7 @@
 		F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CD7D82C2624AD0035269A /* MediaTrimView.swift */; };
+		F57D54B72E42C68E00C74EF7 /* SelectCircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D54B62E42C68E00C74EF7 /* SelectCircleButtonStyle.swift */; };
 		F57D8F142C66CA230004C4DF /* UnsafeWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D8F132C66CA230004C4DF /* UnsafeWait.swift */; };
 		F57D8F162C66CBB80004C4DF /* UnsafeTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D8F152C66CBB80004C4DF /* UnsafeTransfer.swift */; };
 		F57D8F182C66CDF40004C4DF /* View+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D8F172C66CDF40004C4DF /* View+CVPixelBuffer.swift */; };
@@ -4009,6 +4010,7 @@
 		F57626B52C8B56C7009C8225 /* String+SanitizedFileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SanitizedFileName.swift"; sourceTree = "<group>"; };
 		F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Episode.swift"; sourceTree = "<group>"; };
 		F57CD7D82C2624AD0035269A /* MediaTrimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTrimView.swift; sourceTree = "<group>"; };
+		F57D54B62E42C68E00C74EF7 /* SelectCircleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCircleButtonStyle.swift; sourceTree = "<group>"; };
 		F57D8F132C66CA230004C4DF /* UnsafeWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeWait.swift; sourceTree = "<group>"; };
 		F57D8F152C66CBB80004C4DF /* UnsafeTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeTransfer.swift; sourceTree = "<group>"; };
 		F57D8F172C66CDF40004C4DF /* View+CVPixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+CVPixelBuffer.swift"; sourceTree = "<group>"; };
@@ -7591,6 +7593,7 @@
 		C74887782919DC7B00EBC926 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				F57D54B62E42C68E00C74EF7 /* SelectCircleButtonStyle.swift */,
 				9A9004D22E2FF29B005879CB /* AsyncImageView.swift */,
 				FF0753952D721AAC00BE8B3B /* ModalMessage.swift */,
 				FF07538B2D6CC4F400BE8B3B /* CustomHorizontalMargin.swift */,
@@ -10186,6 +10189,7 @@
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
 				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */,
+				F57D54B72E42C68E00C74EF7 /* SelectCircleButtonStyle.swift in Sources */,
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
 				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
 				BD9324712398BB50004F19A1 /* TourView.swift in Sources */,

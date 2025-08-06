@@ -5164,6 +5164,9 @@
 /* Notifications permissions screen action button text*/
 "notifications_permissions_action" = "Allow Notifications";
 
+/* Notifications permissions screen action button text to save preferences for notifications and Newsletter */
+"notifications_permissions_save_preferences" = "Save Preferences";
+
 /* Title for modal explaining Creator Picks */
 "creator_pick_modal_title" = "What's a Creator Pick?";
 

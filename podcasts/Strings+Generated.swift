@@ -1896,6 +1896,8 @@ internal enum L10n {
   internal static var notificationsPermissionsNeedsAction: String { return L10n.tr("Localizable", "notifications_permissions_needs_action", fallback: "Please allow notifications in your device settings") }
   /// Notification button title to open device notification settings
   internal static var notificationsPermissionsOpenSettings: String { return L10n.tr("Localizable", "notifications_permissions_open_settings", fallback: "Open Settings") }
+  /// Notifications permissions screen action button text to save preferences for notifications and Newsletter
+  internal static var notificationsPermissionsSavePreferences: String { return L10n.tr("Localizable", "notifications_permissions_save_preferences", fallback: "Save Preferences") }
   /// Notifications permissions screen title text
   internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title", fallback: "Stay up to date!") }
   /// Prompt to play the selected item now.
