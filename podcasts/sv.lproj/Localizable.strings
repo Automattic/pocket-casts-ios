@@ -2243,7 +2243,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>podcast_no_date</key>
     <string>Datum ej angivet</string>
     <key>podcast_no_season</key>
-    <string>Extra</string>
+    <string>Ingen säsong</string>
     <key>podcast_pause_download</key>
     <string>Pausa nedladdning</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2631,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Inställningar</string>
     <key>settings_about</key>
     <string>Om</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Tillåt oss att samla in analyser.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Tillåt oss att använda betrodda tjänster från tredje part för att samla in anonyma data.</string>
     <key>settings_appearance</key>
     <string>Utseende</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2781,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ta bort molnfil</string>
     <key>settings_files_delete_local_file</key>
     <string>Ta bort lokal fil</string>
+    <key>settings_first_party_analytics</key>
+    <string>Analyser från första part</string>
     <key>settings_general</key>
     <string>Allmänt</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2969,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
+    <key>settings_third_party_analytics</key>
+    <string>Analyser från tredje part</string>
     <key>settings_title</key>
     <string>Podcastinställningar</string>
     <key>settings_trim_level</key>

@@ -1694,8 +1694,6 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизвести</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Предложения Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Посмотрите, что популярно на этой неделе.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Тренды недели</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2241,7 @@ Pocket Casts на полную мощность.</string>
     <key>podcast_no_date</key>
     <string>Дата не установлена</string>
     <key>podcast_no_season</key>
-    <string>Дополнения</string>
+    <string>Нет сезона</string>
     <key>podcast_pause_download</key>
     <string>Приостановить скачивание</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2629,10 @@ Pocket Casts на полную мощность.</string>
     <string>Настройки</string>
     <key>settings_about</key>
     <string>О нас</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Разрешите нам собирать аналитические данные.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Разрешите нам использовать доверенные сторонние службы для сбора анонимных данных.</string>
     <key>settings_appearance</key>
     <string>Внешний вид</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2779,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удалить файл в облаке</string>
     <key>settings_files_delete_local_file</key>
     <string>Удалить локальный файл</string>
+    <key>settings_first_party_analytics</key>
+    <string>Собственная аналитика</string>
     <key>settings_general</key>
     <string>Общие</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2967,8 @@ Pocket Casts на полную мощность.</string>
     <string>МОБИЛЬНЫЕ ДАННЫЕ</string>
     <key>settings_storage_usage</key>
     <string>ИСПОЛЬЗОВАНИЕ ПАМЯТИ</string>
+    <key>settings_third_party_analytics</key>
+    <string>Сторонняя аналитика</string>
     <key>settings_title</key>
     <string>Настройки подкастов</string>
     <key>settings_trim_level</key>
