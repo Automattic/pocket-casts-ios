@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,9 +11,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterDurationViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="dividerBottomConstraint" destination="Q96-QQ-X6m" id="LhR-0m-g4J"/>
+                <outlet property="dividerTopConstraint" destination="wyC-Yi-UN6" id="t8I-9J-IFp"/>
+                <outlet property="dividerView" destination="qmv-fg-ZEx" id="kmJ-tx-3zf"/>
                 <outlet property="durationConfigView" destination="e89-rD-l86" id="feg-cP-tu6"/>
                 <outlet property="filterDurationLabel" destination="ZaL-Yo-lbb" id="f8I-N1-zEx"/>
                 <outlet property="filterSwitch" destination="Rrc-db-3fy" id="jVl-GT-FyI"/>
+                <outlet property="linesSpacing" destination="IyF-fn-FAq" id="FPD-0r-JP7"/>
                 <outlet property="longerThanDescription" destination="8XS-u3-vvZ" id="7gX-pw-Wj7"/>
                 <outlet property="longerThanLabel" destination="ZUI-Nj-eNz" id="BC3-hK-RD6"/>
                 <outlet property="longerThanStepper" destination="vBK-gb-mUn" id="1gG-Vs-1na"/>
@@ -21,6 +25,7 @@
                 <outlet property="shorterThanDescription" destination="3gv-4P-y7p" id="jqZ-Zt-3fP"/>
                 <outlet property="shorterThanLabel" destination="CTM-qF-WZF" id="fHL-eM-EXj"/>
                 <outlet property="shorterThanStepper" destination="cuO-fW-Vwb" id="y24-fc-fDQ"/>
+                <outlet property="topShadowView" destination="g9i-cH-zil" id="Rbq-lq-sLd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,26 +38,26 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="18" y="72" width="135.5" height="22"/>
+                            <rect key="frame" x="18" y="124" width="135.5" height="22"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rrc-db-3fy" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="347" y="67.5" width="51" height="31"/>
+                            <rect key="frame" x="347" y="119.5" width="51" height="31"/>
                             <connections>
                                 <action selector="filterSwitchChanged:" destination="-1" eventType="valueChanged" id="vGZ-YO-bDs"/>
                             </connections>
                         </switch>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qmv-fg-ZEx" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="114" width="414" height="1"/>
+                            <rect key="frame" x="0.0" y="166" width="414" height="1"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="jdl-nw-jjC"/>
                             </constraints>
                         </view>
                         <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e89-rD-l86">
-                            <rect key="frame" x="0.0" y="125" width="414" height="128"/>
+                            <rect key="frame" x="0.0" y="177" width="414" height="128"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longer than" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-u3-vvZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="18" y="20" width="92" height="20.5"/>
