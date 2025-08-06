@@ -31,7 +31,7 @@ class EpisodeFilterDataManager {
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
         var count = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -50,7 +50,7 @@ class EpisodeFilterDataManager {
 
     func episodeCount(forFilter filter: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
         var count = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let queryForFilter = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
                 let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForFilter)", values: nil)
@@ -75,7 +75,7 @@ class EpisodeFilterDataManager {
 
     func findBy(uuid: String, dbQueue: PCDBQueue) -> EpisodeFilter? {
         var filter: EpisodeFilter?
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.filtersTableName) WHERE uuid = ?", values: [uuid])
                 defer { resultSet.close() }
@@ -92,7 +92,7 @@ class EpisodeFilterDataManager {
     }
 
     func deleteDeletedFilters(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE wasDeleted = 1", values: nil)
             } catch {
@@ -108,7 +108,7 @@ class EpisodeFilterDataManager {
     func updatePosition(filter: EpisodeFilter, newPosition: Int32, dbQueue: PCDBQueue) {
         filter.sortPosition = newPosition
         filter.syncStatus = SyncStatus.notSynced.rawValue
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET sortPosition = ?, syncStatus = ? WHERE uuid = ?", values: [filter.sortPosition, filter.syncStatus, filter.uuid])
             } catch {
@@ -118,7 +118,7 @@ class EpisodeFilterDataManager {
     }
 
     func save(filter: EpisodeFilter, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 if filter.id == 0 {
                     filter.id = DBUtils.generateUniqueId()
@@ -134,7 +134,7 @@ class EpisodeFilterDataManager {
     }
 
     func delete(filter: EpisodeFilter, dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE uuid = ?", values: [filter.uuid])
             } catch {
@@ -144,7 +144,7 @@ class EpisodeFilterDataManager {
     }
 
     func markAllSynced(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.synced.rawValue, SyncStatus.notSynced.rawValue])
             } catch {
@@ -154,7 +154,7 @@ class EpisodeFilterDataManager {
     }
 
     func markAllUnsynced(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.filtersTableName) SET syncStatus = ? WHERE syncStatus = ?", values: [SyncStatus.notSynced.rawValue, SyncStatus.synced.rawValue])
             } catch {
@@ -165,7 +165,7 @@ class EpisodeFilterDataManager {
 
     private func allFilters(query: String, values: [Any]?, dbQueue: PCDBQueue) -> [EpisodeFilter] {
         var allFilters = [EpisodeFilter]()
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 defer { resultSet.close() }
@@ -184,7 +184,7 @@ class EpisodeFilterDataManager {
 
     func nextSortPositionForFilter(dbQueue: PCDBQueue) -> Int {
         var highestPosition = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = "SELECT MAX(sortPosition) from \(DataManager.filtersTableName)"
                 let resultSet = try db.executeQuery(query, values: nil)
