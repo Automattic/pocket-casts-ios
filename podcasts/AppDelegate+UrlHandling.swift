@@ -45,7 +45,11 @@ extension AppDelegate {
                 alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
                     Task {
                         let fileWrapper = try FileWrapper(url: url)
-                        try PCBundleDoc.performImport(from: fileWrapper)
+                        do {
+                            try PCBundleDoc.performImport(from: fileWrapper)
+                        } catch {
+                            FileLog.shared.addMessage("File Import failed with error \(error)")
+                        }
                     }
                 })
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
