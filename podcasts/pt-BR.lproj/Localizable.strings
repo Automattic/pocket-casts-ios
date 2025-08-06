@@ -1694,8 +1694,6 @@ podcasts com você</string>
     <string>Reproduzir agora</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Benefícios do Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Confira o que todo mundo está ouvindo esta semana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Em alta esta semana</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2241,7 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <key>podcast_no_date</key>
     <string>Data não definida</string>
     <key>podcast_no_season</key>
-    <string>Extras</string>
+    <string>Nenhuma temporada</string>
     <key>podcast_pause_download</key>
     <string>Pausar download</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2629,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Configurações</string>
     <key>settings_about</key>
     <string>Sobre</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Permita a coleta de dados analíticos.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Permita-nos usar serviços de terceiros confiáveis para coletar dados anônimos.</string>
     <key>settings_appearance</key>
     <string>Aparência</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2779,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Excluir arquivo da nuvem</string>
     <key>settings_files_delete_local_file</key>
     <string>Excluir arquivo local</string>
+    <key>settings_first_party_analytics</key>
+    <string>Análises próprias</string>
     <key>settings_general</key>
     <string>Geral</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2967,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>DADOS MÓVEIS</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
+    <key>settings_third_party_analytics</key>
+    <string>Análises de terceiros</string>
     <key>settings_title</key>
     <string>Configurações de podcast</string>
     <key>settings_trim_level</key>
