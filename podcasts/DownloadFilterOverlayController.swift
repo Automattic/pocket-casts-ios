@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsUtils
 
 class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableViewDataSource, UITableViewDelegate {
     private static let downloadCellId = "RadioButtonCellId"
@@ -28,6 +29,12 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         addCloseButton()
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            handleThemeChanged()
+
+            saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        }
     }
 
     // MARK: - TableView DataSource
@@ -47,7 +54,13 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         cell.title.setLetterSpacing(-0.2)
         cell.setSelectState(selectedRow == row)
         let filterTintColor = filterToEdit.playlistColor()
-        cell.setTintColor(color: filterTintColor)
+        if FeatureFlag.playlistsRebranding.enabled {
+            cell.title.font = .systemFont(ofSize: 17, weight: .semibold)
+            cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
+        } else {
+            cell.title.font = .systemFont(ofSize: 16, weight: .medium)
+            cell.setTintColor(color: filterToEdit.playlistColor())
+        }
         cell.style = .primaryUi01
         cell.selectButton.tag = indexPath.row
         cell.selectButton.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
@@ -60,7 +73,7 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        51
+        FeatureFlag.playlistsRebranding.enabled ? 46 : 51
     }
 
     // MARK: - Helper functions
@@ -105,6 +118,15 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
             return L10n.statusDownloaded
         case .notDownloaded:
             return L10n.statusNotDownloaded
+        }
+    }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
         }
     }
 }

@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 extension AudioVideoFilter {
@@ -40,6 +41,12 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         addCloseButton()
         addTableViewHeader()
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            handleThemeChanged()
+
+            saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        }
     }
 
     // MARK: - TableView DataSource
@@ -58,8 +65,13 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
         cell.title.setLetterSpacing(-0.2)
         cell.style = .primaryUi01
         cell.setSelectState(selectedIndex == indexPath.row)
-        let filterTintColor = filterToEdit.playlistColor()
-        cell.setTintColor(color: filterTintColor)
+        if FeatureFlag.playlistsRebranding.enabled {
+            cell.title.font = .systemFont(ofSize: 17, weight: .semibold)
+            cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
+        } else {
+            cell.title.font = .systemFont(ofSize: 16, weight: .medium)
+            cell.setTintColor(color: filterToEdit.playlistColor())
+        }
         cell.selectButton.tag = indexPath.row
         cell.selectButton.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         return cell
@@ -71,7 +83,7 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        51
+        FeatureFlag.playlistsRebranding.enabled ? 46 : 51
     }
 
     // MARK: - Helper functions
@@ -86,5 +98,14 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
         selectedIndex = buttonTag
         tableView.reloadData()
+    }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
+            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+        }
     }
 }
