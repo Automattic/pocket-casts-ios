@@ -28,7 +28,7 @@ public struct BookmarkDataManager {
     public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
         var bookmarkUuid: String? = nil
 
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 let uuid = uuid ?? UUID().uuidString.lowercased()
                 let created = dateCreated.timeIntervalSince1970
@@ -130,7 +130,7 @@ public struct BookmarkDataManager {
         let query = "SELECT COUNT(*) FROM \(Self.tableName) WHERE \(whereString)"
 
         var count = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: [episodeUuid])
                 resultSet.next()
@@ -204,7 +204,7 @@ public struct BookmarkDataManager {
             WHERE \(Column.uuid) IN (\(uuids))
             """
 
-            dbQueue.inDatabase { db in
+            dbQueue.write { db in
                 do {
                     try db.executeUpdate(query, values: nil)
                     continuation.resume(returning: true)
@@ -272,7 +272,7 @@ private extension BookmarkDataManager {
 
         var results: [Bookmark] = []
 
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let query = """
                     SELECT \(selectColumns.columnString)
