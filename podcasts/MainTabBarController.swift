@@ -37,7 +37,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // Copy data from the previous corrupted database (if possible)
         alert = ShiftyLoadingAlert(title: "Corrupted database. Recovering...")
         alert?.showAlert(self, hasProgress: false, completion: nil)
-        try? DataManager.sharedManager.copyAllData()
+        DataManager.sharedManager.copyAllData()
 
         alert?.hideAlert(true, completion: {
             // Start the full sync

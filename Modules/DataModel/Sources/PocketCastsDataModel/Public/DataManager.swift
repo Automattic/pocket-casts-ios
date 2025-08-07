@@ -1231,21 +1231,24 @@ extension DataManager {
 // MARK: - GRDB: Database corruption
 
 extension DataManager {
-    public func copyAllData() throws {
-        let sourceDbQueue = try DatabaseQueue(path: DataManager.pathToDbBackup())
+    public func copyAllData() {
+        guard let sourceDbQueue = try? DatabaseQueue(path: DataManager.pathToDbBackup()) else {
+            return
+        }
+
         let destinationDbQueue = (dbQueue as? GRDBQueue)!.dbPool
 
         // Fetch all table names (excluding SQLite internal tables and SJEpisode)
-        let tableNames: [String] = try sourceDbQueue.read { db in
-            try String.fetchAll(db,
+        let tableNames: [String]? = try? sourceDbQueue.read { db in
+            try? String.fetchAll(db,
                 sql: """
                 SELECT name FROM sqlite_master
                 WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'SJEpisode'
                 """)
         }
 
-        for tableName in tableNames {
-            try sourceDbQueue.read { sourceDb in
+        for tableName in tableNames ?? [] {
+            try? sourceDbQueue.read { sourceDb in
                 // Fetch first row to get column names
                 let previewCursor = try Row.fetchCursor(sourceDb, sql: "SELECT * FROM \(tableName.quotedDatabaseIdentifier)")
                 guard let firstRow = try previewCursor.next() else { return }
@@ -1259,7 +1262,7 @@ extension DataManager {
                 let placeholders = Array(repeating: "?", count: columnNames.count).joined(separator: ", ")
                 let insertSQL = "INSERT OR REPLACE INTO \(tableName.quotedDatabaseIdentifier) (\(columnsList)) VALUES (\(placeholders))"
 
-                try destinationDbQueue.write { destDb in
+                try? destinationDbQueue.write { destDb in
                     while let row = try rowCursor.next() {
                         // Any podcast we copy we set lastUpdateddAt to nil so all episodes are fetch
                         let values: [DatabaseValueConvertible?] = columnNames.map { columnName in
@@ -1270,7 +1273,7 @@ extension DataManager {
                             }
                         }
 
-                        try destDb.execute(sql: insertSQL, arguments: StatementArguments(values))
+                        try? destDb.execute(sql: insertSQL, arguments: StatementArguments(values))
                     }
                 }
             }
