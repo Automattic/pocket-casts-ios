@@ -5307,6 +5307,15 @@
 /* Header subtitle for smart rule podcasts when select all is off */
 "playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
+/* Header title for smart rule starred  */
+"playlist_smart_rule_starred_header_title" = "Starred Episodes";
+
+/* Header subtitle for smart rule starred when the toggle is on */
+"playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
+
+/* Header subtitle for smart rule starred when the toggle is off */
+"playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 

@@ -725,6 +725,7 @@
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
 		9A9B83C02DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */; };
 		9AA14FA72E37EA5900464A5A /* PlaylistsOnboardingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FA62E37EA5900464A5A /* PlaylistsOnboardingCardView.swift */; };
+		9AA14FA92E44BD1B00464A5A /* StarredFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FA82E44BD0C00464A5A /* StarredFilterOverlayController.swift */; };
 		9AA14FAB2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -3002,6 +3003,7 @@
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
 		9A9B83BF2DCBC36D002CE179 /* CancelSubscriptionSurveyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyRow.swift; sourceTree = "<group>"; };
 		9AA14FA62E37EA5900464A5A /* PlaylistsOnboardingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsOnboardingCardView.swift; sourceTree = "<group>"; };
+		9AA14FA82E44BD0C00464A5A /* StarredFilterOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredFilterOverlayController.swift; sourceTree = "<group>"; };
 		9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartRuleToggleHeaderView.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
@@ -6220,6 +6222,7 @@
 				9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */,
 				4053CDF6214B6B61001C92B1 /* EpisodeFilterOverlayController.swift */,
 				4053CDFA214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift */,
+				9AA14FA82E44BD0C00464A5A /* StarredFilterOverlayController.swift */,
 				403B5AFD2179670F00821A54 /* MediaFilterOverlayController.swift */,
 				403B5AFF21796F2F00821A54 /* DownloadFilterOverlayController.swift */,
 				4011B9392164546E00661A7D /* FilterEditOptionsViewController.swift */,
@@ -10411,6 +10414,7 @@
 				F5235EE22C3CE5B300C98739 /* MediaTrimBar.swift in Sources */,
 				4053CE022150AC4B001C92B1 /* CheckboxCell.swift in Sources */,
 				BD96575B2469047600873BB5 /* CastToViewController+Table.swift in Sources */,
+				9AA14FA92E44BD1B00464A5A /* StarredFilterOverlayController.swift in Sources */,
 				409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */,
 				9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */,
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
