@@ -199,8 +199,9 @@ class EpisodeDataManager {
                 defer { resultSet.close() }
 
                 while resultSet.next() {
-                    let episode = self.createEpisodeFrom(resultSet: resultSet)
-                    episodes.append(episode)
+                    if let episode = self.createEpisodeFrom(resultSet: resultSet) {
+                        episodes.append(episode)
+                    }
                 }
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
@@ -1004,7 +1005,7 @@ class EpisodeDataManager {
 
     // MARK: - Conversion
 
-    private func createEpisodeFrom(resultSet rs: PCDBResultSet) -> Episode {
+    private func createEpisodeFrom(resultSet rs: PCDBResultSet) -> Episode? {
         Episode.from(resultSet: rs)
     }
 

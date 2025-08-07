@@ -1694,8 +1694,6 @@ Podcasts mit</string>
     <string>Jetzt abspielen</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts-Angebote</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Schau dir an, was alle anderen diese Woche hören.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Aktuelle Wochentrends</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2241,7 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>podcast_no_date</key>
     <string>Ohne Datum</string>
     <key>podcast_no_season</key>
-    <string>Extras</string>
+    <string>Keine Staffel</string>
     <key>podcast_pause_download</key>
     <string>Download anhalten</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2629,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Einstellungen</string>
     <key>settings_about</key>
     <string>Über</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Erlaube uns, Analysen zu erfassen.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Erlaube uns, vertrauenswürdige Drittanbieterdienste zu nutzen, um anonyme Daten zu sammeln.</string>
     <key>settings_appearance</key>
     <string>Design</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2779,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Cloud-Datei löschen</string>
     <key>settings_files_delete_local_file</key>
     <string>Lokale Datei löschen</string>
+    <key>settings_first_party_analytics</key>
+    <string>Erstanbieter-Analysen</string>
     <key>settings_general</key>
     <string>Allgemein</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2967,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>MOBILE DATEN</string>
     <key>settings_storage_usage</key>
     <string>SPEICHERBELEGUNG</string>
+    <key>settings_third_party_analytics</key>
+    <string>Drittanbieter-Analysen</string>
     <key>settings_title</key>
     <string>Podcast-Einstellungen</string>
     <key>settings_trim_level</key>

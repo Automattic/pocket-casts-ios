@@ -57,7 +57,7 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func longLongInt(forColumn: String) -> Int64 {
-        row[forColumn]
+        row[forColumn] ?? 0
     }
 
     func bool(forColumn: String) -> Bool {
