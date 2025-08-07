@@ -1380,8 +1380,16 @@ que vous avez écouté était
     <string>Tout d’abord, ouvrez une application contenant les fichiers audio que vous souhaitez enregistrer</string>
     <key>how_to_upload_first_instruction</key>
     <string>Choisissez de partager ce fichier</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Fichier Audio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Option de menu</string>
     <key>how_to_upload_second_instruction</key>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copier vers Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Quelque chose d'autre</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
     <key>iap_product_monthly_pricing_format</key>

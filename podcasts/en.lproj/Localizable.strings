@@ -1159,11 +1159,23 @@
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "First, open an app that has the audio files you'd like to save";
 
-/* The title for the first instructional image that explains how to upload a file */
-"how_to_upload_first_instruction" = "Choose to share that file";
+/* The title for the first instructional image explaining how to upload a file by opening the share menu */
+"how_to_upload_share_menu_instruction" = "Choose to share that file";
 
-/* The title for the second instructional image that explains how to upload a file */
-"how_to_upload_second_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+/* The text for the button tapped first when uploading a file */
+"how_to_upload_share_menu_image_background_button_text" = "Audio File";
+
+/* The text for a generic menu option tapped first when uploading a file */
+"how_to_upload_share_menu_image_foreground_menu_option_text" = "Menu Option";
+
+/* The title for the second instructional image that explains how to upload a file by selecting the share action option for the app */
+"how_to_upload_share_action_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_center_text" = "Copy to Pocket Casts";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_sides_text" = "Something Else";
 
 /* The summary text at the end of the screen explaining how to upload a file */
 "how_to_upload_summary" = "That's it, you're done. Change any details you want, hit save and play!";
@@ -4428,6 +4440,7 @@
 
 /* A title shown for a share option which creates an audio clip of an episode */
 "create_audio_clip_title" = "Create audio file";
+
 
 /* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
 "create_audio_clip_description" = "Create a .m4a audio file";

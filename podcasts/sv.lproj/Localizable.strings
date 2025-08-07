@@ -1380,8 +1380,16 @@ du lyssnade på var
     <string>Öppna först en app som har de ljudfiler du vill spara</string>
     <key>how_to_upload_first_instruction</key>
     <string>Välj att dela den filen</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Ljudfil</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Menyalternativ</string>
     <key>how_to_upload_second_instruction</key>
     <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Kopiera till Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Något annat</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
     <key>iap_product_monthly_pricing_format</key>

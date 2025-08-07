@@ -1569,10 +1569,18 @@ internal enum L10n {
   internal static var hoursSaved: String { return L10n.tr("Localizable", "hours_saved", fallback: "Hours saved") }
   /// The initial informational text explaining how to upload a file
   internal static var howToUploadExplanation: String { return L10n.tr("Localizable", "how_to_upload_explanation", fallback: "First, open an app that has the audio files you'd like to save") }
-  /// The title for the first instructional image that explains how to upload a file
-  internal static var howToUploadFirstInstruction: String { return L10n.tr("Localizable", "how_to_upload_first_instruction", fallback: "Choose to share that file") }
-  /// The title for the second instructional image that explains how to upload a file
-  internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction", fallback: "In the menu tap \"Copy to Pocket Casts\"") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadShareActionImageCenterText: String { return L10n.tr("Localizable", "how_to_upload_share_action_image_center_text", fallback: "Copy to Pocket Casts") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadShareActionImageSidesText: String { return L10n.tr("Localizable", "how_to_upload_share_action_image_sides_text", fallback: "Something Else") }
+  /// The title for the second instructional image that explains how to upload a file by selecting the share action option for the app
+  internal static var howToUploadShareActionInstruction: String { return L10n.tr("Localizable", "how_to_upload_share_action_instruction", fallback: "In the menu tap \"Copy to Pocket Casts\"") }
+  /// The text for the button tapped first when uploading a file
+  internal static var howToUploadShareMenuImageBackgroundButtonText: String { return L10n.tr("Localizable", "how_to_upload_share_menu_image_background_button_text", fallback: "Audio File") }
+  /// The text for a generic menu option tapped first when uploading a file
+  internal static var howToUploadShareMenuImageForegroundMenuOptionText: String { return L10n.tr("Localizable", "how_to_upload_share_menu_image_foreground_menu_option_text", fallback: "Menu Option") }
+  /// The title for the first instructional image explaining how to upload a file by opening the share menu
+  internal static var howToUploadShareMenuInstruction: String { return L10n.tr("Localizable", "how_to_upload_share_menu_instruction", fallback: "Choose to share that file") }
   /// The summary text at the end of the screen explaining how to upload a file
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary", fallback: "That's it, you're done. Change any details you want, hit save and play!") }
   /// For yealry plans, we show the monthly price. %1$@ is the price. For example: $3.33/month

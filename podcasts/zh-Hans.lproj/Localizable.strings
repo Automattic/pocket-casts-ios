@@ -1380,8 +1380,16 @@ Pocket Casts。</string>
     <string>首先，打开一个包含您要保存的音频文件的应用程序</string>
     <key>how_to_upload_first_instruction</key>
     <string>选择以共享该文件</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音频文件</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>菜单选项</string>
     <key>how_to_upload_second_instruction</key>
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>复制到 Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>别的东西</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
     <key>iap_product_monthly_pricing_format</key>

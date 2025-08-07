@@ -1378,8 +1378,16 @@ waar je naar hebt geluisterd was
     <string>Hiervoor moet je eerst een app openen met audiobestanden die je wilt opslaan</string>
     <key>how_to_upload_first_instruction</key>
     <string>Kies ervoor om dat bestand te delen</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Audiobestand</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Menu-optie</string>
     <key>how_to_upload_second_instruction</key>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Iets anders</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
     <key>iap_product_monthly_pricing_format</key>

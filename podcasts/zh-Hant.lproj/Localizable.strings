@@ -1380,8 +1380,16 @@ Pocket Casts Plus</string>
     <string>首先找到你要儲存的音訊檔案，開啟檔案所在的應用程式</string>
     <key>how_to_upload_first_instruction</key>
     <string>選擇即可分享該檔案</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音頻文件</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>菜單選項</string>
     <key>how_to_upload_second_instruction</key>
     <string>在選單中點選「複製到 Pocket Casts」</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>複製到 Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>別的東西</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
     <key>iap_product_monthly_pricing_format</key>
