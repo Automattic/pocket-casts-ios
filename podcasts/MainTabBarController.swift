@@ -29,12 +29,23 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     var alert: ShiftyLoadingAlert?
 
     func loginAgain() {
+        // Ensure the new sync is a full sync (so podcasts and episodes are retrieved)
         SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
         UserDefaults.standard.removeObject(forKey: "PCLastModifiedServerDate")
-        let controller = SyncSigninViewController()
-        controller.loginAgain = true
-        SceneHelper.rootViewController()?.present(controller, animated: true, completion: nil)
+
+        // Copy data from the previous corrupted database (if possible)
+        alert = ShiftyLoadingAlert(title: "Corrupted database. Recovering...")
+        alert?.showAlert(self, hasProgress: false, completion: nil)
+        try? DataManager.sharedManager.copyAllData()
+
+        alert?.hideAlert(true, completion: {
+            // Start the full sync
+            let controller = SyncSigninViewController()
+            controller.loginAgain = true
+            SceneHelper.rootViewController()?.dismiss(animated: true)
+            SceneHelper.rootViewController()?.present(controller, animated: true, completion: nil)
+        })
     }
 
     override func viewDidLoad() {
