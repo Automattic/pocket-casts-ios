@@ -1227,3 +1227,55 @@ extension DataManager {
         }
     }
 }
+
+// MARK: - GRDB: Database corruption
+
+extension DataManager {
+    public func copyAllData() throws {
+        let sourceDbQueue = try DatabaseQueue(path: DataManager.pathToDbBackup())
+        let destinationDbQueue = (dbQueue as? GRDBQueue)!.dbPool
+
+        // Fetch all table names (excluding SQLite internal tables and SJEpisode)
+        let tableNames: [String] = try sourceDbQueue.read { db in
+            try String.fetchAll(db,
+                sql: """
+                SELECT name FROM sqlite_master
+                WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'SJEpisode'
+                """)
+        }
+
+        for tableName in tableNames {
+            try sourceDbQueue.read { sourceDb in
+                // Fetch first row to get column names
+                let previewCursor = try Row.fetchCursor(sourceDb, sql: "SELECT * FROM \(tableName.quotedDatabaseIdentifier)")
+                guard let firstRow = try previewCursor.next() else { return }
+                let columnNames = firstRow.columnNames
+
+                // Re-create the cursor to read all rows again
+                let rowCursor = try Row.fetchCursor(sourceDb, sql: "SELECT * FROM \(tableName.quotedDatabaseIdentifier)")
+
+                // Prepare insert SQL
+                let columnsList = columnNames.map { $0.quotedDatabaseIdentifier }.joined(separator: ", ")
+                let placeholders = Array(repeating: "?", count: columnNames.count).joined(separator: ", ")
+                let insertSQL = "INSERT OR REPLACE INTO \(tableName.quotedDatabaseIdentifier) (\(columnsList)) VALUES (\(placeholders))"
+
+                try destinationDbQueue.write { destDb in
+                    while let row = try rowCursor.next() {
+                        // Any podcast we copy we set lastUpdateddAt to nil so all episodes are fetch
+                        let values: [DatabaseValueConvertible?] = columnNames.map { columnName in
+                            if tableName == "SJPodcast" && columnName == "lastUpdatedAt" {
+                                return nil
+                            } else {
+                                return row[columnName]
+                            }
+                        }
+
+                        try destDb.execute(sql: insertSQL, arguments: StatementArguments(values))
+                    }
+                }
+            }
+        }
+
+        try? sourceDbQueue.close()
+    }
+}
