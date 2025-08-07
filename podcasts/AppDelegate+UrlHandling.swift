@@ -44,8 +44,8 @@ extension AppDelegate {
                 let alert = UIAlertController(title: "Import Podcasts and Settings", message: "Do you want to reset your podcasts and settings to this file?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
                     Task {
-                        let fileWrapper = try FileWrapper(url: url)
                         do {
+                            let fileWrapper = try FileWrapper(url: url)
                             try PCBundleDoc.performImport(from: fileWrapper)
                         } catch {
                             FileLog.shared.addMessage("File Import failed with error \(error)")
