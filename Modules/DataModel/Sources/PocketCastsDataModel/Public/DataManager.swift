@@ -41,9 +41,19 @@ public class DataManager {
         if FeatureFlag.grdb.enabled {
             var config = Configuration()
             config.busyMode = .timeout(10)
-            dbQueue = GRDBQueue(dbPool: try! DatabasePool(path: DataManager.pathToDb(), configuration: config), logger: Self.logger)
+            let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
+            dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
             DataManager.setDatabaseFileProtectionToNone()
             FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
+
+            // Database corruption check
+            if Self.checkDatabaseCorruption(dbPool: dbPool) {
+                // If database is corrupted we start it again in a clean state
+                let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
+                dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
+                DataManager.setDatabaseFileProtectionToNone()
+                FileLog.shared.addMessage("[DataManager] Database is corrupted, recreated using GRDB")
+            }
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
@@ -51,6 +61,35 @@ public class DataManager {
         }
 
         self.init(dbQueue: dbQueue)
+    }
+
+    static func checkDatabaseCorruption(dbPool: DatabasePool) -> Bool {
+        var isDatabaseCorrupted = false
+        try? dbPool.write { db in
+            do {
+                let rows = try Row.fetchAll(db, sql: "PRAGMA integrity_check")
+                    for row in rows {
+                        let result: String = row[0]
+                        if result != "ok" {
+                            isDatabaseCorrupted = true
+                        }
+                    }
+            } catch {
+                if error.localizedDescription.contains("image is malformed") {
+                    isDatabaseCorrupted = true
+                }
+            }
+        }
+
+        if isDatabaseCorrupted {
+            try? dbPool.close()
+
+            try? FileManager.default.moveItem(at: URL(fileURLWithPath: DataManager.pathToDb()), to: URL(fileURLWithPath: DataManager.pathToDbBackup()))
+            try? FileManager.default.moveItem(at: URL(fileURLWithPath: "\(DataManager.pathToDb())-shm"), to: URL(fileURLWithPath: "\(DataManager.pathToDbBackup())-shm"))
+            try? FileManager.default.moveItem(at: URL(fileURLWithPath: "\(DataManager.pathToDb())-wal"), to: URL(fileURLWithPath: "\(DataManager.pathToDbBackup())-wal"))
+        }
+
+        return isDatabaseCorrupted
     }
 
     /// Creates a DataManager using the given `PCDBQueue`.
@@ -1020,6 +1059,12 @@ public class DataManager {
         let folderPath = pathToDbFolder() as NSString
 
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
+    }
+
+    public static func pathToDbBackup() -> String {
+        let folderPath = pathToDbFolder() as NSString
+
+        return folderPath.appendingPathComponent("podcast_newDB_backup.sqlite3")
     }
 
     private static func pathToDbFolder() -> String {
