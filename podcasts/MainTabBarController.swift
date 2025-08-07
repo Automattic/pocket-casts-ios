@@ -28,6 +28,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// Displayed during database migrations
     var alert: ShiftyLoadingAlert?
 
+    func loginAgain() {
+        SyncManager.syncReason = .login
+        ServerSettings.clearLastSyncTime()
+        UserDefaults.standard.removeObject(forKey: "PCLastModifiedServerDate")
+        let controller = SyncSigninViewController()
+        controller.loginAgain = true
+        SceneHelper.rootViewController()?.present(controller, animated: true, completion: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -105,6 +114,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
+
+        if DataManager.loginAgain {
+            loginAgain()
+        }
     }
 
     /// Update database indexes and delete unused columns
