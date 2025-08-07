@@ -1868,6 +1868,14 @@ internal enum L10n {
   internal static var notificationsOnboardingImportBody: String { return L10n.tr("Localizable", "notifications_onboarding_import_body", fallback: "Switching from another app? Bring all your favorite shows to Pocket Casts.") }
   /// Notification title for import podcast onboarding message
   internal static var notificationsOnboardingImportTitle: String { return L10n.tr("Localizable", "notifications_onboarding_import_title", fallback: "Easily import your podcasts") }
+  /// Subtitle for Newsletter opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNewsletterSubtitle: String { return L10n.tr("Localizable", "notifications_onboarding_newsletter_subtitle", fallback: "Once a month, all podcast goodness") }
+  /// Title for Newsletter opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNewsletterTitle: String { return L10n.tr("Localizable", "notifications_onboarding_newsletter_title", fallback: "Subscribe to our Newsletter") }
+  /// Subtitle for Notifications opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNotificationsSubtitle: String { return L10n.tr("Localizable", "notifications_onboarding_notifications_subtitle", fallback: "Receive news, podcast suggestions and more") }
+  /// Title for Notifications opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNotificationsTitle: String { return L10n.tr("Localizable", "notifications_onboarding_notifications_title", fallback: "Receive Notifications") }
   /// Notification body for signup onboarding message
   internal static var notificationsOnboardingSignupBody: String { return L10n.tr("Localizable", "notifications_onboarding_signup_body", fallback: "Create a free account to sync your shows and listen anywhere.") }
   /// Notification title for signup onboarding message

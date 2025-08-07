@@ -26,18 +26,18 @@ class NotificationsPermissionsViewModel: ObservableObject {
         var title: String {
             switch self {
             case .newsletter:
-                return "Subscribe to our Newsletter"
+                return L10n.notificationsOnboardingNewsletterTitle
             case .notifications:
-                return "Receive Notifications"
+                return L10n.notificationsOnboardingNotificationsTitle
             }
         }
 
         var subtitle: String {
             switch self {
             case .newsletter:
-                return "Once a month, all podcast goodness"
+                return L10n.notificationsOnboardingNewsletterSubtitle
             case .notifications:
-                return "Receive news, podcast suggestions and more"
+                return L10n.notificationsOnboardingNotificationsSubtitle
             }
         }
 
