@@ -87,6 +87,9 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
     private var totalPodcastsToImport = -1
 
+    // If set to true it will login and start a full sync right away
+    var loginAgain = false
+
     // MARK: - UIView Methods
 
     override func viewDidLoad() {
@@ -129,6 +132,10 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(syncCompleted))
         addCustomObserver(ServerNotifications.podcastRefreshFailed, selector: #selector(syncCompleted))
+
+        if loginAgain, let syncingEmail = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() {
+            startSignIn(syncingEmail, password: password)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -209,6 +216,10 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
             } else {
                 // if there's no delegate registered to handle a sign in finishing, just dismiss
                 self.closeTapped()
+            }
+
+            if loginAgain {
+                dismiss(animated: true)
             }
         }
     }
