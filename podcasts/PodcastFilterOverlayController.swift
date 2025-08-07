@@ -4,42 +4,6 @@ import PocketCastsUtils
 import UIKit
 import SwiftUI
 
-fileprivate class PodcastFilterOverlayViewModel: ObservableObject {
-    @Published var filterAllPodcasts: Bool = false
-
-    init(filterAllPodcasts: Bool) {
-        self.filterAllPodcasts = filterAllPodcasts
-    }
-}
-
-fileprivate struct PodcastFilterOverlayView: View {
-    @EnvironmentObject var theme: Theme
-    @ObservedObject var viewModel: PodcastFilterOverlayViewModel
-
-    var body: some View {
-        HStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 4.0) {
-                Text(L10n.playlistSmartRulePodcastsHeaderTitle)
-                    .font(size: 18.0, style: .body, weight: .semibold)
-                    .lineLimit(2)
-                    .foregroundStyle(theme.primaryText01)
-                let subtitle = viewModel.filterAllPodcasts ? L10n.playlistSmartRulePodcastsHeaderSubtitleAutoAdd : L10n.playlistSmartRulePodcastsHeaderSubtitleManualAdd
-                Text(subtitle)
-                    .font(size: 14.0, style: .body, weight: .regular)
-                    .lineLimit(2)
-                    .foregroundStyle(theme.primaryText02)
-            }
-            Spacer()
-            Toggle("", isOn: $viewModel.filterAllPodcasts)
-                .labelsHidden()
-                .tint(theme.primaryInteractive01)
-        }
-        .background(theme.primaryUi01)
-        .padding(.horizontal, 16.0)
-        .padding(.vertical, 22.0)
-    }
-}
-
 class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelectionDelegate {
     var filterToEdit: EpisodeFilter!
     var filterTintColor: UIColor!
@@ -53,9 +17,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     var saveButton: UIButton!
 
     private var cancellables = Set<AnyCancellable>()
-    private var viewModel: PodcastFilterOverlayViewModel!
+    private var viewModel: SmartRuleToggleViewModel!
     private var switchIsOn: Bool {
-        FeatureFlag.playlistsRebranding.enabled ? viewModel.filterAllPodcasts : selectAllSwitch.isOn
+        FeatureFlag.playlistsRebranding.enabled ? viewModel.toggleIsOn : selectAllSwitch.isOn
     }
 
     override func viewDidLoad() {
@@ -72,8 +36,13 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         setupNavBar()
         navigationController?.navigationBar.sizeToFit()
         if FeatureFlag.playlistsRebranding.enabled {
-            viewModel = PodcastFilterOverlayViewModel(filterAllPodcasts: filterToEdit.filterAllPodcasts)
-            viewModel.$filterAllPodcasts
+            viewModel = SmartRuleToggleViewModel(
+                toggleIsOn: filterToEdit.filterAllPodcasts,
+                title: L10n.playlistSmartRulePodcastsHeaderTitle,
+                enabledString: L10n.playlistSmartRulePodcastsHeaderSubtitleAutoAdd,
+                disabledString: L10n.playlistSmartRulePodcastsHeaderSubtitleManualAdd
+            )
+            viewModel.$toggleIsOn
                 .receive(on: RunLoop.main)
                 .sink { [weak self] newValue in
                     self?.selectAllSwitchValueChanged()
@@ -180,7 +149,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     private func setupSaveButtonTitle() {
-        let title = FeatureFlag.playlistsRebranding.enabled ? "Save Smart Rule" : L10n.filterUpdate
+        let title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlistSmartRuleSaveButton : L10n.filterUpdate
         let attributedTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
@@ -298,7 +267,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastsSmartRuleHeaderCellId)!
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
-                PodcastFilterOverlayView(viewModel: viewModel)
+                SmartRuleToggleHeaderView(viewModel: viewModel)
                     .environmentObject(Theme.sharedTheme)
                     .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
             }
