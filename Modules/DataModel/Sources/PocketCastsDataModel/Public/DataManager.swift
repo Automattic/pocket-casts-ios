@@ -33,6 +33,8 @@ public class DataManager {
 
     public static var logger: ErrorLogger?
 
+    public static var loginAgain = false
+
     /// Creates a DataManager using a queue that is persisted to a local SQLIte file
     public convenience init() {
         DataManager.ensureDbFolderExists()
@@ -53,6 +55,7 @@ public class DataManager {
                 dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
                 DataManager.setDatabaseFileProtectionToNone()
                 FileLog.shared.addMessage("[DataManager] Database is corrupted, recreated using GRDB")
+                Self.loginAgain = true
             }
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
