@@ -85,7 +85,7 @@ struct NotificationsPermissionsView: View {
         } label: {
             HStack(spacing: 17) {
                 Button {
-                    // This button is now only for the SelectCircleButtonStyle visual
+                    option.toggle(viewModel)
                 } label: {
                     EmptyView() // content is provided by the style
                 }
@@ -93,7 +93,6 @@ struct NotificationsPermissionsView: View {
                     SelectCircleButtonStyle(selected: .constant(option.isSelected(viewModel)))
                 )
                 .environmentObject(Theme.sharedTheme)
-                .allowsHitTesting(false) // Disable interaction since parent button handles it
                 VStack(alignment: .leading) {
                     Text(option.title)
                         .font(style: .subheadline, weight: .medium)
