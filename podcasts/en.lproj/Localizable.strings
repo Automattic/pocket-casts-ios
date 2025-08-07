@@ -5029,6 +5029,19 @@
 /* Notification body for onboarding to staff picks message */
 "notifications_onboarding_staff_picks_body" = "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.";
 
+/* Title for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_title" = "Subscribe to our Newsletter";
+
+/* Subtitle for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_subtitle" = "Once a month, all podcast goodness";
+
+/* Title for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_title" = "Receive Notifications";
+
+/* Subtitle for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_subtitle" = "Receive news, podcast suggestions and more";
+
+
 /* Notification permission banner title*/
 "notitifications_permission_banner_title" = "Allow Push Notifications";
 
@@ -5163,6 +5176,9 @@
 
 /* Notifications permissions screen action button text*/
 "notifications_permissions_action" = "Allow Notifications";
+
+/* Notifications permissions screen action button text to save preferences for notifications and Newsletter */
+"notifications_permissions_save_preferences" = "Save Preferences";
 
 /* Title for modal explaining Creator Picks */
 "creator_pick_modal_title" = "What's a Creator Pick?";
