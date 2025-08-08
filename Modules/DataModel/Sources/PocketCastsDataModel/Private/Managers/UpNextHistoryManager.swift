@@ -10,7 +10,7 @@ public class UpNextHistoryManager {
     /// Saves the current Up Next state into another table
     /// So it can be reverted later in case of wrong syncs
     func snapshot(dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT *, ? as 'date' FROM SJPlaylistEpisode", values: [Date()])
                 try db.executeUpdate("DELETE FROM PlaylistEpisodeHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
@@ -23,7 +23,7 @@ public class UpNextHistoryManager {
     /// Return all the available Up Next entries
     func entries(dbQueue: PCDBQueue) -> [UpNextHistoryEntry] {
         var entries: [UpNextHistoryEntry] = []
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT COUNT(*) as count, date FROM PlaylistEpisodeHistory GROUP BY (date) ORDER BY date DESC", values: nil)
                 defer { resultSet.close() }
@@ -41,7 +41,7 @@ public class UpNextHistoryManager {
 
     func episodes(entry: Date, dbQueue: PCDBQueue) -> [String] {
         var episodesUuid: [String] = []
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT episodeUuid FROM PlaylistEpisodeHistory WHERE date = ? ORDER BY episodePosition ASC", values: [entry])
                 defer { resultSet.close() }
