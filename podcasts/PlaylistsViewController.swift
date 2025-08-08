@@ -151,10 +151,25 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     @IBAction func addNewFilter() {
         Analytics.track(.filterCreateButtonTapped)
-        let createFilterVC = FilterPreviewViewController()
-        createFilterVC.delegate = self
-        let navVC = SJUIUtils.navController(for: createFilterVC)
-        present(navVC, animated: true, completion: nil)
+        presentFilterPreview()
+    }
+
+    private func presentFilterPreview() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            let createPlaylistVC = NewPlaylistViewController()
+            createPlaylistVC.delegate = self
+            let navVC = SJUIUtils.navController(for: createPlaylistVC)
+            present(navVC, animated: true, completion: nil)
+        } else {
+            let createFilterVC = FilterPreviewViewController()
+            createFilterVC.delegate = self
+            let navVC = SJUIUtils.navController(for: createFilterVC)
+            present(navVC, animated: true, completion: nil)
+        }
+    }
+    
+    private func presentPreviewSmartPlaylist() {
+
     }
 
     override func handleThemeChanged() {
