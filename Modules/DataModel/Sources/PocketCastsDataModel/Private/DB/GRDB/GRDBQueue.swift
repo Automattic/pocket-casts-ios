@@ -3,7 +3,7 @@ import PocketCastsUtils
 import Foundation
 
 class GRDBQueue: PCDBQueue {
-    private let dbPool: DatabasePool
+    public let dbPool: DatabasePool
     private let logger: ErrorLogger?
 
     init(dbPool: DatabasePool, logger: ErrorLogger? = nil) {
