@@ -1380,8 +1380,16 @@ que vous avez écouté était
     <string>Ouvrez d’abord une application qui a les fichiers audio que vous souhaitez enregistrer.</string>
     <key>how_to_upload_first_instruction</key>
     <string>Choisissez de partager ce fichier.</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Fichier Audio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Option de menu</string>
     <key>how_to_upload_second_instruction</key>
     <string>Dans le menu, appuyez sur « Copier vers Pocket Casts ».</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copier vers Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Quelque chose d'autre</string>
     <key>how_to_upload_summary</key>
     <string>Voilà! C’est fait. Changez les renseignements de votre choix, appuyez sur Enregistrer et écoutez des balados!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ podcasts partout avec</string>
     <string>Lire maintenant</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Offres Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Découvrez ce que tout le monde écoute cette semaine.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendances de la semaine</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <key>podcast_no_date</key>
     <string>Aucune date définie</string>
     <key>podcast_no_season</key>
-    <string>Hors série</string>
+    <string>Aucune saison</string>
     <key>podcast_pause_download</key>
     <string>Suspendre le téléchargement</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Réglages</string>
     <key>settings_about</key>
     <string>À propos</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Autorisez-nous à recueillir des statistiques.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Autorisez-nous à utiliser des services tiers de confiance pour recueillir des données anonymes.</string>
     <key>settings_appearance</key>
     <string>Apparence</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Supprimer le fichier infonuagique</string>
     <key>settings_files_delete_local_file</key>
     <string>Supprimer le fichier local</string>
+    <key>settings_first_party_analytics</key>
+    <string>Statistiques internes</string>
     <key>settings_general</key>
     <string>Généralités</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>DONNÉES MOBILES</string>
     <key>settings_storage_usage</key>
     <string>UTILISATION</string>
+    <key>settings_third_party_analytics</key>
+    <string>Statistiques tierces</string>
     <key>settings_title</key>
     <string>Paramètres du balado</string>
     <key>settings_trim_level</key>

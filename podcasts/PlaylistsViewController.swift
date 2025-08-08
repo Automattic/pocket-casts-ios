@@ -20,10 +20,19 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    var playlists = [EpisodeFilter]()
+    var playlists = [EpisodeFilter]() {
+        didSet {
+            if FeatureFlag.playlistsRebranding.enabled {
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshContentUnavailable()
+                }
+            }
+        }
+    }
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
+
     @IBOutlet var footerView: ThemeableView! {
         didSet {
             footerView.style = .primaryUi04
@@ -153,6 +162,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         updateNavTintColors()
         newFilterButton.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
+        if FeatureFlag.playlistsRebranding.enabled {
+            view.backgroundColor = ThemeColor.primaryUi04()
+        }
     }
 
     private func updateNavTintColors() {
@@ -213,6 +225,46 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             )
         )
         present(vc, animated: true)
+    }
+
+    private func refreshContentUnavailable() {
+        guard FeatureFlag.playlistsRebranding.enabled else {
+            set(configuration: nil)
+            return
+        }
+
+        customRightBtn?.isHidden = playlists.isEmpty
+
+        var config: UIContentConfiguration?
+
+        if playlists.isEmpty {
+            // Empty State when playlists is empty
+            let title = L10n.playlistsEmptyStateTitle
+            let message = L10n.playlistsEmptyStateDescription
+            config = ContentUnavailableConfiguration.emptyState(
+                title: title,
+                message: message,
+                icon: {
+                    Image("filter_list")
+                },
+                actions: [
+                .init(
+                    title: L10n.playlistsEmptyStateButton,
+                    action: { [weak self] in
+                    self?.addNewFilter()
+                    }
+                )
+            ])
+        }
+        set(configuration: config)
+    }
+
+    private func set(configuration: UIContentConfiguration?) {
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = configuration
+        } else {
+            self.setContentUnavailableConfiguration(configuration)
+        }
     }
 
     // MARK: - FilterCreationDelegate

@@ -1380,8 +1380,16 @@ Pocket Casts。</string>
     <string>首先，打开一个包含您要保存的音频文件的应用程序</string>
     <key>how_to_upload_first_instruction</key>
     <string>选择以共享该文件</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音频文件</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>菜单选项</string>
     <key>how_to_upload_second_instruction</key>
     <string>在菜单中，点击“复制到 Pocket Casts”</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>复制到 Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>别的东西</string>
     <key>how_to_upload_summary</key>
     <string>就是这样，大功告成。 更改所需的任何详细信息，点击“保存并播放”！</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ Pocket Casts。</string>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts 优惠</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>看看其他人本周都在听什么。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本周热门话题</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Pocket Casts。</string>
     <key>podcast_no_date</key>
     <string>未设置日期</string>
     <key>podcast_no_season</key>
-    <string>其他</string>
+    <string>无剧季</string>
     <key>podcast_pause_download</key>
     <string>暂停下载</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Pocket Casts。</string>
     <string>设置</string>
     <key>settings_about</key>
     <string>关于</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>允许我们收集分析数据。</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>允许我们使用可信的第三方服务来收集匿名数据。</string>
     <key>settings_appearance</key>
     <string>外观</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Pocket Casts。</string>
     <string>删除云文件</string>
     <key>settings_files_delete_local_file</key>
     <string>删除本地文件</string>
+    <key>settings_first_party_analytics</key>
+    <string>第一方分析</string>
     <key>settings_general</key>
     <string>常规</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Pocket Casts。</string>
     <string>移动数据</string>
     <key>settings_storage_usage</key>
     <string>使用情况</string>
+    <key>settings_third_party_analytics</key>
+    <string>第三方分析</string>
     <key>settings_title</key>
     <string>播客设置</string>
     <key>settings_trim_level</key>

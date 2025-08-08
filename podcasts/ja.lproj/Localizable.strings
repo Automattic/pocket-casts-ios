@@ -1380,8 +1380,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>まず、保存する音声ファイルがあるアプリを開きます</string>
     <key>how_to_upload_first_instruction</key>
     <string>そのファイルを共有するように選択</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音声ファイル</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>メニューオプション</string>
     <key>how_to_upload_second_instruction</key>
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Pocket Casts にコピー</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>別のもの</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>今すぐ再生</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts オファー</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>他のユーザーが今週聴いているポッドキャストをチェックしましょう。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>今週のトレンド</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>podcast_no_date</key>
     <string>日付設定なし</string>
     <key>podcast_no_season</key>
-    <string>その他</string>
+    <string>シーズンなし</string>
     <key>podcast_pause_download</key>
     <string>ダウンロードを一時停止</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>設定</string>
     <key>settings_about</key>
     <string>アプリについて</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>アナリティクスの収集を許可します。</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>信頼できるサードパーティのサービスを使用した当社による匿名のデータ収集を許可します。</string>
     <key>settings_appearance</key>
     <string>外観</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>クラウドファイルを削除</string>
     <key>settings_files_delete_local_file</key>
     <string>ローカルファイルを削除</string>
+    <key>settings_first_party_analytics</key>
+    <string>ファーストパーティのアナリティクス</string>
     <key>settings_general</key>
     <string>全般</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>モバイルデータ</string>
     <key>settings_storage_usage</key>
     <string>使用量</string>
+    <key>settings_third_party_analytics</key>
+    <string>サードパーティのアナリティクス</string>
     <key>settings_title</key>
     <string>ポッドキャストの設定</string>
     <key>settings_trim_level</key>

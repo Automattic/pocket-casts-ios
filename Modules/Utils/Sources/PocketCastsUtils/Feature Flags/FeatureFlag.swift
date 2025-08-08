@@ -221,6 +221,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether to use database concurrent reads or not
     case concurrentDatabaseReads
 
+    /// Limit playback position changes when switching episodes
+    case limitPlaybackPositionChanges
+
+    /// Use the new upgrade screens for account creation
+    case newOnboardingAccountCreation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -360,7 +366,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgrade:
             true
         case .newOnboardingVariant:
-            false
+            true
         case .playlistsRebranding:
             false
         case .retryWithoutUserAgent:
@@ -373,6 +379,10 @@ public enum FeatureFlag: String, CaseIterable {
             #else
             false
             #endif
+        case .limitPlaybackPositionChanges:
+            true
+        case .newOnboardingAccountCreation:
+            false
         }
     }
 

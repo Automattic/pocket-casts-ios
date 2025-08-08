@@ -431,9 +431,10 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/upsell") {[weak self] parameters -> Bool in
-            guard self != nil else { return false }
-            NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.pocketCastsPlus])
+        JLRoutes.global().addRoute("/upsell") { parameters -> Bool in
+            guard let viewController = SceneHelper.rootViewController() else { return false }
+            let source = PlusUpgradeViewSource(rawValue: ["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
+            NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, NavigationManager.subscriptionUpgradeVCKey: viewController])
             return true
         }
     }

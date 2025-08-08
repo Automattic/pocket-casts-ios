@@ -1380,8 +1380,16 @@ que has escuchado dura
     <string>Primero, abre la aplicación que contenga los archivos de audio que desees guardar.</string>
     <key>how_to_upload_first_instruction</key>
     <string>Elige para compartir ese archivo.</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Archivo de Audio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Opción de menú</string>
     <key>how_to_upload_second_instruction</key>
     <string>En el menú, toca "Copiar a Pocket Casts".</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copiar a Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Algo más</string>
     <key>how_to_upload_summary</key>
     <string>Eso es todo. Cambia los detalles que quieras, presiona guardar y podrás comenzar a reproducir.</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ pódcast contigo</string>
     <string>Reproducir ahora</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Ofertas de Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Echa un vistazo a lo que todo el mundo escucha esta semana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendencias de esta semana</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <key>podcast_no_date</key>
     <string>Fecha no establecida</string>
     <key>podcast_no_season</key>
-    <string>Extras</string>
+    <string>No hay temporada</string>
     <key>podcast_pause_download</key>
     <string>Pausar descarga</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Ajustes</string>
     <key>settings_about</key>
     <string>Acerca de</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Permítenos recopilar análisis.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Permítenos utilizar servicios de terceros de confianza para recopilar datos anónimos.</string>
     <key>settings_appearance</key>
     <string>Apariencia</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Eliminar archivo en la nube</string>
     <key>settings_files_delete_local_file</key>
     <string>Eliminar archivo local</string>
+    <key>settings_first_party_analytics</key>
+    <string>Análisis propios</string>
     <key>settings_general</key>
     <string>General</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>DATOS MÓVILES</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
+    <key>settings_third_party_analytics</key>
+    <string>Análisis de terceros</string>
     <key>settings_title</key>
     <string>Configuración del podcast</string>
     <key>settings_trim_level</key>

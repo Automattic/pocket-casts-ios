@@ -1378,8 +1378,16 @@ waar je naar hebt geluisterd was
     <string>Hiervoor moet je eerst een app openen met audiobestanden die je wilt opslaan</string>
     <key>how_to_upload_first_instruction</key>
     <string>Kies ervoor om dat bestand te delen</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Audiobestand</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Menu-optie</string>
     <key>how_to_upload_second_instruction</key>
     <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Iets anders</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1692,8 +1700,6 @@ podcasts mee</string>
     <string>Nu afspelen</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Aanbiedingen Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Bekijk hier waar anderen deze week naar luisteren.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Trending deze week</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2241,7 +2247,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>podcast_no_date</key>
     <string>Datum niet ingesteld</string>
     <key>podcast_no_season</key>
-    <string>Extra's</string>
+    <string>Geen seizoen</string>
     <key>podcast_pause_download</key>
     <string>Downloaden pauzeren</string>
     <key>podcast_pause_playback</key>
@@ -2627,6 +2633,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Instellingen</string>
     <key>settings_about</key>
     <string>Over</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Sta ons toe om analytische gegevens te verzamelen.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Sta ons toe om vertrouwde diensten van derden te gebruiken om anonieme gegevens te verzamelen.</string>
     <key>settings_appearance</key>
     <string>Weergave</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2773,6 +2783,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Cloudbestand verwijderen</string>
     <key>settings_files_delete_local_file</key>
     <string>Lokaal bestand verwijderen</string>
+    <key>settings_first_party_analytics</key>
+    <string>Eigen analyses</string>
     <key>settings_general</key>
     <string>Algemeen</string>
     <key>settings_general_apply_all_conf</key>
@@ -2959,6 +2971,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
+    <key>settings_third_party_analytics</key>
+    <string>Analyses van derden</string>
     <key>settings_title</key>
     <string>Podcast-instellingen</string>
     <key>settings_trim_level</key>

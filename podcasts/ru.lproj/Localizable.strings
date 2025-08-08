@@ -1089,7 +1089,7 @@ Pocket Casts на полную мощность.</string>
     <key>feature_marketing_skip_chapters</key>
     <string>Экономьте время, пользуясь функцией «Предварительный выбор глав»</string>
     <key>feature_marketing_slumber</key>
-    <string>Контент от Slumber Studios на 1 год</string>
+    <string>Контент от Slumber Studios на 1 год</string>
     <key>feature_marketing_up_next_shuffle</key>
     <string>Прослушивайте подкасты в случайном порядке</string>
     <key>feature_marketing_watch_playback</key>
@@ -1380,8 +1380,16 @@ Pocket Casts на полную мощность.</string>
     <string>Сначала откройте приложение, содержащее аудиофайлы, которые вы хотите сохранить.</string>
     <key>how_to_upload_first_instruction</key>
     <string>Поделитесь этим файлом</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Аудиофайл</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Пункт меню</string>
     <key>how_to_upload_second_instruction</key>
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Копировать в Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Что-то другое</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизвести</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Предложения Pocket Casts</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>Посмотрите, что популярно на этой неделе.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Тренды недели</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Pocket Casts на полную мощность.</string>
     <key>podcast_no_date</key>
     <string>Дата не установлена</string>
     <key>podcast_no_season</key>
-    <string>Дополнения</string>
+    <string>Нет сезона</string>
     <key>podcast_pause_download</key>
     <string>Приостановить скачивание</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Pocket Casts на полную мощность.</string>
     <string>Настройки</string>
     <key>settings_about</key>
     <string>О нас</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>Разрешите нам собирать аналитические данные.</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>Разрешите нам использовать доверенные сторонние службы для сбора анонимных данных.</string>
     <key>settings_appearance</key>
     <string>Внешний вид</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удалить файл в облаке</string>
     <key>settings_files_delete_local_file</key>
     <string>Удалить локальный файл</string>
+    <key>settings_first_party_analytics</key>
+    <string>Собственная аналитика</string>
     <key>settings_general</key>
     <string>Общие</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Pocket Casts на полную мощность.</string>
     <string>МОБИЛЬНЫЕ ДАННЫЕ</string>
     <key>settings_storage_usage</key>
     <string>ИСПОЛЬЗОВАНИЕ ПАМЯТИ</string>
+    <key>settings_third_party_analytics</key>
+    <string>Сторонняя аналитика</string>
     <key>settings_title</key>
     <string>Настройки подкастов</string>
     <key>settings_trim_level</key>
@@ -3442,7 +3456,7 @@ Pocket Casts на полную мощность.</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Пожалуй, нет</string>
     <key>user_satisfaction_survey_subtitle</key>
-    <string>Здравствуйте! Мы хотели бы знать, нравится ли вам наше приложение.</string>
+    <string>Здравствуйте! Мы хотели бы узнать, нравится ли вам наше приложение.</string>
     <key>user_satisfaction_survey_title</key>
     <string>Вам нравится Pocket Casts?</string>
     <key>user_satisfaction_survey_yes_response</key>

@@ -435,6 +435,7 @@ enum PlusUpgradeViewSource: String {
     case bookmarksShelfAction = "bookmarks_shelf_action"
     case whatsNew
     case sonosLink = "sonos_link"
+    case deepLink
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

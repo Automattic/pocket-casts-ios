@@ -246,7 +246,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private func loadBannerAd() {
 #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
@@ -520,7 +520,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             UIApplication.shared.openSafariVCIfPossible(promotion.url)
         }
 
-        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(8)
+        let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)
         let hostingController = PCHostingController(rootView: AnyView(adView))
 
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false

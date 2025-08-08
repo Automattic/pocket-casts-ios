@@ -1380,8 +1380,16 @@ Pocket Casts Plus</string>
     <string>首先找到你要儲存的音訊檔案，開啟檔案所在的應用程式</string>
     <key>how_to_upload_first_instruction</key>
     <string>選擇即可分享該檔案</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音頻文件</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>菜單選項</string>
     <key>how_to_upload_second_instruction</key>
     <string>在選單中點選「複製到 Pocket Casts」</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>複製到 Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>別的東西</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1694,8 +1702,6 @@ Pocket Casts Plus</string>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts 優惠</string>
-    <key>notifications_recommendations_trending_body</key>
-    <string>查看其他人這週都在聽什麼。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本週熱播</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -2243,7 +2249,7 @@ Pocket Casts Plus</string>
     <key>podcast_no_date</key>
     <string>未設定日期</string>
     <key>podcast_no_season</key>
-    <string>額外內容</string>
+    <string>沒有季別</string>
     <key>podcast_pause_download</key>
     <string>暫停下載</string>
     <key>podcast_pause_playback</key>
@@ -2631,6 +2637,10 @@ Pocket Casts Plus</string>
     <string>設定</string>
     <key>settings_about</key>
     <string>關於</string>
+    <key>settings_allow_collection_first_party</key>
+    <string>允許我們收集分析。</string>
+    <key>settings_allow_collection_third_party</key>
+    <string>允許我們使用信任的第三方服務來收集匿名資料。</string>
     <key>settings_appearance</key>
     <string>外觀</string>
     <key>settings_archive_inactive_episodes</key>
@@ -2777,6 +2787,8 @@ Pocket Casts Plus</string>
     <string>刪除雲端檔案</string>
     <key>settings_files_delete_local_file</key>
     <string>刪除本機檔案</string>
+    <key>settings_first_party_analytics</key>
+    <string>第一方分析</string>
     <key>settings_general</key>
     <string>一般</string>
     <key>settings_general_apply_all_conf</key>
@@ -2963,6 +2975,8 @@ Pocket Casts Plus</string>
     <string>行動數據</string>
     <key>settings_storage_usage</key>
     <string>使用方式</string>
+    <key>settings_third_party_analytics</key>
+    <string>第三方分析</string>
     <key>settings_title</key>
     <string>Podcast 設定</string>
     <key>settings_trim_level</key>
