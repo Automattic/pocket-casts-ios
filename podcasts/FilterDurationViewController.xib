@@ -17,6 +17,7 @@
                 <outlet property="durationConfigView" destination="e89-rD-l86" id="feg-cP-tu6"/>
                 <outlet property="filterDurationLabel" destination="ZaL-Yo-lbb" id="f8I-N1-zEx"/>
                 <outlet property="filterSwitch" destination="Rrc-db-3fy" id="jVl-GT-FyI"/>
+                <outlet property="filterSwitchTopConstraint" destination="zaU-xW-y4b" id="uWu-9k-GeD"/>
                 <outlet property="linesSpacing" destination="IyF-fn-FAq" id="FPD-0r-JP7"/>
                 <outlet property="longerThanDescription" destination="8XS-u3-vvZ" id="7gX-pw-Wj7"/>
                 <outlet property="longerThanLabel" destination="ZUI-Nj-eNz" id="BC3-hK-RD6"/>

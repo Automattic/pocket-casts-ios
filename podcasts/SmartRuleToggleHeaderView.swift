@@ -38,6 +38,7 @@ struct SmartRuleToggleHeaderView: View {
         }
         .background(theme.primaryUi01)
         .padding(.horizontal, 16.0)
-        .padding(.vertical, 22.0)
+        .padding(.top, 10.0)
+        .padding(.bottom, 22.0)
     }
 }

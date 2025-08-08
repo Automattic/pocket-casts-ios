@@ -24,6 +24,9 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if FeatureFlag.playlistsRebranding.enabled {
+            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        }
         delegate = self
         podcastTable.delegate = self
         podcastTable.dataSource = self
@@ -90,9 +93,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupCloseButton() {
-        if FeatureFlag.playlistsRebranding.enabled {
-            return
-        }
         let closeButton = createStandardCloseButton(imageName: "cancel")
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
 

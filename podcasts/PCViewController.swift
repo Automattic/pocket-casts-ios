@@ -2,6 +2,7 @@ import UIKit
 
 class PCViewController: SimpleNotificationsViewController {
     var supportsGoogleCast = false
+    var largeTitleFont = UIFont.systemFont(ofSize: 31, weight: .bold)
 
     var googleCastBtn: UIBarButtonItem?
     var customRightBtn: UIBarButtonItem? {
@@ -157,7 +158,7 @@ class PCViewController: SimpleNotificationsViewController {
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: titleColor]
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: titleColor,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 31, weight: .bold)
+            NSAttributedString.Key.font: largeTitleFont
         ]
         appearance.shadowColor = nil
 
