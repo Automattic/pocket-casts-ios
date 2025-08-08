@@ -62,6 +62,8 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupNavBar() {
+        largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+
         title = L10n.statusStarred
         navigationController?.navigationBar.prefersLargeTitles = true
 
