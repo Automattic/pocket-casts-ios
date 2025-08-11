@@ -3525,6 +3525,8 @@ internal enum L10n {
   internal static var showNotes: String { return L10n.tr("Localizable", "show_notes", fallback: "Notes") }
   /// A common string used throughout the app. Prompt for the user to sign into their account.
   internal static var signIn: String { return L10n.tr("Localizable", "sign_in", fallback: "Sign In") }
+  /// A label dividing the email with social login options. Indicating a separation of two separate sections.
+  internal static var signInDividerLabel: String { return L10n.tr("Localizable", "sign_in_divider_label", fallback: "OR") }
   /// Email address field prompt
   internal static var signInEmailAddressPrompt: String { return L10n.tr("Localizable", "sign_in_email_address_prompt", fallback: "Email Address") }
   /// Button text to go to the forgot password page
@@ -3538,7 +3540,7 @@ internal enum L10n {
   /// Prompt for the user to sign into their account or create an account
   internal static var signInPrompt: String { return L10n.tr("Localizable", "sign_in_prompt", fallback: "Sign in or create account") }
   /// Label for option to show the password contents in the log in form.
-  internal static var signInShowPasswordLabel: String { return L10n.tr("Localizable", "sign_in_show_password_label", fallback: "Show Password") }
+  internal static var signInShowPasswordLabel: String { return L10n.tr("Localizable", "sign_in_show_password_label", fallback: "Hide Password") }
   /// Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label.
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as", fallback: "SIGNED IN AS") }
   /// Label indicating which account is not signed in.

@@ -2893,6 +2893,9 @@
 /* Password field prompt */
 "sign_in_password_prompt" = "Password";
 
+/* A label dividing the email with social login options. Indicating a separation of two separate sections. */
+"sign_in_divider_label" = "OR";
+
 /* Label for option to show the password contents in the log in form. */
 "sign_in_show_password_label" = "Hide Password";
 

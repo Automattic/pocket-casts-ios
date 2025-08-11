@@ -144,7 +144,7 @@ struct SyncSigninView: View {
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
-            Text("OR")
+            Text(L10n.signInDividerLabel)
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
