@@ -17,6 +17,8 @@ class EpisodePreviewCell: ThemeableCell {
         }
     }
 
+    @IBOutlet weak var imageLeftPadding: NSLayoutConstraint!
+
     func populateFrom(episode: BaseEpisode) {
         episodeTitle.text = episode.title
         if let userEpisode = episode as? UserEpisode {
