@@ -3,6 +3,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, CPNowPlayingTemplateObserver {
     var interfaceController: CPInterfaceController?
@@ -12,6 +13,8 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     weak var visibleTemplate: CPTemplate?
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didConnect interfaceController: CPInterfaceController) {
+        FileLog.shared.addMessage("CarPlay: didConnect")
+
         self.interfaceController = interfaceController
         interfaceController.delegate = self
 
@@ -23,6 +26,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
     }
 
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene, didDisconnectInterfaceController interfaceController: CPInterfaceController) {
+        FileLog.shared.addMessage("CarPlay: didDisconnect")
         removeAllCustomObservers()
         self.interfaceController?.delegate = nil
         self.interfaceController = nil
