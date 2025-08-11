@@ -1382,8 +1382,16 @@ Ens veiem el 2024!</string>
     <string>Primer, obre una aplicació que tingui els arxius d'àudio que vols desar</string>
     <key>how_to_upload_first_instruction</key>
     <string>Tria compartir aquest arxiu</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Fitxer d'àudio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Opció de menú</string>
     <key>how_to_upload_second_instruction</key>
     <string>Al menú, toca 'Copiar a Pocket Casts'</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copiar a Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Una altra cosa</string>
     <key>how_to_upload_summary</key>
     <string>Ja està. Canvia les dades que vulguis, prém desar i ja pots reproduir-los!</string>
     <key>iap_product_monthly_pricing_format</key>

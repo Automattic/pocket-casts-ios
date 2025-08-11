@@ -1380,8 +1380,16 @@ Pocket Casts на полную мощность.</string>
     <string>Сначала откройте приложение, содержащее аудиофайлы, которые вы хотите сохранить.</string>
     <key>how_to_upload_first_instruction</key>
     <string>Поделитесь этим файлом</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Аудиофайл</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Пункт меню</string>
     <key>how_to_upload_second_instruction</key>
     <string>В меню нажмите «Копировать в Pocket Casts».</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Копировать в Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Что-то другое</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
     <key>iap_product_monthly_pricing_format</key>

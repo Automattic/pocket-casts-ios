@@ -1380,8 +1380,16 @@ que has escuchado dura
     <string>Primero, abre la aplicación que contenga los archivos de audio que desees guardar.</string>
     <key>how_to_upload_first_instruction</key>
     <string>Elige para compartir ese archivo.</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Archivo de Audio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Opción de menú</string>
     <key>how_to_upload_second_instruction</key>
     <string>En el menú, toca "Copiar a Pocket Casts".</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copiar a Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Algo más</string>
     <key>how_to_upload_summary</key>
     <string>Eso es todo. Cambia los detalles que quieras, presiona guardar y podrás comenzar a reproducir.</string>
     <key>iap_product_monthly_pricing_format</key>

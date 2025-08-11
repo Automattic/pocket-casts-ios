@@ -30,7 +30,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         if FeatureFlag.playlistsRebranding.enabled {
             let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
-                cell.configure(playlist: playlist)
+                cell.configure(playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
             }
             return cell
         }

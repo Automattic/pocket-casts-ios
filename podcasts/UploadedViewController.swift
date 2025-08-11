@@ -1,4 +1,5 @@
 import Combine
+import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
@@ -251,8 +252,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     func howTo() {
         Analytics.track(.uploadedFilesHelpButtonTapped)
 
-        let howToController = HowToUploadViewController()
-        let navController = SJUIUtils.navController(for: howToController)
+        let howToView = HowToUploadView { [weak self] in self?.dismiss(animated: true) }.environmentObject(Theme.sharedTheme)
+        let navController = SJUIUtils.navController(for: UIHostingController(rootView: howToView))
         present(navController, animated: true, completion: nil)
     }
 

@@ -1159,11 +1159,23 @@
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "First, open an app that has the audio files you'd like to save";
 
-/* The title for the first instructional image that explains how to upload a file */
-"how_to_upload_first_instruction" = "Choose to share that file";
+/* The title for the first instructional image explaining how to upload a file by opening the share menu */
+"how_to_upload_share_menu_instruction" = "Choose to share that file";
 
-/* The title for the second instructional image that explains how to upload a file */
-"how_to_upload_second_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+/* The text for the button tapped first when uploading a file */
+"how_to_upload_share_menu_image_background_button_text" = "Audio File";
+
+/* The text for a generic menu option tapped first when uploading a file */
+"how_to_upload_share_menu_image_foreground_menu_option_text" = "Menu Option";
+
+/* The title for the second instructional image that explains how to upload a file by selecting the share action option for the app */
+"how_to_upload_share_action_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_center_text" = "Copy to Pocket Casts";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_sides_text" = "Something Else";
 
 /* The summary text at the end of the screen explaining how to upload a file */
 "how_to_upload_summary" = "That's it, you're done. Change any details you want, hit save and play!";
@@ -4429,6 +4441,7 @@
 /* A title shown for a share option which creates an audio clip of an episode */
 "create_audio_clip_title" = "Create audio file";
 
+
 /* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
 "create_audio_clip_description" = "Create a .m4a audio file";
 
@@ -5029,6 +5042,19 @@
 /* Notification body for onboarding to staff picks message */
 "notifications_onboarding_staff_picks_body" = "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.";
 
+/* Title for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_title" = "Subscribe to our Newsletter";
+
+/* Subtitle for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_subtitle" = "Once a month, all podcast goodness";
+
+/* Title for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_title" = "Receive Notifications";
+
+/* Subtitle for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_subtitle" = "Receive news, podcast suggestions and more";
+
+
 /* Notification permission banner title*/
 "notitifications_permission_banner_title" = "Allow Push Notifications";
 
@@ -5164,6 +5190,9 @@
 /* Notifications permissions screen action button text*/
 "notifications_permissions_action" = "Allow Notifications";
 
+/* Notifications permissions screen action button text to save preferences for notifications and Newsletter */
+"notifications_permissions_save_preferences" = "Save Preferences";
+
 /* Title for modal explaining Creator Picks */
 "creator_pick_modal_title" = "What's a Creator Pick?";
 
@@ -5284,7 +5313,7 @@
 "playlists_onboarding_manual_title" = "Introducing Playlists";
 
 /* Playlists Onboarding screen: description for the manual playlist card */
-"playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
+"playlists_onboarding_manual_description" = "Take control of your listening. Build custom playlists for trips, themes, or whatever vibe you’re in. Whether Smart or custom, playlists fit the way you listen.";
 
 /* Playlists Empty State: title for the empty state visible when no playlists are displayed */
 "playlists_empty_state_title" = "Organize episodes your way";

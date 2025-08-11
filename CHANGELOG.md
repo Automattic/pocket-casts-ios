@@ -1,6 +1,6 @@
 7.96
 -----
-
+- Localize the How to Upload screen [#3401](https://github.com/Automattic/pocket-casts-ios/pull/3401)
 
 7.95
 -----

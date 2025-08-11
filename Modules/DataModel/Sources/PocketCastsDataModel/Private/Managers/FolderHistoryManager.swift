@@ -10,7 +10,7 @@ public class FolderHistoryManager {
     /// Saves a list of podcast UUID and folders UUID so it can be
     /// restored later
     func snapshot(podcastsAndFolders: [String: String], dbQueue: PCDBQueue) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 db.beginTransaction()
 
@@ -30,7 +30,7 @@ public class FolderHistoryManager {
     /// Return all the available Up Next entries
     func entries(dbQueue: PCDBQueue) -> [PodcastFoldersHistoryEntry] {
         var entries: [PodcastFoldersHistoryEntry] = []
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT COUNT(*) as count, date FROM PodcastFoldersHistory GROUP BY (date) ORDER BY date DESC", values: nil)
                 defer { resultSet.close() }
@@ -50,7 +50,7 @@ public class FolderHistoryManager {
 
     func podcastsAndFolders(entry: Date, dbQueue: PCDBQueue) -> [String: String] {
         var podcastsAndFolders: [String: String] = [:]
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT podcastUuid, folderUuid FROM PodcastFoldersHistory WHERE date = ?", values: [entry])
                 defer { resultSet.close() }

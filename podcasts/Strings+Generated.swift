@@ -1569,10 +1569,18 @@ internal enum L10n {
   internal static var hoursSaved: String { return L10n.tr("Localizable", "hours_saved", fallback: "Hours saved") }
   /// The initial informational text explaining how to upload a file
   internal static var howToUploadExplanation: String { return L10n.tr("Localizable", "how_to_upload_explanation", fallback: "First, open an app that has the audio files you'd like to save") }
-  /// The title for the first instructional image that explains how to upload a file
-  internal static var howToUploadFirstInstruction: String { return L10n.tr("Localizable", "how_to_upload_first_instruction", fallback: "Choose to share that file") }
-  /// The title for the second instructional image that explains how to upload a file
-  internal static var howToUploadSecondInstruction: String { return L10n.tr("Localizable", "how_to_upload_second_instruction", fallback: "In the menu tap \"Copy to Pocket Casts\"") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadShareActionImageCenterText: String { return L10n.tr("Localizable", "how_to_upload_share_action_image_center_text", fallback: "Copy to Pocket Casts") }
+  /// The text for copying a file to Pocket Casts
+  internal static var howToUploadShareActionImageSidesText: String { return L10n.tr("Localizable", "how_to_upload_share_action_image_sides_text", fallback: "Something Else") }
+  /// The title for the second instructional image that explains how to upload a file by selecting the share action option for the app
+  internal static var howToUploadShareActionInstruction: String { return L10n.tr("Localizable", "how_to_upload_share_action_instruction", fallback: "In the menu tap \"Copy to Pocket Casts\"") }
+  /// The text for the button tapped first when uploading a file
+  internal static var howToUploadShareMenuImageBackgroundButtonText: String { return L10n.tr("Localizable", "how_to_upload_share_menu_image_background_button_text", fallback: "Audio File") }
+  /// The text for a generic menu option tapped first when uploading a file
+  internal static var howToUploadShareMenuImageForegroundMenuOptionText: String { return L10n.tr("Localizable", "how_to_upload_share_menu_image_foreground_menu_option_text", fallback: "Menu Option") }
+  /// The title for the first instructional image explaining how to upload a file by opening the share menu
+  internal static var howToUploadShareMenuInstruction: String { return L10n.tr("Localizable", "how_to_upload_share_menu_instruction", fallback: "Choose to share that file") }
   /// The summary text at the end of the screen explaining how to upload a file
   internal static var howToUploadSummary: String { return L10n.tr("Localizable", "how_to_upload_summary", fallback: "That's it, you're done. Change any details you want, hit save and play!") }
   /// For yealry plans, we show the monthly price. %1$@ is the price. For example: $3.33/month
@@ -1868,6 +1876,14 @@ internal enum L10n {
   internal static var notificationsOnboardingImportBody: String { return L10n.tr("Localizable", "notifications_onboarding_import_body", fallback: "Switching from another app? Bring all your favorite shows to Pocket Casts.") }
   /// Notification title for import podcast onboarding message
   internal static var notificationsOnboardingImportTitle: String { return L10n.tr("Localizable", "notifications_onboarding_import_title", fallback: "Easily import your podcasts") }
+  /// Subtitle for Newsletter opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNewsletterSubtitle: String { return L10n.tr("Localizable", "notifications_onboarding_newsletter_subtitle", fallback: "Once a month, all podcast goodness") }
+  /// Title for Newsletter opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNewsletterTitle: String { return L10n.tr("Localizable", "notifications_onboarding_newsletter_title", fallback: "Subscribe to our Newsletter") }
+  /// Subtitle for Notifications opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNotificationsSubtitle: String { return L10n.tr("Localizable", "notifications_onboarding_notifications_subtitle", fallback: "Receive news, podcast suggestions and more") }
+  /// Title for Notifications opt-in option in the Notifications screen during onboarding
+  internal static var notificationsOnboardingNotificationsTitle: String { return L10n.tr("Localizable", "notifications_onboarding_notifications_title", fallback: "Receive Notifications") }
   /// Notification body for signup onboarding message
   internal static var notificationsOnboardingSignupBody: String { return L10n.tr("Localizable", "notifications_onboarding_signup_body", fallback: "Create a free account to sync your shows and listen anywhere.") }
   /// Notification title for signup onboarding message
@@ -1896,6 +1912,8 @@ internal enum L10n {
   internal static var notificationsPermissionsNeedsAction: String { return L10n.tr("Localizable", "notifications_permissions_needs_action", fallback: "Please allow notifications in your device settings") }
   /// Notification button title to open device notification settings
   internal static var notificationsPermissionsOpenSettings: String { return L10n.tr("Localizable", "notifications_permissions_open_settings", fallback: "Open Settings") }
+  /// Notifications permissions screen action button text to save preferences for notifications and Newsletter
+  internal static var notificationsPermissionsSavePreferences: String { return L10n.tr("Localizable", "notifications_permissions_save_preferences", fallback: "Save Preferences") }
   /// Notifications permissions screen title text
   internal static var notificationsPermissionsTitle: String { return L10n.tr("Localizable", "notifications_permissions_title", fallback: "Stay up to date!") }
   /// Prompt to play the selected item now.
@@ -2272,7 +2290,7 @@ internal enum L10n {
   /// Playlists Empty State: title for the empty state visible when no playlists are displayed
   internal static var playlistsEmptyStateTitle: String { return L10n.tr("Localizable", "playlists_empty_state_title", fallback: "Organize episodes your way") }
   /// Playlists Onboarding screen: description for the manual playlist card
-  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.") }
+  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Take control of your listening. Build custom playlists for trips, themes, or whatever vibe you’re in. Whether Smart or custom, playlists fit the way you listen.") }
   /// Playlists Onboarding screen: title for the manual playlist card
   internal static var playlistsOnboardingManualTitle: String { return L10n.tr("Localizable", "playlists_onboarding_manual_title", fallback: "Introducing Playlists") }
   /// Playlists Onboarding screen: description for the smart playlist card

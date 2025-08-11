@@ -1380,8 +1380,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>まず、保存する音声ファイルがあるアプリを開きます</string>
     <key>how_to_upload_first_instruction</key>
     <string>そのファイルを共有するように選択</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>音声ファイル</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>メニューオプション</string>
     <key>how_to_upload_second_instruction</key>
     <string>メニューで「Pocket Casts にコピー」をタップ</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Pocket Casts にコピー</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>別のもの</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
     <key>iap_product_monthly_pricing_format</key>

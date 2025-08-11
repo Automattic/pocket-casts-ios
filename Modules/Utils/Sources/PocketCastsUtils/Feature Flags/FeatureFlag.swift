@@ -224,6 +224,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Limit playback position changes when switching episodes
     case limitPlaybackPositionChanges
 
+    /// Use the new upgrade screens for account creation
+    case newOnboardingAccountCreation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -378,6 +381,8 @@ public enum FeatureFlag: String, CaseIterable {
             #endif
         case .limitPlaybackPositionChanges:
             true
+        case .newOnboardingAccountCreation:
+            false
         }
     }
 

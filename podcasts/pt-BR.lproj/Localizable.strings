@@ -1380,8 +1380,16 @@ que você ouviu foi
     <string>Primeiro, abra um aplicativo que contenha os arquivos de áudio que você deseja salvar</string>
     <key>how_to_upload_first_instruction</key>
     <string>Escolha compartilhar o arquivo</string>
+    <key>how_to_upload_first_image_background_button_text</key>
+    <string>Arquivo de áudio</string>
+    <key>how_to_upload_first_image_foreground_menu_option_text</key>
+    <string>Opção de menu</string>
     <key>how_to_upload_second_instruction</key>
     <string>No menu, toque em "Copiar para o Pocket Casts"</string>
+    <key>how_to_upload_second_image_center_text</key>
+    <string>Copiar para o Pocket Casts</string>
+    <key>how_to_upload_second_image_sides_text</key>
+    <string>Algo mais</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
     <key>iap_product_monthly_pricing_format</key>
