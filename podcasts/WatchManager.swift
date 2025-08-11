@@ -7,7 +7,7 @@ import WatchConnectivity
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
-    let logFileRequestTimedAction = TimedActionHelper()
+    var logFileRequestTask: Task<Void, Never>?
 
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil

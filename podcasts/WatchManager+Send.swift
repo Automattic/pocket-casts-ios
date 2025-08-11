@@ -26,13 +26,13 @@ extension WatchManager {
         // Hold a local reference so we don't potentially run into a deallocated `self` when the below blocks are run.
         let cachedLog = self.cachedLog
 
-        // since we don't know how long it takes for a send message to timeout, wait only 10 seconds for a watch response before giving up here
+        // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
         var haveCalledCompletion = false
-        logFileRequestTimedAction.startTimer(for: 5.seconds) { [cachedLog] in
+        logFileRequestTask = Task { [cachedLog] in
+            try? await Task.sleep(for: .seconds(5))
             if haveCalledCompletion { return }
 
             haveCalledCompletion = true
-
             completion(cachedLog)
         }
 
@@ -42,7 +42,7 @@ extension WatchManager {
             if haveCalledCompletion { return }
             haveCalledCompletion = true
 
-            self?.logFileRequestTimedAction.cancelTimer()
+            self?.logFileRequestTask?.cancel()
             if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
                 self?.cachedLog = logContents
                 if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
