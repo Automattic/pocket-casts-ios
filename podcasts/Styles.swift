@@ -169,19 +169,28 @@ struct RoundedButtonStyle: ButtonStyle {
     @ObservedObject var theme: Theme
     let textColor: ThemeStyle
     let backgroundColor: Color?
+    let isEnabled: Bool?
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil) {
         self.theme = theme
         self.textColor = textColor
         self.backgroundColor = backgroundColor
+        self.isEnabled = isEnabled
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let text = AppTheme.color(for: textColor, theme: theme)
-        let background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
-                            .opacity(configuration.isPressed ? 0.6 : 1)
+        let background: Color
 
-        BasicButtonStyle(textColor: text, backgroundColor: background)
+        if let enabled = isEnabled {
+            background = enabled ? AppTheme.color(for: .primaryInteractive01, theme: theme)
+                                 : AppTheme.color(for: .primaryInteractive01Disabled, theme: theme)
+        } else {
+            background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
+                            .opacity(configuration.isPressed ? 0.6 : 1)
+        }
+
+        return BasicButtonStyle(textColor: text, backgroundColor: background)
             .makeBody(configuration: configuration)
     }
 }

@@ -1742,6 +1742,7 @@
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
+		F550DC9A2E46CD7400F71349 /* SyncSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F550DC992E46CD7400F71349 /* SyncSigninView.swift */; };
 		F5516DBE2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */; };
 		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
 		F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */; };
@@ -3995,6 +3996,7 @@
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Categories.swift"; sourceTree = "<group>"; };
+		F550DC992E46CD7400F71349 /* SyncSigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSigninView.swift; sourceTree = "<group>"; };
 		F5516DBD2E1C9D82005DC201 /* UserSatisfactionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSatisfactionSurveyView.swift; sourceTree = "<group>"; };
 		F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023Story.swift; sourceTree = "<group>"; };
 		F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024Story.swift; sourceTree = "<group>"; };
@@ -7323,6 +7325,7 @@
 		BDE6AB681CC49A9E0087D195 /* Syncing */ = {
 			isa = PBXGroup;
 			children = (
+				F550DC992E46CD7400F71349 /* SyncSigninView.swift */,
 				BDE6AB6D1CC49B010087D195 /* SyncSigninViewController.swift */,
 				BDE6AB6E1CC49B010087D195 /* SyncSigninViewController.xib */,
 				BD96F4731CC9FEB900AB09B0 /* ForgotPasswordViewController.swift */,
@@ -10135,6 +10138,7 @@
 				F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */,
 				F57D8F182C66CDF40004C4DF /* View+CVPixelBuffer.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
+				F550DC9A2E46CD7400F71349 /* SyncSigninView.swift in Sources */,
 				9A9004D32E2FF2A4005879CB /* AsyncImageView.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,

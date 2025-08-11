@@ -331,7 +331,7 @@ private struct LoginButtons: View {
     }
 }
 
-private struct SocialLoginButtons: View {
+struct SocialLoginButtons: View {
     @EnvironmentObject var theme: Theme
     let coordinator: LoginCoordinator
 
