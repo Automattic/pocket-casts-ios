@@ -12,6 +12,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 filtersTable.themeStyle = .primaryUi01
                 filtersTable.dragDelegate = self
                 filtersTable.dropDelegate = self
+                filtersTable.separatorStyle = .none
             } else {
                 filtersTable.themeStyle = .primaryUi04
                 filtersTable.dragDelegate = nil

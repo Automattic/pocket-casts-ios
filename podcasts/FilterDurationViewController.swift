@@ -74,6 +74,11 @@ class FilterDurationViewController: PCViewController {
             filterSwitch.isOn = filter.filterDuration
         }
     }
+    @IBOutlet weak var filterSwitchTopConstraint: NSLayoutConstraint! {
+        didSet {
+            filterSwitchTopConstraint.constant = FeatureFlag.playlistsRebranding.enabled ? 10 : 20
+        }
+    }
 
     @IBOutlet var durationConfigView: UIView!
 
@@ -108,7 +113,7 @@ class FilterDurationViewController: PCViewController {
     }
     @IBOutlet weak var dividerTopConstraint: NSLayoutConstraint! {
         didSet {
-            dividerTopConstraint.constant = FeatureFlag.playlistsRebranding.enabled ? 16.0 : 20.0
+            dividerTopConstraint.constant = FeatureFlag.playlistsRebranding.enabled ? 10.0 : 20.0
         }
     }
     @IBOutlet weak var dividerBottomConstraint: NSLayoutConstraint! {
@@ -140,7 +145,9 @@ class FilterDurationViewController: PCViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if FeatureFlag.playlistsRebranding.enabled {
+            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        }
         let closeButton = createStandardCloseButton(imageName: "cancel")
         closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
         let backButtonItem = UIBarButtonItem(customView: closeButton)

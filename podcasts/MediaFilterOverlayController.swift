@@ -27,7 +27,9 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if FeatureFlag.playlistsRebranding.enabled {
+            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        }
         tableView.delegate = self
         tableView.dataSource = self
 
@@ -47,6 +49,18 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
         }
+    }
+
+    override func addTableViewHeader() {
+        let headerView = ThemeableView()
+        headerView.style = .primaryUi01
+        if FeatureFlag.playlistsRebranding.enabled {
+            headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 10)
+        } else {
+            headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 26)
+        }
+        headerView.layoutIfNeeded()
+        tableView.tableHeaderView = headerView
     }
 
     // MARK: - TableView DataSource

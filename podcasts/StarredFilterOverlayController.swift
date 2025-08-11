@@ -62,6 +62,8 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupNavBar() {
+        largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+
         title = L10n.statusStarred
         navigationController?.navigationBar.prefersLargeTitles = true
 
@@ -171,6 +173,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Self.smartRuleHeaderCellId)!
+            cell.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
@@ -183,6 +186,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: FilterPreviewViewController.previewCellId, for: indexPath) as! EpisodePreviewCell
+        cell.imageLeftPadding.constant = 16.0
         cell.style = .primaryUi01
         if let listEpisode = episodes[safe: indexPath.row] {
             cell.populateFrom(episode: listEpisode.episode)

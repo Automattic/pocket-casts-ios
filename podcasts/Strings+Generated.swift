@@ -2290,7 +2290,7 @@ internal enum L10n {
   /// Playlists Empty State: title for the empty state visible when no playlists are displayed
   internal static var playlistsEmptyStateTitle: String { return L10n.tr("Localizable", "playlists_empty_state_title", fallback: "Organize episodes your way") }
   /// Playlists Onboarding screen: description for the manual playlist card
-  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.") }
+  internal static var playlistsOnboardingManualDescription: String { return L10n.tr("Localizable", "playlists_onboarding_manual_description", fallback: "Take control of your listening. Build custom playlists for trips, themes, or whatever vibe you’re in. Whether Smart or custom, playlists fit the way you listen.") }
   /// Playlists Onboarding screen: title for the manual playlist card
   internal static var playlistsOnboardingManualTitle: String { return L10n.tr("Localizable", "playlists_onboarding_manual_title", fallback: "Introducing Playlists") }
   /// Playlists Onboarding screen: description for the smart playlist card
