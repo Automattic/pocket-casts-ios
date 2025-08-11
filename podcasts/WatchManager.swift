@@ -401,6 +401,13 @@ class WatchManager: NSObject, WCSessionDelegate {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
             sendStateToWatch()
+            if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                FileLog.shared.addMessage("WatchManager: Collecting Watch logs in sendStateToWatchInBackground")
+                WatchManager.shared.requestLogFile { _ in
+                    // We do nothing here, the log file will be cached as a result of requesting
+                    FileLog.shared.addMessage("WatchManager: Collected Watch logs in sendStateToWatchInBackground")
+                }
+            }
         }
     }
 
