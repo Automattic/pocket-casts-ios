@@ -3529,12 +3529,16 @@ internal enum L10n {
   internal static var signInEmailAddressPrompt: String { return L10n.tr("Localizable", "sign_in_email_address_prompt", fallback: "Email Address") }
   /// Button text to go to the forgot password page
   internal static var signInForgotPassword: String { return L10n.tr("Localizable", "sign_in_forgot_password", fallback: "I forgot my password") }
+  /// Label for option to hide the password contents in the log in form.
+  internal static var signInHidePasswordLabel: String { return L10n.tr("Localizable", "sign_in_hide_password_label", fallback: "Show Password") }
   /// Message shown below the sign in prompt to give users more details about what it does
   internal static var signInMessage: String { return L10n.tr("Localizable", "sign_in_message", fallback: "Save your podcast subscriptions in the cloud and sync your progress with other devices.") }
   /// Password field prompt
   internal static var signInPasswordPrompt: String { return L10n.tr("Localizable", "sign_in_password_prompt", fallback: "Password") }
   /// Prompt for the user to sign into their account or create an account
   internal static var signInPrompt: String { return L10n.tr("Localizable", "sign_in_prompt", fallback: "Sign in or create account") }
+  /// Label for option to show the password contents in the log in form.
+  internal static var signInShowPasswordLabel: String { return L10n.tr("Localizable", "sign_in_show_password_label", fallback: "Show Password") }
   /// Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label.
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as", fallback: "SIGNED IN AS") }
   /// Label indicating which account is not signed in.

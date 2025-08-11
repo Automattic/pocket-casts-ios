@@ -105,7 +105,7 @@ struct SyncSigninView: View {
                         Image(model.showPassword ? "eye" : "eye-crossed")
                             .renderingMode(.template)
                     }
-                    .accessibilityLabel(model.showPassword ? "Hide password" : "Show password")
+                    .accessibilityLabel(model.showPassword ? L10n.signInHidePasswordLabel : L10n.signInShowPasswordLabel)
                     .tint(ThemeColor.primaryIcon03().swiftUIColor)
                 }
                 .onChange(of: model.password) { _ in model.textFieldChanged() }
