@@ -15,7 +15,7 @@ struct PlaylistCellView: View {
                     .foregroundStyle(theme.primaryText01)
                     .font(size: 15.0, style: .body, weight: .medium)
                 if viewModel.isSmartPlaylist() {
-                    Text("Smart Playlist")
+                    Text(L10n.smartPlaylist)
                         .foregroundStyle(theme.primaryText02)
                         .font(size: 14.0, style: .body, weight: .regular)
                 }

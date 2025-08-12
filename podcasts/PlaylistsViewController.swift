@@ -168,10 +168,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             present(navVC, animated: true, completion: nil)
         }
     }
-    
-    private func presentPreviewSmartPlaylist() {
-
-    }
 
     override func handleThemeChanged() {
         filtersTable.reloadData()
@@ -265,7 +261,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 },
                 actions: [
                 .init(
-                    title: L10n.playlistsEmptyStateButton,
+                    title: L10n.playlistsDefaultNewPlaylist,
                     action: { [weak self] in
                     self?.addNewFilter()
                     }
