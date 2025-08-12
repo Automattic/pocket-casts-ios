@@ -865,6 +865,12 @@ Deja que te ayudemos</string>
     <string>Icono del historial de escucha</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Haz un seguimiento de lo que has reproducido</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Crea una cuenta gratuita para sincronizar tus listas de reproducción en cualquier dispositivo.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Icono de listas de reproducción</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Mantén tus listas de reproducción sincronizadas</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Crea una cuenta gratuita para sincronizar tus programas y escucharlos estés donde estés.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1702,6 +1708,8 @@ pódcast contigo</string>
     <string>Reproducir ahora</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Ofertas de Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Echa un vistazo a lo que todo el mundo está escuchando esta semana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendencias de esta semana</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1983,6 +1991,14 @@ ACTUALIZACIONES</string>
     <string>Error de subida</string>
     <key>playlists</key>
     <string>Listas de reproducción</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>¿Quieres tener más control? Con las listas de reproducción manuales puedes crear colas personalizadas, una opción ideal para viajes, temas o que se adapten a cómo te sientes en ese momento. Inteligentes o manuales, las listas de reproducción te siguen el ritmo.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Presentamos las listas de reproducción</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Funcionan exactamente igual que antes y utilizan reglas para añadir automáticamente tus episodios. Todos los filtros que utilizas siguen aquí, solo hemos cambiado el nombre.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Los filtros son ahora listas de reproducción inteligentes</string>
     <key>please_try_again</key>
     <string>Inténtalo de nuevo.</string>
     <key>please_try_again_later</key>
@@ -3153,6 +3169,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Suspensión al final del episodio actual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador activado, quedan %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Hemos creado estas para ayudarte a empezar. Se actualizan automáticamente en función de tus escuchas.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Listas de reproducción inteligentes, listas para usar</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continuar con Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3245,6 +3265,14 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Suscripción cancelada %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Caduca el %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Marcadores: no más “¿dónde fue eso?”</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Carpetas: tus podcasts, perfectamente organizados</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Preselección de capítulos: ve a donde te interesa</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Modo aleatorio: la alegría de no elegir</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ por %2$@</string>
     <key>subscription_plan_features_info_link</key>

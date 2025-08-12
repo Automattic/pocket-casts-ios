@@ -47,16 +47,6 @@ public class DataManager {
             dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
             DataManager.setDatabaseFileProtectionToNone()
             FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
-
-            // Database corruption check
-            if Self.checkDatabaseCorruption(dbPool: dbPool) {
-                // If database is corrupted we start it again in a clean state
-                let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
-                dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
-                DataManager.setDatabaseFileProtectionToNone()
-                FileLog.shared.addMessage("[DataManager] Database is corrupted, recreated using GRDB")
-                Self.loginAgain = true
-            }
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)

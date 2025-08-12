@@ -10,7 +10,8 @@ struct PCBundleDoc: FileDocument {
     static var readableContentTypes = [UTType.pcasts]
 
     enum Constants {
-        static let databaseFilename = "database.sqlite"
+        static let databaseFilename = "database.sqlite3"
+        static var databaseWalSuffix = "-wal"
         static let preferencesFilename = "preferences.plist"
     }
 
@@ -29,6 +30,11 @@ struct PCBundleDoc: FileDocument {
         let databaseDestination = FileManager.databaseURL
         if let database = wrapper.fileWrappers?.first(where: { $0.key == Constants.databaseFilename }) {
             try database.value.write(to: databaseDestination, originalContentsURL: nil)
+        }
+
+        let databaseWALDestination = URL(fileURLWithPath: DataManager.pathToDb().appending("-wal"))
+        if let database = wrapper.fileWrappers?.first(where: { $0.key == Constants.databaseFilename.appending("-wal") }) {
+            try database.value.write(to: databaseWALDestination, originalContentsURL: nil)
         }
 
         // Import Preferences
@@ -60,6 +66,11 @@ struct PCBundleDoc: FileDocument {
         let databaseFileWrapper = try FileWrapper(url: FileManager.databaseURL)
         databaseFileWrapper.preferredFilename = Constants.databaseFilename
         wrapper.addFileWrapper(databaseFileWrapper)
+
+        let walURL = DataManager.pathToDb().appending(Constants.databaseWalSuffix)
+        let databaseWALFileWrapper = try FileWrapper(url: URL(fileURLWithPath: walURL))
+        databaseWALFileWrapper.preferredFilename = Constants.databaseFilename.appending(Constants.databaseWalSuffix)
+        wrapper.addFileWrapper(databaseWALFileWrapper)
 
         if let prefURL = FileManager.preferencesURL {
             let preferencesFileWrapper = try FileWrapper(url: prefURL)

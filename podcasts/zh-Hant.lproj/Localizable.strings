@@ -865,6 +865,12 @@ Pocket Casts Plus</string>
     <string>收聽紀錄圖示</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>追蹤播放過的內容</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>建立免費帳號，即可在任何裝置上同步你的播放清單。</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>播放清單圖示</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>將播放清單保持同步</string>
     <key>eac_informational_banner_profile_description</key>
     <string>建立免費帳號即可同步你的節目，隨時隨地收聽。</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1702,6 +1708,8 @@ Pocket Casts Plus</string>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts 優惠</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>查看其他人本週都在聽什麼。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本週熱播</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1983,6 +1991,14 @@ Pocket Casts Plus</string>
     <string>上傳錯誤</string>
     <key>playlists</key>
     <string>播放清單</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>想獲得更全面的控制功能嗎？ 不妨運用手動播放清單建立自訂佇列，搭配旅遊、佈景主題或目前的氣氛。 不論是智慧或手動播放清單，都能配合你的需求。</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>隆重介紹播放清單</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>播放清單的運作方式不變：可依據你設定的規則，自動加入單集。 你原有的「篩選」都還在，只是名稱有所調整。</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>「篩選」現在改名為「智慧播放清單」</string>
     <key>please_try_again</key>
     <string>請再試一次</string>
     <key>please_try_again_later</key>
@@ -3153,6 +3169,10 @@ Pocket Casts Plus</string>
     <string>在目前的單集結束後休眠</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠計時器已啟動，剩餘 %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>我們提供這些服務，協助你著手使用。 系統會根據收聽狀況自動更新。</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>智慧播放清單，準備就緒</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>繼續使用 Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3245,6 +3265,14 @@ Pocket Casts Plus</string>
     <string>訂閱取消日：%1$@ </string>
     <key>subscription_expires_in</key>
     <string>%1$@後到期</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>書籤：不再擔心找不到節目</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>資料夾：你的 Podcast，井井有條</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>預選章節：直接跳到精彩內容</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>隨機播放：不加選擇，享受當下</string>
     <key>subscription_frequency_pricing_format</key>
     <string>每 %2$@ %1$@ 元</string>
     <key>subscription_plan_features_info_link</key>
