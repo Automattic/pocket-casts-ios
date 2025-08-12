@@ -865,6 +865,12 @@ Pocket Casts Plus</string>
     <string>聴取履歴アイコン</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>再生内容の追跡を継続</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>無料アカウントを作成すると、どの端末でもプレイリストを同期できます。</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>プレイリストアイコン</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>プレイリストの同期を維持</string>
     <key>eac_informational_banner_profile_description</key>
     <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>今すぐ再生</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts オファー</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>他のユーザーが今週聴いているポッドキャストをチェックしましょう。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>今週のトレンド</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アップロードエラー</string>
     <key>playlists</key>
     <string>プレイリスト</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>もっと詳細に制御したい場合 手動プレイリストを使用すると、旅行やテーマ、現在の雰囲気に最適なカスタムキューを作成できます。 スマートでも手動でも、プレイリストはあなたのスタイルに合わせて動作します。</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>プレイリストのご紹介</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>ルールに則ってエピソードを自動的に追加するという点では、まったく同じように機能します。 既存のフィルターはすべてこちらにあります。変わったのは名前だけです。</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>フィルターがスマートプレイリストになりました</string>
     <key>please_try_again</key>
     <string>もう一度お試しください</string>
     <key>please_try_again_later</key>
@@ -3141,6 +3157,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
     <string>スリープタイマーがオンになるまで、あと%1$@分</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>ご利用開始をサポートするよう作られています。 聴取内容に基づいて自動更新されます。</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>すぐに使えるスマートプレイリスト</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Apple で続ける</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3233,6 +3253,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@にサブスクリプションをキャンセル済み </string>
     <key>subscription_expires_in</key>
     <string>%1$@に期限切れ</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>ブックマーク: お気に入りの箇所を保存します</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>フォルダー: ポッドキャストをわかりやすく整理します</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>チャプターを事前に選択: 選択したチャプターに移動します</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>シャッフル: 自動選出を楽しむことができます</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ / %2$@</string>
     <key>subscription_plan_features_info_link</key>

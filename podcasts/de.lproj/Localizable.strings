@@ -865,6 +865,12 @@ Lass uns dir zuerst helfen</string>
     <string>Hörverlauf-Icon</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Überblick über wiedergegebene Titel behalten</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Erstelle ein kostenloses Konto, um deine Wiedergabelisten auf jedem Gerät synchronisieren zu können.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Wiedergabelisten-Icon</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Synchronisiere deine Wiedergabelisten</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Erstelle ein kostenloses Konto, um deine Shows zu synchronisieren und von überall aus hören zu können.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ Podcasts mit</string>
     <string>Jetzt abspielen</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts-Angebote</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Schau dir an, was alle anderen diese Woche hören.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Aktuelle Wochentrends</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Fehler beim Upload</string>
     <key>playlists</key>
     <string>Wiedergabelisten</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Wünschst du dir mehr Kontrolle? Mit manuellen Wiedergabelisten kannst du individuelle Warteschlangen erstellen, die optimal zu Ausflügen, Themes oder einfach nur zu deiner aktuelle Stimmung passen. Egal, ob smart oder manuell – unsere Wiedergabelisten entsprechen genau deinen Wünschen.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Neu: Wiedergabelisten</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Unsere neuen Wiedergabelisten funktionieren wie gewohnt und verwenden Regeln, damit neue Folgen deiner Lieblingspodcasts automatisch hinzugefügt werden. Du hast auch immer noch Zugriff auf alle deine bereits vorhandenen Filter. Außer dem Namen hat sich also nichts geändert.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Filter sind jetzt intelligente Wiedergabelisten</string>
     <key>please_try_again</key>
     <string>Versuche es bitte noch einmal</string>
     <key>please_try_again_later</key>
@@ -3145,6 +3161,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Schlummerfunktion startet am Ende der aktuellen Folge</string>
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Wir haben diese vorgefertigten Wiedergabelisten erstellt, um dir den Einstieg zu erleichtern. Sie werden automatisch basierend auf deinem Hörverlauf aktualisiert.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Intelligente Wiedergabelisten, sofort einsatzbereit</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Weiter mit Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3237,6 +3257,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Abonnement gekündigt zum %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Läuft ab in: %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Lesezeichen: Frage dich nie wieder: „Wo war das nochmal?“</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Ordner: deine Podcasts, perfekt organisiert</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Kapitel vorauswählen: Komme gleich zum Punkt</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Mischen: Lass dich überraschen</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ für %2$@</string>
     <key>subscription_plan_features_info_link</key>

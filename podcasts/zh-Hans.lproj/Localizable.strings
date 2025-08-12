@@ -865,6 +865,12 @@ Pocket Casts Plus</string>
     <string>收听历史记录图标</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>记录播放历史</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>创建一个免费账户，即可在任何设备上同步您的播放列表。</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>播放列表图标</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>保持播放列表同步</string>
     <key>eac_informational_banner_profile_description</key>
     <string>创建一个免费账户，即可同步节目，随时随地畅听。</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ Pocket Casts。</string>
     <string>立即播放</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Pocket Casts 优惠</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>看看其他人本周都在听什么。</string>
     <key>notifications_recommendations_trending_title</key>
     <string>本周热门话题</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ Pocket Casts。</string>
     <string>上传错误</string>
     <key>playlists</key>
     <string>播放列表</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>想要更多控制权？ 通过手动播放列表，您可以构建适合旅途、主题或当下心情的自定义队列。 无论是智能推荐还是手动编排，播放列表都能如您所愿。</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>播放列表简介</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>功能依旧，体验不变，通过规则自动添加剧集。 您现有的所有筛选器仍保留在此，除名称外没有任何变化。</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>筛选器现已变更为智能播放列表</string>
     <key>please_try_again</key>
     <string>请重试</string>
     <key>please_try_again_later</key>
@@ -3145,6 +3161,10 @@ Pocket Casts。</string>
     <string>在本集结束时进入睡眠状态</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠计时器打开，剩余 %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>我们创建了这些内容，以助您轻松上手。 它们会根据您的收听习惯自动更新。</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>智能播放列表，一键畅听</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>继续使用 Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3237,6 +3257,14 @@ Pocket Casts。</string>
     <string>订阅取消日期：%1$@  </string>
     <key>subscription_expires_in</key>
     <string>到期日期：%1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>书签：彻底告别“刚才看到哪了？”的困扰</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>文件夹：告别杂乱无章</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>预选章节：直达精彩内容</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>随机播放：免去选择烦恼</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ 每 %2$@</string>
     <key>subscription_plan_features_info_link</key>

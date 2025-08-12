@@ -814,7 +814,7 @@ Deixa'ns ajudar-te primer</string>
     <key>download_episode_singular</key>
     <string>Descarregar 1 episodi</string>
     <key>download_error_contact_author</key>
-    <string>L'episodi no està disponible a causa d'un error al feed del pòdcast. Posa't en contacte amb l'autor.</string>
+    <string>L'episodi no està disponible per un error al feed del pòdcast. Posa't en contacte amb l'autor.</string>
     <key>download_error_contact_author_version_2</key>
     <string>És possible que aquest episodi s'hagi mogut o esborrat. Posa't en contacte amb l'autor del pòdcast.</string>
     <key>download_error_not_enough_space</key>
@@ -3390,7 +3390,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>up_next_history</key>
     <string>Historial de «Tot seguit»</string>
     <key>up_next_history_explanation</key>
-    <string>Una llista d'actualitzacions recents a la cua a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
+    <string>Una llista d'actualitzacions recents a la cua per canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>up_next_shuffle_announcement_button</key>
     <string>Som-hi</string>
     <key>up_next_shuffle_announcement_text</key>
