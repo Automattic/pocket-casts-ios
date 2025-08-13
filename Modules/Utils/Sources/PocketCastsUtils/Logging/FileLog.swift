@@ -28,7 +28,7 @@ actor LogBuffer {
     }
 
     #if os(watchOS)
-        private let maxFileSize = 250.kilobytes
+        private let maxFileSize = 65.kilobytes
     #else
         private let maxFileSize = 1.megabytes
     #endif
