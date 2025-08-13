@@ -47,16 +47,6 @@ public class DataManager {
             dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
             DataManager.setDatabaseFileProtectionToNone()
             FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
-
-            // Database corruption check
-            if Self.checkDatabaseCorruption(dbPool: dbPool) {
-                // If database is corrupted we start it again in a clean state
-                let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
-                dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
-                DataManager.setDatabaseFileProtectionToNone()
-                FileLog.shared.addMessage("[DataManager] Database is corrupted, recreated using GRDB")
-                Self.loginAgain = true
-            }
         } else {
             let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
             dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
@@ -162,7 +152,7 @@ public class DataManager {
 
         FileLog.shared.addMessage("VACUUM -> Start")
         let duration =  DBUtils.measureTime {
-            dbQueue.inDatabase { db in
+            dbQueue.write { db in
                 do {
                     try db.executeUpdate("VACUUM;", values: nil)
                 } catch {
@@ -1041,7 +1031,7 @@ public class DataManager {
 
     public func count(query: String, values: [Any]?) -> Int {
         var count = 0
-        dbQueue.inDatabase { db in
+        dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: values)
                 if resultSet.next() {
@@ -1148,7 +1138,7 @@ public extension DataManager {
     }
 
     func deleteGhostsEpisodes(uuids: [String]) {
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             let query = "DELETE FROM \(Self.episodeTableName) WHERE uuid IN (\(uuids.joined(separator: ",")))"
 
             try? db.executeUpdate(query, values: nil)

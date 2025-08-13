@@ -11,9 +11,9 @@ final class BookmarkDataManagerTests: XCTestCase {
         dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue())
 
         // Create the schema
-        // the inDatabase call doesn't let you throw, so we'll track if there's an error here then pass it to the completion
+        // the write call doesn't let you throw, so we'll track if there's an error here then pass it to the completion
         var createError: Error? = nil
-        dbQueue.inDatabase { db in
+        dbQueue.write { db in
             do {
                 try BookmarkDataManager.createTable(in: db)
             } catch {

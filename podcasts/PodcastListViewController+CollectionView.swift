@@ -186,7 +186,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             headerView.subviews.forEach { $0.removeFromSuperview() }
 
             if let bannerAdModel = bannerAdModel {
-                let bannerAdView = BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme))
+                let bannerAdView = bannerAdView(bannerAdModel: bannerAdModel)
                 let hostingController = PCHostingController(rootView: bannerAdView)
                 hostingController.view.translatesAutoresizingMaskIntoConstraints = false
                 hostingController.view.backgroundColor = .clear
@@ -229,6 +229,19 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         return UICollectionReusableView()
     }
 
+    private func bannerAdView(bannerAdModel: BannerAdModel) -> some View {
+        let backgroundColor = (podcastsCollectionView as? ThemeableCollectionView)!.style
+        let isSameColor = ThemeColor.secondaryUi01() == AppTheme.colorForStyle(backgroundColor)
+
+        let additionalPadding: CGFloat = Settings.libraryType() == .list ? 16 : 0
+
+        return BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme))
+            .padding(.top, !isSameColor ? 16 : 0)
+            .padding(.bottom, additionalPadding)
+            .padding(.horizontal, additionalPadding)
+            .environmentObject(Theme.sharedTheme)
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         guard let bannerAdModel else {
@@ -236,7 +249,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         }
 
         // Use a separate view because fetching the view from UICollectionView isn't allowed until view is part of window hierarchy.
-        let sizingView = BannerAdView(model: bannerAdModel, colors: .podcastList(Theme.sharedTheme)).environmentObject(Theme.sharedTheme)
+        let sizingView = bannerAdView(bannerAdModel: bannerAdModel)
 
         let hostingController = UIHostingController(rootView: sizingView)
         let targetSize = CGSize(width: collectionView.bounds.width, height: UIView.layoutFittingCompressedSize.height)
