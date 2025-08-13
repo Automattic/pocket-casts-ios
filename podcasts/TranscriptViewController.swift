@@ -169,6 +169,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
 
+        stackView.addArrangedSubview(shareButton)
+
         if showFromEpisode {
             stackView.addArrangedSubview(playButton)
         }
@@ -238,6 +240,21 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     @objc private func playEpisode() {
         playButton.buttonState = playbackManager.isPlayingEpisode ? .play : .pause
         playButtonTapped?(playbackManager.isPlayingEpisode)
+    }
+
+    @objc private func shareEpisode() {
+        guard let transcript = transcript else { return }
+
+        let transcriptText = transcript.attributedText.string
+        let activityViewController = UIActivityViewController(activityItems: [transcriptText], applicationActivities: nil)
+
+        if let popover = activityViewController.popoverPresentationController {
+            popover.sourceView = shareButton
+            popover.sourceRect = shareButton.bounds
+        }
+
+        present(activityViewController, animated: true)
+        track(.transcriptShared)
     }
 
     private func dismissSearch() {
@@ -343,6 +360,25 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         playButton.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
         playButton.titleLabel?.adjustsFontForContentSizeCategory = true
         return playButton
+    }()
+
+    private lazy var shareButton: RoundButton = {
+        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+
+        let shareButton = RoundButton(type: .system)
+        shareButton.setTitle(L10n.share, for: .normal)
+        shareButton.addTarget(self, action: #selector(shareEpisode), for: .touchUpInside)
+        shareButton.setTitleColor(titleColor, for: .normal)
+        shareButton.tintColor = tintColor
+        shareButton.layer.masksToBounds = true
+        shareButton.configuration = configuration
+        shareButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        shareButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        return shareButton
     }()
 
     private lazy var hiddenTextView: UITextField = {

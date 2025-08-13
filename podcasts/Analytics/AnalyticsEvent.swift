@@ -826,6 +826,7 @@ enum AnalyticsEvent: String {
     case episodeDetailTranscriptCardShown
     case episodeDetailTranscriptCardTapped
     case episodeTranscriptShown
+    case transcriptShared
 
     // MARK: - Widgets
 
