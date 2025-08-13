@@ -53,9 +53,11 @@ extension WatchManager {
                 completion(cachedLog)
             }
 
-        }) { _ in
+        }) { error in
             if haveCalledCompletion { return }
             haveCalledCompletion = true
+
+            FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
 
             completion(cachedLog)
         }
