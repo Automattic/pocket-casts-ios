@@ -66,11 +66,12 @@ struct SyncSigninView: View {
 
     @ViewBuilder private func email() -> some View {
         LabeledField(
-            systemImage: "envelope",
+            imageName: "mail",
             tint: AppTheme.colorForStyle(.primaryField03Active).swiftUIColor,
             isSelected: focusedField == .email,
             content: {
                 TextField(L10n.signInEmailAddressPrompt, text: $model.email)
+                    .font(.subheadline)
                     .textContentType(.username)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
@@ -84,7 +85,7 @@ struct SyncSigninView: View {
 
     @ViewBuilder private func password() -> some View {
         LabeledField(
-            systemImage: "key",
+            imageName: "key",
             tint: AppTheme.colorForStyle(.primaryField03Active).swiftUIColor,
             isSelected: focusedField == .password,
             content: {
@@ -96,6 +97,7 @@ struct SyncSigninView: View {
                             SecureField(L10n.signInPasswordPrompt, text: $model.password)
                         }
                     }
+                    .font(.subheadline)
                     .textContentType(.password)
                     .focused($focusedField, equals: .password)
                     .submitLabel(.go)
@@ -118,6 +120,7 @@ struct SyncSigninView: View {
         }
         .buttonStyle(.plain)
         .foregroundStyle(ThemeColor.primaryInteractive01().swiftUIColor)
+        .font(.footnote)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -339,14 +342,14 @@ final class SyncSigninViewModel: ObservableObject {
 // MARK: - Small UI pieces
 
 private struct LabeledField<Content: View>: View {
-    let systemImage: String
+    let imageName: String
     let tint: Color
     let isSelected: Bool
     @ViewBuilder var content: Content
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: systemImage)
+            Image(imageName)
                 .foregroundStyle(tint)
                 .frame(width: 20)
             content
@@ -354,7 +357,7 @@ private struct LabeledField<Content: View>: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 14)
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 6)
                 .strokeBorder(isSelected ? Color.accentColor : Color.secondary.opacity(0.3), lineWidth: 1.5)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
