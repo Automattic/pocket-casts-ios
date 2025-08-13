@@ -403,9 +403,9 @@ class WatchManager: NSObject, WCSessionDelegate {
             sendStateToWatch()
             if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
                 FileLog.shared.addMessage("WatchManager: Collecting Watch logs in sendStateToWatchInBackground")
-                WatchManager.shared.requestLogFile { _ in
+                WatchManager.shared.requestLogFile { log in
                     // We do nothing here, the log file will be cached as a result of requesting
-                    FileLog.shared.addMessage("WatchManager: Collected Watch logs in sendStateToWatchInBackground")
+                    FileLog.shared.addMessage("WatchManager: Collected Watch logs in sendStateToWatchInBackground isEmpty \(log?.isEmpty ?? true)")
                 }
             }
         }
