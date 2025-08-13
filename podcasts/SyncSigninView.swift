@@ -21,29 +21,33 @@ struct SyncSigninView: View {
     enum Field { case email, password }
 
     var body: some View {
-        VStack(spacing: 16) {
-            email()
-            password()
+        ScrollView {
+            VStack(spacing: 16) {
+                email()
+                password()
 
-            if let error = model.errorMessage, !error.isEmpty {
-                Text(error)
-                    .font(.callout)
-                    .foregroundColor(.red)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .transition(.opacity)
+                if let error = model.errorMessage, !error.isEmpty {
+                    Text(error)
+                        .font(.callout)
+                        .foregroundColor(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .transition(.opacity)
+                }
+
+                forgotPassword()
+
+                signInButton()
+
+                divider()
+
+                SocialLoginButtons(coordinator: coordinator)
+
+                // Add bottom padding to ensure content doesn't get cut off
+                Color.clear.frame(height: 50)
             }
-
-            forgotPassword()
-
-            signInButton()
-
-            divider()
-
-            SocialLoginButtons(coordinator: coordinator)
-
-            Spacer(minLength: 0)
+            .padding()
         }
-        .padding()
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.accountLogin)
         .onAppear {
             model.onCompleted = {
@@ -57,10 +61,6 @@ struct SyncSigninView: View {
             if model.showProgressHUD {
                 ProgressHUDView(title: model.progressTitle, progress: model.progressValue)
             }
-        }
-        // Keep button clear of the keyboard (approximate original keyboardLayoutGuide)
-        .safeAreaInset(edge: .bottom) {
-            Color.clear.frame(height: 16)
         }
     }
 
