@@ -23,7 +23,7 @@ struct SmartPlaylistCreationView: View {
                         .multilineTextAlignment(.leading)
                     Text(L10n.playlistCreationCreateSmartPlaylistButtonSubtitle)
                         .font(size: 13.0, style: .body, weight: .regular)
-                        .foregroundStyle(theme.secondaryText02)
+                        .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
@@ -31,7 +31,7 @@ struct SmartPlaylistCreationView: View {
                 Spacer()
                 Image("cs-chevron")
                     .renderingMode(.template)
-                    .foregroundStyle(theme.secondaryText02)
+                    .foregroundStyle(theme.primaryText02)
                     .frame(width: 24, height: 24)
             }
             .frame(minHeight: 59.0)

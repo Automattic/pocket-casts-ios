@@ -54,6 +54,9 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func setupNavBar() {
+        let backgroundColor = AppTheme.viewBackgroundColor()
+        changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+
         title = L10n.playlistsDefaultNewPlaylist
 
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
@@ -61,7 +64,7 @@ class NewPlaylistViewController: PCViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+        appearance.backgroundColor = backgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
