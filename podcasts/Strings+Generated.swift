@@ -3525,6 +3525,8 @@ internal enum L10n {
   internal static var showNotes: String { return L10n.tr("Localizable", "show_notes", fallback: "Notes") }
   /// A common string used throughout the app. Prompt for the user to sign into their account.
   internal static var signIn: String { return L10n.tr("Localizable", "sign_in", fallback: "Sign In") }
+  /// Label of a button that lets the user login/signup with Email
+  internal static var signInContinueWithEmail: String { return L10n.tr("Localizable", "sign_in_continue_with_email", fallback: "Continue with Email") }
   /// A label dividing the email with social login options. Indicating a separation of two separate sections.
   internal static var signInDividerLabel: String { return L10n.tr("Localizable", "sign_in_divider_label", fallback: "OR") }
   /// Email address field prompt

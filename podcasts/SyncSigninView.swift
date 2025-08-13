@@ -130,7 +130,7 @@ struct SyncSigninView: View {
             model.performSignIn()
         } label: {
             ZStack {
-                Text("Continue with email")
+                Text(L10n.signInContinueWithEmail)
                     .opacity(model.isSigningIn ? 0 : 1)
                 if model.isSigningIn {
                     ProgressView().controlSize(.regular)
