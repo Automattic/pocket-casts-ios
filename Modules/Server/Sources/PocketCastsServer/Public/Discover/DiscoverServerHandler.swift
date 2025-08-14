@@ -37,15 +37,24 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         "\(ServerConstants.Urls.discover())images/\(size)/\(podcast).jpg"
     }
 
-    public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
+    public func discoverPage() async -> (DiscoverLayout?, Bool) {
         let contentPath: String
         if FeatureFlag.recommendations.enabled {
             contentPath = "ios/content_v3.json"
         } else {
             contentPath = "ios/content_v2.json"
         }
-        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
-            completion(discoverItems, cachedResponse)
+        return await withCheckedContinuation { continuation in
+            discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self, authenticated: nil) { discoverItems, cachedResponse in
+                continuation.resume(returning: (discoverItems, cachedResponse))
+            }
+        }
+    }
+
+    public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
+        Task {
+            let page = await discoverPage()
+            completion(page.0, page.1)
         }
     }
 
@@ -69,7 +78,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
 
     public func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
         await withCheckedContinuation { continuation in
-            DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: authenticated) { result in
+            discoverCategories(source: source, authenticated: authenticated) { result in
                 continuation.resume(returning: result ?? [])
             }
         }
@@ -78,6 +87,14 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     public func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
         discoverRequest(path: source, type: DiscoverCategoryDetails.self, authenticated: authenticated) { categoryDetails, _ in
             completion(categoryDetails)
+        }
+    }
+
+    public func discoverCategoryDetails(source: String, authenticated: Bool?) async -> DiscoverCategoryDetails? {
+        await withCheckedContinuation { continuation in
+            discoverCategoryDetails(source: source, authenticated: authenticated) { result in
+                continuation.resume(returning: result)
+            }
         }
     }
 

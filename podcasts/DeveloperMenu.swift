@@ -353,6 +353,18 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Show Onboarding Recommendations") {
+                    showing = true
+                }
+                .sheet(isPresented: $showing) {
+                    OnboardingRecommendationsView()
+                        .environmentObject(Theme.sharedTheme)
+                }
+            } header: {
+                Text("Onboarding")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
