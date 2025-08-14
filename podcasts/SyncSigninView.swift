@@ -7,12 +7,20 @@ import PocketCastsUtils
 // MARK: - SwiftUI View
 
 struct SyncSigninView: View {
-    @StateObject private var model = SyncSigninViewModel()
+    @StateObject private var model: SyncSigninViewModel
 
     let coordinator: LoginCoordinator
     let dismissOnCancel: Bool
     let loginAgain: Bool
     var onCompleted: (() -> Void)?
+
+    init(coordinator: LoginCoordinator, dismissOnCancel: Bool, loginAgain: Bool, onCompleted: (() -> Void)? = nil) {
+        self.coordinator = coordinator
+        self.dismissOnCancel = dismissOnCancel
+        self.loginAgain = loginAgain
+        self.onCompleted = onCompleted
+        self._model = StateObject(wrappedValue: SyncSigninViewModel(coordinator: coordinator))
+    }
 
     @EnvironmentObject var theme: Theme
     @Environment(\.dismiss) private var dismiss
@@ -57,12 +65,6 @@ struct SyncSigninView: View {
             focusedField = .email
         }
         .onDisappear { model.onDisappear() }
-        .overlay {
-            // Progress HUD replacement
-            if model.showProgressHUD {
-                ProgressHUDView(title: model.progressTitle, progress: model.progressValue)
-            }
-        }
     }
 
     @ViewBuilder private func email() -> some View {
@@ -159,6 +161,9 @@ struct SyncSigninView: View {
 // MARK: - ViewModel
 
 final class SyncSigninViewModel: ObservableObject {
+    // Dependencies
+    private let coordinator: LoginCoordinator
+
     // Inputs
     @Published var email: String = ""
     @Published var password: String = ""
@@ -167,12 +172,16 @@ final class SyncSigninViewModel: ObservableObject {
     // UI state
     @Published var errorMessage: String?
     @Published var isSigningIn = false
-    @Published var showProgressHUD = false
-    @Published var progressTitle: String = ""
-    @Published var progressValue: Double? = nil // nil = indeterminate
+
+    // Progress alert
+    private var progressAlert: SyncLoadingAlert?
 
     // Output callback (replaces delegate)
     var onCompleted: (() -> Void)?
+
+    init(coordinator: LoginCoordinator) {
+        self.coordinator = coordinator
+    }
 
     // Progress tracking
     private var totalPodcastsToImport: Int = -1
@@ -185,7 +194,6 @@ final class SyncSigninViewModel: ObservableObject {
     func onAppear(loginAgain: Bool) {
         Analytics.track(.signInShown)
 
-        // Observers (using Combine)
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastCount)
             .compactMap { $0.object as? NSNumber }
             .sink { [weak self] number in
@@ -193,29 +201,7 @@ final class SyncSigninViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastUpto)
-            .compactMap { $0.object as? NSNumber }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] number in
-                guard let self else { return }
-                let upTo = number.intValue
-                if totalPodcastsToImport > 0 {
-                    progressTitle = L10n.syncProgress(upTo.localized(), totalPodcastsToImport.localized())
-                    progressValue = Double(upTo) / Double(max(totalPodcastsToImport, 1))
-                } else {
-                    progressTitle = (upTo == 1) ? L10n.syncProgressUnknownCountSingular
-                                               : L10n.syncProgressUnknownCountPluralFormat(upTo.localized())
-                    progressValue = nil
-                }
-            }
-            .store(in: &cancellables)
-
-        NotificationCenter.default.publisher(for: ServerNotifications.syncProgressImportedPodcasts)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.progressTitle = L10n.syncInProgress
-            }
-            .store(in: &cancellables)
+        // Note: SyncLoadingAlert handles progress notifications automatically via its own subscriptions
 
         // Complete on any of these
         let completions = [
@@ -271,7 +257,6 @@ final class SyncSigninViewModel: ObservableObject {
     private func startSignIn(username: String, password: String) {
         isSigningIn = true
         errorMessage = nil
-        progressValue = nil
 
         // show "signing in..." spinner inline; progress HUD appears *after* success like the original
         ApiServerHandler.shared.validateLogin(username: username, password: password) { [weak self] success, userId, error in
@@ -290,14 +275,16 @@ final class SyncSigninViewModel: ObservableObject {
                     }
 
                     self.isSigningIn = false
-                    self.showProgressHUD = false
-                    self.progressValue = nil
+                    self.progressAlert?.hideAlert(false)
+                    self.progressAlert = nil
                     return
                 }
 
-                // Show progress HUD (replacing ShiftyLoadingAlert)
-                self.progressTitle = L10n.syncAccountLogin
-                self.showProgressHUD = true
+                // Show SyncLoadingAlert
+                self.progressAlert = SyncLoadingAlert()
+                if let navigationController = self.coordinator.navigationController {
+                    self.progressAlert?.showAlert(navigationController, hasProgress: false, completion: nil)
+                }
 
                 // Clear any previously stored tokens
                 SyncManager.clearTokensFromKeyChain()
@@ -316,8 +303,8 @@ final class SyncSigninViewModel: ObservableObject {
     }
 
     private func syncCompleted() {
-        showProgressHUD = false
-        progressValue = nil
+        progressAlert?.hideAlert(false)
+        progressAlert = nil
         onCompleted?()
     }
 
@@ -337,34 +324,6 @@ final class SyncSigninViewModel: ObservableObject {
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
 
         Analytics.track(.userSignedIn, properties: ["source": "password"])
-    }
-}
-
-// MARK: - Small UI pieces
-
-private struct ProgressHUDView: View {
-    let title: String
-    let progress: Double?
-
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.35).ignoresSafeArea()
-            VStack(spacing: 12) {
-                if let progress {
-                    ProgressView(value: progress)
-                } else {
-                    ProgressView()
-                }
-                Text(title)
-                    .font(.callout)
-                    .multilineTextAlignment(.center)
-            }
-            .padding(16)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .frame(maxWidth: 280)
-        }
-        .transition(.opacity)
-        .animation(.easeInOut, value: progress)
     }
 }
 
