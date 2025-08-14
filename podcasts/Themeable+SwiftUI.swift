@@ -19,8 +19,8 @@ extension View {
         modifier(RequiredInput(hasErrored))
     }
 
-    func themedTextField(style: ThemeStyle = .primaryUi02, hasErrored: Bool = false) -> some View {
-        modifier(ThemedTextField(style: style, hasErrored: hasErrored))
+    func themedTextField(style: ThemeStyle = .primaryUi02, hasErrored: Bool = false, isSelected: Bool? = nil) -> some View {
+        modifier(ThemedTextField(style: style, hasErrored: hasErrored, isSelected: isSelected))
     }
 
     func requiredStyle(_ hasErrored: Bool) -> some View {

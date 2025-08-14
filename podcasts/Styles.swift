@@ -101,10 +101,12 @@ struct ThemedTextField: ViewModifier {
     @EnvironmentObject var theme: Theme
     let style: ThemeStyle
     let hasErrored: Bool
+    let isSelected: Bool?
 
-    init(style: ThemeStyle = .primaryUi02, hasErrored: Bool = false) {
+    init(style: ThemeStyle = .primaryUi02, hasErrored: Bool = false, isSelected: Bool? = nil) {
         self.style = style
         self.hasErrored = hasErrored
+        self.isSelected = isSelected
     }
 
     func body(content: Content) -> some View {
@@ -118,6 +120,16 @@ struct ThemedTextField: ViewModifier {
             .padding(10)
             .required(hasErrored)
             .background(AppTheme.colorForStyle(style, themeOverride: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
+            .modify {
+                if let isSelected = isSelected {
+                    $0.overlay(
+                        RoundedRectangle(cornerRadius: ViewConstants.cornerRadius)
+                            .strokeBorder(isSelected ? AppTheme.colorForStyle(.primaryField03Active, themeOverride: theme.activeTheme).color : Color.secondary.opacity(0.3), lineWidth: 2)
+                    )
+                } else {
+                    $0
+                }
+            }
     }
 }
 

@@ -65,53 +65,53 @@ struct SyncSigninView: View {
     }
 
     @ViewBuilder private func email() -> some View {
-        LabeledField(
-            imageName: "mail",
-            tint: AppTheme.colorForStyle(.primaryField03Active).swiftUIColor,
-            isSelected: focusedField == .email,
-            content: {
-                TextField(L10n.signInEmailAddressPrompt, text: $model.email)
-                    .font(.subheadline)
-                    .textContentType(.username)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .submitLabel(.next)
-                    .focused($focusedField, equals: .email)
-                    .onSubmit { focusedField = .password }
-                    .onChange(of: model.email) { _ in model.textFieldChanged() }
-            })
+        HStack(spacing: 10) {
+            Image("mail")
+                .foregroundStyle(AppTheme.colorForStyle(.primaryField03Active).swiftUIColor)
+                .frame(width: 20)
+            TextField(L10n.signInEmailAddressPrompt, text: $model.email)
+                .font(.subheadline)
+                .textContentType(.username)
+                .keyboardType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .submitLabel(.next)
+                .focused($focusedField, equals: .email)
+                .onSubmit { focusedField = .password }
+                .onChange(of: model.email) { _ in model.textFieldChanged() }
+        }
+        .themedTextField(hasErrored: model.errorMessage != nil, isSelected: focusedField == .email)
     }
 
     @ViewBuilder private func password() -> some View {
-        LabeledField(
-            imageName: "key",
-            tint: AppTheme.colorForStyle(.primaryField03Active).swiftUIColor,
-            isSelected: focusedField == .password,
-            content: {
-                HStack(spacing: 8) {
-                    Group {
-                        if model.showPassword {
-                            TextField(L10n.signInPasswordPrompt, text: $model.password)
-                        } else {
-                            SecureField(L10n.signInPasswordPrompt, text: $model.password)
-                        }
+        HStack(spacing: 10) {
+            Image("key")
+                .foregroundStyle(AppTheme.colorForStyle(.primaryField03Active).swiftUIColor)
+                .frame(width: 20)
+            HStack(spacing: 8) {
+                Group {
+                    if model.showPassword {
+                        TextField(L10n.signInPasswordPrompt, text: $model.password)
+                    } else {
+                        SecureField(L10n.signInPasswordPrompt, text: $model.password)
                     }
-                    .font(.subheadline)
-                    .textContentType(.password)
-                    .focused($focusedField, equals: .password)
-                    .submitLabel(.go)
-                    .onSubmit { model.performSignIn() }
-
-                    Button(action: { model.toggleShowPassword() }) {
-                        Image(model.showPassword ? "eye" : "eye-crossed")
-                            .renderingMode(.template)
-                    }
-                    .accessibilityLabel(model.showPassword ? L10n.signInHidePasswordLabel : L10n.signInShowPasswordLabel)
-                    .tint(ThemeColor.primaryIcon03().swiftUIColor)
                 }
-                .onChange(of: model.password) { _ in model.textFieldChanged() }
-            })
+                .font(.subheadline)
+                .textContentType(.password)
+                .focused($focusedField, equals: .password)
+                .submitLabel(.go)
+                .onSubmit { model.performSignIn() }
+
+                Button(action: { model.toggleShowPassword() }) {
+                    Image(model.showPassword ? "eye" : "eye-crossed")
+                        .renderingMode(.template)
+                }
+                .accessibilityLabel(model.showPassword ? L10n.signInHidePasswordLabel : L10n.signInShowPasswordLabel)
+                .tint(ThemeColor.primaryIcon03().swiftUIColor)
+            }
+            .onChange(of: model.password) { _ in model.textFieldChanged() }
+        }
+        .themedTextField(hasErrored: model.errorMessage != nil, isSelected: focusedField == .password)
     }
 
     @ViewBuilder private func forgotPassword() -> some View {
@@ -340,32 +340,6 @@ final class SyncSigninViewModel: ObservableObject {
 }
 
 // MARK: - Small UI pieces
-
-private struct LabeledField<Content: View>: View {
-    let imageName: String
-    let tint: Color
-    let isSelected: Bool
-    @ViewBuilder var content: Content
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(imageName)
-                .foregroundStyle(tint)
-                .frame(width: 20)
-            content
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 14)
-        .background(
-            RoundedRectangle(cornerRadius: 6)
-                .strokeBorder(isSelected ? Color.accentColor : Color.secondary.opacity(0.3), lineWidth: 1.5)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(.secondarySystemBackground))
-                )
-        )
-    }
-}
 
 private struct ProgressHUDView: View {
     let title: String
