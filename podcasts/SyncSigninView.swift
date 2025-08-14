@@ -146,11 +146,12 @@ struct SyncSigninView: View {
     }
 
     @ViewBuilder func divider() -> some View {
-        HStack {
+        HStack(spacing: 15) {
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
             Text(L10n.signInDividerLabel)
+                .font(.caption)
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
