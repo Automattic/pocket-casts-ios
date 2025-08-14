@@ -54,6 +54,7 @@ struct SyncSigninView: View {
                 onCompleted?() ?? dismiss()
             }
             model.onAppear(loginAgain: loginAgain)
+            focusedField = .email
         }
         .onDisappear { model.onDisappear() }
         .overlay {
@@ -80,7 +81,7 @@ struct SyncSigninView: View {
                 .onSubmit { focusedField = .password }
                 .onChange(of: model.email) { _ in model.textFieldChanged() }
         }
-        .themedTextField(hasErrored: model.errorMessage != nil, isSelected: focusedField == .email)
+        .themedTextField(hasErrored: model.errorMessage != nil)
     }
 
     @ViewBuilder private func password() -> some View {
@@ -111,7 +112,7 @@ struct SyncSigninView: View {
             }
             .onChange(of: model.password) { _ in model.textFieldChanged() }
         }
-        .themedTextField(hasErrored: model.errorMessage != nil, isSelected: focusedField == .password)
+        .themedTextField(hasErrored: model.errorMessage != nil)
     }
 
     @ViewBuilder private func forgotPassword() -> some View {
