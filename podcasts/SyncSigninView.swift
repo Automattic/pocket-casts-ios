@@ -81,6 +81,7 @@ struct SyncSigninView: View {
                 .onSubmit { focusedField = .password }
                 .onChange(of: model.email) { _ in model.textFieldChanged() }
         }
+        .padding(9)
         .themedTextField(hasErrored: model.errorMessage != nil)
     }
 
@@ -112,6 +113,7 @@ struct SyncSigninView: View {
             }
             .onChange(of: model.password) { _ in model.textFieldChanged() }
         }
+        .padding(9)
         .themedTextField(hasErrored: model.errorMessage != nil)
     }
 
