@@ -10,13 +10,11 @@ struct SyncSigninView: View {
     @StateObject private var model: SyncSigninViewModel
 
     let coordinator: LoginCoordinator
-    let dismissOnCancel: Bool
     let loginAgain: Bool
     var onCompleted: (() -> Void)?
 
-    init(coordinator: LoginCoordinator, dismissOnCancel: Bool, loginAgain: Bool, onCompleted: (() -> Void)? = nil) {
+    init(coordinator: LoginCoordinator, loginAgain: Bool, onCompleted: (() -> Void)? = nil) {
         self.coordinator = coordinator
-        self.dismissOnCancel = dismissOnCancel
         self.loginAgain = loginAgain
         self.onCompleted = onCompleted
         self._model = StateObject(wrappedValue: SyncSigninViewModel(coordinator: coordinator))
@@ -235,11 +233,6 @@ final class SyncSigninViewModel: ObservableObject {
         // Button state reacts via @Published + computed isValid
     }
 
-    func closeTapped(dismissOnCancel: Bool, dismiss: () -> Void) {
-        Analytics.track(.signInDismissed)
-        dismiss() // Both paths dismiss/pop in SwiftUI host
-    }
-
     func forgotPasswordTapped() {
         // If you still use the UIKit VC, present here via a coordinator, or push a SwiftUI ForgotPasswordView.
         // Example: post a routing notification or set some @Published to show a sheet.
@@ -303,9 +296,10 @@ final class SyncSigninViewModel: ObservableObject {
     }
 
     private func syncCompleted() {
-        progressAlert?.hideAlert(false)
-        progressAlert = nil
-        onCompleted?()
+        progressAlert?.hideAlert(true) { [weak self] in
+            self?.progressAlert = nil
+            self?.onCompleted?()
+        }
     }
 
     private func handleSuccessfulSignIn(username: String, password: String, userId: String?) {

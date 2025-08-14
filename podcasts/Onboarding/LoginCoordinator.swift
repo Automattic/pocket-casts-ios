@@ -57,7 +57,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         if FeatureFlag.newOnboardingAccountCreation.enabled {
             // Present SyncSignInView
-            let vc = UIHostingController(rootView: SyncSigninView(coordinator: self, dismissOnCancel: true, loginAgain: false).environmentObject(Theme.sharedTheme))
+            let vc = UIHostingController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let controller = SyncSigninViewController()
