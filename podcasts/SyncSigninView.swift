@@ -66,12 +66,16 @@ struct SyncSigninView: View {
         .onDisappear { model.onDisappear() }
     }
 
+    private var promptColor: Color {
+        theme.primaryField03
+    }
+
     @ViewBuilder private func email() -> some View {
         HStack(spacing: 10) {
             Image("mail")
                 .foregroundStyle(theme.primaryField03Active)
                 .frame(width: 20)
-            TextField(L10n.signInEmailAddressPrompt, text: $model.email, prompt: Text(L10n.signInEmailAddressPrompt).foregroundColor(theme.primaryUi05))
+            TextField(L10n.signInEmailAddressPrompt, text: $model.email, prompt: Text(L10n.signInEmailAddressPrompt).foregroundColor(promptColor))
                 .font(.subheadline)
                 .textContentType(.username)
                 .keyboardType(.emailAddress)
@@ -94,9 +98,9 @@ struct SyncSigninView: View {
             HStack(spacing: 8) {
                 Group {
                     if model.showPassword {
-                        TextField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(theme.primaryUi05))
+                        TextField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(promptColor))
                     } else {
-                        SecureField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(theme.primaryUi05))
+                        SecureField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(promptColor))
                     }
                 }
                 .font(.subheadline)
@@ -340,5 +344,5 @@ extension SyncSigninViewModel: ForgotPasswordDelegate {
 
 #Preview {
     SyncSigninView(coordinator: LoginCoordinator(), loginAgain: false)
-        .environmentObject(Theme(previewTheme: .radioactive))
+        .environmentObject(Theme(previewTheme: .light))
 }
