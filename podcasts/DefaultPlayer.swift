@@ -322,9 +322,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 process: tapProcess
             )
 
-            var audioProcessingTap: Unmanaged<MTAudioProcessingTap>?
+            var audioProcessingTap: MTAudioProcessingTap?
             if noErr == MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks, kMTAudioProcessingTapCreationFlag_PreEffects, &audioProcessingTap) {
-                audioMixInputParameters.audioTapProcessor = audioProcessingTap?.takeRetainedValue()
+                audioMixInputParameters.audioTapProcessor = audioProcessingTap
                 mutableMix.inputParameters = [audioMixInputParameters]
                 audioMix = mutableMix
             }

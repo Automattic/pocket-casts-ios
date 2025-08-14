@@ -174,10 +174,8 @@ final class SyncSigninViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isSigningIn = false
 
-    // Progress alert
     private var progressAlert: SyncLoadingAlert?
 
-    // Output callback (replaces delegate)
     var onCompleted: (() -> Void)?
 
     init(coordinator: LoginCoordinator) {
@@ -237,12 +235,9 @@ final class SyncSigninViewModel: ObservableObject {
     }
 
     func forgotPasswordTapped() {
-        // If you still use the UIKit VC, present here via a coordinator, or push a SwiftUI ForgotPasswordView.
-        // Example: post a routing notification or set some @Published to show a sheet.
-        // Keep for parity with existing app architecture:
         let vc = ForgotPasswordViewController()
         vc.delegate = self
-        UIApplication.shared.topMostViewController()?.navigationController?.pushViewController(vc, animated: true)
+        SceneHelper.rootViewController()?.navigationController?.pushViewController(vc, animated: true)
     }
 
     func performSignIn() {
@@ -330,24 +325,6 @@ private extension UIColor {
     var swiftUIColor: Color { Color(self) }
 }
 
-private extension UIApplication {
-    /// Helper used for pushing the existing UIKit ForgotPasswordViewController from SwiftUI.
-    func topMostViewController(base: UIViewController? = UIApplication.shared.connectedScenes
-        .compactMap { ($0 as? UIWindowScene)?.keyWindow }
-        .first?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topMostViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-            return topMostViewController(base: selected)
-        }
-        if let presented = base?.presentedViewController {
-            return topMostViewController(base: presented)
-        }
-        return base
-    }
-}
-
 // MARK: - ForgotPassword delegate bridge
 
 extension SyncSigninViewModel: ForgotPasswordDelegate {
@@ -355,11 +332,11 @@ extension SyncSigninViewModel: ForgotPasswordDelegate {
         // In the UIKit VC, it pops then shows an alert slightly later.
         // Here we mimic just the confirmation alert behavior.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            if let top = UIApplication.shared.topMostViewController() {
+            if let rootVC = SceneHelper.rootViewController() {
                 SJUIUtils.showAlert(
                     title: L10n.profileSendingResetEmailConfTitle,
                     message: L10n.profileSendingResetEmailConfMsg,
-                    from: top
+                    from: rootVC
                 )
             }
         }
