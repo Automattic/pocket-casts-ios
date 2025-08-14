@@ -116,13 +116,13 @@ struct ThemedTextField: ViewModifier {
 
     private func baseContent(content: Content) -> some View {
         content
-            .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            .foregroundColor(theme.primaryText01)
             .padding(10)
             .required(hasErrored)
             .background(AppTheme.colorForStyle(style, themeOverride: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
             .overlay(
                 RoundedRectangle(cornerRadius: ViewConstants.cornerRadius)
-                    .strokeBorder(isFocused ? AppTheme.colorForStyle(.primaryField03Active, themeOverride: theme.activeTheme).color : Color.secondary.opacity(0.3), lineWidth: 2)
+                    .strokeBorder(isFocused ? AppTheme.colorForStyle(.primaryField03Active, themeOverride: theme.activeTheme).color : theme.primaryUi05, lineWidth: 2)
             )
     }
 }

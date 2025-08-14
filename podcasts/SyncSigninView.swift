@@ -53,6 +53,7 @@ struct SyncSigninView: View {
             }
             .padding()
         }
+        .background(theme.primaryInteractive02)
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.accountLogin)
         .onAppear {
@@ -68,9 +69,9 @@ struct SyncSigninView: View {
     @ViewBuilder private func email() -> some View {
         HStack(spacing: 10) {
             Image("mail")
-                .foregroundStyle(AppTheme.colorForStyle(.primaryField03Active).swiftUIColor)
+                .foregroundStyle(theme.primaryField03Active)
                 .frame(width: 20)
-            TextField(L10n.signInEmailAddressPrompt, text: $model.email)
+            TextField(L10n.signInEmailAddressPrompt, text: $model.email, prompt: Text(L10n.signInEmailAddressPrompt).foregroundColor(theme.primaryUi05))
                 .font(.subheadline)
                 .textContentType(.username)
                 .keyboardType(.emailAddress)
@@ -88,14 +89,14 @@ struct SyncSigninView: View {
     @ViewBuilder private func password() -> some View {
         HStack(spacing: 10) {
             Image("key")
-                .foregroundStyle(AppTheme.colorForStyle(.primaryField03Active).swiftUIColor)
+                .foregroundStyle(theme.primaryField03Active)
                 .frame(width: 20)
             HStack(spacing: 8) {
                 Group {
                     if model.showPassword {
-                        TextField(L10n.signInPasswordPrompt, text: $model.password)
+                        TextField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(theme.primaryUi05))
                     } else {
-                        SecureField(L10n.signInPasswordPrompt, text: $model.password)
+                        SecureField(L10n.signInPasswordPrompt, text: $model.password, prompt: Text(L10n.signInPasswordPrompt).foregroundColor(theme.primaryUi05))
                     }
                 }
                 .font(.subheadline)
@@ -109,7 +110,7 @@ struct SyncSigninView: View {
                         .renderingMode(.template)
                 }
                 .accessibilityLabel(model.showPassword ? L10n.signInHidePasswordLabel : L10n.signInShowPasswordLabel)
-                .tint(ThemeColor.primaryIcon03().swiftUIColor)
+                .tint(theme.primaryIcon03)
             }
             .onChange(of: model.password) { _ in model.textFieldChanged() }
         }
@@ -122,7 +123,7 @@ struct SyncSigninView: View {
             model.forgotPasswordTapped()
         }
         .buttonStyle(.plain)
-        .foregroundStyle(ThemeColor.primaryInteractive01().swiftUIColor)
+        .foregroundStyle(theme.primaryInteractive01)
         .font(.footnote)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -319,12 +320,6 @@ final class SyncSigninViewModel: ObservableObject {
     }
 }
 
-// MARK: - Helpers
-
-private extension UIColor {
-    var swiftUIColor: Color { Color(self) }
-}
-
 // MARK: - ForgotPassword delegate bridge
 
 extension SyncSigninViewModel: ForgotPasswordDelegate {
@@ -341,4 +336,9 @@ extension SyncSigninViewModel: ForgotPasswordDelegate {
             }
         }
     }
+}
+
+#Preview {
+    SyncSigninView(coordinator: LoginCoordinator(), loginAgain: false)
+        .environmentObject(Theme(previewTheme: .radioactive))
 }

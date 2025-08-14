@@ -476,8 +476,8 @@ class AppTheme {
         }
     }
 
-    static func socialIconAppleImageName() -> String {
-        switch Theme.sharedTheme.activeTheme {
+    static func socialIconAppleImageName(theme: Theme = .sharedTheme) -> String {
+        switch theme.activeTheme {
         case .dark, .extraDark, .electric, .radioactive, .contrastDark:
             return "sso-icon-apple-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:

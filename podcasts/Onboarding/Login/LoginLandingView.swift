@@ -341,7 +341,7 @@ struct SocialLoginButtons: View {
             case .apple:
                 Button(L10n.socialSignInContinueWithApple) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme)))
             case .google:
                 Button(L10n.socialSignInContinueWithGoogle) {
                     coordinator.signIn(with: provider)
