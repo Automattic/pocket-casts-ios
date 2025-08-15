@@ -5,9 +5,17 @@ struct DiscoverPodcastsGridView: View {
     let category: DiscoverCategory
     let podcasts: [DiscoverPodcast]
 
+    enum Constants {
+        static let itemHeight: CGFloat = 148
+        static let gridSpacing: CGFloat = 16
+        static let itemSpacing: CGFloat = 8
+        static let coverSize: CGFloat = 108
+        static let textHeight: CGFloat = 32
+    }
+
     let columns = [
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8),
+        GridItem(.flexible(), spacing: Constants.itemSpacing),
+        GridItem(.flexible(), spacing: Constants.itemSpacing),
         GridItem(.flexible())
     ]
 
@@ -16,7 +24,7 @@ struct DiscoverPodcastsGridView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            LazyVGrid(columns: columns, spacing: 16) {
+            LazyVGrid(columns: columns, spacing: Constants.gridSpacing) {
                 ForEach(Array(podcasts.prefix(visibleCount)), id: \.uuid) { podcast in
                     podcastItem(podcast)
                 }
@@ -36,9 +44,9 @@ struct DiscoverPodcastsGridView: View {
     }
 
     @ViewBuilder func podcastItem(_ podcast: DiscoverPodcast) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.itemSpacing) {
             PodcastCover(podcastUuid: podcast.uuid ?? "")
-                .frame(width: 108, height: 108)
+                .frame(width: Constants.coverSize, height: Constants.coverSize)
                 .cornerRadius(8)
                 .overlay {
                     PodcastSubscribeButton(podcast: podcast)
@@ -48,10 +56,10 @@ struct DiscoverPodcastsGridView: View {
                 .font(.caption.weight(.semibold))
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
-                .frame(height: 32, alignment: .top)
+                .frame(height: Constants.textHeight, alignment: .top)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(height: 148)
+        .frame(height: Constants.itemHeight)
     }
 
 }

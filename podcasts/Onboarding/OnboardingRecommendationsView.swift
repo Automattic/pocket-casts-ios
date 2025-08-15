@@ -34,7 +34,7 @@ struct OnboardingRecommendationsView: View {
                                             category: category,
                                             podcasts: categoryPodcasts[category.id ?? 0] ?? []
                                         )
-                                        .frame(minHeight: 316) // Reserve space for 2 rows: (148 * 2) + 16 spacing + 4 padding
+                                        .frame(minHeight: (DiscoverPodcastsGridView.Constants.itemHeight * 2) + DiscoverPodcastsGridView.Constants.gridSpacing + 4)
                                     }
                                 }
                             } else {
