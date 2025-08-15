@@ -1966,6 +1966,10 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off", fallback: "Off") }
   /// A common string used throughout the app. Used as a confirmation or acceptance.
   internal static var ok: String { return L10n.tr("Localizable", "ok", fallback: "OK") }
+  /// Subtitle shown for the recommendations sreen during onboarding
+  internal static var onboardingRecommendationsSubtitle: String { return L10n.tr("Localizable", "onboarding_recommendations_subtitle", fallback: "Here are some great shows to start with. Tap to follow, search or import from other apps.") }
+  /// Title shown for the recommendations sreen during onboarding
+  internal static var onboardingRecommendationsTitle: String { return L10n.tr("Localizable", "onboarding_recommendations_title", fallback: "We hope you love these suggestions!") }
   /// Only on Unmetered Wifi
   internal static var onlyOnUnmeteredWifi: String { return L10n.tr("Localizable", "only_on_unmetered_wifi", fallback: "Only on Unmetered Wifi") }
   /// Only on Unmetered Wifi detail information
