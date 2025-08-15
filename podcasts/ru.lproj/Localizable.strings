@@ -865,6 +865,12 @@ Pocket Casts Plus</string>
     <string>Значок «История прослушивания»</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Фиксируйте прослушанное</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Создайте бесплатную учётную запись, чтобы синхронизировать плейлисты на всех устройствах.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Значок плейлистов</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Синхронизируйте свои плейлисты</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизвести</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Предложения Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Посмотрите, что популярно на этой неделе.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Тренды недели</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка загрузки</string>
     <key>playlists</key>
     <string>Плейлисты</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Хотите расширить возможности управления? Свои плейлисты — это функция, дающая вам возможность составлять собственные списки воспроизведения. Создавайте тематические плейлисты, сборники в дорогу или просто списки под настроение. Плейлисты — «свои» или «умные» — действуют так же, как и вы сами.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Знакомьтесь: плейлисты</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Всё работает точно так же, как и раньше: выпуски автоматически добавляются по установленным правилам. Все ваши фильтры никуда не делись, и ничего не изменилось, кроме названия.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Умные плейлисты — это новое название фильтров</string>
     <key>please_try_again</key>
     <string>Попробуйте еще раз</string>
     <key>please_try_again_later</key>
@@ -3145,6 +3161,10 @@ Pocket Casts на полную мощность.</string>
     <string>Переход в режим ожидания по окончании текущего выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Это поможет вам войти в курс дела. Они автоматически обновляются на основе ваших предпочтений.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Умные плейлисты готовы к работе</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Продолжить с Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3237,6 +3257,14 @@ Pocket Casts на полную мощность.</string>
     <string>Подписка завершается %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Срок действия истекает %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Закладки: лёгкий поиск подкастов</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Папки: каждый подкаст на своём месте</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Предварительный выбор глав: выбирайте по своему вкусу</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>В случайном порядке: приятные сюрпризы</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ за %2$@</string>
     <key>subscription_plan_features_info_link</key>

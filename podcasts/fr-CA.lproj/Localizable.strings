@@ -865,6 +865,12 @@ Laissez-nous d’abord vous aider</string>
     <string>Icône de l’historique d’écoute</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Garder une trace de ce que vous avez écouté</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Créez un compte gratuit pour synchroniser vos listes de lecture sur tous vos appareils.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Icône Listes de lecture</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Synchronisez vos listes de lecture</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ podcasts partout avec</string>
     <string>Lire maintenant</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Offres Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Découvrez ce que tout le monde écoute cette semaine.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendances de la semaine</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ MISES À JOUR</string>
     <string>Erreur lors du téléversement</string>
     <key>playlists</key>
     <string>Listes de lecture</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Vous voulez plus de contrôle ? Les listes de lecture manuelles vous permettent de créer des files d’attente personnalisées, parfaites pour les voyages, les thèmes ou simplement pour votre état d’esprit actuel. Qu’elles soient intelligentes ou manuelles, les listes de lecture calquent leur fonctionnement sur vous.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Présentation des listes de lecture</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Ils fonctionnent toujours exactement de la même manière, en utilisant des règles pour ajouter automatiquement vos épisodes. Tous vos filtres existants sont juste ici, rien n’a changé hormis le nom.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Les filtres sont désormais des listes de lecture intelligentes</string>
     <key>please_try_again</key>
     <string>Veuillez réessayer</string>
     <key>please_try_again_later</key>
@@ -3145,6 +3161,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Mise en veille à la fin de l’épisode en cours</string>
     <key>sleep_timer_time_remaining</key>
     <string>Minuterie de veille activée, il reste %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Nous les avons créés pour vous aider à vous lancer. Elles se mettent à jour automatiquement en fonction de votre écoute.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Listes de lecture intelligentes, prêtes à l’emploi</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continuer avec Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3237,6 +3257,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Abonnement annulé %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Expire dans %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Signets : plus de « où est-ce que c’était ? »</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Dossiers : vos podcasts, parfaitement organisés</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Présélectionner des chapitres : aller droit au but</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Aléatoire : la joie de ne pas avoir à choisir</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ par %2$@</string>
     <key>subscription_plan_features_info_link</key>

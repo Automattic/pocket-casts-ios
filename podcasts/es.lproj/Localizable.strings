@@ -3258,7 +3258,7 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <key>subscription_expires_in</key>
     <string>Caduca el %1$@</string>
     <key>subscription_feature_custom_title_bookmarks</key>
-    <string>Marcadores: no más “¿dónde fue eso?”</string>
+    <string>Marcadores: se acabó el no saber dónde viste ese programa</string>
     <key>subscription_feature_custom_title_folders</key>
     <string>Carpetas: tus podcasts, perfectamente organizados</string>
     <key>subscription_feature_custom_title_pre_selected_chapters</key>

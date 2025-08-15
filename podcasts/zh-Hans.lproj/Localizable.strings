@@ -3258,7 +3258,7 @@ Pocket Casts。</string>
     <key>subscription_expires_in</key>
     <string>到期日期：%1$@</string>
     <key>subscription_feature_custom_title_bookmarks</key>
-    <string>书签：彻底告别“刚才看到哪了？”的困扰</string>
+    <string>书签：精准定位重点</string>
     <key>subscription_feature_custom_title_folders</key>
     <string>文件夹：告别杂乱无章</string>
     <key>subscription_feature_custom_title_pre_selected_chapters</key>

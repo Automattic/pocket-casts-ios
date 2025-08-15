@@ -865,6 +865,12 @@ Låt oss hjälpa dig först</string>
     <string>Ikon för lyssningshistorik</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Håll koll på vad du har spelat upp</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Skapa ett gratis konto för att synkronisera dina spellistor på valfri enhet.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Ikon för spellistor</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Håll dina spellistor synkroniserade</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1977,6 +1983,14 @@ UPPDATERINGAR</string>
     <string>Uppladdningsfel</string>
     <key>playlists</key>
     <string>Spellistor</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Vill du ha mer kontroll? Manuella spellistor låter dig skapa anpassade köer – perfekt för resor, teman eller bara din nuvarande vibe. Spellistor ger dig det du behöver, oavsett om de är smarta eller manuella.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Vi presenterar spellistor</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>De fungerar fortfarande exakt likadant, med regler för att automatiskt lägga till dina avsnitt. Alla dina befintliga filter finns här, inget har ändrats förutom namnet.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Filter är nu Smarta spellistor</string>
     <key>please_try_again</key>
     <string>Vänligen försök igen</string>
     <key>please_try_again_later</key>
@@ -3147,6 +3161,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Somnar i slutet av nuvarande avsnitt</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Vi har skapat dessa för att hjälpa dig att komma igång. De uppdateras automatiskt baserat på ditt lyssnande.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Smarta spellistor, redo att användas</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Fortsätt med Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3239,6 +3257,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Prenumeration avbruten %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Löper ut om %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Bokmärken: inget mer ”var kan det där ha varit?”</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Mappar: dina podcasts, perfekt placerade</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Välj kapitel i förväg: plocka ut det bästa innehållet</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Slumpmässig uppspelning: glädjen över spännande val</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
     <key>subscription_plan_features_info_link</key>

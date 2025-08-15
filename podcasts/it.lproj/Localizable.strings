@@ -865,6 +865,12 @@ Prima vorremmo aiutarti</string>
     <string>Icona della cronologia degli ascolti</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Tieni traccia dei contenuti che hai riprodotto</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Crea un account gratuito per sincronizzare le playlist su qualsiasi dispositivo.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Icona playlist</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Mantieni sincronizzate le playlist</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Crea un account gratuito per sincronizzare gli show e ascoltarli ovunque tu sia.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1694,6 +1700,8 @@ pocast con te</string>
     <string>Riproduci ora</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Offerte Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Dai un'occhiata a cosa stanno ascoltando le altre persone questa settimana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Tendenze di questa settimana</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1975,6 +1983,14 @@ AGGIORNAMENTI</string>
     <string>Errore di caricamento</string>
     <key>playlists</key>
     <string>Playlist</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Vuoi avere maggiore controllo? Le playlist manuali ti consentono di creare code personalizzate, quindi sono ideali per viaggi, temi e in generale per decidere cosa ascoltare in base al tuo umore. Le playlist, intelligenti o manuali che siano, si adattano perfettamente a te.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Presentazione delle playlist</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Le playlist funzionano nello stesso modo di prima, quindi usano regole per aggiungere automaticamente gli episodi. Ritroverai tutti i tuoi filtri esistenti: l'unico elemento a essere cambiato è il nome.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>I filtri sono ora Playlist intelligenti</string>
     <key>please_try_again</key>
     <string>Riprova</string>
     <key>please_try_again_later</key>
@@ -3145,6 +3161,10 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>In sospensione alla fine dell'episodio corrente</string>
     <key>sleep_timer_time_remaining</key>
     <string>Autospegnimento attivo, tempo rimanente: %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Abbiamo creato queste per aiutarti a iniziare. Si aggiornano automaticamente in base ai tuoi ascolti.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Playlist intelligenti pronte per l'ascolto</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continua con Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3237,6 +3257,14 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Abbonamento annullato il giorno %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Scade tra %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Segnalibri: niente più "dov'era?"</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Cartelle: i tuoi podcast in perfetto ordine</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Preseleziona i capitoli: vai ai contenuti che ti interessano</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Riproduzione casuale: la gioia di non scegliere</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
     <key>subscription_plan_features_info_link</key>
