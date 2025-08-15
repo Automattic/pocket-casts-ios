@@ -7,6 +7,7 @@
 -----
 - Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
 - New subscription upgrade screens [#3372](https://github.com/Automattic/pocket-casts-ios/pull/3372)
+- Fix episode skipping when scrubbing to the end of an episode from the lock screen [#3383](https://github.com/Automattic/pocket-casts-ios/pull/3383)
 
 7.94
 -----

@@ -8,9 +8,9 @@ Pocket Casts verfügt über einfache, leistungsstarke Funktionen und eine unbegr
 
 WIR SIND VERSESSEN AUF DETAILS
 • Design: Podcasts einfach anhören, verwalten und finden.
-• Themes: Dunkles Design? Helles Design? Bei uns wird jeder fündig – mit unserem extradunklen Theme kommen selbst OLED-Freunde auf ihre Kosten.
+• Themes: Dunkles Design? Helles Design? Bei uns wird jeder fündig. Mit unserem extradunklen Theme kommen selbst OLED-Freunde auf ihre Kosten.
 • Universell: Individuelle, aber vertraute iPad-Benutzeroberfläche mit Unterstützung von Slide Over, geteiltem Bildschirm und Bild in Bild.
-• Überall zuhause: Über CarPlay, AirPlay, Chromecast and Sonos hörst du deine Podcasts an mehr Orten als je zuvor.
+• Überall zuhause: Über CarPlay, AirPlay, Chromecast und Sonos. hörst du deine Podcasts an mehr Orten als je zuvor.
 
 STARKE WIEDERGABEFUNKTIONEN
 • Bald verfügbar: Erstelle automatisch eine Wiedergabewarteschlange aus deinen Lieblingssendungen. Melde dich an und lasse deine Warteschlange mit all deinen Geräten synchronisieren.
@@ -18,21 +18,21 @@ STARKE WIEDERGABEFUNKTIONEN
 • Variable Geschwindigkeit: Du hast die Wahl zwischen 0,5- bis 3-facher Wiedergabegeschwindigkeit.
 • Lautstärke-Booster: Erhöhe die Lautstärke der Stimmen und verringere gleichzeitig Hintergrundgeräusche.
 • Streamen: Spiele Folgen auch von unterwegs ab.
-• Kapitel: Wechsle leicht zwischen verschiedenen Kapiteln und bewundere die eingebetteten Covers, die vom Autor hinzugefügt wurden. Wir unterstützen die Kapitelformate MP3 und M4A.
+• Kapitel: Wechsle leicht zwischen verschiedenen Kapiteln und bewundere die eingebetteten Kunstwerke, die vom Autor hinzugefügt wurden. Wir unterstützen die Kapitelformate MP3 und M4A.
 • Audio & Video: Beim Abspielen deiner Lieblingsfolgen kannst du zwischen Audio und Video wechseln.
 • Wiedergabe überspringen: Überspringe die Einführung oder bewege dich in anpassbaren Intervallen innerhalb von Folgen vor und zurück.
 • Apple Watch: Steuere die Wiedergabe über deine Apple Watch-App. Ändere die Lautstärke oder Effekte, ohne dein Telefon zu berühren.
 • Schlummerfunktion: Wir pausieren deinen Podcast, damit du deinen wohlverdienten Schlaf bekommst.
-• Airplay & Chromecast: Spiele Folgen mit einem einzigen Tipp auf deinem Fernseher oder deinen Lautsprechern ab.
-• Sonos: Durchsuche und gib deine Podcasts direkt über die Sonos-App wieder.
+• Airplay & Chromecast: Spiele Folgen mit einem einzigen Tippen auf deinem Fernseher oder über deine Lautsprecher ab.
+• Sonos: Durchsuche deine Podcasts und gib sie direkt über die Sonos-App wieder.
 • CarPlay: Wenn du ins Auto steigst, sind wir dabei.
 
 INTELLIGENTE TOOLS
-• Synchronisation: Abonnements, Up Next, dein Hörverlauf, Wiedergaben und Filter – alles ist sicher in der Cloud gespeichert. Mach einfach da weiter, wo du aufgehört hast. Auf einem anderen Gerät oder sogar im Web.
+• Synchronisation: Abonnements, Up Next, dein Hörverlauf, Wiedergaben und Filter – alles ist sicher in der Cloud gespeichert. Mach einfach da weiter, wo du aufgehört hast – auf einem anderen Gerät oder sogar im Web.
 • Aktualisierung: Unsere Server suchen stets nach neuen Folgen, damit du dich um anderes kümmern kannst.
-• Benachrichtigungen: Wir informieren dich, wenn neue Folgen verfügbar sind, wenn du möchtest.
+• Benachrichtigungen: Wenn du möchtest, informieren wir dich, sobald neue Folgen verfügbar sind.
 • Automatischer Download: Lade automatisch Folgen herunter, um sie offline abzuspielen.
-• Filter: Lass deine Podcast-Bibliothek durch automatische, individuelle Filter organisieren.
+• Filter: Organisiere deine Episoden über individuelle Filter.
 • Speicher: Alle Tools, die du brauchst, damit du in deiner Podcast-Sammlung den Überblick behältst.
 
 ALLE DEINE FAVORITEN

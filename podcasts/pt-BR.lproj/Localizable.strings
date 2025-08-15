@@ -865,6 +865,12 @@ Deixe a gente ajudar você primeiro</string>
     <string>Ícone do histórico de reprodução</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Veja o que você já escutou</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Crie uma conta gratuita para sincronizar suas listas de reprodução em qualquer dispositivo.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Ícone de listas de reprodução</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Mantenha suas listas de reprodução sincronizadas</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Crie uma conta gratuita para sincronizar seus programas e ouvir em qualquer lugar.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1702,6 +1708,8 @@ podcasts com você</string>
     <string>Reproduzir agora</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Benefícios do Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Confira o que todo mundo está ouvindo esta semana.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Em alta esta semana</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1983,6 +1991,14 @@ ATUALIZAÇÕES</string>
     <string>Erro no upload</string>
     <key>playlists</key>
     <string>Listas de reprodução</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Quer ter mais controle? Com as listas de reprodução manuais, você cria filas personalizadas, ótimas para viagens, temas ou apenas sua vibe atual. Sejam inteligentes ou manuais, as listas de reprodução funcionam do seu jeito.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Apresentamos as listas de reprodução</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Elas ainda funcionam da mesma forma, usando regras para adicionar seus episódios automaticamente. Todos os filtros existentes estão bem aqui, nada mudou além do nome.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Agora os filtros são listas de reprodução inteligentes</string>
     <key>please_try_again</key>
     <string>Tente novamente</string>
     <key>please_try_again_later</key>
@@ -3153,6 +3169,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Dormindo no final do episódio atual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>Nós as criamos para ajudar você a começar. Elas são atualizadas automaticamente com base no que você ouve.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Listas de reprodução inteligentes prontas para uso</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continuar com a Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3245,6 +3265,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Assinatura cancelada em %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Expira em %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Favoritos: chega de não saber onde está o quê</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Pastas: seus podcasts organizados perfeitamente</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Capítulos pré-selecionados: pule para a parte boa</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Aleatório: a alegria de não precisar escolher</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ por %2$@</string>
     <key>subscription_plan_features_info_link</key>
