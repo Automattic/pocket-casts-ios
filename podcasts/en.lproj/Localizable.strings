@@ -5297,6 +5297,9 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* A common string used throughout the app. Often refers to the Smart Playlist. */
+"smart_playlist" = "Smart Playlist";
+
 /* The title shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
 
@@ -5321,8 +5324,8 @@
 /* Playlists Empty State: description for the empty state visible when no playlists are displayed */
 "playlists_empty_state_description" = "Playlists let you organize episodes manually or automatically with Smart Rules.";
 
-/* Playlists Empty State: button title for the empty state visible when no playlists are displayed */
-"playlists_empty_state_button" = "New Playlist";
+/* A placeholder title for a new playlist. */
+"playlists_default_new_playlist" = "New Playlist";
 
 /* Title of the save button dislayed in each smart rule */
 "playlist_smart_rule_save_button" = "Save Smart Rule";
@@ -5344,6 +5347,15 @@
 
 /* Header subtitle for smart rule starred when the toggle is off */
 "playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
+
+/* Title for the button used during the Playlist creation */
+"playlist_creation_create_playlist_button" = "Create Playlist";
+
+/* Title for the button used to open the rules during the Playlist creation */
+"playlist_creation_create_smart_playlist_button_title" = "Make into Smart Playlist";
+
+/* Subtitle for the button used to open the rules during the Playlist creation */
+"playlist_creation_create_smart_playlist_button_subtitle" = "Automatically add episodes based on rules.";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

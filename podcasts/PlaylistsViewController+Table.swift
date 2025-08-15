@@ -28,14 +28,14 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if FeatureFlag.playlistsRebranding.enabled {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
+            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
                 cell.configure(playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
             }
             return cell
         }
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistsViewController.playlistCellId, for: indexPath) as! FilterNameCell
+        let cell = cell(tableView, for: PlaylistsViewController.playlistCellId) as! FilterNameCell
 
         if let filter = playlists[safe: indexPath.row] {
             cell.filterName.text = filter.playlistName
@@ -58,6 +58,25 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return cell
+    }
+
+    private func cell(_ tableView: UITableView, for identifier: String) -> ThemeableCell? {
+        if FeatureFlag.playlistsRebranding.enabled {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PlaylistCell {
+                return cell
+            }
+            return PlaylistCell(style: .default, reuseIdentifier: identifier)
+        } else {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? FilterNameCell {
+                return cell
+            }
+            let nib = UINib(nibName: "FilterNameCell", bundle: nil)
+            let objects = nib.instantiate(withOwner: nil, options: nil)
+            if let cell = objects.first as? FilterNameCell {
+                return cell
+            }
+        }
+        return nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

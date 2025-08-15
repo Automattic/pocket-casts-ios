@@ -82,7 +82,8 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
         appearance.largeTitleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .bold)
         ]
         appearance.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)

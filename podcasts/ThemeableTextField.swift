@@ -13,6 +13,12 @@ class ThemeableTextField: UITextField {
         }
     }
 
+    var placeholderStyle: ThemeStyle = .primaryText02 {
+        didSet {
+            updateColor()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -42,7 +48,7 @@ class ThemeableTextField: UITextField {
     private func updateColor() {
         textColor = AppTheme.colorForStyle(textStyle)
         if let placeholder = placeholder {
-            attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText02).withAlphaComponent(0.5)])
+            attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(placeholderStyle).withAlphaComponent(0.5)])
         }
         if let background = backgroundStyle {
             backgroundColor = AppTheme.colorForStyle(background)
