@@ -3,6 +3,8 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+
+
 struct OnboardingRecommendationsView: View {
 
     @State var categories: [DiscoverCategory] = []
@@ -183,6 +185,9 @@ struct OnboardingRecommendationsView: View {
                             }
                             .foregroundColor(theme.primaryInteractive01)
                         }
+                    }
+                    .onAppear {
+                        OnboardingFlow.shared.track(.onboardingImportShown)
                     }
             }
             .environmentObject(theme)
