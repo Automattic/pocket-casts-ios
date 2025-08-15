@@ -31,6 +31,7 @@ struct OnboardingRecommendationsView: View {
                                     VStack(alignment: .leading, spacing: 16) {
                                         Text(category.name ?? "Unknown")
                                             .font(.title2.weight(.bold))
+                                            .foregroundStyle(theme.primaryText01)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 20)
                                         DiscoverPodcastsGridView(
@@ -69,7 +70,7 @@ struct OnboardingRecommendationsView: View {
                         .padding(.top, 2)
                         .padding(.bottom)
                     }
-                    .background(Color(UIColor.systemBackground))
+                    .background(theme.primaryInteractive02)
                     .background(.ultraThinMaterial)
                 }
             } else {
@@ -94,6 +95,7 @@ struct OnboardingRecommendationsView: View {
                     }
             }
         }
+        .background(theme.primaryInteractive02)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
     }
 
@@ -165,10 +167,11 @@ struct OnboardingRecommendationsView: View {
                 Text(L10n.onboardingRecommendationsTitle)
                     .font(.title.weight(.bold))
                     .multilineTextAlignment(.center)
+                    .foregroundColor(theme.primaryText01)
                 Text(L10n.onboardingRecommendationsSubtitle)
                     .font(.body)
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.primaryText02)
             }
             .padding(.horizontal, 30)
         }
@@ -212,5 +215,5 @@ struct OnboardingRecommendationsView: View {
 
 #Preview("Live") {
     OnboardingRecommendationsView()
-        .environmentObject(Theme.sharedTheme)
+        .environmentObject(Theme(previewTheme: .extraDark))
 }

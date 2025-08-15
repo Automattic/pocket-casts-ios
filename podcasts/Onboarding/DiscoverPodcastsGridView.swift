@@ -47,6 +47,7 @@ struct DiscoverPodcastsGridView: View {
         VStack(alignment: .leading, spacing: Constants.itemSpacing) {
             PodcastCover(podcastUuid: podcast.uuid ?? "")
                 .frame(width: Constants.coverSize, height: Constants.coverSize)
+
                 .cornerRadius(8)
                 .overlay {
                     PodcastSubscribeButton(podcast: podcast)
@@ -54,6 +55,7 @@ struct DiscoverPodcastsGridView: View {
 
             Text(podcast.title ?? "")
                 .font(.caption.weight(.semibold))
+                .foregroundStyle(theme.primaryText01)
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
                 .frame(height: Constants.textHeight, alignment: .top)
