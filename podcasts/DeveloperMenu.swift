@@ -9,6 +9,7 @@ struct DeveloperMenu: View {
     @State var showingPlaylistsOnboarding = false
     @State var showingRecommendationsOnboarding = false
     @State var showSurvey = false
+    @State var showIntroCarousel = false
 
     var body: some View {
         List {
@@ -349,8 +350,15 @@ struct DeveloperMenu: View {
                         showingPlaylistsOnboarding = false
                     })
                 }
+
+                Button("Show Intro Carousel") {
+                    showIntroCarousel = true
+                }
+                .sheet(isPresented: $showIntroCarousel) {
+                    IntroCarouselView()
+                }
             } header: {
-                Text("Playlists")
+                Text("Onboarding")
             }
 
             Section {
