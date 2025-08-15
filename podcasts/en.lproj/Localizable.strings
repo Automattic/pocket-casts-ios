@@ -5067,6 +5067,12 @@
 /* Notification title for weekly reengagement message */
 "notifications_reengagement_weekly_title" = "We miss you!";
 
+/* Title shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_title" = "We hope you love these suggestions!";
+
+/* Subtitle shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_subtitle" = "Here are some great shows to start with. Tap to follow, search or import from other apps.";
+
 /* Notification body for weekly reengagement message */
 "notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
 

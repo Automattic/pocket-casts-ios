@@ -132,10 +132,10 @@ struct OnboardingRecommendationsView: View {
             .padding(.horizontal, 20)
 
             VStack(alignment: .center, spacing: 16) {
-                Text("We hope you love these suggestions!")
+                Text(L10n.onboardingRecommendationsTitle)
                     .font(.title.weight(.bold))
                     .multilineTextAlignment(.center)
-                Text("Here are some great shows to start with. Tap to follow, search or import from other apps.")
+                Text(L10n.onboardingRecommendationsSubtitle)
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
