@@ -147,7 +147,9 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         filterToEdit.filterFinished = filterFinished
         filterToEdit.filterUnplayed = filterUnplayed
         filterToEdit.filterPartiallyPlayed = filterPartiallyPlayed
-
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.episodesSmartRuleApplied = true
+        }
         super.saveFilter()
     }
 

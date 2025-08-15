@@ -37,6 +37,10 @@ public class EpisodeFilter: NSObject {
 
     // Internal tracking
     public var isNew: Bool = false
+    public var podcastSmartRuleApplied: Bool = false
+    public var episodesSmartRuleApplied: Bool = false
+    public var mediaTypeSmartRuleApplied: Bool = false
+    public var downloadStatusSmartRuleApplied: Bool = false
 
     public var playlistType: PlaylistType {
         PlaylistType(rawValue: rawPlaylistType) ?? .smart

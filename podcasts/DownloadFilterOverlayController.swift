@@ -67,7 +67,6 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         cell.title.text = titleForRow(row: row)
         cell.title.setLetterSpacing(-0.2)
         cell.setSelectState(selectedRow == row)
-        let filterTintColor = filterToEdit.playlistColor()
         if FeatureFlag.playlistsRebranding.enabled {
             cell.title.font = .systemFont(ofSize: 17, weight: .semibold)
             cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
@@ -103,6 +102,9 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         case .notDownloaded:
             filterToEdit.filterDownloaded = false
             filterToEdit.filterNotDownloaded = true
+        }
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.downloadStatusSmartRuleApplied = true
         }
         super.saveFilter()
     }

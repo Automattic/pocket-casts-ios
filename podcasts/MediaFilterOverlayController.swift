@@ -104,6 +104,9 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
     override func saveFilter() {
         filterToEdit.filterAudioVideoType = Int32(selectedIndex)
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.mediaTypeSmartRuleApplied = true
+        }
         super.saveFilter()
     }
 

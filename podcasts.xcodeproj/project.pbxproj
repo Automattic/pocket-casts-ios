@@ -736,6 +736,7 @@
 		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		9AF355712E4B57750083ECA7 /* SmartPlaylistCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */; };
 		9AF355732E4B57AA0083ECA7 /* PlaylistPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */; };
+		9AF355752E4E153F0083ECA7 /* SmartPlaylistRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3017,6 +3018,7 @@
 		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistCreationView.swift; sourceTree = "<group>"; };
 		9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPreviewViewController.swift; sourceTree = "<group>"; };
+		9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesView.swift; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -5590,6 +5592,7 @@
 				9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */,
 				9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */,
 				9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */,
+				9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */,
 			);
 			path = "New Creation";
 			sourceTree = "<group>";
@@ -10780,6 +10783,7 @@
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
 				467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */,
 				102141132C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift in Sources */,
+				9AF355752E4E153F0083ECA7 /* SmartPlaylistRulesView.swift in Sources */,
 				102D1C882C7648680088DB89 /* PlusPaywallFeatureCard.swift in Sources */,
 				404BB868231361A6006FE8A9 /* WhatsNewLinkButton.swift in Sources */,
 				BDBA7F2C1DA51B440080EBAC /* NotificationsHelper.swift in Sources */,

@@ -180,6 +180,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             filterToEdit.filterAllPodcasts = false
         }
 
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.podcastSmartRuleApplied = true
+        }
+
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
