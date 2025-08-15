@@ -172,6 +172,7 @@ struct OnboardingRecommendationsView: View {
                 SearchResultCell(episode: nil, result: podcast, played: false)
             }
         }
+        .environmentObject(SearchHistoryModel.shared)
         .padding(.horizontal, 20)
     }
 }
