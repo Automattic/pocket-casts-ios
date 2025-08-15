@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct SmartPlaylistRulesView: View {
+    @State var isExpanded: Bool = false
     @EnvironmentObject var theme: Theme
 
     let viewModel: PlaylistPreviewViewModel
@@ -10,7 +11,37 @@ struct SmartPlaylistRulesView: View {
         switch viewModel.playlistMode {
         case .creation:
             if viewModel.isInPreview {
-
+                VStack {
+                    if !viewModel.enabledRules.isEmpty {
+                        Text("Enabled Rules")
+                            .font(size: 22.0, style: .body, weight: .bold)
+                            .foregroundStyle(theme.primaryText01)
+                        SmartPlaylistRulesContainerView(
+                            rules: viewModel.enabledRules,
+                            action: viewModel.action
+                        )
+                        .padding(.vertical, 16.0)
+                    }
+                    if !viewModel.availableRules.isEmpty {
+                        DisclosureGroup(isExpanded: $isExpanded) {
+                            SmartPlaylistRulesContainerView(
+                                rules: viewModel.availableRules,
+                                action: viewModel.action
+                            )
+                            .padding(.vertical, 16.0)
+                        } label: {
+                            Text("Other Options")
+                                .font(size: 22.0, style: .body, weight: .bold)
+                                .foregroundStyle(theme.primaryText01)
+                        }
+                        .accentColor(theme.primaryIcon01)
+                        .padding(.horizontal, 16.0)
+                        .animation(.default, value: isExpanded)
+                        .onChange(of: isExpanded) { newValue in
+                            //                    onSizeChange()
+                        }
+                    }
+                }
             } else {
                 VStack(spacing: 24.0) {
                     Text("Set up Smart Rules to automatically add episodes to your Smart Playlist.")
@@ -18,6 +49,7 @@ struct SmartPlaylistRulesView: View {
                         .lineLimit(2)
                         .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.leading)
+                        .padding(.trailing, 8.0)
                     SmartPlaylistRulesContainerView(
                         rules: viewModel.availableRules,
                         action: viewModel.action
@@ -26,7 +58,7 @@ struct SmartPlaylistRulesView: View {
                 .padding(.horizontal, 16.0)
             }
         case .edit:
-            Text("")
+            Text("Edit")
         }
     }
 }
@@ -115,10 +147,12 @@ struct SmartPlaylistRuleRowView: View {
         @EnvironmentObject var theme: Theme
 
         var body: some View {
-            SmartPlaylistRulesView(
-                viewModel: viewModel
-            )
-            .padding(.horizontal, 16.0)
+            VStack {
+                SmartPlaylistRulesView(
+                    viewModel: viewModel
+                )
+                Spacer()
+            }
         }
 
         private var viewModel: PlaylistPreviewViewModel {
@@ -132,6 +166,7 @@ struct SmartPlaylistRuleRowView: View {
             let filter = EpisodeFilter()
             filter.rawPlaylistType = 0
             filter.playlistName = "New Releases"
+            filter.podcastSmartRuleApplied = true
             return filter
         }
     }
