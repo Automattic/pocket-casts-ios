@@ -101,6 +101,7 @@ struct ThemedTextField: ViewModifier {
     @EnvironmentObject var theme: Theme
     let style: ThemeStyle
     let hasErrored: Bool
+    @FocusState private var isFocused: Bool
 
     init(style: ThemeStyle = .primaryUi02, hasErrored: Bool = false) {
         self.style = style
@@ -109,15 +110,20 @@ struct ThemedTextField: ViewModifier {
 
     func body(content: Content) -> some View {
         baseContent(content: content)
+            .focused($isFocused)
             .scrollContentBackground(.hidden)
     }
 
     private func baseContent(content: Content) -> some View {
         content
-            .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            .foregroundColor(theme.primaryText01)
             .padding(10)
             .required(hasErrored)
             .background(AppTheme.colorForStyle(style, themeOverride: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: ViewConstants.cornerRadius)
+                    .strokeBorder(isFocused ? AppTheme.colorForStyle(.primaryField03Active, themeOverride: theme.activeTheme).color : theme.primaryUi05, lineWidth: 2)
+            )
     }
 }
 
@@ -169,19 +175,28 @@ struct RoundedButtonStyle: ButtonStyle {
     @ObservedObject var theme: Theme
     let textColor: ThemeStyle
     let backgroundColor: Color?
+    let isEnabled: Bool?
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil) {
         self.theme = theme
         self.textColor = textColor
         self.backgroundColor = backgroundColor
+        self.isEnabled = isEnabled
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let text = AppTheme.color(for: textColor, theme: theme)
-        let background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
-                            .opacity(configuration.isPressed ? 0.6 : 1)
+        let background: Color
 
-        BasicButtonStyle(textColor: text, backgroundColor: background)
+        if let enabled = isEnabled {
+            background = enabled ? AppTheme.color(for: .primaryInteractive01, theme: theme)
+                                 : AppTheme.color(for: .primaryInteractive01Disabled, theme: theme)
+        } else {
+            background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
+                            .opacity(configuration.isPressed ? 0.6 : 1)
+        }
+
+        return BasicButtonStyle(textColor: text, backgroundColor: background)
             .makeBody(configuration: configuration)
     }
 }
