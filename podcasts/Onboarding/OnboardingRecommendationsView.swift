@@ -14,6 +14,7 @@ struct OnboardingRecommendationsView: View {
     @State var searchTerm: String = ""
 
     @State var searchResults = [PodcastFolderSearchResult]()
+    @State var searchTask: Task<Void, Never>?
 
     var body: some View {
         Group {
@@ -41,14 +42,13 @@ struct OnboardingRecommendationsView: View {
                                 if #available(iOS 17.0, *) {
                                     podcastList()
                                         .onChange(of: searchTerm) { oldValue, newValue in
-                                            Task {
-                                                let podcastSearch = PodcastSearchTask()
-                                                let results = try await podcastSearch.search(term: newValue)
-                                                searchResults = results
-                                            }
+                                            performSearch(term: newValue)
                                         }
                                 } else {
                                     podcastList()
+                                        .onChange(of: searchTerm) { newValue in
+                                            performSearch(term: newValue)
+                                        }
                                 }
                             }
                         }
@@ -93,6 +93,34 @@ struct OnboardingRecommendationsView: View {
             }
         }
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
+    }
+
+    private func performSearch(term: String) {
+        searchTask?.cancel()
+
+        guard !term.isEmpty else {
+            searchResults = []
+            return
+        }
+
+        searchTask = Task {
+            do {
+                let podcastSearch = PodcastSearchTask()
+                let results = try await podcastSearch.search(term: term)
+
+                if !Task.isCancelled {
+                    await MainActor.run {
+                        searchResults = results
+                    }
+                }
+            } catch {
+                if !Task.isCancelled {
+                    await MainActor.run {
+                        searchResults = []
+                    }
+                }
+            }
+        }
     }
 
     private func regionCode(for layout: DiscoverLayout) -> String {
