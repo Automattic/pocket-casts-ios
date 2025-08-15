@@ -6,7 +6,8 @@ import PocketCastsUtils
 struct DeveloperMenu: View {
     @State var showingImporter = false
     @State var showingExporter = false
-    @State var showing = false
+    @State var showingPlaylistsOnboarding = false
+    @State var showingRecommendationsOnboarding = false
     @State var showSurvey = false
 
     var body: some View {
@@ -341,11 +342,11 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Show Playlists Onboarding") {
-                    showing = true
+                    showingPlaylistsOnboarding = true
                 }
-                .sheet(isPresented: $showing) {
+                .sheet(isPresented: $showingPlaylistsOnboarding) {
                     PlaylistsOnboardingView(onClose: {
-                        showing = false
+                        showingPlaylistsOnboarding = false
                     })
                 }
             } header: {
@@ -354,11 +355,13 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Show Onboarding Recommendations") {
-                    showing = true
+                    showingRecommendationsOnboarding = true
                 }
-                .sheet(isPresented: $showing) {
-                    OnboardingRecommendationsView()
-                        .environmentObject(Theme.sharedTheme)
+                .sheet(isPresented: $showingRecommendationsOnboarding) {
+                    NavigationStack {
+                        OnboardingRecommendationsView()
+                            .environmentObject(Theme.sharedTheme)
+                    }
                 }
             } header: {
                 Text("Onboarding")
