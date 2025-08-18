@@ -17,4 +17,6 @@ class StoriesConfiguration {
     var storiesToPreload: Int = 2
 
     var shouldShowDismissButton: Bool = true
+
+    var indicatorHeight: CGFloat = 2
 }

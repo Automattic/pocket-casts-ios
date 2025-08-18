@@ -58,6 +58,8 @@ extension StoriesDataSource {
     func isInteractiveView(for: Int) -> Bool {
         return false
     }
+
+    var indicatorHeight: CGFloat { 2 }
 }
 
 // MARK: - Story Views

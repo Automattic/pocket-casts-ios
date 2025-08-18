@@ -43,6 +43,10 @@ class StoriesModel: ObservableObject {
         configuration.storiesToPreload
     }
 
+    var indicatorHeight: CGFloat {
+        configuration.indicatorHeight
+    }
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration, activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier) {
         self.dataSource = dataSource
         self.configuration = configuration

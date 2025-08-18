@@ -146,7 +146,7 @@ struct StoriesView: View {
                         StoryIndicator(index: x)
                     }
                 }
-                .frame(height: Constants.storyIndicatorHeight)
+                .frame(height: model.indicatorHeight)
                 .padding(.top, 4)
                 Spacer()
             }
@@ -250,7 +250,6 @@ struct StoriesView: View {
 
 private extension StoriesView {
     struct Constants {
-        static let storyIndicatorHeight: CGFloat = 2
         static let storyIndicatorVerticalPadding: CGFloat = 13
         static let headerTopPadding: CGFloat = 5
 
