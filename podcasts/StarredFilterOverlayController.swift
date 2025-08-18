@@ -66,6 +66,7 @@ class StarredFilterOverlayController: PCViewController {
 
         title = L10n.statusStarred
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)

@@ -39,6 +39,7 @@ public class EpisodeFilter: NSObject {
     public var isNew: Bool = false
     public var podcastSmartRuleApplied: Bool = false
     public var episodesSmartRuleApplied: Bool = false
+    public var releaseDateSmartRuleApplied: Bool = false
     public var mediaTypeSmartRuleApplied: Bool = false
     public var downloadStatusSmartRuleApplied: Bool = false
 

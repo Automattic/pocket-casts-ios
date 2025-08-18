@@ -77,7 +77,11 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
         tableView.contentInsetAdjustmentBehavior = .never
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        addCloseButton()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            addCloseButton()
+        } else {
+            navigationItem.largeTitleDisplayMode = .always
+        }
         addTableViewHeader()
     }
 
@@ -142,6 +146,7 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
     }
 
     override func saveFilter() {
+        filterToEdit.releaseDateSmartRuleApplied = true
         filterToEdit.filterHours = choices[selectedIndex].rawValue
         super.saveFilter()
     }
@@ -159,6 +164,14 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+        }
+    }
+
+    override func dismissViewController() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 }

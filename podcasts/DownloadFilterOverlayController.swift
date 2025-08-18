@@ -30,12 +30,15 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         tableView.contentInsetAdjustmentBehavior = .never
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        addCloseButton()
 
         if FeatureFlag.playlistsRebranding.enabled {
+            navigationItem.largeTitleDisplayMode = .always
+
             handleThemeChanged()
 
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        } else {
+            addCloseButton()
         }
     }
 
@@ -143,6 +146,14 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+        }
+    }
+
+    override func dismissViewController() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 }

@@ -147,11 +147,13 @@ class FilterDurationViewController: PCViewController {
         super.viewDidLoad()
         if FeatureFlag.playlistsRebranding.enabled {
             largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+            navigationItem.largeTitleDisplayMode = .always
+        } else {
+            let closeButton = createStandardCloseButton(imageName: "cancel")
+            closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
+            let backButtonItem = UIBarButtonItem(customView: closeButton)
+            navigationItem.leftBarButtonItem = backButtonItem
         }
-        let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
 
         // if this filter has database default shorter or longer than values, set more sensible defaults
         if !filter.filterDuration, filter.shorterThan == 0 {
@@ -212,7 +214,11 @@ class FilterDurationViewController: PCViewController {
         filter.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-        dismiss(animated: true, completion: nil)
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
 
         if !filter.isNew {
             Analytics.track(.filterUpdated, properties: ["group": "episode_duration", "source": "filters"])

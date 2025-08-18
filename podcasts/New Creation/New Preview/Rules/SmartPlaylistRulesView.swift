@@ -11,9 +11,9 @@ struct SmartPlaylistRulesView: View {
         switch viewModel.playlistMode {
         case .creation:
             if viewModel.isInPreview {
-                VStack {
+                VStack(alignment: .leading) {
                     if !viewModel.enabledRules.isEmpty {
-                        Text("Enabled Rules")
+                        Text(L10n.playlistSmartPreviewEnabledRules)
                             .font(size: 22.0, style: .body, weight: .bold)
                             .foregroundStyle(theme.primaryText01)
                         SmartPlaylistRulesContainerView(
@@ -30,26 +30,29 @@ struct SmartPlaylistRulesView: View {
                             )
                             .padding(.vertical, 16.0)
                         } label: {
-                            Text("Other Options")
+                            Text(L10n.playlistSmartPreviewOtherRules)
                                 .font(size: 22.0, style: .body, weight: .bold)
                                 .foregroundStyle(theme.primaryText01)
                         }
                         .accentColor(theme.primaryIcon01)
-                        .padding(.horizontal, 16.0)
                         .animation(.default, value: isExpanded)
-                        .onChange(of: isExpanded) { newValue in
-                            //                    onSizeChange()
-                        }
                     }
+                    Spacer()
                 }
+                .padding(.horizontal, 16.0)
             } else {
-                VStack(spacing: 24.0) {
-                    Text("Set up Smart Rules to automatically add episodes to your Smart Playlist.")
+                VStack(alignment: .leading) {
+                    Text(viewModel.newPlaylist.playlistName)
+                        .font(size: 22.0, style: .body, weight: .bold)
+                        .foregroundStyle(theme.primaryText01)
+                        .padding(.bottom, 2.0)
+                    Text(L10n.playlistSmartPreviewDescription)
                         .font(size: 14.0, style: .body, weight: .regular)
                         .lineLimit(2)
                         .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.leading)
                         .padding(.trailing, 8.0)
+                        .padding(.bottom, 24.0)
                     SmartPlaylistRulesContainerView(
                         rules: viewModel.availableRules,
                         action: viewModel.action
@@ -58,7 +61,11 @@ struct SmartPlaylistRulesView: View {
                 .padding(.horizontal, 16.0)
             }
         case .edit:
-            Text("Edit")
+            SmartPlaylistRulesContainerView(
+                rules: viewModel.availableRules,
+                action: viewModel.action
+            )
+            .padding(.horizontal, 16.0)
         }
     }
 }
