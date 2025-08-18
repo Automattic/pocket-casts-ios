@@ -380,7 +380,7 @@ public enum FeatureFlag: String, CaseIterable {
             #if DEBUG
             true
             #else
-            false
+            BuildEnvironment.current == .testFlight
             #endif
         case .limitPlaybackPositionChanges:
             true
