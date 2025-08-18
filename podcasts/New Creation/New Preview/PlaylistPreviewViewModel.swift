@@ -10,11 +10,11 @@ class PlaylistPreviewViewModel: ObservableObject {
 
     @Published var newPlaylistHasChanged: Bool = false
 
-    private(set) var isInPreview: Bool = false
-    private(set) var newPlaylist: EpisodeFilter
-    private(set) var enabledRules: [SmartPlaylistRuleInfo] = []
-    private(set) var availableRules: [SmartPlaylistRuleInfo] = []
-    private(set) var episodes = [ListEpisode]()
+    @Published private(set) var isInPreview: Bool = false
+    @Published private(set) var newPlaylist: EpisodeFilter
+    @Published private(set) var enabledRules: [SmartPlaylistRuleInfo] = []
+    @Published private(set) var availableRules: [SmartPlaylistRuleInfo] = []
+    @Published private(set) var episodes = [ListEpisode]()
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1

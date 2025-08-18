@@ -4,30 +4,12 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class PlaylistPreviewViewController: PCViewController {
-    enum Cells {
-        static let episodeCellId = "EpisodePreviewCellIdentifier"
-        static let emptyEpisodesCellId = "EmptyEpisodesCellIdentifier"
-    }
-
     weak var delegate: FilterCreatedDelegate?
 
     private let playlistName: String
     private(set) var viewModel: PlaylistPreviewViewModel!
     private var cancellables = Set<AnyCancellable>()
 
-    var previewTable: ThemeableTable! {
-        didSet {
-            previewTable.themeStyle = .primaryUi01
-            previewTable.translatesAutoresizingMaskIntoConstraints = false
-            previewTable.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: Cells.episodeCellId)
-            previewTable.register(SmartPlaylistRulesCell.self, forCellReuseIdentifier: SmartPlaylistRulesCell.reuseIdentifier)
-            previewTable.register(UITableViewCell.self, forCellReuseIdentifier: Cells.emptyEpisodesCellId)
-            previewTable.rowHeight = UITableView.automaticDimension
-            previewTable.delegate = self
-            previewTable.dataSource = self
-            previewTable.separatorStyle = .none
-        }
-    }
     private var footerView: ThemeableView! {
         didSet {
             footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +69,6 @@ class PlaylistPreviewViewController: PCViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.updateSaveButtonEnabledState()
-                self?.reloadData()
             }
             .store(in: &cancellables)
     }
@@ -107,8 +88,11 @@ class PlaylistPreviewViewController: PCViewController {
 
         view.backgroundColor = AppTheme.viewBackgroundColor()
 
-        previewTable = ThemeableTable()
-        view.addSubview(previewTable)
+        let list = SmartPlaylistRulesView(
+            viewModel: viewModel
+        ).themedUIView
+        list.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(list)
 
         footerView = ThemeableView()
         view.addSubview(footerView)
@@ -127,10 +111,10 @@ class PlaylistPreviewViewController: PCViewController {
             saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
             saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
 
-            previewTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            previewTable.topAnchor.constraint(equalTo: view.topAnchor),
-            previewTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            previewTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
+            list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            list.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            list.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
 
         view.layoutSubviews()
@@ -158,10 +142,6 @@ class PlaylistPreviewViewController: PCViewController {
 
     private func dismiss() {
         presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
-
-    private func reloadData() {
-        previewTable.reloadData()
     }
 
     private func updateSaveButtonEnabledState() {

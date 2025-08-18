@@ -5,73 +5,106 @@ struct SmartPlaylistRulesView: View {
     @State var isExpanded: Bool = false
     @EnvironmentObject var theme: Theme
 
-    let viewModel: PlaylistPreviewViewModel
+    @ObservedObject var viewModel: PlaylistPreviewViewModel
 
     var body: some View {
-        switch viewModel.playlistMode {
-        case .creation:
-            if viewModel.isInPreview {
-                VStack(alignment: .leading) {
-                    if !viewModel.enabledRules.isEmpty {
-                        Text(L10n.playlistSmartPreviewEnabledRules)
-                            .font(size: 22.0, style: .body, weight: .bold)
-                            .foregroundStyle(theme.primaryText01)
-                        SmartPlaylistRulesContainerView(
-                            rules: viewModel.enabledRules,
-                            action: viewModel.action
-                        )
-                        .padding(.vertical, 16.0)
+        List {
+            switch viewModel.playlistMode {
+            case .creation:
+                if viewModel.isInPreview {
+                    Section {
+                        VStack(alignment: .leading, spacing: 0) {
+                            if !viewModel.enabledRules.isEmpty {
+                                Text(L10n.playlistSmartPreviewEnabledRules)
+                                    .font(size: 22.0, style: .body, weight: .bold)
+                                    .foregroundStyle(theme.primaryText01)
+                                SmartPlaylistRulesContainerView(
+                                    rules: viewModel.enabledRules,
+                                    action: viewModel.action
+                                )
+                                .padding(.vertical, 16.0)
+                            }
+                        }
+                        .listRowClearStyle()
+                        if !viewModel.availableRules.isEmpty {
+                            DisclosureGroup(isExpanded: $isExpanded) {
+                                SmartPlaylistRulesContainerView(
+                                    rules: viewModel.availableRules,
+                                    action: viewModel.action
+                                )
+                                .listRowClearStyle()
+                                .padding(.vertical, 16.0)
+                                .padding(.leading, -18.0)
+                            } label: {
+                                Text(L10n.playlistSmartPreviewOtherRules)
+                                    .font(size: 22.0, style: .body, weight: .bold)
+                                    .foregroundStyle(theme.primaryText01)
+                                    .listRowClearStyle()
+                            }
+                            .accentColor(theme.primaryIcon01)
+                            .animation(.default, value: isExpanded)
+                            .listRowClearStyle()
+                        }
                     }
-                    if !viewModel.availableRules.isEmpty {
-                        DisclosureGroup(isExpanded: $isExpanded) {
+
+                    Section {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(L10n.playlistPreviewTitle(viewModel.newPlaylist.playlistName))
+                                .font(size: 22.0, style: .body, weight: .bold)
+                                .foregroundStyle(theme.primaryText01)
+                                .padding(.bottom, 16.0)
+                            if viewModel.episodes.isEmpty {
+                                EmptyStateView(
+                                    title: L10n.filterCreateNoEpisodes,
+                                    message: L10n.playlistCreateNoEpisodesDescription,
+                                    icon: {
+                                        Image("empty-playlist-info")
+                                    },
+                                    actions: [],
+                                    style: .defaultStyle
+                                )
+                            } else {
+                                ForEach(viewModel.episodes, id: \.id) { episode in
+                                    Text(episode.episode.title ?? "no title")
+                                        .listRowClearStyle()
+                                        .frame(height: 44)
+                                }
+                            }
+                        }
+                        .padding(.top, 16.0)
+                        .listRowClearStyle()
+                    }
+                } else {
+                    Section {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(viewModel.newPlaylist.playlistName)
+                                .font(size: 22.0, style: .body, weight: .bold)
+                                .foregroundStyle(theme.primaryText01)
+                                .padding(.bottom, 4.0)
+                            Text(L10n.playlistSmartPreviewDescription)
+                                .font(size: 14.0, style: .body, weight: .regular)
+                                .lineLimit(2)
+                                .foregroundStyle(theme.primaryText02)
+                                .multilineTextAlignment(.leading)
+                                .padding(.trailing, 8.0)
+                                .padding(.bottom, 24.0)
                             SmartPlaylistRulesContainerView(
                                 rules: viewModel.availableRules,
                                 action: viewModel.action
                             )
-                            .padding(.vertical, 16.0)
-                        } label: {
-                            Text(L10n.playlistSmartPreviewOtherRules)
-                                .font(size: 22.0, style: .body, weight: .bold)
-                                .foregroundStyle(theme.primaryText01)
                         }
-                        .accentColor(theme.primaryIcon01)
-                        .animation(.default, value: isExpanded)
+                        .listRowClearStyle()
                     }
-                    // TODO: Remove this and move it into the episode section
-                    Text(L10n.playlistPreviewTitle(viewModel.newPlaylist.playlistName))
-                        .font(size: 22.0, style: .body, weight: .bold)
-                        .foregroundStyle(theme.primaryText01)
-                        .padding(.top, 16.0)
-                    Spacer()
                 }
-                .padding(.horizontal, 16.0)
-            } else {
-                VStack(alignment: .leading) {
-                    Text(viewModel.newPlaylist.playlistName)
-                        .font(size: 22.0, style: .body, weight: .bold)
-                        .foregroundStyle(theme.primaryText01)
-                        .padding(.bottom, 2.0)
-                    Text(L10n.playlistSmartPreviewDescription)
-                        .font(size: 14.0, style: .body, weight: .regular)
-                        .lineLimit(2)
-                        .foregroundStyle(theme.primaryText02)
-                        .multilineTextAlignment(.leading)
-                        .padding(.trailing, 8.0)
-                        .padding(.bottom, 24.0)
-                    SmartPlaylistRulesContainerView(
-                        rules: viewModel.availableRules,
-                        action: viewModel.action
-                    )
-                }
-                .padding(.horizontal, 16.0)
+            case .edit:
+                SmartPlaylistRulesContainerView(
+                    rules: viewModel.availableRules,
+                    action: viewModel.action
+                )
             }
-        case .edit:
-            SmartPlaylistRulesContainerView(
-                rules: viewModel.availableRules,
-                action: viewModel.action
-            )
-            .padding(.horizontal, 16.0)
         }
+        .listStyle(.plain)
+        .padding(.horizontal, 16.0)
     }
 }
 
@@ -82,8 +115,8 @@ struct SmartPlaylistRulesContainerView: View {
     let action: (SmartPlaylistRule) -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(rules) { rule in
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(rules, id: \.id) { rule in
                 SmartPlaylistRuleRowView(
                     rule: rule.type,
                     description: rule.description,
@@ -108,51 +141,57 @@ struct SmartPlaylistRuleRowView: View {
     let action: (SmartPlaylistRule) -> Void
 
     var body: some View {
-        Button {
-            action(rule)
-        } label: {
-            ZStack {
-                if !hideDivider {
-                    VStack {
-                        Spacer()
-                        Rectangle()
-                            .fill(theme.primaryUi05)
-                            .frame(height: 1)
-                            .padding(.leading, 40)
-                    }
-                }
-                HStack(alignment: .center) {
-                    Image(rule.iconName)
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(theme.primaryIcon03)
-                        .frame(width: 24, height: 24)
-                        .padding(.trailing, 8.0)
-                    Text(rule.title)
-                        .foregroundStyle(theme.primaryText01)
-                        .font(size: 17, style: .body)
-                        .lineLimit(1)
+        ZStack {
+            if !hideDivider {
+                VStack {
                     Spacer()
-                    if let description {
-                        Text(description)
-                            .foregroundStyle(theme.primaryText02)
-                            .font(size: 17, style: .body)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.8)
-                    }
-                    Image("cs-chevron")
-                        .renderingMode(.template)
-                        .foregroundStyle(theme.primaryIcon02)
-                        .frame(width: 24, height: 24)
-                        .padding(.trailing, 8.0)
+                    Rectangle()
+                        .fill(theme.primaryUi05)
+                        .frame(height: 1)
+                        .padding(.leading, 40)
                 }
             }
+
+            HStack(alignment: .center) {
+                Image(rule.iconName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(theme.primaryIcon03)
+                    .frame(width: 24, height: 24)
+                    .padding(.trailing, 8.0)
+
+                Text(rule.title)
+                    .foregroundStyle(theme.primaryText01)
+                    .font(size: 17, style: .body)
+                    .lineLimit(1)
+
+                Spacer()
+
+                if let description {
+                    Text(description)
+                        .foregroundStyle(theme.primaryText02)
+                        .font(size: 17, style: .body)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
+
+                Image("cs-chevron")
+                    .renderingMode(.template)
+                    .foregroundStyle(theme.primaryIcon02)
+                    .frame(width: 24, height: 24)
+                    .padding(.trailing, 8.0)
+            }
             .padding(.leading, 16.0)
+            .frame(height: 44)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                action(rule)
+            }
         }
-        .frame(height: 44)
     }
 }
+
 
 #Preview {
     struct PreviewWrapper: View {
@@ -185,4 +224,13 @@ struct SmartPlaylistRuleRowView: View {
 
     return PreviewWrapper()
         .environmentObject(Theme.sharedTheme)
+}
+
+fileprivate extension View {
+    func listRowClearStyle() -> some View {
+        self
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(EmptyView())
+    }
 }
