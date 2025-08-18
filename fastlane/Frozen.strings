@@ -1163,11 +1163,23 @@
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "First, open an app that has the audio files you'd like to save";
 
-/* The title for the first instructional image that explains how to upload a file */
-"how_to_upload_first_instruction" = "Choose to share that file";
+/* The title for the first instructional image explaining how to upload a file by opening the share menu */
+"how_to_upload_share_menu_instruction" = "Choose to share that file";
 
-/* The title for the second instructional image that explains how to upload a file */
-"how_to_upload_second_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+/* The text for the button tapped first when uploading a file */
+"how_to_upload_share_menu_image_background_button_text" = "Audio File";
+
+/* The text for a generic menu option tapped first when uploading a file */
+"how_to_upload_share_menu_image_foreground_menu_option_text" = "Menu Option";
+
+/* The title for the second instructional image that explains how to upload a file by selecting the share action option for the app */
+"how_to_upload_share_action_instruction" = "In the menu tap \"Copy to Pocket Casts\"";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_center_text" = "Copy to Pocket Casts";
+
+/* The text for copying a file to Pocket Casts */
+"how_to_upload_share_action_image_sides_text" = "Something Else";
 
 /* The summary text at the end of the screen explaining how to upload a file */
 "how_to_upload_summary" = "That's it, you're done. Change any details you want, hit save and play!";
@@ -2885,6 +2897,15 @@
 /* Password field prompt */
 "sign_in_password_prompt" = "Password";
 
+/* A label dividing the email with social login options. Indicating a separation of two separate sections. */
+"sign_in_divider_label" = "OR";
+
+/* Label for option to show the password contents in the log in form. */
+"sign_in_show_password_label" = "Hide Password";
+
+/* Label for option to hide the password contents in the log in form. */
+"sign_in_hide_password_label" = "Show Password";
+
 /* Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label. */
 "signed_in_as" = "SIGNED IN AS";
 
@@ -4034,6 +4055,9 @@
 /* Label of a button that lets the user login/signup with Google */
 "social_sign_in_continue_with_google" = "Continue with Google";
 
+/* Label of a button that lets the user login/signup with Email */
+"sign_in_continue_with_email" = "Continue with Email";
+
 /* Label describing the recent searches */
 "search_recent" = "Recent searches";
 
@@ -4432,6 +4456,7 @@
 
 /* A title shown for a share option which creates an audio clip of an episode */
 "create_audio_clip_title" = "Create audio file";
+
 
 /* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
 "create_audio_clip_description" = "Create a .m4a audio file";
@@ -5033,6 +5058,19 @@
 /* Notification body for onboarding to staff picks message */
 "notifications_onboarding_staff_picks_body" = "Perfectly ripe podcasts, picked just for you by real, podcast-loving humans.";
 
+/* Title for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_title" = "Subscribe to our Newsletter";
+
+/* Subtitle for Newsletter opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_newsletter_subtitle" = "Once a month, all podcast goodness";
+
+/* Title for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_title" = "Receive Notifications";
+
+/* Subtitle for Notifications opt-in option in the Notifications screen during onboarding */
+"notifications_onboarding_notifications_subtitle" = "Receive news, podcast suggestions and more";
+
+
 /* Notification permission banner title*/
 "notitifications_permission_banner_title" = "Allow Push Notifications";
 
@@ -5044,6 +5082,12 @@
 
 /* Notification title for weekly reengagement message */
 "notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Title shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_title" = "We hope you love these suggestions!";
+
+/* Subtitle shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_subtitle" = "Here are some great shows to start with. Tap to follow, search or import from other apps.";
 
 /* Notification body for weekly reengagement message */
 "notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
@@ -5168,6 +5212,9 @@
 /* Notifications permissions screen action button text*/
 "notifications_permissions_action" = "Allow Notifications";
 
+/* Notifications permissions screen action button text to save preferences for notifications and Newsletter */
+"notifications_permissions_save_preferences" = "Save Preferences";
+
 /* Title for modal explaining Creator Picks */
 "creator_pick_modal_title" = "What's a Creator Pick?";
 
@@ -5272,6 +5319,9 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* A common string used throughout the app. Often refers to the Smart Playlist. */
+"smart_playlist" = "Smart Playlist";
+
 /* The title shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
 
@@ -5288,7 +5338,46 @@
 "playlists_onboarding_manual_title" = "Introducing Playlists";
 
 /* Playlists Onboarding screen: description for the manual playlist card */
-"playlists_onboarding_manual_description" = "Want more control? Manual Playlists let you build custom queues, great for trips, themes, or just your current vibe. Whether Smart or Manual, playlists work the way you do.";
+"playlists_onboarding_manual_description" = "Take control of your listening. Build custom playlists for trips, themes, or whatever vibe you’re in. Whether Smart or custom, playlists fit the way you listen.";
+
+/* Playlists Empty State: title for the empty state visible when no playlists are displayed */
+"playlists_empty_state_title" = "Organize episodes your way";
+
+/* Playlists Empty State: description for the empty state visible when no playlists are displayed */
+"playlists_empty_state_description" = "Playlists let you organize episodes manually or automatically with Smart Rules.";
+
+/* A placeholder title for a new playlist. */
+"playlists_default_new_playlist" = "New Playlist";
+
+/* Title of the save button dislayed in each smart rule */
+"playlist_smart_rule_save_button" = "Save Smart Rule";
+
+/* Header title for smart rule podcasts */
+"playlist_smart_rule_podcasts_header_title" = "All Followed Podcasts";
+
+/* Header subtitle for smart rule podcasts when select all is on */
+"playlist_smart_rule_podcasts_header_subtitle_auto_add" = "New podcasts you follow will be automatically added.";
+
+/* Header subtitle for smart rule podcasts when select all is off */
+"playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
+
+/* Header title for smart rule starred  */
+"playlist_smart_rule_starred_header_title" = "Starred Episodes";
+
+/* Header subtitle for smart rule starred when the toggle is on */
+"playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
+
+/* Header subtitle for smart rule starred when the toggle is off */
+"playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
+
+/* Title for the button used during the Playlist creation */
+"playlist_creation_create_playlist_button" = "Create Playlist";
+
+/* Title for the button used to open the rules during the Playlist creation */
+"playlist_creation_create_smart_playlist_button_title" = "Make into Smart Playlist";
+
+/* Subtitle for the button used to open the rules during the Playlist creation */
+"playlist_creation_create_smart_playlist_button_subtitle" = "Automatically add episodes based on rules.";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
