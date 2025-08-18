@@ -43,4 +43,12 @@ extension PlaylistPreviewViewController: UITableViewDataSource {
     }
 }
 
-extension PlaylistPreviewViewController: UITableViewDelegate { }
+extension PlaylistPreviewViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        false
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+}
