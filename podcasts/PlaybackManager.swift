@@ -1898,6 +1898,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
 
+        logRouteChange(userInfo: userInfo)
+
         let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: true, overrideUpNext: false)
@@ -1905,6 +1907,20 @@ class PlaybackManager: ServerPlaybackDelegate {
             player?.routeDidChange(shouldPause: true)
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {
             player?.routeDidChange(shouldPause: false)
+        }
+    }
+
+    private func logRouteChange(userInfo: [AnyHashable: Any]) {
+        guard let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber,
+              let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription,
+              let currentRoute = AVAudioSession.sharedInstance().currentRoute as AVAudioSessionRouteDescription? else {
+            return
+        }
+
+        let previousOutputDescriptions = previousRoute.outputs.map { $0.portName }.joined(separator: ", ")
+        let currentOutputDescriptions = currentRoute.outputs.map { $0.portName }.joined(separator: ", ")
+        if let reason = AVAudioSession.RouteChangeReason(rawValue: UInt(changeReason.intValue)) {
+            FileLog.shared.addMessage("PlaybackManager: Handle route change \(reason) | Previous Outputs: [\(previousOutputDescriptions)] | Current Outputs: [\(currentOutputDescriptions)]")
         }
     }
 
