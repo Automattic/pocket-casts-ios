@@ -4,9 +4,9 @@ struct IntroCarouselView: View {
     @EnvironmentObject var theme: Theme
 
     private let carouselItems = [
-        CarouselItem(title: "The best podcast app out there. By far", description: "Pocket Casts user"),
-        CarouselItem(title: "The amount of customization is insane", description: "Pocket Casts user"),
-        CarouselItem(title: "Organizing my podcasts by folders is genius", description: "Pocket Casts user")
+        CarouselItem(image: "intro-carousel-podcasts", title: "\"The best podcast app out there. By far\"", description: "Pocket Casts user"),
+        CarouselItem(image: "intro-carousel-effects", title: "\"The amount of customization is insane\"", description: "Pocket Casts user"),
+        CarouselItem(image: "intro-carousel-folders", title: "\"Organizing my podcasts by folders is genius\"", description: "Pocket Casts user")
     ]
 
     private var configuration: StoriesConfiguration {
@@ -16,9 +16,7 @@ struct IntroCarouselView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-
+        VStack(spacing: 36) {
             StoriesView(
                 dataSource: IntroCarouselDataSource(items: carouselItems, theme: theme),
                 configuration: configuration
@@ -29,8 +27,6 @@ struct IntroCarouselView: View {
 //                    dismissButtonTintColor: theme.primaryText01
 //                )
 //            .frame(height: 400)
-
-            Spacer()
 
             VStack(spacing: 16) {
                 Button(L10n.eacInformationalViewModalGetStartedButton) {
@@ -44,7 +40,7 @@ struct IntroCarouselView: View {
                 .foregroundColor(theme.primaryText01)
                 .font(.system(size: 16, weight: .medium))
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 80)
             .padding(.bottom, 10)
         }
         .modifier(DefaultThemeSettings())
@@ -52,6 +48,7 @@ struct IntroCarouselView: View {
 }
 
 struct CarouselItem {
+    let image: String
     let title: String
     let description: String
 }
@@ -124,31 +121,83 @@ struct IntroCarouselStory: StoryView {
     let item: CarouselItem
     let theme: Theme
 
+    @State private var iconOpacity: Double = 0
+    @State private var iconOffset: CGFloat = 30
+    @State private var titleOpacity: Double = 0
+    @State private var titleOffset: CGFloat = 30
+    @State private var descriptionOpacity: Double = 0
+    @State private var descriptionOffset: CGFloat = 30
+
     var duration: TimeInterval { 3.0 }
     var identifier: String { item.title }
     var plusOnly: Bool { false }
 
     var body: some View {
-        VStack(spacing: 24) {
-            Image(systemName: "waveform.circle.fill")
+        VStack {
+            Spacer()
+
+            Image(item.image)
                 .font(.system(size: 80))
                 .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+                .opacity(iconOpacity)
+                .offset(y: iconOffset)
+
+            Spacer()
 
             VStack(spacing: 12) {
                 Text(item.title)
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal, 18)
+                    .opacity(titleOpacity)
+                    .offset(y: titleOffset)
 
                 Text(item.description)
                     .font(.system(size: 16, weight: .regular))
                     .foregroundColor(ThemeColor.primaryText02(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
+                    .opacity(descriptionOpacity)
+                    .offset(y: descriptionOffset)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.primaryUi01)
+        .onAppear {
+            startAnimations()
+        }
+        .id(identifier)
+    }
+
+    private func startAnimations() {
+        // Reset to initial state
+        iconOpacity = 0
+        iconOffset = 30
+        titleOpacity = 0
+        titleOffset = 30
+        descriptionOpacity = 0
+        descriptionOffset = 30
+
+        // Start sequential animations
+        withAnimation(.easeOut(duration: 0.6)) {
+            iconOpacity = 1
+            iconOffset = 0
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            withAnimation(.easeOut(duration: 0.6)) {
+                titleOpacity = 1
+                titleOffset = 0
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.easeOut(duration: 0.6)) {
+                descriptionOpacity = 1
+                descriptionOffset = 0
+            }
+        }
     }
 
     func onAppear() {
