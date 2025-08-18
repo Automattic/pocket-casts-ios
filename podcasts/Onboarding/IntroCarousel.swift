@@ -2,13 +2,6 @@ import SwiftUI
 
 struct IntroCarouselView: View {
     @EnvironmentObject var theme: Theme
-    @StateObject private var progressModel = CarouselProgressModel()
-    @State private var currentPage = 0
-    @State private var timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
-    @State private var isAutomaticChange = false
-
-    private let totalDuration: Double = 3.0
-    private let timerInterval: Double = 0.05
 
     private let carouselItems = [
         CarouselItem(title: "The best podcast app out there. By far", description: "Pocket Casts user"),
@@ -16,50 +9,26 @@ struct IntroCarouselView: View {
         CarouselItem(title: "Organizing my podcasts by folders is genius", description: "Pocket Casts user")
     ]
 
+    private var configuration: StoriesConfiguration {
+        let configuration = StoriesConfiguration()
+        configuration.shouldShowDismissButton = false
+        return configuration
+    }
+
     var body: some View {
         VStack(spacing: 0) {
-            // Custom progress indicators
-            HStack(spacing: 4) {
-                ForEach(0..<carouselItems.count, id: \.self) { index in
-                    CarouselIndicator(index: index, progressModel: progressModel)
-                        .frame(height: 4)
-                }
-            }
-            .padding(.horizontal, 14)
-            .padding(.top, 14)
-            .padding(.bottom, 20)
-
             Spacer()
 
-            TabView(selection: $currentPage) {
-                ForEach(Array(carouselItems.enumerated()), id: \.offset) { index, item in
-                    CarouselSlideView(item: item)
-                        .tag(index)
-                }
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .frame(height: 300)
-            .animation(.easeInOut(duration: 0.6), value: currentPage)
-            .onReceive(timer) { _ in
-                progressModel.incrementProgress(interval: timerInterval, totalDuration: totalDuration, itemCount: carouselItems.count) { newPage in
-                    if newPage != currentPage {
-                        isAutomaticChange = true
-                        withAnimation(.easeInOut(duration: 0.6)) {
-                            currentPage = newPage
-                        }
-                        isAutomaticChange = false
-                    }
-                }
-            }
-            .onAppear {
-                progressModel.startProgress()
-            }
-            .onChange(of: currentPage) { newPage in
-                // Only reset progress on manual swipes, not automatic changes
-                if !isAutomaticChange {
-                    progressModel.resetProgress(toPage: newPage)
-                }
-            }
+            StoriesView(
+                dataSource: IntroCarouselDataSource(items: carouselItems, theme: theme),
+                configuration: configuration
+            )
+//                configuration: StoriesConfiguration(
+//                    progressBarTintColor: theme.primaryInteractive01,
+//                    progressBarBackgroundColor: theme.primaryInteractive03,
+//                    dismissButtonTintColor: theme.primaryText01
+//                )
+//            .frame(height: 400)
 
             Spacer()
 
@@ -76,7 +45,7 @@ struct IntroCarouselView: View {
                 .font(.system(size: 16, weight: .medium))
             }
             .padding(.horizontal, 32)
-            .padding(.bottom, 50)
+            .padding(.bottom, 10)
         }
         .modifier(DefaultThemeSettings())
     }
@@ -87,89 +56,77 @@ struct CarouselItem {
     let description: String
 }
 
-class CarouselProgressModel: ObservableObject {
-    @Published var progress: Double = 0
-    private var startTime: Date?
+// MARK: - Data Source
 
-    func startProgress() {
-        startTime = Date()
-        progress = 0
+class IntroCarouselDataSource: StoriesDataSource {
+    private let items: [CarouselItem]
+    private let theme: Theme
+
+    init(items: [CarouselItem], theme: Theme) {
+        self.items = items
+        self.theme = theme
     }
 
-    func resetProgress(toPage page: Int) {
-        startTime = Date()
-        progress = Double(page)
+    var numberOfStories: Int { items.count }
+
+    func story(for index: Int) -> any StoryView {
+        IntroCarouselStory(item: items[index], theme: theme)
     }
 
-    func incrementProgress(interval: Double, totalDuration: Double, itemCount: Int, onPageChange: (Int) -> Void) {
-        guard let startTime = startTime else { return }
-
-        let elapsed = Date().timeIntervalSince(startTime)
-        let totalCycleDuration = totalDuration * Double(itemCount)
-        let cycleProgress = elapsed.truncatingRemainder(dividingBy: totalCycleDuration)
-
-        // Calculate which slide we're currently on and progress within that slide
-        let currentSlideIndex = Int(cycleProgress / totalDuration) % itemCount
-        let progressWithinCurrentSlide = cycleProgress.truncatingRemainder(dividingBy: totalDuration)
-
-        // Progress should be: currentSlideIndex + (progress within current slide / totalDuration)
-        progress = Double(currentSlideIndex) + (progressWithinCurrentSlide / totalDuration)
-
-        // Trigger page change when we're 80% through the current slide
-        if progressWithinCurrentSlide >= totalDuration * 0.8 {
-            let nextSlideIndex = (currentSlideIndex + 1) % itemCount
-            onPageChange(nextSlideIndex)
-        } else {
-            onPageChange(currentSlideIndex)
-        }
-    }
-}
-
-struct CarouselIndicator: View {
-    @EnvironmentObject var theme: Theme
-    let index: Int
-    @ObservedObject var progressModel: CarouselProgressModel
-
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                // Background bar
-                Rectangle()
-                    .fill(theme.primaryInteractive03)
-                    //.fill(theme.primaryUi05)
-                    .opacity(0.3)
-                    .cornerRadius(2)
-
-                // Progress bar
-                Rectangle()
-                    .fill(theme.secondaryText02)
-                    //.fill(theme.primaryUi05Selected)
-                    .frame(width: geometry.size.width * progressForIndex)
-                    .opacity(0.9)
-            }
-        }
+    func storyView(for index: Int) -> AnyView {
+        AnyView(IntroCarouselStory(item: items[index], theme: theme))
     }
 
-    private var progressForIndex: CGFloat {
-        let currentProgress = progressModel.progress
-        let indexFloat = Double(index)
+    func shareableStory(for index: Int) -> (any ShareableStory)? {
+        nil
+    }
 
-        if currentProgress >= indexFloat + 1 {
-            // Completed pages
-            return 1.0
-        } else if currentProgress >= indexFloat {
-            // Current page - show partial progress
-            return CGFloat(currentProgress - indexFloat)
-        } else {
-            // Future pages
-            return 0.0
-        }
+    func isInteractiveView(for index: Int) -> Bool {
+        false
+    }
+
+    func isReady() async -> Bool {
+        true
+    }
+
+    func refresh() async -> Bool {
+        true
+    }
+
+    func paywallView() -> AnyView {
+        AnyView(EmptyView())
+    }
+
+    func overlaidShareView() -> AnyView? {
+        nil
+    }
+
+    func footerShareView() -> AnyView? {
+        nil
+    }
+
+    var indicatorColor: Color {
+        theme.primaryText01
+    }
+
+    var primaryBackgroundColor: Color {
+        theme.primaryUi01
+    }
+
+    func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
+        view
     }
 }
 
-struct CarouselSlideView: View {
-    @EnvironmentObject var theme: Theme
+// MARK: - Story View
+
+struct IntroCarouselStory: StoryView {
     let item: CarouselItem
+    let theme: Theme
+
+    var duration: TimeInterval { 3.0 }
+    var identifier: String { item.title }
+    var plusOnly: Bool { false }
 
     var body: some View {
         VStack(spacing: 24) {
@@ -190,11 +147,19 @@ struct CarouselSlideView: View {
                     .padding(.horizontal, 32)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(theme.primaryUi01)
     }
-}
 
-extension Double {
-    func clamped(to range: Range<Double>) -> Double {
-        return Swift.min(Swift.max(self, range.lowerBound), range.upperBound - 0.001)
+    func onAppear() {
+
+    }
+
+    func onPause() {
+
+    }
+
+    func onResume() {
+
     }
 }

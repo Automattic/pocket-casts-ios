@@ -258,6 +258,10 @@ class StoriesModel: ObservableObject {
     func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
         dataSource.sharingSnapshotModifier(view)
     }
+
+    func shouldShowDismissButton() -> Bool {
+        configuration.shouldShowDismissButton
+    }
 }
 
 private extension StoriesModel {
