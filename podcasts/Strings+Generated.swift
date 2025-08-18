@@ -2276,6 +2276,10 @@ internal enum L10n {
   internal static var playlistCreationCreateSmartPlaylistButtonSubtitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_subtitle", fallback: "Automatically add episodes based on rules.") }
   /// Title for the button used to open the rules during the Playlist creation
   internal static var playlistCreationCreateSmartPlaylistButtonTitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_title", fallback: "Make into Smart Playlist") }
+  /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
+  internal static func playlistPreviewTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
+  }
   /// Smart Playlist preview: description that appears when initially there are no rules set
   internal static var playlistSmartPreviewDescription: String { return L10n.tr("Localizable", "playlist_smart_preview_description", fallback: "Set up Smart Rules to automatically add episodes to your Smart Playlist.") }
   /// Smart Playlist preview: title for the enabled rules section

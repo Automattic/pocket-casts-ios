@@ -37,6 +37,11 @@ struct SmartPlaylistRulesView: View {
                         .accentColor(theme.primaryIcon01)
                         .animation(.default, value: isExpanded)
                     }
+                    // TODO: Remove this and move it into the episode section
+                    Text(L10n.playlistPreviewTitle(viewModel.newPlaylist.playlistName))
+                        .font(size: 22.0, style: .body, weight: .bold)
+                        .foregroundStyle(theme.primaryText01)
+                        .padding(.top, 16.0)
                     Spacer()
                 }
                 .padding(.horizontal, 16.0)

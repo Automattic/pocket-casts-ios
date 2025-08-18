@@ -991,6 +991,9 @@
 /* Used on the screen to create a new filter. The section that shows a preview of what podcast episodes will be included in the filter. */
 "filter_create_preview" = "PREVIEW";
 
+/* Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name. */
+"playlist_preview_title" = "Preview %@";
+
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
 
