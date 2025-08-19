@@ -7,7 +7,6 @@ struct InterestsView: View {
 
     @State var categories: [DiscoverCategory] = []
     @State var layout: DiscoverLayout?
-    @State var showingImport = false
 
     @EnvironmentObject var theme: Theme
 
