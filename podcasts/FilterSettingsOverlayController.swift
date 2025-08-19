@@ -25,6 +25,10 @@ class FilterSettingsOverlayController: LargeNavBarViewController, AnalyticsSourc
 
     @IBAction func saveTapped(_ sender: AnyObject) {
         saveFilter()
+        dismissViewController()
+    }
+
+    func dismissViewController() {
         dismiss(animated: true, completion: nil)
     }
 

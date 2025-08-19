@@ -985,8 +985,17 @@
 /* Used on the screen to create a new filter. The prompt about what they can do in order to make sure their filter returns results. */
 "filter_create_no_episodes_description_prompt" = "Choose different criteria, or save this filter if you think it will match episodes in the future.";
 
+/* Used on the screen to create a new playlist. The description about why the list of filtered episodes is empty. The \n represent a new line */
+"playlist_create_no_episodes_description" = "None of the episodes in your podcasts match these rules.\n\nTry adjusting the rules, or save this playlist for future episodes that might fit.";
+
 /* Used on the screen to create a new filter. The section that shows a preview of what podcast episodes will be included in the filter. */
 "filter_create_preview" = "PREVIEW";
+
+/* Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name. */
+"playlist_preview_title" = "Preview %@";
+
+/* Button title used to create a new smart playlist */
+"playlist_preview_create_smart_playlist" = "Create Smart Playlist";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
@@ -5374,6 +5383,18 @@
 
 /* Subtitle for the button used to open the rules during the Playlist creation */
 "playlist_creation_create_smart_playlist_button_subtitle" = "Automatically add episodes based on rules.";
+
+/* Smart Playlist preview: description that appears when initially there are no rules set */
+"playlist_smart_preview_description" = "Set up Smart Rules to automatically add episodes to your Smart Playlist.";
+
+/* Smart Playlist preview: title for the enabled rules section */
+"playlist_smart_preview_enabled_rules" = "Enabled Rules";
+
+/* Smart Playlist preview: title for the available rules section */
+"playlist_smart_preview_other_rules" = "Other Options";
+
+/* Smart Playlist preview: title when editing the Smart Playlist rules */
+"playlist_smart_rules_title" = "Smart Rules";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

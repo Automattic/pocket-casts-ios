@@ -70,17 +70,23 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupNavBar() {
-        setupCloseButton()
+        let backgroundColor: UIColor
         if FeatureFlag.playlistsRebranding.enabled {
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            backgroundColor = AppTheme.viewBackgroundColor()
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
         } else {
+            backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+            setupCloseButton()
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
         }
         title = L10n.filterChoosePodcasts
         navigationController?.navigationBar.prefersLargeTitles = true
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationItem.largeTitleDisplayMode = .always
+        }
 
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+        appearance.backgroundColor = backgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .bold)
@@ -180,10 +186,18 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             filterToEdit.filterAllPodcasts = false
         }
 
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.podcastSmartRuleApplied = true
+        }
+
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
-        dismiss(animated: true, completion: nil)
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
 
         if !filterToEdit.isNew {
             Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": analyticsSource])
@@ -266,6 +280,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
             let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastsSmartRuleHeaderCellId)!
+            cell.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)

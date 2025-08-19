@@ -55,7 +55,7 @@ class NewPlaylistViewController: PCViewController {
 
     private func setupNavBar() {
         let backgroundColor = AppTheme.viewBackgroundColor()
-        changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = L10n.playlistsDefaultNewPlaylist
 

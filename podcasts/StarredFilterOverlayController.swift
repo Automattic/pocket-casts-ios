@@ -62,10 +62,14 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupNavBar() {
+        let backgroundColor = AppTheme.viewBackgroundColor()
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
 
         title = L10n.statusStarred
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)

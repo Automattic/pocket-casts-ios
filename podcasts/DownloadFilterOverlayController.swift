@@ -30,12 +30,15 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         tableView.contentInsetAdjustmentBehavior = .never
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        addCloseButton()
 
         if FeatureFlag.playlistsRebranding.enabled {
+            navigationItem.largeTitleDisplayMode = .always
+
             handleThemeChanged()
 
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        } else {
+            addCloseButton()
         }
     }
 
@@ -67,7 +70,6 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         cell.title.text = titleForRow(row: row)
         cell.title.setLetterSpacing(-0.2)
         cell.setSelectState(selectedRow == row)
-        let filterTintColor = filterToEdit.playlistColor()
         if FeatureFlag.playlistsRebranding.enabled {
             cell.title.font = .systemFont(ofSize: 17, weight: .semibold)
             cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
@@ -103,6 +105,9 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         case .notDownloaded:
             filterToEdit.filterDownloaded = false
             filterToEdit.filterNotDownloaded = true
+        }
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.downloadStatusSmartRuleApplied = true
         }
         super.saveFilter()
     }
@@ -140,7 +145,15 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
 
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        }
+    }
+
+    override func dismissViewController() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 }

@@ -34,12 +34,15 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         setCurrentStatus()
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        addCloseButton()
 
         if FeatureFlag.playlistsRebranding.enabled {
+            navigationItem.largeTitleDisplayMode = .always
+
             handleThemeChanged()
 
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        } else {
+            addCloseButton()
         }
     }
 
@@ -147,7 +150,9 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         filterToEdit.filterFinished = filterFinished
         filterToEdit.filterUnplayed = filterUnplayed
         filterToEdit.filterPartiallyPlayed = filterPartiallyPlayed
-
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.episodesSmartRuleApplied = true
+        }
         super.saveFilter()
     }
 
@@ -156,7 +161,15 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
 
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        }
+    }
+
+    override func dismissViewController() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 }

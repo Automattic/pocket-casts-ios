@@ -736,6 +736,12 @@
 		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		9AF355712E4B57750083ECA7 /* SmartPlaylistCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */; };
 		9AF355732E4B57AA0083ECA7 /* PlaylistPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */; };
+		9AF355752E4E153F0083ECA7 /* SmartPlaylistRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */; };
+		9AF355802E4FA28A0083ECA7 /* SmartPlaylistRulesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3557F2E4FA2840083ECA7 /* SmartPlaylistRulesCell.swift */; };
+		9AF355822E535A180083ECA7 /* SmartPlaylistRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */; };
+		9AF355842E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */; };
+		9AF355862E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355852E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift */; };
+		9AF3558B2E535ADD0083ECA7 /* PlaylistPreviewViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3558A2E535AD90083ECA7 /* PlaylistPreviewViewController+Table.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3022,6 +3028,12 @@
 		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistCreationView.swift; sourceTree = "<group>"; };
 		9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPreviewViewController.swift; sourceTree = "<group>"; };
+		9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesView.swift; sourceTree = "<group>"; };
+		9AF3557F2E4FA2840083ECA7 /* SmartPlaylistRulesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesCell.swift; sourceTree = "<group>"; };
+		9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRule.swift; sourceTree = "<group>"; };
+		9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRuleInfo.swift; sourceTree = "<group>"; };
+		9AF355852E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPreviewViewModel.swift; sourceTree = "<group>"; };
+		9AF3558A2E535AD90083ECA7 /* PlaylistPreviewViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistPreviewViewController+Table.swift"; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -5597,11 +5609,41 @@
 		9AF3556F2E4B57310083ECA7 /* New Creation */ = {
 			isa = PBXGroup;
 			children = (
-				9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */,
-				9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */,
-				9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */,
+				9AF355872E535A9A0083ECA7 /* New Playlist */,
+				9AF355882E535AA90083ECA7 /* New Preview */,
 			);
 			path = "New Creation";
+			sourceTree = "<group>";
+		};
+		9AF355872E535A9A0083ECA7 /* New Playlist */ = {
+			isa = PBXGroup;
+			children = (
+				9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */,
+				9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */,
+			);
+			path = "New Playlist";
+			sourceTree = "<group>";
+		};
+		9AF355882E535AA90083ECA7 /* New Preview */ = {
+			isa = PBXGroup;
+			children = (
+				9AF355722E4B57A10083ECA7 /* PlaylistPreviewViewController.swift */,
+				9AF3558A2E535AD90083ECA7 /* PlaylistPreviewViewController+Table.swift */,
+				9AF355852E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift */,
+				9AF355892E535AC50083ECA7 /* Rules */,
+			);
+			path = "New Preview";
+			sourceTree = "<group>";
+		};
+		9AF355892E535AC50083ECA7 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */,
+				9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */,
+				9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */,
+				9AF3557F2E4FA2840083ECA7 /* SmartPlaylistRulesCell.swift */,
+			);
+			path = Rules;
 			sourceTree = "<group>";
 		};
 		BD03B383173A1D68000A419B /* Video Player */ = {
@@ -10534,6 +10576,7 @@
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
 				BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */,
 				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
+				9AF355862E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift in Sources */,
 				F5F884672CCA8F23002BED2C /* CompletionRate2024Story.swift in Sources */,
 				C7811D8C2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
@@ -10704,6 +10747,7 @@
 				409C7917220D33E500386495 /* AddCustomViewController.swift in Sources */,
 				C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */,
 				C7A110F9291F66C700887A90 /* Confetti.swift in Sources */,
+				9AF355822E535A180083ECA7 /* SmartPlaylistRule.swift in Sources */,
 				BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */,
 				C7E99EFA2A5C80B900E7CBAF /* BookmarkListViewModel.swift in Sources */,
 				BD585C1D204785EF00AC842C /* AppDelegate.swift in Sources */,
@@ -10799,6 +10843,7 @@
 				BD2D0AD7243C506C000B313A /* AnimatedImageButton+Pointer.swift in Sources */,
 				467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */,
 				102141132C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift in Sources */,
+				9AF355752E4E153F0083ECA7 /* SmartPlaylistRulesView.swift in Sources */,
 				102D1C882C7648680088DB89 /* PlusPaywallFeatureCard.swift in Sources */,
 				404BB868231361A6006FE8A9 /* WhatsNewLinkButton.swift in Sources */,
 				BDBA7F2C1DA51B440080EBAC /* NotificationsHelper.swift in Sources */,
@@ -10865,6 +10910,7 @@
 				BDE6AB7A1CC4BB580087D195 /* RoundedBorderView.swift in Sources */,
 				BDCD1E7E244D631C00B83602 /* LenticularOverlayView.swift in Sources */,
 				10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */,
+				9AF355842E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift in Sources */,
 				FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */,
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
@@ -11119,6 +11165,7 @@
 				BD3334521FC67FBB0017C3A8 /* PlaylistRefreshOperation.swift in Sources */,
 				BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */,
 				BDD71CF41BA935E8006D2CE3 /* NetworkViewController.swift in Sources */,
+				9AF355802E4FA28A0083ECA7 /* SmartPlaylistRulesCell.swift in Sources */,
 				FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */,
 				8B723755291185B300FA8219 /* Analytics+story.swift in Sources */,
 				FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */,
@@ -11154,6 +11201,7 @@
 				BD57646A17E140BE0039CF8B /* NSNull+Length.m in Sources */,
 				BD7BCF151F6A5C510006E008 /* VideoPlayerView.swift in Sources */,
 				8B1B782B2BC7104000DC3373 /* SleepTimerManager.swift in Sources */,
+				9AF3558B2E535ADD0083ECA7 /* PlaylistPreviewViewController+Table.swift in Sources */,
 				FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

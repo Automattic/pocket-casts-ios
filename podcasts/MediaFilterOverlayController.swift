@@ -41,10 +41,14 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
         tableView.contentInsetAdjustmentBehavior = .never
         selectedIndex = Int(filterToEdit.filterAudioVideoType)
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        addCloseButton()
+        if !FeatureFlag.playlistsRebranding.enabled {
+            addCloseButton()
+        }
         addTableViewHeader()
 
         if FeatureFlag.playlistsRebranding.enabled {
+            navigationItem.largeTitleDisplayMode = .always
+
             handleThemeChanged()
 
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
@@ -104,6 +108,9 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
     override func saveFilter() {
         filterToEdit.filterAudioVideoType = Int32(selectedIndex)
+        if FeatureFlag.playlistsRebranding.enabled {
+            filterToEdit.mediaTypeSmartRuleApplied = true
+        }
         super.saveFilter()
     }
 
@@ -119,7 +126,15 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
+        }
+    }
+
+    override func dismissViewController() {
+        if FeatureFlag.playlistsRebranding.enabled {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 }
