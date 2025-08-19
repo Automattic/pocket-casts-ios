@@ -230,6 +230,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds a sharing button to the transcript view
     case shareTranscripts
 
+    /// Use the new interests and recommendations flow
+    case newOnboardingRecommendationChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -388,6 +391,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .shareTranscripts:
             true
+        case .newOnboardingRecommendationChanges:
+            false
         }
     }
 
