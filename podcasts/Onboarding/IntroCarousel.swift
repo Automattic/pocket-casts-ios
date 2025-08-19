@@ -17,8 +17,8 @@ struct IntroCarouselView: View {
                         .aspectRatio(contentMode: .fit)
                 }
             },
-            title: "\"The best podcast app out there. By far\"",
-            description: "Pocket Casts user"
+            title: "\"\(L10n.onboardingQuoteBest)\"",
+            description: L10n.onboardingQuoteAuthor
         ),
         CarouselItem(
             contentView: {
@@ -35,8 +35,8 @@ struct IntroCarouselView: View {
                         )
                     )
             },
-            title: "\"The amount of customization is insane\"",
-            description: "Pocket Casts user"
+            title: "\"\(L10n.onboardingQuoteCustomization)\"",
+            description: L10n.onboardingQuoteAuthor
         ),
         CarouselItem(
             contentView: {
@@ -44,8 +44,8 @@ struct IntroCarouselView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             },
-            title: "\"Organizing my podcasts by folders is genius\"",
-            description: "Pocket Casts user"
+            title: "\"\(L10n.onboardingQuoteFolders)\"",
+            description: L10n.onboardingQuoteAuthor
         )
     ]
 
