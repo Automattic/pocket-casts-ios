@@ -4,7 +4,7 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    var progress: Double
+    @Published var progress: Double
 
     @Published var currentStoryIndex: Int = 0
 

@@ -26,14 +26,14 @@ struct StoryIndicatorStyle {
 }
 
 struct StoryIndicator: View {
-    @ObservedObject private var model = StoriesProgressModel.shared
-
     let index: Int
     let style: StoryIndicatorStyle
+    @ObservedObject var progressModel: StoriesModel
 
-    init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle()) {
+    init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle(), progressModel: StoriesModel) {
         self.index = index
         self.style = style
+        self.progressModel = progressModel
     }
 
     var body: some View {
@@ -46,7 +46,7 @@ struct StoryIndicator: View {
 
                 Rectangle()
                     .foregroundColor(style.foregroundColor)
-                    .frame(width: geometry.size.width * (model.progress - CGFloat(index)).clamped(to: 0.0 ..< 1.0), height: nil, alignment: .leading)
+                    .frame(width: geometry.size.width * (progressModel.progress - CGFloat(index)).clamped(to: 0.0 ..< 1.0), height: nil, alignment: .leading)
                     .opacity(style.foregroundOpacity)
                     .cornerRadius(style.borderRadius)
             }
