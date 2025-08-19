@@ -255,6 +255,10 @@ class StoriesModel: ObservableObject {
         dataSource.indicatorColor
     }
 
+    var indicatorStyle: StoryIndicatorStyle {
+        dataSource.indicatorStyle
+    }
+
     var primaryBackgroundColor: Color {
         dataSource.primaryBackgroundColor
     }

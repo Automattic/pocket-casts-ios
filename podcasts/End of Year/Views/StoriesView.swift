@@ -143,7 +143,7 @@ struct StoriesView: View {
             VStack {
                 HStack(spacing: 2) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
-                        StoryIndicator(index: x)
+                        StoryIndicator(index: x, style: model.indicatorStyle)
                     }
                 }
                 .frame(height: model.indicatorHeight)
