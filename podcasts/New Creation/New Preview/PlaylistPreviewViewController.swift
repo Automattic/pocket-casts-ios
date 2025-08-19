@@ -137,7 +137,7 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: "Create Smart Playlist", attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+        let attributedTitle = NSAttributedString(string: L10n.playlistPreviewCreateSmartPlaylist, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 
