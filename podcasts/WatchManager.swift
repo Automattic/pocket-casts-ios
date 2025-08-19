@@ -7,7 +7,7 @@ import WatchConnectivity
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
-    let logFileRequestTimedAction = TimedActionHelper()
+    var logFileRequestTask: Task<Void, Never>?
 
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
@@ -401,6 +401,13 @@ class WatchManager: NSObject, WCSessionDelegate {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
             sendStateToWatch()
+            if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                FileLog.shared.addMessage("WatchManager: Collecting Watch logs in sendStateToWatchInBackground")
+                WatchManager.shared.requestLogFile { log in
+                    // We do nothing here, the log file will be cached as a result of requesting
+                    FileLog.shared.addMessage("WatchManager: Collected Watch logs in sendStateToWatchInBackground isEmpty \(log?.isEmpty ?? true)")
+                }
+            }
         }
     }
 

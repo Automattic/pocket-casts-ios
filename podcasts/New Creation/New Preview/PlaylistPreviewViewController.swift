@@ -75,7 +75,7 @@ class PlaylistPreviewViewController: PCViewController {
 
     private func setupNavBar() {
         let backgroundColor = AppTheme.viewBackgroundColor()
-        changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
         title = nil
         navigationItem.largeTitleDisplayMode = .never
@@ -121,7 +121,7 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: "Create Smart Playlist", attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+        let attributedTitle = NSAttributedString(string: L10n.playlistPreviewCreateSmartPlaylist, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 

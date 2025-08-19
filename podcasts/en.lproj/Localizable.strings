@@ -994,6 +994,9 @@
 /* Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name. */
 "playlist_preview_title" = "Preview %@";
 
+/* Button title used to create a new smart playlist */
+"playlist_preview_create_smart_playlist" = "Create Smart Playlist";
+
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
 
@@ -2899,6 +2902,15 @@
 /* Password field prompt */
 "sign_in_password_prompt" = "Password";
 
+/* A label dividing the email with social login options. Indicating a separation of two separate sections. */
+"sign_in_divider_label" = "OR";
+
+/* Label for option to show the password contents in the log in form. */
+"sign_in_show_password_label" = "Hide Password";
+
+/* Label for option to hide the password contents in the log in form. */
+"sign_in_hide_password_label" = "Show Password";
+
 /* Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label. */
 "signed_in_as" = "SIGNED IN AS";
 
@@ -4048,6 +4060,9 @@
 /* Label of a button that lets the user login/signup with Google */
 "social_sign_in_continue_with_google" = "Continue with Google";
 
+/* Label of a button that lets the user login/signup with Email */
+"sign_in_continue_with_email" = "Continue with Email";
+
 /* Label describing the recent searches */
 "search_recent" = "Recent searches";
 
@@ -5072,6 +5087,12 @@
 
 /* Notification title for weekly reengagement message */
 "notifications_reengagement_weekly_title" = "We miss you!";
+
+/* Title shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_title" = "We hope you love these suggestions!";
+
+/* Subtitle shown for the recommendations sreen during onboarding */
+"onboarding_recommendations_subtitle" = "Here are some great shows to start with. Tap to follow, search or import from other apps.";
 
 /* Notification body for weekly reengagement message */
 "notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";

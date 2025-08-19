@@ -114,15 +114,6 @@ class PlaylistPreviewViewModel: ObservableObject {
         }
     }
 
-    func hasAnyRuleApplied() -> Bool {
-        for rule in SmartPlaylistRule.allCases {
-            if smartRuleIsApplied(for: rule) {
-                return true
-            }
-        }
-        return false
-    }
-
     @objc private func handleFilterChanged(_ notification: Notification) {
         guard let playlist = notification.object as? EpisodeFilter,
               playlist.uuid == newPlaylist.uuid

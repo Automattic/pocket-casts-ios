@@ -63,7 +63,7 @@ class ImportViewModel: OnboardingModel {
         }
     }
 
-    struct ImportSource: Identifiable, CustomDebugStringConvertible {
+    struct ImportSource: Identifiable, CustomDebugStringConvertible, Hashable {
         let id: ImportSourceId
         let displayName: String
         let steps: String

@@ -55,9 +55,14 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func loginTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
-        let controller = SyncSigninViewController()
-        controller.delegate = self
-        navigationController?.pushViewController(controller, animated: true)
+        if FeatureFlag.newOnboardingAccountCreation.enabled {
+            let vc = UIHostingController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let controller = SyncSigninViewController()
+            controller.delegate = self
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 
     func signUpTapped() {

@@ -1,11 +1,17 @@
+7.97
+-----
+
+
 7.96
 -----
 - Localize the How to Upload screen [#3401](https://github.com/Automattic/pocket-casts-ios/pull/3401)
+- Add Share button to Transcripts [#3418](https://github.com/Automattic/pocket-casts-ios/pull/3418)
 
 7.95
 -----
 - Fix the trending notification message [#3351](https://github.com/Automattic/pocket-casts-ios/pull/3351)
 - New subscription upgrade screens [#3372](https://github.com/Automattic/pocket-casts-ios/pull/3372)
+- Fix episode skipping when scrubbing to the end of an episode from the lock screen [#3383](https://github.com/Automattic/pocket-casts-ios/pull/3383)
 
 7.94
 -----

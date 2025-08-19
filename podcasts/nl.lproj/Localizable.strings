@@ -863,6 +863,12 @@ Laat ons eerst helpen</string>
     <string>Pictogram luistergeschiedenis</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Houd bij wat je hebt afgespeeld</string>
+    <key>eac_informational_banner_playlists_description</key>
+    <string>Maak een gratis account aan om je afspeellijsten op elk apparaat te synchroniseren.</string>
+    <key>eac_informational_banner_playlists_icon_accessibility</key>
+    <string>Pictogram afspeellijsten</string>
+    <key>eac_informational_banner_playlists_title</key>
+    <string>Houd je afspeellijsten gesynchroniseerd</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1700,6 +1706,8 @@ podcasts mee</string>
     <string>Nu afspelen</string>
     <key>notifications_pocket_cast_offers</key>
     <string>Aanbiedingen Pocket Casts</string>
+    <key>notifications_recommendations_trending_body</key>
+    <string>Bekijk hier waar anderen deze week naar luisteren.</string>
     <key>notifications_recommendations_trending_title</key>
     <string>Trending deze week</string>
     <key>notifications_recommendations_you_might_like_body</key>
@@ -1981,6 +1989,14 @@ UPDATES</string>
     <string>Uploadfout</string>
     <key>playlists</key>
     <string>Afspeellijsten</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Wil je meer controle? Met handmatige afspeellijsten kan je aangepaste wachtrijen aanmaken, ideaal voor trips, thema's of gewoon je huidige vibe. Of je nu slim of handmatig werkt, afspeellijsten werken zoals jij dat doet.</string>
+    <key>playlists_onboarding_manual_title</key>
+    <string>Maak kennis met afspeellijsten</string>
+    <key>playlists_onboarding_smart_description</key>
+    <string>Ze werken nog precies hetzelfde en gebruiken regels om je afleveringen automatisch toe te voegen. Al je bestaande filters staan hier, er is niets veranderd, behalve de naam.</string>
+    <key>playlists_onboarding_smart_title</key>
+    <string>Filters zijn nu slimme afspeellijsten</string>
     <key>please_try_again</key>
     <string>Probeer het nog eens</string>
     <key>please_try_again_later</key>
@@ -3149,6 +3165,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Slaapstand inschakelen aan het einde van de huidige aflevering</string>
     <key>sleep_timer_time_remaining</key>
     <string>Slaaptimer aan, %1$@ resterend</string>
+    <key>smart_playlists_tip_view_description</key>
+    <string>We hebben deze gemaakt om je op weg te helpen. Ze worden automatisch bijgewerkt op basis van je luistergedrag.</string>
+    <key>smart_playlists_tip_view_title</key>
+    <string>Slimme afspeellijsten, klaar voor gebruik</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Doorgaan met Apple</string>
     <key>social_sign_in_continue_with_google</key>
@@ -3241,6 +3261,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Het abonnement is geannuleerd %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Verloopt over %1$@</string>
+    <key>subscription_feature_custom_title_bookmarks</key>
+    <string>Bladwijzers: nooit meer 'waar stond dat?'</string>
+    <key>subscription_feature_custom_title_folders</key>
+    <string>Mappen: je podcasts, perfect geplaatst</string>
+    <key>subscription_feature_custom_title_pre_selected_chapters</key>
+    <string>Hoofdstukken voorselecteren: ga direct naar wat je wil horen</string>
+    <key>subscription_feature_custom_title_shuffle_upnext</key>
+    <string>Shuffle: het plezier van niet kiezen</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
     <key>subscription_plan_features_info_link</key>

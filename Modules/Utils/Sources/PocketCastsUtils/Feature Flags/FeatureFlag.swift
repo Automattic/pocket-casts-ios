@@ -227,6 +227,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new upgrade screens for account creation
     case newOnboardingAccountCreation
 
+    /// Adds a sharing button to the transcript view
+    case shareTranscripts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -377,12 +380,14 @@ public enum FeatureFlag: String, CaseIterable {
             #if DEBUG
             true
             #else
-            false
+            BuildEnvironment.current == .testFlight
             #endif
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:
             false
+        case .shareTranscripts:
+            true
         }
     }
 

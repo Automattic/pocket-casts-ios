@@ -1966,6 +1966,10 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off", fallback: "Off") }
   /// A common string used throughout the app. Used as a confirmation or acceptance.
   internal static var ok: String { return L10n.tr("Localizable", "ok", fallback: "OK") }
+  /// Subtitle shown for the recommendations sreen during onboarding
+  internal static var onboardingRecommendationsSubtitle: String { return L10n.tr("Localizable", "onboarding_recommendations_subtitle", fallback: "Here are some great shows to start with. Tap to follow, search or import from other apps.") }
+  /// Title shown for the recommendations sreen during onboarding
+  internal static var onboardingRecommendationsTitle: String { return L10n.tr("Localizable", "onboarding_recommendations_title", fallback: "We hope you love these suggestions!") }
   /// Only on Unmetered Wifi
   internal static var onlyOnUnmeteredWifi: String { return L10n.tr("Localizable", "only_on_unmetered_wifi", fallback: "Only on Unmetered Wifi") }
   /// Only on Unmetered Wifi detail information
@@ -2276,6 +2280,8 @@ internal enum L10n {
   internal static var playlistCreationCreateSmartPlaylistButtonSubtitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_subtitle", fallback: "Automatically add episodes based on rules.") }
   /// Title for the button used to open the rules during the Playlist creation
   internal static var playlistCreationCreateSmartPlaylistButtonTitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_title", fallback: "Make into Smart Playlist") }
+  /// Button title used to create a new smart playlist
+  internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
@@ -3546,16 +3552,24 @@ internal enum L10n {
   internal static var showNotes: String { return L10n.tr("Localizable", "show_notes", fallback: "Notes") }
   /// A common string used throughout the app. Prompt for the user to sign into their account.
   internal static var signIn: String { return L10n.tr("Localizable", "sign_in", fallback: "Sign In") }
+  /// Label of a button that lets the user login/signup with Email
+  internal static var signInContinueWithEmail: String { return L10n.tr("Localizable", "sign_in_continue_with_email", fallback: "Continue with Email") }
+  /// A label dividing the email with social login options. Indicating a separation of two separate sections.
+  internal static var signInDividerLabel: String { return L10n.tr("Localizable", "sign_in_divider_label", fallback: "OR") }
   /// Email address field prompt
   internal static var signInEmailAddressPrompt: String { return L10n.tr("Localizable", "sign_in_email_address_prompt", fallback: "Email Address") }
   /// Button text to go to the forgot password page
   internal static var signInForgotPassword: String { return L10n.tr("Localizable", "sign_in_forgot_password", fallback: "I forgot my password") }
+  /// Label for option to hide the password contents in the log in form.
+  internal static var signInHidePasswordLabel: String { return L10n.tr("Localizable", "sign_in_hide_password_label", fallback: "Show Password") }
   /// Message shown below the sign in prompt to give users more details about what it does
   internal static var signInMessage: String { return L10n.tr("Localizable", "sign_in_message", fallback: "Save your podcast subscriptions in the cloud and sync your progress with other devices.") }
   /// Password field prompt
   internal static var signInPasswordPrompt: String { return L10n.tr("Localizable", "sign_in_password_prompt", fallback: "Password") }
   /// Prompt for the user to sign into their account or create an account
   internal static var signInPrompt: String { return L10n.tr("Localizable", "sign_in_prompt", fallback: "Sign in or create account") }
+  /// Label for option to show the password contents in the log in form.
+  internal static var signInShowPasswordLabel: String { return L10n.tr("Localizable", "sign_in_show_password_label", fallback: "Hide Password") }
   /// Label indicating which account the user is signed into. The accounts email address is displayed in close proximity to this label.
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as", fallback: "SIGNED IN AS") }
   /// Label indicating which account is not signed in.

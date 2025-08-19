@@ -81,8 +81,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
 
     weak var delegate: SyncSigninDelegate?
 
-    var dismissOnCancel = false
-
     private var progressAlert: ShiftyLoadingAlert?
 
     private var totalPodcastsToImport = -1
@@ -98,13 +96,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         mainButton.accessibilityLabel = L10n.signIn
         updateButtonState()
 
-        if dismissOnCancel {
-            let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
-            closeButton.accessibilityLabel = L10n.accessibilityCloseDialog
-            navigationItem.leftBarButtonItem = closeButton
-        } else {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
-        }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
@@ -158,11 +150,7 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     @objc func closeTapped() {
         Analytics.track(.signInDismissed)
 
-        if dismissOnCancel {
-            dismiss(animated: true, completion: nil)
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
     }
 
     @IBAction func signInTapped(_ sender: Any) {

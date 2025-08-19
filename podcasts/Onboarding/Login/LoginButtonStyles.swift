@@ -2,10 +2,9 @@ import SwiftUI
 
 // MARK: - Buttons
 struct SocialButtonStyle: ButtonStyle {
-    let imageName: String
+    @EnvironmentObject var theme: Theme
 
-    let textColor: Color = AppTheme.colorForStyle(.primaryText01).color
-    let strokeColor: Color = AppTheme.colorForStyle(.primaryInteractive03).color
+    let imageName: String
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -13,7 +12,7 @@ struct SocialButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding()
 
-            .foregroundColor(textColor)
+            .foregroundColor(theme.primaryText01)
             .overlay(
                 // Image Overlay
                 ZStack {
@@ -24,7 +23,7 @@ struct SocialButtonStyle: ButtonStyle {
                     }
 
                     RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
-                        .stroke(strokeColor, style: StrokeStyle(lineWidth: 3))
+                        .stroke(theme.primaryInteractive03, style: StrokeStyle(lineWidth: 3))
                 }
             )
             .cornerRadius(ViewConstants.buttonCornerRadius)
