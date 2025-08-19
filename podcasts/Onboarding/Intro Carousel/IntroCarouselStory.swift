@@ -27,10 +27,10 @@ struct IntroCarouselStory: StoryView {
 
             VStack(spacing: 12) {
                 Text(item.title)
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 31, weight: .bold))
                     .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 18)
+                    .padding(.horizontal, 14)
                     .opacity(titleOpacity)
                     .offset(y: titleOffset)
 
@@ -80,4 +80,26 @@ struct IntroCarouselStory: StoryView {
             }
         }
     }
+}
+
+#Preview {
+    IntroCarouselStory(item:
+                        CarouselItem(
+                            contentView: {
+                                Image("intro-carousel-effects")
+                                    .mask(
+                                        LinearGradient(
+                                            stops: [
+                                                Gradient.Stop(color: .clear, location: 0.0),
+                                                Gradient.Stop(color: .black, location: 0.1),
+                                                Gradient.Stop(color: .black, location: 1.0)
+                                            ],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                            },
+                            title: "\"\(L10n.onboardingQuoteCustomization)\"",
+                            description: L10n.onboardingQuoteAuthor
+                        ), theme: Theme(previewTheme: .light))
 }
