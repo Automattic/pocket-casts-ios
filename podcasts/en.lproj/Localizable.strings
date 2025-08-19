@@ -5432,3 +5432,12 @@
 /* Subscription Plan title for custom upgrade screen for the folders feature */
 "subscription_feature_custom_title_folders" = "Folders: your podcasts, perfectly placed";
 
+/* Interests screen title */
+"interests_title" = "Tell us about your favorite topics";
+
+/* Interests screen subtitle */
+"interests_subtitle" = "Great podcasts, handpicked by real people, are coming your way!";
+
+/* Interests screen show more categories button text */
+"interests_show_more_categories" = "Show more categories";
+

@@ -1638,6 +1638,12 @@ internal enum L10n {
   internal static var importTitle: String { return L10n.tr("Localizable", "import_title", fallback: "Bring your\npodcasts with you") }
   /// A common string used throughout the app. Status message informing the user that the episode has been started but not finished.
   internal static var inProgress: String { return L10n.tr("Localizable", "in_progress", fallback: "In Progress") }
+  /// Interests screen show more categories button text
+  internal static var interestsShowMoreCategories: String { return L10n.tr("Localizable", "interests_show_more_categories", fallback: "Show more categories") }
+  /// Interests screen subtitle
+  internal static var interestsSubtitle: String { return L10n.tr("Localizable", "interests_subtitle", fallback: "Great podcasts, handpicked by real people, are coming your way!") }
+  /// Interests screen title
+  internal static var interestsTitle: String { return L10n.tr("Localizable", "interests_title", fallback: "Tell us about your favorite topics") }
   /// Title for the hardware keyboard command that closes the player.
   internal static var keycommandClosePlayer: String { return L10n.tr("Localizable", "keycommand_close_player", fallback: "Close Player") }
   /// Title for the hardware keyboard command that decreases the playback speed.
