@@ -230,6 +230,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds a sharing button to the transcript view
     case shareTranscripts
 
+    /// Skips switching player to downloaded file if already playing from the same cached streamed file
+    case doNotSwitchToDownloadedFile
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -388,6 +391,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .shareTranscripts:
             true
+        case .doNotSwitchToDownloadedFile:
+            false
         }
     }
 

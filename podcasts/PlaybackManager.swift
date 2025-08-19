@@ -2055,6 +2055,18 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the current episode we were playing has downloaded, switch to playing the downloaded version
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
+
+            let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
+
+            if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
+               FeatureFlag.streamAndCachePlayingEpisode.enabled,
+               !episodeIsChanging,
+               effects().trimSilence == .off,
+               !playerSwitchRequired(),
+               !refreshedEpisode.videoPodcast() {
+                return
+            }
+
             load(episode: refreshedEpisode, autoPlay: currentlyPlaying, overrideUpNext: false, saveCurrentEpisode: false)
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
