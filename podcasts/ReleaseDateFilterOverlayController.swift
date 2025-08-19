@@ -163,7 +163,7 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
 
         if FeatureFlag.playlistsRebranding.enabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
         }
     }
 

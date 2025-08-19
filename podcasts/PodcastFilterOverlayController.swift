@@ -70,9 +70,12 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupNavBar() {
+        let backgroundColor: UIColor
         if FeatureFlag.playlistsRebranding.enabled {
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            backgroundColor = AppTheme.viewBackgroundColor()
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
         } else {
+            backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             setupCloseButton()
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
         }
@@ -83,7 +86,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         }
 
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+        appearance.backgroundColor = backgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .bold)

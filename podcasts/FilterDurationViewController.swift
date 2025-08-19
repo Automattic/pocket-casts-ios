@@ -189,9 +189,12 @@ class FilterDurationViewController: PCViewController {
 
     private func setupNavigationBar() {
         title = L10n.filterOptionEpisodeDuration
+        let backgroundColor: UIColor
         if FeatureFlag.playlistsRebranding.enabled {
-            changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon03))
+            backgroundColor = AppTheme.viewBackgroundColor()
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: AppTheme.viewBackgroundColor())
         } else {
+            backgroundColor = ThemeColor.primaryUi01()
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
         }
 
@@ -200,7 +203,7 @@ class FilterDurationViewController: PCViewController {
         navigationController?.navigationItem.largeTitleDisplayMode = .automatic
 
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ThemeColor.primaryUi01()
+        appearance.backgroundColor = backgroundColor
         appearance.shadowColor = .clear
         appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText01()]
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()]
