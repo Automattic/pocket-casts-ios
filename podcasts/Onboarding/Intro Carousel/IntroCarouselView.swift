@@ -1,5 +1,13 @@
 import SwiftUI
 
+fileprivate extension String {
+    func wrapInSmartQuotes() -> String {
+        let leftSmartQuote = "\u{201C}"  // Left double quotation mark
+        let rightSmartQuote = "\u{201D}" // Right double quotation mark
+        return "\(leftSmartQuote)\(self)\(rightSmartQuote)"
+    }
+}
+
 struct IntroCarouselView: View {
     @EnvironmentObject var theme: Theme
 
@@ -17,7 +25,7 @@ struct IntroCarouselView: View {
                         .aspectRatio(contentMode: .fit)
                 }
             },
-            title: "\"\(L10n.onboardingQuoteBest)\"",
+            title: L10n.onboardingQuoteBest.wrapInSmartQuotes(),
             description: L10n.onboardingQuoteAuthor
         ),
         CarouselItem(
@@ -35,7 +43,7 @@ struct IntroCarouselView: View {
                         )
                     )
             },
-            title: "\"\(L10n.onboardingQuoteCustomization)\"",
+            title: L10n.onboardingQuoteCustomization.wrapInSmartQuotes(),
             description: L10n.onboardingQuoteAuthor
         ),
         CarouselItem(
@@ -44,7 +52,7 @@ struct IntroCarouselView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             },
-            title: "\"\(L10n.onboardingQuoteFolders)\"",
+            title: L10n.onboardingQuoteFolders.wrapInSmartQuotes(),
             description: L10n.onboardingQuoteAuthor
         )
     ]
