@@ -45,23 +45,23 @@ struct InterestsView: View {
                         }
                         .padding(.bottom, 120)
                     }
-                    .fadeGradient(bottomOffset: 50)
-
+                    //.fadeGradient(bottomOffset: 50)
                     VStack {
                         Button(action: {
                             //TODO: Implement this
                         }) {
-                            Text(selectedCategories.count >= minimumInterestsCount ? L10n.continue : "Select at least \(minimumInterestsCount)")
+                            Text(selectedCategories.count >= minimumInterestsCount ? L10n.continue : L10n.interestsSelectAtLeast(minimumInterestsCount))
                                 .textStyle(RoundedButton())
                         }
                         .padding(.horizontal)
                         .padding(.top, 2)
                         .padding(.bottom)
+                        .opacity(selectedCategories.count < minimumInterestsCount ? 0.5 : 1)
                         .disabled(selectedCategories.count < minimumInterestsCount)
                     }
-                    .background(theme.primaryInteractive02)
-                    .background(.ultraThinMaterial)
+                    .background(theme.primaryUi01)
                 }
+                .background(theme.primaryUi01)
             } else {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryIcon01))
@@ -82,7 +82,8 @@ struct InterestsView: View {
                     }
             }
         }
-        .background(theme.primaryInteractive02)
+        //.ignoresSafeArea()
+        //.background(theme.primaryUi01)
     }
 
     var header: some View {

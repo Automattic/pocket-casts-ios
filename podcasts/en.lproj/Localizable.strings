@@ -5441,3 +5441,6 @@
 /* Interests screen show more categories button text */
 "interests_show_more_categories" = "Show more categories";
 
+/* Interests screen button title for interests confirmation. The %1$@ argument is the minimum number of interests you need to select. Ex: Select at least 3*/
+"interests_select_at_least" = "Select at least %1$@";
+

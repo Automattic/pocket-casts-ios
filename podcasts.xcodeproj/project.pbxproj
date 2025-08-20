@@ -2099,7 +2099,7 @@
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
 		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
-		FF9295202E54E33E00FE847E /* IntererestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF92951F2E54E33300FE847E /* IntererestsView.swift */; };
+		FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF92951F2E54E33300FE847E /* InterestsView.swift */; };
 		FF9B6B752D0732D40057A504 /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B742D0732CF0057A504 /* LogsViewController.swift */; };
 		FF9B6B772D0733670057A504 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B762D0733650057A504 /* LogsView.swift */; };
 		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
@@ -4196,7 +4196,7 @@
 		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
 		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
-		FF92951F2E54E33300FE847E /* IntererestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntererestsView.swift; sourceTree = "<group>"; };
+		FF92951F2E54E33300FE847E /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
 		FF9B6B742D0732CF0057A504 /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
 		FF9B6B762D0733650057A504 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
 		FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichExpandableDescriptionView.swift; sourceTree = "<group>"; };
@@ -7837,7 +7837,7 @@
 		C7B3C618291AD03400054145 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				FF92951F2E54E33300FE847E /* IntererestsView.swift */,
+				FF92951F2E54E33300FE847E /* InterestsView.swift */,
 				F5E7041A2E4ED71A00C39FA4 /* DiscoverPodcastsGridView.swift */,
 				F554B0172E445E0700056CDF /* OnboardingRecommendationsView.swift */,
 				F5E704182E4ED6FE00C39FA4 /* PodcastSubscribeButton.swift */,
@@ -10566,7 +10566,7 @@
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
-				FF9295202E54E33E00FE847E /* IntererestsView.swift in Sources */,
+				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				9A11FC9A2D91D1CD00A1EF3E /* AppsFlyerDataProvider.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
