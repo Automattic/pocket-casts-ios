@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
+    let maxInitialCategories: Int = 12
     let minimumSelectionCount: Int = 3
 
     @Published var categories: [DiscoverCategory] = []
@@ -48,11 +49,17 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
     var isMinimumSelectionDone: Bool {
         return selectedCategories.count >= minimumSelectionCount
     }
+
+    func categories(all: Bool) -> [DiscoverCategory] {
+        all ? categories : Array(categories.prefix(maxInitialCategories))
+    }
 }
 
 struct InterestsView: View {
 
     @StateObject var viewModel = InterestsViewModel()
+
+    @State var showMore: Bool = false
 
     @EnvironmentObject var theme: Theme
 
@@ -75,7 +82,7 @@ struct InterestsView: View {
             ScrollView(.vertical) {
                 VStack(spacing: 16) {
                     header
-                    ForEach(viewModel.categories, id: \.id) { category in
+                    ForEach(viewModel.categories(all: showMore), id: \.id) { category in
                         VStack(alignment: .leading, spacing: 16) {
                             Button(action: {
                                 viewModel.toggleSelectionOfCategory(category)
@@ -89,10 +96,13 @@ struct InterestsView: View {
                             }
                         }
                     }
-                    showMoreCategoriesButton
+                    if !showMore {
+                        showMoreCategoriesButton
+                    }
+                    Spacer().frame(height: 50)
                 }
             }
-            .fadeGradient()
+            .fadeGradient(height: 50)
             continueButton
         }
         .background(theme.primaryUi01)
@@ -128,7 +138,7 @@ struct InterestsView: View {
         HStack {
             Spacer()
             Button(L10n.interestsShowMoreCategories) {
-
+                showMore.toggle()
             }
             .tint(theme.primaryInteractive01)
             Spacer()
