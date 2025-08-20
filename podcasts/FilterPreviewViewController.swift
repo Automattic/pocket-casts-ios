@@ -196,7 +196,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     }
 
     func refreshEpisodes(animated: Bool) {
-        let refreshOperation = PlaylistRefreshOperation(tableView: previewTable, filter: newFilter) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(filter: newFilter) { [weak self] newData in
             guard let strongSelf = self else { return }
             strongSelf.previewTable.isHidden = (newData.count == 0)
             strongSelf.noEpisodeView.isHidden = (newData.count != 0)

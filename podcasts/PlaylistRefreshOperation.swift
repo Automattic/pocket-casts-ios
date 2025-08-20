@@ -3,13 +3,11 @@ import PocketCastsDataModel
 
 class PlaylistRefreshOperation: Operation {
     private let episodesDataManager: EpisodesDataManager
-    private let tableView: UITableView
     private let filter: EpisodeFilter
     private let completion: ([ListEpisode]) -> Void
 
-    init(episodesDataManager: EpisodesDataManager = .init(), tableView: UITableView, filter: EpisodeFilter, completion: @escaping (([ListEpisode]) -> Void)) {
+    init(episodesDataManager: EpisodesDataManager = .init(), filter: EpisodeFilter, completion: @escaping (([ListEpisode]) -> Void)) {
         self.episodesDataManager = episodesDataManager
-        self.tableView = tableView
         self.filter = filter
         self.completion = completion
 
