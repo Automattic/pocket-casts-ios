@@ -110,5 +110,5 @@ struct InterestsView: View {
 
 #Preview("Live") {
     InterestsView()
-        .environmentObject(Theme(previewTheme: .extraDark))
+        .environmentObject(Theme(previewTheme: .light))
 }
