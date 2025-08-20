@@ -3,39 +3,75 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+class InterestsViewModel: ObservableObject {
+
+    let minimumSelectionCount: Int = 3
+
+    @Published var categories: [DiscoverCategory] = []
+    @Published var isLoaded: Bool = false
+    @Published var selectedCategories: Set<Int> = []
+
+    func load() async {
+        let page = await DiscoverServerHandler.shared.discoverPage()
+        guard let layout = page.0 else {
+            return
+        }
+
+        let categoriesItem = layout.layout?.first { item in
+            item.type == "categories"
+        }
+        guard let categoriesItem else {
+            return
+        }
+        let result = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
+        DispatchQueue.main.async { [weak self] in
+            self?.categories = result
+            self?.isLoaded = true
+        }
+    }
+
+    func isSelectedCategory(_ category: DiscoverCategory) -> Bool {
+        return selectedCategories.contains(category.id ?? -1)
+    }
+
+    func toggleSelectionOfCategory(_ category: DiscoverCategory) {
+        guard let id = category.id else {
+            return
+        }
+        if isSelectedCategory(category) {
+            selectedCategories.remove(id)
+        } else {
+            selectedCategories.insert(id)
+        }
+    }
+
+    var isMinimumSelectionDone: Bool {
+        return selectedCategories.count >= minimumSelectionCount
+    }
+}
+
 struct InterestsView: View {
 
-    @State var categories: [DiscoverCategory] = []
-    @State var layout: DiscoverLayout?
-    @State var selectedCategories: Set<Int> = []
-
-    let minimumInterestsCount: Int = 3
+    @StateObject var viewModel = InterestsViewModel()
 
     @EnvironmentObject var theme: Theme
 
     var body: some View {
         Group {
-            if layout != nil {
+            if viewModel.isLoaded {
                 ZStack(alignment: .bottom) {
                     ScrollView(.vertical) {
                         VStack(spacing: 16) {
                             header
-                            ForEach(categories, id: \.id) { category in
+                            ForEach(viewModel.categories, id: \.id) { category in
                                 VStack(alignment: .leading, spacing: 16) {
                                     Button(action: {
-                                        guard let id = category.id else {
-                                            return
-                                        }
-                                        if selectedCategories.contains(id) {
-                                            selectedCategories.remove(id)
-                                        } else {
-                                            selectedCategories.insert(id)
-                                        }
+                                        viewModel.toggleSelectionOfCategory(category)
                                     }) {
                                         Text(category.name ?? "Unknown")
                                             .font(.title2.weight(.bold))
                                             .foregroundStyle(theme.primaryText01)
-                                            .background(selectedCategories.contains(category.id ?? -1) ? .red : .clear)
+                                            .background(viewModel.isSelectedCategory(category) ? .red : .clear)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 20)
                                     }
@@ -45,19 +81,19 @@ struct InterestsView: View {
                         }
                         .padding(.bottom, 120)
                     }
-                    //.fadeGradient(bottomOffset: 50)
+                    .fadeGradient(bottomOffset: 50)
                     VStack {
                         Button(action: {
                             //TODO: Implement this
                         }) {
-                            Text(selectedCategories.count >= minimumInterestsCount ? L10n.continue : L10n.interestsSelectAtLeast(minimumInterestsCount))
+                            Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
                                 .textStyle(RoundedButton())
                         }
                         .padding(.horizontal)
                         .padding(.top, 2)
                         .padding(.bottom)
-                        .opacity(selectedCategories.count < minimumInterestsCount ? 0.5 : 1)
-                        .disabled(selectedCategories.count < minimumInterestsCount)
+                        .opacity(viewModel.isMinimumSelectionDone ? 1 : 0.5)
+                        .disabled(!viewModel.isMinimumSelectionDone)
                     }
                     .background(theme.primaryUi01)
                 }
@@ -66,24 +102,10 @@ struct InterestsView: View {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryIcon01))
                     .task {
-                        let page = await DiscoverServerHandler.shared.discoverPage()
-                        guard let layout = page.0 else {
-                            return
-                        }
-
-                        let categoriesItem = layout.layout?.first { item in
-                            item.type == "categories"
-                        }
-                        guard let categoriesItem else {
-                            return
-                        }
-                        categories = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
-                        self.layout = layout
+                        await viewModel.load()
                     }
             }
         }
-        //.ignoresSafeArea()
-        //.background(theme.primaryUi01)
     }
 
     var header: some View {
