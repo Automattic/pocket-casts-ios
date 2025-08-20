@@ -25,7 +25,7 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         guard let categoriesItem else {
             return
         }
-        let result = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
+        let result = (await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)).filter({$0.id != 11})
         DispatchQueue.main.async { [weak self] in
             self?.categories = result
             self?.isLoaded = true
