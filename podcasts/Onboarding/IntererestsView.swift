@@ -7,6 +7,9 @@ struct InterestsView: View {
 
     @State var categories: [DiscoverCategory] = []
     @State var layout: DiscoverLayout?
+    @State var selectedCategories: Set<Int> = []
+
+    let minimumInterestsCount: Int = 3
 
     @EnvironmentObject var theme: Theme
 
@@ -19,11 +22,23 @@ struct InterestsView: View {
                             header
                             ForEach(categories, id: \.id) { category in
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text(category.name ?? "Unknown")
-                                        .font(.title2.weight(.bold))
-                                        .foregroundStyle(theme.primaryText01)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 20)
+                                    Button(action: {
+                                        guard let id = category.id else {
+                                            return
+                                        }
+                                        if selectedCategories.contains(id) {
+                                            selectedCategories.remove(id)
+                                        } else {
+                                            selectedCategories.insert(id)
+                                        }
+                                    }) {
+                                        Text(category.name ?? "Unknown")
+                                            .font(.title2.weight(.bold))
+                                            .foregroundStyle(theme.primaryText01)
+                                            .background(selectedCategories.contains(category.id ?? -1) ? .red : .clear)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 20)
+                                    }
                                 }
                             }
                             showMoreCategoriesButton
@@ -36,12 +51,13 @@ struct InterestsView: View {
                         Button(action: {
                             //TODO: Implement this
                         }) {
-                            Text(L10n.continue)
+                            Text(selectedCategories.count >= minimumInterestsCount ? L10n.continue : "Select at least \(minimumInterestsCount)")
                                 .textStyle(RoundedButton())
                         }
                         .padding(.horizontal)
                         .padding(.top, 2)
                         .padding(.bottom)
+                        .disabled(selectedCategories.count < minimumInterestsCount)
                     }
                     .background(theme.primaryInteractive02)
                     .background(.ultraThinMaterial)
