@@ -73,6 +73,21 @@ class LoginCoordinator: NSObject, OnboardingModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func getStartedTapped() {
+        let view = OnboardingRecommendationsView(coordinator: self)
+        let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    func recommendationsContinueTapped() {
+        socialAuthProvider = nil
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
+        let view = LoginLandingView(coordinator: self, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+        let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+        hostingController.viewModel = self
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
     @objc func dismissTapped() {
         OnboardingFlow.shared.track(.setupAccountDismissed)
         navigationController?.dismiss(animated: true)
@@ -241,9 +256,19 @@ extension LoginCoordinator {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 
-        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
-        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
-        controller.viewModel = coordinator
+        let controller: UIViewController
+
+        if FeatureFlag.newOnboardingAccountCreation.enabled {
+            let view = IntroCarouselView(coordinator: coordinator)
+                        .environmentObject(Theme(previewTheme: .light)) // Theme is always set to light theme for onboarding
+            let hostingController = IntroCarouselHostingController(rootView: view)
+            controller = hostingController
+        } else {
+            let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+            let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+            hostingController.viewModel = coordinator
+            controller = hostingController
+        }
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         if FeatureFlag.fullScreenLogin.enabled {

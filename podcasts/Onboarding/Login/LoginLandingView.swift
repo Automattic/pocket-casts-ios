@@ -350,9 +350,11 @@ private struct LoginButtons: View {
                 coordinator.signUpTapped()
             }.buttonStyle(RoundedButtonStyle(theme: theme))
 
-            Button("Login") {
-                coordinator.loginTapped()
-            }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+            if !FeatureFlag.newOnboardingAccountCreation.enabled {
+                Button("Login") {
+                    coordinator.loginTapped()
+                }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+            }
         }
     }
 }

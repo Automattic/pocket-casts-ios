@@ -355,7 +355,7 @@ struct DeveloperMenu: View {
                     showIntroCarousel = true
                 }
                 .sheet(isPresented: $showIntroCarousel) {
-                    IntroCarouselView()
+                    IntroCarouselView(coordinator: LoginCoordinator())
                 }
             } header: {
                 Text("Onboarding")
@@ -367,7 +367,7 @@ struct DeveloperMenu: View {
                 }
                 .sheet(isPresented: $showingRecommendationsOnboarding) {
                     NavigationStack {
-                        OnboardingRecommendationsView()
+                        OnboardingRecommendationsView(coordinator: LoginCoordinator())
                             .environmentObject(Theme.sharedTheme)
                     }
                 }

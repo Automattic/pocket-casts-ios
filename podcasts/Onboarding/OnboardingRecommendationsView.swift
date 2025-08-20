@@ -3,9 +3,9 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-
-
 struct OnboardingRecommendationsView: View {
+
+    let coordinator: LoginCoordinator
 
     @State var categories: [DiscoverCategory] = []
     @State var layout: DiscoverLayout?
@@ -61,7 +61,7 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
-                            //TODO: Implement this
+                            coordinator.recommendationsContinueTapped()
                         }) {
                             Text(L10n.continue)
                                 .textStyle(RoundedButton())
@@ -93,6 +93,15 @@ struct OnboardingRecommendationsView: View {
 
                         await loadCategoryPodcasts(layout: layout)
                     }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(L10n.import) {
+                    showingImport = true
+                    OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": "recommendations_header"])
+                }
+                .tint(theme.primaryInteractive01)
             }
         }
         .background(theme.primaryInteractive02)
@@ -153,16 +162,6 @@ struct OnboardingRecommendationsView: View {
 
     @ViewBuilder func header() -> some View {
         VStack(spacing: 16) {
-            HStack {
-                Spacer()
-                Button(L10n.import) {
-                    showingImport = true
-                    OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": "recommendations_header"])
-                }
-                .tint(theme.primaryInteractive01)
-            }
-            .padding(.horizontal, 20)
-
             VStack(alignment: .center, spacing: 16) {
                 Text(L10n.onboardingRecommendationsTitle)
                     .font(.title.weight(.bold))
@@ -214,6 +213,6 @@ struct OnboardingRecommendationsView: View {
 }
 
 #Preview("Live") {
-    OnboardingRecommendationsView()
+    OnboardingRecommendationsView(coordinator: LoginCoordinator())
         .environmentObject(Theme(previewTheme: .extraDark))
 }

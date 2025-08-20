@@ -8,8 +8,22 @@ fileprivate extension String {
     }
 }
 
+class IntroCarouselHostingController<Content>: OnboardingHostingViewController<Content> where Content: View {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+}
+
 struct IntroCarouselView: View {
     @EnvironmentObject var theme: Theme
+
+    let coordinator: LoginCoordinator
 
     private let carouselItems = [
         CarouselItem(
@@ -74,12 +88,12 @@ struct IntroCarouselView: View {
 
             VStack(spacing: 16) {
                 Button(L10n.eacInformationalViewModalGetStartedButton) {
-                    // Will implement in follow up PR
+                    coordinator.getStartedTapped()
                 }
                 .buttonStyle(RoundedButtonStyle(theme: theme))
 
                 Button(L10n.accountLogin) {
-                    // Will implement in follow up PR
+                    coordinator.loginTapped()
                 }
                 .foregroundColor(theme.primaryText01)
                 .font(.system(size: 18, weight: .semibold))
