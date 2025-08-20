@@ -2056,14 +2056,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             let currentlyPlaying = playing()
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
 
-            let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
-
-            if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
-               FeatureFlag.streamAndCachePlayingEpisode.enabled,
-               !episodeIsChanging,
-               effects().trimSilence == .off,
-               !playerSwitchRequired(),
-               !refreshedEpisode.videoPodcast() {
+            if !needsToReloadPlayingEpisode(refreshedEpisode) {
                 return
             }
 
@@ -2071,6 +2064,24 @@ class PlaybackManager: ServerPlaybackDelegate {
             if refreshedEpisode.videoPodcast() {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.videoPlaybackEngineSwitched)
             }
+        }
+    }
+
+    func needsToReloadPlayingEpisode(_ refreshedEpisode: BaseEpisode) -> Bool {
+        let episodeIsChanging = refreshedEpisode.uuid != currentEpisode()?.uuid
+
+        if FeatureFlag.doNotSwitchToDownloadedFile.enabled,
+           FeatureFlag.streamAndCachePlayingEpisode.enabled,
+           !episodeIsChanging,
+           effects().trimSilence == .off,
+           !playerSwitchRequired(),
+           !refreshedEpisode.videoPodcast() {
+            return false
+        } else {
+            if !episodeIsChanging {
+                FileLog.shared.addMessage("Playback Manager: Needs to reload current episode [\(refreshedEpisode.title ?? "") - \(refreshedEpisode.uuid)].\n Possible Reasons: Trim silence: \(effects().trimSilence), Player switch required: \(playerSwitchRequired()), Video podcast: \(refreshedEpisode.videoPodcast())")
+            }
+            return true
         }
     }
 
