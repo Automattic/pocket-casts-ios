@@ -143,18 +143,20 @@ struct StoriesView: View {
             VStack {
                 HStack(spacing: 2) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
-                        StoryIndicator(index: x)
+                        StoryIndicator(index: x, style: model.indicatorStyle, progressModel: model)
                     }
                 }
-                .frame(height: Constants.storyIndicatorHeight)
+                .frame(height: model.indicatorHeight)
                 .padding(.top, 4)
                 Spacer()
             }
             .padding(.leading, Constants.storyIndicatorVerticalPadding)
             .padding(.trailing, Constants.storyIndicatorVerticalPadding)
 
-            closeButton
-                .foregroundColor(model.indicatorColor)
+            if model.shouldShowDismissButton() {
+                closeButton
+                    .foregroundColor(model.indicatorColor)
+            }
         }
         .padding(.top, Constants.headerTopPadding)
     }
@@ -248,7 +250,6 @@ struct StoriesView: View {
 
 private extension StoriesView {
     struct Constants {
-        static let storyIndicatorHeight: CGFloat = 2
         static let storyIndicatorVerticalPadding: CGFloat = 13
         static let headerTopPadding: CGFloat = 5
 
