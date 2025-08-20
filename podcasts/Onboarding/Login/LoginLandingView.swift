@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 struct LoginLandingView: View {
     @EnvironmentObject var theme: Theme
@@ -47,6 +48,14 @@ private struct LoginLandingContent: View {
     /// The amount to reduce the top padding by to make sure the buttons are all visible
     @State var headerHeightOffset: CGFloat = 0
 
+    private var title: String {
+        FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.loginLandingTitle : L10n.loginTitle
+    }
+
+    private var subtitle: String {
+        FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.loginLandingSubtitle : L10n.loginSubtitle
+    }
+
     var body: some View {
         let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
         let headerHeight = loginHeaderHeight - headerHeightOffset
@@ -54,17 +63,34 @@ private struct LoginLandingContent: View {
 
         ZStack(alignment: .top) {
             GeometryReader { viewSizeProxy in
-                LoginHeader(models: calculatedModels, topPadding: topPadding)
-                    .clipped()
+                if FeatureFlag.newOnboardingAccountCreation.enabled {
+                    // Title and Subtitle
+                    VStack(spacing: 0) {
+                        VStack(spacing: 8) {
+                            LoginLabel(title, for: .title)
+                            LoginLabel(subtitle, for: .subtitle)
+                        }
+                        .padding(.horizontal, Config.padding + 20)
+                        .padding(.top, headerHeightOffset)
+
+                        LoginHeader(models: calculatedModels, topPadding: 0)
+                            .clipped()
+                    }
+                } else {
+                    LoginHeader(models: calculatedModels, topPadding: topPadding)
+                        .clipped()
+                }
 
                     VStack {
-                        // Title and Subtitle
-                        VStack(spacing: 8) {
-                            LoginLabel(L10n.loginTitle, for: .title)
-                            LoginLabel(L10n.loginSubtitle, for: .subtitle)
-                        }
+                        if !FeatureFlag.newOnboardingAccountCreation.enabled {
+                            // Title and Subtitle
+                            VStack(spacing: 8) {
+                                LoginLabel(title, for: .title)
+                                LoginLabel(subtitle, for: .subtitle)
+                            }
 
-                        Spacer()
+                            Spacer()
+                        }
 
                         HStack(spacing: 0) {
                             Spacer()
@@ -73,7 +99,7 @@ private struct LoginLandingContent: View {
                             Spacer()
                         }
                     }
-                    .padding([.leading, .trailing], Config.padding)
+                    .padding(.horizontal, Config.padding)
                     .padding(.top, headerHeight)
                     .padding(.bottom)
                     .background(
@@ -320,7 +346,7 @@ private struct LoginButtons: View {
 
             SocialLoginButtons(coordinator: coordinator)
 
-            Button("Sign Up") {
+            Button(FeatureFlag.newOnboardingAccountCreation.enabled ? "Sign up with email" : "Sign Up") {
                 coordinator.signUpTapped()
             }.buttonStyle(RoundedButtonStyle(theme: theme))
 
