@@ -392,7 +392,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareTranscripts:
             true
         case .doNotSwitchToDownloadedFile:
-            false
+            true
         }
     }
 
