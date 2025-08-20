@@ -356,7 +356,6 @@ struct DeveloperMenu: View {
                 }
                 .sheet(isPresented: $showIntroCarousel) {
                     IntroCarouselView()
-                        .environmentObject(Theme(previewTheme: .light)) // Theme is always set to light theme for onboarding
                 }
             } header: {
                 Text("Onboarding")

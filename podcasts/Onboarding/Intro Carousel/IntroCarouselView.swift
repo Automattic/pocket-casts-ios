@@ -15,7 +15,7 @@ struct IntroCarouselView: View {
         CarouselItem(
             contentView: {
                 VStack(spacing: 100) {
-                    Image(AppTheme.pcLogoSmallHorizontalImageName())
+                    Image(AppTheme.pcLogoSmallHorizontalForBackgroundImageName())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 40)
