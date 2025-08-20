@@ -1380,18 +1380,18 @@ Ens veiem el 2024!</string>
     <string>Hores estalviades</string>
     <key>how_to_upload_explanation</key>
     <string>Primer, obre una aplicació que tingui els arxius d'àudio que vols desar</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Tria compartir aquest arxiu</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Fitxer d'àudio</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Opció de menú</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>Al menú, toca 'Copiar a Pocket Casts'</string>
-    <key>how_to_upload_second_image_center_text</key>
+    <key>how_to_upload_share_action_image_center_text</key>
     <string>Copiar a Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
+    <key>how_to_upload_share_action_image_sides_text</key>
     <string>Una altra cosa</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>Al menú, toca 'Copiar a Pocket Casts'</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>Fitxer d'àudio</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>Opcions del menú</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>Triar compartir aquest arxiu</string>
     <key>how_to_upload_summary</key>
     <string>Ja està. Canvia les dades que vulguis, prém desar i ja pots reproduir-los!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1668,6 +1668,14 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Vens des d'una altra app? Porta tots els teus pòdcasts favorits a Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importa els teus pòdcasts fàcilment</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>Un cop al mes, tota la màgia dels podcasts</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>Subscriu-te a la nostra newsletter</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>Rep notícies, suggeriments de pòdcasts i més</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>Rebre notificacions</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Crea un compte gratuït per sincronitzar els teus pòdcasts i escoltar-los des de qualsevol lloc.</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1696,6 +1704,8 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Si us plau, permeteu notificacions a la configuració del dispositiu</string>
     <key>notifications_permissions_open_settings</key>
     <string>Obre la configuració</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>Desar les preferències</string>
     <key>notifications_permissions_title</key>
     <string>Estigues al dia!</string>
     <key>notifications_play_now</key>
@@ -1707,7 +1717,7 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>notifications_recommendations_trending_title</key>
     <string>Tendències d'aquesta setmana</string>
     <key>notifications_recommendations_you_might_like_body</key>
-    <string>Et preguntes què escoltar a continuació? Fes una ullada a aquests pòdcasts!</string>
+    <string>No saps què has d'escoltar a continuació? Fes una ullada a aquests pòdcasts!</string>
     <key>notifications_recommendations_you_might_like_title</key>
     <string>Noves recomanacions per a tu</string>
     <key>notifications_reengagement_downloads_body</key>
@@ -1740,6 +1750,10 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Desactivat</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>Aquí tens alguns programes fantàstics per començar. Toca per seguir-los, cercar-ne més o importar-ne des d’altres aplicacions.</string>
+    <key>onboarding_recommendations_title</key>
+    <string>Esperem que t'agradin aquestes suggeriments!</string>
     <key>only_on_unmetered_wifi</key>
     <string>Només amb Wi-Fi sense restriccions de dades</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1983,10 +1997,36 @@ ACTUALITZACIONS</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>Crear una llista de reproducció</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>Afegeix episodis automàticament segons les regles.</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>Fes-ho en una llista de reproducció intel·ligent</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>Els nous pòdcasts que segueixis s'afegiran automàticament.</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>Els nous pòdcasts que segueixis no s'afegiran automàticament.</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>Tots els pòdcasts que segueixes</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>Desar la regla intel·ligent</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>Els episodis destacats encara poden aparèixer si coincideixen amb les teves altres regles.</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>Només inclou episodis destacats que coincideixin amb les teves altres regles.</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>Episodis destacats</string>
     <key>playlists</key>
     <string>Llistes de reproducció</string>
+    <key>playlists_default_new_playlist</key>
+    <string>Nova llista de reproducció</string>
+    <key>playlists_empty_state_description</key>
+    <string>Les llistes de reproducció permeten organitzar els episodis manualment o automàticament amb regles intel·ligents.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organitza episodis a la teva manera</string>
     <key>playlists_onboarding_manual_description</key>
-    <string>Vols més control? Les llistes de reproducció manuals et deixen crear cues personalitzades, ideals per a viatges, temes o simplement per al que vulguis. Tant si són intel·ligents com manuals, les llistes de reproducció funcionen com tu.</string>
+    <string>Pren el control del que escoltes. Crea llistes de reproducció personalitzades per a viatges, temes o qualsevol ambient en què et trobis. Tant si són intel·ligents com personalitzades, les llistes de reproducció s’adapten a la teva manera d’escoltar.</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Us presentem les llistes de reproducció</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3080,16 +3120,24 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Notes</string>
     <key>sign_in</key>
     <string>Iniciar sessió</string>
+    <key>sign_in_continue_with_email</key>
+    <string>Continua amb el correu electrònic</string>
+    <key>sign_in_divider_label</key>
+    <string>O</string>
     <key>sign_in_email_address_prompt</key>
     <string>Adreça de correu electrònic</string>
     <key>sign_in_forgot_password</key>
     <string>He oblidat la contrasenya</string>
+    <key>sign_in_hide_password_label</key>
+    <string>Mostrar la contrasenya</string>
     <key>sign_in_message</key>
     <string>Desa les teves subscripcions a pòdcasts al núvol i sincronitza el progrés amb altres dispositius.</string>
     <key>sign_in_password_prompt</key>
     <string>Contrasenya</string>
     <key>sign_in_prompt</key>
     <string>Iniciar sessió o crear un compte</string>
+    <key>sign_in_show_password_label</key>
+    <string>Amagar la contrasenya</string>
     <key>signed_in_as</key>
     <string>HAS INICIAT LA SESSIÓ COM A</string>
     <key>signed_out</key>
@@ -3162,6 +3210,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Dormint al final de l'episodi actual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporitzador activat, queden %1$@</string>
+    <key>smart_playlist</key>
+    <string>Llista intel·ligent</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Ho hem fet per ajudar-te a començar. S'actualitzen automàticament segons la teva escolta.</string>
     <key>smart_playlists_tip_view_title</key>

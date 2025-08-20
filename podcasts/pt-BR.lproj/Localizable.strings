@@ -1384,18 +1384,6 @@ que você ouviu foi
     <string>Horas economizadas</string>
     <key>how_to_upload_explanation</key>
     <string>Primeiro, abra um aplicativo que contenha os arquivos de áudio que você deseja salvar</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Escolha compartilhar o arquivo</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Arquivo de áudio</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Opção de menu</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>No menu, toque em "Copiar para o Pocket Casts"</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Copiar para o Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Algo mais</string>
     <key>how_to_upload_summary</key>
     <string>Tudo pronto. Altere os detalhes que você quiser, toque em salvar e já pode ouvir!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ ATUALIZAÇÕES</string>
     <string>Erro no upload</string>
     <key>playlists</key>
     <string>Listas de reprodução</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Quer ter mais controle? Com as listas de reprodução manuais, você cria filas personalizadas, ótimas para viagens, temas ou apenas sua vibe atual. Sejam inteligentes ou manuais, as listas de reprodução funcionam do seu jeito.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organize episódios do seu jeito</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Apresentamos as listas de reprodução</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Dormindo no final do episódio atual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
+    <key>smart_playlist</key>
+    <string>Lista de reprodução inteligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Nós as criamos para ajudar você a começar. Elas são atualizadas automaticamente com base no que você ouve.</string>
     <key>smart_playlists_tip_view_title</key>
