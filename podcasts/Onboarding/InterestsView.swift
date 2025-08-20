@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-class InterestsViewModel: ObservableObject {
+class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
     let minimumSelectionCount: Int = 3
 
