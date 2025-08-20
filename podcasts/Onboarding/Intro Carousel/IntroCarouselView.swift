@@ -61,6 +61,7 @@ struct IntroCarouselView: View {
         let configuration = StoriesConfiguration()
         configuration.shouldShowDismissButton = false
         configuration.indicatorHeight = 4
+        configuration.indicatorSpacing = 4
         return configuration
     }
 
