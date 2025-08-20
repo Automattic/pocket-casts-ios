@@ -1,8 +1,64 @@
 import UIKit
+import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
+import DifferenceKit
+
+class PlaylistDetailViewModel: ObservableObject {
+    private(set) var playlist: EpisodeFilter!
+
+    @Published private(set) var episodes: [ListEpisode] = []
+    private(set) var firstTimeLoading = true
+
+    private let onChange: (StagedChangeset<[ListEpisode]>, Bool) -> Void
+    private lazy var operationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+
+    init(playlist: EpisodeFilter, onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void) {
+        self.playlist = playlist
+        self.onChange = onChange
+    }
+    
+    func update(episodes: [ListEpisode]) {
+        self.episodes = episodes
+    }
+
+    func reloadPlaylistAndEpisodes() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            if let reloadedPlaylist = DataManager.sharedManager.findFilter(uuid: playlist.uuid) {
+                DispatchQueue.main.async { [weak self] in
+                    self?.playlist = reloadedPlaylist
+                }
+            }
+            reloadEpisodeList(animated: false)
+        }
+    }
+
+    func reloadEpisodeList(animated: Bool = true) {
+        if operationQueue.operationCount > 0 {
+            operationQueue.cancelAllOperations()
+            episodes.removeAll()
+        }
+        let refreshOperation = PlaylistRefreshOperation(filter: playlist) { [weak self] newData in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                if self.firstTimeLoading {
+                    self.firstTimeLoading.toggle()
+                }
+                let changeSet = StagedChangeset(source: self.episodes, target: newData)
+                self.onChange(changeSet, animated)
+            }
+        }
+        operationQueue.addOperation(refreshOperation)
+    }
+}
 
 class PlaylistDetailViewController: FakeNavViewController {
-    private let playlist: EpisodeFilter
+    private var viewModel: PlaylistDetailViewModel!
     private var tableView: ThemeableTable! {
         didSet {
             tableView.themeStyle = .primaryUi02
@@ -13,24 +69,29 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.delegate = self
             tableView.dataSource = self
             tableView.separatorStyle = .none
+            tableView.isHidden = true
             // TODO: Enable multi selection
 //            tableView.allowsMultipleSelection = true
 //            tableView.allowsMultipleSelectionDuringEditing = true
-//            registerLongPress()
+            registerCells()
+            registerLongPress()
         }
     }
     private lazy var blurHeaderView: UIView = {
 //        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
         let headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = .red
-//        headerView.backgroundColor = .clear
+        headerView.backgroundColor = .clear
         headerView.layer.zPosition = -1000
         headerView.isUserInteractionEnabled = false
         return headerView
     }()
-
-    var episodes = [ListEpisode]()
+    private var loadingIndicator: ThemeLoadingIndicator! {
+        didSet {
+            view.addSubview(loadingIndicator)
+            loadingIndicator.center = view.center
+        }
+    }
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -94,9 +155,10 @@ class PlaylistDetailViewController: FakeNavViewController {
 //    @IBOutlet var multiSelectHeaderView: ThemeableView!
 
     init(playlist: EpisodeFilter) {
-        self.playlist = playlist
-
         super.init(nibName: nil, bundle: nil)
+        self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated in
+            self?.reload(data: newSet, animated: animated)
+        }
     }
 
     @available(*, unavailable)
@@ -106,6 +168,8 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.navigationController?.isNavigationBarHidden = true
 
         setupContent()
         setupNavigation()
@@ -117,6 +181,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.navigationController?.isNavigationBarHidden = true
         addObservers()
         updateColors()
+
+        viewModel.reloadPlaylistAndEpisodes()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -149,8 +215,21 @@ class PlaylistDetailViewController: FakeNavViewController {
         updateColors()
     }
 
+    override func handleAppDidEnterBackground() {
+        // we don't need to keep our UI up to date while backgrounded, so remove all the notification observers we have
+        removeAllCustomObservers()
+    }
+
+    override func handleAppWillBecomeActive() {
+        viewModel.reloadEpisodeList()
+        addObservers()
+    }
+
     private func setupNavigation() {
-        self.navTitle = playlist.playlistName
+        supportsGoogleCast = true
+
+        navTitle = viewModel.playlist.playlistName
+        scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
 
         addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.learnMore, action: #selector(moreTapped))
         addGoogleCastBtn()
@@ -164,9 +243,11 @@ class PlaylistDetailViewController: FakeNavViewController {
         view.backgroundColor = AppTheme.viewBackgroundColor()
 
         tableView = ThemeableTable()
-        view.addSubview(tableView)
+        view.insertSubview(tableView, at: 0)
 
         tableView.addSubview(blurHeaderView)
+
+        loadingIndicator = ThemeLoadingIndicator()
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -187,7 +268,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func updateColors() {
-        reloadData()
+        tableView.reloadData()
 
         updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
 
@@ -198,38 +279,144 @@ class PlaylistDetailViewController: FakeNavViewController {
         updateNavigationBar(position: tableView.contentOffset.y)
     }
 
-    private func reloadData() {
-        tableView.reloadData()
+    private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool = true) {
+        if animated {
+            tableView.reload(using: data, with: .none, setData: { [weak self] episodes in
+                self?.viewModel.update(episodes: episodes)
+                self?.reloadEmptyState()
+            })
+        } else {
+            viewModel.update(episodes: data.last?.data ?? [])
+            reloadEmptyState()
+            tableView.reloadData()
+        }
+//        refreshMultiSelectEpisodes()
+    }
+
+    private func reloadEmptyState() {
+        var config: UIContentConfiguration?
+
+        tableView.isHidden = viewModel.episodes.isEmpty
+
+        if viewModel.episodes.isEmpty {
+            // Empty State when playlists is empty
+            let title = L10n.episodeFilterNoEpisodesTitle
+            let message = L10n.episodeFilterNoEpisodesMsg
+            config = ContentUnavailableConfiguration.emptyState(
+                title: title,
+                message: message,
+                icon: {
+                    Image("empty-playlist-info")
+                },
+                actions: [
+                .init(
+                    title: L10n.playlistSmartRulesTitle,
+                    action: { [weak self] in
+//                    self?.editPlaylist()
+                    }
+                )
+            ])
+        }
+        set(configuration: config)
+    }
+
+    private func set(configuration: UIContentConfiguration?) {
+        if #available(iOS 17.0, *) {
+            self.contentUnavailableConfiguration = configuration
+        } else {
+            self.setContentUnavailableConfiguration(configuration)
+        }
     }
 
     private func addObservers() {
-//        addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
-//        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(hideSearchKeyboard))
-//        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(upNextChanged))
-//        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(upNextChanged))
-//        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextChanged))
-//        addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
+        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(refreshFilterFromNotification))
+        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+    }
 
-        // Episode grouping can change based on download and play status, so listen for both those events and refresh when they happen
-//        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodes))
-//        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
+    @objc private func refreshFilterFromNotification() {
+        if viewModel.firstTimeLoading {
+            loadingIndicator.startAnimating()
+        }
+        viewModel.reloadPlaylistAndEpisodes()
+    }
+    
+    @objc private func refreshEpisodesFromNotification() {
+        viewModel.reloadEpisodeList()
     }
 }
 
 extension PlaylistDetailViewController: UITableViewDataSource {
+    private static let cellIdentifier = "EpisodeCell"
+
+    func registerCells() {
+        tableView.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: Self.cellIdentifier)
+    }
+
+    func registerLongPress() {
+//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tableLongPressed(_:)))
+//        tableView.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            let touchPoint = sender.location(in: tableView)
+            guard let indexPath = tableView.indexPathForRow(at: touchPoint) else { return }
+            if isMultiSelectEnabled {
+                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
+                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
+                    Analytics.track(.filterSelectAllAbove)
+                    self.tableView.selectAllAbove(indexPath: indexPath)
+                })
+
+                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
+                    Analytics.track(.filterSelectAllBelow)
+                    self.tableView.selectAllBelow(indexPath: indexPath)
+                })
+                optionPicker.addAction(action: allAboveAction)
+                optionPicker.addAction(action: allBelowAction)
+                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+            } else {
+                longPressMultiSelectIndexPath = indexPath
+                isMultiSelectEnabled = true
+            }
+        }
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return episodes.count
+        viewModel.episodes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
+
+        cell.playlist = .filter(uuid: viewModel.playlist.uuid)
+//        cell.delegate = self
+        if let listEpisode = viewModel.episodes[safe: indexPath.row] {
+            cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), filterUuid: viewModel.playlist.uuid)
+            cell.shouldShowSelect = isMultiSelectEnabled
+//            if isMultiSelectEnabled {
+//                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
+//            }
+        }
+
+        return cell
     }
 }
 
