@@ -114,10 +114,10 @@ struct InterestsView: View {
                         .frame(width: 24, height: 24)
                 }
                 Text(category.name ?? "Unknown")
-                    .font(.title3.weight(.medium))                    
+                    .font(.title3.weight(.medium))
             }
         }.buttonStyle(
-            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category), cornerStyle: .rounded)
+            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category))
         )
     }
 

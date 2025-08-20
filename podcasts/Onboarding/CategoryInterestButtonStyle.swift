@@ -37,57 +37,29 @@ struct CategoryInterestButtonStyle: ButtonStyle {
         theme.primaryUi01
     }
 
-    // MARK: View
-
     let isSelected: Bool
-    let cornerStyle: CornerStyle
-
-    enum CornerStyle {
-        case rounded
-        case circle
-
-        var shape: some Shape {
-            switch self {
-                case .rounded:
-                    AnyShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
-                case .circle:
-                    AnyShape(Circle())
-            }
-        }
-
-        var horizontalPadding: CGFloat {
-            switch self {
-                case .rounded:
-                    Constants.Padding.roundedHorizontal
-                case .circle:
-                    Constants.Padding.circleHorizontal
-            }
-        }
-    }
 
     /// Used for generating previews with isPressed button state
     fileprivate var forcePressed = false
 
-    init(isSelected: Bool = false, cornerStyle: CornerStyle = .rounded) {
+    init(isSelected: Bool = false) {
         self.isSelected = isSelected
-        self.cornerStyle = cornerStyle
     }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.callout.weight(.medium))
             .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, cornerStyle.horizontalPadding)
+            .padding(.horizontal, Constants.Padding.roundedHorizontal)
             .padding(.vertical, Constants.Padding.vertical)
-            .padding(cornerStyle == .circle ? 3 : 0)
             .cornerRadius(Constants.cornerRadius)
             .background(isSelected ? selectedBackground : ((configuration.isPressed || forcePressed) ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
             .overlay(
-                cornerStyle.shape
+                RoundedRectangle(cornerRadius: Constants.cornerRadius)
                     .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
             )
-            .clipShape(cornerStyle.shape)
+            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
 }
 
