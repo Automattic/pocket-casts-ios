@@ -71,7 +71,7 @@ struct InterestsView: View {
     }
 
     var mainBody: some View {
-        ZStack(alignment: .bottom) {
+        VStack(alignment: .center) {
             ScrollView(.vertical) {
                 VStack(spacing: 16) {
                     header
@@ -91,9 +91,8 @@ struct InterestsView: View {
                     }
                     showMoreCategoriesButton
                 }
-                .padding(.bottom, 120)
             }
-            .fadeGradient(bottomOffset: 50)
+            .fadeGradient()
             continueButton
         }
         .background(theme.primaryUi01)
