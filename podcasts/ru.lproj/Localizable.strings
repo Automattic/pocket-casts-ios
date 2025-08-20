@@ -1384,18 +1384,6 @@ Pocket Casts на полную мощность.</string>
     <string>часов сохранено</string>
     <key>how_to_upload_explanation</key>
     <string>Сначала откройте приложение, содержащее аудиофайлы, которые вы хотите сохранить.</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Поделитесь этим файлом</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Аудиофайл</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Пункт меню</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>В меню нажмите «Копировать в Pocket Casts».</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Копировать в Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Что-то другое</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка загрузки</string>
     <key>playlists</key>
     <string>Плейлисты</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Хотите расширить возможности управления? Свои плейлисты — это функция, дающая вам возможность составлять собственные списки воспроизведения. Создавайте тематические плейлисты, сборники в дорогу или просто списки под настроение. Плейлисты — «свои» или «умные» — действуют так же, как и вы сами.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Слушайте выпуски в нужном вам порядке</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Знакомьтесь: плейлисты</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Pocket Casts на полную мощность.</string>
     <string>Переход в режим ожидания по окончании текущего выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
+    <key>smart_playlist</key>
+    <string>Умный плейлист</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Это поможет вам войти в курс дела. Они автоматически обновляются на основе ваших предпочтений.</string>
     <key>smart_playlists_tip_view_title</key>

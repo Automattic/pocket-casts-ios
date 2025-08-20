@@ -1384,18 +1384,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>節約時間数</string>
     <key>how_to_upload_explanation</key>
     <string>まず、保存する音声ファイルがあるアプリを開きます</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>そのファイルを共有するように選択</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>音声ファイル</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>メニューオプション</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>メニューで「Pocket Casts にコピー」をタップ</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Pocket Casts にコピー</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>別のもの</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アップロードエラー</string>
     <key>playlists</key>
     <string>プレイリスト</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>もっと詳細に制御したい場合 手動プレイリストを使用すると、旅行やテーマ、現在の雰囲気に最適なカスタムキューを作成できます。 スマートでも手動でも、プレイリストはあなたのスタイルに合わせて動作します。</string>
+    <key>playlists_empty_state_title</key>
+    <string>エピソードを自分流に整理</string>
     <key>playlists_onboarding_manual_title</key>
     <string>プレイリストのご紹介</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3165,6 +3153,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
     <string>スリープタイマーがオンになるまで、あと%1$@分</string>
+    <key>smart_playlist</key>
+    <string>スマートプレイリスト</string>
     <key>smart_playlists_tip_view_description</key>
     <string>ご利用開始をサポートするよう作られています。 聴取内容に基づいて自動更新されます。</string>
     <key>smart_playlists_tip_view_title</key>

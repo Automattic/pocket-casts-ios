@@ -1384,18 +1384,6 @@ Folge dauerte
     <string>Stunden gespart</string>
     <key>how_to_upload_explanation</key>
     <string>Öffne zunächst eine App mit den Audiodateien, die du speichern möchtest.</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Datei zum Teilen auswählen</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Audiodatei</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Menüoption</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>Tippe im Menü auf „Nach Pocket Casts kopieren“</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Nach Pocket Casts kopieren</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Etwas anderes</string>
     <key>how_to_upload_summary</key>
     <string>Und schon bist du fertig. Ändere gewünschte Details, speichere deine Änderungen und schon kannst du die Datei abspielen!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Fehler beim Upload</string>
     <key>playlists</key>
     <string>Wiedergabelisten</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Wünschst du dir mehr Kontrolle? Mit manuellen Wiedergabelisten kannst du individuelle Warteschlangen erstellen, die optimal zu Ausflügen, Themes oder einfach nur zu deiner aktuelle Stimmung passen. Egal, ob smart oder manuell – unsere Wiedergabelisten entsprechen genau deinen Wünschen.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Deine Folgen, nach deinen Wünschen</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Neu: Wiedergabelisten</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Schlummerfunktion startet am Ende der aktuellen Folge</string>
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
+    <key>smart_playlist</key>
+    <string>Intelligente Wiedergabeliste</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Wir haben diese vorgefertigten Wiedergabelisten erstellt, um dir den Einstieg zu erleichtern. Sie werden automatisch basierend auf deinem Hörverlauf aktualisiert.</string>
     <key>smart_playlists_tip_view_title</key>

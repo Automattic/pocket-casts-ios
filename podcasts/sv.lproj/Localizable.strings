@@ -1384,18 +1384,8 @@ du lyssnade på var
     <string>Timmar sparade</string>
     <key>how_to_upload_explanation</key>
     <string>Öppna först en app som har de ljudfiler du vill spara</string>
-    <key>how_to_upload_first_instruction</key>
+    <key>how_to_upload_share_menu_instruction</key>
     <string>Välj att dela den filen</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Ljudfil</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Menyalternativ</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Kopiera till Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Något annat</string>
     <key>how_to_upload_summary</key>
     <string>Det var allt. Du är klar. Ändra eventuell information som du vill ändra, tryck på Spara och spela!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1981,8 @@ UPPDATERINGAR</string>
     <string>Uppladdningsfel</string>
     <key>playlists</key>
     <string>Spellistor</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Vill du ha mer kontroll? Manuella spellistor låter dig skapa anpassade köer – perfekt för resor, teman eller bara din nuvarande vibe. Spellistor ger dig det du behöver, oavsett om de är smarta eller manuella.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organisera avsnitt på ditt sätt</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Vi presenterar spellistor</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3159,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Somnar i slutet av nuvarande avsnitt</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
+    <key>smart_playlist</key>
+    <string>Smart spellista</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Vi har skapat dessa för att hjälpa dig att komma igång. De uppdateras automatiskt baserat på ditt lyssnande.</string>
     <key>smart_playlists_tip_view_title</key>
