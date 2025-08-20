@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Kingfisher
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
@@ -77,23 +78,16 @@ struct InterestsView: View {
         }
     }
 
+    let columns: [GridItem] = [GridItem(.flexible(), alignment: .trailing), GridItem(.flexible(), alignment: .leading)]
+
     var mainBody: some View {
         VStack(alignment: .center) {
             ScrollView(.vertical) {
                 VStack(spacing: 16) {
                     header
-                    ForEach(viewModel.categories(all: showMore), id: \.id) { category in
-                        VStack(alignment: .leading, spacing: 16) {
-                            Button(action: {
-                                viewModel.toggleSelectionOfCategory(category)
-                            }) {
-                                Text(category.name ?? "Unknown")
-                                    .font(.title2.weight(.bold))
-                                    .foregroundStyle(theme.primaryText01)
-                                    .background(viewModel.isSelectedCategory(category) ? .red : .clear)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.horizontal, 20)
-                            }
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
+                        ForEach(viewModel.categories(all: showMore), id: \.id) { category in
+                            categoryButton(for: category)
                         }
                     }
                     if !showMore {
@@ -106,6 +100,25 @@ struct InterestsView: View {
             continueButton
         }
         .background(theme.primaryUi01)
+    }
+
+    @ViewBuilder func categoryButton(for category: DiscoverCategory) -> some View {
+        Button(action: {
+            viewModel.toggleSelectionOfCategory(category)
+        }) {
+            HStack {
+                if let icon = category.icon, let url = URL(string: icon) {
+                    KFImage(url)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+                Text(category.name ?? "Unknown")
+                    .font(.title3.weight(.medium))                    
+            }
+        }.buttonStyle(
+            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category), cornerStyle: .rounded)
+        )
     }
 
     var header: some View {
