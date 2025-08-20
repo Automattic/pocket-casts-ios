@@ -82,20 +82,7 @@ struct InterestsView: View {
                         .padding(.bottom, 120)
                     }
                     .fadeGradient(bottomOffset: 50)
-                    VStack {
-                        Button(action: {
-                            //TODO: Implement this
-                        }) {
-                            Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
-                                .textStyle(RoundedButton())
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 2)
-                        .padding(.bottom)
-                        .opacity(viewModel.isMinimumSelectionDone ? 1 : 0.5)
-                        .disabled(!viewModel.isMinimumSelectionDone)
-                    }
-                    .background(theme.primaryUi01)
+                    continueButton
                 }
                 .background(theme.primaryUi01)
             } else {
@@ -144,6 +131,23 @@ struct InterestsView: View {
             Spacer()
         }
         .padding(.horizontal, 20)
+    }
+
+    var continueButton: some View {
+        VStack {
+            Button(action: {
+                //TODO: Implement this
+            }) {
+                Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
+                    .textStyle(RoundedButton())
+            }
+            .padding(.horizontal)
+            .padding(.top, 2)
+            .padding(.bottom)
+            .opacity(viewModel.isMinimumSelectionDone ? 1 : 0.5)
+            .disabled(!viewModel.isMinimumSelectionDone)
+        }
+        .background(theme.primaryUi01)
     }
 }
 
