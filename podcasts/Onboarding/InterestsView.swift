@@ -59,32 +59,7 @@ struct InterestsView: View {
     var body: some View {
         Group {
             if viewModel.isLoaded {
-                ZStack(alignment: .bottom) {
-                    ScrollView(.vertical) {
-                        VStack(spacing: 16) {
-                            header
-                            ForEach(viewModel.categories, id: \.id) { category in
-                                VStack(alignment: .leading, spacing: 16) {
-                                    Button(action: {
-                                        viewModel.toggleSelectionOfCategory(category)
-                                    }) {
-                                        Text(category.name ?? "Unknown")
-                                            .font(.title2.weight(.bold))
-                                            .foregroundStyle(theme.primaryText01)
-                                            .background(viewModel.isSelectedCategory(category) ? .red : .clear)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.horizontal, 20)
-                                    }
-                                }
-                            }
-                            showMoreCategoriesButton
-                        }
-                        .padding(.bottom, 120)
-                    }
-                    .fadeGradient(bottomOffset: 50)
-                    continueButton
-                }
-                .background(theme.primaryUi01)
+                mainBody
             } else {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryIcon01))
@@ -93,6 +68,35 @@ struct InterestsView: View {
                     }
             }
         }
+    }
+
+    var mainBody: some View {
+        ZStack(alignment: .bottom) {
+            ScrollView(.vertical) {
+                VStack(spacing: 16) {
+                    header
+                    ForEach(viewModel.categories, id: \.id) { category in
+                        VStack(alignment: .leading, spacing: 16) {
+                            Button(action: {
+                                viewModel.toggleSelectionOfCategory(category)
+                            }) {
+                                Text(category.name ?? "Unknown")
+                                    .font(.title2.weight(.bold))
+                                    .foregroundStyle(theme.primaryText01)
+                                    .background(viewModel.isSelectedCategory(category) ? .red : .clear)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.horizontal, 20)
+                            }
+                        }
+                    }
+                    showMoreCategoriesButton
+                }
+                .padding(.bottom, 120)
+            }
+            .fadeGradient(bottomOffset: 50)
+            continueButton
+        }
+        .background(theme.primaryUi01)
     }
 
     var header: some View {
