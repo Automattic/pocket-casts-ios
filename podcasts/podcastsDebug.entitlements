@@ -24,6 +24,7 @@
 		<string>applinks:play.pocketcasts.com</string>
 		<string>appclips:play.pocketcasts.com</string>
 		<string>appclips:play.pocketcasts.net</string>
+		<string>appclips:pocketcasts.net</string>
 	</array>
 	<key>com.apple.developer.carplay-audio</key>
 	<true/>
