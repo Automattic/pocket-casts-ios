@@ -66,6 +66,7 @@ class PlaylistPreviewViewController: PCViewController {
             self?.push(rule: rule)
         }
         viewModel.$newPlaylistHasChanged
+            .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.updateSaveButtonEnabledState()

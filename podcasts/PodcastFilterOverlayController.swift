@@ -46,6 +46,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
                 disabledString: L10n.playlistSmartRulePodcastsHeaderSubtitleManualAdd
             )
             viewModel.$toggleIsOn
+                .dropFirst()
                 .receive(on: RunLoop.main)
                 .sink { [weak self] newValue in
                     self?.selectAllSwitchValueChanged()
