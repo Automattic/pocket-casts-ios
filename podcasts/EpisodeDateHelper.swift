@@ -34,6 +34,33 @@ struct EpisodeDateHelper {
             }
         }
 
+        static func formattedDate(for episode: BaseEpisode) -> String {
+            let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
+
+            guard let episode = episode as? Episode else {
+                return episodeDate
+            }
+            if episode.isBonus() {
+                return rowTitle(dateText: episodeDate, episode: episode, indicatorText: L10n.episodeIndicatorBonus.localizedUppercase)
+            } else if episode.isTrailer() {
+                let indicator = seasonTrailerText(episode.seasonNumber).localizedUppercase
+                return rowTitle(dateText: episodeDate, episode: episode, indicatorText: indicator)
+            } else {
+                return rowTitle(dateText: episodeDate, episode: episode)
+            }
+        }
+
+        private static func rowTitle(dateText: String, episode: Episode, indicatorText: String? = nil) -> String {
+            guard let indicatorText = indicatorText else {
+                if episode.episodeNumber < 1 {
+                    return dateText
+                }
+                let prefix = L10n.seasonEpisodeShorthand(seasonNumber: episode.seasonNumber, episodeNumber: episode.episodeNumber)
+                return "\(prefix) • \(dateText)"
+            }
+            return "\(indicatorText) • \(dateText)"
+        }
+
         private static func setRowTitle(dateText: String, episode: Episode, label: UILabel, tintColor: UIColor?, indicatorText: String? = nil) {
             guard let indicatorText = indicatorText, let tintColor = tintColor else {
                 if episode.episodeNumber < 1 {

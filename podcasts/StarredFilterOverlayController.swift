@@ -92,6 +92,7 @@ class StarredFilterOverlayController: PCViewController {
             disabledString: L10n.playlistSmartRuleStarredHeaderSubtitleToggleOff
         )
         viewModel.$toggleIsOn
+            .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] newValue in
                 self?.filterToEdit.filterStarred = newValue

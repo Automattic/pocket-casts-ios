@@ -10,11 +10,16 @@ class PlaylistPreviewViewModel: ObservableObject {
 
     @Published var newPlaylistHasChanged: Bool = false
 
-    private(set) var isInPreview: Bool = false
-    private(set) var newPlaylist: EpisodeFilter
-    private(set) var enabledRules: [SmartPlaylistRuleInfo] = []
-    private(set) var availableRules: [SmartPlaylistRuleInfo] = []
-    private(set) var episodes = [ListEpisode]()
+    @Published private(set) var isInPreview: Bool = false
+    @Published private(set) var newPlaylist: EpisodeFilter
+    @Published private(set) var enabledRules: [SmartPlaylistRuleInfo] = []
+    @Published private(set) var availableRules: [SmartPlaylistRuleInfo] = []
+    @Published private(set) var episodes = [ListEpisode]()
+    private lazy var operationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
 
     let playlistMode: PlaylistMode
     let action: (SmartPlaylistRule) -> Void
@@ -141,7 +146,17 @@ class PlaylistPreviewViewModel: ObservableObject {
             }
         }
 
-        newPlaylistHasChanged = true
+        if operationQueue.operationCount > 0 {
+            operationQueue.cancelAllOperations()
+            episodes.removeAll()
+        }
+        let refreshOperation = PlaylistRefreshOperation(tableView: UITableView(), filter: newPlaylist) { [weak self] newData in
+            self?.episodes = newData
+            DispatchQueue.main.async {
+                self?.newPlaylistHasChanged = true
+            }
+        }
+        operationQueue.addOperation(refreshOperation)
     }
 
     func removeObserver() {
