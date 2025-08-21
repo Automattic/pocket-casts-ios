@@ -86,8 +86,8 @@ struct InterestsView: View {
                 VStack(spacing: 16) {
                     header
                     LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
-                        ForEach(viewModel.categories(all: showMore), id: \.id) { category in
-                            categoryButton(for: category)
+                        ForEach(Array(viewModel.categories(all: showMore).enumerated()), id: \.element.id) { i, category in
+                            categoryButton(for: category, index: i)
                         }
                     }
                     if !showMore {
@@ -102,7 +102,7 @@ struct InterestsView: View {
         .background(theme.primaryUi01)
     }
 
-    @ViewBuilder func categoryButton(for category: DiscoverCategory) -> some View {
+    @ViewBuilder func categoryButton(for category: DiscoverCategory, index: Int) -> some View {
         Button(action: {
             viewModel.toggleSelectionOfCategory(category)
         }) {
@@ -117,7 +117,7 @@ struct InterestsView: View {
                     .font(.title3.weight(.medium))
             }
         }.buttonStyle(
-            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category))
+            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category), style: CategoryInterestButtonStyle.CategoryInterestStyle.allCases[index % CategoryInterestButtonStyle.CategoryInterestStyle.allCases.count])
         )
     }
 

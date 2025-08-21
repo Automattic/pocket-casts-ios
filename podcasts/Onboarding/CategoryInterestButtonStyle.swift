@@ -4,7 +4,7 @@ struct CategoryInterestButtonStyle: ButtonStyle {
 
     @EnvironmentObject var theme: Theme
 
-    enum CategoryInterestStyle: Int {
+    enum CategoryInterestStyle: Int, CaseIterable {
         case red
         case yellow
         case purple
@@ -25,11 +25,11 @@ struct CategoryInterestButtonStyle: ButtonStyle {
                 case .yellow:
                     return LinearGradient(
                         stops: [
-                            Gradient.Stop(color: Color(red: 0.96, green: 0.22, blue: 0.41), location: 0.00),
-                            Gradient.Stop(color: Color(red: 0.98, green: 0.32, blue: 0.27), location: 1.00),
+                            Gradient.Stop(color: Color(red: 1, green: 0.84, blue: 0.27), location: 0.00),
+                            Gradient.Stop(color: Color(red: 1, green: 0.71, blue: 0.15), location: 1.00),
                         ],
-                        startPoint: UnitPoint(x: 0, y: 0),
-                        endPoint: UnitPoint(x: 1, y: 1)
+                        startPoint: UnitPoint(x: 0.09, y: 0),
+                        endPoint: UnitPoint(x: 0.95, y: 0.61)
                     )
                 case .purple:
                     return LinearGradient(
@@ -99,7 +99,7 @@ struct CategoryInterestButtonStyle: ButtonStyle {
         theme.primaryUi02Selected
     }
 
-    private var foreground: Color {    
+    private var foreground: Color {
         return style.tintColor
     }
 
