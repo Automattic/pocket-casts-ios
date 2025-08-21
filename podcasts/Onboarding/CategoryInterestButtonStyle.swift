@@ -79,16 +79,16 @@ struct CategoryInterestButtonStyle: ButtonStyle {
 
     private enum Constants {
         enum Padding {
-            static let roundedHorizontal: CGFloat = 20
-            static let vertical: CGFloat = 8
+            static let roundedHorizontal: CGFloat = 16
+            static let vertical: CGFloat = 12
         }
 
-        static let cornerRadius: CGFloat = 100
+        static let cornerRadius: CGFloat = 102
     }
 
     // MARK: Colors
     private var border: Color {
-        theme.primaryField03
+        theme.primaryUi05
     }
 
     private var background: Color {
@@ -106,6 +106,7 @@ struct CategoryInterestButtonStyle: ButtonStyle {
     private var selectedBackground: Color {
         .clear
     }
+
     private var selectedForeground: Color {
         theme.primaryUi01
     }
@@ -139,7 +140,8 @@ struct CategoryInterestButtonStyle: ButtonStyle {
             }
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
+                    .inset(by: 1)
+                    .stroke(isSelected ? selectedBackground : border, lineWidth: 2)
             )
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
