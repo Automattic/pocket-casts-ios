@@ -28,29 +28,30 @@ struct InterestButton: View {
                         .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .foregroundColor(isSelected ? style.selectedForegroundColor : style.tintColor)
                 }
                 Text(name)
                     .font(.title3.weight(.medium))
+                    .foregroundColor(isSelected ? style.selectedForegroundColor : theme.secondaryText02)
             }
-        }        
+        }
         .fixedSize(horizontal: true, vertical: false)
         .padding(.horizontal, Constants.Padding.horizontal)
         .padding(.vertical, Constants.Padding.vertical)
         .cornerRadius(Constants.cornerRadius)
-        .foregroundColor(isSelected ? selectedForeground : foreground)
         .background {
             if isSelected {
                 RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
                     .fill(self.style.gradient)
             } else {
                 RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
-                    .fill(background)
+                    .fill(theme.primaryUi01)
             }
         }
         .overlay(
             RoundedRectangle(cornerRadius: Constants.cornerRadius)
                 .inset(by: 1)
-                .stroke(isSelected ? selectedBackground : border, lineWidth: 2)
+                .stroke(isSelected ? .clear : theme.primaryUi05, lineWidth: 2)
         )
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
@@ -126,6 +127,17 @@ struct InterestButton: View {
                     return Color(hex: "#78D549")
             }
         }
+
+        var selectedForegroundColor: Color {
+            switch self {
+                case .yellow:
+                    return Color(hex: "#592D00")
+                case .green:
+                    return Color(hex: "#1E4316")
+                default:
+                    return .white
+            }
+        }
     }
 
     private enum Constants {
@@ -135,31 +147,6 @@ struct InterestButton: View {
         }
 
         static let cornerRadius: CGFloat = 102
-    }
-
-    // MARK: Colors
-    private var border: Color {
-        theme.primaryUi05
-    }
-
-    private var background: Color {
-        theme.primaryUi01
-    }
-
-    private var pressedBackground: Color {
-        theme.primaryUi02Selected
-    }
-
-    private var foreground: Color {
-        return style.tintColor
-    }
-
-    private var selectedBackground: Color {
-        .clear
-    }
-
-    private var selectedForeground: Color {
-        theme.primaryUi01
     }
 }
 

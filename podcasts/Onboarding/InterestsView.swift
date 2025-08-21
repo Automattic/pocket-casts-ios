@@ -107,7 +107,7 @@ struct InterestsView: View {
                 }
             }
             .padding(.horizontal, 16)
-            .fadeGradient(height: 50)
+            .fadeGradient(height: 40)
             continueButton
         }
         .background(theme.primaryUi01)
