@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     weak var parentController: UIViewController? = nil
@@ -84,14 +85,23 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
         let navigationController = parentController as? UINavigationController
 
-        let controller: UIViewController
+        let controller: UIViewController?
         if SubscriptionHelper.activeTier == .patron {
             controller = PatronWelcomeViewModel.make(in: navigationController)
         } else {
-            controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+            if !FeatureFlag.newOnboardingAccountCreation.enabled {
+                controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+            } else {
+                controller = nil
+            }
         }
 
         let presentNextBlock: () -> Void = {
+            guard let controller else {
+                navigationController?.dismiss(animated: true)
+                return
+            }
+
             guard let navigationController else {
                 // Present the welcome flow
                 parentController.present(controller, animated: true)
@@ -100,6 +110,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
             // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
+
         }
 
         // Dismiss the current flow

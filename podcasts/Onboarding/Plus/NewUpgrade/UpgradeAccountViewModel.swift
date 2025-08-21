@@ -121,7 +121,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     func dismissTapped(originalDismiss dismiss: DismissAction?) {
         track(.plusPromotionDismissed)
 
-        guard flowSource == .accountCreated, let navigationController else {
+        guard flowSource == .accountCreated, !FeatureFlag.newOnboardingAccountCreation.enabled, let navigationController else {
             if navigationController == nil {
                 dismiss?()
             } else {
