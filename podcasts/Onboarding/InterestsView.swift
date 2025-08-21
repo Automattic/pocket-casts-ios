@@ -7,6 +7,7 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
     let maxInitialCategories: Int = 12
     let minimumSelectionCount: Int = 3
+    var allCategories: [DiscoverCategory] = []
 
     @Published var categories: [DiscoverCategory] = []
     @Published var isLoaded: Bool = false
@@ -26,8 +27,10 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         }
         let result = (await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)).filter({$0.id != 11})
         DispatchQueue.main.async { [weak self] in
-            self?.categories = result
-            self?.isLoaded = true
+            guard let self else { return }
+            allCategories = result
+            categories = Array(allCategories.prefix(maxInitialCategories))
+            isLoaded = true
         }
     }
 
@@ -54,8 +57,8 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         return selectedCategories.count >= minimumSelectionCount
     }
 
-    func categories(all: Bool) -> [DiscoverCategory] {
-        all ? categories : Array(categories.prefix(maxInitialCategories))
+    func showAll() {
+        categories = allCategories
     }
 }
 
@@ -102,7 +105,7 @@ struct InterestsView: View {
                         Spacer().frame(height: 40)
                         FlexibleView(
                             availableWidth: geometryProxy.size.width,
-                            data: viewModel.categories(all: showMore),
+                            data: viewModel.categories,
                             spacing: 8,
                             alignment: .center
                         ) { category in
@@ -154,6 +157,9 @@ struct InterestsView: View {
             Spacer()
             Button(L10n.interestsShowMoreCategories) {
                 showMore.toggle()
+                withAnimation() {
+                    viewModel.showAll()
+                }
             }
             .tint(theme.primaryInteractive01)
             Spacer()
