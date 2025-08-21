@@ -163,7 +163,7 @@ struct NowPlayingView: View {
         Task {
             do {
                 let settings = await notificationCenter.notificationSettings()
-                let granted = settings.authorizationStatus == .ephemeral                
+                let granted = settings.authorizationStatus == .ephemeral
                 guard granted else {
                     let settings = await notificationCenter.notificationSettings()
                     FileLog.shared.addMessage("App Clip: Notification status: \(settings.authorizationStatus)")
