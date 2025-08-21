@@ -36,6 +36,10 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         return selectedCategories.contains(category.id ?? -1)
     }
 
+    func positionOfCategory(_ category: DiscoverCategory) -> Int? {
+        return categories.firstIndex(of: category)
+    }
+
     func toggleSelectionOfCategory(_ category: DiscoverCategory) {
         guard let id = category.id else {
             return
@@ -82,20 +86,28 @@ struct InterestsView: View {
 
     var mainBody: some View {
         VStack(alignment: .center) {
-            ScrollView(.vertical) {
-                VStack(spacing: 16) {
-                    header
-                    LazyVGrid(columns: columns, alignment: .leading, spacing: 6) {
-                        ForEach(Array(viewModel.categories(all: showMore).enumerated()), id: \.element.id) { i, category in
-                            categoryButton(for: category, index: i)
+            GeometryReader { geometryProxy in
+                ScrollView(.vertical) {
+                    VStack(spacing: 0) {
+                        header
+                        Spacer().frame(height: 40)
+                        FlexibleView(
+                            availableWidth: geometryProxy.size.width,
+                            data: viewModel.categories(all: showMore),
+                            spacing: 8,
+                            alignment: .center
+                        ) { category in
+                            categoryButton(for: category, index: viewModel.positionOfCategory(category) ?? 0)
                         }
+                        if !showMore {
+                            Spacer().frame(height: 40)
+                            showMoreCategoriesButton
+                        }
+                        Spacer().frame(height: 40)
                     }
-                    if !showMore {
-                        showMoreCategoriesButton
-                    }
-                    Spacer().frame(height: 50)
                 }
             }
+            .padding(.horizontal, 16)
             .fadeGradient(height: 50)
             continueButton
         }
