@@ -67,3 +67,22 @@ private struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
 }
+
+#Preview("Live") {
+    GeometryReader { geometryProxy in
+        ScrollView(.vertical) {
+            VStack(spacing: 0) {
+                Spacer().frame(height: 40)
+                FlexibleView(
+                    availableWidth: geometryProxy.size.width,
+                    data: ["Arts", "True Crime", "Fiction", "News", "Bussines", "Technology", "Sports"],
+                    spacing: 8,
+                    alignment: .center
+                ) { text in
+                    Text(text).font(.title)
+                }
+            }
+        }
+    }
+    .environmentObject(Theme(previewTheme: .light))
+}
