@@ -379,11 +379,17 @@ class EpisodeManager: NSObject {
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
-        if episode.downloaded(pathFinder: DownloadManager.shared), !streamingOnly {
-            return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
-        } else if let episode  = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) {
-            return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
-        } else if let episode = episode as? Episode, let url = episode.downloadUrl {
+        if !streamingOnly {
+            // For local playback, prefer downloaded files
+            if episode.downloaded(pathFinder: DownloadManager.shared) {
+                return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+            } else if let episode = episode as? Episode, episode.streamDownloaded(pathFinder: DownloadManager.shared) {
+                return URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
+            }
+        }
+
+        // For streaming or when no local files, return remote URL
+        if let episode = episode as? Episode, let url = episode.downloadUrl {
             return URL(string: url)
         } else if let episode = episode as? UserEpisode {
             if let token = ServerSettings.syncingV2Token, episode.uploadStatus != UploadStatus.missing.rawValue {
