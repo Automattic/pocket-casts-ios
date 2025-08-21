@@ -9,10 +9,10 @@ struct FlexibleView<Data: Collection, Content: View>: View where Data.Element: H
 
     var body: some View {
         VStack(alignment: alignment, spacing: spacing) {
-            ForEach(computeRows(), id: \.self) { rowElements in
+            ForEach(computeRows(), id: \.self.first?.hashValue) { rowElements in
                 HStack(spacing: spacing) {
                     Spacer()
-                    ForEach(rowElements, id: \.self) { element in
+                    ForEach(rowElements, id: \.self.hashValue) { element in
                         content(element)
                             .fixedSize()
                             .readSize { size in
@@ -21,6 +21,7 @@ struct FlexibleView<Data: Collection, Content: View>: View where Data.Element: H
                     }
                     Spacer()
                 }
+                .transition(.opacity)
             }
         }
     }
