@@ -419,7 +419,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable, Equatable, Sendable {
+public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
     public var id: Int?
     public var name: String?
     public var source: String?
@@ -428,6 +428,10 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable {
     public init(id: Int?, name: String?) {
         self.id = id
         self.name = name
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id ?? -1)
     }
 }
 
