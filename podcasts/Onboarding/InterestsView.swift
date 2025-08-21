@@ -67,6 +67,8 @@ struct InterestsView: View {
 
     @EnvironmentObject var theme: Theme
 
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         Group {
             if viewModel.isLoaded {
@@ -84,7 +86,15 @@ struct InterestsView: View {
     let columns: [GridItem] = [GridItem(.flexible(), alignment: .trailing), GridItem(.flexible(), alignment: .leading)]
 
     var mainBody: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
+            HStack {
+                Spacer()
+                Button(L10n.eoyNotNow) {
+                    dismiss()
+                }
+                .tint(theme.primaryInteractive01)
+            }
+            .padding(12)
             GeometryReader { geometryProxy in
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
@@ -124,15 +134,6 @@ struct InterestsView: View {
 
     var header: some View {
         VStack(spacing: 16) {
-            HStack {
-                Spacer()
-                Button(L10n.eoyNotNow) {
-
-                }
-                .tint(theme.primaryInteractive01)
-            }
-            .padding(.horizontal, 20)
-
             VStack(alignment: .center, spacing: 16) {
                 Text(L10n.interestsTitle)
                     .font(.title.weight(.bold))
