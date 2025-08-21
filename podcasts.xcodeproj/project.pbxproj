@@ -2105,7 +2105,7 @@
 		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
-		FFBDF6FC2E5679E900A969B3 /* CategoryInterestButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FB2E5679DB00A969B3 /* CategoryInterestButtonStyle.swift */; };
+		FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */; };
 		FFBDF6FE2E5728DB00A969B3 /* FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFC8D6612E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */; };
@@ -4204,7 +4204,7 @@
 		FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichExpandableDescriptionView.swift; sourceTree = "<group>"; };
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
-		FFBDF6FB2E5679DB00A969B3 /* CategoryInterestButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInterestButtonStyle.swift; sourceTree = "<group>"; };
+		FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestButton.swift; sourceTree = "<group>"; };
 		FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleView.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextShuffleAnimationView.swift; sourceTree = "<group>"; };
@@ -7843,7 +7843,7 @@
 			children = (
 				FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */,
 				FF92951F2E54E33300FE847E /* InterestsView.swift */,
-				FFBDF6FB2E5679DB00A969B3 /* CategoryInterestButtonStyle.swift */,
+				FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */,
 				F5E7041A2E4ED71A00C39FA4 /* DiscoverPodcastsGridView.swift */,
 				F554B0172E445E0700056CDF /* OnboardingRecommendationsView.swift */,
 				F5E704182E4ED6FE00C39FA4 /* PodcastSubscribeButton.swift */,
@@ -10927,7 +10927,7 @@
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
-				FFBDF6FC2E5679E900A969B3 /* CategoryInterestButtonStyle.swift in Sources */,
+				FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */,
 				9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */,
 				FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */,
 				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,

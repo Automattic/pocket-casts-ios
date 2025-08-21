@@ -2,7 +2,6 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
-import Kingfisher
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
@@ -115,22 +114,12 @@ struct InterestsView: View {
     }
 
     @ViewBuilder func categoryButton(for category: DiscoverCategory, index: Int) -> some View {
-        Button(action: {
-            viewModel.toggleSelectionOfCategory(category)
-        }) {
-            HStack {
-                if let icon = category.icon, let url = URL(string: icon) {
-                    KFImage(url)
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-                Text(category.name ?? "Unknown")
-                    .font(.title3.weight(.medium))
+        let isSelected = viewModel.isSelectedCategory(category)
+        InterestButton(name: category.name ?? "", icon: category.icon, isSelected: isSelected, style: InterestButton.Style.allCases[index % InterestButton.Style.allCases.count]) {
+            withAnimation() {
+                viewModel.toggleSelectionOfCategory(category)
             }
-        }.buttonStyle(
-            CategoryInterestButtonStyle(isSelected: viewModel.isSelectedCategory(category), style: CategoryInterestButtonStyle.CategoryInterestStyle.allCases[index % CategoryInterestButtonStyle.CategoryInterestStyle.allCases.count])
-        )
+        }
     }
 
     var header: some View {

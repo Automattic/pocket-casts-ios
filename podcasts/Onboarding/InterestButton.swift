@@ -1,10 +1,61 @@
 import SwiftUI
+import Kingfisher
 
-struct CategoryInterestButtonStyle: ButtonStyle {
+struct InterestButton: View {
 
     @EnvironmentObject var theme: Theme
+    let name: String
+    let icon: String?
+    let isSelected: Bool
+    let style: Style
+    let action: (() -> Void)?
 
-    enum CategoryInterestStyle: Int, CaseIterable {
+    init(name: String, icon: String?, isSelected: Bool = false, style: Style = .red, action: (() -> Void)? = nil) {
+        self.name = name
+        self.icon = icon
+        self.isSelected = isSelected
+        self.style = style
+        self.action = action
+    }
+
+    var body: some View {
+        Button(action: {
+            action?()
+        }) {
+            HStack {
+                if let icon = icon, let url = URL(string: icon) {
+                    KFImage(url)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+                Text(name)
+                    .font(.title3.weight(.medium))
+            }
+        }        
+        .fixedSize(horizontal: true, vertical: false)
+        .padding(.horizontal, Constants.Padding.horizontal)
+        .padding(.vertical, Constants.Padding.vertical)
+        .cornerRadius(Constants.cornerRadius)
+        .foregroundColor(isSelected ? selectedForeground : foreground)
+        .background {
+            if isSelected {
+                RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
+                    .fill(self.style.gradient)
+            } else {
+                RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
+                    .fill(background)
+            }
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                .inset(by: 1)
+                .stroke(isSelected ? selectedBackground : border, lineWidth: 2)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+    }
+
+    enum Style: Int, CaseIterable {
         case red
         case yellow
         case purple
@@ -79,7 +130,7 @@ struct CategoryInterestButtonStyle: ButtonStyle {
 
     private enum Constants {
         enum Padding {
-            static let roundedHorizontal: CGFloat = 16
+            static let horizontal: CGFloat = 16
             static let vertical: CGFloat = 12
         }
 
@@ -110,48 +161,11 @@ struct CategoryInterestButtonStyle: ButtonStyle {
     private var selectedForeground: Color {
         theme.primaryUi01
     }
-
-    let isSelected: Bool
-    let style: CategoryInterestStyle
-    /// Used for generating previews with isPressed button state
-    fileprivate var forcePressed = false
-
-    init(isSelected: Bool = false, style: CategoryInterestStyle = .red) {
-        self.isSelected = isSelected
-        self.style = style
-    }
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.callout.weight(.medium))
-            .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, Constants.Padding.roundedHorizontal)
-            .padding(.vertical, Constants.Padding.vertical)
-            .cornerRadius(Constants.cornerRadius)
-            .foregroundColor(isSelected ? selectedForeground : foreground)
-            .background {
-                if isSelected {
-                    RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
-                        .fill(self.style.gradient)
-                } else {
-                    RoundedRectangle(cornerSize: CGSize(width: Constants.cornerRadius, height: Constants.cornerRadius))
-                        .fill(((configuration.isPressed || forcePressed) ? pressedBackground : background))
-                }
-            }
-            .overlay(
-                RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .inset(by: 1)
-                    .stroke(isSelected ? selectedBackground : border, lineWidth: 2)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
-    }
 }
 
 // MARK: Previews
 
 #Preview("normal") {
-    Button("Art", action: {
-
-    }).buttonStyle(CategoryInterestButtonStyle(isSelected: false))
+    InterestButton(name: "Arts", icon: "", isSelected: false, style: .red)
         .previewWithAllThemes()
 }
