@@ -47,6 +47,11 @@ enum AnalyticsEvent: String {
     case setupAccountDismissed
     case setupAccountButtonTapped
 
+    // MARK: - Onboarding
+
+    case onboardingCarouselShown
+    case onboardingGetStarted
+
     // MARK: - Sign in View
 
     case signInShown
