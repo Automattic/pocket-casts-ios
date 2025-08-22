@@ -376,10 +376,8 @@ struct DeveloperMenu: View {
                     showingInterestsOnboarding = true
                 }
                 .sheet(isPresented: $showingInterestsOnboarding) {
-                    NavigationStack {
-                        InterestsView()
-                            .environmentObject(Theme.sharedTheme)
-                    }
+                    InterestsView()
+                        .environmentObject(Theme.sharedTheme)                    
                 }
             } header: {
                 Text("Onboarding")
