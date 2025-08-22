@@ -77,6 +77,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func getStartedTapped() {
         let view = OnboardingRecommendationsView(coordinator: self)
         let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+        hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.pushViewController(hostingController, animated: true)
     }
 

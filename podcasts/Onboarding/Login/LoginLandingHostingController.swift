@@ -14,6 +14,8 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
             navigationItem.titleView = imageView
         }
 
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         if navigationController?.viewControllers.first == self {
             let dismissItem: UIBarButtonItem
             if FeatureFlag.fullScreenLogin.enabled {
