@@ -16,7 +16,29 @@ class IntroCarouselHostingController<Content>: OnboardingHostingViewController<C
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
+
+        if let coordinator = navigationController?.transitionCoordinator {
+            navigationController?.navigationBar.isHidden = false
+
+            // Hide navigation items initially
+            setNavigationItemsAlpha(0.0)
+
+            // Animate navigation items in sync with transition
+            coordinator.animate(alongsideTransition: { _ in
+                self.setNavigationItemsAlpha(1.0)
+            }, completion: nil)
+        } else {
+            // Fallback for non-interactive transitions
+            navigationController?.navigationBar.isHidden = false
+        }
+    }
+
+    private func setNavigationItemsAlpha(_ alpha: CGFloat) {
+        if let destinationVC = navigationController?.topViewController, destinationVC != self {
+            destinationVC.navigationItem.leftBarButtonItem?.customView?.alpha = alpha
+            destinationVC.navigationItem.rightBarButtonItem?.customView?.alpha = alpha
+            destinationVC.navigationItem.titleView?.alpha = alpha
+        }
     }
 }
 
