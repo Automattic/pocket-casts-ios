@@ -1,15 +1,38 @@
 import UIKit
-import SwiftUI
 import PocketCastsDataModel
-import PocketCastsServer
 import DifferenceKit
+
+import SwiftUI
+
+struct PlaylistBlurHeaderView: View {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: PlaylistDetailViewModel
+
+    var body: some View {
+        GeometryReader { proxy in
+            HStack {
+                Spacer()
+                PlaylistArtworkView(urls: viewModel.imageURLs, imageSize: 168)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                .blur(radius: 60)
+                Spacer()
+            }
+        }
+    }
+}
 
 class PlaylistDetailViewModel: ObservableObject {
     private(set) var playlist: EpisodeFilter!
 
     @Published private(set) var episodes: [ListEpisode] = []
+    @Published var imageURLs: [URL] = []
+
+    var isSearching = false
+
     private(set) var firstTimeLoading = true
 
+    private var isLoadingImages: Bool = false
+    private let imageManager: ImageManager
     private let onChange: (StagedChangeset<[ListEpisode]>, Bool) -> Void
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -17,13 +40,35 @@ class PlaylistDetailViewModel: ObservableObject {
         return queue
     }()
 
-    init(playlist: EpisodeFilter, onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void) {
+    init(
+        playlist: EpisodeFilter,
+        imageManager: ImageManager = .sharedManager,
+        onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void
+    ) {
         self.playlist = playlist
+        self.imageManager = imageManager
         self.onChange = onChange
     }
-    
+
     func update(episodes: [ListEpisode]) {
         self.episodes = episodes
+
+        if isLoadingImages { return }
+        isLoadingImages = true
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let imageURLs = try await self.loadImagesURLs(episodes: Array(episodes.prefix(4)))
+                await MainActor.run {
+                    self.imageURLs = imageURLs
+                    self.isLoadingImages = false
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoadingImages = false
+                }
+            }
+        }
     }
 
     func reloadPlaylistAndEpisodes() {
@@ -49,17 +94,53 @@ class PlaylistDetailViewModel: ObservableObject {
                 if self.firstTimeLoading {
                     self.firstTimeLoading.toggle()
                 }
-                let changeSet = StagedChangeset(source: self.episodes, target: newData)
+                let changeSet = StagedChangeset(source: self.episodes, target: newData, section: 1)
                 self.onChange(changeSet, animated)
             }
         }
         operationQueue.addOperation(refreshOperation)
     }
+
+    private func loadImagesURLs(episodes: [ListEpisode]) async throws -> [URL] {
+        try await withThrowingTaskGroup(of: URL.self) { group in
+            for episode in episodes {
+                group.addTask {
+                    if let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
+                       let url = URL(string: imageUrl) {
+                        return url
+                    }
+                    return self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                }
+            }
+            var results: [URL] = []
+            for try await url in group {
+                results.append(url)
+            }
+            return results
+        }
+    }
 }
 
 class PlaylistDetailViewController: FakeNavViewController {
-    private var viewModel: PlaylistDetailViewModel!
-    private var tableView: ThemeableTable! {
+    private(set) var viewModel: PlaylistDetailViewModel!
+    private var searchController: PCSearchBarController! {
+        didSet {
+            searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
+            searchController.searchDebounce = 0.2
+            searchController.placeholderText = L10n.search
+            searchController.setupScrollView(tableView, hideSearchInitially: false)
+            searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+//            searchController.searchDelegate = self
+            searchController.view.translatesAutoresizingMaskIntoConstraints = false
+            addChild(searchController)
+        }
+    }
+    lazy private var searchHeaderView: UIView = {
+        let header = UIView(frame: .zero)
+        header.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
+        return header
+    }()
+    private(set) var tableView: ThemeableTable! {
         didSet {
             tableView.themeStyle = .primaryUi02
             tableView.estimatedRowHeight = 80
@@ -78,8 +159,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
     private lazy var blurHeaderView: UIView = {
-//        let headerView = PodcastBlurHeaderView(podcastUUID: self.podcastUUID).uiView
-        let headerView = UIView()
+        let headerView = PlaylistBlurHeaderView(viewModel: viewModel).themedUIView
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
         headerView.layer.zPosition = -1000
@@ -242,12 +322,19 @@ class PlaylistDetailViewController: FakeNavViewController {
     private func setupContent() {
         view.backgroundColor = AppTheme.viewBackgroundColor()
 
-        tableView = ThemeableTable()
+        tableView = ThemeableTable(frame: .zero, style: .grouped)
         view.insertSubview(tableView, at: 0)
 
         tableView.addSubview(blurHeaderView)
 
         loadingIndicator = ThemeLoadingIndicator()
+
+        searchController = PCSearchBarController()
+        searchHeaderView.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
+        searchController.searchControllerTopConstant = topAnchor
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -258,6 +345,10 @@ class PlaylistDetailViewController: FakeNavViewController {
             blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
             blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
             blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+            searchController.view.leadingAnchor.constraint(equalTo: searchHeaderView.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: searchHeaderView.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            topAnchor
         ])
 
         view.layoutSubviews()
@@ -283,6 +374,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         if animated {
             tableView.reload(using: data, with: .none, setData: { [weak self] episodes in
                 self?.viewModel.update(episodes: episodes)
+                // reload header
                 self?.reloadEmptyState()
             })
         } else {
@@ -293,67 +385,14 @@ class PlaylistDetailViewController: FakeNavViewController {
 //        refreshMultiSelectEpisodes()
     }
 
-    private func reloadEmptyState() {
-        var config: UIContentConfiguration?
-
-        tableView.isHidden = viewModel.episodes.isEmpty
-
-        if viewModel.episodes.isEmpty {
-            // Empty State when playlists is empty
-            let title = L10n.episodeFilterNoEpisodesTitle
-            let message = L10n.episodeFilterNoEpisodesMsg
-            config = ContentUnavailableConfiguration.emptyState(
-                title: title,
-                message: message,
-                icon: {
-                    Image("empty-playlist-info")
-                },
-                actions: [
-                .init(
-                    title: L10n.playlistSmartRulesTitle,
-                    action: { [weak self] in
-//                    self?.editPlaylist()
-                    }
-                )
-            ])
-        }
-        set(configuration: config)
-    }
-
-    private func set(configuration: UIContentConfiguration?) {
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = configuration
-        } else {
-            self.setContentUnavailableConfiguration(configuration)
-        }
-    }
-
-    private func addObservers() {
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(refreshFilterFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
-    }
-
-    @objc private func refreshFilterFromNotification() {
+    @objc func refreshFilterFromNotification() {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
         viewModel.reloadPlaylistAndEpisodes()
     }
-    
-    @objc private func refreshEpisodesFromNotification() {
+
+    @objc func refreshEpisodesFromNotification() {
         viewModel.reloadEpisodeList()
     }
 }
@@ -363,13 +402,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
     func registerCells() {
         tableView.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: Self.cellIdentifier)
+        tableView.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
     }
 
     func registerLongPress() {
 //        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tableLongPressed(_:)))
 //        tableView.addGestureRecognizer(longPressRecognizer)
     }
-    
+
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: tableView)
@@ -396,18 +436,42 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        if viewModel.episodes.isEmpty, !viewModel.isSearching {
+            return 0
+        }
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.episodes.count
+        if viewModel.episodes.isEmpty, !viewModel.isSearching {
+            return 0
+        }
+        if section == 0 {
+            return 1
+        }
+        return viewModel.episodes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = UITableViewCell()
+            cell.contentView.backgroundColor = .clear
+            cell.backgroundColor = .clear
+            return cell
+        }
+
+        if viewModel.isSearching, viewModel.episodes.isEmpty {
+            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+            cell.configure(title: L10n.discoverNoEpisodesFound, message: L10n.discoverNoPodcastsFoundMsg) {
+                Image("empty-playlist-info")
+            }
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
 
         cell.playlist = .filter(uuid: viewModel.playlist.uuid)
-//        cell.delegate = self
+        cell.delegate = self
         if let listEpisode = viewModel.episodes[safe: indexPath.row] {
             cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), filterUuid: viewModel.playlist.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
@@ -415,11 +479,29 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 //                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
 //            }
         }
-
         return cell
     }
 }
 
 extension PlaylistDetailViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if viewModel.episodes.isEmpty {
+            return 0
+        }
+        return indexPath.section == 0 ? 335 : UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if viewModel.episodes.isEmpty, !viewModel.isSearching {
+            return nil
+        }
+        return section == 0 ? nil : searchHeaderView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if viewModel.episodes.isEmpty, !viewModel.isSearching {
+            return 0
+        }
+        return section == 0 ? 0 : PCSearchBarController.defaultHeight
+    }
 }
