@@ -86,8 +86,6 @@ struct InterestsView: View {
         }
     }
 
-    let columns: [GridItem] = [GridItem(.flexible(), alignment: .trailing), GridItem(.flexible(), alignment: .leading)]
-
     var mainBody: some View {
         VStack(alignment: .center, spacing: 0) {
             HStack {
