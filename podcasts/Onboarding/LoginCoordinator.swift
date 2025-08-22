@@ -8,6 +8,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var continuePurchasing: ProductInfo? = nil
+    var isOnboarding: Bool = false
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -252,9 +253,10 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
+        coordinator.isOnboarding = isOnboarding
 
         let controller: UIViewController
 

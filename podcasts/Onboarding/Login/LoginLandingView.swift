@@ -73,7 +73,7 @@ private struct LoginLandingContent: View {
                         .padding(.horizontal, Config.padding + 20)
                         .padding(.top, headerHeightOffset)
 
-                        LoginHeader(models: calculatedModels, topPadding: 0)
+                        LoginHeader(models: calculatedModels, topPadding: coordinator.isOnboarding ? 0 : -Config.padding)
                             .clipped()
                     }
                 } else {
@@ -81,57 +81,59 @@ private struct LoginLandingContent: View {
                         .clipped()
                 }
 
-                    VStack {
-                        if !FeatureFlag.newOnboardingAccountCreation.enabled {
-                            // Title and Subtitle
-                            VStack(spacing: 8) {
-                                LoginLabel(title, for: .title)
-                                LoginLabel(subtitle, for: .subtitle)
-                            }
-
-                            Spacer()
+                VStack {
+                    if !FeatureFlag.newOnboardingAccountCreation.enabled {
+                        // Title and Subtitle
+                        VStack(spacing: 8) {
+                            LoginLabel(title, for: .title)
+                            LoginLabel(subtitle, for: .subtitle)
                         }
 
-                        HStack(spacing: 0) {
-                            Spacer()
-                            LoginButtons(coordinator: coordinator)
-                                .frame(maxWidth: 400)
-                            Spacer()
+                        Spacer()
+                    }
+
+                    HStack(spacing: 0) {
+                        Spacer()
+                        LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
+                            .frame(maxWidth: 400)
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal, Config.padding)
+                .padding(.top, headerHeight)
+                .if(coordinator.isOnboarding) {
+                    $0.padding(.bottom)
+                }
+                .background(
+                    GeometryReader { contentSizeProxy in
+                        let contentHeight = contentSizeProxy.size.height
+                        let viewHeight = viewSizeProxy.size.height
+
+                        Action {
+                            // Only calculate the frame once
+                            if showGradient == nil {
+                                // Show the gradient if the content is going to go off screen
+                                let willOverflow = contentHeight > viewHeight
+                                showGradient = willOverflow
+
+                                // Calculate how much the content will go offscreen so we can reduce the top
+                                // padding to ensure it's visible
+                                headerHeightOffset = willOverflow ? contentHeight - viewHeight : 0
+                            }
+                        }
+
+                        if showGradient == true {
+                            // Determine how much of the login header takes up of the height
+                            // Then make sure the gradient stops there so the content is covered in a solid background
+                            let headerPercentage = headerHeight / viewHeight
+
+                            LinearGradient(gradient: Gradient(stops: [
+                                Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
+                                Gradient.Stop(color: backgroundColor, location: headerPercentage),
+                            ]), startPoint: .top, endPoint: .bottom)
                         }
                     }
-                    .padding(.horizontal, Config.padding)
-                    .padding(.top, headerHeight)
-                    .padding(.bottom)
-                    .background(
-                        GeometryReader { contentSizeProxy in
-                            let contentHeight = contentSizeProxy.size.height
-                            let viewHeight = viewSizeProxy.size.height
-
-                            Action {
-                                // Only calculate the frame once
-                                if showGradient == nil {
-                                    // Show the gradient if the content is going to go off screen
-                                    let willOverflow = contentHeight > viewHeight
-                                    showGradient = willOverflow
-
-                                    // Calculate how much the content will go offscreen so we can reduce the top
-                                    // padding to ensure it's visible
-                                    headerHeightOffset = willOverflow ? contentHeight - viewHeight : 0
-                                }
-                            }
-
-                            if showGradient == true {
-                                // Determine how much of the login header takes up of the height
-                                // Then make sure the gradient stops there so the content is covered in a solid background
-                                let headerPercentage = headerHeight / viewHeight
-
-                                LinearGradient(gradient: Gradient(stops: [
-                                    Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
-                                    Gradient.Stop(color: backgroundColor, location: headerPercentage),
-                                ]), startPoint: .top, endPoint: .bottom)
-                            }
-                        }
-                    )
+                )
             }
         }
         .background(backgroundColor.ignoresSafeArea())
@@ -339,6 +341,7 @@ private struct LoginPodcastCover: View {
 private struct LoginButtons: View {
     @EnvironmentObject var theme: Theme
     let coordinator: LoginCoordinator
+    let shouldShowLogin: Bool
 
     var body: some View {
         VStack(spacing: 16) {
@@ -350,7 +353,7 @@ private struct LoginButtons: View {
                 coordinator.signUpTapped()
             }.buttonStyle(RoundedButtonStyle(theme: theme))
 
-            if !FeatureFlag.newOnboardingAccountCreation.enabled {
+            if shouldShowLogin {
                 Button("Login") {
                     coordinator.loginTapped()
                 }.buttonStyle(SimpleTextButtonStyle(theme: theme))
