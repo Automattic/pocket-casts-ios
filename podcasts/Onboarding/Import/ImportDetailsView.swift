@@ -58,6 +58,9 @@ struct ImportDetailsView: View {
             }
         }.padding(.top, 16).padding(.bottom)
             .background(AppTheme.color(for: .primaryUi01, theme: theme).ignoresSafeArea())
+            .onAppear {
+                OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": importSource.id])
+            }
     }
 
     @ViewBuilder

@@ -99,7 +99,6 @@ struct OnboardingRecommendationsView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(L10n.import) {
                     showingImport = true
-                    OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": "recommendations_header"])
                 }
                 .tint(theme.primaryInteractive01)
             }
