@@ -260,7 +260,7 @@ extension LoginCoordinator {
 
         let controller: UIViewController
 
-        if FeatureFlag.newOnboardingAccountCreation.enabled {
+        if FeatureFlag.newOnboardingAccountCreation.enabled && isOnboarding {
             let view = IntroCarouselView(coordinator: coordinator)
                         .environmentObject(Theme(previewTheme: .light)) // Theme is always set to light theme for onboarding
             let hostingController = IntroCarouselHostingController(rootView: view)
