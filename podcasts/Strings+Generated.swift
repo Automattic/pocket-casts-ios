@@ -1976,6 +1976,14 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off", fallback: "Off") }
   /// A common string used throughout the app. Used as a confirmation or acceptance.
   internal static var ok: String { return L10n.tr("Localizable", "ok", fallback: "OK") }
+  /// A generic label representing the authour of the onboarding quotes describing users of the app
+  internal static var onboardingQuoteAuthor: String { return L10n.tr("Localizable", "onboarding_quote_author", fallback: "Pocket Casts user") }
+  /// A user review quote shown during onboarding
+  internal static var onboardingQuoteBest: String { return L10n.tr("Localizable", "onboarding_quote_best", fallback: "The best podcast app out there. By far") }
+  /// A user review quote shown during onboarding alongside an image of the playback effects
+  internal static var onboardingQuoteCustomization: String { return L10n.tr("Localizable", "onboarding_quote_customization", fallback: "The amount of customization is insane") }
+  /// A user review quote shown during onboarding alongside an image of podcast folders
+  internal static var onboardingQuoteFolders: String { return L10n.tr("Localizable", "onboarding_quote_folders", fallback: "Organizing my podcasts by folders is genius") }
   /// Subtitle shown for the recommendations sreen during onboarding
   internal static var onboardingRecommendationsSubtitle: String { return L10n.tr("Localizable", "onboarding_recommendations_subtitle", fallback: "Here are some great shows to start with. Tap to follow, search or import from other apps.") }
   /// Title shown for the recommendations sreen during onboarding

@@ -1384,18 +1384,6 @@ che hai ascoltato è stato
     <string>Ore risparmiate</string>
     <key>how_to_upload_explanation</key>
     <string>Come prima cosa, apri un'app in sono presenti i file audio che desideri salvare</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Condividi il file</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>File Audio</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Opzione di menu</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>Nel menu tocca "Copia in Pocket Casts"</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Copia in Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Qualcos'altro</string>
     <key>how_to_upload_summary</key>
     <string>Ecco fatto, hai finito. Modifica tutti i dettagli che desideri, premi Salva e inizia la riproduzione.</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ AGGIORNAMENTI</string>
     <string>Errore di caricamento</string>
     <key>playlists</key>
     <string>Playlist</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Vuoi avere maggiore controllo? Le playlist manuali ti consentono di creare code personalizzate, quindi sono ideali per viaggi, temi e in generale per decidere cosa ascoltare in base al tuo umore. Le playlist, intelligenti o manuali che siano, si adattano perfettamente a te.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organizza gli episodi a modo tuo</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Presentazione delle playlist</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>In sospensione alla fine dell'episodio corrente</string>
     <key>sleep_timer_time_remaining</key>
     <string>Autospegnimento attivo, tempo rimanente: %1$@</string>
+    <key>smart_playlist</key>
+    <string>Playlist intelligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Abbiamo creato queste per aiutarti a iniziare. Si aggiornano automaticamente in base ai tuoi ascolti.</string>
     <key>smart_playlists_tip_view_title</key>

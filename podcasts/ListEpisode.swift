@@ -38,3 +38,9 @@ class ListEpisode: ListItem {
             isInUpNext == rhs.isInUpNext
     }
 }
+
+extension ListEpisode: Identifiable {
+    var id: String {
+        episode.uuid
+    }
+}

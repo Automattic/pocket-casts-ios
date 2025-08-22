@@ -5094,6 +5094,18 @@
 /* Subtitle shown for the recommendations sreen during onboarding */
 "onboarding_recommendations_subtitle" = "Here are some great shows to start with. Tap to follow, search or import from other apps.";
 
+/* A user review quote shown during onboarding */
+"onboarding_quote_best" = "The best podcast app out there. By far";
+
+/* A user review quote shown during onboarding alongside an image of the playback effects */
+"onboarding_quote_customization" = "The amount of customization is insane";
+
+/* A user review quote shown during onboarding alongside an image of podcast folders */
+"onboarding_quote_folders" = "Organizing my podcasts by folders is genius";
+
+/* A generic label representing the authour of the onboarding quotes describing users of the app */
+"onboarding_quote_author" = "Pocket Casts user";
+
 /* Notification body for weekly reengagement message */
 "notifications_reengagement_weekly_body" = "It’s been awhile since you’ve listened. Jump back in and enjoy!";
 

@@ -1384,18 +1384,6 @@ Pocket Casts Plus</string>
     <string>已省下的時數</string>
     <key>how_to_upload_explanation</key>
     <string>首先找到你要儲存的音訊檔案，開啟檔案所在的應用程式</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>選擇即可分享該檔案</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>音頻文件</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>菜單選項</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>在選單中點選「複製到 Pocket Casts」</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>複製到 Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>別的東西</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ Pocket Casts Plus</string>
     <string>上傳錯誤</string>
     <key>playlists</key>
     <string>播放清單</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>想獲得更全面的控制功能嗎？ 不妨運用手動播放清單建立自訂佇列，搭配旅遊、佈景主題或目前的氣氛。 不論是智慧或手動播放清單，都能配合你的需求。</string>
+    <key>playlists_empty_state_title</key>
+    <string>用自己的方式整理節目內容</string>
     <key>playlists_onboarding_manual_title</key>
     <string>隆重介紹播放清單</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Pocket Casts Plus</string>
     <string>在目前的單集結束後休眠</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠計時器已啟動，剩餘 %1$@</string>
+    <key>smart_playlist</key>
+    <string>智慧播放清單</string>
     <key>smart_playlists_tip_view_description</key>
     <string>我們提供這些服務，協助你著手使用。 系統會根據收聽狀況自動更新。</string>
     <key>smart_playlists_tip_view_title</key>

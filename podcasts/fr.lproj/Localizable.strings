@@ -1384,18 +1384,6 @@ que vous avez écouté était
     <string>Heures économisées</string>
     <key>how_to_upload_explanation</key>
     <string>Tout d’abord, ouvrez une application contenant les fichiers audio que vous souhaitez enregistrer</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Choisissez de partager ce fichier</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Fichier Audio</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Option de menu</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Copier vers Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Quelque chose d'autre</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ MISES À JOUR</string>
     <string>Erreur de chargement</string>
     <key>playlists</key>
     <string>Listes de lecture</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>Vous voulez plus de contrôle ? Les listes de lecture manuelles vous permettent de créer des files d’attente personnalisées, parfaites pour les voyages, les thèmes ou simplement pour votre état d’esprit actuel. Qu’elles soient intelligentes ou manuelles, les listes de lecture calquent leur fonctionnement sur vous.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organiser vos épisodes comme vous le souhaitez</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Présentation des listes de lecture</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Mise en veille à la fin de l’épisode en cours</string>
     <key>sleep_timer_time_remaining</key>
     <string>Mise en veille activée, temps restant : %1$@</string>
+    <key>smart_playlist</key>
+    <string>Liste de lecture intelligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Nous les avons créés pour vous aider à vous lancer. Elles se mettent à jour automatiquement en fonction de votre écoute.</string>
     <key>smart_playlists_tip_view_title</key>

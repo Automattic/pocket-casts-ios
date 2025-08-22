@@ -92,6 +92,7 @@ class StarredFilterOverlayController: PCViewController {
             disabledString: L10n.playlistSmartRuleStarredHeaderSubtitleToggleOff
         )
         viewModel.$toggleIsOn
+            .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] newValue in
                 self?.filterToEdit.filterStarred = newValue
@@ -107,7 +108,7 @@ class StarredFilterOverlayController: PCViewController {
             tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             return
         }
-        let refreshOperation = PlaylistRefreshOperation(tableView: tableView, filter: filterToEdit) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(filter: filterToEdit) { [weak self] newData in
             guard let strongSelf = self, strongSelf.viewModel.toggleIsOn else { return }
             strongSelf.episodes = newData
             strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)

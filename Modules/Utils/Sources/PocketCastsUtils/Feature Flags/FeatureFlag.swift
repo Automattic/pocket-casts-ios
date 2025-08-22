@@ -230,6 +230,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds a sharing button to the transcript view
     case shareTranscripts
 
+    /// Skips switching player to downloaded file if already playing from the same cached streamed file
+    case doNotSwitchToDownloadedFile
+
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
@@ -390,6 +393,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingAccountCreation:
             false
         case .shareTranscripts:
+            true
+        case .doNotSwitchToDownloadedFile:
             true
         case .newOnboardingRecommendationChanges:
             false
