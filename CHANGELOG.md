@@ -7,6 +7,7 @@
 - Localize the How to Upload screen [#3401](https://github.com/Automattic/pocket-casts-ios/pull/3401)
 - Add Share button to Transcripts [#3418](https://github.com/Automattic/pocket-casts-ios/pull/3418)
 - Add logic to avoid unnecessary player reload and resulting audio glitch when streamin downloads complete [#3432](https://github.com/Automattic/pocket-casts-ios/pull/3432)
+- Fix Chromecast streaming [#3438](https://github.com/Automattic/pocket-casts-ios/pull/3438)
 - Fix playback on AppClip [#3437](https://github.com/Automattic/pocket-casts-ios/pull/3437)
 - Fix notification permission request on AppClip [#3439](https://github.com/Automattic/pocket-casts-ios/pull/3439)
 

@@ -1819,6 +1819,7 @@
 		F5ADE2FA2CF52B7700F2CEA7 /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
 		F5ADE2FB2CF52B8300F2CEA7 /* ABTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9322C5A8D1300957D0A /* ABTest.swift */; };
 		F5ADE2FC2CF52BB400F2CEA7 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
+		F5B1E7322E57980B009824AE /* EpisodeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1E7312E57980B009824AE /* EpisodeManagerTests.swift */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
 		F5B6FDAD2CADFEFB00356909 /* ContentUnavailableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */; };
@@ -4048,6 +4049,7 @@
 		F5AA0FD32E21D05D00ECDEEA /* SurveyDebugInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyDebugInfoView.swift; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
+		F5B1E7312E57980B009824AE /* EpisodeManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeManagerTests.swift; sourceTree = "<group>"; };
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtilsTests.swift; sourceTree = "<group>"; };
 		F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUnavailableConfiguration.swift; sourceTree = "<group>"; };
@@ -8420,6 +8422,7 @@
 				F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */,
 				F58695992C04320100E0754A /* PodcastManagerTests.swift */,
 				F5952FCB2C05814100754BC3 /* DownloadManagerTests.swift */,
+				F5B1E7312E57980B009824AE /* EpisodeManagerTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -10023,6 +10026,7 @@
 				10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */,
+				F5B1E7322E57980B009824AE /* EpisodeManagerTests.swift in Sources */,
 				9A263EC92DA6DEFB00E895B6 /* InformationalBannerViewCoordinatorTests.swift in Sources */,
 				9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
