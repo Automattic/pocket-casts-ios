@@ -150,7 +150,7 @@ class PlaylistPreviewViewModel: ObservableObject {
             operationQueue.cancelAllOperations()
             episodes.removeAll()
         }
-        let refreshOperation = PlaylistRefreshOperation(tableView: UITableView(), filter: newPlaylist) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(filter: newPlaylist) { [weak self] newData in
             self?.episodes = newData
             DispatchQueue.main.async {
                 self?.newPlaylistHasChanged = true
