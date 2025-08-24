@@ -747,6 +747,11 @@
 		9AF646822E58B52900627836 /* PlaylistDetailViewController+Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */; };
 		9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */; };
 		9AF646862E58B83200627836 /* PlaylistDetailViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */; };
+		9AF646892E5B56FC00627836 /* PlaylistBlurHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646882E5B56FC00627836 /* PlaylistBlurHeaderView.swift */; };
+		9AF6468B2E5B571900627836 /* PlaylistDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468A2E5B571900627836 /* PlaylistDetailViewModel.swift */; };
+		9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468C2E5B57CF00627836 /* PlaylistHeaderView.swift */; };
+		9AF6468F2E5B58C200627836 /* PlaylistHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */; };
+		9AF646912E5B775300627836 /* PlaylistDetailViewController+EditActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3044,6 +3049,11 @@
 		9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Observers.swift"; sourceTree = "<group>"; };
 		9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EmptyState.swift"; sourceTree = "<group>"; };
 		9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Swipe.swift"; sourceTree = "<group>"; };
+		9AF646882E5B56FC00627836 /* PlaylistBlurHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistBlurHeaderView.swift; sourceTree = "<group>"; };
+		9AF6468A2E5B571900627836 /* PlaylistDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailViewModel.swift; sourceTree = "<group>"; };
+		9AF6468C2E5B57CF00627836 /* PlaylistHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderView.swift; sourceTree = "<group>"; };
+		9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewCell.swift; sourceTree = "<group>"; };
+		9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EditActions.swift"; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -5561,7 +5571,10 @@
 		9A1A73DF2E5623D900E9248C /* New Detail */ = {
 			isa = PBXGroup;
 			children = (
+				9AF646872E5B56E500627836 /* Playlist Header */,
+				9AF6468A2E5B571900627836 /* PlaylistDetailViewModel.swift */,
 				9A1A73E02E5623E700E9248C /* PlaylistDetailViewController.swift */,
+				9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */,
 				9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */,
 				9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */,
 				9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */,
@@ -5674,6 +5687,16 @@
 				9AF355912E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift */,
 			);
 			path = "Episode Preview";
+			sourceTree = "<group>";
+		};
+		9AF646872E5B56E500627836 /* Playlist Header */ = {
+			isa = PBXGroup;
+			children = (
+				9AF646882E5B56FC00627836 /* PlaylistBlurHeaderView.swift */,
+				9AF6468C2E5B57CF00627836 /* PlaylistHeaderView.swift */,
+				9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */,
+			);
+			path = "Playlist Header";
 			sourceTree = "<group>";
 		};
 		BD03B383173A1D68000A419B /* Video Player */ = {
@@ -10442,6 +10465,7 @@
 				40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */,
 				BD1F977C1FD7894C00F89CCD /* MiniPlayerShadowView.swift in Sources */,
 				BD907DAB21533437004D7C02 /* PodcastEffectsViewController+Table.swift in Sources */,
+				9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */,
 				BD5DD2E420109D650031B5DC /* FakeNavViewController.swift in Sources */,
 				BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */,
@@ -10611,6 +10635,7 @@
 				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
 				9AF355862E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift in Sources */,
 				F5F884672CCA8F23002BED2C /* CompletionRate2024Story.swift in Sources */,
+				9AF6468F2E5B58C200627836 /* PlaylistHeaderViewCell.swift in Sources */,
 				C7811D8C2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
 				8BC862692B71690A000627B9 /* WhatsNewFullView.swift in Sources */,
@@ -10724,6 +10749,7 @@
 				FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
+				9AF646892E5B56FC00627836 /* PlaylistBlurHeaderView.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
 				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
@@ -10801,6 +10827,7 @@
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */,
+				9AF6468B2E5B571900627836 /* PlaylistDetailViewModel.swift in Sources */,
 				C7DC40222A6702BF00883D03 /* ToastViewModel.swift in Sources */,
 				102141172C7E25AC0065D34A /* PlusPaywallReviewCard.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
@@ -11017,6 +11044,7 @@
 				407083CF25424840002FC9F8 /* FilterPreviewViewController+TableView.swift in Sources */,
 				8BC862672B714782000627B9 /* UnderlineLinkTextView.swift in Sources */,
 				4005F27522C057EA006BB8B8 /* AVFileUtil.swift in Sources */,
+				9AF646912E5B775300627836 /* PlaylistDetailViewController+EditActions.swift in Sources */,
 				BDEAA17D1BB140CE001097D9 /* SwitchCell.swift in Sources */,
 				FCE96E162D9230A800AC50E3 /* HowToShareActionImageView.swift in Sources */,
 				4041FE95218A828F0089D4A1 /* SiriShortcutSuggestedCell.swift in Sources */,

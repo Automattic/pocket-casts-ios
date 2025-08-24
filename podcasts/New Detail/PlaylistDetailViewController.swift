@@ -1,125 +1,7 @@
 import UIKit
 import PocketCastsDataModel
 import DifferenceKit
-
 import SwiftUI
-
-struct PlaylistBlurHeaderView: View {
-    @EnvironmentObject var theme: Theme
-    @ObservedObject var viewModel: PlaylistDetailViewModel
-
-    var body: some View {
-        GeometryReader { proxy in
-            HStack {
-                Spacer()
-                PlaylistArtworkView(urls: viewModel.imageURLs, imageSize: 168)
-                    .frame(width: proxy.size.width, height: proxy.size.height)
-                .blur(radius: 60)
-                Spacer()
-            }
-        }
-    }
-}
-
-class PlaylistDetailViewModel: ObservableObject {
-    private(set) var playlist: EpisodeFilter!
-
-    @Published private(set) var episodes: [ListEpisode] = []
-    @Published var imageURLs: [URL] = []
-
-    var isSearching = false
-
-    private(set) var firstTimeLoading = true
-
-    private var isLoadingImages: Bool = false
-    private let imageManager: ImageManager
-    private let onChange: (StagedChangeset<[ListEpisode]>, Bool) -> Void
-    private lazy var operationQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        return queue
-    }()
-
-    init(
-        playlist: EpisodeFilter,
-        imageManager: ImageManager = .sharedManager,
-        onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void
-    ) {
-        self.playlist = playlist
-        self.imageManager = imageManager
-        self.onChange = onChange
-    }
-
-    func update(episodes: [ListEpisode]) {
-        self.episodes = episodes
-
-        if isLoadingImages { return }
-        isLoadingImages = true
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let imageURLs = try await self.loadImagesURLs(episodes: Array(episodes.prefix(4)))
-                await MainActor.run {
-                    self.imageURLs = imageURLs
-                    self.isLoadingImages = false
-                }
-            } catch {
-                await MainActor.run {
-                    self.isLoadingImages = false
-                }
-            }
-        }
-    }
-
-    func reloadPlaylistAndEpisodes() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self else { return }
-            if let reloadedPlaylist = DataManager.sharedManager.findFilter(uuid: playlist.uuid) {
-                DispatchQueue.main.async { [weak self] in
-                    self?.playlist = reloadedPlaylist
-                }
-            }
-            reloadEpisodeList(animated: false)
-        }
-    }
-
-    func reloadEpisodeList(animated: Bool = true) {
-        if operationQueue.operationCount > 0 {
-            operationQueue.cancelAllOperations()
-            episodes.removeAll()
-        }
-        let refreshOperation = PlaylistRefreshOperation(filter: playlist) { [weak self] newData in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                if self.firstTimeLoading {
-                    self.firstTimeLoading.toggle()
-                }
-                let changeSet = StagedChangeset(source: self.episodes, target: newData, section: 1)
-                self.onChange(changeSet, animated)
-            }
-        }
-        operationQueue.addOperation(refreshOperation)
-    }
-
-    private func loadImagesURLs(episodes: [ListEpisode]) async throws -> [URL] {
-        try await withThrowingTaskGroup(of: URL.self) { group in
-            for episode in episodes {
-                group.addTask {
-                    if let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
-                       let url = URL(string: imageUrl) {
-                        return url
-                    }
-                    return self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
-                }
-            }
-            var results: [URL] = []
-            for try await url in group {
-                results.append(url)
-            }
-            return results
-        }
-    }
-}
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -159,7 +41,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
     private lazy var blurHeaderView: UIView = {
-        let headerView = PlaylistBlurHeaderView(viewModel: viewModel).themedUIView
+        let headerView = PlaylistBlurHeaderView(viewModel: self.viewModel).themedUIView
         headerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.backgroundColor = .clear
         headerView.layer.zPosition = -1000
@@ -238,6 +120,14 @@ class PlaylistDetailViewController: FakeNavViewController {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated in
             self?.reload(data: newSet, animated: animated)
+        } onButtonTapped: { [weak self] buttonTag in
+            guard let self else { return }
+            switch buttonTag {
+            case .playAll:
+                PlaybackManager.shared.play(filter: self.viewModel.playlist)
+            default:
+                break
+            }
         }
     }
 
@@ -306,13 +196,13 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func setupNavigation() {
-        supportsGoogleCast = true
+        supportsGoogleCast = false
 
         navTitle = viewModel.playlist.playlistName
         scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
 
         addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.learnMore, action: #selector(moreTapped))
-        addGoogleCastBtn()
+//        addGoogleCastBtn()
 
         closeTapped = { [weak self] in
             _ = self?.navigationController?.popViewController(animated: true)
@@ -354,10 +244,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         view.layoutSubviews()
     }
 
-    @objc private  func moreTapped() {
-
-    }
-
     private func updateColors() {
         tableView.reloadData()
 
@@ -379,8 +265,8 @@ class PlaylistDetailViewController: FakeNavViewController {
             })
         } else {
             viewModel.update(episodes: data.last?.data ?? [])
-            reloadEmptyState()
             tableView.reloadData()
+            reloadEmptyState()
         }
 //        refreshMultiSelectEpisodes()
     }
@@ -403,11 +289,12 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     func registerCells() {
         tableView.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: Self.cellIdentifier)
         tableView.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
+        tableView.register(PlaylistHeaderViewCell.self, forCellReuseIdentifier: PlaylistHeaderViewCell.reuseIdentifier)
     }
 
     func registerLongPress() {
-//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tableLongPressed(_:)))
-//        tableView.addGestureRecognizer(longPressRecognizer)
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tableLongPressed(_:)))
+        tableView.addGestureRecognizer(longPressRecognizer)
     }
 
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -454,16 +341,17 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = UITableViewCell()
-            cell.contentView.backgroundColor = .clear
-            cell.backgroundColor = .clear
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistHeaderViewCell.reuseIdentifier, for: indexPath) as! PlaylistHeaderViewCell
+            cell.configure(viewModel: viewModel)
             return cell
         }
 
         if viewModel.isSearching, viewModel.episodes.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
-            cell.configure(title: L10n.discoverNoEpisodesFound, message: L10n.discoverNoPodcastsFoundMsg) {
-                Image("empty-playlist-info")
+            cell.configure(
+                title: L10n.discoverNoEpisodesFound,
+                message: L10n.discoverNoPodcastsFoundMsg) {
+                    Image("empty-playlist-info")
             }
             return cell
         }
@@ -475,9 +363,9 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         if let listEpisode = viewModel.episodes[safe: indexPath.row] {
             cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), filterUuid: viewModel.playlist.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
-//            if isMultiSelectEnabled {
+            if isMultiSelectEnabled {
 //                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
-//            }
+            }
         }
         return cell
     }
@@ -488,7 +376,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
         if viewModel.episodes.isEmpty {
             return 0
         }
-        return indexPath.section == 0 ? 335 : UITableView.automaticDimension
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
