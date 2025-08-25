@@ -15,7 +15,7 @@ class PlaylistDetailViewModel: ObservableObject {
     let onButtonTapped: (ButtonTag) -> Void
 
     @Published private(set) var episodes: [ListEpisode] = []
-    @Published var imageURLs: [URL] = []
+    @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
 
     var isSearching = false
@@ -55,9 +55,10 @@ class PlaylistDetailViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let count = await self.getEpisodesCount()
-                let imageURLs = try await self.loadImagesURLs(episodes: Array(episodes.prefix(4)))
+                let firstFourDistinct = self.firstDistinctPodcasts(from: episodes, limit: 4)
+                let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                 await MainActor.run {
-                    self.imageURLs = imageURLs
+                    self.images = images
                     self.episodesCount = count
                     self.isLoadingData = false
                 }
@@ -68,7 +69,7 @@ class PlaylistDetailViewModel: ObservableObject {
             }
         }
     }
-    
+
     func update(playlist: EpisodeFilter) {
         self.playlist = playlist
     }
@@ -86,10 +87,6 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(animated: Bool = true) {
-        if operationQueue.operationCount > 0 {
-            operationQueue.cancelAllOperations()
-            episodes.removeAll()
-        }
         let refreshOperation = PlaylistRefreshOperation(filter: playlist) { [weak self] newData in
             guard let self else { return }
             DispatchQueue.main.async {
@@ -110,22 +107,32 @@ class PlaylistDetailViewModel: ObservableObject {
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
     }
 
-    private func loadImagesURLs(episodes: [ListEpisode]) async throws -> [URL] {
-        try await withThrowingTaskGroup(of: URL.self) { group in
+    private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
+        try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
             for episode in episodes {
                 group.addTask {
-                    if let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
+                    if includingEpisodeArtwork,
+                       let imageUrl = try await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.episode.podcastUuid, episodeUuid: episode.episode.uuid),
                        let url = URL(string: imageUrl) {
-                        return url
+                        return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
-                    return self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                    let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                    return PlaylistArtworkView.ImageItem(id: episode.episode.podcastUuid, url: url)
                 }
             }
-            var results: [URL] = []
-            for try await url in group {
-                results.append(url)
+            var results: [PlaylistArtworkView.ImageItem] = []
+            for try await item in group {
+                results.append(item)
             }
-            return results
+
+            let mapEpisodes = Dictionary(uniqueKeysWithValues: episodes.enumerated().map { ($1.episode.uuid, $0) })
+            let mapPodcasts = Dictionary(uniqueKeysWithValues: episodes.enumerated().map { ($1.episode.podcastUuid, $0) })
+
+            return results.sorted { lhs, rhs in
+                let lhsIndex = (mapEpisodes[lhs.id] ?? mapPodcasts[lhs.id]) ?? Int.max
+                let rhsIndex = (mapEpisodes[rhs.id] ?? mapPodcasts[rhs.id]) ?? Int.max
+                return lhsIndex < rhsIndex
+            }
         }
     }
 
@@ -138,5 +145,20 @@ class PlaylistDetailViewModel: ObservableObject {
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
         }.value
+    }
+
+    private func firstDistinctPodcasts(from episodes: [ListEpisode], limit: Int) -> [ListEpisode] {
+        var seen = Set<String>()
+        var list: [ListEpisode] = []
+
+        for episode in episodes {
+            if seen.insert(episode.episode.podcastUuid).inserted {
+                list.append(episode)
+                if list.count == limit {
+                    break
+                }
+            }
+        }
+        return list
     }
 }

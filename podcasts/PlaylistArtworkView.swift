@@ -2,16 +2,21 @@ import SwiftUI
 import Kingfisher
 
 struct PlaylistArtworkView: View {
+    struct ImageItem {
+        let id: String
+        let url: URL
+    }
+    
     @EnvironmentObject var theme: Theme
-    let urls: [URL]
+    let items: [ImageItem]
 
     private let imageSize: Int
 
     init(
-        urls: [URL],
+        items: [ImageItem],
         imageSize: Int
     ) {
-        self.urls = urls
+        self.items = items
         self.imageSize = imageSize
     }
 
@@ -21,34 +26,34 @@ struct PlaylistArtworkView: View {
             ZStack {
                 Rectangle()
                     .foregroundColor(theme.primaryUi05)
-                if urls.isEmpty {
+                if items.isEmpty {
                     Image("playlists_tab")
                         .renderingMode(.template)
                         .foregroundColor(theme.primaryIcon03)
                         .frame(width: size.width, height: size.height)
                 } else {
-                    switch urls.count {
+                    switch items.count {
                     case 4:
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                AsyncImageView(url: urls[0], size: imageSize)
+                                AsyncImageView(url: items[0].url, id: items[0].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: urls[1], size: imageSize)
+                                AsyncImageView(url: items[1].url, id: items[1].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                             HStack(spacing: 0) {
-                                AsyncImageView(url: urls[2], size: imageSize)
+                                AsyncImageView(url: items[2].url, id: items[2].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: urls[3], size: imageSize)
+                                AsyncImageView(url: items[3].url, id: items[3].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                         }
                     default:
-                        AsyncImageView(url: urls[0], size: imageSize)
+                        AsyncImageView(url: items[0].url, id: items[0].id, size: imageSize)
                             .frame(width: size.width, height: size.height)
                             .clipped()
                     }
