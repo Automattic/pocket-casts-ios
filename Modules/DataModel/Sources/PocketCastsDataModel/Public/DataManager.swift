@@ -1111,7 +1111,7 @@ public class DataManager {
         upNextHistoryManager.entries(dbQueue: dbQueue)
     }
 
-    public func upNextHistoryEpisodes(entry: Date) -> [String] {
+    public func upNextHistoryEpisodes(entry: Date) -> [UpNextHistoryManager.EntryEpisode] {
         upNextHistoryManager.episodes(entry: entry, dbQueue: dbQueue)
     }
 

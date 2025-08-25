@@ -39,22 +39,32 @@ public class UpNextHistoryManager {
         return entries
     }
 
-    func episodes(entry: Date, dbQueue: PCDBQueue) -> [String] {
-        var episodesUuid: [String] = []
+    public struct EntryEpisode {
+        public let episodeUuid: String
+        public let podcastUuid: String
+    }
+
+    func episodes(entry: Date, dbQueue: PCDBQueue) -> [EntryEpisode] {
+        var results: [EntryEpisode] = []
         dbQueue.read { db in
             do {
-                let resultSet = try db.executeQuery("SELECT episodeUuid FROM PlaylistEpisodeHistory WHERE date = ? ORDER BY episodePosition ASC", values: [entry])
+                let resultSet = try db.executeQuery(
+                    "SELECT episodeUuid, podcastUuid FROM PlaylistEpisodeHistory WHERE date = ? ORDER BY episodePosition ASC",
+                    values: [entry]
+                )
                 defer { resultSet.close() }
 
-                while resultSet.next(), let episodeUuid = resultSet.string(forColumn: "episodeUuid") {
-                    episodesUuid.append(episodeUuid)
+                while resultSet.next(),
+                      let episodeUuid = resultSet.string(forColumn: "episodeUuid"),
+                      let podcastUuid = resultSet.string(forColumn: "podcastUuid") {
+                    results.append(EntryEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid))
                 }
             } catch {
                 FileLog.shared.addMessage("UpNextHistoryManager.episodes error: \(error)")
             }
         }
 
-        return episodesUuid
+        return results
     }
 
     public struct UpNextHistoryEntry: Hashable, Identifiable {
