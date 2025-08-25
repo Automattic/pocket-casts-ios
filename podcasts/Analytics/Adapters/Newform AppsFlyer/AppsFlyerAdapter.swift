@@ -66,6 +66,9 @@ class AppsFlyerAdapter: AnalyticsAdapter {
                 if authorized {
                     self?.start()
                     self?.setAdvertiserTrackingEnabled()
+                    Analytics.shared.track(.analyticsThirdPartyOptIn)
+                } else {
+                    Analytics.shared.track(.analyticsThirdPartyOptOut)
                 }
             }
         }
