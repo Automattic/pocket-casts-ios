@@ -33,9 +33,8 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.dataSource = self
             tableView.separatorStyle = .none
             tableView.isHidden = true
-            // TODO: Enable multi selection
-//            tableView.allowsMultipleSelection = true
-//            tableView.allowsMultipleSelectionDuringEditing = true
+            tableView.allowsMultipleSelection = true
+            tableView.allowsMultipleSelectionDuringEditing = true
             registerCells()
             registerLongPress()
         }
@@ -58,64 +57,81 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     var isMultiSelectEnabled = false {
         didSet {
-//            DispatchQueue.main.async { [weak self] in
-//                guard let self = self else { return }
-//
-//                self.episodesTable.beginUpdates()
-//                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-//                if self.episodesTable.numberOfSections > 0 {
-//                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
-//                }
-//                self.episodesTable.endUpdates()
-//                if self.isMultiSelectEnabled {
-//                    if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
-//                        self.tableView().scrollToRow(at: IndexPath(row: NSNotFound, section: PodcastViewController.allEpisodesSection), at: .top, animated: true)
-//                    }
-//                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-//                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-//                        self.tableView().selectIndexPath(selectedIndexPath)
-//                        self.longPressMultiSelectIndexPath = nil
-//                    }
-//                    if let podcast = self.podcast {
-//                        if FeatureFlag.podcastViewChanges.enabled {
-//                            self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-//                            self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-//                            self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-//                        } else {
-//                            let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
-//                            self.multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-//                            self.multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-//                            self.multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-//                        }
-//                        self.updateSelectAllBtn()
-//                        self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-//                        self.multiSelectHeaderView.isHidden = false
-//                        self.view.bringSubviewToFront(self.multiSelectHeaderView)
-//
-//                        // Adjusts multiSelectHeaderView based on screen width
-//                        self.setMultiSelectHeaderViewConstraint()
-//
-//                    }
-//                } else {
-//                    self.multiSelectHeaderView.isHidden = true
-//                    self.selectedEpisodes.removeAll()
-//                }
-//                self.searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
-//            }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+
+                self.tableView.beginUpdates()
+                self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
+                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+                self.tableView.endUpdates()
+
+                if self.isMultiSelectEnabled {
+                    Analytics.track(.filterMultiSelectEntered)
+                    if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
+                        self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
+                    }
+                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
+                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
+                        self.tableView.selectIndexPath(selectedIndexPath)
+                        self.longPressMultiSelectIndexPath = nil
+                    }
+                    self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
+                    self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+                    self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+                    self.updateSelectAllBtn()
+                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectHeaderView.isHidden = false
+                    self.view.bringSubviewToFront(self.multiSelectHeaderView)
+
+                    // Adjusts multiSelectHeaderView based on screen width
+                    self.setMultiSelectHeaderViewConstraint()
+                } else {
+                    Analytics.track(.filterMultiSelectExited)
+                    self.multiSelectFooter.isHidden = true
+                    self.multiSelectHeaderView.isHidden = true
+                    self.selectedEpisodes.removeAll()
+                }
+            }
+        }
+    }
+    var selectedEpisodes = [ListEpisode]() {
+        didSet {
+            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+            updateSelectAllBtn()
         }
     }
 
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
-//    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-//        didSet {
-//            multiSelectFooter.delegate = self
-//        }
-//    }
-
-//    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-//    @IBOutlet var multiSelectAllBtn: UIButton!
-//    @IBOutlet var multiSelectHeaderView: ThemeableView!
+    var multiSelectActionInProgress = false
+    var multiSelectFooter: MultiSelectFooterView! {
+        didSet {
+            multiSelectFooter.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectFooter.isHidden = true
+            multiSelectFooter.delegate = self
+        }
+    }
+    var multiSelectFooterBottomConstraint: NSLayoutConstraint!
+    var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+    var multiSelectAllBtn: UIButton! {
+        didSet {
+            multiSelectAllBtn.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectAllBtn.addTarget(self, action: #selector(selectAllTapped), for: .touchUpInside)
+        }
+    }
+    var multiSelectCancelBtn: UIButton! {
+        didSet {
+            multiSelectCancelBtn.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
+            multiSelectCancelBtn.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
+        }
+    }
+    var multiSelectHeaderView: ThemeableView! {
+        didSet {
+            multiSelectHeaderView.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectHeaderView.isHidden = true
+        }
+    }
 
     init(playlist: EpisodeFilter) {
         super.init(nibName: nil, bundle: nil)
@@ -239,19 +255,55 @@ class PlaylistDetailViewController: FakeNavViewController {
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
         searchController.searchControllerTopConstant = topAnchor
 
+        multiSelectHeaderView = ThemeableView()
+        view.addSubview(multiSelectHeaderView)
+
+        multiSelectAllBtn = UIButton()
+        multiSelectHeaderView.addSubview(multiSelectAllBtn)
+
+        multiSelectCancelBtn = UIButton()
+        multiSelectHeaderView.addSubview(multiSelectCancelBtn)
+
+        multiSelectHeaderViewConstraint = multiSelectHeaderView.heightAnchor.constraint(equalToConstant: 90.0)
+
+        multiSelectFooter = MultiSelectFooterView(frame: .zero)
+        view.addSubview(multiSelectFooter)
+
+        multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
             blurHeaderView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize),
             blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
             blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
             blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+
             searchController.view.leadingAnchor.constraint(equalTo: searchHeaderView.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: searchHeaderView.trailingAnchor),
             searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
+            topAnchor,
+
+            multiSelectHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            multiSelectHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            multiSelectHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
+            multiSelectHeaderViewConstraint,
+
+            multiSelectAllBtn.leadingAnchor.constraint(equalTo: multiSelectHeaderView.leadingAnchor, constant: 16),
+            multiSelectAllBtn.bottomAnchor.constraint(equalTo: multiSelectHeaderView.bottomAnchor),
+            multiSelectAllBtn.heightAnchor.constraint(equalToConstant: 44),
+
+            multiSelectCancelBtn.trailingAnchor.constraint(equalTo: multiSelectHeaderView.trailingAnchor, constant: -16),
+            multiSelectCancelBtn.bottomAnchor.constraint(equalTo: multiSelectHeaderView.bottomAnchor),
+            multiSelectCancelBtn.heightAnchor.constraint(equalToConstant: 44),
+
+            multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
+            multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
+            multiSelectFooterBottomConstraint,
+            multiSelectFooter.heightAnchor.constraint(equalToConstant: 64)
         ])
 
         view.layoutSubviews()
@@ -262,9 +314,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
 
-//        multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-//        multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-//        multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+        multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
+        multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+        multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
         // we need to do this for scenarios when theme was changed
         updateNavigationBar(position: tableView.contentOffset.y)
     }
@@ -276,6 +328,11 @@ class PlaylistDetailViewController: FakeNavViewController {
             self?.refreshFilterFromNotification()
         }
         tableView.refreshControl = refreshControl
+    }
+
+    private func setMultiSelectHeaderViewConstraint() {
+        let heightConstant: CGFloat = 40
+        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
     private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool = true) {
@@ -295,7 +352,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.reloadData()
         }
         reloadEmptyState()
-//        refreshMultiSelectEpisodes()
+        refreshMultiSelectEpisodes()
     }
 
     @objc func refreshFilterFromNotification() {
@@ -399,7 +456,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), filterUuid: viewModel.playlist.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
             if isMultiSelectEnabled {
-//                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
+                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
             }
         }
         return cell
@@ -426,5 +483,83 @@ extension PlaylistDetailViewController: UITableViewDelegate {
             return 0
         }
         return section == 0 ? 0 : PCSearchBarController.defaultHeight
+    }
+
+    // MARK: - Selection
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section != 0
+    }
+
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 0 { return nil }
+        guard tableView.isEditing, !multiSelectGestureInProgress else { return indexPath }
+        if let selectedEpisode = viewModel.episodes[safe: indexPath.row], selectedEpisodes.contains(selectedEpisode) {
+            tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
+            return nil
+        }
+        return indexPath
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
+        guard let selectedEpisode = viewModel.episodes[safe: indexPath.row]?.episode, let parentPodcast = selectedEpisode.parentPodcast() else { return }
+
+        if isMultiSelectEnabled {
+            let listEpisode = viewModel.episodes[indexPath.row]
+
+            if !multiSelectGestureInProgress {
+                // If the episode is already selected move to the end of the array
+                selectedEpisodesRemove(uuid: listEpisode.episode.uuid)
+            }
+
+            if !multiSelectGestureInProgress || multiSelectGestureInProgress, !selectedEpisodesContains(uuid: listEpisode.episode.uuid) {
+                selectedEpisodes.append(listEpisode)
+                // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
+                if let cell = tableView.cellForRow(at: indexPath) as? EpisodeCell? {
+                    cell?.showTick = true
+                }
+            }
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+
+            let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters, playlist: .filter(uuid: viewModel.playlist.uuid))
+            episodeController.modalPresentationStyle = .formSheet
+            present(episodeController, animated: true, completion: nil)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
+        guard isMultiSelectEnabled else { return }
+        if let listEpisode = viewModel.episodes[safe: indexPath.row], let index = selectedEpisodes.firstIndex(of: listEpisode) {
+            selectedEpisodes.remove(at: index)
+            if let cell = tableView.cellForRow(at: indexPath) as? EpisodeCell {
+                cell.showTick = false
+            }
+        }
+    }
+
+    // MARK: - multi select support
+
+    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 { return false }
+        return Settings.multiSelectGestureEnabled()
+    }
+
+    func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
+        isMultiSelectEnabled = true
+        multiSelectGestureInProgress = true
+    }
+
+    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
+        multiSelectGestureInProgress = false
+    }
+}
+
+extension PlaylistDetailViewController: AnalyticsSourceProvider {
+    var analyticsSource: AnalyticsSource {
+        .filters
     }
 }

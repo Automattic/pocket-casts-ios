@@ -752,6 +752,7 @@
 		9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468C2E5B57CF00627836 /* PlaylistHeaderView.swift */; };
 		9AF6468F2E5B58C200627836 /* PlaylistHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */; };
 		9AF646912E5B775300627836 /* PlaylistDetailViewController+EditActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */; };
+		9AF646932E5DEB1A00627836 /* PlaylistDetailViewController+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3058,6 +3059,7 @@
 		9AF6468C2E5B57CF00627836 /* PlaylistHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderView.swift; sourceTree = "<group>"; };
 		9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewCell.swift; sourceTree = "<group>"; };
 		9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EditActions.swift"; sourceTree = "<group>"; };
+		9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+MultiSelect.swift"; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -5586,6 +5588,7 @@
 				9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */,
 				9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */,
 				9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */,
+				9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */,
 			);
 			path = "New Detail";
 			sourceTree = "<group>";
@@ -11169,6 +11172,7 @@
 				C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */,
 				4084262B2134CBCD0076D82E /* LargeListSummaryViewController.swift in Sources */,
 				C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */,
+				9AF646932E5DEB1A00627836 /* PlaylistDetailViewController+MultiSelect.swift in Sources */,
 				BDF0D4B523EBF1190034129E /* MNAVChapterReader.m in Sources */,
 				10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */,
 				F5BF8F242E54271A00C13B04 /* IntroCarouselStory.swift in Sources */,
