@@ -38,6 +38,9 @@ class UpNextHistoryModel: ObservableObject {
             }
             PlaybackManager.shared.queue.bulkOperationDidComplete()
             PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
+
+            let upNextQueueCount = PlaybackManager.shared.upNextQueueCount()
+            FileLog.shared.addMessage("UpNextHistory: Restored Up Next Queue to \(upNextQueueCount) episodes")
         }
     }
 }
