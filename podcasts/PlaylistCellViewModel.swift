@@ -61,7 +61,7 @@ class PlaylistCellViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             do {
-                let list = await self.loadListEpisodes(limit: 0)
+                let list = await self.loadListEpisodes()
                 let firstFourDistinct = self.firstDistinctPodcasts(from: list, limit: 4)
                 let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                 await MainActor.run {
@@ -76,7 +76,7 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
+    private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
             self?.episodesDataManager.episodes(for: playlist, limit: limit) ?? []

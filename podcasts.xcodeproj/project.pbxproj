@@ -753,6 +753,7 @@
 		9AF6468F2E5B58C200627836 /* PlaylistHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */; };
 		9AF646912E5B775300627836 /* PlaylistDetailViewController+EditActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */; };
 		9AF646932E5DEB1A00627836 /* PlaylistDetailViewController+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */; };
+		9AF646952E5E081600627836 /* PlaylistDetailViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3060,6 +3061,7 @@
 		9AF6468E2E5B58BF00627836 /* PlaylistHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewCell.swift; sourceTree = "<group>"; };
 		9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EditActions.swift"; sourceTree = "<group>"; };
 		9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+MultiSelect.swift"; sourceTree = "<group>"; };
+		9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+TableView.swift"; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -5584,6 +5586,7 @@
 				9AF646872E5B56E500627836 /* Playlist Header */,
 				9AF6468A2E5B571900627836 /* PlaylistDetailViewModel.swift */,
 				9A1A73E02E5623E700E9248C /* PlaylistDetailViewController.swift */,
+				9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */,
 				9AF646902E5B774900627836 /* PlaylistDetailViewController+EditActions.swift */,
 				9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */,
 				9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */,
@@ -11018,6 +11021,7 @@
 				FFF17EC62B979B5500E116C8 /* BookmarksProfileListView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
 				F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */,
+				9AF646952E5E081600627836 /* PlaylistDetailViewController+TableView.swift in Sources */,
 				BD27B8C52756F486007A0EA7 /* UIColor+SwiftUI.swift in Sources */,
 				40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */,
 				F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */,
