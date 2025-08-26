@@ -22,7 +22,7 @@ struct PlaylistHeaderView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
-                    Text("\(viewModel.episodesCount) episodes • \(viewModel.totalDuration())")
+                    Text(L10n.playlistDetailDescription(viewModel.episodesCount, viewModel.totalDuration()))
                         .font(size: 13.0, style: .body, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.secondaryText02)
