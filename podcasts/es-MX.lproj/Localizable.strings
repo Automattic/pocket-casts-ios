@@ -1384,18 +1384,6 @@ que has escuchado dura
     <string>Horas ahorradas</string>
     <key>how_to_upload_explanation</key>
     <string>Primero, abre la aplicación que contenga los archivos de audio que desees guardar.</string>
-    <key>how_to_upload_first_instruction</key>
-    <string>Elige para compartir ese archivo.</string>
-    <key>how_to_upload_first_image_background_button_text</key>
-    <string>Archivo de Audio</string>
-    <key>how_to_upload_first_image_foreground_menu_option_text</key>
-    <string>Opción de menú</string>
-    <key>how_to_upload_second_instruction</key>
-    <string>En el menú, toca "Copiar a Pocket Casts".</string>
-    <key>how_to_upload_second_image_center_text</key>
-    <string>Copiar a Pocket Casts</string>
-    <key>how_to_upload_second_image_sides_text</key>
-    <string>Algo más</string>
     <key>how_to_upload_summary</key>
     <string>Eso es todo. Cambia los detalles que quieras, presiona guardar y podrás comenzar a reproducir.</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1991,8 +1979,8 @@ ACTUALIZACIONES</string>
     <string>Error de carga</string>
     <key>playlists</key>
     <string>Listas de reproducción</string>
-    <key>playlists_onboarding_manual_description</key>
-    <string>¿Quieres tener más control? Con las listas de reproducción manuales puedes crear colas personalizadas, una opción ideal para viajes, temas o que se adapten a cómo te sientes en ese momento. Inteligentes o manuales, las listas de reproducción te siguen el ritmo.</string>
+    <key>playlists_empty_state_title</key>
+    <string>Organiza tus episodios como quieras</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Presentamos las listas de reproducción</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3169,6 +3157,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Suspensión al final del episodio actual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador de suspensión activado, quedan %1$@</string>
+    <key>smart_playlist</key>
+    <string>Lista de reproducción inteligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Hemos creado estas para ayudarte a empezar. Se actualizan automáticamente en función de tus escuchas.</string>
     <key>smart_playlists_tip_view_title</key>

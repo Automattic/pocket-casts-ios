@@ -15,4 +15,8 @@ class StoriesConfiguration {
     /// images or other assets can start loading before it's
     /// actually shown.
     var storiesToPreload: Int = 2
+
+    var shouldShowDismissButton: Bool = true
+
+    var indicatorHeight: CGFloat = 2
 }
