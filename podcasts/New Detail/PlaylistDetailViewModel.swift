@@ -25,6 +25,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private var isLoadingData: Bool = false
     private let dataManager: DataManager
     private let imageManager: ImageManager
+    private let episodesDataManager: EpisodesDataManager
     private let onChange: (StagedChangeset<[ListEpisode]>, Bool) -> Void
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -36,12 +37,14 @@ class PlaylistDetailViewModel: ObservableObject {
         playlist: EpisodeFilter,
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
+        episodesDataManager: EpisodesDataManager = .init(),
         onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void,
         onButtonTapped: @escaping (ButtonTag) -> Void
     ) {
         self.playlist = playlist
         self.dataManager = dataManager
         self.imageManager = imageManager
+        self.episodesDataManager = episodesDataManager
         self.onChange = onChange
         self.onButtonTapped = onButtonTapped
     }
@@ -94,9 +97,7 @@ class PlaylistDetailViewModel: ObservableObject {
                     self.firstTimeLoading.toggle()
                 }
                 let changeSet = StagedChangeset(source: self.episodes, target: newData, section: 1)
-                if !changeSet.isEmpty {
-                    self.onChange(changeSet, animated)
-                }
+                self.onChange(changeSet, animated)
             }
         }
         operationQueue.addOperation(refreshOperation)
@@ -105,6 +106,13 @@ class PlaylistDetailViewModel: ObservableObject {
     func totalDuration() -> String {
         let totalDuration = episodes.map { $0.episode.duration - $0.episode.playedUpTo }.reduce(0, +)
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+    }
+
+    private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
+        let playlist = self.playlist!
+        return await Task.detached(priority: .userInitiated) { [weak self] in
+            self?.episodesDataManager.episodes(for: playlist, limit: limit) ?? []
+        }.value
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {

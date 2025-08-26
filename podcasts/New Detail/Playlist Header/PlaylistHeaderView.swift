@@ -44,10 +44,10 @@ struct PlaylistHeaderView: View {
                     }
                     actionButton(
                         type: .playAll,
-                        color: theme.primaryUi01,
+                        color: theme.primaryUi02,
                         image: Image("filter_play"),
                         title: L10n.playAll,
-                        background: theme.secondaryText01) { type in
+                        background: theme.primaryText01) { type in
                             viewModel.onButtonTapped(type)
                     }
                     Spacer()

@@ -125,7 +125,9 @@ class PlaylistDetailViewController: FakeNavViewController {
             switch buttonTag {
             case .playAll:
                 PlaybackManager.shared.play(filter: self.viewModel.playlist)
-            default:
+            case .smartRules:
+                self.editPlaylist()
+            case .addEpisodes:
                 break
             }
         }
@@ -202,7 +204,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
 
         addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.learnMore, action: #selector(moreTapped))
-//        addGoogleCastBtn()
 
         closeTapped = { [weak self] in
             _ = self?.navigationController?.popViewController(animated: true)
@@ -257,17 +258,20 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool = true) {
+        if data.isEmpty {
+            reloadEmptyState()
+            return
+        }
+
         if animated {
             tableView.reload(using: data, with: .none, setData: { [weak self] episodes in
                 self?.viewModel.update(episodes: episodes)
-                // reload header
-                self?.reloadEmptyState()
             })
         } else {
             viewModel.update(episodes: data.last?.data ?? [])
             tableView.reloadData()
-            reloadEmptyState()
         }
+        reloadEmptyState()
 //        refreshMultiSelectEpisodes()
     }
 
@@ -280,6 +284,14 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     @objc func refreshEpisodesFromNotification() {
         viewModel.reloadEpisodeList()
+    }
+
+    func editPlaylist() {
+        let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
+            self?.refreshFilterFromNotification()
+        }
+        let navVC = SJUIUtils.navController(for: vc)
+        present(navVC, animated: true, completion: nil)
     }
 }
 
@@ -300,7 +312,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: tableView)
-            guard let indexPath = tableView.indexPathForRow(at: touchPoint) else { return }
+            guard let indexPath = tableView.indexPathForRow(at: touchPoint), indexPath.section == 1 else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
                 let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in

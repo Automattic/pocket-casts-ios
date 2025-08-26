@@ -22,7 +22,7 @@ extension PlaylistDetailViewController {
                 .init(
                     title: L10n.playlistSmartRulesTitle,
                     action: { [weak self] in
-//                    self?.editPlaylist()
+                    self?.editPlaylist()
                     }
                 )
             ])

@@ -6,7 +6,7 @@ struct PlaylistArtworkView: View {
         let id: String
         let url: URL
     }
-    
+
     @EnvironmentObject var theme: Theme
     let items: [ImageItem]
 
