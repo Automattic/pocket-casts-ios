@@ -54,6 +54,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             loadingIndicator.center = view.center
         }
     }
+    private var refreshControl: CustomRefreshControl?
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -145,7 +146,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         setupContent()
         setupNavigation()
-//        setupRefreshControl()
+        setupRefreshControl()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -161,11 +162,13 @@ class PlaylistDetailViewController: FakeNavViewController {
         super.viewDidAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
+        refreshControl?.parentViewControllerDidAppear()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
+        refreshControl?.parentViewControllerDidDisappear()
     }
 
     override func viewDidLayoutSubviews() {
@@ -195,6 +198,15 @@ class PlaylistDetailViewController: FakeNavViewController {
     override func handleAppWillBecomeActive() {
         viewModel.reloadEpisodeList()
         addObservers()
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        refreshControl?.scrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        refreshControl?.scrollViewDidEndDragging(scrollView)
     }
 
     private func setupNavigation() {
@@ -257,7 +269,18 @@ class PlaylistDetailViewController: FakeNavViewController {
         updateNavigationBar(position: tableView.contentOffset.y)
     }
 
+    private func setupRefreshControl() {
+        refreshControl = CustomRefreshControl()
+        refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+        refreshControl?.perform = { [weak self] in
+            self?.refreshFilterFromNotification()
+        }
+        tableView.refreshControl = refreshControl
+    }
+
     private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool = true) {
+        refreshControl?.endRefreshing()
+
         if data.isEmpty {
             reloadEmptyState()
             return
