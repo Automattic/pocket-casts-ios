@@ -10,6 +10,7 @@
 - Fix Chromecast streaming [#3438](https://github.com/Automattic/pocket-casts-ios/pull/3438)
 - Fix playback on AppClip [#3437](https://github.com/Automattic/pocket-casts-ios/pull/3437)
 - Fix notification permission request on AppClip [#3439](https://github.com/Automattic/pocket-casts-ios/pull/3439)
+- Ignore the Auto Add to Up Next limit when restoring from Up Next Queue History [#3444](https://github.com/Automattic/pocket-casts-ios/pull/3444)
 
 7.95
 -----
