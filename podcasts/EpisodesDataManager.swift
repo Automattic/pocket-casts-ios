@@ -141,6 +141,15 @@ class EpisodesDataManager {
         return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
     }
 
+    func playlistEpisodes(
+        for filter: EpisodeFilter,
+        limit: Int = Constants.Limits.maxFilterItems,
+        search: String? = nil
+    ) -> [ListEpisode] {
+
+        return []
+    }
+
     // MARK: - Downloads
 
     func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {

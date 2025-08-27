@@ -108,6 +108,17 @@ class PlaylistDetailViewModel: ObservableObject {
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
     }
 
+    func searchEpisodes(for searchTerm: String) {
+        let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
+        
+        
+        let newData = episodesDataManager.searchEpisodes(for: searchTerm).flatMap { $0.elements }
+        let changeSet = StagedChangeset(source: episodes, target: newData, section: 1)
+        DispatchQueue.main.async { [weak self] in
+            self?.onChange(changeSet, true)
+        }
+    }
+
     private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
         let playlist = self.playlist!
         return await Task.detached(priority: .userInitiated) { [weak self] in

@@ -11,7 +11,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             searchController.placeholderText = L10n.search
             searchController.setupScrollView(tableView, hideSearchInitially: false)
             searchController.searchDebounce = Settings.podcastSearchDebounceTime()
-//            searchController.searchDelegate = self
+            searchController.searchDelegate = self
             searchController.view.translatesAutoresizingMaskIntoConstraints = false
             addChild(searchController)
         }
@@ -97,6 +97,11 @@ class PlaylistDetailViewController: FakeNavViewController {
         didSet {
             multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
             updateSelectAllBtn()
+        }
+    }
+    var tempEpisodes = [ListEpisode]() {
+        didSet {
+//            reloadEmptyState()
         }
     }
 
