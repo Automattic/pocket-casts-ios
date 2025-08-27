@@ -162,7 +162,8 @@ struct NowPlayingView: View {
         let notificationCenter = UNUserNotificationCenter.current()
         Task {
             do {
-                let granted = try await notificationCenter.requestAuthorization(options: [.alert, .sound, .badge])
+                let settings = await notificationCenter.notificationSettings()
+                let granted = settings.authorizationStatus == .ephemeral
                 guard granted else {
                     let settings = await notificationCenter.notificationSettings()
                     FileLog.shared.addMessage("App Clip: Notification status: \(settings.authorizationStatus)")

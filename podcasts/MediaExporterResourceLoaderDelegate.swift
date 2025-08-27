@@ -175,8 +175,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             configuration.allowsCellularAccess = true
             configuration.timeoutIntervalForRequest = 60 // seconds
             configuration.timeoutIntervalForResource = 3600 // seconds
+#if !APPCLIP
             configuration.waitsForConnectivity = true
             configuration.multipathServiceType = .handover // allows switching between celular/wifi
+#endif
         }
 
         var urlRequest = URLRequest(url: url)

@@ -482,7 +482,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     func refreshEpisodes(animated: Bool) {
-        let refreshOperation = PlaylistRefreshOperation(tableView: tableView, filter: filter) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(filter: filter) { [weak self] newData in
             guard let strongSelf = self else { return }
 
             strongSelf.firstTimeLoading = false
