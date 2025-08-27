@@ -56,7 +56,13 @@ extension WatchManager {
                 self?.logFileRequestTask?.cancel()
                 self?.logFileRequestTask = nil
 
-                FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
+                // To avoid spamming the logs, we'll only log errors unrelated to unreachable
+                let nsError = error as NSError
+                if nsError.domain == WCErrorDomain,
+                   nsError.code == WCError.Code.notReachable.rawValue {
+                    FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
+                }
+
                 await completionHandler.callCompletionIfNeeded(with: cachedLog)
             }
         }
