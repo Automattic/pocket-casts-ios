@@ -67,6 +67,25 @@ class EpisodeFilterDataManager {
         return count
     }
 
+    func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+        var count = 0
+        dbQueue.read { db in
+            do {
+                let query = PlaylistHelper.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    count = resultSet.long(forColumnIndex: 0)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.smartPlaylistEpisodeCount error: \(error)")
+            }
+        }
+
+        return count
+    }
+
     func allFilters(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
         let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
 

@@ -509,6 +509,10 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
+    public func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
+        episodeManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
+    }
+
     public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
         episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
     }
@@ -919,6 +923,10 @@ public class DataManager {
 
     public func episodeCount(forFilter: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
         filterManager.episodeCount(forFilter: forFilter, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    }
+
+    public func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        filterManager.smartPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {

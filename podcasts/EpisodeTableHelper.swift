@@ -15,6 +15,18 @@ struct EpisodeTableHelper {
         return newData
     }
 
+    static func loadSmartPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]? = nil) -> [ListEpisode] {
+        let loadedEpisodes = DataManager.sharedManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments)
+
+        var newData = [ListEpisode]()
+        for episode in loadedEpisodes {
+            let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
+            newData.append(ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext))
+        }
+
+        return newData
+    }
+
     static func loadSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
         let loadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: arguments)
 

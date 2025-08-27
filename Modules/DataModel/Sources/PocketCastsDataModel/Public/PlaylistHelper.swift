@@ -1,6 +1,203 @@
 import Foundation
 
 public class PlaylistHelper {
+    public enum SelectClause {
+        case episode
+        case episodeCount
+        case podcast
+    }
+
+    private enum QueryResult {
+        case value(String, Bool)
+
+        var value: String {
+            switch self {
+            case .value(let value, _):
+                return value
+            }
+        }
+
+        var boolValue: Bool {
+            switch self {
+            case .value(_, let boolValue):
+                return boolValue
+            }
+        }
+    }
+
+    public class func query(
+        clause: SelectClause,
+        for playlist: EpisodeFilter,
+        episodeUuidToAdd: String? = nil,
+        searchTerm: String? = nil,
+        limit: Int = 0
+    ) -> String {
+        let select = select(clause: clause)
+        let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
+        let rules = add(smartRulesFor: playlist)
+        var queryString = "\(select) WHERE episode.archived = 0 \(addedUuid.value) \(rules.value)"
+        queryString = queryString.replacingOccurrences(of: "AND ()", with: "")
+        queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
+        if addedUuid.boolValue { queryString += ")" }
+        if let searchTerm {
+            queryString += " AND (UPPER(episode.title) LIKE '\(searchTerm)' || UPPER(?) || '\(searchTerm)' ESCAPE '\\' OR UPPER(podcast.title) LIKE '\(searchTerm)' || UPPER(?) || '\(searchTerm)'  ESCAPE '\\')"
+        }
+        if let sort = add(sortFor: playlist.sortType) { queryString += " \(sort) " }
+        if limit > 0 { queryString += " LIMIT \(limit)" }
+        return queryString
+    }
+
+    private static func select(clause: SelectClause) -> String {
+        switch clause {
+        case .episode:
+            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .episodeCount:
+            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .podcast:
+            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        }
+    }
+
+    private static func add(episodeUuidToAdd uuids: String?) -> QueryResult {
+        if let uuids {
+            return .value("AND ((episode.uuid = '\(uuids)') OR (", true)
+        }
+        return .value("AND (", false)
+    }
+
+    private static func add(sortFor sortType: Int32) -> String? {
+        if sortType == PlaylistSort.oldestToNewest.rawValue {
+            return "ORDER BY episode.publishedDate ASC, episode.addedDate ASC"
+        } else if sortType == PlaylistSort.newestToOldest.rawValue {
+            return "ORDER BY episode.publishedDate DESC, episode.addedDate DESC"
+        } else if sortType == PlaylistSort.shortestToLongest.rawValue {
+            return "ORDER BY episode.duration ASC, episode.addedDate ASC"
+        } else if sortType == PlaylistSort.longestToShortest.rawValue {
+            return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        }
+        return nil
+    }
+
+    private static func add(smartRulesFor playlist: EpisodeFilter) -> QueryResult {
+        var queryString = ""
+        var haveStartedWhere = false
+        // Playing Status
+        if !(playlist.filterUnplayed && playlist.filterPartiallyPlayed && playlist.filterFinished), playlist.filterUnplayed || playlist.filterPartiallyPlayed || playlist.filterFinished {
+            queryString += "("
+            if playlist.filterUnplayed {
+                queryString += "episode.playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+            }
+            if playlist.filterPartiallyPlayed {
+                if playlist.filterUnplayed { queryString += "OR " }
+
+                queryString += "episode.playingStatus = \(PlayingStatus.inProgress.rawValue) "
+            }
+            if playlist.filterFinished {
+                if playlist.filterUnplayed || playlist.filterPartiallyPlayed { queryString += "OR " }
+
+                queryString += "episode.playingStatus = \(PlayingStatus.completed.rawValue)"
+            }
+
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // Audio & Video
+        if playlist.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'video%' "
+            haveStartedWhere = true
+        }
+        if playlist.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'audio%' "
+            haveStartedWhere = true
+        }
+
+        // Download Status
+        if !(playlist.filterDownloaded && playlist.filterDownloading && playlist.filterNotDownloaded), playlist.filterDownloaded || playlist.filterDownloading || playlist.filterNotDownloaded {
+            if haveStartedWhere { queryString += "AND " }
+            queryString += "("
+            if playlist.filterDownloaded {
+                queryString += "episode.episodeStatus = \(DownloadStatus.downloaded.rawValue) "
+            }
+            if playlist.filterDownloading {
+                if playlist.filterDownloaded { queryString += "OR " }
+
+                queryString += "episode.episodeStatus = \(DownloadStatus.queued.rawValue) OR episode.episodeStatus = \(DownloadStatus.downloading.rawValue) "
+            }
+            if playlist.filterNotDownloaded {
+                if playlist.filterDownloaded || playlist.filterDownloading { queryString += "OR " }
+                queryString += "episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) OR episode.episodeStatus = \(DownloadStatus.downloadFailed.rawValue) OR episode.episodeStatus = \(DownloadStatus.waitingForWifi.rawValue) "
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // Duration filtering
+        if playlist.filterDuration {
+            if haveStartedWhere { queryString += "AND " }
+
+            let longerThanTime = (playlist.longerThan * 60)
+            // we add 59s here to account for how iOS doesn't show "10m" until you get to 10*60 seconds, that way our visual representation lines up with the filter times
+            let shorterThanTime = (playlist.shorterThan * 60) + 59
+
+            queryString += "(episode.duration >= \(longerThanTime) AND episode.duration <= \(shorterThanTime)) "
+
+            haveStartedWhere = true
+        }
+
+        // Starred only
+        if playlist.filterStarred {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.keepEpisode = 1 "
+            haveStartedWhere = true
+        }
+
+        // particular podcasts only
+        if !playlist.filterAllPodcasts, playlist.podcastUuids.count > 0, playlist.podcastUuids != "null" {
+            if haveStartedWhere { queryString += "AND " }
+
+            let podcastUuidArr = playlist.podcastUuids.components(separatedBy: ",")
+            queryString += " episode.podcastUuid in ("
+            for (index, uuid) in podcastUuidArr.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // filter out unsubscribed podcasts
+        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+        if unsubscribedUuids.count > 0 {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += " episode.podcastUuid NOT IN ("
+            for (index, uuid) in unsubscribedUuids.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // time based filtering
+        if playlist.filterHours > 0 {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.publishedDate > \(filterTimeFor(hours: playlist.filterHours)) "
+            // haveStartedWhere = true
+        }
+
+        queryString += ")"
+        
+        return .value(queryString, haveStartedWhere)
+    }
+
+    // MARK: - Legacy
+
     public class func queryFor(filter: EpisodeFilter, episodeUuidToAdd: String?, limit: Int) -> String {
         var queryString = "archived = 0 "
         var addedUuid = false
