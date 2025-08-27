@@ -196,7 +196,7 @@ struct OnboardingRecommendationsView: View {
     }
 
     @ViewBuilder func searchBar() -> some View {
-        PCSearchView(searchTerm: $searchTerm)
+        PCSearchView(searchTerm: $searchTerm, shouldShowCancelButton: true)
             .frame(height: PCSearchView.defaultHeight)
     }
 
