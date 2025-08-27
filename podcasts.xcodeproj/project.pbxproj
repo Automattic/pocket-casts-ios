@@ -2005,6 +2005,8 @@
 		F5F884692CCAE5C5002BED2C /* PaidStoryWallView2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F884682CCAE5C5002BED2C /* PaidStoryWallView2024.swift */; };
 		F5F89B1E2C88B40A00013118 /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F89B1D2C88B40A00013118 /* ShareButton.swift */; };
 		F5F8F3182CC314250071DD0E /* IntroStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F8F3172CC314250071DD0E /* IntroStory2024.swift */; };
+		F5FDDD842E58E8B000FB1C33 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
+		F5FDDD852E58E94500FB1C33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61222BD07E3A00190711 /* ShareImageView.swift */; };
 		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
@@ -9885,6 +9887,7 @@
 				F5F5097D2CEBFDE2007D6E39 /* skip_button.json in Resources */,
 				F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */,
 				F55566FF2D14E3D000231367 /* VideoViewController.xib in Resources */,
+				F5FDDD852E58E94500FB1C33 /* GoogleService-Info.plist in Resources */,
 				F50D723F2E29F17F00764D9B /* pensive.json in Resources */,
 				F5D5F7B92CEBE7CE001F492D /* Assets.xcassets in Resources */,
 				F5F5097C2CEBFDDE007D6E39 /* player_play_button.json in Resources */,
@@ -11557,6 +11560,7 @@
 				F5F5095A2CEBF674007D6E39 /* PlayBufferManager.swift in Sources */,
 				F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */,
 				F5F508FC2CEBE9D8007D6E39 /* AnalyticsEvent.swift in Sources */,
+				F5FDDD842E58E8B000FB1C33 /* FirebaseManager.swift in Sources */,
 				F5F508FE2CEBE9F8007D6E39 /* TimeSlider.swift in Sources */,
 				F5F509132CEBEBEC007D6E39 /* Notifications.swift in Sources */,
 				F5F5094C2CEBF412007D6E39 /* VideoViewController+Seek.swift in Sources */,
