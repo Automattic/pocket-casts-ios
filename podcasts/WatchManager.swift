@@ -12,15 +12,34 @@ class WatchManager: NSObject, WCSessionDelegate {
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
 
+    // Serial queue for WCSession operations to ensure thread safety
+    private let sessionQueue = DispatchQueue(label: "com.pocketcasts.watchmanager.session", qos: .userInitiated)
+    private var isSettingUp = false
+
     var isWatchAppInstalled: Bool {
         return WCSession.isSupported() && WCSession.default.isWatchAppInstalled
     }
 
     func setup() {
-        if !WCSession.isSupported() { return }
+        guard WCSession.isSupported() else { return }
 
-        WCSession.default.delegate = self
-        WCSession.default.activate()
+        sessionQueue.async { [weak self] in
+            guard let self = self else { return }
+
+            // Prevent multiple setup calls
+            guard !self.isSettingUp else { return }
+            self.isSettingUp = true
+
+            let session = WCSession.default
+
+            // Only set delegate and activate if not already active
+            if session.delegate == nil || session.activationState != .activated {
+                session.delegate = self
+                session.activate()
+            }
+
+            self.isSettingUp = false
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateWatchData), name: Constants.Notifications.filterChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsDidRefresh), name: ServerNotifications.podcastsRefreshed, object: nil)
@@ -58,7 +77,14 @@ class WatchManager: NSObject, WCSessionDelegate {
 
     func sessionDidDeactivate(_ session: WCSession) {
         // Begin the activation process for the new Apple Watch.
-        WCSession.default.activate()
+        sessionQueue.async {
+            // Add a small delay to avoid immediate reactivation issues
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if WCSession.default.activationState != .activated {
+                    WCSession.default.activate()
+                }
+            }
+        }
     }
 
     func sessionWatchStateDidChange(_ session: WCSession) {
@@ -66,7 +92,10 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
+        guard let messageType = message[WatchConstants.Messages.messageType] as? String else {
+            FileLog.shared.addMessage("WatchManager: Received message without messageType")
+            return
+        }
 
         if WatchConstants.Messages.DataRequest.type == messageType {
             updateWatchData()
@@ -178,7 +207,11 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
-        guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
+        guard let messageType = message[WatchConstants.Messages.messageType] as? String else {
+            FileLog.shared.addMessage("WatchManager: Received message without messageType (with reply handler)")
+            replyHandler([String: Any]())
+            return
+        }
 
         if WatchConstants.Messages.FilterRequest.type == messageType {
             if let filterUuid = message[WatchConstants.Messages.FilterRequest.filterUuid] as? String {
@@ -197,6 +230,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         // send blank response to messages we don't know about or for things we can't find info on
+        FileLog.shared.addMessage("WatchManager: Unknown message type: \(messageType)")
         replyHandler([String: Any]())
     }
 
@@ -204,38 +238,45 @@ class WatchManager: NSObject, WCSessionDelegate {
 
     private func handleDownload(episodeUuid: String) {
         DownloadManager.shared.addToQueue(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleStopDownload(episodeUuid: String) {
         DownloadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true, userInitiated: true)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleDeleteDownload(episodeUuid: String) {
-        guard let baseEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
-
-        if let userEpisode = baseEpisode as? UserEpisode {
-            UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
-        } else if let episode = baseEpisode as? Episode {
-            EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+        guard let baseEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Could not find episode for delete download: \(episodeUuid)")
+            return
         }
-        sendStateToWatch()
+
+        do {
+            if let userEpisode = baseEpisode as? UserEpisode {
+                UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
+            } else if let episode = baseEpisode as? Episode {
+                EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+            }
+            sendStateToWatchInBackground()
+        } catch {
+            FileLog.shared.addMessage("WatchManager: Error deleting download for episode \(episodeUuid): \(error)")
+        }
     }
 
     private func handleArchive(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleUnarchive(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleChangeChapter(next: Bool) {
@@ -250,14 +291,14 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleMarkUnplayed(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
 
         EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
-        sendStateToWatch()
+        sendStateToWatchInBackground()
     }
 
     private func handleAddToUpnext(episodeUuid: String, toTop: Bool) {
@@ -281,11 +322,17 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handlePlayRequest(episodeUuid: String, playlist: AutoplayHelper.Playlist?) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Could not find episode for play request: \(episodeUuid)")
+            return
+        }
 
-        AutoplayHelper.shared.playedFrom(playlist: playlist)
-
-        PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+        do {
+            AutoplayHelper.shared.playedFrom(playlist: playlist)
+            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+        } catch {
+            FileLog.shared.addMessage("WatchManager: Error playing episode \(episodeUuid): \(error)")
+        }
     }
 
     private func handleFilterRequest(filterUuid: String) -> [String: Any] {
@@ -394,24 +441,21 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func sendStateToWatchInBackground() {
-        guard Thread.isMainThread else {
-            sendStateToWatch()
-            return
-        }
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        sessionQueue.async { [weak self] in
             guard let self else { return }
-            sendStateToWatch()
+            self.sendStateToWatch()
             if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                FileLog.shared.addMessage("WatchManager: Collecting Watch logs in sendStateToWatchInBackground")
                 WatchManager.shared.requestLogFile { log in
                     // We do nothing here, the log file will be cached as a result of requesting
-                    FileLog.shared.addMessage("WatchManager: Collected Watch logs in sendStateToWatchInBackground isEmpty \(log?.isEmpty ?? true)")
                 }
             }
         }
     }
 
     private func sendStateToWatch() {
+        // This method should only be called from sessionQueue to ensure thread safety
+        dispatchPrecondition(condition: .onQueue(sessionQueue))
+
         guard WCSession.isSupported() else { return }
 
         let session = WCSession.default
@@ -441,6 +485,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 0
         applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
+
         do {
             try session.updateApplicationContext(applicationDict)
         } catch {
