@@ -247,6 +247,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func loadBannerAd() {
 #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
+            removeBannerAd()
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
@@ -512,8 +513,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: Banner Ad
 
     func addAdBanner(promotion: BlazePromotion) {
-        removeBannerAd()
-
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
         let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
