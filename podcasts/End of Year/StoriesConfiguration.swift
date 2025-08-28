@@ -19,4 +19,6 @@ class StoriesConfiguration {
     var shouldShowDismissButton: Bool = true
 
     var indicatorHeight: CGFloat = 2
+
+    var indicatorSpacing: CGFloat = 2
 }

@@ -8,8 +8,44 @@ fileprivate extension String {
     }
 }
 
+class IntroCarouselHostingController<Content>: OnboardingHostingViewController<Content> where Content: View {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if let coordinator = navigationController?.transitionCoordinator {
+            navigationController?.navigationBar.isHidden = false
+
+            // Hide navigation items initially
+            setNavigationItemsAlpha(0.0)
+
+            // Animate navigation items in sync with transition
+            coordinator.animate(alongsideTransition: { _ in
+                self.setNavigationItemsAlpha(1.0)
+            }, completion: nil)
+        } else {
+            // Fallback for non-interactive transitions
+            navigationController?.navigationBar.isHidden = false
+        }
+    }
+
+    private func setNavigationItemsAlpha(_ alpha: CGFloat) {
+        if let destinationVC = navigationController?.topViewController, destinationVC != self {
+            destinationVC.navigationItem.leftBarButtonItem?.customView?.alpha = alpha
+            destinationVC.navigationItem.rightBarButtonItem?.customView?.alpha = alpha
+            destinationVC.navigationItem.titleView?.alpha = alpha
+        }
+    }
+}
+
 struct IntroCarouselView: View {
     @EnvironmentObject var theme: Theme
+
+    let coordinator: LoginCoordinator
 
     private let carouselItems = [
         CarouselItem(
@@ -61,6 +97,7 @@ struct IntroCarouselView: View {
         let configuration = StoriesConfiguration()
         configuration.shouldShowDismissButton = false
         configuration.indicatorHeight = 4
+        configuration.indicatorSpacing = 4
         return configuration
     }
 
@@ -73,12 +110,12 @@ struct IntroCarouselView: View {
 
             VStack(spacing: 16) {
                 Button(L10n.eacInformationalViewModalGetStartedButton) {
-                    // Will implement in follow up PR
+                    coordinator.getStartedTapped()
                 }
                 .buttonStyle(RoundedButtonStyle(theme: theme))
 
                 Button(L10n.accountLogin) {
-                    // Will implement in follow up PR
+                    coordinator.loginTapped()
                 }
                 .foregroundColor(theme.primaryText01)
                 .font(.system(size: 18, weight: .semibold))

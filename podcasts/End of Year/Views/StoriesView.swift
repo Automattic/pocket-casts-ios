@@ -141,7 +141,7 @@ struct StoriesView: View {
     var header: some View {
         ZStack {
             VStack {
-                HStack(spacing: 2) {
+                HStack(spacing: model.indicatorSpacing) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
                         StoryIndicator(index: x, style: model.indicatorStyle, progressModel: model)
                     }

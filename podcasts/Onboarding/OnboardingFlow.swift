@@ -68,9 +68,10 @@ struct OnboardingFlow {
         case .encourageAccountCreation:
             flowController = InformationalModalViewModel.makeController()
 
-        case .initialOnboarding, .loggedOut: fallthrough
+        case .initialOnboarding:
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: true)
         default:
-            flowController = LoginCoordinator.make(in: navigationController)
+            flowController = LoginCoordinator.make(in: navigationController, isOnboarding: false)
         }
 
         return flowController
