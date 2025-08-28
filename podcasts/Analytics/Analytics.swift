@@ -43,8 +43,10 @@ class Analytics {
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
         var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
 #if !os(watchOS) && !APPCLIP
-        analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
-            newProperties[key] = value
+        if FeatureFlag.appThemePropertiesLogging.enabled {
+            analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
+                newProperties[key] = value
+            }
         }
 #endif
         adapters?.forEach {

@@ -5,6 +5,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
+    /// Whether logging the theme properties in the Tracks events
+    case appThemePropertiesLogging
+
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
@@ -245,6 +248,12 @@ public enum FeatureFlag: String, CaseIterable {
         switch self {
         case .tracksLogging:
             false
+        case .appThemePropertiesLogging:
+            if BuildEnvironment.current == .debug {
+                false
+            } else {
+                true
+            }
         case .firebaseLogging:
             false
         case .appsFlyerLogging:
