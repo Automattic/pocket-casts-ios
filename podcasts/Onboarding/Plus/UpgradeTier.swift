@@ -111,7 +111,7 @@ extension UpgradeTier {
     }
 
     static var bannerAdsFeature: UpgradeTier.TierFeature? {
-        FeatureFlag.bannerAds.enabled ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil
+        (FeatureFlag.bannerAdPodcasts.enabled || FeatureFlag.bannerAdPlayer.enabled) ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil
     }
 
     static var foldersFeature: UpgradeTier.TierFeature {

@@ -246,7 +246,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private func loadBannerAd() {
 #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+        if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
@@ -275,7 +275,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         resizeControls()
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             updateBannerAdHeight()
         }
         #endif
@@ -308,7 +308,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         removeAllCustomObservers()
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             removeBannerAd()
         }
         #endif
@@ -323,7 +323,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         super.traitCollectionDidChange(previousTraitCollection)
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             // Update banner height when text size category changes
             if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
                 updateBannerAdHeight()
