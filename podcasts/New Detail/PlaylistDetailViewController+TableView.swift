@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+import PocketCastsUtils
 
 extension PlaylistDetailViewController: UITableViewDataSource {
     private static let cellIdentifier = "EpisodeCell"
@@ -42,20 +43,11 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if viewModel.episodes.isEmpty, !viewModel.isSearching {
-            return 0
-        }
-        return 3
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewModel.episodes.isEmpty, !viewModel.isSearching {
-            return 0
-        }
-        if section == 1 {
-            return viewModel.episodes.count
-        }
-        return 1
+        viewModel.dataSource[safe: section]?.elements.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,24 +57,26 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return cell
         }
 
-        if indexPath.section == 2 {
-            if viewModel.isSearching, viewModel.episodes.isEmpty {
-                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
-                cell.configure(
-                    title: L10n.discoverNoEpisodesFound,
-                    message: L10n.discoverNoPodcastsFoundMsg) {
-                        Image("empty-playlist-info")
-                    }
-                return cell
-            }
-            return tableView.dequeueReusableCell(withIdentifier: DummyEmptyCell.reuseIdentifier, for: indexPath) as! DummyEmptyCell
+        guard let itemAtRow = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
+            FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+            return UITableViewCell()
+        }
+
+        if itemAtRow is NoSearchResultsPlaceholder {
+            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+            cell.configure(
+                title: L10n.discoverNoEpisodesFound,
+                message: L10n.discoverNoPodcastsFoundMsg) {
+                    Image("empty-playlist-info")
+                }
+            return cell
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
 
         cell.playlist = .filter(uuid: viewModel.playlist.uuid)
         cell.delegate = self
-        if let listEpisode = viewModel.episodes[safe: indexPath.row] {
+        if let listEpisode = itemAtRow as? ListEpisode {
             cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), filterUuid: viewModel.playlist.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
             if isMultiSelectEnabled {
@@ -95,23 +89,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.episodes.isEmpty, !viewModel.isSearching {
-            return 0
-        }
         return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if viewModel.episodes.isEmpty, !viewModel.isSearching {
-            return nil
-        }
         return section == 1 ? searchHeaderView : nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if viewModel.episodes.isEmpty, !viewModel.isSearching {
-            return 0
-        }
         return section == 1 ? PCSearchBarController.defaultHeight : 0
     }
 

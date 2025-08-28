@@ -71,7 +71,7 @@ extension PlaylistDetailViewController {
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
-    
+
     func showSortByPicker() {
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
@@ -82,7 +82,7 @@ extension PlaylistDetailViewController {
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
-    
+
     @objc func filterOptionsTapped() {
         let filterEditController = FilterEditOptionsViewController()
         filterEditController.filterToEdit = viewModel.playlist
@@ -129,7 +129,7 @@ extension PlaylistDetailViewController {
             self.downloadItems(allEpisodes: self.viewModel.episodes)
         }
     }
-    
+
     func queueAll() {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }

@@ -334,17 +334,16 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
-    private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool, contentChanged: Bool) {
+    private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
         refreshControl?.endRefreshing()
 
         if animated, contentChanged {
-            tableView.reload(using: data, with: .none) { [weak self] episodes in
-                self?.viewModel.update(episodes: episodes)
+            tableView.reload(using: data, with: .none) { [weak self] newData in
+                self?.viewModel.update(data: newData)
             }
-            tableView.reloadSections(IndexSet([0, 2]), with: .automatic)
         } else {
             if let data = data.last?.data, contentChanged {
-                viewModel.update(episodes: data)
+                viewModel.update(data: data)
             }
             tableView.reloadData()
         }

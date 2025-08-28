@@ -4,6 +4,16 @@ import PocketCastsUtils
 import DifferenceKit
 
 class PlaylistDetailViewModel: ObservableObject {
+    typealias DataSourceValue = [ArraySection<Section, ListItem>]
+
+    enum Section: String, ContentEquatable, ContentIdentifiable {
+        case header
+        case episodes
+
+        func isContentEqual(to source: PlaylistDetailViewModel.Section) -> Bool {
+            self == source
+        }
+    }
     enum ButtonTag {
         case smartRules
         case addEpisodes
@@ -15,7 +25,10 @@ class PlaylistDetailViewModel: ObservableObject {
     let onButtonTapped: (ButtonTag) -> Void
 
     private var tempEpisodes: [ListEpisode] = []
-    @Published private(set) var episodes: [ListEpisode] = []
+    var episodes: [ListEpisode] {
+        dataSource[safe: 1]?.elements as? [ListEpisode] ?? []
+    }
+    @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
 
@@ -27,7 +40,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    private let onChange: (StagedChangeset<[ListEpisode]>, Bool, Bool) -> Void
+    private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -39,7 +52,7 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init(),
-        onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool, Bool) -> Void,
+        onChange: @escaping (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void,
         onButtonTapped: @escaping (ButtonTag) -> Void
     ) {
         self.playlist = playlist
@@ -50,8 +63,8 @@ class PlaylistDetailViewModel: ObservableObject {
         self.onButtonTapped = onButtonTapped
     }
 
-    func update(episodes: [ListEpisode]) {
-        self.episodes = episodes
+    func update(data: DataSourceValue) {
+        self.dataSource = data
 
         if isLoadingData { return }
         isLoadingData = true
@@ -65,7 +78,7 @@ class PlaylistDetailViewModel: ObservableObject {
                         self.isLoadingData = false
                     }
                 } else {
-                    let firstFourDistinct = self.firstDistinctPodcasts(from: episodes, limit: 4)
+                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: 4)
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
@@ -114,10 +127,8 @@ class PlaylistDetailViewModel: ObservableObject {
                 if self.firstTimeLoading {
                     self.firstTimeLoading.toggle()
                 }
-                let contentChanged = !self.episodes.isContentEqual(to: newData)
-                let changedData = contentChanged ? newData : self.episodes
-                let changeSet = StagedChangeset(source: self.episodes, target: changedData, section: 1)
-                self.onChange(changeSet, animated, contentChanged)
+                let changeSetTuple = self.buildChangeSet(source: self.episodes, newData: newData)
+                self.onChange(changeSetTuple.1, animated, changeSetTuple.0)
             }
         }
         operationQueue.addOperation(refreshOperation)
@@ -126,6 +137,36 @@ class PlaylistDetailViewModel: ObservableObject {
     func totalDuration() -> String {
         let totalDuration = episodes.map { $0.episode.duration - $0.episode.playedUpTo }.reduce(0, +)
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+    }
+
+    private func buildChangeSet(
+        source: [ListEpisode],
+        newData: [ListEpisode]
+    ) -> (Bool, StagedChangeset<DataSourceValue>) {
+        let oldData = dataSource
+        var finalData: [ArraySection<Section, ListItem>] = []
+        let contentChanged = !source.isContentEqual(to: newData)
+        let changedData = contentChanged ? newData : episodes
+        finalData.append(ArraySection(
+            model: .header,
+            elements: [
+                PlaylistHeaderViewCellPlaceholder()
+            ])
+        )
+        if newData.isEmpty {
+            finalData.append(ArraySection(
+                model: .episodes,
+                elements: [
+                    NoSearchResultsPlaceholder()
+                ])
+            )
+        } else {
+            finalData.append(ArraySection(
+                model: .episodes,
+                elements: changedData)
+            )
+        }
+        return (contentChanged, StagedChangeset(source: oldData, target: finalData))
     }
 
     private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
@@ -194,13 +235,17 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        episodes = tempEpisodes
+        dataSource[1] = ArraySection(
+            model: .episodes,
+            elements: tempEpisodes)
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        episodes = tempEpisodes
+        dataSource[1] = ArraySection(
+            model: .episodes,
+            elements: tempEpisodes)
         tempEpisodes.removeAll()
 
         reloadPlaylistAndEpisodes()
@@ -221,11 +266,9 @@ extension PlaylistDetailViewModel {
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
         let newData = episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
-        let contentChanged = !episodes.isContentEqual(to: newData)
-        let changedData = contentChanged ? newData : episodes
-        let changeSet = StagedChangeset(source: episodes, target: changedData, section: 1)
+        let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
-            self?.onChange(changeSet, true, contentChanged)
+            self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
         }
     }
 }

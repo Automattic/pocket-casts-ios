@@ -193,7 +193,7 @@ public class PlaylistHelper {
         }
 
         queryString += ")"
-        
+
         return .value(queryString, haveStartedWhere)
     }
 
