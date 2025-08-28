@@ -377,7 +377,7 @@ struct DeveloperMenu: View {
                 }
                 .sheet(isPresented: $showingInterestsOnboarding) {
                     InterestsView()
-                        .environmentObject(Theme.sharedTheme)                    
+                        .environmentObject(Theme.sharedTheme)
                 }
             } header: {
                 Text("Onboarding")

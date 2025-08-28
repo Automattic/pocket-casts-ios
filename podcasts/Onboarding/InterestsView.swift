@@ -107,7 +107,7 @@ struct InterestsView: View {
                             spacing: 8,
                             alignment: .center
                         ) { category in
-                            categoryButton(for: category, index: viewModel.positionOfCategory(category) ?? 0)
+                            categoryButton(for: category, index: viewModel.positionOfCategory(category) ?? 0).transition(.move(edge: .bottom))
                         }
                         if !showMore {
                             Spacer().frame(height: 40)
