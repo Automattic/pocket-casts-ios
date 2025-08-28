@@ -388,7 +388,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:
-            true
+            false
         case .shareTranscripts:
             true
         case .doNotSwitchToDownloadedFile:
