@@ -6,6 +6,8 @@ public struct BlazePromotion: Decodable {
     public let imageURL: URL
     public let urlTitle: String
     public let url: URL
+    public let urlAndroid: URL
+    public let urlApple: URL
     public let location: Location
 
     public enum Location: String, Decodable {
