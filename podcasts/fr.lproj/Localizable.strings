@@ -1384,6 +1384,18 @@ que vous avez écouté était
     <string>Heures économisées</string>
     <key>how_to_upload_explanation</key>
     <string>Tout d’abord, ouvrez une application contenant les fichiers audio que vous souhaitez enregistrer</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>Copier dans Pocket Casts</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>Autre chose</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>Dans le menu, appuyez sur « Copier vers Pocket Casts »</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>Fichier audio</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>Option du menu</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>Choisissez de partager ce fichier</string>
     <key>how_to_upload_summary</key>
     <string>Voilà, vous avez terminé. Modifiez les détails que vous souhaitez, appuyez sur Enregistrer et écoutez !</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1662,6 +1674,14 @@ podcasts partout avec</string>
     <string>Vous changez d’application ? Transférez toutes vos émissions préférées vers Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importer facilement vos podcasts</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>Une fois par mois, profitez des avantages du podcast</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>Abonnez-vous à notre newsletter</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>Recevez des actualités, des suggestions de podcasts et plus encore</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>Recevoir des notifications</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1690,6 +1710,8 @@ podcasts partout avec</string>
     <string>Veuillez autoriser les notifications dans les réglages de votre appareil</string>
     <key>notifications_permissions_open_settings</key>
     <string>Ouvrir les réglages</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>Enregistrer les préférences</string>
     <key>notifications_permissions_title</key>
     <string>Restez au courant !</string>
     <key>notifications_play_now</key>
@@ -1734,6 +1756,10 @@ podcasts partout avec</string>
     <string>Désactivé</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>Voici quelques super émissions pour commencer. Appuyez pour vous abonner, rechercher ou importer depuis d’autres applications.</string>
+    <key>onboarding_recommendations_title</key>
+    <string>Nous espérons que vous aimerez ces suggestions !</string>
     <key>only_on_unmetered_wifi</key>
     <string>Uniquement en Wi-Fi illimité</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1977,10 +2003,36 @@ MISES À JOUR</string>
     <string>Erreur de lecture</string>
     <key>player_user_episode_upload_error</key>
     <string>Erreur de chargement</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>Créer une liste de lecture</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>Ajoutez automatiquement des épisodes en fonction des règles.</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>Transformer en liste de lecture intelligente</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>Les nouveaux podcasts auxquels vous vous abonnez seront ajoutés automatiquement.</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>Les nouveaux podcasts auxquels vous vous abonnez ne seront pas ajoutés automatiquement.</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>Tous les podcasts auxquels vous êtes abonné(e)</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>Enregistrer la règle intelligente</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>Les épisodes marqués d’une étoile peuvent toujours apparaître s’ils correspondent à vos autres règles.</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>Incluez uniquement les épisodes marqués d’une étoile qui correspondent à vos autres règles.</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>Épisodes marqués d’une étoile</string>
     <key>playlists</key>
     <string>Listes de lecture</string>
+    <key>playlists_default_new_playlist</key>
+    <string>Nouvelle liste de lecture</string>
+    <key>playlists_empty_state_description</key>
+    <string>Les listes de lecture permettent d’organiser les épisodes manuellement ou automatiquement avec les règles intelligentes.</string>
     <key>playlists_empty_state_title</key>
     <string>Organiser vos épisodes comme vous le souhaitez</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Maîtrisez votre écoute. Créez des listes de lecture personnalisées pour vos voyages, vos thèmes ou toute autre atmosphère que vous souhaitez créer. Qu’elles soient intelligentes ou personnalisées, les listes de lecture s’adaptent à votre écoute.</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Présentation des listes de lecture</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3075,16 +3127,24 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Commentaires</string>
     <key>sign_in</key>
     <string>Se connecter</string>
+    <key>sign_in_continue_with_email</key>
+    <string>Continuer avec l’adresse e-mail</string>
+    <key>sign_in_divider_label</key>
+    <string>OU</string>
     <key>sign_in_email_address_prompt</key>
     <string>Adresse e-mail</string>
     <key>sign_in_forgot_password</key>
     <string>J’ai oublié mon mot de passe</string>
+    <key>sign_in_hide_password_label</key>
+    <string>Afficher le mot de passe</string>
     <key>sign_in_message</key>
     <string>Enregistrez vos abonnements aux podcasts dans le cloud et synchronisez votre progression avec d’autres appareils.</string>
     <key>sign_in_password_prompt</key>
     <string>Mot de passe</string>
     <key>sign_in_prompt</key>
     <string>Se connecter ou créer un compte</string>
+    <key>sign_in_show_password_label</key>
+    <string>Masquer le mot de passe</string>
     <key>signed_in_as</key>
     <string>CONNECTÉ EN TANT QUE</string>
     <key>signed_out</key>

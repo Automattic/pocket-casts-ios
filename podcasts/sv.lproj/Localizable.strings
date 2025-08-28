@@ -1384,6 +1384,16 @@ du lyssnade på var
     <string>Timmar sparade</string>
     <key>how_to_upload_explanation</key>
     <string>Öppna först en app som har de ljudfiler du vill spara</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>Kopiera till Pocket Casts</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>Något annat</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>I menyn trycker du på ”Kopiera till Pocket Casts”</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>Ljudfil</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>Menyalternativ</string>
     <key>how_to_upload_share_menu_instruction</key>
     <string>Välj att dela den filen</string>
     <key>how_to_upload_summary</key>
@@ -1664,6 +1674,14 @@ podcasts med dig</string>
     <string>Byter du från en annan app? Ta med alla dina favoritshower till Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importera enkelt dina podcasts</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>En gång i månaden, podcasts i mängder</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>Prenumerera på vårt nyhetsbrev</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>Få nyheter, podcastförslag och annat</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>Få aviseringar</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Skapa ett gratis konto för att synkronisera dina shower och lyssna var som helst.</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1692,6 +1710,8 @@ podcasts med dig</string>
     <string>Tillåt aviseringar i dina enhetsinställningar</string>
     <key>notifications_permissions_open_settings</key>
     <string>Öppna inställningar</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>Spara alternativ</string>
     <key>notifications_permissions_title</key>
     <string>Håll dig uppdaterad.</string>
     <key>notifications_play_now</key>
@@ -1736,6 +1756,10 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>Här är några bra shower att börja med. Tryck för att följa, söka eller importera från andra appar.</string>
+    <key>onboarding_recommendations_title</key>
+    <string>Vi hoppas att du kommer att älska dessa förslag!</string>
     <key>only_on_unmetered_wifi</key>
     <string>Endast på WiFi utan datapriser</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1979,10 +2003,36 @@ UPPDATERINGAR</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>Skapa spellista</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>Lägg automatiskt till avsnitt baserat på regler.</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>Gör till smart spellista</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>Nya podcasts som du följer kommer att läggas till automatiskt.</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>Nya podcasts som du följer kommer inte att läggas till automatiskt.</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>Alla följda podcasts</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>Spara smart regel</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>Stjärnmärkta avsnitt kan fortfarande visas om de matchar dina andra regler.</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>Inkludera endast stjärnmärkta avsnitt som matchar dina andra regler.</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>Stjärnmärkta avsnitt</string>
     <key>playlists</key>
     <string>Spellistor</string>
+    <key>playlists_default_new_playlist</key>
+    <string>Ny spellista</string>
+    <key>playlists_empty_state_description</key>
+    <string>Spellistor låter dig organisera avsnitt manuellt eller automatiskt med smarta regler.</string>
     <key>playlists_empty_state_title</key>
     <string>Organisera avsnitt på ditt sätt</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Ta kontroll över ditt lyssnande. Bygg anpassade spellistor för resor, teman eller särskilda stämningar. Oavsett om spellistan är smart eller anpassad kommer den att passa ditt sätt att lyssna.</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Vi presenterar spellistor</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3077,16 +3127,24 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Noteringar</string>
     <key>sign_in</key>
     <string>Logga in</string>
+    <key>sign_in_continue_with_email</key>
+    <string>Fortsätt med e-post</string>
+    <key>sign_in_divider_label</key>
+    <string>ELLER</string>
     <key>sign_in_email_address_prompt</key>
     <string>E-postadress</string>
     <key>sign_in_forgot_password</key>
     <string>Jag har glömt mitt lösenord</string>
+    <key>sign_in_hide_password_label</key>
+    <string>Visa lösenord</string>
     <key>sign_in_message</key>
     <string>Spara dina podcastprenumerationer i molnet och synkronisera ditt lyssningsförlopp med andra enheter.</string>
     <key>sign_in_password_prompt</key>
     <string>Lösenord</string>
     <key>sign_in_prompt</key>
     <string>Logga in eller skapa konto</string>
+    <key>sign_in_show_password_label</key>
+    <string>Dölj lösenord</string>
     <key>signed_in_as</key>
     <string>INLOGGAD SOM</string>
     <key>signed_out</key>

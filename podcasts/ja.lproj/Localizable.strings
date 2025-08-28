@@ -1384,6 +1384,18 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>節約時間数</string>
     <key>how_to_upload_explanation</key>
     <string>まず、保存する音声ファイルがあるアプリを開きます</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>Pocket Casts にコピー</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>その他</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>メニューで「Pocket Casts にコピー」をタップ</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>音声ファイル</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>メニューオプション</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>そのファイルを共有するように選択</string>
     <key>how_to_upload_summary</key>
     <string>これで操作は完了です。 必要に応じて詳細を変更し「保存」をクリックして再生してみましょう。</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1662,6 +1674,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>別のアプリから切り替えますか ? お気に入りの番組をすべて Pocket Casts に移行しましょう。</string>
     <key>notifications_onboarding_import_title</key>
     <string>ポッドキャストを簡単にインポート</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>月に1回、良質なポッドキャストをお届け</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>ニュースレターを購読</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>ニュースやポッドキャストの提案などを受け取る</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>通知を受け取る</string>
     <key>notifications_onboarding_signup_body</key>
     <string>無料アカウントを作成すると、番組を同期して場所を問わず聴取できます。</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1690,6 +1710,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>端末設定で通知を許可してください</string>
     <key>notifications_permissions_open_settings</key>
     <string>設定を開く</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>設定を保存</string>
     <key>notifications_permissions_title</key>
     <string>最新情報を受け取りましょう !</string>
     <key>notifications_play_now</key>
@@ -1734,6 +1756,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>初めてのご利用にぴったりの番組を紹介します。 タップしてフォロー、検索、他のアプリからインポートします。</string>
+    <key>onboarding_recommendations_title</key>
+    <string>おすすめの番組をぜひお楽しみください。</string>
     <key>only_on_unmetered_wifi</key>
     <string>従量制課金が行われない Wi-Fi のみ</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1977,10 +2003,36 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エラー</string>
     <key>player_user_episode_upload_error</key>
     <string>アップロードエラー</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>プレイリストを作成</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>ルールに基づいてエピソードを自動追加します。</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>スマートプレイリストを作成</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>新たにフォローするポッドキャストは自動的に追加されます。</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>新たにフォローするポッドキャストは自動的に追加されません。</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>フォロー中のすべてのポッドキャスト</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>スマートルールを保存</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>星付きエピソードは、他のルールと一致する場合にも引き続き表示できます。</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>他のルールに一致する星付きエピソードのみを含めます。</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>星付きエピソード</string>
     <key>playlists</key>
     <string>プレイリスト</string>
+    <key>playlists_default_new_playlist</key>
+    <string>新しいプレイリスト</string>
+    <key>playlists_empty_state_description</key>
+    <string>プレイリストを使うと、手動またはスマートルールを適用して自動でエピソードを整理できます。</string>
     <key>playlists_empty_state_title</key>
     <string>エピソードを自分流に整理</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>聴取内容を管理できます。 旅行やその他のテーマなど、気分に合わせたカスタムプレイリストを作成できます。 スマートプレイリストでもカスタムプレイリストでも、お好みの聴き方で再生できます。</string>
     <key>playlists_onboarding_manual_title</key>
     <string>プレイリストのご紹介</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3075,16 +3127,24 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>メモ</string>
     <key>sign_in</key>
     <string>ログイン</string>
+    <key>sign_in_continue_with_email</key>
+    <string>メールで続ける</string>
+    <key>sign_in_divider_label</key>
+    <string>または</string>
     <key>sign_in_email_address_prompt</key>
     <string>メールアドレス</string>
     <key>sign_in_forgot_password</key>
     <string>パスワードを忘れた場合</string>
+    <key>sign_in_hide_password_label</key>
+    <string>パスワードを表示</string>
     <key>sign_in_message</key>
     <string>ポッドキャストのサブスクリプションをクラウドに保存して、他の端末と進捗を同期します。</string>
     <key>sign_in_password_prompt</key>
     <string>パスワード</string>
     <key>sign_in_prompt</key>
     <string>ログインまたはアカウントを作成</string>
+    <key>sign_in_show_password_label</key>
+    <string>パスワードを隠す</string>
     <key>signed_in_as</key>
     <string>ログインアカウント:</string>
     <key>signed_out</key>

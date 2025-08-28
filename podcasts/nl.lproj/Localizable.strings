@@ -1382,6 +1382,18 @@ waar je naar hebt geluisterd was
     <string>Uren opgeslagen</string>
     <key>how_to_upload_explanation</key>
     <string>Hiervoor moet je eerst een app openen met audiobestanden die je wilt opslaan</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>Iets anders</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>Tik in het menu op Kopiëren naar Pocket Casts</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>Audiobestand</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>Menu-opties</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>Kies ervoor om dat bestand te delen</string>
     <key>how_to_upload_summary</key>
     <string>Je bent klaar. Wijzig details, klik op Opslaan en speel af!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1660,6 +1672,14 @@ podcasts mee</string>
     <string>Stap je over van een andere app? Neem al je favoriete shows mee naar Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Importeer je podcasts eenvoudig</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>Een keer per maand al het goeds uit je podcasts</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>Meld je aan voor onze nieuwsbrief</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>Ontvang nieuws, podcastsuggesties en meer</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>Ontvang e-mailmeldingen</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1688,6 +1708,8 @@ podcasts mee</string>
     <string>Sta meldingen toe in je apparaatinstellingen</string>
     <key>notifications_permissions_open_settings</key>
     <string>Instellingen openen</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>Voorkeuren opslaan</string>
     <key>notifications_permissions_title</key>
     <string>Blijf op de hoogte!</string>
     <key>notifications_play_now</key>
@@ -1732,6 +1754,10 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>Hier zijn een aantal geweldige shows om mee te beginnen. Tik om te volgen, zoeken of importeren vanuit andere apps.</string>
+    <key>onboarding_recommendations_title</key>
+    <string>We hopen dat je deze goede suggesties vindt!</string>
     <key>only_on_unmetered_wifi</key>
     <string>Alleen wifi zonder limiet</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1975,10 +2001,36 @@ UPDATES</string>
     <string>Afspeelfout</string>
     <key>player_user_episode_upload_error</key>
     <string>Uploadfout</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>Afspeellijst aanmaken</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>Afleveringen automatisch toevoegen op basis van regels.</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>Maak een slimme afspeellijst</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd.</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>Alle gevolgde podcasts</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>Slimme regel opslaan</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>Favoriete afleveringen kunnen nog steeds verschijnen als ze overeenkomen met je andere regels.</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>Neem alleen favoriete afleveringen op die overeenkomen met je andere regels.</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>Favoriete afleveringen</string>
     <key>playlists</key>
     <string>Afspeellijsten</string>
+    <key>playlists_default_new_playlist</key>
+    <string>Nieuwe afspeellijst</string>
+    <key>playlists_empty_state_description</key>
+    <string>Met afspeellijsten kan je afleveringen handmatig of automatisch organiseren met slimme regels.</string>
     <key>playlists_empty_state_title</key>
     <string>Organiseer afleveringen zoals jij dat wil</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Neem de controle over je luistergedrag. Bouw aangepaste afspeellijsten voor trips, thema's of welke vibe je ook in zit. Of je afspeellijst nou slim of aangepast is, ze passen bij de manier waarop je luistert.</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Maak kennis met afspeellijsten</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3071,16 +3123,24 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Notities</string>
     <key>sign_in</key>
     <string>Aanmelden</string>
+    <key>sign_in_continue_with_email</key>
+    <string>Doorgaan met e-mail</string>
+    <key>sign_in_divider_label</key>
+    <string>OF</string>
     <key>sign_in_email_address_prompt</key>
     <string>E-mailadres</string>
     <key>sign_in_forgot_password</key>
     <string>Ik ben mijn wachtwoord vergeten</string>
+    <key>sign_in_hide_password_label</key>
+    <string>Wachtwoord weergeven</string>
     <key>sign_in_message</key>
     <string>Sla je podcastafleveringen op in de cloud en synchroniseer je voortgang met andere apparaten.</string>
     <key>sign_in_password_prompt</key>
     <string>Wachtwoord</string>
     <key>sign_in_prompt</key>
     <string>Meld je aan of maak een account aan</string>
+    <key>sign_in_show_password_label</key>
+    <string>Wachtwoord verbergen</string>
     <key>signed_in_as</key>
     <string>AANGEMELD ALS</string>
     <key>signed_out</key>
