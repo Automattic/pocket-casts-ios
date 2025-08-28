@@ -40,6 +40,7 @@ struct BannerAdReporter {
                 "ad_id": adID,
                 "reason": action.analyticsValue
             ])
+            Toast.show(L10n.bannerAdsReportConfirmation)
         }
 
         let reportOptions = OptionsPicker(title: nil)
