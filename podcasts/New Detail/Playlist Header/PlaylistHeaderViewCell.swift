@@ -8,6 +8,7 @@ class PlaylistHeaderViewCell: ThemeableCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         accessoryType = .none
+        selectionStyle = .none
 
         setClearBackground()
     }

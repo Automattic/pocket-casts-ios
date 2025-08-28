@@ -2,20 +2,18 @@ import UIKit
 
 extension PlaylistDetailViewController: PCSearchBarDelegate {
     func searchDidBegin() {
-        viewModel.isSearching = true
-        tempEpisodes = viewModel.episodes
+        viewModel.startSearch()
     }
 
     func searchDidEnd() {
-        viewModel.isSearching = false
-        viewModel.update(episodes: tempEpisodes)
-        refreshFilterFromNotification()
+        viewModel.endSearch()
     }
 
     func searchWasCleared() {
         Analytics.track(.searchCleared, source: analyticsSource)
 
-        searchDidEnd()
+        viewModel.clearSearch()
+        tableView.reloadData()
     }
 
     func searchTermChanged(_ searchTerm: String) { }

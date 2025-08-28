@@ -7,6 +7,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     func registerCells() {
         tableView.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: Self.cellIdentifier)
         tableView.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
+        tableView.register(DummyEmptyCell.self, forCellReuseIdentifier: DummyEmptyCell.reuseIdentifier)
         tableView.register(PlaylistHeaderViewCell.self, forCellReuseIdentifier: PlaylistHeaderViewCell.reuseIdentifier)
     }
 
@@ -44,17 +45,17 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         if viewModel.episodes.isEmpty, !viewModel.isSearching {
             return 0
         }
-        return 2
+        return 3
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewModel.episodes.isEmpty, !viewModel.isSearching {
             return 0
         }
-        if section == 0 {
-            return 1
+        if section == 1 {
+            return viewModel.episodes.count
         }
-        return viewModel.episodes.count
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,14 +65,17 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return cell
         }
 
-        if viewModel.isSearching, viewModel.episodes.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
-            cell.configure(
-                title: L10n.discoverNoEpisodesFound,
-                message: L10n.discoverNoPodcastsFoundMsg) {
-                    Image("empty-playlist-info")
+        if indexPath.section == 2 {
+            if viewModel.isSearching, viewModel.episodes.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateCell.reuseIdentifier, for: indexPath) as! EmptyStateCell
+                cell.configure(
+                    title: L10n.discoverNoEpisodesFound,
+                    message: L10n.discoverNoPodcastsFoundMsg) {
+                        Image("empty-playlist-info")
+                    }
+                return cell
             }
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: DummyEmptyCell.reuseIdentifier, for: indexPath) as! DummyEmptyCell
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
@@ -91,7 +95,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.episodes.isEmpty {
+        if viewModel.episodes.isEmpty, !viewModel.isSearching {
             return 0
         }
         return UITableView.automaticDimension
@@ -101,24 +105,24 @@ extension PlaylistDetailViewController: UITableViewDelegate {
         if viewModel.episodes.isEmpty, !viewModel.isSearching {
             return nil
         }
-        return section == 0 ? nil : searchHeaderView
+        return section == 1 ? searchHeaderView : nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if viewModel.episodes.isEmpty, !viewModel.isSearching {
             return 0
         }
-        return section == 0 ? 0 : PCSearchBarController.defaultHeight
+        return section == 1 ? PCSearchBarController.defaultHeight : 0
     }
 
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section != 0
+        return indexPath.section == 1
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.section == 0 { return nil }
+        if indexPath.section != 1 { return nil }
         guard tableView.isEditing, !multiSelectGestureInProgress else { return indexPath }
         if let selectedEpisode = viewModel.episodes[safe: indexPath.row], selectedEpisodes.contains(selectedEpisode) {
             tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
@@ -128,7 +132,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 { return }
+        if indexPath.section != 1 { return }
         guard let selectedEpisode = viewModel.episodes[safe: indexPath.row]?.episode, let parentPodcast = selectedEpisode.parentPodcast() else { return }
 
         if isMultiSelectEnabled {
@@ -156,7 +160,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 { return }
+        if indexPath.section != 1 { return }
         guard isMultiSelectEnabled else { return }
         if let listEpisode = viewModel.episodes[safe: indexPath.row], let index = selectedEpisodes.firstIndex(of: listEpisode) {
             selectedEpisodes.remove(at: index)
@@ -169,12 +173,12 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 0 { return false }
+        if indexPath.section != 1 { return false }
         return Settings.multiSelectGestureEnabled()
     }
 
     func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
-        if indexPath.section == 0 { return }
+        if indexPath.section != 1 { return }
         isMultiSelectEnabled = true
         multiSelectGestureInProgress = true
     }
@@ -182,4 +186,24 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
         multiSelectGestureInProgress = false
     }
+}
+
+fileprivate class DummyEmptyCell: ThemeableCell {
+    static let reuseIdentifier = "DummyEmptyCell"
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+    override func setEditing(_ editing: Bool, animated: Bool) {}
 }

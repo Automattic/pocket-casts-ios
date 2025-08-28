@@ -4,7 +4,7 @@ import DifferenceKit
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
-    private var searchController: PCSearchBarController! {
+    private(set) var searchController: PCSearchBarController! {
         didSet {
             searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
             searchController.searchDebounce = 0.2
@@ -99,11 +99,6 @@ class PlaylistDetailViewController: FakeNavViewController {
             updateSelectAllBtn()
         }
     }
-    var tempEpisodes = [ListEpisode]() {
-        didSet {
-//            reloadEmptyState()
-        }
-    }
 
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
@@ -139,8 +134,8 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     init(playlist: EpisodeFilter) {
         super.init(nibName: nil, bundle: nil)
-        self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated in
-            self?.reload(data: newSet, animated: animated)
+        self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated, contentChanged in
+            self?.reload(data: newSet, animated: animated, contentChanged: contentChanged)
         } onButtonTapped: { [weak self] buttonTag in
             guard let self else { return }
             switch buttonTag {
@@ -329,7 +324,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshControl = CustomRefreshControl()
         refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
         refreshControl?.perform = { [weak self] in
-            self?.refreshFilterFromNotification()
+            self?.viewModel.reloadPlaylistAndEpisodes()
         }
         tableView.refreshControl = refreshControl
     }
@@ -339,40 +334,38 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
-    private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool = true) {
+    private func reload(data: StagedChangeset<[ListEpisode]>, animated: Bool, contentChanged: Bool) {
         refreshControl?.endRefreshing()
 
-        if data.isEmpty {
-            reloadEmptyState()
-            return
-        }
-
-        if animated {
-            tableView.reload(using: data, with: .none, setData: { [weak self] episodes in
+        if animated, contentChanged {
+            tableView.reload(using: data, with: .none) { [weak self] episodes in
                 self?.viewModel.update(episodes: episodes)
-            })
+            }
+            tableView.reloadSections(IndexSet([0, 2]), with: .automatic)
         } else {
-            viewModel.update(episodes: data.last?.data ?? [])
+            if let data = data.last?.data, contentChanged {
+                viewModel.update(episodes: data)
+            }
             tableView.reloadData()
         }
         reloadEmptyState()
         refreshMultiSelectEpisodes()
     }
 
-    @objc func refreshFilterFromNotification() {
+    @objc func refreshFilterFromNotification(notification: Notification) {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
         viewModel.reloadPlaylistAndEpisodes()
     }
 
-    @objc func refreshEpisodesFromNotification() {
+    @objc func refreshEpisodesFromNotification(notification: Notification) {
         viewModel.reloadEpisodeList()
     }
 
     func editPlaylist() {
         let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
-            self?.refreshFilterFromNotification()
+            self?.viewModel.reloadPlaylistAndEpisodes()
         }
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)

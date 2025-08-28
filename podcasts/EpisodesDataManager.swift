@@ -146,7 +146,7 @@ class EpisodesDataManager {
         limit: Int = Constants.Limits.maxFilterItems,
         search: String? = nil
     ) -> [ListEpisode] {
-        let query = PlaylistHelper.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: limit)
+        let query = PlaylistHelper.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), searchTerm: search, limit: limit)
         return EpisodeTableHelper.loadSmartPlaylistEpisodes(query: query)
     }
 

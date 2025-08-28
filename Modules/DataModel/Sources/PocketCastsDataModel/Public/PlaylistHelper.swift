@@ -40,7 +40,8 @@ public class PlaylistHelper {
         queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
         if addedUuid.boolValue { queryString += ")" }
         if let searchTerm {
-            queryString += " AND (UPPER(episode.title) LIKE '\(searchTerm)' || UPPER(?) || '\(searchTerm)' ESCAPE '\\' OR UPPER(podcast.title) LIKE '\(searchTerm)' || UPPER(?) || '\(searchTerm)'  ESCAPE '\\')"
+            queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
+            queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
         if let sort = add(sortFor: playlist.sortType) { queryString += " \(sort) " }
         if limit > 0 { queryString += " LIMIT \(limit)" }

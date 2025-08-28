@@ -14,19 +14,20 @@ class PlaylistDetailViewModel: ObservableObject {
 
     let onButtonTapped: (ButtonTag) -> Void
 
+    private var tempEpisodes: [ListEpisode] = []
     @Published private(set) var episodes: [ListEpisode] = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
 
-    var isSearching = false
-
+    private(set) var isSearching = false
     private(set) var firstTimeLoading = true
 
+    private var searchTerm: String = ""
     private var isLoadingData: Bool = false
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
-    private let onChange: (StagedChangeset<[ListEpisode]>, Bool) -> Void
+    private let onChange: (StagedChangeset<[ListEpisode]>, Bool, Bool) -> Void
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -38,7 +39,7 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init(),
-        onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool) -> Void,
+        onChange: @escaping (StagedChangeset<[ListEpisode]>, Bool, Bool) -> Void,
         onButtonTapped: @escaping (ButtonTag) -> Void
     ) {
         self.playlist = playlist
@@ -58,12 +59,19 @@ class PlaylistDetailViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let count = await self.getEpisodesCount()
-                let firstFourDistinct = self.firstDistinctPodcasts(from: episodes, limit: 4)
-                let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
-                await MainActor.run {
-                    self.images = images
-                    self.episodesCount = count
-                    self.isLoadingData = false
+                if self.isSearching {
+                    await MainActor.run {
+                        self.episodesCount = count
+                        self.isLoadingData = false
+                    }
+                } else {
+                    let firstFourDistinct = self.firstDistinctPodcasts(from: episodes, limit: 4)
+                    let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
+                    await MainActor.run {
+                        self.images = images
+                        self.episodesCount = count
+                        self.isLoadingData = false
+                    }
                 }
             } catch {
                 await MainActor.run {
@@ -78,6 +86,10 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
+        if isSearching {
+            searchEpisodes(for: searchTerm)
+            return
+        }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
             if let reloadedPlaylist = DataManager.sharedManager.findFilter(uuid: playlist.uuid) {
@@ -90,14 +102,22 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(animated: Bool = true) {
+        if isSearching {
+            searchEpisodes(for: searchTerm)
+            return
+        }
+        operationQueue.cancelAllOperations()
+
         let refreshOperation = PlaylistRefreshOperation(filter: playlist) { [weak self] newData in
             guard let self else { return }
             DispatchQueue.main.async {
                 if self.firstTimeLoading {
                     self.firstTimeLoading.toggle()
                 }
-                let changeSet = StagedChangeset(source: self.episodes, target: newData, section: 1)
-                self.onChange(changeSet, animated)
+                let contentChanged = !self.episodes.isContentEqual(to: newData)
+                let changedData = contentChanged ? newData : self.episodes
+                let changeSet = StagedChangeset(source: self.episodes, target: changedData, section: 1)
+                self.onChange(changeSet, animated, contentChanged)
             }
         }
         operationQueue.addOperation(refreshOperation)
@@ -106,17 +126,6 @@ class PlaylistDetailViewModel: ObservableObject {
     func totalDuration() -> String {
         let totalDuration = episodes.map { $0.episode.duration - $0.episode.playedUpTo }.reduce(0, +)
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
-    }
-
-    func searchEpisodes(for searchTerm: String) {
-        let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        
-        
-        let newData = episodesDataManager.searchEpisodes(for: searchTerm).flatMap { $0.elements }
-        let changeSet = StagedChangeset(source: episodes, target: newData, section: 1)
-        DispatchQueue.main.async { [weak self] in
-            self?.onChange(changeSet, true)
-        }
     }
 
     private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
@@ -179,5 +188,44 @@ class PlaylistDetailViewModel: ObservableObject {
             }
         }
         return list
+    }
+}
+
+extension PlaylistDetailViewModel {
+    func clearSearch() {
+        searchTerm = ""
+        episodes = tempEpisodes
+    }
+
+    func endSearch() {
+        isSearching = false
+        searchTerm = ""
+        episodes = tempEpisodes
+        tempEpisodes.removeAll()
+
+        reloadPlaylistAndEpisodes()
+    }
+
+    func startSearch() {
+        if isSearching {
+            return
+        }
+        isSearching = true
+        tempEpisodes = episodes
+    }
+
+    func searchEpisodes(for searchTerm: String) {
+        if searchTerm.isEmpty {
+            return
+        }
+        self.searchTerm = searchTerm
+        let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
+        let newData = episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        let contentChanged = !episodes.isContentEqual(to: newData)
+        let changedData = contentChanged ? newData : episodes
+        let changeSet = StagedChangeset(source: episodes, target: changedData, section: 1)
+        DispatchQueue.main.async { [weak self] in
+            self?.onChange(changeSet, true, contentChanged)
+        }
     }
 }
