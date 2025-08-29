@@ -933,4 +933,5 @@ enum AnalyticsEvent: String {
     // MARK: - Banner Ads
     case bannerAdImpression
     case bannerAdTapped
+    case bannerAdReport
 }

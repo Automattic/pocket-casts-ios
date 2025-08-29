@@ -5280,6 +5280,9 @@
 /* The title of an option to report a banner ad as occurring too often. */
 "banner_ads_report_too_often" = "See this ad too often";
 
+/* The title shown in a Toast after reporting a banner ad. */
+"banner_ads_report_confirmation" = "You reported this ad.";
+
 /* The title of an option to report a banner ad as "other". */
 "banner_ads_report_other" = "Other";
 /* Episodes will be displayed in based on season and episode numbers*/

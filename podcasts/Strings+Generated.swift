@@ -320,6 +320,8 @@ internal enum L10n {
   internal static var bannerAdsReportAdTitle: String { return L10n.tr("Localizable", "banner_ads_report_ad_title", fallback: "Why are you reporting this ad?") }
   /// The title of an option to report a specific banner ad for one of several reasons.
   internal static var bannerAdsReportBroken: String { return L10n.tr("Localizable", "banner_ads_report_broken", fallback: "This ad seems broken") }
+  /// The title shown in a Toast after reporting a banner ad.
+  internal static var bannerAdsReportConfirmation: String { return L10n.tr("Localizable", "banner_ads_report_confirmation", fallback: "You reported this ad.") }
   /// The title of an option to report a banner ad as malicious.
   internal static var bannerAdsReportMalicious: String { return L10n.tr("Localizable", "banner_ads_report_malicious", fallback: "This is a malicious ad") }
   /// The title of an option to report a banner ad as "other".
