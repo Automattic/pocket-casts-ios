@@ -389,11 +389,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .userSatisfactionSurvey:
             true
         case .concurrentDatabaseReads:
-            #if DEBUG
             true
-            #else
-            BuildEnvironment.current == .testFlight
-            #endif
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:
