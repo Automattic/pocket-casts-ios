@@ -516,7 +516,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
         let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
-            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+            UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
         let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)

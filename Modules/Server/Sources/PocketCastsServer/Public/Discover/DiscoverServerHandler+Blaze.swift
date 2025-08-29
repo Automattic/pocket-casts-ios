@@ -6,9 +6,11 @@ public struct BlazePromotion: Decodable {
     public let imageURL: URL
     public let urlTitle: String
     public let url: URL
-    public let promotion: PromotionType
+    public let urlAndroid: URL
+    public let urlApple: URL
+    public let location: Location
 
-    public enum PromotionType: String, Decodable {
+    public enum Location: String, Decodable {
         case podcastList
         case player
         case unknown
@@ -33,7 +35,7 @@ extension DiscoverServerHandler {
         return promotions.promotions
     }
 
-    public func blazePromotion(for promotion: BlazePromotion.PromotionType) async -> BlazePromotion? {
-        await blazePromotions()?.first(where: { $0.promotion == promotion })
+    public func blazePromotion(for location: BlazePromotion.Location) async -> BlazePromotion? {
+        await blazePromotions()?.first(where: { $0.location == location })
     }
 }
