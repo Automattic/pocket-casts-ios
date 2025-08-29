@@ -191,8 +191,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// Shows transcript excerpt in episode detail
     case episodeDetailTranscript
 
-    /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
-    case bannerAds
+    /// Include banner ad atop the podcasts list. This is fetched from ths server so can be disabled from there as well.
+    case bannerAdPodcasts
+
+    /// Include the banner ad atop the player screen. This is fetched from ths server so can be disabled from there as well.
+    case bannerAdPlayer
 
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
@@ -368,7 +371,9 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .episodeDetailTranscript:
             true
-        case .bannerAds:
+        case .bannerAdPodcasts:
+            false
+        case .bannerAdPlayer:
             false
         case .streamingCustomSessionConfiguration:
             true
