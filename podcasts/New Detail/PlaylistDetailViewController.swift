@@ -53,6 +53,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
     private var refreshControl: CustomRefreshControl?
+    var keyBoardHeight: CGFloat = .zero
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -65,6 +66,9 @@ class PlaylistDetailViewController: FakeNavViewController {
                 self.tableView.endUpdates()
 
                 if self.isMultiSelectEnabled {
+                    if self.viewModel.isSearching {
+                        self.searchController.searchTextField.resignFirstResponder()
+                    }
                     Analytics.track(.filterMultiSelectEntered)
                     if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                         self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
@@ -193,7 +197,8 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        tableView.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        let keyBoardHeight = viewModel.isSearching ? keyBoardHeight : 0
+        tableView.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset + keyBoardHeight, right: 0)
         tableView.verticalScrollIndicatorInsets = tableView.contentInset
     }
 

@@ -17,5 +17,26 @@ extension PlaylistDetailViewController {
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
+        addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: true)
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    private func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        keyBoardHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
     }
 }

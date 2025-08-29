@@ -3,6 +3,8 @@ import UIKit
 extension PlaylistDetailViewController: PCSearchBarDelegate {
     func searchDidBegin() {
         viewModel.startSearch()
+
+        tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
     }
 
     func searchDidEnd() {
