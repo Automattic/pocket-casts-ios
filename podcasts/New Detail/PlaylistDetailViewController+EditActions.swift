@@ -10,7 +10,7 @@ extension PlaylistDetailViewController {
         let optionsPicker = OptionsPicker(title: nil)
 
         let chromecastAction = OptionAction(label: "Chromecast", icon: "nav_cast_off") {
-//            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "chromecast"])
             self.castButtonTapped()
         }
         optionsPicker.addAction(action: chromecastAction)
@@ -101,7 +101,7 @@ extension PlaylistDetailViewController {
     }
 
     func savePlaylist() {
-        var playlist = self.viewModel.playlist!
+        let playlist = self.viewModel.playlist!
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.update(playlist: playlist)
         DataManager.sharedManager.save(filter: viewModel.playlist)
