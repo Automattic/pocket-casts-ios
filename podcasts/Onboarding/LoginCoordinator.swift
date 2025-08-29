@@ -75,6 +75,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     }
 
     func getStartedTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "get_started"])
         let view = OnboardingRecommendationsView(coordinator: self)
         let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
         hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -83,7 +84,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func recommendationsContinueTapped() {
         socialAuthProvider = nil
-        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "recommendations_continue"])
         let view = LoginLandingView(coordinator: self, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
         let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         hostingController.viewModel = self

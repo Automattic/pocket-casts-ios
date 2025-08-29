@@ -33,6 +33,7 @@ struct DiscoverPodcastsGridView: View {
 
             if podcasts.count > visibleCount {
                 Button(action: {
+                    OnboardingFlow.shared.track(.recommendationsMoreTapped)
                     visibleCount = min(visibleCount + 6, podcasts.count)
                 }) {
                     Text("More \(category.name ?? "Unknown")")

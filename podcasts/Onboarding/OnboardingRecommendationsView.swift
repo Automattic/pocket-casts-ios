@@ -61,6 +61,7 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
+                            OnboardingFlow.shared.track(.recommendationsDismissed)
                             coordinator.recommendationsContinueTapped()
                         }) {
                             Text(L10n.continue)
@@ -91,6 +92,8 @@ struct OnboardingRecommendationsView: View {
                         categories = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
                         self.layout = layout
 
+                        OnboardingFlow.shared.track(.recommendationsShown)
+
                         await loadCategoryPodcasts(layout: layout)
                     }
             }
@@ -114,6 +117,8 @@ struct OnboardingRecommendationsView: View {
             searchResults = []
             return
         }
+
+        OnboardingFlow.shared.track(.recommendationsSearchTapped)
 
         searchTask = Task {
             do {

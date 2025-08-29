@@ -110,6 +110,7 @@ struct IntroCarouselView: View {
 
             VStack(spacing: 16) {
                 Button(L10n.eacInformationalViewModalGetStartedButton) {
+                    OnboardingFlow.shared.track(.onboardingGetStarted)
                     coordinator.getStartedTapped()
                 }
                 .buttonStyle(RoundedButtonStyle(theme: theme))
@@ -124,6 +125,9 @@ struct IntroCarouselView: View {
             .padding(.bottom, 10)
         }
         .modifier(DefaultThemeSettings())
+        .onAppear {
+            OnboardingFlow.shared.track(.onboardingCarouselShown)
+        }
     }
 }
 
