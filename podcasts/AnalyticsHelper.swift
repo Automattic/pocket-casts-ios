@@ -172,6 +172,16 @@ class AnalyticsHelper {
         bumpStat("banner_ad_tapped", parameters: properties)
     }
 
+    class func bannerReport(adID: String, reason: String, source: Any) {
+        let properties = ["id": adID, "promotion": source]
+        Analytics.track(.bannerAdReport, properties: properties)
+        bumpStat("banner_ad_report", parameters: properties)
+        Analytics.track(.bannerAdReport, source: source, properties: [
+            "ad_id": adID,
+            "reason": reason
+        ])
+    }
+
     class func forceTouchPlay() {
         logEvent("play_force_touch", parameters: nil)
     }
