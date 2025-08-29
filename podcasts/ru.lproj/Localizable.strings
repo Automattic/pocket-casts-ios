@@ -1384,6 +1384,18 @@ Pocket Casts на полную мощность.</string>
     <string>часов сохранено</string>
     <key>how_to_upload_explanation</key>
     <string>Сначала откройте приложение, содержащее аудиофайлы, которые вы хотите сохранить.</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>Копировать в Pocket Casts</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>Прочее</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>В меню нажмите «Копировать в Pocket Casts».</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>Аудиофайл</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>Настройка меню</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>Поделитесь этим файлом</string>
     <key>how_to_upload_summary</key>
     <string>Всё готово! Измените любые настройки по своему вкусу, нажмите «Сохранить» и слушайте!</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1662,6 +1674,14 @@ Pocket Casts на полную мощность.</string>
     <string>Переходите из другого приложения? Перенесите все любимые шоу в Pocket Casts.</string>
     <key>notifications_onboarding_import_title</key>
     <string>Импортируйте подкасты без проблем</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>Лучшее из подкастов, раз в месяц</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>Подпишитесь на нашу рассылку</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>Получать новости, предложения подкастов и др.</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>Получать уведомления</string>
     <key>notifications_onboarding_signup_body</key>
     <string>Создайте бесплатную учётную запись, чтобы синхронизировать шоу и прослушивать их на любых устройствах.</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1690,6 +1710,8 @@ Pocket Casts на полную мощность.</string>
     <string>Разрешите уведомления в настройках устройства</string>
     <key>notifications_permissions_open_settings</key>
     <string>Открыть настройки</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>Сохранить настройки</string>
     <key>notifications_permissions_title</key>
     <string>Будьте в курсе событий!</string>
     <key>notifications_play_now</key>
@@ -1734,6 +1756,10 @@ Pocket Casts на полную мощность.</string>
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>Вот несколько отличных шоу для начала. Нажмите, чтобы подписаться, искать или импортировать из других приложений.</string>
+    <key>onboarding_recommendations_title</key>
+    <string>Надеемся, вам понравятся эти предложения!</string>
     <key>only_on_unmetered_wifi</key>
     <string>Только в сетях Wi-Fi без тарификации</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1977,10 +2003,36 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка воспроизведения</string>
     <key>player_user_episode_upload_error</key>
     <string>Ошибка загрузки</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>Создать плейлист</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>Автоматически добавлять выпуски на основе правил.</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>Преобразовать в умный плейлист</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>Новые подкасты, на которые вы будете подписываться, станут добавляться автоматически.</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>Новые подкасты, на которые вы будете подписываться, не будут добавляться автоматически.</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>Все подкасты в подписках</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>Сохранить умное правило</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>Отмеченные выпуски могут по-прежнему отображаться при условии соответствия остальным правилам.</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>Включать только отмеченные выпуски, которые соответствуют остальным правилам.</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>Отмеченные выпуски</string>
     <key>playlists</key>
     <string>Плейлисты</string>
+    <key>playlists_default_new_playlist</key>
+    <string>Новый плейлист</string>
+    <key>playlists_empty_state_description</key>
+    <string>Плейлисты позволяют упорядочивать выпуски вручную или автоматически по умным правилам.</string>
     <key>playlists_empty_state_title</key>
     <string>Слушайте выпуски в нужном вам порядке</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>Управляйте прослушиванием. Создавайте собственные плейлисты — в поездку, по темам или просто под настроение. Любой плейлист — умный или пользовательский — должен вам подходить.</string>
     <key>playlists_onboarding_manual_title</key>
     <string>Знакомьтесь: плейлисты</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3075,16 +3127,24 @@ Pocket Casts на полную мощность.</string>
     <string>Заметки</string>
     <key>sign_in</key>
     <string>Войти</string>
+    <key>sign_in_continue_with_email</key>
+    <string>Чтобы продолжить, введите адрес электронной почты</string>
+    <key>sign_in_divider_label</key>
+    <string>ИЛИ</string>
     <key>sign_in_email_address_prompt</key>
     <string>Адрес электронной почты</string>
     <key>sign_in_forgot_password</key>
     <string>Я не помню свой пароль</string>
+    <key>sign_in_hide_password_label</key>
+    <string>Показать пароль</string>
     <key>sign_in_message</key>
     <string>Сохраняйте подписки на подкасты в облаке и синхронизируйте данные о прослушивании с другими устройствами.</string>
     <key>sign_in_password_prompt</key>
     <string>Пароль</string>
     <key>sign_in_prompt</key>
     <string>Войти или создать учетную запись</string>
+    <key>sign_in_show_password_label</key>
+    <string>Скрыть пароль</string>
     <key>signed_in_as</key>
     <string>ВЫПОЛНЕН ВХОД КАК</string>
     <key>signed_out</key>

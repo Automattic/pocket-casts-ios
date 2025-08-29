@@ -12,54 +12,59 @@ extension WatchManager {
         // check that the user actually has a watch and it's connected
         guard WCSession.isSupported() else {
             completion(nil)
-
             return
         }
 
         let session = WCSession.default
         if session.activationState != .activated || session.isPaired == false || session.isWatchAppInstalled == false {
             completion(cachedLog)
-
             return
         }
 
         // Hold a local reference so we don't potentially run into a deallocated `self` when the below blocks are run.
         let cachedLog = self.cachedLog
 
-        // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
-        var haveCalledCompletion = false
-        logFileRequestTask = Task { [cachedLog] in
-            try? await Task.sleep(for: .seconds(5))
-            if haveCalledCompletion { return }
+        // Use an actor to ensure thread-safe completion handling
+        let completionHandler = CompletionHandler(cachedLog: cachedLog, completion: completion)
 
-            haveCalledCompletion = true
-            completion(cachedLog)
+        // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
+        logFileRequestTask = Task { [weak self, completionHandler] in
+            try? await Task.sleep(for: .seconds(5))
+            await completionHandler.callCompletionIfNeeded(with: cachedLog)
+            self?.logFileRequestTask = nil
         }
 
         // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
         let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
         session.sendMessage(logRequestMessage, replyHandler: { [weak self] response in
-            if haveCalledCompletion { return }
-            haveCalledCompletion = true
+            Task { [weak self, completionHandler] in
+                self?.logFileRequestTask?.cancel()
+                self?.logFileRequestTask = nil
 
-            self?.logFileRequestTask?.cancel()
-            if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
-                self?.cachedLog = logContents
-                if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                    self?.saveLog(contents: logContents)
+                if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
+                    self?.cachedLog = logContents
+                    if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                        self?.saveLog(contents: logContents)
+                    }
+                    await completionHandler.callCompletionIfNeeded(with: logContents)
+                } else {
+                    await completionHandler.callCompletionIfNeeded(with: cachedLog)
                 }
-                completion(logContents)
-            } else {
-                completion(cachedLog)
             }
+        }) { [weak self] error in
+            Task { [weak self, completionHandler] in
+                self?.logFileRequestTask?.cancel()
+                self?.logFileRequestTask = nil
 
-        }) { error in
-            if haveCalledCompletion { return }
-            haveCalledCompletion = true
+                // To avoid spamming the logs, we'll only log errors unrelated to unreachable
+                let nsError = error as NSError
+                if nsError.domain == WCErrorDomain,
+                   nsError.code == WCError.Code.notReachable.rawValue {
+                    FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
+                }
 
-            FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
-
-            completion(cachedLog)
+                await completionHandler.callCompletionIfNeeded(with: cachedLog)
+            }
         }
     }
 
@@ -79,5 +84,23 @@ extension WatchManager {
         } catch let error {
             FileLog.shared.addMessage("Failed to save cached watch log file: \(error.localizedDescription)")
         }
+    }
+}
+
+// MARK: - Helper Actor for Thread-Safe Completion Handling
+actor CompletionHandler {
+    private var hasCalledCompletion = false
+    private let cachedLog: String?
+    private let completion: (String?) -> Void
+
+    init(cachedLog: String?, completion: @escaping (String?) -> Void) {
+        self.cachedLog = cachedLog
+        self.completion = completion
+    }
+
+    func callCompletionIfNeeded(with result: String?) {
+        guard !hasCalledCompletion else { return }
+        hasCalledCompletion = true
+        completion(result)
     }
 }

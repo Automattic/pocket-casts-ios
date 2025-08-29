@@ -7,10 +7,14 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
         super.viewWillAppear(animated)
         guard let viewModel = viewModel as? LoginCoordinator else { return }
 
-        let imageView = ThemeableImageView(frame: .zero)
-        imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
-        imageView.accessibilityLabel = L10n.setupAccount
-        navigationItem.titleView = imageView
+        if !FeatureFlag.newOnboardingAccountCreation.enabled {
+            let imageView = ThemeableImageView(frame: .zero)
+            imageView.imageNameFunc = AppTheme.pcLogoSmallHorizontalForBackgroundImageName
+            imageView.accessibilityLabel = L10n.setupAccount
+            navigationItem.titleView = imageView
+        }
+
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         if navigationController?.viewControllers.first == self {
             let dismissItem: UIBarButtonItem
@@ -22,6 +26,13 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
                 dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
                                                     NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
             }
+            navigationItem.rightBarButtonItem = dismissItem
+        }
+
+        if FeatureFlag.newOnboardingAccountCreation.enabled {
+            let dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
+            dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
+                                                NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
             navigationItem.rightBarButtonItem = dismissItem
         }
 

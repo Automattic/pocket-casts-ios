@@ -1686,6 +1686,10 @@ internal enum L10n {
   internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title", fallback: "No episodes found") }
   /// Progress indicator informing the user that the selected item is still loading.
   internal static var loading: String { return L10n.tr("Localizable", "loading", fallback: "Loading...") }
+  /// Subtitle of the login view
+  internal static var loginLandingSubtitle: String { return L10n.tr("Localizable", "login_landing_subtitle", fallback: "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.") }
+  /// Title of the login view
+  internal static var loginLandingTitle: String { return L10n.tr("Localizable", "login_landing_title", fallback: "Create your Pocket Casts account") }
   /// Subtitle of the login marketing view
   internal static var loginSubtitle: String { return L10n.tr("Localizable", "login_subtitle", fallback: "Create an account to sync your listening experience across all your devices.") }
   /// Title of the login marketing view
