@@ -429,10 +429,6 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
         self.id = id
         self.name = name
     }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id ?? -1)
-    }
 }
 
 public struct DiscoverSource: Decodable, Equatable {
