@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import WrappingHStack
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
@@ -96,18 +97,15 @@ struct InterestsView: View {
                 .tint(theme.primaryInteractive01)
             }
             .padding(12)
-            GeometryReader { geometryProxy in
+            ZStack {
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         header
                         Spacer().frame(height: 40)
-                        FlexibleView(
-                            availableWidth: geometryProxy.size.width,
-                            data: viewModel.categories,
-                            spacing: 8,
-                            alignment: .center
-                        ) { category in
-                            categoryButton(for: category, index: viewModel.positionOfCategory(category) ?? 0).transition(.move(edge: .bottom))
+                        WrappingHStack(alignment: .center, horizontalSpacing: 8, verticalSpacing: 8, fitContentWidth: false) {
+                            ForEach(viewModel.categories, id: \.self) { category in
+                                categoryButton(for: category, index: viewModel.positionOfCategory(category) ?? 0).transition(.move(edge: .bottom))
+                            }
                         }
                         if !showMore {
                             Spacer().frame(height: 40)

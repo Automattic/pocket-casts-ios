@@ -2109,8 +2109,8 @@
 		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
+		FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = FFBCADEA2E6578F900EA8287 /* WrappingHStack */; };
 		FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */; };
-		FFBDF6FE2E5728DB00A969B3 /* FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFC8D6612E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */; };
 		FFCCF6C02E2E87FE00BFC9E5 /* PreSelectChaptersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */; };
@@ -4213,7 +4213,6 @@
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestButton.swift; sourceTree = "<group>"; };
-		FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleView.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextShuffleAnimationView.swift; sourceTree = "<group>"; };
 		FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreSelectChaptersAnimationView.swift; sourceTree = "<group>"; };
@@ -4320,6 +4319,7 @@
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
+				FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */,
 				F5FFC2352DBAF06D0091429C /* FacebookCore in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
@@ -7858,7 +7858,6 @@
 		C7B3C618291AD03400054145 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				FFBDF6FD2E5728DB00A969B3 /* FlexibleView.swift */,
 				FF92951F2E54E33300FE847E /* InterestsView.swift */,
 				FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */,
 				F5E7041A2E4ED71A00C39FA4 /* DiscoverPodcastsGridView.swift */,
@@ -9067,6 +9066,7 @@
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				F5FFC2342DBAF06D0091429C /* FacebookCore */,
 				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
+				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -9258,6 +9258,7 @@
 				9A11FC912D91CBF300A1EF3E /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */,
 				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 				F5FFC2312DBAF0340091429C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11183,7 +11184,6 @@
 				BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */,
 				10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */,
 				FF0753922D70D6DF00BE8B3B /* SuggestedFoldersModel.swift in Sources */,
-				FFBDF6FE2E5728DB00A969B3 /* FlexibleView.swift in Sources */,
 				C7CA0559293E8918000E41BD /* HolographicEffect.swift in Sources */,
 				BD0F6D7B24BD60FF00EDFB99 /* FilterDurationViewController.swift in Sources */,
 				8BAD2EB42AEE9620006264B3 /* PaidStoryWallView.swift in Sources */,
@@ -13987,6 +13987,14 @@
 				minimumVersion = 1.8.3;
 			};
 		};
+		FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -14204,6 +14212,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */;
 			productName = SwiftSubtitles;
+		};
+		FFBCADEA2E6578F900EA8287 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
