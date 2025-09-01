@@ -424,6 +424,8 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
     public var name: String?
     public var source: String?
     public var icon: String?
+    public var popularity: Int?
+    public var sourceOnboarding: String?
 
     public init(id: Int?, name: String?) {
         self.id = id
@@ -432,6 +434,15 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id ?? -1)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case source
+        case icon
+        case popularity
+        case sourceOnboarding = "source_onboarding"
     }
 }
 
