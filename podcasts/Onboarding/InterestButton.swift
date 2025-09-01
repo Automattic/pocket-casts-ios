@@ -143,9 +143,9 @@ struct InterestButton: View {
         var selectedForegroundColor: Color {
             switch self {
                 case .yellow:
-                    return Color(hex: "#592D00")
+                    return Color(hex: "#B25900")
                 case .green:
-                    return Color(hex: "#1E4316")
+                    return Color(hex: "#3B862D")
                 default:
                     return .white
             }
