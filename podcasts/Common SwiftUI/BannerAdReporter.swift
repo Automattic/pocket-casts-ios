@@ -36,10 +36,7 @@ struct BannerAdReporter {
     /// Shows the ad reporting bottom sheet with options to report various problems with an ad
     static func show(for adID: String, from source: Any) {
         func handle(action: ReportActionType) {
-            Analytics.track(.bannerAdReport, source: source, properties: [
-                "ad_id": adID,
-                "reason": action.analyticsValue
-            ])
+            AnalyticsHelper.bannerReport(adID: adID, reason: action.analyticsValue, source: source)
             Toast.show(L10n.bannerAdsReportConfirmation)
         }
 
