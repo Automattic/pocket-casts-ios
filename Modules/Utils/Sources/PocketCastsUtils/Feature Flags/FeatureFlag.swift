@@ -239,6 +239,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Skips switching player to downloaded file if already playing from the same cached streamed file
     case doNotSwitchToDownloadedFile
 
+    /// Use the new interests and recommendations flow
+    case newOnboardingRecommendationChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -403,6 +406,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .doNotSwitchToDownloadedFile:
             true
+        case .newOnboardingRecommendationChanges:
+            false
         }
     }
 

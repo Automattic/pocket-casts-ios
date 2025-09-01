@@ -8,6 +8,7 @@ struct DeveloperMenu: View {
     @State var showingExporter = false
     @State var showingPlaylistsOnboarding = false
     @State var showingRecommendationsOnboarding = false
+    @State var showingInterestsOnboarding = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
 
@@ -370,6 +371,13 @@ struct DeveloperMenu: View {
                         OnboardingRecommendationsView(coordinator: LoginCoordinator())
                             .environmentObject(Theme.sharedTheme)
                     }
+                }
+                Button("Show Onboarding Interests") {
+                    showingInterestsOnboarding = true
+                }
+                .sheet(isPresented: $showingInterestsOnboarding) {
+                    InterestsView()
+                        .environmentObject(Theme.sharedTheme)
                 }
             } header: {
                 Text("Onboarding")
