@@ -17,55 +17,71 @@ extension WatchManager {
 
         let session = WCSession.default
         if session.activationState != .activated || session.isPaired == false || session.isWatchAppInstalled == false {
-            completion(cachedLog)
+            Task {
+                let log = await logCache.getCachedLog()
+                completion(log)
+            }
             return
         }
 
         // Hold a local reference so we don't potentially run into a deallocated `self` when the below blocks are run.
-        let cachedLog = self.cachedLog
+        Task { [weak self] in
+            guard let self else { return }
+            let cachedLog = await self.logCache.getCachedLog()
 
-        // Use an actor to ensure thread-safe completion handling
-        let completionHandler = CompletionHandler(cachedLog: cachedLog, completion: completion)
+            // Use an actor to ensure thread-safe completion handling
+            let completionHandler = CompletionHandler(cachedLog: cachedLog, completion: completion)
 
-        // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
-        let task = Task { [weak self, completionHandler] in
-            try? await Task.sleep(for: .seconds(5))
-            await completionHandler.callCompletionIfNeeded(with: cachedLog)
-            await self?.logTaskManager.clearTask()
-        }
-        
-        Task {
+            // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
+            let task = Task { [weak self, completionHandler] in
+                try? await Task.sleep(for: .seconds(5))
+                let cachedLogForTimeout = await self?.logCache.getCachedLog()
+                await completionHandler.callCompletionIfNeeded(with: cachedLogForTimeout)
+                await self?.logTaskManager.clearTask()
+            }
+
             await logTaskManager.setTask(task)
-        }
 
-        // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
-        let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
-        session.sendMessage(logRequestMessage, replyHandler: { [weak self] response in
-            Task { [weak self, completionHandler] in
-                await self?.logTaskManager.cancelCurrentTask()
+            // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
+            let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
+            session.sendMessage(logRequestMessage, replyHandler: { [weak self] response in
+                Task { [weak self, completionHandler] in
+                    await self?.logTaskManager.cancelCurrentTask()
 
-                if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
-                    self?.cachedLog = logContents
-                    if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                        self?.saveLog(contents: logContents)
+                    if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
+                        await self?.logCache.setCachedLog(logContents)
+                        if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                            self?.saveLog(contents: logContents)
+                        }
+                        await completionHandler.callCompletionIfNeeded(with: logContents)
+                    } else {
+                        let cachedLog = await self?.logCache.getCachedLog()
+                        await completionHandler.callCompletionIfNeeded(with: cachedLog)
                     }
-                    await completionHandler.callCompletionIfNeeded(with: logContents)
-                } else {
+                }
+            }) { [weak self] error in
+                Task { [weak self, completionHandler] in
+                    await self?.logTaskManager.cancelCurrentTask()
+
+                    // To avoid spamming the logs, we'll only log errors unrelated to unreachable
+                    let nsError = error as NSError
+                    if nsError.domain == WCErrorDomain,
+                       nsError.code == WCError.Code.notReachable.rawValue {
+                        FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
+                    }
+
+                    let cachedLog = await self?.logCache.getCachedLog()
                     await completionHandler.callCompletionIfNeeded(with: cachedLog)
                 }
             }
-        }) { [weak self] error in
-            Task { [weak self, completionHandler] in
-                await self?.logTaskManager.cancelCurrentTask()
+        }
+    }
 
-                // To avoid spamming the logs, we'll only log errors unrelated to unreachable
-                let nsError = error as NSError
-                if nsError.domain == WCErrorDomain,
-                   nsError.code == WCError.Code.notReachable.rawValue {
-                    FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
-                }
-
-                await completionHandler.callCompletionIfNeeded(with: cachedLog)
+    /// Async wrapper for requestLogFile for cleaner call sites
+    func requestLogFile() async -> String? {
+        await withCheckedContinuation { continuation in
+            requestLogFile { result in
+                continuation.resume(returning: result)
             }
         }
     }
