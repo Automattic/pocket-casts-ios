@@ -28,18 +28,21 @@ extension WatchManager {
         let completionHandler = CompletionHandler(cachedLog: cachedLog, completion: completion)
 
         // since we don't know how long it takes for a send message to timeout, wait only 5 seconds for a watch response before giving up here
-        logFileRequestTask = Task { [weak self, completionHandler] in
+        let task = Task { [weak self, completionHandler] in
             try? await Task.sleep(for: .seconds(5))
             await completionHandler.callCompletionIfNeeded(with: cachedLog)
-            self?.logFileRequestTask = nil
+            await self?.logTaskManager.clearTask()
+        }
+        
+        Task {
+            await logTaskManager.setTask(task)
         }
 
         // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
         let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
         session.sendMessage(logRequestMessage, replyHandler: { [weak self] response in
             Task { [weak self, completionHandler] in
-                self?.logFileRequestTask?.cancel()
-                self?.logFileRequestTask = nil
+                await self?.logTaskManager.cancelCurrentTask()
 
                 if let logContents = response[WatchConstants.Messages.LogFileRequest.logContents] as? String {
                     self?.cachedLog = logContents
@@ -53,8 +56,7 @@ extension WatchManager {
             }
         }) { [weak self] error in
             Task { [weak self, completionHandler] in
-                self?.logFileRequestTask?.cancel()
-                self?.logFileRequestTask = nil
+                await self?.logTaskManager.cancelCurrentTask()
 
                 // To avoid spamming the logs, we'll only log errors unrelated to unreachable
                 let nsError = error as NSError

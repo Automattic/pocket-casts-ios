@@ -7,7 +7,7 @@ import WatchConnectivity
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
-    var logFileRequestTask: Task<Void, Never>?
+    let logTaskManager = LogTaskManager()
 
     // The last retrieved log is cached here for the duration of this session
     var cachedLog: String? = nil
@@ -603,5 +603,24 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         return nil
+    }
+}
+
+// MARK: - Actor for Thread-Safe Task Management
+actor LogTaskManager {
+    private var currentTask: Task<Void, Never>?
+    
+    func setTask(_ task: Task<Void, Never>) {
+        cancelCurrentTask()
+        currentTask = task
+    }
+    
+    func cancelCurrentTask() {
+        currentTask?.cancel()
+        currentTask = nil
+    }
+    
+    func clearTask() {
+        currentTask = nil
     }
 }
