@@ -4009,6 +4009,12 @@
 /* Subtitle of the login marketing view */
 "login_subtitle" = "Create an account to sync your listening experience across all your devices.";
 
+/* Title of the login view */
+"login_landing_title" = "Create your Pocket Casts account";
+
+/* Subtitle of the login view */
+"login_landing_subtitle" = "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.";
+
 /* Title of the plus marketing view */
 "plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 
@@ -5273,6 +5279,9 @@
 
 /* The title of an option to report a banner ad as occurring too often. */
 "banner_ads_report_too_often" = "See this ad too often";
+
+/* The title shown in a Toast after reporting a banner ad. */
+"banner_ads_report_confirmation" = "You reported this ad.";
 
 /* The title of an option to report a banner ad as "other". */
 "banner_ads_report_other" = "Other";

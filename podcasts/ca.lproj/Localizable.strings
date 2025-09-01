@@ -2903,7 +2903,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_general_smart_playback_subtitle</key>
     <string>Si està activat, Pocket Casts retrocedirà una mica els episodis que reprenguis perquè puguis posar-te al dia fàcilment.</string>
     <key>settings_general_up_next_swipe</key>
-    <string>Quan es llisca per a incloure a la cua</string>
+    <string>Si es llisca per a posar a la cua</string>
     <key>settings_general_up_next_tap</key>
     <string>Reproduir la cua en prémer</string>
     <key>settings_general_up_next_tap_off_subtitle</key>
@@ -3017,7 +3017,7 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <key>settings_storage</key>
     <string>Emmagatzematge i ús de dades</string>
     <key>settings_storage_data_warning</key>
-    <string>Avisar abans d'emprar les dades</string>
+    <string>Avisar abans de consumir dades</string>
     <key>settings_storage_downloads_starred</key>
     <string>Incloure destacats</string>
     <key>settings_storage_mobile_data</key>

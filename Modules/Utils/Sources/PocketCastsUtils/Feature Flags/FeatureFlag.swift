@@ -5,6 +5,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
+    /// Whether logging the theme properties in the Tracks events
+    case appThemePropertiesLogging
+
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
@@ -188,8 +191,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// Shows transcript excerpt in episode detail
     case episodeDetailTranscript
 
-    /// Include banner ads in the player and podcasts list. This is fetched from ths server so can be disabled from there as well.
-    case bannerAds
+    /// Include banner ad atop the podcasts list. This is fetched from ths server so can be disabled from there as well.
+    case bannerAdPodcasts
+
+    /// Include the banner ad atop the player screen. This is fetched from ths server so can be disabled from there as well.
+    case bannerAdPlayer
 
     /// Improves configuration for the streaming requet download session
     case streamingCustomSessionConfiguration
@@ -248,6 +254,12 @@ public enum FeatureFlag: String, CaseIterable {
         switch self {
         case .tracksLogging:
             false
+        case .appThemePropertiesLogging:
+            if BuildEnvironment.current == .debug {
+                false
+            } else {
+                true
+            }
         case .firebaseLogging:
             false
         case .appsFlyerLogging:
@@ -362,7 +374,9 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .episodeDetailTranscript:
             true
-        case .bannerAds:
+        case .bannerAdPodcasts:
+            false
+        case .bannerAdPlayer:
             false
         case .streamingCustomSessionConfiguration:
             true
@@ -383,11 +397,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .userSatisfactionSurvey:
             true
         case .concurrentDatabaseReads:
-            #if DEBUG
             true
-            #else
-            BuildEnvironment.current == .testFlight
-            #endif
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:

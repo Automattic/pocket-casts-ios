@@ -3,9 +3,9 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-
-
 struct OnboardingRecommendationsView: View {
+
+    let coordinator: LoginCoordinator
 
     @State var categories: [DiscoverCategory] = []
     @State var layout: DiscoverLayout?
@@ -61,7 +61,8 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
-                            //TODO: Implement this
+                            OnboardingFlow.shared.track(.recommendationsDismissed)
+                            coordinator.recommendationsContinueTapped()
                         }) {
                             Text(L10n.continue)
                                 .textStyle(RoundedButton())
@@ -91,8 +92,18 @@ struct OnboardingRecommendationsView: View {
                         categories = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
                         self.layout = layout
 
+                        OnboardingFlow.shared.track(.recommendationsShown)
+
                         await loadCategoryPodcasts(layout: layout)
                     }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(L10n.import) {
+                    showingImport = true
+                }
+                .tint(theme.primaryInteractive01)
             }
         }
         .background(theme.primaryInteractive02)
@@ -106,6 +117,8 @@ struct OnboardingRecommendationsView: View {
             searchResults = []
             return
         }
+
+        OnboardingFlow.shared.track(.recommendationsSearchTapped)
 
         searchTask = Task {
             do {
@@ -153,16 +166,6 @@ struct OnboardingRecommendationsView: View {
 
     @ViewBuilder func header() -> some View {
         VStack(spacing: 16) {
-            HStack {
-                Spacer()
-                Button(L10n.import) {
-                    showingImport = true
-                    OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": "recommendations_header"])
-                }
-                .tint(theme.primaryInteractive01)
-            }
-            .padding(.horizontal, 20)
-
             VStack(alignment: .center, spacing: 16) {
                 Text(L10n.onboardingRecommendationsTitle)
                     .font(.title.weight(.bold))
@@ -198,7 +201,7 @@ struct OnboardingRecommendationsView: View {
     }
 
     @ViewBuilder func searchBar() -> some View {
-        PCSearchView(searchTerm: $searchTerm)
+        PCSearchView(searchTerm: $searchTerm, shouldShowCancelButton: true)
             .frame(height: PCSearchView.defaultHeight)
     }
 
@@ -214,6 +217,6 @@ struct OnboardingRecommendationsView: View {
 }
 
 #Preview("Live") {
-    OnboardingRecommendationsView()
+    OnboardingRecommendationsView(coordinator: LoginCoordinator())
         .environmentObject(Theme(previewTheme: .extraDark))
 }

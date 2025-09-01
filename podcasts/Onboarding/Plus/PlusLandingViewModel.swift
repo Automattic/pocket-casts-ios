@@ -64,7 +64,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         }
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
-        guard source == .accountCreated else {
+        guard source == .accountCreated && !FeatureFlag.newOnboardingAccountCreation.enabled else {
             navigationController?.dismiss(animated: true)
             return
         }

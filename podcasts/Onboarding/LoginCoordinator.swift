@@ -8,6 +8,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
     var continuePurchasing: ProductInfo? = nil
+    var isOnboarding: Bool = false
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -71,6 +72,23 @@ class LoginCoordinator: NSObject, OnboardingModel {
         let controller = NewEmailViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func getStartedTapped() {
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "get_started"])
+        let view = OnboardingRecommendationsView(coordinator: self)
+        let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+        hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    func recommendationsContinueTapped() {
+        socialAuthProvider = nil
+        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "recommendations_continue"])
+        let view = LoginLandingView(coordinator: self, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+        let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+        hostingController.viewModel = self
+        navigationController?.pushViewController(hostingController, animated: true)
     }
 
     @objc func dismissTapped() {
@@ -237,13 +255,24 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil, isOnboarding: Bool = false) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
+        coordinator.isOnboarding = isOnboarding
 
-        let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
-        let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
-        controller.viewModel = coordinator
+        let controller: UIViewController
+
+        if FeatureFlag.newOnboardingAccountCreation.enabled && isOnboarding {
+            let view = IntroCarouselView(coordinator: coordinator)
+                .setupDefaultEnvironment()
+            let hostingController = IntroCarouselHostingController(rootView: view)
+            controller = hostingController
+        } else {
+            let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+            let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
+            hostingController.viewModel = coordinator
+            controller = hostingController
+        }
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         if FeatureFlag.fullScreenLogin.enabled {

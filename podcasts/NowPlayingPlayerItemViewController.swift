@@ -246,7 +246,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private func loadBannerAd() {
 #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+        if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
+            removeBannerAd()
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
                     guard Task.isCancelled == false else { return }
@@ -275,7 +276,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         resizeControls()
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             updateBannerAdHeight()
         }
         #endif
@@ -308,7 +309,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         removeAllCustomObservers()
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             removeBannerAd()
         }
         #endif
@@ -323,7 +324,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         super.traitCollectionDidChange(previousTraitCollection)
 
         #if !APPCLIP
-        if FeatureFlag.bannerAds.enabled {
+        if FeatureFlag.bannerAdPlayer.enabled {
             // Update banner height when text size category changes
             if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
                 updateBannerAdHeight()
@@ -512,12 +513,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: Banner Ad
 
     func addAdBanner(promotion: BlazePromotion) {
-        removeBannerAd()
-
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
         let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
-            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+            UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
         let adView = BannerAdView(model: model, colors: .playerColors(Theme.sharedTheme)).padding(16)

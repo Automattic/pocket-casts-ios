@@ -1384,6 +1384,18 @@ Pocket Casts Plus</string>
     <string>已省下的時數</string>
     <key>how_to_upload_explanation</key>
     <string>首先找到你要儲存的音訊檔案，開啟檔案所在的應用程式</string>
+    <key>how_to_upload_share_action_image_center_text</key>
+    <string>複製到 Pocket Casts</string>
+    <key>how_to_upload_share_action_image_sides_text</key>
+    <string>其他</string>
+    <key>how_to_upload_share_action_instruction</key>
+    <string>在選單中點選「複製到 Pocket Casts」</string>
+    <key>how_to_upload_share_menu_image_background_button_text</key>
+    <string>音訊檔案</string>
+    <key>how_to_upload_share_menu_image_foreground_menu_option_text</key>
+    <string>選單選項</string>
+    <key>how_to_upload_share_menu_instruction</key>
+    <string>選擇即可分享該檔案</string>
     <key>how_to_upload_summary</key>
     <string>這樣就完成了。視需要變更詳細資訊，按下儲存並播放即可！</string>
     <key>iap_product_monthly_pricing_format</key>
@@ -1662,6 +1674,14 @@ Pocket Casts Plus</string>
     <string>從其他應用程式過來的使用者？ 將所有最愛節目轉移到 Pocket Casts。</string>
     <key>notifications_onboarding_import_title</key>
     <string>輕鬆匯入你的 Podcast</string>
+    <key>notifications_onboarding_newsletter_subtitle</key>
+    <string>每個月一次，獲得所有 Podcast 好康</string>
+    <key>notifications_onboarding_newsletter_title</key>
+    <string>訂閱電子報</string>
+    <key>notifications_onboarding_notifications_subtitle</key>
+    <string>接收新聞、Podcast 建議等內容</string>
+    <key>notifications_onboarding_notifications_title</key>
+    <string>接收通知</string>
     <key>notifications_onboarding_signup_body</key>
     <string>建立免費帳號即可同步你的節目，隨時隨地收聽。</string>
     <key>notifications_onboarding_signup_title</key>
@@ -1690,6 +1710,8 @@ Pocket Casts Plus</string>
     <string>請在裝置設定中允許通知</string>
     <key>notifications_permissions_open_settings</key>
     <string>開啟設定</string>
+    <key>notifications_permissions_save_preferences</key>
+    <string>儲存喜好設定</string>
     <key>notifications_permissions_title</key>
     <string>掌握最新內容！</string>
     <key>notifications_play_now</key>
@@ -1734,6 +1756,10 @@ Pocket Casts Plus</string>
     <string>關閉</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_recommendations_subtitle</key>
+    <string>以下提供一些精彩節目，展開你的旅程。 點選即可追蹤、搜尋，或從其他應用程式匯入。</string>
+    <key>onboarding_recommendations_title</key>
+    <string>希望你喜歡我們推薦的節目！</string>
     <key>only_on_unmetered_wifi</key>
     <string>僅限非計量付費 WiFi</string>
     <key>only_on_unmetered_wifi_details</key>
@@ -1977,10 +2003,36 @@ Pocket Casts Plus</string>
     <string>播放錯誤</string>
     <key>player_user_episode_upload_error</key>
     <string>上傳錯誤</string>
+    <key>playlist_creation_create_playlist_button</key>
+    <string>建立播放清單</string>
+    <key>playlist_creation_create_smart_playlist_button_subtitle</key>
+    <string>根據規則自動新增單集。</string>
+    <key>playlist_creation_create_smart_playlist_button_title</key>
+    <string>彙整成智慧播放清單</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
+    <string>系統會自動新增你追蹤的新 Podcast 節目。</string>
+    <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
+    <string>系統不會自動新增你追蹤的新 Podcast 節目。</string>
+    <key>playlist_smart_rule_podcasts_header_title</key>
+    <string>所有追蹤的 Podcast</string>
+    <key>playlist_smart_rule_save_button</key>
+    <string>儲存智慧規則</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
+    <string>如果標星號的單集符合其他規則，仍會顯示出來。</string>
+    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
+    <string>只包含符合其他規則的標星號單集。</string>
+    <key>playlist_smart_rule_starred_header_title</key>
+    <string>標星號的單集</string>
     <key>playlists</key>
     <string>播放清單</string>
+    <key>playlists_default_new_playlist</key>
+    <string>新播放清單</string>
+    <key>playlists_empty_state_description</key>
+    <string>有了播放清單，你就能透過「智慧規則」手動或自動整理節目內容。</string>
     <key>playlists_empty_state_title</key>
     <string>用自己的方式整理節目內容</string>
+    <key>playlists_onboarding_manual_description</key>
+    <string>收聽體驗我說了算。 建立自訂播放清單，搭配旅遊、佈景主題或目前的氣氛。 無論智慧或自訂播放清單，都能配合你的收聽習慣。</string>
     <key>playlists_onboarding_manual_title</key>
     <string>隆重介紹播放清單</string>
     <key>playlists_onboarding_smart_description</key>
@@ -3075,16 +3127,24 @@ Pocket Casts Plus</string>
     <string>備註</string>
     <key>sign_in</key>
     <string>登入</string>
+    <key>sign_in_continue_with_email</key>
+    <string>繼續使用電子郵件地址登入/註冊</string>
+    <key>sign_in_divider_label</key>
+    <string>或者</string>
     <key>sign_in_email_address_prompt</key>
     <string>電子郵件地址</string>
     <key>sign_in_forgot_password</key>
     <string>我忘記密碼</string>
+    <key>sign_in_hide_password_label</key>
+    <string>顯示密碼</string>
     <key>sign_in_message</key>
     <string>將你的 Podcast 訂閱儲存在雲端，並與其他裝置同步節目進度。</string>
     <key>sign_in_password_prompt</key>
     <string>密碼</string>
     <key>sign_in_prompt</key>
     <string>登入或建立帳號</string>
+    <key>sign_in_show_password_label</key>
+    <string>隱藏密碼</string>
     <key>signed_in_as</key>
     <string>登入身分</string>
     <key>signed_out</key>

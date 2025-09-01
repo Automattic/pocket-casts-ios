@@ -166,7 +166,7 @@ struct BannerAdView: View {
     @ViewBuilder func closeButton() -> some View {
         VStack {
             Button(action: {
-                BannerAdReporter.show()
+                BannerAdReporter.show(for: model.adID, from: model.source)
             }) {
                 Image(systemName: "xmark")
                     .font(.system(size: 12))

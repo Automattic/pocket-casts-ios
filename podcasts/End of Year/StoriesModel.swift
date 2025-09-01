@@ -47,6 +47,10 @@ class StoriesModel: ObservableObject {
         configuration.indicatorHeight
     }
 
+    var indicatorSpacing: CGFloat {
+        configuration.indicatorSpacing
+    }
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration, activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier) {
         self.dataSource = dataSource
         self.configuration = configuration

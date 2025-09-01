@@ -33,11 +33,14 @@ class UpNextHistoryModel: ObservableObject {
             FileLog.shared.addMessage("UpNextHistory: Restoring entries from \(entry) with episodes: [\(episodesUuid.joined(separator: ","))]")
             episodesUuid.forEach { episodeUuid in
                 if let episode = dataManager.findBaseEpisode(uuid: episodeUuid) {
-                    PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
+                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, userInitiated: false)
                 }
             }
             PlaybackManager.shared.queue.bulkOperationDidComplete()
             PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
+
+            let upNextQueueCount = PlaybackManager.shared.upNextQueueCount()
+            FileLog.shared.addMessage("UpNextHistory: Restored Up Next Queue to \(upNextQueueCount) episodes")
         }
     }
 }

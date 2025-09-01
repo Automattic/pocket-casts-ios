@@ -3,8 +3,15 @@ import SwiftUI
 struct PCSearchView: UIViewControllerRepresentable {
     @Binding var searchTerm: String
 
+    let shouldShowCancelButton: Bool
+
     static let defaultIndenting: CGFloat = 16
     static let defaultHeight = PCSearchBarController.defaultHeight
+
+    init(searchTerm: Binding<String>, shouldShowCancelButton: Bool = false) {
+        self._searchTerm = searchTerm
+        self.shouldShowCancelButton = shouldShowCancelButton
+    }
 
     class Coordinator: NSObject, PCSearchBarDelegate {
         var parent: PCSearchView
@@ -34,7 +41,7 @@ struct PCSearchView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> PCSearchBarController {
         let searchController = PCSearchBarController()
-        searchController.shouldShowCancelButton = false
+        searchController.shouldShowCancelButton = shouldShowCancelButton
         searchController.searchDelegate = context.coordinator
         searchController.backgroundColorOverride = UIColor.clear
         searchController.placeholderText = L10n.searchPodcasts

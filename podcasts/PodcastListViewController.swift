@@ -161,7 +161,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func loadBannerAd() {
-        if FeatureFlag.bannerAds.enabled && !SubscriptionHelper.hasActiveSubscription() {
+        if FeatureFlag.bannerAdPodcasts.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask?.cancel()
             bannerTask = Task { [weak self] in
                 if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
@@ -454,7 +454,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func setupBannerAd(promotion: BlazePromotion) {
         bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
-            UIApplication.shared.openSafariVCIfPossible(promotion.url)
+            UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
         isAnimatingBannerAd = true
 
