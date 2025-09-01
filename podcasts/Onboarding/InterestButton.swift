@@ -4,6 +4,7 @@ import Kingfisher
 struct InterestButton: View {
 
     @EnvironmentObject var theme: Theme
+
     let name: String
     let icon: String?
     let isSelected: Bool
@@ -24,11 +25,22 @@ struct InterestButton: View {
         }) {
             HStack {
                 if let icon = icon, let url = URL(string: icon) {
-                    KFImage(url)
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(isSelected ? style.selectedForegroundColor : style.tintColor)
+                    ZStack {
+                        if isSelected {
+                            KFImage(url)
+                                .renderingMode(.template)
+                                .resizable()
+                                .frame(width: Constants.iconSize, height: Constants.iconSize)
+                                .foregroundColor(style.selectedForegroundColor)
+                        } else {
+                            self.style.gradient.mask(
+                                KFImage(url)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: Constants.iconSize, height: Constants.iconSize)
+                            )
+                        }
+                    }.frame(width: Constants.iconSize, height: Constants.iconSize)
                 }
                 Text(name)
                     .font(.title3.weight(.medium))
@@ -146,7 +158,9 @@ struct InterestButton: View {
             static let vertical: CGFloat = 12
         }
 
-        static let cornerRadius: CGFloat = 102
+        static let cornerRadius = CGFloat(102)
+
+        static let iconSize = CGFloat(24)
     }
 }
 
