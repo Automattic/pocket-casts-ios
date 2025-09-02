@@ -61,7 +61,7 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
-                            OnboardingFlow.shared.track(.recommendationsDismissed)
+                            OnboardingFlow.shared.track(.recommendationsContinueTapped, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
                             coordinator.recommendationsContinueTapped()
                         }) {
                             Text(L10n.continue)
@@ -102,12 +102,16 @@ struct OnboardingRecommendationsView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(L10n.import) {
                     showingImport = true
+                    Analytics.track(.recommendationsImportTapped)
                 }
                 .tint(theme.primaryInteractive01)
             }
         }
         .background(theme.primaryInteractive02)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
+        .onDisappear {
+            Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
+        }
     }
 
     private func performSearch(term: String) {

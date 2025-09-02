@@ -4,7 +4,7 @@
 
 7.97
 -----
-
+- Enable Banner Ads in the Podcasts list and Player for free users [#3459](https://github.com/Automattic/pocket-casts-ios/pull/3459)
 
 7.96
 -----
