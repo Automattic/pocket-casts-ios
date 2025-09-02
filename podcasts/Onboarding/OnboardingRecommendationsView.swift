@@ -109,6 +109,9 @@ struct OnboardingRecommendationsView: View {
         }
         .background(theme.primaryInteractive02)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
+        .onDisappear {
+            Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
+        }
     }
 
     private func performSearch(term: String) {
