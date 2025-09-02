@@ -102,6 +102,9 @@ struct InterestsView: View {
             } else {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryIcon01))
+                    .onAppear {
+                        OnboardingFlow.shared.track(.onboardingInterestsShown)
+                    }
                     .task {
                         await viewModel.load()
                     }
@@ -114,6 +117,7 @@ struct InterestsView: View {
             HStack {
                 Spacer()
                 Button(L10n.eoyNotNow) {
+                    OnboardingFlow.shared.track(.onboardingInterestsNotNowTapped)
                     dismiss()
                 }
                 .tint(theme.primaryInteractive01)
@@ -147,6 +151,7 @@ struct InterestsView: View {
     @ViewBuilder func categoryButton(for category: DiscoverCategory, index: Int) -> some View {
         let isSelected = viewModel.isSelectedCategory(category)
         InterestButton(name: category.name ?? "", icon: category.icon, isSelected: isSelected, style: InterestButton.Style.allCases[index % InterestButton.Style.allCases.count]) {
+            OnboardingFlow.shared.track(.onboardingInterestsCategorySelected, properties: ["category_id": "\(category.id ?? -1)", "name": category.name ?? "", "is_selected": !isSelected])
             withAnimation() {
                 viewModel.toggleSelectionOfCategory(category)
             }
@@ -174,6 +179,7 @@ struct InterestsView: View {
         HStack {
             Spacer()
             Button(L10n.interestsShowMoreCategories) {
+                OnboardingFlow.shared.track(.onboardingInterestsShownMoreTapped)
                 showMore.toggle()
                 withAnimation() {
                     viewModel.showAll()
@@ -189,6 +195,7 @@ struct InterestsView: View {
         VStack {
             Button(action: {
                 //TODO: Implement this
+                OnboardingFlow.shared.track(.onboardingInterestsContinueTapped, properties: ["categories": Array(viewModel.selectedCategories)])
             }) {
                 Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
                     .textStyle(RoundedButton())
