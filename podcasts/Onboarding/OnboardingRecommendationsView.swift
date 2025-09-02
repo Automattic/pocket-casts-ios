@@ -102,6 +102,7 @@ struct OnboardingRecommendationsView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(L10n.import) {
                     showingImport = true
+                    Analytics.track(.recommendationsImportTapped)
                 }
                 .tint(theme.primaryInteractive01)
             }
