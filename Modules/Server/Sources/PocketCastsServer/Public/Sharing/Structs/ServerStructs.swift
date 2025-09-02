@@ -432,10 +432,6 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
         self.name = name
     }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id ?? -1)
-    }
-
     enum CodingKeys: String, CodingKey {
         case id
         case name
