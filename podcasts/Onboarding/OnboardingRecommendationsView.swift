@@ -61,7 +61,7 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
-                            OnboardingFlow.shared.track(.recommendationsDismissed)
+                            OnboardingFlow.shared.track(.recommendationsContinueTapped, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
                             coordinator.recommendationsContinueTapped()
                         }) {
                             Text(L10n.continue)

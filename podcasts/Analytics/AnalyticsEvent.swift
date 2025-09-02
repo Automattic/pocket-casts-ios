@@ -758,6 +758,7 @@ enum AnalyticsEvent: String {
     case recommendationsDismissed
     case recommendationsSearchTapped
     case recommendationsMoreTapped
+    case recommendationsContinueTapped
     case recommendationsImportTapped
 
     // MARK: - Cancel
