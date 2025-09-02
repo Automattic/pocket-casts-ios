@@ -424,10 +424,21 @@ public struct DiscoverCategory: Decodable, Equatable, Sendable, Hashable {
     public var name: String?
     public var source: String?
     public var icon: String?
+    public var popularity: Int?
+    public var sourceOnboarding: String?
 
     public init(id: Int?, name: String?) {
         self.id = id
         self.name = name
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case source
+        case icon
+        case popularity
+        case sourceOnboarding = "source_onboarding"
     }
 }
 

@@ -6,6 +6,28 @@ import WrappingHStack
 
 class InterestsViewModel: ObservableObject, @unchecked Sendable {
 
+    enum CategoryType: Int {
+        case arts = 1
+        case business = 2
+        case comedy = 3
+        case education = 4
+        case leisure = 5
+        case government = 6
+        case healthFitness = 7
+        case kidsFamily = 8
+        case music = 9
+        case news = 10
+        case religionSpirituality = 11
+        case science = 12
+        case societyCulture = 13
+        case sports = 14
+        case technology = 15
+        case tvFilm = 16
+        case fiction = 17
+        case history = 18
+        case trueCrime = 19
+    }
+
     let maxInitialCategories: Int = 12
     let minimumSelectionCount: Int = 3
     var allCategories: [DiscoverCategory] = []
@@ -26,7 +48,7 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         guard let categoriesItem else {
             return
         }
-        let result = (await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)).filter({$0.id != 11})
+        let result = (await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)).filter({$0.id != CategoryType.religionSpirituality.rawValue}).sorted { $0.popularity ?? -1 < $1.popularity ?? -1 }
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             allCategories = result
