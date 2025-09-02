@@ -151,7 +151,7 @@ struct InterestsView: View {
     @ViewBuilder func categoryButton(for category: DiscoverCategory, index: Int) -> some View {
         let isSelected = viewModel.isSelectedCategory(category)
         InterestButton(name: category.name ?? "", icon: category.icon, isSelected: isSelected, style: InterestButton.Style.allCases[index % InterestButton.Style.allCases.count]) {
-            OnboardingFlow.shared.track(.onboardingInterestsCategorySelected, properties: ["category_id": "\(category.id ?? -1)", "name": category.name ?? "", "is_selected": isSelected ? "true" : "false"])
+            OnboardingFlow.shared.track(.onboardingInterestsCategorySelected, properties: ["category_id": "\(category.id ?? -1)", "name": category.name ?? "", "is_selected": !isSelected])
             withAnimation() {
                 viewModel.toggleSelectionOfCategory(category)
             }
