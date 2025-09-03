@@ -698,6 +698,7 @@
 		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
 		9A263EC72DA6C32F00E895B6 /* InformationalBannerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC62DA6C32F00E895B6 /* InformationalBannerType.swift */; };
 		9A263EC92DA6DEFB00E895B6 /* InformationalBannerViewCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC82DA6DEF700E895B6 /* InformationalBannerViewCoordinatorTests.swift */; };
+		9A3033062E68A920006E4985 /* Array+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3033052E68A919006E4985 /* Array+Episode.swift */; };
 		9A463F152E37E4B000D6887A /* PlaylistsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A463F142E37E4B000D6887A /* PlaylistsOnboardingView.swift */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
 		9A4BB1ED2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */; };
@@ -3017,6 +3018,7 @@
 		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
 		9A263EC62DA6C32F00E895B6 /* InformationalBannerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerType.swift; sourceTree = "<group>"; };
 		9A263EC82DA6DEF700E895B6 /* InformationalBannerViewCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinatorTests.swift; sourceTree = "<group>"; };
+		9A3033052E68A919006E4985 /* Array+Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Episode.swift"; sourceTree = "<group>"; };
 		9A463F142E37E4B000D6887A /* PlaylistsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsOnboardingView.swift; sourceTree = "<group>"; };
 		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
 		9A4BB1EC2D3AB06700B68D94 /* AnalyticsAppThemeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProviderTests.swift; sourceTree = "<group>"; };
@@ -7648,6 +7650,7 @@
 				8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */,
 				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
 				F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */,
+				9A3033052E68A919006E4985 /* Array+Episode.swift */,
 				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 				C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */,
 				C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */,
@@ -10352,6 +10355,7 @@
 				FF06AFA72CB692D30099EC9B /* MediaFileHandle.swift in Sources */,
 				BDB5F0C7204504E900437669 /* MultipleActionView.swift in Sources */,
 				40164A6723D696E00043907B /* PromotionViewController.swift in Sources */,
+				9A3033062E68A920006E4985 /* Array+Episode.swift in Sources */,
 				BD93FDA920159B6B00F6EF55 /* PlaylistsViewController+Table.swift in Sources */,
 				C7FF770C291C2C4D0082A464 /* LoginLandingView.swift in Sources */,
 				FCE96E142D922FEF00AC50E3 /* HowToShareMenuImageView.swift in Sources */,
