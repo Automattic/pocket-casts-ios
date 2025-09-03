@@ -66,7 +66,7 @@ extension WatchManager {
                     // To avoid spamming the logs, we'll only log errors unrelated to unreachable
                     let nsError = error as NSError
                     if nsError.domain == WCErrorDomain,
-                       nsError.code == WCError.Code.notReachable.rawValue {
+                       nsError.code != WCError.Code.notReachable.rawValue {
                         FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
                     }
 
