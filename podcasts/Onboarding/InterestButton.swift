@@ -11,6 +11,8 @@ struct InterestButton: View {
     let style: Style
     let action: (() -> Void)?
 
+    @State private var isAnimatingSelection = false
+
     init(name: String, icon: String?, isSelected: Bool = false, style: Style = .red, action: (() -> Void)? = nil) {
         self.name = name
         self.icon = icon
@@ -21,7 +23,7 @@ struct InterestButton: View {
 
     var body: some View {
         Button(action: {
-            action?()
+            doAnimationAndAction()
         }) {
             HStack {
                 if let icon = icon, let url = URL(string: icon) {
@@ -66,6 +68,22 @@ struct InterestButton: View {
                 .stroke(isSelected ? .clear : theme.primaryUi05, lineWidth: 2)
         )
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+        .scaleEffect(isAnimatingSelection ? 1.2 : 1)
+        .rotationEffect(Angle(degrees: isAnimatingSelection ? -3 : 0))
+    }
+
+    private func doAnimationAndAction() {
+        if isSelected {
+            action?()
+        } else {
+            withAnimation(.easeOut(duration: 0.1)) {
+                isAnimatingSelection.toggle()
+            }
+            withAnimation(.interpolatingSpring(stiffness: 600, damping: 15).delay(0.1)) {
+                action?()
+                isAnimatingSelection.toggle()
+            }
+        }
     }
 
     enum Style: Int, CaseIterable {
