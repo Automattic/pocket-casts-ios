@@ -91,7 +91,7 @@ struct UpgradeAccountView: View {
                         } else {
                             UpgradeFeaturesView(features: model.features)
                         }
-                        if model.isFreeTrialAvailable {
+                        if model.isFreeTrialAvailable, FeatureFlag.newOnboardingUpgradeTrialTimeline.enabled {
                             detailsButton(text: model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink, proxy: proxy)
                             .padding(.bottom, 32)
                             .padding(.top, 16)
