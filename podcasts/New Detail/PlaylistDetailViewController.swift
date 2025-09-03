@@ -4,6 +4,7 @@ import DifferenceKit
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
+
     private(set) var searchController: PCSearchBarController! {
         didSet {
             searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
@@ -16,11 +17,13 @@ class PlaylistDetailViewController: FakeNavViewController {
             addChild(searchController)
         }
     }
+
     lazy private(set) var searchHeaderView: UIView = {
         let header = UIView(frame: .zero)
         header.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
         return header
     }()
+
     private(set) var tableView: ThemeableTable! {
         didSet {
             tableView.themeStyle = .primaryUi02
@@ -38,6 +41,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             registerLongPress()
         }
     }
+
     private lazy var blurHeaderView: UIView = {
         let headerView = PlaylistBlurHeaderView(viewModel: self.viewModel).themedUIView
         headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,14 +50,15 @@ class PlaylistDetailViewController: FakeNavViewController {
         headerView.isUserInteractionEnabled = false
         return headerView
     }()
+
     private var loadingIndicator: ThemeLoadingIndicator! {
         didSet {
             view.addSubview(loadingIndicator)
             loadingIndicator.center = view.center
         }
     }
+
     private var refreshControl: CustomRefreshControl?
-    var keyBoardHeight: CGFloat = .zero
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -97,6 +102,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             }
         }
     }
+
     var selectedEpisodes = [ListEpisode]() {
         didSet {
             multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
@@ -104,9 +110,11 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
 
+    var keyBoardHeight: CGFloat = .zero
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
+
     var multiSelectFooter: MultiSelectFooterView! {
         didSet {
             multiSelectFooter.translatesAutoresizingMaskIntoConstraints = false
@@ -114,14 +122,17 @@ class PlaylistDetailViewController: FakeNavViewController {
             multiSelectFooter.delegate = self
         }
     }
+
     var multiSelectFooterBottomConstraint: NSLayoutConstraint!
     var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+
     var multiSelectAllBtn: UIButton! {
         didSet {
             multiSelectAllBtn.translatesAutoresizingMaskIntoConstraints = false
             multiSelectAllBtn.addTarget(self, action: #selector(selectAllTapped), for: .touchUpInside)
         }
     }
+
     var multiSelectCancelBtn: UIButton! {
         didSet {
             multiSelectCancelBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -129,6 +140,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             multiSelectCancelBtn.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
         }
     }
+
     var multiSelectHeaderView: ThemeableView! {
         didSet {
             multiSelectHeaderView.translatesAutoresizingMaskIntoConstraints = false
@@ -323,6 +335,9 @@ class PlaylistDetailViewController: FakeNavViewController {
         multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
         // we need to do this for scenarios when theme was changed
         updateNavigationBar(position: tableView.contentOffset.y)
+
+        searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
+        searchHeaderView.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
     }
 
     private func setupRefreshControl() {

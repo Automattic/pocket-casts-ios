@@ -15,11 +15,11 @@ extension PlaylistDetailViewController {
         }
         optionsPicker.addAction(action: chromecastAction)
 
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let multiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
-        optionsPicker.addAction(action: MultiSelectAction)
+        optionsPicker.addAction(action: multiSelectAction)
 
         let currentSort = PlaylistSort(rawValue: viewModel.playlist.sortType)?.description ?? ""
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
