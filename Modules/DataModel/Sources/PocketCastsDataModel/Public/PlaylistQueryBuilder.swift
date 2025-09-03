@@ -1,6 +1,6 @@
 import Foundation
 
-public class PlaylistHelper {
+public class PlaylistQueryBuilder {
     public enum SelectClause {
         case episode
         case episodeCount
@@ -67,22 +67,83 @@ public class PlaylistHelper {
     }
 
     private static func add(sortFor sortType: Int32) -> String? {
-        if sortType == PlaylistSort.oldestToNewest.rawValue {
+        guard let sort = PlaylistSort(rawValue: sortType) else {
+            return nil
+        }
+        switch sort {
+        case .oldestToNewest:
             return "ORDER BY episode.publishedDate ASC, episode.addedDate ASC"
-        } else if sortType == PlaylistSort.newestToOldest.rawValue {
+        case .newestToOldest:
             return "ORDER BY episode.publishedDate DESC, episode.addedDate DESC"
-        } else if sortType == PlaylistSort.shortestToLongest.rawValue {
+        case .shortestToLongest:
             return "ORDER BY episode.duration ASC, episode.addedDate ASC"
-        } else if sortType == PlaylistSort.longestToShortest.rawValue {
+        case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
         }
-        return nil
     }
 
     private static func add(smartRulesFor playlist: EpisodeFilter) -> QueryResult {
         var queryString = ""
         var haveStartedWhere = false
-        // Playing Status
+
+        buildPlayingStatusQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildAudioVideoQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildDownloadStatusQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildFilterDurationQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildStarredQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildParticularPodcastsQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        filterUnsubscribedPodcastsQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildFilterHoursQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        queryString += ")"
+
+        return .value(queryString, haveStartedWhere)
+    }
+
+    private static func buildPlayingStatusQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if !(playlist.filterUnplayed && playlist.filterPartiallyPlayed && playlist.filterFinished), playlist.filterUnplayed || playlist.filterPartiallyPlayed || playlist.filterFinished {
             queryString += "("
             if playlist.filterUnplayed {
@@ -102,22 +163,13 @@ public class PlaylistHelper {
             queryString += ") "
             haveStartedWhere = true
         }
+    }
 
-        // Audio & Video
-        if playlist.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
-            if haveStartedWhere { queryString += "AND " }
-
-            queryString += "episode.fileType LIKE 'video%' "
-            haveStartedWhere = true
-        }
-        if playlist.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
-            if haveStartedWhere { queryString += "AND " }
-
-            queryString += "episode.fileType LIKE 'audio%' "
-            haveStartedWhere = true
-        }
-
-        // Download Status
+    private static func buildDownloadStatusQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if !(playlist.filterDownloaded && playlist.filterDownloading && playlist.filterNotDownloaded), playlist.filterDownloaded || playlist.filterDownloading || playlist.filterNotDownloaded {
             if haveStartedWhere { queryString += "AND " }
             queryString += "("
@@ -136,8 +188,33 @@ public class PlaylistHelper {
             queryString += ") "
             haveStartedWhere = true
         }
+    }
 
-        // Duration filtering
+    private static func buildAudioVideoQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if playlist.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'video%' "
+            haveStartedWhere = true
+        }
+
+        if playlist.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'audio%' "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildFilterDurationQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if playlist.filterDuration {
             if haveStartedWhere { queryString += "AND " }
 
@@ -149,16 +226,26 @@ public class PlaylistHelper {
 
             haveStartedWhere = true
         }
+    }
 
-        // Starred only
+    private static func buildStarredQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if playlist.filterStarred {
             if haveStartedWhere { queryString += "AND " }
 
             queryString += "episode.keepEpisode = 1 "
             haveStartedWhere = true
         }
+    }
 
-        // particular podcasts only
+    private static func buildParticularPodcastsQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if !playlist.filterAllPodcasts, playlist.podcastUuids.count > 0, playlist.podcastUuids != "null" {
             if haveStartedWhere { queryString += "AND " }
 
@@ -170,8 +257,13 @@ public class PlaylistHelper {
             queryString += ") "
             haveStartedWhere = true
         }
+    }
 
-        // filter out unsubscribed podcasts
+    private static func filterUnsubscribedPodcastsQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
         if unsubscribedUuids.count > 0 {
             if haveStartedWhere { queryString += "AND " }
@@ -183,18 +275,19 @@ public class PlaylistHelper {
             queryString += ") "
             haveStartedWhere = true
         }
+    }
 
-        // time based filtering
+    private static func buildFilterHoursQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
         if playlist.filterHours > 0 {
             if haveStartedWhere { queryString += "AND " }
 
             queryString += "episode.publishedDate > \(filterTimeFor(hours: playlist.filterHours)) "
-            // haveStartedWhere = true
+             haveStartedWhere = true
         }
-
-        queryString += ")"
-
-        return .value(queryString, haveStartedWhere)
     }
 
     // MARK: - Legacy

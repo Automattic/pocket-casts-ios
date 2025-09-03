@@ -338,7 +338,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     private func handleFilterRequest(filterUuid: String) -> [String: Any] {
         guard let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) else { return [String: Any]() }
 
-        let episodeQuery = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
+        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: episodeQuery, arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()

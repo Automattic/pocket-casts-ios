@@ -14,7 +14,7 @@ class FilterManager {
         for filter in filters {
             guard filter.autoDownloadEpisodes else { continue }
 
-            let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Int(filter.maxAutoDownloadEpisodes()))
+            let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Int(filter.maxAutoDownloadEpisodes()))
             let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
             for episode in episodes {
                 if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }

@@ -52,7 +52,7 @@ class EpisodeFilterDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let queryForFilter = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
+                let queryForFilter = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
                 let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForFilter)", values: nil)
                 defer { resultSet.close() }
 
@@ -71,7 +71,7 @@ class EpisodeFilterDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = PlaylistHelper.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
