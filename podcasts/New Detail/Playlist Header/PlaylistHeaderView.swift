@@ -18,12 +18,12 @@ struct PlaylistHeaderView: View {
 
                 VStack(spacing: 10.0) {
                     Text(viewModel.playlist.playlistName)
-                        .font(size: 22.0, style: .body, weight: .bold)
+                        .font(style: .title2, weight: .bold)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
                     Text(L10n.playlistDetailDescription(viewModel.episodesCount, viewModel.totalDuration()))
-                        .font(size: 13.0, style: .body, weight: .regular)
+                        .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.secondaryText02)
                         .multilineTextAlignment(.center)
@@ -79,7 +79,7 @@ struct PlaylistHeaderView: View {
                     .scaledToFit()
                     .frame(width: 18, height: 18)
                 Text(title)
-                    .font(size: 15.0, style: .body, weight: .medium)
+                    .font(style: .subheadline, weight: .medium)
                     .foregroundStyle(color)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
