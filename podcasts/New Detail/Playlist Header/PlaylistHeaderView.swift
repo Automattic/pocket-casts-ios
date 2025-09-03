@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlaylistHeaderView: View {
     @EnvironmentObject var theme: Theme
-    @StateObject var viewModel: PlaylistDetailViewModel
+    @ObservedObject var viewModel: PlaylistDetailViewModel
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {

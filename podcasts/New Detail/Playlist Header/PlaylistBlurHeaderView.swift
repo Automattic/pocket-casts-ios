@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlaylistBlurHeaderView: View {
     @EnvironmentObject var theme: Theme
-    @StateObject var viewModel: PlaylistDetailViewModel
+    @ObservedObject var viewModel: PlaylistDetailViewModel
 
     var body: some View {
         GeometryReader { proxy in
