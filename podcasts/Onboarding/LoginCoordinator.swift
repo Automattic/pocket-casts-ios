@@ -80,7 +80,9 @@ class LoginCoordinator: NSObject, OnboardingModel {
         if FeatureFlag.newOnboardingRecommendationChanges.enabled {
             let view = InterestsView(continueCallback: { categories in
                 self.interestsContinueTapped(categories: categories)
-            })
+            }) {
+                self.interestsContinueTapped(categories: nil)
+            }
             hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
         } else {
             hostingController = UIHostingController(rootView: OnboardingRecommendationsView(coordinator: self).setupDefaultEnvironment())

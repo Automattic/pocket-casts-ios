@@ -100,6 +100,14 @@ struct InterestsView: View {
     @Environment(\.dismiss) var dismiss
 
     let continueCallback: (([DiscoverCategory]) -> ())?
+    let notNowCallback: (() -> ())?
+    let isInsideNavigation: Bool
+
+    init(continueCallback: (([DiscoverCategory]) -> ())? = nil, notNowCallback: (() -> ())? = nil, isInsideNavigation: Bool = true) {
+        self.continueCallback = continueCallback
+        self.notNowCallback = notNowCallback
+        self.isInsideNavigation = isInsideNavigation
+    }
 
     var body: some View {
         Group {
@@ -116,19 +124,32 @@ struct InterestsView: View {
                     }
             }
         }
+        .if(isInsideNavigation, transform: { content in
+            content.toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(L10n.eoyNotNow) {
+                        OnboardingFlow.shared.track(.onboardingInterestsNotNowTapped)
+                        notNowCallback?()
+                    }
+                    .tint(theme.primaryInteractive01)
+                }
+            }
+        })
     }
 
     var mainBody: some View {
         VStack(alignment: .center, spacing: 0) {
-            HStack {
-                Spacer()
-                Button(L10n.eoyNotNow) {
-                    OnboardingFlow.shared.track(.onboardingInterestsNotNowTapped)
-                    dismiss()
+            if !isInsideNavigation {
+                HStack {
+                    Spacer()
+                    Button(L10n.eoyNotNow) {
+                        OnboardingFlow.shared.track(.onboardingInterestsNotNowTapped)
+                        notNowCallback?()
+                    }
+                    .tint(theme.primaryInteractive01)
                 }
-                .tint(theme.primaryInteractive01)
+                .padding(12)
             }
-            .padding(12)
             ZStack {
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {

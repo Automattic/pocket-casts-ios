@@ -381,7 +381,9 @@ struct DeveloperMenu: View {
                 .sheet(isPresented: $showingInterestsOnboarding) {
                     InterestsView(continueCallback: { categories in
                         showInterestRecommendations(categories: categories)
-                    })
+                    }, notNowCallback: {
+                        showingInterestsOnboarding.toggle()
+                    }, isInsideNavigation: false)
                         .environmentObject(Theme.sharedTheme)
                 }
                 .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
