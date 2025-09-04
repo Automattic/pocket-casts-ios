@@ -173,7 +173,7 @@ class AnalyticsHelper {
     }
 
     class func bannerReport(adID: String, reason: String, location: String) {
-        let properties = ["ad_id": adID, "location": location, "reason": reason]
+        let properties = ["id": adID, "location": location, "reason": reason]
         Analytics.track(.bannerAdReport, properties: properties)
         bumpStat("banner_ad_report", parameters: properties)
     }
