@@ -14,6 +14,12 @@ public struct BlazePromotion: Decodable {
         case podcastList
         case player
         case unknown
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+            self = Location(rawValue: rawValue) ?? .unknown
+        }
     }
 }
 
