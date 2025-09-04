@@ -515,7 +515,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     func addAdBanner(promotion: BlazePromotion) {
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
-        let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
+        let model = BannerAdModel(promotion: promotion) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 

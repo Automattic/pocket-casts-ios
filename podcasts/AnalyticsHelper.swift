@@ -160,20 +160,20 @@ class AnalyticsHelper {
         bumpStat("discover_list_impression", parameters: properties)
     }
 
-    class func bannerImpression(adID: String, source: String) {
-        let properties = ["id": adID, "promotion": source]
+    class func bannerImpression(adID: String, location: String) {
+        let properties = ["id": adID, "location": location]
         Analytics.track(.bannerAdImpression, properties: properties)
         bumpStat("banner_ad_impression", parameters: properties)
     }
 
-    class func bannerTapped(adID: String, source: String) {
-        let properties = ["id": adID, "promotion": source]
+    class func bannerTapped(adID: String, location: String) {
+        let properties = ["id": adID, "location": location]
         Analytics.track(.bannerAdTapped, properties: properties)
         bumpStat("banner_ad_tapped", parameters: properties)
     }
 
-    class func bannerReport(adID: String, reason: String, source: Any) {
-        let properties = ["ad_id": adID, "promotion": source, "reason": reason]
+    class func bannerReport(adID: String, reason: String, location: String) {
+        let properties = ["ad_id": adID, "location": location, "reason": reason]
         Analytics.track(.bannerAdReport, properties: properties)
         bumpStat("banner_ad_report", parameters: properties)
     }

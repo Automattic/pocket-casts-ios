@@ -453,7 +453,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func setupBannerAd(promotion: BlazePromotion) {
-        bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
+        bannerAdModel = BannerAdModel(promotion: promotion) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
         isAnimatingBannerAd = true
