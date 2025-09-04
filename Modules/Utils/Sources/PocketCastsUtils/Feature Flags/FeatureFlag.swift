@@ -401,13 +401,13 @@ public enum FeatureFlag: String, CaseIterable {
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:
-            false
+            true
         case .shareTranscripts:
             true
         case .doNotSwitchToDownloadedFile:
             true
         case .newOnboardingRecommendationChanges:
-            false
+            true
         }
     }
 
