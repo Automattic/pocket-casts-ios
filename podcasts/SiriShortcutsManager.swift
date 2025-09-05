@@ -419,7 +419,7 @@ class SiriShortcutsManager: CustomObserver {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
-        let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: 1)
+        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: 1)
         if let topEpisode = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil).first {
             AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
             PlaybackManager.shared.load(episode: topEpisode, autoPlay: true, overrideUpNext: false)

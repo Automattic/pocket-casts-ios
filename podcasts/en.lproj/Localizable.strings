@@ -5417,6 +5417,9 @@
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart Rules";
 
+/* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
+"playlist_detail_description" = "%1$@ episodes • %2$@";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 

@@ -32,7 +32,9 @@ class PlaylistPreviewViewModel: ObservableObject {
         self.newPlaylist = newPlaylist
         self.action = action
         self.playlistMode = playlistMode
-        self.availableRules = SmartPlaylistRule.allCases.map { SmartPlaylistRuleInfo(type: $0) }
+        self.availableRules = SmartPlaylistRule.allCases.map {
+            SmartPlaylistRuleInfo(type: $0, description: playlistMode == .creation ? nil : ruleText(for: $0))
+        }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleFilterChanged(_:)),
@@ -123,7 +125,7 @@ class PlaylistPreviewViewModel: ObservableObject {
         newPlaylist = playlist
 
         if playlistMode == .edit {
-            enabledRules = SmartPlaylistRule.allCases.map {
+            availableRules = SmartPlaylistRule.allCases.map {
                 let ruleText = ruleText(for: $0)
                 return SmartPlaylistRuleInfo(type: $0, description: ruleText)
             }

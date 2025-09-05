@@ -146,6 +146,10 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
     }
 
+    func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
+        loadMultiple(query: query, values: arguments, dbQueue: dbQueue)
+    }
+
     func unsyncedEpisodes(limit: Int, dbQueue: PCDBQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
