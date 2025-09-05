@@ -24,6 +24,7 @@ enum PodcastFeedReloadSource {
 
 protocol PodcastActionsDelegate: AnyObject {
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> { get }
+    var currentViewModePublisher: AnyPublisher<PodcastViewController.ViewMode, Never> { get }
     func isSummaryExpanded() -> Bool
     func setSummaryExpanded(expanded: Bool)
     func isDescriptionExpanded() -> Bool
@@ -82,11 +83,18 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var currentViewMode: ViewMode = .episodes
     var hasSimilarShows = CurrentValueSubject<Bool, Never>(false)
     var isLoadingRecommendations = CurrentValueSubject<Bool, Never>(false)
+    var currentViewModeSubject = CurrentValueSubject<ViewMode, Never>(.episodes)
+
     var hasSimilarShowsPublisher: AnyPublisher<Bool, Never> {
         hasSimilarShows.eraseToAnyPublisher()
     }
 
+    var currentViewModePublisher: AnyPublisher<ViewMode, Never> {
+        currentViewModeSubject.eraseToAnyPublisher()
+    }
+
     var recommendations: PodcastCollection?
+    var bookmarkViewModel: BookmarkPodcastListViewModel?
 
     enum ViewMode {
         case episodes
@@ -340,6 +348,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         listenForBookmarkChanges()
         setupLogin()
+        setupBookmarkViewModel()
 
         setupRefreshControl()
     }
@@ -361,6 +370,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         podcastRatingViewModel.presentLogin = { [weak self] viewModel in
             self?.showLogin(message: L10n.ratingLoginRequired)
         }
+    }
+
+    private func setupBookmarkViewModel() {
+        guard let podcast = podcast else { return }
+
+        let sortOption = Settings.podcastBookmarksSort
+        let viewModel = BookmarkPodcastListViewModel(podcast: podcast,
+                                                      bookmarkManager: PlaybackManager.shared.bookmarkManager,
+                                                      sortOption: sortOption)
+        viewModel.analyticsSource = .podcasts
+        viewModel.router = self
+
+        self.bookmarkViewModel = viewModel
     }
 
     func showLogin(message: String?) {
@@ -1257,10 +1279,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showBookmarks() {
-        guard let podcast else { return }
-
-        let controller = BookmarksPodcastListController(podcast: podcast)
-        present(controller, animated: true)
+        switchViewMode(to: .bookmarks)
     }
 
     func showYouMightLike() {
@@ -1548,6 +1567,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func switchViewMode(to mode: ViewMode) {
         currentViewMode = mode
+        currentViewModeSubject.send(mode)
         switch mode {
         case .episodes:
             if let podcast = podcast {
@@ -1561,7 +1581,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 }
             }
         case .bookmarks:
-            break // Handled separately
+            if bookmarkViewModel == nil {
+                setupBookmarkViewModel()
+            }
+            bookmarkViewModel?.reload()
         }
         Analytics.track(.podcastsScreenTabTapped, properties: ["value": mode.analyticsValue])
         reloadData()
@@ -1598,5 +1621,33 @@ extension PodcastViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         controller.delegate = nil
+    }
+}
+
+// MARK: - BookmarkListRouter
+
+extension PodcastViewController: BookmarkListRouter {
+    func bookmarkPlay(_ bookmark: Bookmark) {
+        PlaybackManager.shared.playBookmark(bookmark, source: .podcasts)
+    }
+
+    func bookmarkEdit(_ bookmark: Bookmark) {
+        let controller = BookmarkEditTitleViewController(manager: PlaybackManager.shared.bookmarkManager, bookmark: bookmark, state: .updating)
+        controller.source = .podcasts
+
+        present(controller, animated: true)
+    }
+
+    func bookmarkShare(_ bookmark: Bookmark) {
+        guard let episode = bookmark.episode as? Episode else {
+            return
+        }
+        Analytics.track(.bookmarkShareTapped, source: analyticsSource, properties: ["podcast_uuid": episode.podcastUuid, "episode_uuid": bookmark.episodeUuid])
+        SharingModal.show(option: .bookmark(episode, bookmark.time), from: .podcastScreen, in: self)
+    }
+
+    func dismissBookmarksList() {
+        // For tab-based bookmarks, we switch to episodes view instead of dismissing
+        switchViewMode(to: .episodes)
     }
 }

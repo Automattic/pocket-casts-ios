@@ -4,6 +4,63 @@ import UIKit
 import PocketCastsServer
 import SwiftUI
 
+class TransparentBookmarksStyle: ThemedBookmarksStyle {
+    override var background: Color { Color.clear }
+}
+
+class BookmarksHostingCell: UITableViewCell {
+    static let reuseIdentifier = "BookmarksListCell"
+
+    private var hostingController: UIHostingController<AnyView>?
+    private weak var parentViewController: UIViewController?
+
+    func configure(with viewModel: BookmarkPodcastListViewModel, parentViewController: UIViewController) {
+        self.parentViewController = parentViewController
+
+        // Remove existing hosting controller if any
+        if let existingController = hostingController {
+            existingController.view.removeFromSuperview()
+            existingController.removeFromParent()
+        }
+
+        let bookmarksList = BookmarksListView(viewModel: viewModel,
+                                            style: TransparentBookmarksStyle(),
+                                            showHeader: true,
+                                            showMultiSelectInHeader: false)
+                                            .background(Color.clear)
+
+        let hostingView = UIHostingController(rootView: AnyView(bookmarksList))
+         hostingController = hostingView
+
+        parentViewController.addChild(hostingView)
+        contentView.addSubview(hostingView.view)
+        hostingView.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingView.view.backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
+
+        NSLayoutConstraint.activate([
+            hostingView.view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            hostingView.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            hostingView.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+
+        hostingView.didMove(toParent: parentViewController)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if let hostingController = hostingController {
+            hostingController.willMove(toParent: nil)
+            hostingController.view.removeFromSuperview()
+            hostingController.removeFromParent()
+            self.hostingController = nil
+        }
+        self.parentViewController = nil
+    }
+}
+
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let episodeCellId = "EpisodeCell"
     private static let headerCellId = "HeaderCell"
@@ -12,6 +69,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let groupHeadingCellId = "GroupHeading"
     private static let emptyStateCellId = "EmptyStateCell"
     private static let loadingCellId = "LoadingCell"
+    private static let bookmarksListCellId = "BookmarksListCell"
 
     private enum YouMightLikeSection {
         case header
@@ -50,6 +108,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
         episodesTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
         episodesTable.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
+        episodesTable.register(BookmarksHostingCell.self, forCellReuseIdentifier: BookmarksHostingCell.reuseIdentifier)
     }
 
     func registerLongPress() {
@@ -90,7 +149,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return 2
         case .bookmarks:
-            return 0 // Bookmarks are shown in a separate controller
+            return 2 // Header + Bookmarks
         case .youMightLike:
             if isLoadingRecommendations.value || !hasSimilarShows.value {
                 return 2 // Header + Loading
@@ -114,7 +173,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return episodeInfo[safe: section]?.elements.count ?? 0
         case .bookmarks:
-            return 0
+            return section == PodcastViewController.headerSection ? 1 : 1 // Header + Bookmarks list
         case .youMightLike:
             switch youMightLikeSectionType(for: section) {
             case .header, .loading, .empty:
@@ -202,7 +261,24 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
-            return UITableViewCell()
+            if indexPath.section == PodcastViewController.headerSection {
+                if FeatureFlag.podcastViewChanges.enabled {
+                    let cell = podcastHeaderCell
+                    return cell
+                } else {
+                    let cell = podcastHeadingCell
+                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
+                    cell.buttonsEnabled = !isMultiSelectEnabled
+                    return cell
+                }
+            } else {
+                guard let bookmarkViewModel = bookmarkViewModel else {
+                    return UITableViewCell()
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
+                cell.configure(with: bookmarkViewModel, parentViewController: self)
+                return cell
+            }
 
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
@@ -268,11 +344,20 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         if FeatureFlag.podcastViewChanges.enabled, indexPath.section == PodcastViewController.headerSection {
             return podcastHeaderCell.rowHeight
         }
+
+        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
+            // For bookmarks, we need to calculate the height dynamically
+            return UITableView.automaticDimension
+        }
+
         return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        cellHeights[indexPath] ?? 80
+        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
+            return 400 // Bookmarks view needs more space
+        }
+        return cellHeights[indexPath] ?? 80
     }
 
     // MARK: - Selection
@@ -330,7 +415,9 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
-            break
+            if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled, indexPath.section == PodcastViewController.headerSection {
+                cell.toggleExpanded(delegate: self)
+            }
 
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
