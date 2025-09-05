@@ -23,7 +23,7 @@ private struct BlazePromotions: Decodable {
 }
 
 extension DiscoverServerHandler {
-    public func blazePromotion(for location: BlazePromotion.Location) async -> (promotion: BlazePromotion, useCache: Bool)? {
+    func fetchBlazePromotion(for location: BlazePromotion.Location) async -> (promotion: BlazePromotion, useCache: Bool)? {
         let path = ServerConstants.Urls.discover() + "blaze/promotions.json"
         let fetchResult: (BlazePromotion, Bool)? = await withCheckedContinuation { continuation in
             discoverRequest(path: path, type: BlazePromotions.self, authenticated: false) { promotions, useCache in
@@ -39,7 +39,7 @@ extension DiscoverServerHandler {
         return fetchResult
     }
 
-    public func cachedBlazePromotion(for location: BlazePromotion.Location) -> BlazePromotion? {
+    func cachedBlazePromotion(for location: BlazePromotion.Location) -> BlazePromotion? {
         let path = ServerConstants.Urls.discover() + "blaze/promotions.json"
         guard let response = cachedResponse(for: path) else { return nil }
 
@@ -52,6 +52,21 @@ extension DiscoverServerHandler {
         } catch {
             FileLog.shared.addMessage("DiscoverServerHandler: Could not decode cached Blaze promotions: \(error)")
             return nil
+        }
+    }
+
+    public func blazePromotion(for location: BlazePromotion.Location, completion: @escaping (BlazePromotion, Bool) -> Void) {
+        if let cachedPromotion = cachedBlazePromotion(for: location) {
+            completion(cachedPromotion, false)
+            return
+        }
+
+        Task {
+            if let result = await fetchBlazePromotion(for: location) {
+                await MainActor.run {
+                    completion(result.promotion, !result.useCache)
+                }
+            }
         }
     }
 }

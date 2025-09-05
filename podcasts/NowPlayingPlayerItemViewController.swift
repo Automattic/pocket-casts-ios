@@ -247,20 +247,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func loadBannerAd() {
 #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
-            if let promotion = DiscoverServerHandler.shared.cachedBlazePromotion(for: .player) {
-                addAdBanner(promotion: promotion, animated: false)
-            } else {
-                bannerTask = Task { [weak self] in
-                    if let result = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
-                        guard Task.isCancelled == false else { return }
-                        let shouldAnimate = !result.useCache
-                        if shouldAnimate {
-                            try? await Task.sleep(for: .seconds(2))
-                        }
+            DiscoverServerHandler.shared.blazePromotion(for: .player) { [weak self] promotion, shouldAnimate in
+                guard let self = self else { return }
+
+                if shouldAnimate {
+                    self.bannerTask = Task { [weak self] in
+                        try? await Task.sleep(for: .seconds(2))
                         await MainActor.run {
-                            self?.addAdBanner(promotion: result.promotion, animated: shouldAnimate)
+                            self?.addAdBanner(promotion: promotion, animated: true)
                         }
                     }
+                } else {
+                    self.addAdBanner(promotion: promotion, animated: false)
                 }
             }
         }
