@@ -2106,11 +2106,14 @@
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
 		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
+		FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF92951F2E54E33300FE847E /* InterestsView.swift */; };
 		FF9B6B752D0732D40057A504 /* LogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B742D0732CF0057A504 /* LogsViewController.swift */; };
 		FF9B6B772D0733670057A504 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9B6B762D0733650057A504 /* LogsView.swift */; };
 		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
+		FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = FFBCADEA2E6578F900EA8287 /* WrappingHStack */; };
+		FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFC8D6612E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */; };
 		FFCCF6C02E2E87FE00BFC9E5 /* PreSelectChaptersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */; };
@@ -4207,11 +4210,13 @@
 		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
 		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
+		FF92951F2E54E33300FE847E /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
 		FF9B6B742D0732CF0057A504 /* LogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewController.swift; sourceTree = "<group>"; };
 		FF9B6B762D0733650057A504 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
 		FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichExpandableDescriptionView.swift; sourceTree = "<group>"; };
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
+		FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestButton.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFC8D6602E32A7E2006BE3DF /* UpNextShuffleAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpNextShuffleAnimationView.swift; sourceTree = "<group>"; };
 		FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreSelectChaptersAnimationView.swift; sourceTree = "<group>"; };
@@ -4318,6 +4323,7 @@
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
+				FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */,
 				F5FFC2352DBAF06D0091429C /* FacebookCore in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
@@ -7856,6 +7862,8 @@
 		C7B3C618291AD03400054145 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				FF92951F2E54E33300FE847E /* InterestsView.swift */,
+				FFBDF6FB2E5679DB00A969B3 /* InterestButton.swift */,
 				F5E7041A2E4ED71A00C39FA4 /* DiscoverPodcastsGridView.swift */,
 				F554B0172E445E0700056CDF /* OnboardingRecommendationsView.swift */,
 				F5E704182E4ED6FE00C39FA4 /* PodcastSubscribeButton.swift */,
@@ -9063,6 +9071,7 @@
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				F5FFC2342DBAF06D0091429C /* FacebookCore */,
 				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
+				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -9254,6 +9263,7 @@
 				9A11FC912D91CBF300A1EF3E /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */,
 				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 				F5FFC2312DBAF0340091429C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -10599,6 +10609,7 @@
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
+				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				9A11FC9A2D91D1CD00A1EF3E /* AppsFlyerDataProvider.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
@@ -10954,6 +10965,7 @@
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
+				FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */,
 				9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */,
 				FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */,
 				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,
@@ -13983,6 +13995,14 @@
 				minimumVersion = 1.8.3;
 			};
 		};
+		FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -14200,6 +14220,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */;
 			productName = SwiftSubtitles;
+		};
+		FFBCADEA2E6578F900EA8287 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

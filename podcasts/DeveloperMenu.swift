@@ -8,8 +8,12 @@ struct DeveloperMenu: View {
     @State var showingExporter = false
     @State var showingPlaylistsOnboarding = false
     @State var showingRecommendationsOnboarding = false
+    @State var showingInterestsOnboarding = false
+    @State var showingRecommendationsOnboardingSelected = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
+
+    @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
     var body: some View {
         List {
@@ -371,6 +375,19 @@ struct DeveloperMenu: View {
                             .environmentObject(Theme.sharedTheme)
                     }
                 }
+                Button("Show Onboarding Interests") {
+                    showingInterestsOnboarding = true
+                }
+                .sheet(isPresented: $showingInterestsOnboarding) {
+                    InterestsView(continueCallback: { categories in
+                        showInterestRecommendations(categories: categories)
+                    })
+                        .environmentObject(Theme.sharedTheme)
+                }
+                .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
+                    OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: self.recommendationsViewModel)
+                        .environmentObject(Theme.sharedTheme)
+                }
             } header: {
                 Text("Onboarding")
             }
@@ -382,6 +399,12 @@ struct DeveloperMenu: View {
             }
         }
         .miniPlayerSafeAreaInset()
+    }
+
+    func showInterestRecommendations(categories: [DiscoverCategory]) {
+        showingInterestsOnboarding = false
+        recommendationsViewModel.configuration = .preselected(categories)
+        showingRecommendationsOnboardingSelected = true
     }
 }
 

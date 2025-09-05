@@ -242,6 +242,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Do not show the free trial timeline on the upgrade screens on all variants
     case newOnboardingUpgradeTrialTimeline
 
+    /// Use the new interests and recommendations flow
+    case newOnboardingRecommendationChanges
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -407,6 +410,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .doNotSwitchToDownloadedFile:
             true
         case .newOnboardingUpgradeTrialTimeline:
+            false
+        case .newOnboardingRecommendationChanges:
             false
         }
     }

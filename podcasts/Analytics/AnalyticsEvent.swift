@@ -761,6 +761,13 @@ enum AnalyticsEvent: String {
     case recommendationsContinueTapped
     case recommendationsImportTapped
 
+    // MARK: - Interests
+    case onboardingInterestsShown
+    case onboardingInterestsNotNowTapped
+    case onboardingInterestsCategorySelected
+    case onboardingInterestsShownMoreTapped
+    case onboardingInterestsContinueTapped
+
     // MARK: - Cancel
     case cancelConfirmationViewShown
     case cancelConfirmationViewDismissed
