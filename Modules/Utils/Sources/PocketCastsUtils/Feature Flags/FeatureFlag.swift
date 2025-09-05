@@ -239,6 +239,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Skips switching player to downloaded file if already playing from the same cached streamed file
     case doNotSwitchToDownloadedFile
 
+    /// Do not show the free trial timeline on the upgrade screens on all variants
+    case newOnboardingUpgradeTrialTimeline
+
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
@@ -406,6 +409,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .doNotSwitchToDownloadedFile:
             true
+        case .newOnboardingUpgradeTrialTimeline:
+            false
         case .newOnboardingRecommendationChanges:
             false
         }

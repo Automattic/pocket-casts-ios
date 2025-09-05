@@ -61,7 +61,7 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func bool(forColumn: String) -> Bool {
-        row[forColumn]
+        row[forColumn] ?? false
     }
 
     func double(forColumn: String) -> Double {
