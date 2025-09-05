@@ -2304,6 +2304,10 @@ internal enum L10n {
   internal static var playlistCreationCreateSmartPlaylistButtonSubtitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_subtitle", fallback: "Automatically add episodes based on rules.") }
   /// Title for the button used to open the rules during the Playlist creation
   internal static var playlistCreationCreateSmartPlaylistButtonTitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_title", fallback: "Make into Smart Playlist") }
+  /// Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time.
+  internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
+  }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.

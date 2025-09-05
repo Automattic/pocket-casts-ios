@@ -7,10 +7,8 @@ import WatchConnectivity
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
-    var logFileRequestTask: Task<Void, Never>?
-
-    // The last retrieved log is cached here for the duration of this session
-    var cachedLog: String? = nil
+    let logTaskManager = LogTaskManager()
+    let logCache = LogCache()
 
     // Serial queue for WCSession operations to ensure thread safety
     private let sessionQueue = DispatchQueue(label: "com.pocketcasts.watchmanager.session", qos: .userInitiated)
@@ -58,7 +56,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChapterChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(playbackStateChanged), name: Constants.Notifications.podcastChaptersDidUpdate, object: nil)
 
-        cachedLog = WatchManager.shared.readLogFile()
+        Task {
+            let log = WatchManager.shared.readLogFile()
+            await logCache.setCachedLog(log)
+        }
     }
 
     deinit {
@@ -338,7 +339,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     private func handleFilterRequest(filterUuid: String) -> [String: Any] {
         guard let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) else { return [String: Any]() }
 
-        let episodeQuery = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
+        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: episodeQuery, arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()
@@ -603,5 +604,40 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
 
         return nil
+    }
+}
+
+// MARK: - Actor for Thread-Safe Task Management
+actor LogTaskManager {
+    private var currentTask: Task<Void, Never>?
+
+    func setTask(_ task: Task<Void, Never>) {
+        replaceTask(with: task)
+    }
+
+    func cancelCurrentTask() {
+        replaceTask(with: nil)
+    }
+
+    func clearTask() {
+        replaceTask(with: nil)
+    }
+
+    private func replaceTask(with newTask: Task<Void, Never>?) {
+        currentTask?.cancel()
+        currentTask = newTask
+    }
+}
+
+// MARK: - Actor for Thread-Safe Log Caching
+actor LogCache {
+    private var cachedLog: String? = nil
+
+    func getCachedLog() -> String? {
+        return cachedLog
+    }
+
+    func setCachedLog(_ log: String?) {
+        cachedLog = log
     }
 }

@@ -82,8 +82,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
             if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
                 DispatchQueue.main.async {
-                    let playlistViewController = PlaylistViewController(filter: filter)
-                    self.navigationController?.pushViewController(playlistViewController, animated: false)
+                    self.showFilter(filter)
                 }
             }
         }
@@ -184,10 +183,16 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
-        let playlistViewController = PlaylistViewController(filter: filter)
-        playlistViewController.isNewFilter = isNew ?? false
+        let viewController: UIViewController
+        if FeatureFlag.playlistsRebranding.enabled {
+            viewController = PlaylistDetailViewController(playlist: filter)
+        } else {
+            let playlistViewController = PlaylistViewController(filter: filter)
+            playlistViewController.isNewFilter = isNew ?? false
+            viewController = playlistViewController
+        }
         navigationController?.popToRootViewController(animated: false)
-        navigationController?.pushViewController(playlistViewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
 
         UserDefaults.standard.set(filter.uuid, forKey: Constants.UserDefaults.lastFilterShown)
     }

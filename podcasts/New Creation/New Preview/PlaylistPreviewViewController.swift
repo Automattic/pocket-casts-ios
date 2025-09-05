@@ -7,6 +7,9 @@ class PlaylistPreviewViewController: PCViewController {
     weak var delegate: FilterCreatedDelegate?
 
     private let playlistName: String
+    private var playlistUUID: String = ""
+    private var onEditPlaylist: (() -> Void)?
+    private let mode: PlaylistPreviewViewModel.PlaylistMode
     private(set) var viewModel: PlaylistPreviewViewModel!
     private var cancellables = Set<AnyCancellable>()
 
@@ -36,7 +39,16 @@ class PlaylistPreviewViewController: PCViewController {
 
     init(playlistName: String) {
         self.playlistName = playlistName
+        self.mode = .creation
         super.init(nibName: nil, bundle: nil)
+    }
+
+    init(playlist: EpisodeFilter, onEditPlaylist: @escaping () -> Void) {
+        self.playlistName = playlist.playlistName
+        self.mode = .edit
+        self.onEditPlaylist = onEditPlaylist
+        super.init(nibName: nil, bundle: nil)
+        self.playlistUUID = playlist.uuid
     }
 
     @MainActor required init?(coder: NSCoder) {
@@ -59,17 +71,35 @@ class PlaylistPreviewViewController: PCViewController {
     override func viewWillAppear(_ animated: Bool) { }
 
     private func createNewPlaylist() {
-        let newPlaylist = PlaylistManager.createNewFilter()
-        newPlaylist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
+        let playlist: EpisodeFilter
 
-        viewModel = PlaylistPreviewViewModel(newPlaylist: newPlaylist, playlistMode: .creation) { [weak self] rule in
+        switch mode {
+            case .creation:
+            playlist = PlaylistManager.createNewFilter()
+            playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
+            playlistUUID = playlist.uuid
+        case .edit:
+            let result = DataManager.sharedManager.findFilter(uuid: playlistUUID)
+            if result == nil {
+                playlist = PlaylistManager.createNewFilter()
+                playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
+            } else {
+                playlist = result!
+            }
+        }
+
+        viewModel = PlaylistPreviewViewModel(newPlaylist: playlist, playlistMode: mode) { [weak self] rule in
             self?.push(rule: rule)
         }
         viewModel.$newPlaylistHasChanged
             .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.updateSaveButtonEnabledState()
+                if self?.mode == .creation {
+                    self?.updateSaveButtonEnabledState()
+                } else {
+                    self?.onEditPlaylist?()
+                }
             }
             .store(in: &cancellables)
     }
@@ -95,28 +125,37 @@ class PlaylistPreviewViewController: PCViewController {
         list.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(list)
 
-        footerView = ThemeableView()
-        view.addSubview(footerView)
+        if mode == .edit {
+            NSLayoutConstraint.activate([
+                list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                list.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                list.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        } else {
+            footerView = ThemeableView()
+            view.addSubview(footerView)
 
-        saveButton = UIButton(type: .custom)
-        footerView.addSubview(saveButton)
+            saveButton = UIButton(type: .custom)
+            footerView.addSubview(saveButton)
 
-        NSLayoutConstraint.activate([
-            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            footerView.heightAnchor.constraint(equalToConstant: 110),
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            NSLayoutConstraint.activate([
+                footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+                footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+                footerView.heightAnchor.constraint(equalToConstant: 110),
+                footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
-            saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
-            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
+                saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
+                saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
+                saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
+                saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
 
-            list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            list.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            list.bottomAnchor.constraint(equalTo: footerView.topAnchor)
-        ])
+                list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                list.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                list.bottomAnchor.constraint(equalTo: footerView.topAnchor)
+            ])
+        }
 
         view.layoutSubviews()
     }
@@ -142,7 +181,11 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func dismiss() {
-        presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        if mode == .creation {
+            presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        } else {
+            presentingViewController?.dismiss(animated: true, completion: nil)
+        }
     }
 
     private func updateSaveButtonEnabledState() {

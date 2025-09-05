@@ -677,7 +677,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func play(filter: EpisodeFilter) {
-        let playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit()), arguments: nil)
+        let playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit()), arguments: nil)
         guard let startingEpisode = playlistEpisodes.first else { return }
 
         populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)

@@ -297,6 +297,8 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Per què estàs denunciant aquest anunci?</string>
     <key>banner_ads_report_broken</key>
     <string>Aquest anunci sembla que no funciona bé</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Has denunciat aquest anunci. </string>
     <key>banner_ads_report_malicious</key>
     <string>Aquest és un anunci maliciós</string>
     <key>banner_ads_report_other</key>
@@ -1512,6 +1514,10 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>No s'han trobat episodis</string>
     <key>loading</key>
     <string>Carregant...</string>
+    <key>login_landing_subtitle</key>
+    <string>Els teus pòdcasts, sempre sincronitzats. Mantingues la teva biblioteca segura i gaudeix de Pocket Casts a la web i escriptori.</string>
+    <key>login_landing_title</key>
+    <string>Crea un compte de Pocket Casts</string>
     <key>login_subtitle</key>
     <string>Crea un compte per a sincronitzar la vostra experiència auditiva en tots els teus dispositius.</string>
     <key>login_title</key>
@@ -1750,6 +1756,14 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Desactivat</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Usuari de Pocket Casts</string>
+    <key>onboarding_quote_best</key>
+    <string>La millor aplicació de pòdcasts. Amb diferència</string>
+    <key>onboarding_quote_customization</key>
+    <string>La quantitat de personalització és una bogeria</string>
+    <key>onboarding_quote_folders</key>
+    <string>Organitzar els meus pòdcasts per carpetes és genial</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Aquí tens alguns programes fantàstics per començar. Toca per seguir-los, cercar-ne més o importar-ne des d’altres aplicacions.</string>
     <key>onboarding_recommendations_title</key>
@@ -1997,12 +2011,26 @@ ACTUALITZACIONS</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Cap dels episodis dels teus pòdcasts coincideix amb aquestes regles.
+
+Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs episodis que puguin encaixar-hi.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Crear una llista de reproducció</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Afegeix episodis automàticament segons les regles.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Fes-ho en una llista de reproducció intel·ligent</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Crear una llista de reproducció intel·ligent</string>
+    <key>playlist_preview_title</key>
+    <string>Previsualitzar %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Configura regles intel·ligents per afegir automàticament episodis a la teva llista de reproducció intel·ligent.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Regles activades</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Altres opcions</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Els nous pòdcasts que segueixis s'afegiran automàticament.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2017,6 +2045,8 @@ ACTUALITZACIONS</string>
     <string>Només inclou episodis destacats que coincideixin amb les teves altres regles.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Episodis destacats</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Regles intel·ligents</string>
     <key>playlists</key>
     <string>Llistes de reproducció</string>
     <key>playlists_default_new_playlist</key>
