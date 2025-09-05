@@ -247,13 +247,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func loadBannerAd() {
 #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
-            removeBannerAd()
-            bannerTask = Task { [weak self] in
-                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
-                    guard Task.isCancelled == false else { return }
-                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
-                    await MainActor.run {
-                        self?.addAdBanner(promotion: promotion)
+            if let promotion = DiscoverServerHandler.shared.cachedBlazePromotion(for: .player) {
+                addAdBanner(promotion: promotion, animated: false)
+            } else {
+                bannerTask = Task { [weak self] in
+                    if let result = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
+                        guard Task.isCancelled == false else { return }
+                        let shouldAnimate = !result.useCache
+                        if shouldAnimate {
+                            try? await Task.sleep(for: .seconds(2))
+                        }
+                        await MainActor.run {
+                            self?.addAdBanner(promotion: result.promotion, animated: shouldAnimate)
+                        }
                     }
                 }
             }
@@ -512,7 +518,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     // MARK: Banner Ad
 
-    func addAdBanner(promotion: BlazePromotion) {
+    func addAdBanner(promotion: BlazePromotion, animated: Bool = true) {
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
         let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
@@ -548,14 +554,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         view.layoutIfNeeded()
 
-        // Animate move first
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
-            topConstraint.constant = 0
-            self.view.layoutIfNeeded()
-        }
+        if animated {
+            // Animate move first
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                topConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            }
 
-        // Animate opacity second so it's more noticeable
-        UIView.animate(withDuration: 0.2, delay: 0.05) {
+            // Animate opacity second so it's more noticeable
+            UIView.animate(withDuration: 0.2, delay: 0.05) {
+                adUiView.alpha = 1
+            }
+        } else {
+            topConstraint.constant = 0
             adUiView.alpha = 1
         }
     }

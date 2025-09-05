@@ -163,12 +163,19 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     private func loadBannerAd() {
         if FeatureFlag.bannerAdPodcasts.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask?.cancel()
-            bannerTask = Task { [weak self] in
-                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
-                    guard Task.isCancelled == false else { return }
-                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
-                    await MainActor.run {
-                        self?.setupBannerAd(promotion: promotion)
+            if let promotion = DiscoverServerHandler.shared.cachedBlazePromotion(for: .podcastList) {
+                setupBannerAd(promotion: promotion, shouldAnimate: false)
+            } else {
+                bannerTask = Task { [weak self] in
+                    if let result = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
+                        guard Task.isCancelled == false else { return }
+                        let shouldAnimate = !result.useCache
+                        if shouldAnimate {
+                            try? await Task.sleep(for: .seconds(2))
+                        }
+                        await MainActor.run {
+                            self?.setupBannerAd(promotion: result.promotion, shouldAnimate: shouldAnimate)
+                        }
                     }
                 }
             }
@@ -452,16 +459,23 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.reloadData()
     }
 
-    private func setupBannerAd(promotion: BlazePromotion) {
+    private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {
         bannerAdModel = BannerAdModel(promotion: promotion, source: AnalyticsSource.podcastsList.rawValue) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
-        isAnimatingBannerAd = true
+        isAnimatingBannerAd = shouldAnimate
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
-            self.isAnimatingBannerAd = false
-            self.podcastsCollectionView.performBatchUpdates({
-                self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+        if shouldAnimate {
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                self.isAnimatingBannerAd = false
+            } completion: { _ in
+                self.podcastsCollectionView.performBatchUpdates({
+                    self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+                })
+            }
+        } else {
+            podcastsCollectionView.performBatchUpdates({
+                podcastsCollectionView.collectionViewLayout.invalidateLayout()
             })
         }
     }
