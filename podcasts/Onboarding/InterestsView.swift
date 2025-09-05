@@ -36,6 +36,10 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
     @Published var isLoaded: Bool = false
     @Published var selectedCategories: Set<Int> = []
 
+    var fullSelectedCategories: [DiscoverCategory] {
+        return categories.filter { selectedCategories.contains($0.id ?? -1) }
+    }
+
     func load() async {
         let page = await DiscoverServerHandler.shared.discoverPage()
         guard let layout = page.0 else {
@@ -94,6 +98,8 @@ struct InterestsView: View {
     @EnvironmentObject var theme: Theme
 
     @Environment(\.dismiss) var dismiss
+
+    let continueCallback: (([DiscoverCategory]) -> ())?
 
     var body: some View {
         Group {
@@ -194,7 +200,7 @@ struct InterestsView: View {
     var continueButton: some View {
         VStack {
             Button(action: {
-                //TODO: Implement this
+                continueCallback?(viewModel.fullSelectedCategories)
                 OnboardingFlow.shared.track(.onboardingInterestsContinueTapped, properties: ["categories": Array(viewModel.selectedCategories)])
             }) {
                 Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
@@ -211,6 +217,6 @@ struct InterestsView: View {
 }
 
 #Preview("Live") {
-    InterestsView()
+    InterestsView(continueCallback: nil)
         .environmentObject(Theme(previewTheme: .light))
 }
