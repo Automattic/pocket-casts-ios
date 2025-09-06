@@ -404,7 +404,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .limitPlaybackPositionChanges:
             true
         case .newOnboardingAccountCreation:
-            false
+            true
         case .shareTranscripts:
             true
         case .doNotSwitchToDownloadedFile:
@@ -412,7 +412,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgradeTrialTimeline:
             false
         case .newOnboardingRecommendationChanges:
-            false
+            true
         }
     }
 
