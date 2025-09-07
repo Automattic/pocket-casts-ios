@@ -38,6 +38,15 @@ class IntroCarouselHostingController<Content>: OnboardingHostingViewController<C
             destinationVC.navigationItem.leftBarButtonItem?.customView?.alpha = alpha
             destinationVC.navigationItem.rightBarButtonItem?.customView?.alpha = alpha
             destinationVC.navigationItem.titleView?.alpha = alpha
+            if let navigationBar = destinationVC.navigationController?.navigationBar {
+                let navigationBarAppearance = UINavigationBarAppearance()
+                navigationBarAppearance.configureWithOpaqueBackground()
+                navigationBarAppearance.shadowColor = nil
+                navigationBarAppearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+                navigationBar.standardAppearance = navigationBarAppearance
+                navigationBar.compactAppearance = navigationBarAppearance
+                navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            }
         }
     }
 }
