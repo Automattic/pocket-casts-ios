@@ -205,14 +205,17 @@ struct InterestsView: View {
     var showMoreCategoriesButton: some View {
         HStack {
             Spacer()
-            Button(L10n.interestsShowMoreCategories) {
+            Button(action: {
                 OnboardingFlow.shared.track(.onboardingInterestsShownMoreTapped)
                 showMore.toggle()
                 withAnimation() {
                     viewModel.showAll()
                 }
+            }) {
+                Text(L10n.interestsShowMoreCategories)
+                    .font(size: 17, style: .body, weight: .medium)
+                    .tint(theme.primaryInteractive01)
             }
-            .tint(theme.primaryInteractive01)
             Spacer()
         }
         .padding(.horizontal, 20)
