@@ -242,9 +242,9 @@ private struct LoginLabel: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: smallHeight ? 24 : 30, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 24 : 28, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
             case .subtitle:
-                return content.font(size: smallHeight ? 16 : 18, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 16 : 17, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
             }
         }
     }
