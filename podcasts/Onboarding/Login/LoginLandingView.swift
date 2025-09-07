@@ -70,7 +70,7 @@ private struct LoginLandingContent: View {
                             LoginLabel(title, for: .title)
                             LoginLabel(subtitle, for: .subtitle)
                         }
-                        .padding(.horizontal, Config.padding + 20)
+                        .padding(.horizontal, Config.padding)
                         .padding(.top, headerHeightOffset)
 
                         LoginHeader(models: calculatedModels, topPadding: coordinator.isOnboarding ? 0 : -Config.padding)
@@ -95,7 +95,6 @@ private struct LoginLandingContent: View {
                     HStack(spacing: 0) {
                         Spacer()
                         LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
-                            .frame(maxWidth: 400)
                         Spacer()
                     }
                 }
@@ -140,8 +139,8 @@ private struct LoginLandingContent: View {
     }
 
     private enum Config {
-        static let padding: Double = 24
-        static let topPadding: Double = 56
+        static let padding: Double = 16
+        static let topPadding: Double = 20
         static let topPaddingSmallDevice: Double = 35
     }
 

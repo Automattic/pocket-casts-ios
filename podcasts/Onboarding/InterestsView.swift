@@ -110,7 +110,7 @@ struct InterestsView: View {
     }
 
     var body: some View {
-        Group {
+        VStack {
             if viewModel.isLoaded {
                 mainBody
             } else {
@@ -197,7 +197,7 @@ struct InterestsView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(theme.primaryText02)
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 16)
         }
         .padding(.top, 20)
     }
