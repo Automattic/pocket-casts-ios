@@ -4,7 +4,7 @@ import PocketCastsServer
 
 class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
-    @Published var notificationsOptIn: Bool = false
+    @Published var notificationsOptIn: Bool = true
 
     func setupPermissions() async {
         let coordinator = NotificationsCoordinator.shared
