@@ -132,34 +132,45 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
 
         return await withCheckedContinuation { continuation in
-            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { data, response, error in
+            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { data, response, error, _ in
                 let success = response?.extractStatusCode() == 200
                 continuation.resume(returning: success)
             }
         }
     }
 
+    public func cachedResponse(for path: String) -> CachedURLResponse? {
+        let url = ServerHelper.asUrl(path)
+        let request = URLRequest(url: url)
+        if let cachedResponse = discoveryCache.cachedResponse(for: request),
+           let expiryDate = cachedResponse.response.cacheExpiryDate(),
+           expiryDate.timeIntervalSinceNow > 0 {
+            return cachedResponse
+        }
+        return nil
+    }
+
     private func performDiscoverRequest(
         path: String,
         authenticated: Bool?,
-        completion: @escaping (Data?, URLResponse?, Error?) -> Void
+        completion: @escaping (Data?, URLResponse?, Error?, Bool) -> Void
     ) {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
-        if let cachedResponse = discoveryCache.cachedResponse(for: request),
-           let expiryDate = cachedResponse.response.cacheExpiryDate(),
-           expiryDate.timeIntervalSinceNow > 0 {
-            completion(cachedResponse.data, cachedResponse.response, nil)
+        if let cachedResponse = cachedResponse(for: path) {
+            completion(cachedResponse.data, cachedResponse.response, nil, true)
             return
         }
 
         if FeatureFlag.recommendations.enabled && authenticated == true {
             tokenHelper.callSecureUrl(request: request) { response, data, error in
-                completion(data, response, error)
+                completion(data, response, error, false)
             }
         } else {
-            URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+                completion(data, response, error, false)
+            }).resume()
         }
     }
 
@@ -197,7 +208,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         let url = ServerHelper.asUrl(path)
         let request = URLRequest(url: url)
 
-        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error in
+        performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, useCache in
             guard
                 let self = self,
                 let data = data,
@@ -215,7 +226,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 useCache: true,
                 type: type
             )
-            completion(decoded, false)
+            completion(decoded, useCache)
         }
     }
 }

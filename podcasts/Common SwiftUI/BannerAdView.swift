@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import Kingfisher
 
 class BannerAdModel: ObservableObject {
     let adText: String
@@ -118,21 +119,8 @@ struct BannerAdView: View {
     }
 
     @ViewBuilder func creative() -> some View {
-        AsyncImage(url: model.imageURL) { phase in
-            switch phase {
-            case .empty, .failure:
-                ProgressView()
-            case .success(let image):
-                image
-                    .resizable()
-                    .cornerRadius(4)
-            @unknown default:
-                ProgressView()
-                    .onAppear {
-                        assertionFailure("Unexpected AsyncImage phase: \(phase)")
-                    }
-            }
-        }
+        AsyncImageView(url: model.imageURL!)
+        .cornerRadius(4)
         .aspectRatio(1, contentMode: .fit)
         .frame(width: 86, height: 86)
     }

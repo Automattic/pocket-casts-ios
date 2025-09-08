@@ -163,13 +163,18 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     private func loadBannerAd() {
         if FeatureFlag.bannerAdPodcasts.enabled && !SubscriptionHelper.hasActiveSubscription() {
             bannerTask?.cancel()
-            bannerTask = Task { [weak self] in
-                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .podcastList) {
-                    guard Task.isCancelled == false else { return }
-                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
-                    await MainActor.run {
-                        self?.setupBannerAd(promotion: promotion)
+            DiscoverServerHandler.shared.blazePromotion(for: .podcastList) { [weak self] promotion, shouldAnimate in
+                guard let self = self else { return }
+
+                if shouldAnimate {
+                    self.bannerTask = Task { [weak self] in
+                        try? await Task.sleep(for: .seconds(2))
+                        await MainActor.run {
+                            self?.setupBannerAd(promotion: promotion, shouldAnimate: true)
+                        }
                     }
+                } else {
+                    self.setupBannerAd(promotion: promotion, shouldAnimate: false)
                 }
             }
         }
@@ -452,16 +457,23 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.reloadData()
     }
 
-    private func setupBannerAd(promotion: BlazePromotion) {
+    private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {
         bannerAdModel = BannerAdModel(promotion: promotion) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
-        isAnimatingBannerAd = true
+        isAnimatingBannerAd = shouldAnimate
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
-            self.isAnimatingBannerAd = false
-            self.podcastsCollectionView.performBatchUpdates({
-                self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+        if shouldAnimate {
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                self.isAnimatingBannerAd = false
+            } completion: { _ in
+                self.podcastsCollectionView.performBatchUpdates({
+                    self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+                })
+            }
+        } else {
+            podcastsCollectionView.performBatchUpdates({
+                podcastsCollectionView.collectionViewLayout.invalidateLayout()
             })
         }
     }

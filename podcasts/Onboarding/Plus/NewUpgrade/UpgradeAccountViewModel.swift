@@ -51,7 +51,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var shouldShowVariation: Bool {
-        guard FeatureFlag.newOnboardingVariant.enabled, isFreeTrialAvailable else {
+        guard FeatureFlag.newOnboardingVariant.enabled, isFreeTrialAvailable, FeatureFlag.newOnboardingUpgradeTrialTimeline.enabled else {
             return false
         }
         return ABTestProvider.shared.variation(for: .pocketcastsNewOnboardingIOSABTest) == .treatment
