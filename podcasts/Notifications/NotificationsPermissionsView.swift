@@ -109,15 +109,17 @@ struct NotificationsPermissionsView: View {
 
     var body: some View {
         VStack {
-            Button(action: {
-                Analytics.track(.notificationsPermissionsNotNowTapped)
-                dismissAction()
-            }) {
-                HStack {
-                    Spacer()
-                    Text(L10n.eoyNotNow)
-                        .foregroundStyle(theme.primaryInteractive01)
-                        .font(.body.weight(.medium))
+            if !FeatureFlag.newOnboardingUpgrade.enabled {
+                Button(action: {
+                    Analytics.track(.notificationsPermissionsNotNowTapped)
+                    dismissAction()
+                }) {
+                    HStack {
+                        Spacer()
+                        Text(L10n.eoyNotNow)
+                            .foregroundStyle(theme.primaryInteractive01)
+                            .font(.body.weight(.medium))
+                    }
                 }
             }
             Image("notifications_permissions_banner")
