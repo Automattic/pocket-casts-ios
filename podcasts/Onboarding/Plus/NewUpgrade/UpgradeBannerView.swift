@@ -10,7 +10,7 @@ struct UpgradeBannerView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            SubscriptionBadge(tier: .plus)
+            SubscriptionBadge(tier: .plus, displayMode: .plain)
             Text(L10n.upgradeAccountTitle)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 18, style: .headline, weight: .bold)
