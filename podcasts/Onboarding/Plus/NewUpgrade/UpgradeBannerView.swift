@@ -13,11 +13,11 @@ struct UpgradeBannerView: View {
             SubscriptionBadge(tier: .plus, displayMode: .plain)
             Text(L10n.upgradeAccountTitle)
                 .foregroundStyle(theme.primaryText01)
-                .font(size: 18, style: .headline, weight: .bold)
+                .font(size: 18, style: .body, weight: .bold)
                 .multilineTextAlignment(.center)
             Text(L10n.upgradeAccountInfo)
                 .foregroundStyle(theme.primaryText01)
-                .font(size: 13, style: .footnote, weight: .regular)
+                .font(size: 13, style: .body, weight: .regular)
                 .multilineTextAlignment(.center)
             SubscriptionPurchaseButton(viewModel: viewModel) {
                 onSubscribeTap?()
