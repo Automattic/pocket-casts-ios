@@ -91,15 +91,6 @@
       }
     },
     {
-      "identity" : "fmdb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ccgus/fmdb.git",
-      "state" : {
-        "revision" : "e6e1c0eff4f115c46a850db9dc92fb41a01a8b55",
-        "version" : "2.7.8"
-      }
-    },
-    {
       "identity" : "fuse-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krisk/fuse-swift",

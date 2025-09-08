@@ -1,5 +1,3 @@
-import FMDB
-
 extension PCDBQueue {
 
     /// Asynchronously perform queries on an `PCDatabase` from a `PCDBQueue`
