@@ -23,7 +23,11 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         didSet {
             nextButton.isEnabled = false
             nextButton.buttonStyle = .primaryInteractive01Disabled
-            nextButton.setTitle(L10n.next, for: .normal)
+            if FeatureFlag.newOnboardingAccountCreation.enabled {
+                nextButton.setTitle(L10n.createAccount, for: .normal)
+            } else {
+                nextButton.setTitle(L10n.next, for: .normal)
+            }
         }
     }
 
