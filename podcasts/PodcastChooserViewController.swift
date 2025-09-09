@@ -25,6 +25,7 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
             podcastTable.register(UINib(nibName: "PodcastChooserCell", bundle: nil), forCellReuseIdentifier: cellId)
         }
     }
+    @IBOutlet weak var podcastTableBottomConstraint: NSLayoutConstraint!
 
     var allPodcasts = [Podcast]()
     var selectBtn: UIBarButtonItem!
