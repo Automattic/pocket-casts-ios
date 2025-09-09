@@ -71,7 +71,7 @@ private struct LoginLandingContent: View {
                             LoginLabel(subtitle, for: .subtitle)
                         }
                         .padding(.horizontal, Config.padding)
-                        .padding(.top, headerHeightOffset)
+                        .padding(.top, coordinator.isOnboarding ? Config.topPadding : headerHeightOffset)
 
                         LoginHeader(models: calculatedModels, topPadding: coordinator.isOnboarding ? 0 : -Config.padding)
                             .clipped()
