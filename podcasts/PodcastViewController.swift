@@ -252,6 +252,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var refreshControl: CustomRefreshControl?
     private var podcastFeedReloadTooltip: UIViewController?
 
+    // Hosting for the SwiftUI action bar used by the Bookmarks list when embedded
+    private var bookmarksActionBarHost: UIHostingController<AnyView>?
+    private var bookmarksActionBarBottomConstraint: NSLayoutConstraint?
+
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
                                   onRate: { [weak self] in
@@ -351,6 +355,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         setupBookmarkViewModel()
 
         setupRefreshControl()
+
+        // Keep external action bar aligned with mini player
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidAppear, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -855,6 +863,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         descriptionExpanded = expanded
     }
 
+    @objc private func miniPlayerStatusDidChange() {
+        updateBookmarksActionBarBottomConstraint()
+    }
+
     func tableView() -> UITableView {
         episodesTable
     }
@@ -1226,6 +1238,90 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         isMultiSelectEnabled = true
     }
 
+    // MARK: - External Bookmarks Action Bar
+
+    func updateBookmarksActionBar(state: ExternalActionBarState, viewModel: BookmarkPodcastListViewModel) {
+        if state.isMultiSelecting {
+            // Ensure top nav/selection header matches multiselect state
+            if !isMultiSelectEnabled {
+                isMultiSelectEnabled = true
+            }
+            // Hide the table's native multiSelectFooter; we present a SwiftUI bar instead
+            multiSelectFooter.isHidden = true
+
+            let actions: [ActionBarView<ThemedActionBarStyle>.Action] = [
+                .init(imageName: "podcast-share", title: L10n.share, visible: state.showShare, action: {
+                    viewModel.shareSelectedBookmarks()
+                }),
+                .init(imageName: "folder-edit", title: L10n.edit, visible: state.showEdit, action: {
+                    viewModel.editSelectedBookmarks()
+                }),
+                .init(imageName: "delete", title: L10n.delete, action: {
+                    viewModel.deleteSelectedBookmarks()
+                })
+            ]
+
+            let bar = ActionBarView(title: state.title, style: ThemedActionBarStyle(), actions: actions)
+                .padding(.bottom) // match internal spacing
+
+            if let host = bookmarksActionBarHost {
+                host.rootView = AnyView(bar)
+            } else {
+                let host = UIHostingController(rootView: AnyView(bar))
+                host.view.backgroundColor = .clear
+                bookmarksActionBarHost = host
+
+                addChild(host)
+                view.addSubview(host.view)
+                host.view.translatesAutoresizingMaskIntoConstraints = false
+
+                let bottom = host.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+                bookmarksActionBarBottomConstraint = bottom
+
+                NSLayoutConstraint.activate([
+                    host.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    host.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    bottom
+                ])
+
+                host.didMove(toParent: self)
+            }
+
+            if state.visible {
+                updateBookmarksActionBarBottomConstraint()
+            } else {
+                // If not visible (no selected items), remove bar if present
+                removeBookmarksActionBar()
+            }
+            // Keep Select All button title in sync
+            updateSelectAllBtn()
+        } else {
+            removeBookmarksActionBar()
+            if isMultiSelectEnabled {
+                isMultiSelectEnabled = false
+            }
+        }
+    }
+
+    private func updateBookmarksActionBarBottomConstraint() {
+        guard let bottom = bookmarksActionBarBottomConstraint else { return }
+        // Keep 16pt baseline, plus mini player offset if visible
+        let offset: CGFloat = (PlaybackManager.shared.currentEpisode() == nil) ? 16 : (Constants.Values.miniPlayerOffset + 16)
+        bottom.constant = -offset
+        // animate if visible
+        if let host = bookmarksActionBarHost { UIView.animate(withDuration: 0.1) { host.view.layoutIfNeeded(); self.view.layoutIfNeeded() } }
+    }
+
+    func removeBookmarksActionBar() {
+        if let host = bookmarksActionBarHost {
+            host.willMove(toParent: nil)
+            host.view.removeFromSuperview()
+            host.removeFromParent()
+        }
+        bookmarksActionBarHost = nil
+        bookmarksActionBarBottomConstraint = nil
+    }
+
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
         guard let podcast = podcast, let folder = DataManager.sharedManager.findFolder(uuid: currentFolderUuid) else { return }
 
@@ -1566,6 +1662,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func switchViewMode(to mode: ViewMode) {
+        // Clear any externally presented action bar when switching modes
+        removeBookmarksActionBar()
+        if isMultiSelectEnabled && currentViewMode == .bookmarks {
+            isMultiSelectEnabled = false
+        }
         currentViewMode = mode
         currentViewModeSubject.send(mode)
         switch mode {

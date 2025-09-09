@@ -16,6 +16,13 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     var allowInternalScrolling: Bool = true
 
+    // When true, the SwiftUI overlay bar will not be rendered; instead we notify
+    // an external presenter (e.g., PodcastViewController) to show the bar.
+    var useExternalActionBar: Bool = false
+
+    // Callback to inform an external presenter of the desired action bar state
+    var externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil
+
     @State private var showShadow = false
 
     init(viewModel: BookmarkListViewModel,
@@ -23,7 +30,9 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
          showHeader: Bool = true,
          showMultiSelectInHeader: Bool = true,
          showMoreInHeader: Bool = true,
-         allowInternalScrolling: Bool = true) {
+         allowInternalScrolling: Bool = true,
+         useExternalActionBar: Bool = false,
+         externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
         self.style = style
@@ -31,6 +40,8 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         self.showMultiSelectInHeader = showMultiSelectInHeader
         self.showMoreInHeader = showMoreInHeader
         self.allowInternalScrolling = allowInternalScrolling
+        self.useExternalActionBar = useExternalActionBar
+        self.externalActionBarHandler = externalActionBarHandler
     }
 
     private var actionBarVisible: Bool {
@@ -195,19 +206,35 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         let title = L10n.selectedCountFormat(viewModel.numberOfSelectedItems)
         let editVisible = viewModel.numberOfSelectedItems == 1
         let shareVisible = viewModel.selectedItems.first?.episode is Episode
-        ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
-            content()
-        }, actions: [
-            .init(imageName: "podcast-share", title: L10n.share, visible: editVisible && shareVisible, action: {
-                viewModel.shareSelectedBookmarks()
-            }),
-            .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
-                viewModel.editSelectedBookmarks()
-            }),
-            .init(imageName: "delete", title: L10n.delete, action: {
-                viewModel.deleteSelectedBookmarks()
-            })
-        ])
+        Group {
+            if useExternalActionBar {
+                content()
+                    .onAppear { notifyExternalActionBar(title: title, editVisible: editVisible, shareVisible: shareVisible) }
+                    .onChange(of: viewModel.numberOfSelectedItems) { _ in
+                        notifyExternalActionBar(title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems), editVisible: viewModel.numberOfSelectedItems == 1, shareVisible: viewModel.selectedItems.first?.episode is Episode)
+                    }
+                    .onChange(of: viewModel.isMultiSelecting) { _ in
+                        notifyExternalActionBar(title: L10n.selectedCountFormat(viewModel.numberOfSelectedItems), editVisible: viewModel.numberOfSelectedItems == 1, shareVisible: viewModel.selectedItems.first?.episode is Episode)
+                    }
+                    .onDisappear {
+                        externalActionBarHandler?(ExternalActionBarState(visible: false, title: nil, showEdit: false, showShare: false, isMultiSelecting: false))
+                    }
+            } else {
+                ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
+                    content()
+                }, actions: [
+                    .init(imageName: "podcast-share", title: L10n.share, visible: editVisible && shareVisible, action: {
+                        viewModel.shareSelectedBookmarks()
+                    }),
+                    .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
+                        viewModel.editSelectedBookmarks()
+                    }),
+                    .init(imageName: "delete", title: L10n.delete, action: {
+                        viewModel.deleteSelectedBookmarks()
+                    })
+                ])
+            }
+        }
     }
 
     // MARK: - Utility Views
@@ -259,6 +286,26 @@ enum BookmarkListConstants {
     static let headerPadding = 12.0
     static let headerTransitionOffset = 10.0
     static let multiSelectionBottomPadding = 70.0
+}
+
+// Represents the current desired state for an externally presented action bar
+struct ExternalActionBarState {
+    let visible: Bool
+    let title: String?
+    let showEdit: Bool
+    let showShare: Bool
+    let isMultiSelecting: Bool
+}
+
+private extension BookmarksListView {
+    func notifyExternalActionBar(title: String, editVisible: Bool, shareVisible: Bool) {
+        guard useExternalActionBar else { return }
+        externalActionBarHandler?(ExternalActionBarState(visible: actionBarVisible,
+                                                         title: actionBarVisible ? title : nil,
+                                                         showEdit: actionBarVisible && editVisible,
+                                                         showShare: actionBarVisible && editVisible && shareVisible,
+                                                         isMultiSelecting: viewModel.isMultiSelecting))
+    }
 }
 
 // MARK: - Previews

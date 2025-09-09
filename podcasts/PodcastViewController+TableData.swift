@@ -19,10 +19,24 @@ class BookmarksHostingCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+        // Avoid any indentation or layout changes when the table enters editing mode
+        shouldIndentWhileEditing = false
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // Prevent this cell from visually entering editing mode (no indentation or controls)
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        // Intentionally ignore editing state to avoid shifting/indenting this embedded SwiftUI view
+        super.setEditing(false, animated: animated)
+    }
+
+    // Ensure the content fully fills the cell bounds regardless of editing state
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = bounds
     }
 
     func configure(with viewModel: BookmarkPodcastListViewModel, parentViewController: UIViewController) {
@@ -35,11 +49,15 @@ class BookmarksHostingCell: UITableViewCell {
         }
 
         let bookmarksList = BookmarksListView(viewModel: viewModel,
-                                            style: TransparentBookmarksStyle(),
-                                            showHeader: true,
-                                            showMultiSelectInHeader: false,
-                                            allowInternalScrolling: false)
-                                            .background(Color.clear)
+                                              style: TransparentBookmarksStyle(),
+                                              showHeader: true,
+                                              showMultiSelectInHeader: false,
+                                              allowInternalScrolling: false,
+                                              useExternalActionBar: true,
+                                              externalActionBarHandler: { [weak parentViewController] state in
+                                                  (parentViewController as? PodcastViewController)?.updateBookmarksActionBar(state: state, viewModel: viewModel)
+                                              })
+            .background(Color.clear)
 
         let hostingView = UIHostingController(rootView: AnyView(bookmarksList))
         hostingController = hostingView
@@ -69,6 +87,8 @@ class BookmarksHostingCell: UITableViewCell {
             hostingController.removeFromParent()
             self.hostingController = nil
         }
+        // Ensure any external action bar is removed when the cell is reused
+        (parentViewController as? PodcastViewController)?.removeBookmarksActionBar()
         self.parentViewController = nil
     }
 }

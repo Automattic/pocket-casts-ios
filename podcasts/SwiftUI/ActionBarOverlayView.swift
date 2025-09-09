@@ -18,6 +18,9 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
     /// The actions to display in the action bar
     var actions: [ActionBarView<Style>.Action] = []
 
+    // Extra bottom padding to align the bar with the container view's bottom
+    @State private var extraBottomPadding: CGFloat = 0
+
     var body: some View {
         ZStack(alignment: .bottom) {
             content()
@@ -27,10 +30,61 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
                     .padding(.bottom)
             }
         }
-        .padding(.bottom)
+        // Push the overlay down so its bottom aligns to the
+        // PodcastViewController's bottom (above mini player if visible)
+        .padding(.bottom, extraBottomPadding)
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
         .ignoresSafeArea()
+        .background(
+            GeometryReader { proxy in
+                Color.clear
+                    .preference(key: GlobalFramePreferenceKey.self, value: proxy.frame(in: .global))
+            }
+        )
+        .onPreferenceChange(GlobalFramePreferenceKey.self) { rect in
+            updateExtraPadding(using: rect)
+        }
+        // Keep in sync with mini player visibility changes
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidAppear)) { _ in
+            updateExtraPadding(using: nil)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear)) { _ in
+            updateExtraPadding(using: nil)
+        }
+    }
+}
+
+private extension ActionBarOverlayView {
+    func updateExtraPadding(using rect: CGRect?) {
+        guard actionBarVisible else {
+            extraBottomPadding = 0
+            return
+        }
+
+        // Determine the space between this view's bottom and the key window's bottom
+        let window = SceneHelper.connectedScene()?.windows.first(where: { $0.isKeyWindow })
+        let windowHeight = window?.bounds.height ?? UIScreen.main.bounds.height
+        let bottomSafeArea = window?.safeAreaInsets.bottom ?? 0
+
+        // Account for the mini player if visible
+        let miniPlayerOffset: CGFloat = (PlaybackManager.shared.currentEpisode() == nil) ? 0 : Constants.Values.miniPlayerOffset
+
+        // Target baseline matches other footers: 16pt above final bottom
+        let targetBottomInset = bottomSafeArea + miniPlayerOffset + 16
+
+        let viewMaxY = rect?.maxY ?? 0
+        let additional = max(0, windowHeight - viewMaxY - targetBottomInset)
+
+        // Avoid tiny jitter from fractional values
+        extraBottomPadding = additional > 0.5 ? additional : 0
+    }
+}
+
+private struct GlobalFramePreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
     }
 }
 
