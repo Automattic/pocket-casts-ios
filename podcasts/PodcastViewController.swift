@@ -1285,10 +1285,14 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 ])
 
                 host.didMove(toParent: self)
+
+                // Ensure initial layout has the correct offset without animating from the top
+                updateBookmarksActionBarBottomConstraint(animated: false)
             }
 
             if state.visible {
-                updateBookmarksActionBarBottomConstraint()
+                // Subsequent updates can animate
+                updateBookmarksActionBarBottomConstraint(animated: true)
             } else {
                 // If not visible (no selected items), remove bar if present
                 removeBookmarksActionBar()
@@ -1303,13 +1307,18 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    private func updateBookmarksActionBarBottomConstraint() {
+    private func updateBookmarksActionBarBottomConstraint(animated: Bool = true) {
         guard let bottom = bookmarksActionBarBottomConstraint else { return }
         // Keep 16pt baseline, plus mini player offset if visible
         let offset: CGFloat = (PlaybackManager.shared.currentEpisode() == nil) ? 16 : (Constants.Values.miniPlayerOffset + 16)
         bottom.constant = -offset
-        // animate if visible
-        if let host = bookmarksActionBarHost { UIView.animate(withDuration: 0.1) { host.view.layoutIfNeeded(); self.view.layoutIfNeeded() } }
+        guard let host = bookmarksActionBarHost else { return }
+        if animated {
+            UIView.animate(withDuration: 0.1) { host.view.layoutIfNeeded(); self.view.layoutIfNeeded() }
+        } else {
+            host.view.layoutIfNeeded()
+            self.view.layoutIfNeeded()
+        }
     }
 
     func removeBookmarksActionBar() {
