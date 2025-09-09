@@ -162,12 +162,16 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
 
-                self.episodesTable.beginUpdates()
-                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
+                // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
+                if currentViewMode == .episodes {
+                    self.episodesTable.beginUpdates()
+                    self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
+                    if self.episodesTable.numberOfSections > 0 {
+                        self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
+                    }
+                    self.episodesTable.endUpdates()
                 }
-                self.episodesTable.endUpdates()
+
                 if self.isMultiSelectEnabled {
                     if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                         self.tableView().scrollToRow(at: IndexPath(row: NSNotFound, section: PodcastViewController.allEpisodesSection), at: .top, animated: true)
