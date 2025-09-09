@@ -303,7 +303,8 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
     private var originalButtonConstant: CGFloat = 16
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            nextButtonBottomConstraint.constant = originalButtonConstant + keyboardSize.height
+            nextButtonBottomConstraint.constant = view.safeAreaInsets.bottom == 0 ? originalButtonConstant + keyboardSize.height : keyboardSize.height
+
             var animationDuration = 0.3
             if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
                 animationDuration = keyboardDuration
