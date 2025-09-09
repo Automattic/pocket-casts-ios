@@ -5417,8 +5417,26 @@
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart Rules";
 
+/* Message shown when you have no episodes in a playlist */
+"playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
+
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
+
+/* Manual Playlist: header button title to add new episodes to the playlist */
+"playlist_manual_add_episodes" = "Add Episodes";
+
+/* Manual Playlist: empty state title when no episodes are added */
+"playlist_manual_empty_state_title" = "Start building your playlist";
+
+/* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
+
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+
+/* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_browse_shows_title" = "Browse Shows";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

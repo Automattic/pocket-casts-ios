@@ -199,7 +199,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError> {
-        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
         return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 

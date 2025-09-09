@@ -19,7 +19,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        episodeFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: optionsTable)
 

@@ -909,11 +909,11 @@ public class DataManager {
 
     // MARK: - Filters
 
-    public func allFilters(includeDeleted: Bool) -> [EpisodeFilter] {
-        filterManager.allFilters(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    public func allPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        filterManager.allPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
-    public func filterCount(includeDeleted: Bool) -> Int {
+    public func playlistsCount(includeDeleted: Bool) -> Int {
         filterManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
@@ -927,6 +927,10 @@ public class DataManager {
 
     public func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
         filterManager.smartPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    }
+
+    public func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        filterManager.manualPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {

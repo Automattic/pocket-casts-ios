@@ -204,7 +204,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            playlists = DataManager.sharedManager.allFilters(includeDeleted: false)
+            playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false

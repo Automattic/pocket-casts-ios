@@ -33,7 +33,12 @@ class EpisodeFilterDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
+                let query: String
+                if FeatureFlag.playlistsRebranding.enabled {
+                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName)" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE wasDeleted = 0"
+                } else {
+                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
+                }
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -44,7 +49,6 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.count error: \(error)")
             }
         }
-
         return count
     }
 
@@ -86,9 +90,17 @@ class EpisodeFilterDataManager {
         return count
     }
 
-    func allFilters(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
+    func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+        return 0 //TODO: implement new playlist query
+    }
 
+    func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        let query: String
+        if FeatureFlag.playlistsRebranding.enabled {
+            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
+        } else {
+            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+        }
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
 

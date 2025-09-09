@@ -2308,12 +2308,24 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Manual Playlist: header button title to add new episodes to the playlist
+  internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
+  /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
+  /// Manual Playlist: empty state title when no episodes are added
+  internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
+  /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
   }
+  /// Message shown when you have no episodes in a playlist
+  internal static var playlistSmartNoEpisodesMsg: String { return L10n.tr("Localizable", "playlist_smart_no_episodes_msg", fallback: "Either it’s time to celebrate completing this list, or edit your rules to get some more.") }
   /// Smart Playlist preview: description that appears when initially there are no rules set
   internal static var playlistSmartPreviewDescription: String { return L10n.tr("Localizable", "playlist_smart_preview_description", fallback: "Set up Smart Rules to automatically add episodes to your Smart Playlist.") }
   /// Smart Playlist preview: title for the enabled rules section
