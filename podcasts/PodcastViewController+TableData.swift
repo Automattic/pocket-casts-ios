@@ -39,57 +39,10 @@ class BookmarksHostingCell: UITableViewCell {
         contentView.frame = bounds
     }
 
-    func configure(with viewModel: BookmarkPodcastListViewModel, parentViewController: UIViewController) {
-        self.parentViewController = parentViewController
-
-        // Remove existing hosting controller if any
-        if let existingController = hostingController {
-            existingController.view.removeFromSuperview()
-            existingController.removeFromParent()
-        }
-
-        let bookmarksList = BookmarksListView(viewModel: viewModel,
-                                              style: TransparentBookmarksStyle(),
-                                              showHeader: true,
-                                              showMultiSelectInHeader: false,
-                                              allowInternalScrolling: false,
-                                              useExternalActionBar: true,
-                                              externalActionBarHandler: { [weak parentViewController] state in
-                                                  (parentViewController as? PodcastViewController)?.updateBookmarksActionBar(state: state, viewModel: viewModel)
-                                              })
-            .background(Color.clear)
-
-        let hostingView = UIHostingController(rootView: AnyView(bookmarksList))
-        hostingController = hostingView
-
-
-        parentViewController.addChild(hostingView)
-        contentView.addSubview(hostingView.view)
-        hostingView.view.translatesAutoresizingMaskIntoConstraints = false
-        hostingView.view.backgroundColor = .clear
-
-        NSLayoutConstraint.activate([
-            hostingView.view.topAnchor.constraint(equalTo: contentView.topAnchor),
-            hostingView.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            hostingView.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            hostingView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-
-
-        hostingView.didMove(toParent: parentViewController)
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
-        if let hostingController = hostingController {
-            hostingController.willMove(toParent: nil)
-            hostingController.view.removeFromSuperview()
-            hostingController.removeFromParent()
-            self.hostingController = nil
-        }
         // Ensure any external action bar is removed when the cell is reused
         (parentViewController as? PodcastViewController)?.removeBookmarksActionBar()
-        self.parentViewController = nil
     }
 }
 
@@ -308,7 +261,19 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
-                cell.configure(with: bookmarkViewModel, parentViewController: self)
+                cell.contentConfiguration = UIHostingConfiguration {
+                    BookmarksListView(viewModel: bookmarkViewModel,
+                                      style: TransparentBookmarksStyle(),
+                                      showHeader: true,
+                                      showMultiSelectInHeader: false,
+                                      allowInternalScrolling: false,
+                                      useExternalActionBar: true,
+                                      externalActionBarHandler: { [weak self] state in
+                        self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
+                    })
+                    .background(Color.clear)
+                }
+                .margins(.all, 0)
                 return cell
             }
 

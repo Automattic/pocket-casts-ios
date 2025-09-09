@@ -164,23 +164,20 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     }
 
     private var stableContainer: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.bookmarks) { bookmark in
-                    BookmarkRow(bookmark: bookmark, style: style)
+        LazyVStack(spacing: 0) {
+            ForEach(viewModel.bookmarks) { bookmark in
+                BookmarkRow(bookmark: bookmark, style: style)
 
-                    if !viewModel.isLast(item: bookmark) {
-                        divider
-                    }
-                }
-
-                // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                if actionBarVisible {
-                    Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                if !viewModel.isLast(item: bookmark) {
+                    divider
                 }
             }
+
+            // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+            if actionBarVisible {
+                Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+            }
         }
-        .scrollDisabled(true)
     }
 
     @ViewBuilder
