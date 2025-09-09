@@ -3200,6 +3200,8 @@ internal enum L10n {
   internal static var settingsBadgeFilterHeader: String { return L10n.tr("Localizable", "settings_badge_filter_header", fallback: "EPISODE FILTER COUNT") }
   /// Option for setting the app badge based on the new episodes since the app opened.
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened", fallback: "New Since App Opened") }
+  /// Section Header for selecting the options for setting the app badge based on the user's smart playlists.
+  internal static var settingsBadgeSmartPlaylistHeader: String { return L10n.tr("Localizable", "settings_badge_smart_playlist_header", fallback: "SMART PLAYLIST COUNT") }
   /// Option for setting the app badge based on the total unplayed episodes.
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed", fallback: "Total Unplayed") }
   /// Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark .
@@ -3390,6 +3392,8 @@ internal enum L10n {
   internal static var settingsNotifications: String { return L10n.tr("Localizable", "settings_notifications", fallback: "Notifications") }
   /// App badge choice to have the badge reflect the filter count
   internal static var settingsNotificationsFilterCount: String { return L10n.tr("Localizable", "settings_notifications_filter_count", fallback: "Filter count") }
+  /// App badge choice to have the badge reflect the smart playlist count
+  internal static var settingsNotificationsSmartPlaylistCount: String { return L10n.tr("Localizable", "settings_notifications_smart_playlist_count", fallback: "Smart Playlist count") }
   /// Subtitle explaining what notifications to expect when you enable notifications.
   internal static var settingsNotificationsSubtitle: String { return L10n.tr("Localizable", "settings_notifications_subtitle", fallback: "Notifies you when a new episode is available. Also useful for improving the reliability of auto downloads.") }
   /// A common string used throughout the app. Refers to the Import/Export OPML settings menu
