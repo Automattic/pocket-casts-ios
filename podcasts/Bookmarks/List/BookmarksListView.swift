@@ -14,19 +14,23 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     var showMoreInHeader: Bool = true
 
+    var allowInternalScrolling: Bool = true
+
     @State private var showShadow = false
 
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
          showHeader: Bool = true,
          showMultiSelectInHeader: Bool = true,
-         showMoreInHeader: Bool = true) {
+         showMoreInHeader: Bool = true,
+         allowInternalScrolling: Bool = true) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
         self.style = style
         self.showHeader = showHeader
         self.showMultiSelectInHeader = showMultiSelectInHeader
         self.showMoreInHeader = showMoreInHeader
+        self.allowInternalScrolling = allowInternalScrolling
     }
 
     private var actionBarVisible: Bool {
@@ -79,11 +83,18 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         }
 
         actionBarView {
-            scrollView
+            Group {
+                if allowInternalScrolling {
+                    scrollView
+                } else {
+                    stableContainer
+                }
+            }
         }
     }
 
     /// A static header view that displays the number of bookmarks and a ... more button
+    @ViewBuilder
     private var headerView: some View {
         // Using a ZStack here to prevent the header from changing height when switching between modes
         ZStack {
@@ -113,6 +124,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         .padding(.bottom, BookmarkListConstants.headerPadding)
     }
 
+    @ViewBuilder
     private var scrollView: some View {
         ZStack(alignment: .top) {
             ScrollViewWithContentOffset {
@@ -137,6 +149,44 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
             // Shadow overlay
             shadowView
+        }
+    }
+
+    private var stableContainer: some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.bookmarks) { bookmark in
+                    BookmarkRow(bookmark: bookmark, style: style)
+
+                    if !viewModel.isLast(item: bookmark) {
+                        divider
+                    }
+                }
+
+                // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+                if actionBarVisible {
+                    Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                }
+            }
+        }
+        .scrollDisabled(true)
+    }
+
+    @ViewBuilder
+    private var listContent: some View {
+        LazyVStack(spacing: 0) {
+            ForEach(viewModel.bookmarks) { bookmark in
+                BookmarkRow(bookmark: bookmark, style: style)
+
+                if !viewModel.isLast(item: bookmark) {
+                    divider
+                }
+            }
+
+            // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+            if actionBarVisible {
+                Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+            }
         }
     }
 
@@ -171,6 +221,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     }
 
     /// Styled divider view
+    @ViewBuilder
     private var divider: some View {
         Divider().background(style.divider)
     }

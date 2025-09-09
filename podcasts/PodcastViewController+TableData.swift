@@ -14,6 +14,17 @@ class BookmarksHostingCell: UITableViewCell {
     private var hostingController: UIHostingController<AnyView>?
     private weak var parentViewController: UIViewController?
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func configure(with viewModel: BookmarkPodcastListViewModel, parentViewController: UIViewController) {
         self.parentViewController = parentViewController
 
@@ -26,18 +37,18 @@ class BookmarksHostingCell: UITableViewCell {
         let bookmarksList = BookmarksListView(viewModel: viewModel,
                                             style: TransparentBookmarksStyle(),
                                             showHeader: true,
-                                            showMultiSelectInHeader: false)
+                                            showMultiSelectInHeader: false,
+                                            allowInternalScrolling: false)
                                             .background(Color.clear)
 
         let hostingView = UIHostingController(rootView: AnyView(bookmarksList))
-         hostingController = hostingView
+        hostingController = hostingView
+
 
         parentViewController.addChild(hostingView)
         contentView.addSubview(hostingView.view)
         hostingView.view.translatesAutoresizingMaskIntoConstraints = false
         hostingView.view.backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        backgroundColor = .clear
 
         NSLayoutConstraint.activate([
             hostingView.view.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -45,6 +56,7 @@ class BookmarksHostingCell: UITableViewCell {
             hostingView.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             hostingView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+
 
         hostingView.didMove(toParent: parentViewController)
     }
