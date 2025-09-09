@@ -261,16 +261,28 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
+                cell.backgroundColor = .clear
+                cell.contentView.backgroundColor = .clear
+
+                // Wrap in a top-aligned container to avoid temporary vertical centering while sizing updates.
                 cell.contentConfiguration = UIHostingConfiguration {
-                    BookmarksListView(viewModel: bookmarkViewModel,
-                                      style: TransparentBookmarksStyle(),
-                                      showHeader: true,
-                                      showMultiSelectInHeader: false,
-                                      allowInternalScrolling: false,
-                                      useExternalActionBar: true,
-                                      externalActionBarHandler: { [weak self] state in
-                        self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
-                    })
+                    VStack(spacing: 0) {
+                        BookmarksListView(viewModel: bookmarkViewModel,
+                                          style: TransparentBookmarksStyle(),
+                                          showHeader: true,
+                                          showMultiSelectInHeader: false,
+                                          allowInternalScrolling: false,
+                                          showSearchField: true,
+                                          useExternalActionBar: true,
+                                          externalActionBarHandler: { [weak self] state in
+                            self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
+                        })
+                        .background(Color.clear)
+
+                        // Fills remaining space so content stays pinned to the top.
+                        Spacer(minLength: 0)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
                     .background(Color.clear)
                 }
                 .margins(.all, 0)
