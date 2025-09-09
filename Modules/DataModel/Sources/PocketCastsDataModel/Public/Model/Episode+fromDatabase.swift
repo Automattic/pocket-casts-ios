@@ -1,5 +1,4 @@
 import Foundation
-import FMDB
 
 extension Episode {
     static func from(resultSet rs: PCDBResultSet) -> Episode? {

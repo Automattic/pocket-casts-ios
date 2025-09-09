@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 class UpNextDataManager {
     private static let upNextPlaylistId = 1

@@ -1,6 +1,5 @@
 import Foundation
 import PocketCastsUtils
-import FMDB
 
 extension Podcast {
     static func from(resultSet rs: PCDBResultSet) -> Podcast {
