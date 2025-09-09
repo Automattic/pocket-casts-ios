@@ -1,6 +1,31 @@
 import SwiftUI
 
 extension PlaylistDetailViewController {
+    private var emptyStateTitle: String {
+        if viewModel.isManualPlaylist {
+            return viewModel.hasSubscribedPodcasts ? L10n.playlistManualEmptyStateTitle : L10n.playlistManualEmptyStateTitleNoPodcasts
+        }
+        return L10n.episodeFilterNoEpisodesTitle
+    }
+
+    private var emptyStateDescription: String? {
+        if viewModel.isManualPlaylist {
+            return viewModel.hasSubscribedPodcasts ? nil : L10n.playlistManualEmptyStateSubtitleNoPodcasts
+        }
+        return L10n.playlistSmartNoEpisodesMsg
+    }
+
+    private var emptyStateIcon: Image {
+        return viewModel.isManualPlaylist ? Image("playlists_tab") : Image("empty-playlist-info")
+    }
+
+    private var emptyStateButtonTitle: String {
+        if viewModel.isManualPlaylist {
+            return viewModel.hasSubscribedPodcasts ? L10n.playlistManualAddEpisodes : L10n.playlistManualBrowseShowsTitle
+        }
+        return L10n.playlistSmartRulesTitle
+    }
+
     func reloadEmptyState() {
         if viewModel.isSearching { return }
 
@@ -10,19 +35,17 @@ extension PlaylistDetailViewController {
 
         if viewModel.episodes.isEmpty {
             // Empty State when playlists is empty
-            let title = L10n.episodeFilterNoEpisodesTitle
-            let message = L10n.episodeFilterNoEpisodesMsg
             config = ContentUnavailableConfiguration.emptyState(
-                title: title,
-                message: message,
+                title: emptyStateTitle,
+                message: emptyStateDescription,
                 icon: {
-                    Image("empty-playlist-info")
+                    self.emptyStateIcon
                 },
                 actions: [
                 .init(
-                    title: L10n.playlistSmartRulesTitle,
+                    title: emptyStateButtonTitle,
                     action: { [weak self] in
-                    self?.editPlaylist()
+                        self?.emptyStateAction()
                     }
                 )
             ])
@@ -32,5 +55,17 @@ extension PlaylistDetailViewController {
 
     func set(configuration: UIContentConfiguration?) {
         self.setContentUnavailableConfiguration(configuration)
+    }
+
+    private func emptyStateAction() {
+        if !viewModel.isManualPlaylist {
+            editPlaylist()
+            return
+        }
+        if viewModel.hasSubscribedPodcasts {
+            //TODO: open new add episode screen
+            return
+        }
+        NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
     }
 }
