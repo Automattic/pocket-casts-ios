@@ -101,7 +101,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         title = L10n.createAccount
         activityIndicator.isHidden = true
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: FeatureFlag.newOnboardingAccountCreation.enabled ? UIImage(systemName: "chevron.backward") :  UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
