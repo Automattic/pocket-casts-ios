@@ -27,7 +27,7 @@ class PlaylistManager {
         }
 
         // don't create the rest of these if the user already has playlists
-        let filterCount = DataManager.sharedManager.filterCount(includeDeleted: false)
+        let filterCount = DataManager.sharedManager.playlistsCount(includeDeleted: false)
         if filterCount > 1 {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
 

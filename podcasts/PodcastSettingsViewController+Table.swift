@@ -399,13 +399,13 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     private func filterUuidsPodcastAppearsIn() -> [String] {
-        DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
+        DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { filter -> String? in
             filter.podcastUuids.contains(podcast.uuid) ? filter.uuid : nil
         }
     }
 
     private func filtersPodcastCanAppearIn() -> [EpisodeFilter] {
-        DataManager.sharedManager.allFilters(includeDeleted: false).filter { filter -> Bool in
+        DataManager.sharedManager.allPlaylists(includeDeleted: false).filter { filter -> Bool in
             filter.filterAllPodcasts == false
         }
     }

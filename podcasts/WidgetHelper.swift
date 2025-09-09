@@ -109,7 +109,7 @@ class WidgetHelper {
 
         var filterItems = [CommonUpNextItem]()
         var filterName: String?
-        if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first {
+        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first {
             filterName = topFilter.playlistName
             let query = PlaylistQueryBuilder.queryFor(filter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries(), limit: WidgetHelper.maxFilterToPublish)
 

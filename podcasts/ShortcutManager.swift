@@ -34,7 +34,7 @@ class ShortcutManager: CustomObserver {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
 
         // top filter
-        if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first, let iconName = topFilter.iconImageName() {
+        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first, let iconName = topFilter.iconImageName() {
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
                     type: "au.com.shiftyjelly.podcasts",

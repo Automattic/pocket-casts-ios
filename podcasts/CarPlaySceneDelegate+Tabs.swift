@@ -53,7 +53,7 @@ extension CarPlaySceneDelegate {
 extension CarPlaySceneDelegate {
     private var filterTabSections: [CPListSection] {
         var filterItems = [CPListItem]()
-        for filter in DataManager.sharedManager.allFilters(includeDeleted: false) {
+        for filter in DataManager.sharedManager.allPlaylists(includeDeleted: false) {
             let item = CPListItem(text: filter.playlistName, detailText: nil, image: UIImage(named: filter.iconImageNameCarPlay()))
             item.accessoryType = .disclosureIndicator
             item.handler = { [weak self] _, completion in
