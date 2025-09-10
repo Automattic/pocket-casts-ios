@@ -36,24 +36,24 @@ struct PlaylistArtworkView: View {
                     case 4:
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                AsyncImageView(url: items[0].url, id: items[0].id, size: imageSize)
+                                AsyncImageView(url: items[0].url, cacheKey: items[0].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: items[1].url, id: items[1].id, size: imageSize)
+                                AsyncImageView(url: items[1].url, cacheKey: items[1].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                             HStack(spacing: 0) {
-                                AsyncImageView(url: items[2].url, id: items[2].id, size: imageSize)
+                                AsyncImageView(url: items[2].url, cacheKey: items[2].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: items[3].url, id: items[3].id, size: imageSize)
+                                AsyncImageView(url: items[3].url, cacheKey: items[3].id, size: imageSize)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                         }
                     default:
-                        AsyncImageView(url: items[0].url, id: items[0].id, size: imageSize)
+                        AsyncImageView(url: items[0].url, cacheKey: items[0].id, size: imageSize)
                             .frame(width: size.width, height: size.height)
                             .clipped()
                     }
