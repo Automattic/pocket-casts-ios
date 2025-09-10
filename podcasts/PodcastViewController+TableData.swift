@@ -277,13 +277,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                                           externalActionBarHandler: { [weak self] state in
                             self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
                         })
-                        .background(Color.clear)
 
                         // Fills remaining space so content stays pinned to the top.
                         Spacer(minLength: 0)
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .background(Color.clear)
                 }
                 .margins(.all, 0)
                 return cell
@@ -363,9 +361,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
-            return 400 // Bookmarks view needs more space
-        }
         return cellHeights[indexPath] ?? 80
     }
 
