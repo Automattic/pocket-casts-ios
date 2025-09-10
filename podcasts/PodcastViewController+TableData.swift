@@ -407,8 +407,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - Table Config
 
-    
-
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return headerHeightValue(for: currentViewMode, section: section, estimated: true)
     }
