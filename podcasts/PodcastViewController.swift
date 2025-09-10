@@ -486,7 +486,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         showViewChangesTipIfNeeded()
 
         // Load recommendations when view appears
-        if FeatureFlag.recommendations.enabled {
+        if FeatureFlag.recommendations.enabled && recommendations == nil {
             Task {
                 await loadRecommendations()
             }
