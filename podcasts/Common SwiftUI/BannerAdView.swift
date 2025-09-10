@@ -119,10 +119,10 @@ struct BannerAdView: View {
     }
 
     @ViewBuilder func creative() -> some View {
-        AsyncImageView(url: model.imageURL!)
-        .cornerRadius(4)
-        .aspectRatio(1, contentMode: .fit)
-        .frame(width: 86, height: 86)
+        AsyncImageView(url: model.imageURL!, id: model.adID)
+            .cornerRadius(4)
+            .aspectRatio(1, contentMode: .fit)
+            .frame(width: 86, height: 86)
     }
 
     @ViewBuilder func text() -> some View {
