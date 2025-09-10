@@ -1,4 +1,3 @@
-import FMDB
 import PocketCastsUtils
 
 class EpisodeFilterDataManager {

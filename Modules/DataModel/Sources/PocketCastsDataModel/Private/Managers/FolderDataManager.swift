@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 class FolderDataManager {
     private let columnNames = [

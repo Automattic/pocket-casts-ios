@@ -16,7 +16,6 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/ccgus/fmdb.git", from: "2.0.0"),
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.2.0"),
         .package(path: "../Utils/")
     ],
@@ -24,7 +23,6 @@ let package = Package(
         .target(
             name: "PocketCastsDataModel",
             dependencies: [
-                .product(name: "FMDB", package: "fmdb"),
                 .product(name: "GRDB", package: "GRDB.swift"),
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],

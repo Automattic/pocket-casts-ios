@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 class PodcastDataManager {
     private var cachedPodcasts = [String: Podcast]()
