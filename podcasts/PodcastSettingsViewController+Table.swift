@@ -159,18 +159,23 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
             return cell
         case .inFilters:
+            let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellSecondaryLabel.text = nil
             cell.setImage(
-                imageName: FeatureFlag.playlistsRebranding.enabled ? "playlists_tab" : "settings_filter",
+                imageName: playlistRebrandingEnabled ? "playlists_tab" : "settings_filter",
                 tintColor: podcast.iconTintColor()
             )
 
-            let filterCount = filterUuidsPodcastAppearsIn().count
-            if filterCount == 0 {
-                cell.cellLabel.text = L10n.settingsNotInFilters
+            let playlistsCount = playlistUuidsPodcastAppearsIn().count
+            if playlistsCount == 0 {
+                cell.cellLabel.text = playlistRebrandingEnabled ? L10n.settingsNotInSmartPlaylists : L10n.settingsNotInFilters
             } else {
-                cell.cellLabel.text = filterCount == 1 ? L10n.settingsInFiltersSingular : L10n.settingsInFiltersPluralFormat(filterCount.localized())
+                cell.cellLabel.text = if playlistsCount == 1 {
+                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistSingular : L10n.settingsInFiltersSingular
+                } else {
+                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistsPluralFormat(playlistsCount.localized()) : L10n.settingsInFiltersPluralFormat(playlistsCount.localized())
+                }
             }
 
             return cell
@@ -236,8 +241,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
             let filterSelectionViewController = FilterSelectionViewController()
-            filterSelectionViewController.allFilters = filtersPodcastCanAppearIn()
-            filterSelectionViewController.selectedFilters = filterUuidsPodcastAppearsIn()
+            filterSelectionViewController.allFilters = playlistsPodcastCanAppearIn()
+            filterSelectionViewController.selectedFilters = playlistUuidsPodcastAppearsIn()
             filterSelectionViewController.filterSelected = { [weak self] filter in
                 guard let self = self else { return }
 
@@ -392,7 +397,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             data[1].append(.globalUpNext)
         }
 
-        if filtersPodcastCanAppearIn().count > 0 {
+        if playlistsPodcastCanAppearIn().count > 0 {
             data.append([.inFilters])
         }
         data.append([.siriShortcut])
@@ -401,15 +406,15 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         return data
     }
 
-    private func filterUuidsPodcastAppearsIn() -> [String] {
-        DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { filter -> String? in
-            filter.podcastUuids.contains(podcast.uuid) ? filter.uuid : nil
+    private func playlistUuidsPodcastAppearsIn() -> [String] {
+        DataManager.sharedManager.allSmartPlaylists(includeDeleted: false).compactMap { playlist -> String? in
+            playlist.podcastUuids.contains(podcast.uuid) ? playlist.uuid : nil
         }
     }
 
-    private func filtersPodcastCanAppearIn() -> [EpisodeFilter] {
-        DataManager.sharedManager.allPlaylists(includeDeleted: false).filter { filter -> Bool in
-            filter.filterAllPodcasts == false
+    private func playlistsPodcastCanAppearIn() -> [EpisodeFilter] {
+        DataManager.sharedManager.allSmartPlaylists(includeDeleted: false).filter { playlist -> Bool in
+            playlist.filterAllPodcasts == false
         }
     }
 

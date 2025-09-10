@@ -3382,12 +3382,20 @@ internal enum L10n {
   internal static var settingsInFiltersSingular: String { return L10n.tr("Localizable", "settings_in_filters_singular", fallback: "Included In 1 Filter") }
   /// Setting section header. Indicates that the options in this section will appear in the menu vs an action bar.
   internal static var settingsInMenu: String { return L10n.tr("Localizable", "settings_in_menu", fallback: "IN MENU") }
+  /// Informs the user that the current podcast is included in one Smart Playlist. This is the singular form of an accompanying plural string.
+  internal static var settingsInSmartPlaylistSingular: String { return L10n.tr("Localizable", "settings_in_smart_playlist_singular", fallback: "Included In 1 Smart Playlist") }
+  /// Informs the user that the current podcast is included in more Smart Playlists. '%1$@' is a placeholder for the number of filters this podcast is included in.
+  internal static func settingsInSmartPlaylistsPluralFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_in_smart_playlists_plural_format", String(describing: p1), fallback: "Included In %1$@ Smart Playlists")
+  }
   /// A message accompanying the settings for inactive episodes explaining what is considered an inactive episode.
   internal static var settingsInactiveEpisodesMsg: String { return L10n.tr("Localizable", "settings_inactive_episodes_msg", fallback: "Inactive episodes are episodes you haven't played or downloaded in the time you specify above. Downloads are removed when the episode is archived.") }
   /// Label for a setting that allows the user to custom the customize a headphone button skip next action.
   internal static var settingsNextAction: String { return L10n.tr("Localizable", "settings_next_action", fallback: "Next Action") }
   /// Informs the user that the current podcast isn't included in any filters.
   internal static var settingsNotInFilters: String { return L10n.tr("Localizable", "settings_not_in_filters", fallback: "Not Included In Any Filters") }
+  /// Informs the user that the current podcast isn't included in any playlists.
+  internal static var settingsNotInSmartPlaylists: String { return L10n.tr("Localizable", "settings_not_in_smart_playlists", fallback: "Not Included In Any Smart Playlists") }
   /// A common string used throughout the app. Refers to the Notifications settings menu.
   internal static var settingsNotifications: String { return L10n.tr("Localizable", "settings_notifications", fallback: "Notifications") }
   /// App badge choice to have the badge reflect the filter count

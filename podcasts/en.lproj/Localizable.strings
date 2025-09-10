@@ -2617,6 +2617,12 @@
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
 
+/* Informs the user that the current podcast is included in more Smart Playlists. '%1$@' is a placeholder for the number of filters this podcast is included in. */
+"settings_in_smart_playlists_plural_format" = "Included In %1$@ Smart Playlists";
+
+/* Informs the user that the current podcast is included in one Smart Playlist. This is the singular form of an accompanying plural string. */
+"settings_in_smart_playlist_singular" = "Included In 1 Smart Playlist";
+
 /* Setting section header. Indicates that the options in this section will appear in the menu vs an action bar. */
 "settings_in_menu" = "IN MENU";
 
@@ -2625,6 +2631,9 @@
 
 /* Informs the user that the current podcast isn't included in any filters. */
 "settings_not_in_filters" = "Not Included In Any Filters";
+
+/* Informs the user that the current podcast isn't included in any playlists. */
+"settings_not_in_smart_playlists" = "Not Included In Any Smart Playlists";
 
 /* A common string used throughout the app. Refers to the Notifications settings menu. */
 "settings_notifications" = "Notifications";
