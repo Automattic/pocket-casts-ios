@@ -37,6 +37,7 @@ class PlaylistDetailViewModel: ObservableObject {
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
+    @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
@@ -77,6 +78,7 @@ class PlaylistDetailViewModel: ObservableObject {
 
         if isLoadingData { return }
         isLoadingData = true
+
         Task { [weak self] in
             guard let self else { return }
             do {
@@ -117,6 +119,7 @@ class PlaylistDetailViewModel: ObservableObject {
             if let reloadedPlaylist = DataManager.sharedManager.findFilter(uuid: playlist.uuid) {
                 DispatchQueue.main.async { [weak self] in
                     self?.playlist = reloadedPlaylist
+                    self?.playlistName = reloadedPlaylist.playlistName
                 }
             }
             reloadEpisodeList(animated: false)
