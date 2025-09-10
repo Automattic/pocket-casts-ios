@@ -11,9 +11,6 @@ class TransparentBookmarksStyle: ThemedBookmarksStyle {
 class BookmarksHostingCell: UITableViewCell {
     static let reuseIdentifier = "BookmarksListCell"
 
-    private var hostingController: UIHostingController<AnyView>?
-    private weak var parentViewController: UIViewController?
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -39,11 +36,6 @@ class BookmarksHostingCell: UITableViewCell {
         contentView.frame = bounds
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        // Ensure any external action bar is removed when the cell is reused
-        (parentViewController as? PodcastViewController)?.removeBookmarksActionBar()
-    }
 }
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
@@ -54,7 +46,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     private static let groupHeadingCellId = "GroupHeading"
     private static let emptyStateCellId = "EmptyStateCell"
     private static let loadingCellId = "LoadingCell"
-    private static let bookmarksListCellId = "BookmarksListCell"
 
     private enum YouMightLikeSection {
         case header
@@ -474,10 +465,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        // No extra top padding for Bookmarks content section; header view is inside the cell.
-        if currentViewMode == .bookmarks { return CGFloat.leastNonzeroMagnitude }
-        if currentViewMode == .youMightLike { return CGFloat.leastNonzeroMagnitude }
-        return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
+        return headerHeightValue(for: currentViewMode, section: section, estimated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -539,9 +527,15 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // Remove default header spacing above Bookmarks list so the search field aligns under tabs
-        if currentViewMode == .bookmarks { return CGFloat.leastNonzeroMagnitude }
-        if currentViewMode == .youMightLike {
+        return headerHeightValue(for: currentViewMode, section: section, estimated: false)
+    }
+
+    private func headerHeightValue(for mode: ViewMode, section: Int, estimated: Bool) -> CGFloat {
+        switch mode {
+        case .bookmarks:
+            // Remove default header spacing above Bookmarks list so the search field aligns under tabs
+            return .leastNonzeroMagnitude
+        case .youMightLike:
             switch youMightLikeSectionType(for: section) {
             case .podroll:
                 return 34
@@ -552,13 +546,17 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 case .podroll:
                     return 34
                 default:
-                    return CGFloat.leastNonzeroMagnitude
+                    return .leastNonzeroMagnitude
                 }
             default:
-                return CGFloat.leastNonzeroMagnitude
+                return .leastNonzeroMagnitude
             }
+        case .episodes:
+            if PodcastViewController.allEpisodesSection == section {
+                return estimated ? 100 : UITableView.automaticDimension
+            }
+            return .leastNonzeroMagnitude
         }
-        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     // MARK: - Swipe Actions
