@@ -1,6 +1,6 @@
 7.98
 -----
-
+- Fixed a bug where notification where still arriving even when disabled.[#3483](https://github.com/Automattic/pocket-casts-ios/pull/3483)
 
 7.97
 -----
