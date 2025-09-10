@@ -16,8 +16,6 @@ class BookmarksHostingCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        // Avoid any indentation or layout changes when the table enters editing mode
-        shouldIndentWhileEditing = false
     }
 
     required init?(coder: NSCoder) {
@@ -29,13 +27,6 @@ class BookmarksHostingCell: UITableViewCell {
         // Intentionally ignore editing state to avoid shifting/indenting this embedded SwiftUI view
         super.setEditing(false, animated: animated)
     }
-
-    // Ensure the content fully fills the cell bounds regardless of editing state
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.frame = bounds
-    }
-
 }
 
 extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
