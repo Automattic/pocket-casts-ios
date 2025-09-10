@@ -913,6 +913,10 @@ public class DataManager {
         filterManager.allPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
+    public func allSmartPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        filterManager.allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
     public func playlistsCount(includeDeleted: Bool) -> Int {
         filterManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
