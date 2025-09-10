@@ -1381,7 +1381,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showBookmarks() {
-        switchViewMode(to: .bookmarks)
+        if FeatureFlag.podcastBookmarksInline.enabled {
+            switchViewMode(to: .bookmarks)
+        } else {
+            guard let podcast else { return }
+            let controller = BookmarksPodcastListController(podcast: podcast)
+            present(controller, animated: true)
+        }
     }
 
     func showYouMightLike() {
