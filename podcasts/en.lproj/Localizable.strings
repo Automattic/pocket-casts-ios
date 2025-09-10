@@ -2390,7 +2390,7 @@
 "settings_badge_filter_header" = "EPISODE FILTER COUNT";
 
 /* Section Header for selecting the options for setting the app badge based on the user's smart playlists. */
-"settings_badge_smart_playlist_header" = "SMART PLAYLIST COUNT";
+"settings_badge_smart_playlist_header" = "SMART PLAYLIST EPISODE COUNT";
 
 /* Option for setting the app badge based on the new episodes since the app opened. */
 "settings_badge_new_since_opened" = "New Since App Opened";

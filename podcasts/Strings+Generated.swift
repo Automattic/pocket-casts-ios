@@ -3201,7 +3201,7 @@ internal enum L10n {
   /// Option for setting the app badge based on the new episodes since the app opened.
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened", fallback: "New Since App Opened") }
   /// Section Header for selecting the options for setting the app badge based on the user's smart playlists.
-  internal static var settingsBadgeSmartPlaylistHeader: String { return L10n.tr("Localizable", "settings_badge_smart_playlist_header", fallback: "SMART PLAYLIST COUNT") }
+  internal static var settingsBadgeSmartPlaylistHeader: String { return L10n.tr("Localizable", "settings_badge_smart_playlist_header", fallback: "SMART PLAYLIST EPISODE COUNT") }
   /// Option for setting the app badge based on the total unplayed episodes.
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed", fallback: "Total Unplayed") }
   /// Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark .
