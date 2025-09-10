@@ -161,7 +161,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         case .inFilters:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellSecondaryLabel.text = nil
-            cell.setImage(imageName: "settings_filter", tintColor: podcast.iconTintColor())
+            cell.setImage(
+                imageName: FeatureFlag.playlistsRebranding.enabled ? "playlists_tab" : "settings_filter",
+                tintColor: podcast.iconTintColor()
+            )
 
             let filterCount = filterUuidsPodcastAppearsIn().count
             if filterCount == 0 {
