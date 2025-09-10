@@ -1250,17 +1250,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             // Hide the table's native multiSelectFooter; we present a SwiftUI bar instead
             multiSelectFooter.isHidden = true
 
-            let actions: [ActionBarView<ThemedActionBarStyle>.Action] = [
-                .init(imageName: "podcast-share", title: L10n.share, visible: state.showShare, action: {
-                    viewModel.shareSelectedBookmarks()
-                }),
-                .init(imageName: "folder-edit", title: L10n.edit, visible: state.showEdit, action: {
-                    viewModel.editSelectedBookmarks()
-                }),
-                .init(imageName: "delete", title: L10n.delete, action: {
-                    viewModel.deleteSelectedBookmarks()
-                })
-            ]
+            let actions: [ActionBarView<ThemedActionBarStyle>.Action] = makeBookmarkActions(BookmarkActionConfig(
+                showShare: state.showShare,
+                showEdit: state.showEdit,
+                onShare: { viewModel.shareSelectedBookmarks() },
+                onEdit: { viewModel.editSelectedBookmarks() },
+                onDelete: { viewModel.deleteSelectedBookmarks() }
+            ))
 
             let bar = ActionBarView(title: state.title, style: ThemedActionBarStyle(), actions: actions)
                 .padding(.bottom) // match internal spacing
@@ -1311,7 +1307,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func updateBookmarksActionBarBottomConstraint(animated: Bool = true) {
         guard let bottom = bookmarksActionBarBottomConstraint else { return }
         // Keep 16pt baseline, plus mini player offset if visible
-        let offset: CGFloat = (PlaybackManager.shared.currentEpisode() == nil) ? 16 : (Constants.Values.miniPlayerOffset + 16)
+        let offset = MiniPlayerInsets.baseline()
         bottom.constant = -offset
         guard let host = bookmarksActionBarHost else { return }
         if animated {

@@ -67,11 +67,8 @@ private extension ActionBarOverlayView {
         let windowHeight = window?.bounds.height ?? UIScreen.main.bounds.height
         let bottomSafeArea = window?.safeAreaInsets.bottom ?? 0
 
-        // Account for the mini player if visible
-        let miniPlayerOffset: CGFloat = (PlaybackManager.shared.currentEpisode() == nil) ? 0 : Constants.Values.miniPlayerOffset
-
-        // Target baseline matches other footers: 16pt above final bottom
-        let targetBottomInset = bottomSafeArea + miniPlayerOffset + 16
+        // Target baseline matches other footers: 16pt above final bottom, adjusted for mini player
+        let targetBottomInset = bottomSafeArea + MiniPlayerInsets.baseline(padding: 16)
 
         let viewMaxY = rect?.maxY ?? 0
         let additional = max(0, windowHeight - viewMaxY - targetBottomInset)
