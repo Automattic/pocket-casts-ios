@@ -277,6 +277,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                                           externalActionBarHandler: { [weak self] state in
                             self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
                         })
+                        .padding(.top, 10)
 
                         // Fills remaining space so content stays pinned to the top.
                         Spacer(minLength: 0)
@@ -470,36 +471,18 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - Table Config
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .youMightLike {
-            switch youMightLikeSectionType(for: section) {
-            case .podroll:
-                return 34
-            case .podcasts:
-                switch youMightLikeSectionType(for: section - 1) {
-                case .header:
-                    return 16 // Padding between header
-                case .podroll:
-                    return 34
-                default:
-                    return CGFloat.leastNonzeroMagnitude
-                }
-            default:
-                return CGFloat.leastNonzeroMagnitude
-            }
-        }
-        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
-    }
+    
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .youMightLike {
-            return CGFloat.leastNonzeroMagnitude
-        }
+        // No extra top padding for Bookmarks content section; header view is inside the cell.
+        if currentViewMode == .bookmarks { return CGFloat.leastNonzeroMagnitude }
+        if currentViewMode == .youMightLike { return CGFloat.leastNonzeroMagnitude }
         return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard currentViewMode == .youMightLike else {
+            // Episodes show a UIKit search header; Bookmarks embeds search inside its cell.
             return currentViewMode == .episodes ? searchController?.view : nil
         }
 
@@ -553,6 +536,29 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         return CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // Remove default header spacing above Bookmarks list so the search field aligns under tabs
+        if currentViewMode == .bookmarks { return CGFloat.leastNonzeroMagnitude }
+        if currentViewMode == .youMightLike {
+            switch youMightLikeSectionType(for: section) {
+            case .podroll:
+                return 34
+            case .podcasts:
+                switch youMightLikeSectionType(for: section - 1) {
+                case .header:
+                    return 16 // Padding between header
+                case .podroll:
+                    return 34
+                default:
+                    return CGFloat.leastNonzeroMagnitude
+                }
+            default:
+                return CGFloat.leastNonzeroMagnitude
+            }
+        }
+        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     // MARK: - Swipe Actions
