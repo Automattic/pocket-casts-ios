@@ -240,10 +240,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let archiveController = PodcastArchiveViewController(podcast: podcast)
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
-            let filterSelectionViewController = FilterSelectionViewController()
-            filterSelectionViewController.allFilters = playlistsPodcastCanAppearIn()
-            filterSelectionViewController.selectedFilters = playlistUuidsPodcastAppearsIn()
-            filterSelectionViewController.filterSelected = { [weak self] filter in
+            let filterSelectionViewController = PlaylistSelectionViewController()
+            filterSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
+            filterSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
+            filterSelectionViewController.playlistSelected = { [weak self] filter in
                 guard let self = self else { return }
 
                 filter.addPodcast(podcastUuid: self.podcast.uuid)
@@ -252,7 +252,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            filterSelectionViewController.filterUnselected = { [weak self] filter in
+            filterSelectionViewController.playlistUnselected = { [weak self] filter in
                 guard let self = self else { return }
 
                 filter.removePodcast(podcastUuid: self.podcast.uuid)

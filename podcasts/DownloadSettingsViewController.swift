@@ -164,20 +164,20 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
         case .filterSelection:
-                let filterSelectionViewController = FilterSelectionViewController()
-                filterSelectionViewController.allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+                let filterSelectionViewController = PlaylistSelectionViewController()
+                filterSelectionViewController.allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
                 let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { filter -> String? in
                     filter.autoDownloadEpisodes ? filter.uuid : nil
                 }
-                filterSelectionViewController.selectedFilters = selectedFilters
-                filterSelectionViewController.filterSelected = { filter in
+                filterSelectionViewController.selectedPlaylists = selectedFilters
+                filterSelectionViewController.playlistSelected = { filter in
                     Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
                     filter.autoDownloadEpisodes = true
                     filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
                     DataManager.sharedManager.save(filter: filter)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
                 }
-                filterSelectionViewController.filterUnselected = { filter in
+                filterSelectionViewController.playlistUnselected = { filter in
                     Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
                     filter.autoDownloadEpisodes = false
                     DataManager.sharedManager.save(filter: filter)
