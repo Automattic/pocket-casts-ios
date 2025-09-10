@@ -1,5 +1,5 @@
-import FMDB
 import GRDB
+import Foundation
 import PocketCastsUtils
 import SQLite3
 
@@ -39,19 +39,11 @@ public class DataManager {
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
-        var dbQueue: PCDBQueue
-        if FeatureFlag.grdb.enabled {
-            var config = Configuration()
-            config.busyMode = .timeout(10)
-            let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
-            dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
-            DataManager.setDatabaseFileProtectionToNone()
-            FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
-        } else {
-            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
-            FileLog.shared.addMessage("[DataManager] Initialized using FMDB")
-        }
+        var config = Configuration()
+        config.busyMode = .timeout(10)
+        let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
+        let dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
+        DataManager.setDatabaseFileProtectionToNone()
 
         self.init(dbQueue: dbQueue)
     }
@@ -86,16 +78,10 @@ public class DataManager {
     }
 
     /// Creates a DataManager using the given `PCDBQueue`.
-    /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
 
         DatabaseHelper.setup(queue: dbQueue)
-
-        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
-            // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
-            dbQueue.close()
-        }
 
         // closing it above won't affect these calls, since they will re-open it
         podcastManager.setup(dbQueue: dbQueue)

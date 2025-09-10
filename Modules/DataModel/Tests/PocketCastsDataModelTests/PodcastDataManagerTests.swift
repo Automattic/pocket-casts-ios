@@ -1,6 +1,5 @@
 import XCTest
 import SQLite3
-import FMDB
 @testable import PocketCastsDataModel
 
 final class PodcastDataManagerTests: XCTestCase {

@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 public struct BookmarkDataManager {
     static let tableName = "Bookmark"
