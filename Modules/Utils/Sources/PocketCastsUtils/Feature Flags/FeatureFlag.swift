@@ -245,6 +245,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
+    /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
+    case podcastBookmarksInline
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -413,6 +416,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .newOnboardingRecommendationChanges:
             true
+        case .podcastBookmarksInline:
+            false
         }
     }
 
