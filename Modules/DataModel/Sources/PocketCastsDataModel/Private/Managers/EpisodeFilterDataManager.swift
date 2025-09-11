@@ -94,12 +94,15 @@ class EpisodeFilterDataManager {
     }
 
     func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query: String
         if FeatureFlag.playlistsRebranding.enabled {
-            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
-        } else {
-            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+            let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
+            return allFilters(query: query, values: nil, dbQueue: dbQueue)
         }
+        return allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
+    func allSmartPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
 
