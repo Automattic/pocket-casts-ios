@@ -297,6 +297,8 @@
     <string>Почему вы хотите пожаловаться на эту рекламу?</string>
     <key>banner_ads_report_broken</key>
     <string>Похоже, эта реклама работает некорректно</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Вы пожаловались на эту рекламу.</string>
     <key>banner_ads_report_malicious</key>
     <string>Это вредоносная реклама</string>
     <key>banner_ads_report_other</key>
@@ -1518,6 +1520,10 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуски не найдены</string>
     <key>loading</key>
     <string>Загрузка…</string>
+    <key>login_landing_subtitle</key>
+    <string>Ваши подкасты всегда будут синхронизированы. Защитите свою библиотеку и пользуйтесь Pocket Casts в Интернете и на ПК.</string>
+    <key>login_landing_title</key>
+    <string>Создать учётную запись Pocket Casts</string>
     <key>login_subtitle</key>
     <string>Создайте учётную запись, чтобы синхронизировать и слушать любимый контент на всех устройствах.</string>
     <key>login_title</key>
@@ -1756,6 +1762,14 @@ Pocket Casts на полную мощность.</string>
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Пользователь Pocket Casts</string>
+    <key>onboarding_quote_best</key>
+    <string>Это лучшее приложение для подкастов. Безусловно</string>
+    <key>onboarding_quote_customization</key>
+    <string>Возможности настройки — просто с ума сойти</string>
+    <key>onboarding_quote_folders</key>
+    <string>Разложить подкасты по папкам — это гениально</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Вот несколько отличных шоу для начала. Нажмите, чтобы подписаться, искать или импортировать из других приложений.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2017,26 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка воспроизведения</string>
     <key>player_user_episode_upload_error</key>
     <string>Ошибка загрузки</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Ни один выпуск ваших подкастов не соответствует этим правилам.
+
+Попробуйте скорректировать правила или сохраните этот плейлист для будущих выпусков, которые могут в него попасть.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Создать плейлист</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Автоматически добавлять выпуски на основе правил.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Преобразовать в умный плейлист</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Создать умный плейлист</string>
+    <key>playlist_preview_title</key>
+    <string>Предварительный просмотр %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Настройте умные правила, чтобы автоматически добавлять выпуски в свой умный плейлист.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Включённые правила</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Другие варианты</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Новые подкасты, на которые вы будете подписываться, станут добавляться автоматически.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2051,8 @@ Pocket Casts на полную мощность.</string>
     <string>Включать только отмеченные выпуски, которые соответствуют остальным правилам.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Отмеченные выпуски</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Умные правила</string>
     <key>playlists</key>
     <string>Плейлисты</string>
     <key>playlists_default_new_playlist</key>

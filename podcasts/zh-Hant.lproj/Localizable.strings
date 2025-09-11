@@ -297,6 +297,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>檢舉這則廣告的原因？</string>
     <key>banner_ads_report_broken</key>
     <string>這則廣告似乎無法正常運作</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>你檢舉了這則廣告。</string>
     <key>banner_ads_report_malicious</key>
     <string>這是惡意廣告</string>
     <key>banner_ads_report_other</key>
@@ -1518,6 +1520,10 @@ Pocket Casts Plus</string>
     <string>找不到任何單集</string>
     <key>loading</key>
     <string>正在載入...</string>
+    <key>login_landing_subtitle</key>
+    <string>讓 Podcast 永遠保持同步。 保護你的媒體庫，在網頁和桌上型電腦安全收聽 Pocket Casts。</string>
+    <key>login_landing_title</key>
+    <string>建立 Pocket Casts 帳號</string>
     <key>login_subtitle</key>
     <string>建立帳號即可在所有裝置上同步你的收聽體驗。</string>
     <key>login_title</key>
@@ -1756,6 +1762,14 @@ Pocket Casts Plus</string>
     <string>關閉</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts 使用者</string>
+    <key>onboarding_quote_best</key>
+    <string>市面上最棒的 Podcast 應用程式 截至目前為止</string>
+    <key>onboarding_quote_customization</key>
+    <string>可自訂的數量爆炸多</string>
+    <key>onboarding_quote_folders</key>
+    <string>採用資料夾整理 Podcast 根本是天才的發想</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>以下提供一些精彩節目，展開你的旅程。 點選即可追蹤、搜尋，或從其他應用程式匯入。</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2017,26 @@ Pocket Casts Plus</string>
     <string>播放錯誤</string>
     <key>player_user_episode_upload_error</key>
     <string>上傳錯誤</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>你的 Podcast 中沒有符合這些規則的單集。
+
+請嘗試調整規則，或儲存此播放清單，以便未來自動加入可能符合條件的單集。</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>建立播放清單</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>根據規則自動新增單集。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>彙整成智慧播放清單</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>建立智慧播放清單</string>
+    <key>playlist_preview_title</key>
+    <string>預覽「%@」</string>
+    <key>playlist_smart_preview_description</key>
+    <string>設定「智慧規則」，自動將單集新增至智慧播放清單。</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>已啟用的規則</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>其他選項</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>系統會自動新增你追蹤的新 Podcast 節目。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2051,8 @@ Pocket Casts Plus</string>
     <string>只包含符合其他規則的標星號單集。</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>標星號的單集</string>
+    <key>playlist_smart_rules_title</key>
+    <string>智慧規則</string>
     <key>playlists</key>
     <string>播放清單</string>
     <key>playlists_default_new_playlist</key>
