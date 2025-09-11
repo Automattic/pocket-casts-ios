@@ -5,6 +5,19 @@ struct PlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistCellViewModel
 
+    @State private var isOn: Bool
+    private let onToggleChange: ((Bool) -> Void)?
+
+    init(
+        viewModel: PlaylistCellViewModel,
+        selected: Bool = false,
+        onToggleChange: ((Bool) -> Void)? = nil
+    ) {
+        self.viewModel = viewModel
+        self._isOn = State(initialValue: selected)
+        self.onToggleChange = onToggleChange
+    }
+
     var body: some View {
         HStack(spacing: 16.0) {
             PlaylistArtworkView(items: viewModel.images, imageSize: 168)
@@ -21,12 +34,23 @@ struct PlaylistCellView: View {
                 }
             }
             Spacer()
-            HStack(spacing: 5.0) {
-                Text("\(viewModel.episodesCount)")
-                    .foregroundStyle(theme.primaryText02)
-                    .font(size: 14.0, style: .body, weight: .regular)
+            switch viewModel.displayType {
+            case .count:
+                HStack(spacing: 5.0) {
+                    Text("\(viewModel.episodesCount)")
+                        .foregroundStyle(theme.primaryText02)
+                        .font(size: 14.0, style: .body, weight: .regular)
+                }
+                .padding(.trailing, 8.0)
+            case .toggle:
+                Toggle("", isOn: $isOn)
+                    .labelsHidden()
+                    .onChange(of: isOn) { newValue in
+                        onToggleChange?(newValue)
+                    }
+                    .tint(theme.primaryInteractive01)
+                    .padding(.trailing, 16.0)
             }
-            .padding(.trailing, 8.0)
         }
         .background(.clear)
         .onAppear {
@@ -49,7 +73,11 @@ struct PlaylistCellView: View {
                 .listRowSeparator(.hidden)
 
                 PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(playlist: model())
+                    viewModel: PlaylistCellViewModel(
+                        playlist: model(),
+                        displayType: .toggle
+                    ),
+                    selected: true
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)

@@ -3,6 +3,8 @@ import SwiftUI
 import PocketCastsDataModel
 
 class PlaylistCell: ThemeableCell {
+    typealias PlaylistCellType = PlaylistCellViewModel.DisplayType
+
     static let reuseIdentifier = "PlaylistCell"
     static let cellHeight = 81.0
 
@@ -55,11 +57,26 @@ class PlaylistCell: ThemeableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(playlist: EpisodeFilter, isLastRow: Bool) {
+    func configure(
+        cellType: PlaylistCellType = .count,
+        playlist: EpisodeFilter,
+        isLastRow: Bool,
+        selected: Bool = false,
+        onToggleChange: ((Bool) -> Void)? = nil
+    ) {
+        accessoryType = cellType == .count ? .disclosureIndicator : .none
+
         contentConfiguration = UIHostingConfiguration {
-            PlaylistCellView(viewModel: PlaylistCellViewModel(playlist: playlist))
-                .environmentObject(Theme.sharedTheme)
-                .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
+            PlaylistCellView(
+                viewModel: PlaylistCellViewModel(
+                    playlist: playlist,
+                    displayType: cellType
+                ),
+                selected: selected,
+                onToggleChange: onToggleChange
+            )
+            .environmentObject(Theme.sharedTheme)
+            .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
         }
         .margins(.horizontal, 0)
         .margins(.vertical, 0)
