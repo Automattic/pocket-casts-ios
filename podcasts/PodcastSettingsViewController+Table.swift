@@ -240,10 +240,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let archiveController = PodcastArchiveViewController(podcast: podcast)
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
-            let filterSelectionViewController = PlaylistSelectionViewController()
-            filterSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
-            filterSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
-            filterSelectionViewController.playlistSelected = { [weak self] filter in
+            let playlistSelectionViewController = PlaylistSelectionViewController()
+            playlistSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
+            playlistSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
+            playlistSelectionViewController.playlistSelected = { [weak self] filter in
                 guard let self = self else { return }
 
                 filter.addPodcast(podcastUuid: self.podcast.uuid)
@@ -252,7 +252,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            filterSelectionViewController.playlistUnselected = { [weak self] filter in
+            playlistSelectionViewController.playlistUnselected = { [weak self] filter in
                 guard let self = self else { return }
 
                 filter.removePodcast(podcastUuid: self.podcast.uuid)
@@ -261,7 +261,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            navigationController?.pushViewController(filterSelectionViewController, animated: true)
+            navigationController?.pushViewController(playlistSelectionViewController, animated: true)
         } else if row == .siriShortcut {
             if let voiceShortcut = existingSiriVoiceShortcut() {
                 let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
