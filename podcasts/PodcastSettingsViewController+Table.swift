@@ -241,22 +241,23 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
             let playlistSelectionViewController = PlaylistSelectionViewController()
+            playlistSelectionViewController.navigationTitle = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectSmartPlaylistsPlural : L10n.settingsSelectFiltersPlural
             playlistSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
             playlistSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
-            playlistSelectionViewController.playlistSelected = { [weak self] filter in
+            playlistSelectionViewController.playlistSelected = { [weak self] playlist in
                 guard let self = self else { return }
 
-                filter.addPodcast(podcastUuid: self.podcast.uuid)
-                DataManager.sharedManager.save(filter: filter)
+                playlist.addPodcast(podcastUuid: self.podcast.uuid)
+                DataManager.sharedManager.save(filter: playlist)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            playlistSelectionViewController.playlistUnselected = { [weak self] filter in
+            playlistSelectionViewController.playlistUnselected = { [weak self] playlist in
                 guard let self = self else { return }
 
-                filter.removePodcast(podcastUuid: self.podcast.uuid)
-                DataManager.sharedManager.save(filter: filter)
+                playlist.removePodcast(podcastUuid: self.podcast.uuid)
+                DataManager.sharedManager.save(filter: playlist)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
