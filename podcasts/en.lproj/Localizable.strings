@@ -2368,6 +2368,15 @@
 /* Label indicating no filters have been selected. */
 "settings_auto_downloads_no_filters_selected" = "No Filters Selected";
 
+/* Label indicating the number of selected playlists. '%1$@' is a placeholder for the number of playlists selected. */
+"settings_auto_downloads_playlists_selected_format" = "%1$@ Playlists Selected";
+
+/* Label indicating the number of selected playlists. This is the singular form for an accompanying plural option. */
+"settings_auto_downloads_playlists_selected_singular" = "1 Playlist Selected";
+
+/* Label indicating no playlists have been selected. */
+"settings_auto_downloads_no_playlists_selected" = "No Playlists Selected";
+
 /* Label indicating no podcasts have been selected. */
 "settings_auto_downloads_no_podcasts_selected" = "No Podcasts Selected";
 
@@ -2379,6 +2388,9 @@
 
 /* Subtitle explaining the toggle to auto download the top episodes of a filter. */
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
+
+/* Subtitle explaining the toggle to auto download the top episodes of a playlist. */
+"settings_auto_downloads_subtitle_playlists" = "Download the top episodes in a playlist.";
 
 /* Subtitle explaining the toggle to auto download New Episodes. */
 "settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.";
@@ -2664,6 +2676,12 @@
 
 /* Prompt to select filters */
 "settings_select_filters_plural" = "Select Filters";
+
+/* Prompt to select playlists */
+"settings_select_playlists_plural" = "Select Playlists";
+
+/* Prompt to select smart playlists */
+"settings_select_smart_playlists_plural" = "Select Smart Playlists";
 
 /* Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered. */
 "settings_shortcuts_filter_open_filter" = "Open Filter";
