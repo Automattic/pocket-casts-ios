@@ -6,6 +6,7 @@
 -----
 - Enable Banner Ads in the Podcasts list and Player for free users [#3459](https://github.com/Automattic/pocket-casts-ios/pull/3459)
 - Fix the Podcast Chooser filter bottom margin [#3478](https://github.com/Automattic/pocket-casts-ios/pull/3478)
+- Fixed a bug where notification where still arriving even when disabled.[#3483](https://github.com/Automattic/pocket-casts-ios/pull/3483)
 
 7.96
 -----
