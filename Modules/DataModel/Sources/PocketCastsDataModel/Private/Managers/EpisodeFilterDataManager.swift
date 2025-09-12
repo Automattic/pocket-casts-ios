@@ -71,7 +71,7 @@ class EpisodeFilterDataManager {
         return count
     }
 
-    func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+    func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.read { db in
             do {
@@ -83,26 +83,7 @@ class EpisodeFilterDataManager {
                     count = resultSet.long(forColumnIndex: 0)
                 }
             } catch {
-                FileLog.shared.addMessage("EpisodeFilterDataManager.smartPlaylistEpisodeCount error: \(error)")
-            }
-        }
-
-        return count
-    }
-
-    func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
-        var count = 0
-        dbQueue.read { db in
-            do {
-                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
-
-                if resultSet.next() {
-                    count = resultSet.long(forColumnIndex: 0)
-                }
-            } catch {
-                FileLog.shared.addMessage("EpisodeFilterDataManager.manualPlaylistEpisodeCount error: \(error)")
+                FileLog.shared.addMessage("EpisodeFilterDataManager.playlistEpisodeCount manual:\(playlist.manual) error: \(error)")
             }
         }
 

@@ -210,16 +210,8 @@ class PlaylistDetailViewModel: ObservableObject {
     private func getEpisodesCount() async -> Int {
         let playlist = self.playlist!
         let dataManager = self.dataManager
-        if isManualPlaylist {
-            return await Task.detached(priority: .userInitiated) {
-                dataManager.manualPlaylistEpisodeCount(
-                    for: playlist,
-                    episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-                )
-            }.value
-        }
         return await Task.detached(priority: .userInitiated) {
-            dataManager.smartPlaylistEpisodeCount(
+            dataManager.playlistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
@@ -275,12 +267,7 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData: [ListEpisode]
-        if isManualPlaylist {
-            newData = episodesDataManager.manualPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
-        } else {
-            newData = episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
-        }
+        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)

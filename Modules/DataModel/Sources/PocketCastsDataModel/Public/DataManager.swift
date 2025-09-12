@@ -499,8 +499,8 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
-    public func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
-        episodeManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
+    public func findPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
+        episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
 
     public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
@@ -915,12 +915,8 @@ public class DataManager {
         filterManager.episodeCount(forFilter: forFilter, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
-    public func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        filterManager.smartPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
-    }
-
-    public func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        filterManager.manualPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        filterManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {
