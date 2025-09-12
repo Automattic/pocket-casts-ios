@@ -67,8 +67,8 @@ private struct LoginLandingContent: View {
                     // Title and Subtitle
                     VStack(spacing: 0) {
                         VStack(spacing: 16) {
-                            LoginLabel(title, for: .title)
-                            LoginLabel(subtitle, for: .subtitle)
+                            LoginLabel(title.preventWidows(), for: .title)
+                            LoginLabel(subtitle.preventWidows(), for: .subtitle)
                         }
                         .padding(.horizontal, Config.padding)
                         .padding(.top, coordinator.isOnboarding ? Config.topPadding : headerHeightOffset)
