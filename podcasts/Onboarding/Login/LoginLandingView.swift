@@ -66,7 +66,7 @@ private struct LoginLandingContent: View {
                 if FeatureFlag.newOnboardingAccountCreation.enabled {
                     // Title and Subtitle
                     VStack(spacing: 0) {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 16) {
                             LoginLabel(title, for: .title)
                             LoginLabel(subtitle, for: .subtitle)
                         }
