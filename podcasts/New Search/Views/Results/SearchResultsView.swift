@@ -46,12 +46,7 @@ struct SearchResultsView: View {
                         displayMode = .podcasts
                         showInlineResults = true
                     }
-                    if FeatureFlag.searchImprovements.enabled {
-                        podcastList
-                    } else {
-                        PodcastsCarouselView()
-                    }
-
+                    PodcastsCarouselView()
                     episodeList()
                 }
             }
@@ -98,41 +93,6 @@ struct SearchResultsView: View {
                                message: L10n.discoverNoPodcastsFoundMsg,
                                icon: { Image(systemName: "info.circle") })
             }
-        }
-    }
-
-    @ViewBuilder var podcastList: some View {
-        if searchResults.isSearchingForPodcasts {
-            ProgressView()
-                .frame(maxWidth: .infinity)
-                .tint(AppTheme.loadingActivityColor().color)
-            // Force the list to re-render the ProgressView by changing it's id
-                //.id(identifier)
-                .onAppear {
-                    //identifier += 1
-                }
-        } else if let _ = searchResults.podcastSearchError {
-            EmptyStateView(
-                title: L10n.discoverSearchFailed,
-                message: L10n.discoverSearchFailedMsg,
-                icon: { Image("no-connection-grey").renderingMode(.template) },
-                actions: [
-                    .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
-                        searchResults.search(term: searchResults.currentSearchTerm)
-                    }
-                ]
-            )
-        } else if searchResults.podcasts.count > 0 {
-            VStack {
-                ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
-                    PodcastTableCellView(viewModel: PodcastCellViewModel(podcastSearchResult: podcast), style: .large)
-                        .padding(.vertical, 8)
-                }
-            }.padding(20)
-        } else if !searchResults.isShowingLocalResultsOnly {
-            EmptyStateView(title: L10n.discoverNoPodcastsFound,
-                           message: L10n.discoverNoPodcastsFoundMsg,
-                           icon: { Image(systemName: "info.circle") })
         }
     }
 
