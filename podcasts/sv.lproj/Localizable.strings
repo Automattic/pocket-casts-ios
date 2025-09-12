@@ -297,6 +297,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Varför rapporterar du annonsen?</string>
     <key>banner_ads_report_broken</key>
     <string>Annonsen verkar trasig</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Du rapporterade denna annons.</string>
     <key>banner_ads_report_malicious</key>
     <string>Det här är en skadlig annons</string>
     <key>banner_ads_report_other</key>
@@ -438,7 +440,7 @@ Låt oss hjälpa dig först</string>
     <key>cancel_subscription_yearly_promotion_title</key>
     <string>50 %% rabatt på ditt nästa år.</string>
     <key>canceling</key>
-    <string>Avbryter...</string>
+    <string>Avbryter …</string>
     <key>carplay_chapter_count</key>
     <string>%1$@ av %2$@. %3$@</string>
     <key>carplay_more</key>
@@ -1518,6 +1520,10 @@ podcasts med dig</string>
     <string>Inga avsnitt hittades</string>
     <key>loading</key>
     <string>Läser in...</string>
+    <key>login_landing_subtitle</key>
+    <string>Dina podcasts, alltid synkroniserade. Håll ditt bibliotek säkert och njut av Pocket Casts på webben och via skrivbordet.</string>
+    <key>login_landing_title</key>
+    <string>Skapa ditt Pocket Casts-konto</string>
     <key>login_subtitle</key>
     <string>Skapa ett konto för att synkronisera din lyssningsupplevelse på alla dina enheter.</string>
     <key>login_title</key>
@@ -1756,6 +1762,14 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts-användare</string>
+    <key>onboarding_quote_best</key>
+    <string>Bästa podcast-appen som finns. Utan tvekan</string>
+    <key>onboarding_quote_customization</key>
+    <string>Mängden anpassning är vansinnig</string>
+    <key>onboarding_quote_folders</key>
+    <string>Att organisera mina podcasts i mappar är genialt</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Här är några bra shower att börja med. Tryck för att följa, söka eller importera från andra appar.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2017,26 @@ UPPDATERINGAR</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Inget av avsnitten i dina podcasts matchar dessa regler.
+
+Prova att justera reglerna, eller spara denna spellista för framtida avsnitt som kan passa.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Skapa spellista</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Lägg automatiskt till avsnitt baserat på regler.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Gör till smart spellista</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Skapa smart spellista</string>
+    <key>playlist_preview_title</key>
+    <string>Förhandsgranska %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Konfigurera smarta regler för att automatiskt lägga till avsnitt i din smarta spellista.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Aktiverade regler</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Andra alternativ</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Nya podcasts som du följer kommer att läggas till automatiskt.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2051,8 @@ UPPDATERINGAR</string>
     <string>Inkludera endast stjärnmärkta avsnitt som matchar dina andra regler.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Stjärnmärkta avsnitt</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Smarta regler</string>
     <key>playlists</key>
     <string>Spellistor</string>
     <key>playlists_default_new_playlist</key>
