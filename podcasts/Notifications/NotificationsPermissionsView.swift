@@ -109,7 +109,10 @@ struct NotificationsPermissionsView: View {
 
     var body: some View {
         VStack {
-            if !FeatureFlag.newOnboardingAccountCreation.enabled {
+            if FeatureFlag.newOnboardingAccountCreation.enabled {
+                Spacer()
+                    .frame(maxHeight: 136)
+            } else {
                 Button(action: {
                     Analytics.track(.notificationsPermissionsNotNowTapped)
                     dismissAction()
