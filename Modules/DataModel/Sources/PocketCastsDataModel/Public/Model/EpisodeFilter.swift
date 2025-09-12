@@ -34,6 +34,7 @@ public class EpisodeFilter: NSObject {
     @objc public var syncStatus = 0 as Int32
     @objc public var wasDeleted = false
     @objc public var rawPlaylistType = 0 as Int32
+    @objc public var episodes: [String] = []
 
     // Internal tracking
     public var isNew: Bool = false
@@ -44,7 +45,12 @@ public class EpisodeFilter: NSObject {
     public var downloadStatusSmartRuleApplied: Bool = false
 
     public var playlistType: PlaylistType {
-        PlaylistType(rawValue: rawPlaylistType) ?? .smart
+        set {
+            rawPlaylistType = newValue.rawValue
+        }
+        get {
+            PlaylistType(rawValue: rawPlaylistType) ?? .smart
+        }
     }
 
     public func setTitle(_ title: String?, defaultTitle: String) {

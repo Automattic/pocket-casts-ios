@@ -460,6 +460,10 @@ public class DataManager {
         episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
     }
 
+    public func findMatchingEpisodes(uuids: [String]) -> [String] {
+        episodeManager.findMatchingEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
     public func findPlayedEpisodesCount(podcastId: Int64) async -> Int {
         await episodeManager.findPlayedEpisodesCount(podcastId: podcastId, dbQueue: dbQueue)
     }

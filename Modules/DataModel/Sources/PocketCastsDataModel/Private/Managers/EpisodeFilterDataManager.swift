@@ -25,7 +25,8 @@ class EpisodeFilterDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "rawPlaylistType"
+        "rawPlaylistType",
+        "episodes"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -90,7 +91,22 @@ class EpisodeFilterDataManager {
     }
 
     func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
-        return 0 //TODO: implement new playlist query
+        var count = 0
+        dbQueue.read { db in
+            do {
+                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    count = resultSet.long(forColumnIndex: 0)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.manualPlaylistEpisodeCount error: \(error)")
+            }
+        }
+
+        return count
     }
 
     func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
@@ -259,6 +275,7 @@ class EpisodeFilterDataManager {
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
         filter.rawPlaylistType = rs.int(forColumn: "rawPlaylistType")
+        filter.episodes = rs.string(forColumn: "episodes")?.components(separatedBy: ",") ?? []
 
         return filter
     }
@@ -289,6 +306,7 @@ class EpisodeFilterDataManager {
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
         values.append(filter.rawPlaylistType)
+        values.append(filter.episodes.joined(separator: ","))
 
         if includeUuidForWhere {
             values.append(filter.uuid)

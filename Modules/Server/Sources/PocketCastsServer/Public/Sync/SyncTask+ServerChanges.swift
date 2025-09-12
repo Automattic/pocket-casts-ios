@@ -354,7 +354,32 @@ extension SyncTask {
             filter.podcastUuids = ""
         }
 
+        filter.episodes = filterItem.episodeOrder
+
+        let serverSet = Set(filterItem.episodeOrder)
+        let matchedEpisodes = Set(DataManager.sharedManager.findMatchingEpisodes(uuids: filter.episodes))
+        let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+
+        let addedEpisodes = missingEpisodes.map { episode in
+            let playlistEpisode = filterItem.episodes.first(where: { $0.episode == episode })
+            return self.episode(from: playlistEpisode!)
+        }
+
+        DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
+
+        filter.playlistType = filterItem.manual.value ? .manual : .smart
+
         DataManager.sharedManager.save(filter: filter)
+    }
+
+    func episode(from playlistEpisode: Api_SyncPlaylistEpisode) -> Episode {
+        let episode = Episode()
+        episode.uuid = playlistEpisode.episode
+        episode.podcastUuid = playlistEpisode.podcast
+        episode.addedDate = Date(timeIntervalSince1970: TimeInterval(playlistEpisode.added.value))
+        episode.title = playlistEpisode.title.value
+        episode.downloadUrl = playlistEpisode.url.value
+        return episode
     }
 
     func isPlayerPlaying(episode: Episode) -> Bool {

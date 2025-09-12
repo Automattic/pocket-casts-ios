@@ -82,6 +82,33 @@ class EpisodeDataManager {
         return episodes
     }
 
+    func findMatchingEpisodes(uuids: [String], dbQueue: PCDBQueue) -> [String] {
+        let list = uuids.map { "'\($0)'" }.joined(separator: ",")
+
+        let query = """
+        SELECT uuid from \(DataManager.episodeTableName)
+        WHERE uuid IN (\(list))
+        LIMIT \(uuids.count)
+        """
+
+        var episodes = [String]()
+        dbQueue.read { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    episodes.append(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.findMissingEpisodes error: \(error)")
+            }
+        }
+
+        return episodes
+    }
+
     func findPlayedEpisodesCount(podcastId: Int64, dbQueue: PCDBQueue) async -> Int {
         return await withCheckedContinuation { continuation in
             var count = 0

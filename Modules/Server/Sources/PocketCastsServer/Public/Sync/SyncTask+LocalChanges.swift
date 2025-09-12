@@ -118,35 +118,76 @@ extension SyncTask {
 
         var filterRecords = [Api_Record]()
         for filter in filtersToSync {
-            var filterRecord = Api_SyncUserPlaylist()
-            filterRecord.allPodcasts.value = filter.podcastUuids.count == 0
-            filterRecord.uuid = filter.uuid
-            filterRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
-            filterRecord.isDeleted.value = filter.wasDeleted
-            filterRecord.title.value = filter.playlistName
-            filterRecord.podcastUuids.value = filter.podcastUuids
-            filterRecord.audioVideo.value = filter.filterAudioVideoType
-            filterRecord.notDownloaded.value = filter.filterNotDownloaded
-            filterRecord.downloaded.value = filter.filterDownloaded
-            filterRecord.downloading.value = filter.filterDownloading
-            filterRecord.finished.value = filter.filterFinished
-            filterRecord.partiallyPlayed.value = filter.filterPartiallyPlayed
-            filterRecord.unplayed.value = filter.filterUnplayed
-            filterRecord.starred.value = filter.filterStarred
-            filterRecord.filterHours.value = filter.filterHours
-            filterRecord.sortPosition.value = filter.sortPosition
-            filterRecord.sortType.value = filter.sortType
-            filterRecord.iconID.value = filter.customIcon
-            filterRecord.filterDuration.value = filter.filterDuration
-            filterRecord.shorterThan.value = filter.shorterThan
-            filterRecord.longerThan.value = filter.longerThan
+            let playlist = createSyncUserPlaylist(from: filter)
 
             var apiRecord = Api_Record()
-            apiRecord.playlist = filterRecord
+            apiRecord.playlist = playlist
             filterRecords.append(apiRecord)
         }
 
         return filterRecords
+    }
+
+    private func createSyncUserPlaylist(from filter: EpisodeFilter) -> Api_SyncUserPlaylist {
+        var filterRecord = Api_SyncUserPlaylist()
+        filterRecord.allPodcasts.value = filter.podcastUuids.count == 0
+        filterRecord.uuid = filter.uuid
+        filterRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
+        filterRecord.isDeleted.value = filter.wasDeleted
+        filterRecord.title.value = filter.playlistName
+        filterRecord.podcastUuids.value = filter.podcastUuids
+        filterRecord.audioVideo.value = filter.filterAudioVideoType
+        filterRecord.notDownloaded.value = filter.filterNotDownloaded
+        filterRecord.downloaded.value = filter.filterDownloaded
+        filterRecord.downloading.value = filter.filterDownloading
+        filterRecord.finished.value = filter.filterFinished
+        filterRecord.partiallyPlayed.value = filter.filterPartiallyPlayed
+        filterRecord.unplayed.value = filter.filterUnplayed
+        filterRecord.starred.value = filter.filterStarred
+        filterRecord.filterHours.value = filter.filterHours
+        filterRecord.sortPosition.value = filter.sortPosition
+        filterRecord.sortType.value = filter.sortType
+        filterRecord.iconID.value = filter.customIcon
+        filterRecord.filterDuration.value = filter.filterDuration
+        filterRecord.shorterThan.value = filter.shorterThan
+        filterRecord.longerThan.value = filter.longerThan
+
+        if filter.playlistType == .manual {
+            filterRecord.episodes = filter.episodes.map { uuid in
+                createSyncEpisode(from: uuid)
+            }
+            filterRecord.episodeOrder = filter.episodes
+            filterRecord.manual = true
+        }
+        return filterRecord
+    }
+
+    private func createSyncEpisode(from uuid: String) -> Api_SyncPlaylistEpisode {
+        guard let episode = DataManager.sharedManager.findEpisode(uuid: uuid) else {
+            fatalError("Missing local episode in Playlist Sync")
+        }
+
+        var playlistEpisode = Api_SyncPlaylistEpisode()
+        playlistEpisode.episode = uuid
+        playlistEpisode.podcast = episode.parentIdentifier()
+
+        if let addedDate = episode.addedDate {
+            playlistEpisode.added = Google_Protobuf_Int64Value(date: addedDate)
+        }
+
+        if let publishedDate = episode.publishedDate {
+            playlistEpisode.published = Google_Protobuf_Timestamp(date: publishedDate)
+        }
+
+        if let title = episode.title, !title.isEmpty {
+            playlistEpisode.title.value = title
+        }
+
+        if let url = episode.downloadUrl, !url.isEmpty {
+            playlistEpisode.url.value = url
+        }
+
+        return playlistEpisode
     }
 
     /// Retrieve any bookmarks that need to be sent to the server

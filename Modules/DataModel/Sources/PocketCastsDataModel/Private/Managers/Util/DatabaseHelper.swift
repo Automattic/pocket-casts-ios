@@ -835,6 +835,17 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 59 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN episodes TEXT;", values: nil)
+                schemaVersion = 59
+            } catch {
+                failedAt(59)
+                return
+            }
+        }
+
         db.commit()
     }
 }

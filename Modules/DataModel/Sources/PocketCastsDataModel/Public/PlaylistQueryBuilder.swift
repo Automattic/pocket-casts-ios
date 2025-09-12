@@ -35,7 +35,8 @@ public class PlaylistQueryBuilder {
         let select = select(clause: clause)
         let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
         let rules = add(smartRulesFor: playlist)
-        var queryString = "\(select) WHERE episode.archived = 0 \(addedUuid.value) \(rules.value)"
+        let episodes = add(episodesFor: playlist)
+        var queryString = "\(select) WHERE episode.archived = 0 \(addedUuid.value) \(rules.value) \(episodes.value)"
         queryString = queryString.replacingOccurrences(of: "AND ()", with: "")
         queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
         if addedUuid.boolValue { queryString += ")" }
@@ -137,6 +138,15 @@ public class PlaylistQueryBuilder {
         queryString += ")"
 
         return .value(queryString, haveStartedWhere)
+    }
+
+    private class func add(episodesFor playlist: EpisodeFilter) -> QueryResult {
+        switch playlist.playlistType {
+        case .manual:
+                .value("AND episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
+        case .smart:
+            .value("", false)
+        }
     }
 
     private static func buildPlayingStatusQuery(

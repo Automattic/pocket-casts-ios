@@ -146,7 +146,7 @@ class EpisodesDataManager {
         limit: Int = Constants.Limits.maxFilterItems,
         search: String? = nil
     ) -> [ListEpisode] {
-        return [] //TODO: Implement new playlist query
+        smartPlaylistEpisodes(for: playlist, limit: limit, search: search)
     }
 
     func smartPlaylistEpisodes(
