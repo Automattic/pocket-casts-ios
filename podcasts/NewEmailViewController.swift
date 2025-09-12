@@ -100,8 +100,13 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         super.viewDidLoad()
         title = L10n.createAccount
         activityIndicator.isHidden = true
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: FeatureFlag.newOnboardingAccountCreation.enabled ? UIImage(systemName: "chevron.backward") :  UIImage(named: "nav-back"), style: .done, target: self, action: #selector(backTapped))
+        let backImage: UIImage?
+        if FeatureFlag.newOnboardingAccountCreation.enabled {
+            backImage = UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(textStyle: UIFont.TextStyle(rawValue: "UICTFontTextStyleEmphasizedBody"), scale: .default))
+        } else {
+            backImage = UIImage(named: "nav-back")
+        }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: backImage, style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
