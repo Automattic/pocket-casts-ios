@@ -297,6 +297,8 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Pourquoi signalez-vous cette publicité ?</string>
     <key>banner_ads_report_broken</key>
     <string>Il semble y avoir un problème avec cette publicité</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Vous avez signalé cette publicité.</string>
     <key>banner_ads_report_malicious</key>
     <string>Il s’agit d’une publicité malveillante</string>
     <key>banner_ads_report_other</key>
@@ -1518,6 +1520,10 @@ podcasts partout avec</string>
     <string>Aucun épisode trouvé</string>
     <key>loading</key>
     <string>Chargement en cours…</string>
+    <key>login_landing_subtitle</key>
+    <string>Vos podcasts, toujours synchronisés. Protégez votre bibliothèque et profitez de Pocket Casts sur le Web et sur votre ordinateur.</string>
+    <key>login_landing_title</key>
+    <string>Créer votre compte Pocket Casts</string>
     <key>login_subtitle</key>
     <string>Créez un compte pour synchroniser votre expérience d’écoute sur tous vos appareils.</string>
     <key>login_title</key>
@@ -1756,6 +1762,14 @@ podcasts partout avec</string>
     <string>Désactivé</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Utilisateur Pocket Casts</string>
+    <key>onboarding_quote_best</key>
+    <string>La meilleure application de podcast existante. De loin</string>
+    <key>onboarding_quote_customization</key>
+    <string>Le degré de personnalisation est incroyable</string>
+    <key>onboarding_quote_folders</key>
+    <string>Organiser mes podcasts par dossiers est génial</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Voici quelques super émissions pour commencer. Appuyez pour vous abonner, rechercher ou importer depuis d’autres applications.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2017,26 @@ MISES À JOUR</string>
     <string>Erreur de lecture</string>
     <key>player_user_episode_upload_error</key>
     <string>Erreur de chargement</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Aucun des épisodes de vos podcasts ne correspond à ces règles.
+
+Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les futurs épisodes qui pourraient convenir.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Créer une liste de lecture</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Ajoutez automatiquement des épisodes en fonction des règles.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Transformer en liste de lecture intelligente</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Créer une liste de lecture intelligente</string>
+    <key>playlist_preview_title</key>
+    <string>Prévisualiser %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Configurez des règles intelligentes pour ajouter automatiquement des épisodes à votre liste de lecture intelligente.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Règles activées</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Autres options</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Les nouveaux podcasts auxquels vous vous abonnez seront ajoutés automatiquement.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2051,8 @@ MISES À JOUR</string>
     <string>Incluez uniquement les épisodes marqués d’une étoile qui correspondent à vos autres règles.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Épisodes marqués d’une étoile</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Règles intelligentes</string>
     <key>playlists</key>
     <string>Listes de lecture</string>
     <key>playlists_default_new_playlist</key>
