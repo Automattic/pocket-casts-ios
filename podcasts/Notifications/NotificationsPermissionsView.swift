@@ -4,7 +4,7 @@ import PocketCastsServer
 
 class NotificationsPermissionsViewModel: ObservableObject {
     @Published var newsletterOptIn: Bool = true
-    @Published var notificationsOptIn: Bool = false
+    @Published var notificationsOptIn: Bool = true
 
     func setupPermissions() async {
         let coordinator = NotificationsCoordinator.shared
@@ -109,15 +109,20 @@ struct NotificationsPermissionsView: View {
 
     var body: some View {
         VStack {
-            Button(action: {
-                Analytics.track(.notificationsPermissionsNotNowTapped)
-                dismissAction()
-            }) {
-                HStack {
-                    Spacer()
-                    Text(L10n.eoyNotNow)
-                        .foregroundStyle(theme.primaryInteractive01)
-                        .font(.body.weight(.medium))
+            if FeatureFlag.newOnboardingAccountCreation.enabled {
+                Spacer()
+                    .frame(maxHeight: 136)
+            } else {
+                Button(action: {
+                    Analytics.track(.notificationsPermissionsNotNowTapped)
+                    dismissAction()
+                }) {
+                    HStack {
+                        Spacer()
+                        Text(L10n.eoyNotNow)
+                            .foregroundStyle(theme.primaryInteractive01)
+                            .font(.body.weight(.medium))
+                    }
                 }
             }
             Image("notifications_permissions_banner")

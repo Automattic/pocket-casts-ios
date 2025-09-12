@@ -10,7 +10,7 @@ struct AccountHeaderView: View {
 
     var body: some View {
         container { proxy in
-            VStack(spacing: Constants.padding.vertical) {
+            VStack(spacing: FeatureFlag.newOnboardingUpgrade.enabled ? 8 : Constants.padding.vertical) {
                 SubscriptionProfileImage(viewModel: viewModel)
                     .frame(width: Constants.imageSize, height: Constants.imageSize)
                 ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
@@ -19,11 +19,11 @@ struct AccountHeaderView: View {
                     SubscriptionBadge(tier: $0.tier)
                 }
                 let (title, label, action) = subscriptionLabels
-                if label == nil, FeatureFlag.newAccountUpgradePromptFlow.enabled {
+                if label == nil, FeatureFlag.newAccountUpgradePromptFlow.enabled || FeatureFlag.newOnboardingUpgrade.enabled {
                     Text(title)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundColor(theme.primaryText02)
-                        .font(size: 12, style: .footnote, weight: .semibold)
+                        .font(size: 11, style: .footnote, weight: .semibold)
                 } else {
                     // Subscription details labels
                     HStack {
@@ -57,7 +57,7 @@ struct AccountHeaderView: View {
             // Show the free account status and the total listening time the user has
             return (
                 L10n.accountDetailsFreeAccount,
-                FeatureFlag.newAccountUpgradePromptFlow.enabled ? nil :
+                (FeatureFlag.newAccountUpgradePromptFlow.enabled || FeatureFlag.newOnboardingUpgrade.enabled) ? nil :
                 viewModel.stats.listeningTime.seconds.localizedTimeDescription.map {
                     Text(L10n.accountDetailsListenedFor($0))
                 },
