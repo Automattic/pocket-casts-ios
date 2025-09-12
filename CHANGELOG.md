@@ -1,6 +1,7 @@
 7.98
 -----
 - New onboarding screens with User Stories, Interests and Recommendations Screens [#3469](https://github.com/Automattic/pocket-casts-ios/pull/3469)
+- Fix You Might Like tab reloading when navigating back to the Podcast page [#3480](https://github.com/Automattic/pocket-casts-ios/pull/3480)
 
 7.97
 -----

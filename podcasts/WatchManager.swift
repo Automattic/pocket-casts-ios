@@ -551,7 +551,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func serializeFilters() -> [[String: Any]] {
-        let allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
         var convertedFilters = [[String: Any]]()
         for filter in allFilters {
             var convertedFilter = [String: Any]()

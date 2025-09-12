@@ -141,6 +141,14 @@ class EpisodesDataManager {
         return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
     }
 
+    func manualPlaylistEpisodes(
+        for playlist: EpisodeFilter,
+        limit: Int = Constants.Limits.maxFilterItems,
+        search: String? = nil
+    ) -> [ListEpisode] {
+        return [] //TODO: Implement new playlist query
+    }
+
     func smartPlaylistEpisodes(
         for playlist: EpisodeFilter,
         limit: Int = Constants.Limits.maxFilterItems,

@@ -1,6 +1,5 @@
 import XCTest
 @testable import PocketCastsDataModel
-import FMDB
 @testable import podcasts
 
 class DBTestCase: XCTestCase {

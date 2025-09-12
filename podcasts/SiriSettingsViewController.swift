@@ -162,7 +162,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     private func showFiltersShortcutsViewController() {
         let viewController = FiltersShortcutsViewController()
-        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
         viewController.filters = filters
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)

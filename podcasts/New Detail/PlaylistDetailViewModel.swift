@@ -20,18 +20,25 @@ class PlaylistDetailViewModel: ObservableObject {
         case playAll
     }
 
-    private(set) var playlist: EpisodeFilter!
-
     let onButtonTapped: (ButtonTag) -> Void
 
-    private var tempEpisodes: [ListEpisode] = []
     var episodes: [ListEpisode] {
         dataSource[safe: 1]?.elements as? [ListEpisode] ?? []
     }
+
+    var isManualPlaylist: Bool {
+        playlist.playlistType == .manual
+    }
+
+    var hasSubscribedPodcasts: Bool {
+        dataManager.podcastCount() > 0
+    }
+
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
 
+    private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
     private(set) var firstTimeLoading = true
 
@@ -41,6 +48,8 @@ class PlaylistDetailViewModel: ObservableObject {
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
+    private var tempEpisodes: [ListEpisode] = []
+
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -121,7 +130,7 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         operationQueue.cancelAllOperations()
 
-        let refreshOperation = PlaylistRefreshOperation(filter: playlist) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: playlist) { [weak self] newData in
             guard let self else { return }
             DispatchQueue.main.async {
                 if self.firstTimeLoading {
@@ -169,13 +178,6 @@ class PlaylistDetailViewModel: ObservableObject {
         return (contentChanged, StagedChangeset(source: oldData, target: finalData))
     }
 
-    private func loadListEpisodes(limit: Int = 4) async -> [ListEpisode] {
-        let playlist = self.playlist!
-        return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.episodes(for: playlist, limit: limit) ?? []
-        }.value
-    }
-
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
         try await withThrowingTaskGroup(of: PlaylistArtworkView.ImageItem.self) { group in
             for episode in episodes {
@@ -208,9 +210,17 @@ class PlaylistDetailViewModel: ObservableObject {
     private func getEpisodesCount() async -> Int {
         let playlist = self.playlist!
         let dataManager = self.dataManager
+        if isManualPlaylist {
+            return await Task.detached(priority: .userInitiated) {
+                dataManager.manualPlaylistEpisodeCount(
+                    for: playlist,
+                    episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
+                )
+            }.value
+        }
         return await Task.detached(priority: .userInitiated) {
-            dataManager.episodeCount(
-                forFilter: playlist,
+            dataManager.smartPlaylistEpisodeCount(
+                for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
         }.value
@@ -265,7 +275,12 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        let newData: [ListEpisode]
+        if isManualPlaylist {
+            newData = episodesDataManager.manualPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        } else {
+            newData = episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        }
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)

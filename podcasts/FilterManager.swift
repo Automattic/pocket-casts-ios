@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 class FilterManager {
     class func checkForAutoDownloads() {
-        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
 
         if filters.count == 0 { return }
 
@@ -29,7 +29,7 @@ class FilterManager {
     }
 
     class func handlePodcastUnsubscribed(podcastUuid: String) {
-        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
         if filters.count == 0 { return }
 
         for filter in filters {
@@ -46,7 +46,7 @@ class FilterManager {
     }
 
     class func autoDownloadFilterCount() -> Int {
-        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
 
         return filters.filter { episodeFilter -> Bool in
             episodeFilter.autoDownloadEpisodes
