@@ -517,6 +517,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: Banner Ad
 
     func addAdBanner(promotion: BlazePromotion, animated: Bool = true) {
+        removeBannerAd()
+
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
         let model = BannerAdModel(promotion: promotion) {
