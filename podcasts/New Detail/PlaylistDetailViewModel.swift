@@ -27,7 +27,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     var isManualPlaylist: Bool {
-        playlist.playlistType == .manual
+        playlist.manual
     }
 
     var hasSubscribedPodcasts: Bool {

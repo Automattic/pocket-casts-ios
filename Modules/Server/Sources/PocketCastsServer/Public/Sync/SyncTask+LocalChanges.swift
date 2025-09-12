@@ -152,7 +152,7 @@ extension SyncTask {
         filterRecord.shorterThan.value = filter.shorterThan
         filterRecord.longerThan.value = filter.longerThan
 
-        if filter.playlistType == .manual {
+        if filter.manual {
             filterRecord.episodes = filter.episodes.map { uuid in
                 createSyncEpisode(from: uuid)
             }

@@ -367,7 +367,7 @@ extension SyncTask {
 
         DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
 
-        filter.playlistType = filterItem.manual.value ? .manual : .smart
+        filter.manual = filterItem.manual.value
 
         DataManager.sharedManager.save(filter: filter)
     }

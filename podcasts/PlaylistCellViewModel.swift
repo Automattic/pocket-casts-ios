@@ -32,7 +32,7 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     func isSmartPlaylist() -> Bool {
-        playlist.playlistType == .smart
+        playlist.manual == false
     }
 
     func loadData() {
@@ -78,14 +78,13 @@ class PlaylistCellViewModel: ObservableObject {
 
     private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
         let playlist = self.playlist
-        switch playlist.playlistType {
-        case .smart:
-            return await Task.detached(priority: .userInitiated) { [weak self] in
-                self?.episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: limit) ?? []
-            }.value
-        case .manual:
+        if playlist.manual {
             return await Task.detached(priority: .userInitiated) { [weak self] in
                 self?.episodesDataManager.manualPlaylistEpisodes(for: playlist, limit: limit) ?? []
+            }.value
+        } else {
+            return await Task.detached(priority: .userInitiated) { [weak self] in
+                self?.episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: limit) ?? []
             }.value
         }
     }

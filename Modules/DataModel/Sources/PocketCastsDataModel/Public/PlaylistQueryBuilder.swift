@@ -141,10 +141,9 @@ public class PlaylistQueryBuilder {
     }
 
     private class func add(episodesFor playlist: EpisodeFilter) -> QueryResult {
-        switch playlist.playlistType {
-        case .manual:
-                .value("AND episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
-        case .smart:
+        if playlist.manual {
+            .value("AND episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
+        } else {
             .value("", false)
         }
     }

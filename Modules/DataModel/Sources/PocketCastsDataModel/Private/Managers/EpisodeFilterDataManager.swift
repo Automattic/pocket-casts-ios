@@ -25,8 +25,8 @@ class EpisodeFilterDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "rawPlaylistType",
-        "episodes"
+        "episodes",
+        "manual"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -114,7 +114,7 @@ class EpisodeFilterDataManager {
         if FeatureFlag.playlistsRebranding.enabled {
             query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
         } else {
-            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+            query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
         }
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
@@ -274,8 +274,8 @@ class EpisodeFilterDataManager {
         filter.filterDuration = rs.bool(forColumn: "filterDuration")
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
-        filter.rawPlaylistType = rs.int(forColumn: "rawPlaylistType")
         filter.episodes = rs.string(forColumn: "episodes")?.components(separatedBy: ",") ?? []
+        filter.manual = rs.bool(forColumn: "manual")
 
         return filter
     }
@@ -305,8 +305,8 @@ class EpisodeFilterDataManager {
         values.append(filter.filterDuration)
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
-        values.append(filter.rawPlaylistType)
         values.append(filter.episodes.joined(separator: ","))
+        values.append(filter.manual)
 
         if includeUuidForWhere {
             values.append(filter.uuid)

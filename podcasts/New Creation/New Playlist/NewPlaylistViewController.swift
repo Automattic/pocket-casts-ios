@@ -139,7 +139,7 @@ class NewPlaylistViewController: PCViewController {
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewFilter()
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
-        playlist.rawPlaylistType = 1
+        playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
         playlist.episodes = DataManager.sharedManager.allUpNextEpisodes().map({ $0.uuid })
