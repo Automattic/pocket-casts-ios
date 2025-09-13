@@ -11,11 +11,13 @@ struct SearchResultCell: View {
     let episode: EpisodeSearchResult?
     let result: PodcastFolderSearchResult?
     let played: Bool
+    let showDivider: Bool
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true) {
         self.episode = episode
         self.result = result
         self.played = episode != nil && played
+        self.showDivider = false
     }
 
     var body: some View {
@@ -74,6 +76,8 @@ struct SearchResultCell: View {
                         Image("list_played", bundle: nil)
                             .renderingMode(.template)
                             .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                    } else {
+                        Spacer()
                     }
 
                     if let result, result.kind == .podcast {
@@ -83,7 +87,9 @@ struct SearchResultCell: View {
                 }
                 .padding(.trailing, 8)
                 .opacity(played ? 0.5 : 1.0)
-                ThemedDivider()
+                if showDivider {
+                    ThemedDivider()
+                }
             }
             .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
         }

@@ -14,7 +14,7 @@ struct NewSearchResultsView: View {
     @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
 
     var body: some View {
-        Group {
+        ZStack {
             if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
                 HStack(alignment: .center) {
                     EmptyStateView(
@@ -30,7 +30,12 @@ struct NewSearchResultsView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi02)
-            } else {
+            } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts {
+                  ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tint(AppTheme.loadingActivityColor().color)
+            }
+            else {
                 List {
                     Section {
                         podcastList
@@ -40,79 +45,46 @@ struct NewSearchResultsView: View {
                             episodeList
                         }
                     }
-                }.listStyle(.plain)
+                }
+                .listStyle(.plain)
+                .listRowSeparatorTint(theme.primaryUi05)
+                .scrollContentBackground(.hidden)
             }
+        }
+        .background(theme.primaryUi01.ignoresSafeArea())
+    }
+
+    @ViewBuilder var podcastList: some View {
+        if searchResults.podcasts.count > 0 {
+                ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false)
+                        .listRowBackground(Color.clear)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+                }
+        } else if !searchResults.isShowingLocalResultsOnly {
+            EmptyStateView(title: L10n.discoverNoPodcastsFound,
+                           message: L10n.discoverNoPodcastsFoundMsg,
+                           icon: { Image(systemName: "info.circle") })
         }
     }
 
     @ViewBuilder var episodeList: some View {
-//        if !searchResults.hideEpisodes {
-//            if searchResults.isSearchingForEpisodes {
-//                ProgressView()
-//                .frame(maxWidth: .infinity)
-//                .tint(AppTheme.loadingActivityColor().color)
-//                // Force the list to re-render the ProgressView by changing it's id
-//                .id(identifier)
-//                .onAppear {
-//                    identifier += 1
-//                }
-//            } else if let _ = searchResults.episodeSearchError {
-//                EmptyStateView(
-//                    title: L10n.discoverSearchFailed,
-//                    message: L10n.discoverSearchFailedMsg,
-//                    icon: { Image("no-connection-grey").renderingMode(.template) },
-//                    actions: [
-//                        .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
-//                            searchResults.search(term: searchResults.currentSearchTerm)
-//                        }
-//                    ]
-//                )
-//            } else if searchResults.episodes.count > 0 {
-                ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-                    let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-                    SearchResultCell(episode: episode, result: nil, played: played)
-                }
-//            } else if !searchResults.isShowingLocalResultsOnly {
-//                EmptyStateView(title: L10n.discoverNoEpisodesFound,
-//                               message: L10n.discoverNoPodcastsFoundMsg,
-//                               icon: { Image(systemName: "info.circle") })
-//            }
-//        }
-    }
-
-    @ViewBuilder var podcastList: some View {
-//        if searchResults.isSearchingForPodcasts {
-//            ProgressView()
-//                .frame(maxWidth: .infinity)
-//                .tint(AppTheme.loadingActivityColor().color)
-//            // Force the list to re-render the ProgressView by changing it's id
-//                //.id(identifier)
-//                .onAppear {
-//                    //identifier += 1
-//                }
-//        } else if let _ = searchResults.podcastSearchError {
-//            EmptyStateView(
-//                title: L10n.discoverSearchFailed,
-//                message: L10n.discoverSearchFailedMsg,
-//                icon: { Image("no-connection-grey").renderingMode(.template) },
-//                actions: [
-//                    .init(title: L10n.tryAgain, style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01)) {
-//                        searchResults.search(term: searchResults.currentSearchTerm)
-//                    }
-//                ]
-//            )
-//        } else if searchResults.podcasts.count > 0 {
-//            VStack {
-                ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
-                    PodcastTableCellView(viewModel: PodcastCellViewModel(podcastSearchResult: podcast), style: .large)
-                        .padding(.vertical, 8)
-                }
-//            }.padding(20)
-//        } else if !searchResults.isShowingLocalResultsOnly {
-//            EmptyStateView(title: L10n.discoverNoPodcastsFound,
-//                           message: L10n.discoverNoPodcastsFoundMsg,
-//                           icon: { Image(systemName: "info.circle") })
-//        }
+        if searchResults.episodes.count > 0 {
+            ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
+                let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
+                SearchResultCell(episode: episode, result: nil, played: played, showDivider: false)
+                    .listRowBackground(Color.clear)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
+            }
+        } else if !searchResults.isShowingLocalResultsOnly {
+            EmptyStateView(title: L10n.discoverNoEpisodesFound,
+                           message: L10n.discoverNoPodcastsFoundMsg,
+                           icon: { Image(systemName: "info.circle") })
+        }
     }
 
     enum Constants {
