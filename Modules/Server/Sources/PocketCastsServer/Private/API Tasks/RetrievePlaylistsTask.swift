@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveFiltersTask: ApiBaseTask {
+class RetrievePlaylistsTask: ApiBaseTask {
     var completion: (([EpisodeFilter]?) -> Void)?
 
     private var filters = [EpisodeFilter]()
@@ -41,11 +41,11 @@ class RetrieveFiltersTask: ApiBaseTask {
 
                 completion?(filters)
             } catch {
-                FileLog.shared.addMessage("Decoding filters failed \(error.localizedDescription)")
+                FileLog.shared.addMessage("Decoding playlists failed \(error.localizedDescription)")
                 completion?(nil)
             }
         } catch {
-            FileLog.shared.addMessage("retrieve filters failed \(error.localizedDescription)")
+            FileLog.shared.addMessage("retrieve playlists failed \(error.localizedDescription)")
             completion?(nil)
         }
     }
