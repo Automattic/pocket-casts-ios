@@ -58,7 +58,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         backBtn.translatesAutoresizingMaskIntoConstraints = false
         var margin: CGFloat = 0
         var buttonSize: CGFloat = 44
-        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+        if displayMode == .navController {
             buttonSize = 32
             backBtn.layer.cornerRadius = buttonSize / 2
             backBtn.layer.masksToBounds = true
@@ -130,10 +130,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         }
 
         // we need to allow enough room to show 2 buttons on the right
-        var buttonsWidth = CGFloat(180)
-        if FeatureFlag.podcastViewChanges.enabled {
-            buttonsWidth = CGFloat(220)
-        }
+        var buttonsWidth = CGFloat(220)
+
         let maxTitleWidth = fakeNavView.bounds.width - buttonsWidth
         if navTitleMaxWidth.constant != maxTitleWidth {
             navTitleMaxWidth.constant = maxTitleWidth
@@ -165,7 +163,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         fakeNavView.addSubview(button)
         var buttonSize: CGFloat = 44
         var imageSize: CGFloat = 24
-        if FeatureFlag.podcastViewChanges.enabled, displayMode == .navController {
+        if displayMode == .navController {
             buttonSize = 32
             imageSize = 20
             button.imageView?.contentMode = .scaleAspectFit
@@ -183,7 +181,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         if rightActionButtons.count == 0 {
             // if there are no other buttons, anchor this one to the edge
-            let margin: CGFloat = FeatureFlag.podcastViewChanges.enabled ? 16 : 5
+            let margin: CGFloat = 16
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: buttonSize),
                 button.heightAnchor.constraint(equalToConstant: buttonSize),
@@ -192,7 +190,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             ])
         } else {
             let previousButton = rightActionButtons.last!
-            let margin: CGFloat  = FeatureFlag.podcastViewChanges.enabled ? 8 : 0
+            let margin: CGFloat = 8
             // otherwise anchor it to the previous button
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: buttonSize),
@@ -239,11 +237,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                 updateNavigationBar(transparent: true, animated: true)
             }
         }
-        if FeatureFlag.podcastViewChanges.enabled {
-            setShadowVisible(false)
-        } else {
-            setShadowVisible(scrolledToY > 9)
-        }
+        setShadowVisible(false)
     }
 
     func setShadowVisible(_ visible: Bool) {
@@ -254,7 +248,6 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     }
 
     func updateNavigationBar(position: CGFloat) {
-        guard FeatureFlag.podcastViewChanges.enabled else { return }
         let scrolledToY = position + fakeNavHeight.constant
         if scrolledToY > scrollPointToChangeTitle {
             updateNavigationBar(transparent: false, animated: false)
@@ -264,9 +257,6 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     }
 
     private func updateNavigationBar(transparent: Bool, animated: Bool = true) {
-        guard FeatureFlag.podcastViewChanges.enabled else {
-            return
-        }
         if animated {
             let fadeAnimation = CATransition()
             fadeAnimation.duration = Constants.Animation.defaultAnimationTime
@@ -294,16 +284,14 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         fadeTextAnimation.type = CATransitionType.fade
 
         fakeNavTitle.layer.add(fadeTextAnimation, forKey: "fadeText")
-        if FeatureFlag.podcastViewChanges.enabled {
-            fakeNavView.layer.add(fadeTextAnimation, forKey: "fadeText")
-            if newTitle == nil {
-                fakeNavView.backgroundColor = .clear
-                updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
-            } else {
-                fakeNavView.backgroundColor = ThemeColor.primaryUi01()
-                fakeNavTitle.textColor = AppTheme.mainTextColor()
-                updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
-            }
+        fakeNavView.layer.add(fadeTextAnimation, forKey: "fadeText")
+        if newTitle == nil {
+            fakeNavView.backgroundColor = .clear
+            updateButtonsBackgroundColors(tintColor: .white, backgroundColor: .black.withAlphaComponent(0.35))
+        } else {
+            fakeNavView.backgroundColor = ThemeColor.primaryUi01()
+            fakeNavTitle.textColor = AppTheme.mainTextColor()
+            updateButtonsBackgroundColors(tintColor: ThemeColor.primaryIcon01(), backgroundColor: .clear)
         }
         fakeNavTitle.text = newTitle
     }

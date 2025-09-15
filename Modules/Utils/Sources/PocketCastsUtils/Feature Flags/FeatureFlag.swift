@@ -149,9 +149,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
-    /// Enable the new podcast view
-    case podcastViewChanges
-
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 
@@ -347,8 +344,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
-        case .podcastViewChanges:
-            true
         case .podcastNewformAppsFlyer:
             true
         case .fullScreenLogin:
@@ -434,8 +429,6 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .usePodcastHTMLDescription:
             "use_podcast_html_description"
-        case .podcastViewChanges:
-            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }
