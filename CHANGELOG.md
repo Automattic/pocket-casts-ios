@@ -1,3 +1,7 @@
+7.99
+-----
+
+
 7.98
 -----
 - New onboarding screens with User Stories, Interests and Recommendations Screens [#3469](https://github.com/Automattic/pocket-casts-ios/pull/3469)
