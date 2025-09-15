@@ -60,7 +60,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .podcastAutoDownload:
             return L10n.settingsAutoDownloadsSubtitleNewEpisodes
         case .filterSelection:
-            return L10n.settingsAutoDownloadsSubtitleFilters
+            return FeatureFlag.playlistsRebranding.enabled ? L10n.settingsAutoDownloadsSubtitlePlaylists : L10n.settingsAutoDownloadsSubtitleFilters
         case .onlyOnWifi:
             return L10n.onlyOnUnmeteredWifiDetails
         default:
@@ -128,9 +128,12 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
             let autoDownloadFilterCount = FilterManager.autoDownloadFilterCount()
-
-            let filterStr = autoDownloadFilterCount == 1 ? L10n.settingsAutoDownloadsFiltersSelectedSingular : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadFilterCount.localized())
-            cell.cellLabel.text = autoDownloadFilterCount > 0 ? filterStr : L10n.settingsAutoDownloadsNoFiltersSelected
+            let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
+            let singularPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedSingular : L10n.settingsAutoDownloadsFiltersSelectedSingular
+            let pluralPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedFormat(autoDownloadFilterCount.localized()) : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadFilterCount.localized())
+            let noPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsNoPlaylistsSelected : L10n.settingsAutoDownloadsNoFiltersSelected
+            let playlistStr = autoDownloadFilterCount == 1 ? singularPlaylistString : pluralPlaylistString
+            cell.cellLabel.text = autoDownloadFilterCount > 0 ? playlistStr : noPlaylistString
             cell.cellSecondaryLabel.text = ""
 
             return cell
@@ -164,30 +167,31 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
         case .filterSelection:
-                let filterSelectionViewController = FilterSelectionViewController()
-                filterSelectionViewController.allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-                let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { filter -> String? in
-                    filter.autoDownloadEpisodes ? filter.uuid : nil
-                }
-                filterSelectionViewController.selectedFilters = selectedFilters
-                filterSelectionViewController.filterSelected = { filter in
-                    Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
-                    filter.autoDownloadEpisodes = true
-                    filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
-                    DataManager.sharedManager.save(filter: filter)
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-                }
-                filterSelectionViewController.filterUnselected = { filter in
-                    Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
-                    filter.autoDownloadEpisodes = false
-                    DataManager.sharedManager.save(filter: filter)
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-                }
-                filterSelectionViewController.didChangeFilters = {
-                    Analytics.track(.settingsAutoDownloadFiltersChanged)
-                }
+            let playlistSelectionViewController = PlaylistSelectionViewController()
+            playlistSelectionViewController.navigationTitle = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectPlaylistsPlural : L10n.settingsSelectFiltersPlural
+            playlistSelectionViewController.allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+            let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { playlist -> String? in
+                playlist.autoDownloadEpisodes ? playlist.uuid : nil
+            }
+            playlistSelectionViewController.selectedPlaylists = selectedFilters
+            playlistSelectionViewController.playlistSelected = { playlist in
+                Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
+                playlist.autoDownloadEpisodes = true
+                playlist.autoDownloadLimit = playlist.maxAutoDownloadEpisodes()
+                DataManager.sharedManager.save(filter: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+            }
+            playlistSelectionViewController.playlistUnselected = { playlist in
+                Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
+                playlist.autoDownloadEpisodes = false
+                DataManager.sharedManager.save(filter: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+            }
+            playlistSelectionViewController.didChangePlaylist = {
+                Analytics.track(.settingsAutoDownloadFiltersChanged)
+            }
 
-                navigationController?.pushViewController(filterSelectionViewController, animated: true)
+            navigationController?.pushViewController(playlistSelectionViewController, animated: true)
         case .downloadLimits:
             let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
             let limitOptions = AutoDownloadLimit.allCases

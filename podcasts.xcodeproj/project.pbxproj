@@ -1110,8 +1110,8 @@
 		BD85E3A41E6670DF001B17C1 /* skip.json in Resources */ = {isa = PBXBuildFile; fileRef = BD85E3A31E6670DF001B17C1 /* skip.json */; };
 		BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD85E3A51E667475001B17C1 /* SkipButton.swift */; };
 		BD8678A71C1954F600CC728B /* ThreeDeeTouch.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */; };
-		BD86D94B217EB5060010FA1B /* FilterSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD86D949217EB5060010FA1B /* FilterSelectionViewController.swift */; };
-		BD86D94C217EB5060010FA1B /* FilterSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD86D94A217EB5060010FA1B /* FilterSelectionViewController.xib */; };
+		BD86D94B217EB5060010FA1B /* PlaylistSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD86D949217EB5060010FA1B /* PlaylistSelectionViewController.swift */; };
+		BD86D94C217EB5060010FA1B /* PlaylistSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD86D94A217EB5060010FA1B /* PlaylistSelectionViewController.xib */; };
 		BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD86D94D217EB81C0010FA1B /* FilterDownloadCell.swift */; };
 		BD86D950217EB81C0010FA1B /* FilterDownloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD86D94E217EB81C0010FA1B /* FilterDownloadCell.xib */; };
 		BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD874EEC1C9A373C00F5B2A5 /* SettingsViewController.swift */; };
@@ -3448,8 +3448,8 @@
 		BD85E3A31E6670DF001B17C1 /* skip.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skip.json; sourceTree = "<group>"; };
 		BD85E3A51E667475001B17C1 /* SkipButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkipButton.swift; sourceTree = "<group>"; };
 		BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ThreeDeeTouch.xcassets; sourceTree = "<group>"; };
-		BD86D949217EB5060010FA1B /* FilterSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSelectionViewController.swift; sourceTree = "<group>"; };
-		BD86D94A217EB5060010FA1B /* FilterSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterSelectionViewController.xib; sourceTree = "<group>"; };
+		BD86D949217EB5060010FA1B /* PlaylistSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSelectionViewController.swift; sourceTree = "<group>"; };
+		BD86D94A217EB5060010FA1B /* PlaylistSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaylistSelectionViewController.xib; sourceTree = "<group>"; };
 		BD86D94D217EB81C0010FA1B /* FilterDownloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDownloadCell.swift; sourceTree = "<group>"; };
 		BD86D94E217EB81C0010FA1B /* FilterDownloadCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterDownloadCell.xib; sourceTree = "<group>"; };
 		BD874EEC1C9A373C00F5B2A5 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -6456,8 +6456,8 @@
 				BD22E0BD178E54EE00073760 /* SettingsOptionsViewController.xib */,
 				BD7114BD20E224BF003DF634 /* AutoArchiveViewController.swift */,
 				BD7114BE20E224BF003DF634 /* AutoArchiveViewController.xib */,
-				BD86D949217EB5060010FA1B /* FilterSelectionViewController.swift */,
-				BD86D94A217EB5060010FA1B /* FilterSelectionViewController.xib */,
+				BD86D949217EB5060010FA1B /* PlaylistSelectionViewController.swift */,
+				BD86D94A217EB5060010FA1B /* PlaylistSelectionViewController.xib */,
 				BD86D94D217EB81C0010FA1B /* FilterDownloadCell.swift */,
 				BD86D94E217EB81C0010FA1B /* FilterDownloadCell.xib */,
 				BD907DAC21537B51004D7C02 /* SiriSettingsViewController.swift */,
@@ -9859,7 +9859,7 @@
 				BD12931022F809F8004608A6 /* AppIcon-Electric-Pink29x29@3x.png in Resources */,
 				BD1292D022F7CD83004608A6 /* AppIcon-Plus29x29~ipad.png in Resources */,
 				BDB3BDC21FE23F9000FD8D24 /* PodcastChooserCell.xib in Resources */,
-				BD86D94C217EB5060010FA1B /* FilterSelectionViewController.xib in Resources */,
+				BD86D94C217EB5060010FA1B /* PlaylistSelectionViewController.xib in Resources */,
 				C7D813A02A0D4BEE007F715F /* AppIcon-Patron-Dark-iphone@2x.png in Resources */,
 				BD1292D122F7CD83004608A6 /* AppIcon-Plus20x20@3x.png in Resources */,
 				4041FEA2218AA5EC0089D4A1 /* SiriShortcutAddCell.xib in Resources */,
@@ -10546,7 +10546,7 @@
 				C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */,
 				1099A4AA2CA5A3C1001B96A9 /* Variation+CustomTreatment.swift in Sources */,
 				9A821DCB2DA5498E0056D860 /* InformationalBannerViewModel.swift in Sources */,
-				BD86D94B217EB5060010FA1B /* FilterSelectionViewController.swift in Sources */,
+				BD86D94B217EB5060010FA1B /* PlaylistSelectionViewController.swift in Sources */,
 				40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */,
 				BD92323123629E1900C1E118 /* PlayerContainerViewController.swift in Sources */,
 				BDB8386F1EE7CAC900F4DB90 /* DateHeadingView.swift in Sources */,

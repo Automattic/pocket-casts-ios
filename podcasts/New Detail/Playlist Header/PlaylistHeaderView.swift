@@ -17,7 +17,7 @@ struct PlaylistHeaderView: View {
                 }
 
                 VStack(spacing: 10.0) {
-                    Text(viewModel.playlist.playlistName)
+                    Text(viewModel.playlistName)
                         .font(style: .title2, weight: .bold)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
