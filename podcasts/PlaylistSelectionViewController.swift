@@ -1,9 +1,10 @@
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
-    private static let filterAutoDownloadCell = "FilterDownloadCell"
+    private static let playlistAutoDownloadCell = "PlaylistAutoDownloadCell"
 
     var allPlaylists = [EpisodeFilter]()
     var selectedPlaylists = [String]()
@@ -24,7 +25,7 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
             if FeatureFlag.playlistsRebranding.enabled {
                 playlistSelectionTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
             } else {
-                playlistSelectionTable.register(UINib(nibName: "FilterDownloadCell", bundle: nil), forCellReuseIdentifier: PlaylistSelectionViewController.filterAutoDownloadCell)
+                playlistSelectionTable.register(UINib(nibName: "FilterDownloadCell", bundle: nil), forCellReuseIdentifier: PlaylistSelectionViewController.playlistAutoDownloadCell)
             }
         }
     }
@@ -58,7 +59,6 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let playlist = allPlaylists[indexPath.row]
-        let selected = selectedPlaylists.contains(playlist.uuid)
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
             guard let self = self else { return }
 
@@ -74,13 +74,24 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
         }
 
         if FeatureFlag.playlistsRebranding.enabled {
+            let isSelected = Binding<Bool>(
+                get: { [weak self] in
+                    guard let self = self else { return false }
+                    return self.selectedPlaylists.contains(playlist.uuid)
+                },
+                set: { newValue in
+                    onToggleChange(newValue)
+                }
+            )
+
             let isLastRow = indexPath.row == allPlaylists.count - 1
             let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
-            cell.configure(cellType: .toggle, playlist: playlist, isLastRow: isLastRow, selected: selected, onToggleChange: onToggleChange)
+            cell.configure(cellType: .toggle, playlist: playlist, isLastRow: isLastRow, isSelected: isSelected)
             return cell
         }
 
-        let cell = cell(tableView, for: PlaylistSelectionViewController.filterAutoDownloadCell) as! FilterDownloadCell
+        let selected = selectedPlaylists.contains(playlist.uuid)
+        let cell = cell(tableView, for: PlaylistSelectionViewController.playlistAutoDownloadCell) as! FilterDownloadCell
         cell.populateFrom(filter: playlist, selected: selected)
         cell.filterSwitchToggled = onToggleChange
         return cell
