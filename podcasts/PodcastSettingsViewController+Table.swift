@@ -249,7 +249,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
                 playlist.addPodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(playlist: playlist)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
@@ -258,7 +258,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
                 playlist.removePodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(playlist: playlist)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }

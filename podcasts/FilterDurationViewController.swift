@@ -216,7 +216,7 @@ class FilterDurationViewController: PCViewController {
 
         filter.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filter)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filter)
         if FeatureFlag.playlistsRebranding.enabled {
             navigationController?.popViewController(animated: true)
         } else {

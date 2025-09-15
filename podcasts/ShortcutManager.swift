@@ -6,7 +6,7 @@ class ShortcutManager: CustomObserver {
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(shortcutsRequireUpdate))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(shortcutsRequireUpdate))
 
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(shortcutsRequireUpdate))

@@ -25,7 +25,7 @@ extension WatchSyncManager: ServerSyncDelegate {
 
     // MARK: - Filters
 
-    func filterChanged() {
+    func playlistChanged() {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
     }
 

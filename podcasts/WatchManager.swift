@@ -39,7 +39,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             self.isSettingUp = false
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateWatchData), name: Constants.Notifications.filterChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateWatchData), name: Constants.Notifications.playlistChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsDidRefresh), name: ServerNotifications.podcastsRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsDidRefresh), name: Constants.Notifications.opmlImportCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)

@@ -117,7 +117,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
         (view as? ThemeableView)?.style = .primaryUi01
         chipCollectionView.filter = newFilter
         chipCollectionView.chipActionDelegate = self
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(handleFilterChanged(_:)))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(handleFilterChanged(_:)))
         addCustomObserver(Constants.Notifications.playlistTempChange, selector: #selector(handleFilterColorChanged))
         isModalInPresentation = true
 

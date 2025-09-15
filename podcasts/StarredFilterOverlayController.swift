@@ -154,7 +154,7 @@ class StarredFilterOverlayController: PCViewController {
     @objc private func saveTapped(sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filterToEdit)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
         if !filterToEdit.isNew {

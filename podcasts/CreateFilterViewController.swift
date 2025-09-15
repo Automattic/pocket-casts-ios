@@ -155,7 +155,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
         DataManager.sharedManager.save(playlist: filterToEdit)
         UserDefaults.standard.set(filterToEdit.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: filterToEdit)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         dismiss(animated: true, completion: nil)
 
         Analytics.track(.filterCreated, properties: [

@@ -114,7 +114,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateNavTintColors()
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])

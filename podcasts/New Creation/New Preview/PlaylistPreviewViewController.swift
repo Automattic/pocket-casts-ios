@@ -200,7 +200,7 @@ class PlaylistPreviewViewController: PCViewController {
         DataManager.sharedManager.save(playlist: viewModel.newPlaylist)
         UserDefaults.standard.set(viewModel.newPlaylist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: viewModel.newPlaylist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)
 
         Analytics.track(.filterCreated, properties: [
             "all_podcasts": viewModel.newPlaylist.filterAllPodcasts,

@@ -145,7 +145,7 @@ class NewPlaylistViewController: PCViewController {
         DataManager.sharedManager.save(playlist: playlist)
         UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: playlist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
 
         //TODO: Add analytics for manual playlist creation
 

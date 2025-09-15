@@ -38,7 +38,7 @@ class PlaylistPreviewViewModel: ObservableObject {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleFilterChanged(_:)),
-            name: Constants.Notifications.filterChanged,
+            name: Constants.Notifications.playlistChanged,
             object: nil
         )
     }

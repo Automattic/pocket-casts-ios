@@ -9,7 +9,7 @@ class BadgeHelper {
 
     func setup() {
         let notCenter = NotificationCenter.default
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.filterChanged, object: nil)
+        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.playlistChanged, object: nil)
         notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodePlayStatusChanged, object: nil)
         notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeArchiveStatusChanged, object: nil)
         notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeStarredChanged, object: nil)
