@@ -1385,7 +1385,7 @@
 		BDD3018F1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301911EFB9979004A9972 /* SessionManager.swift */; };
 		BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */; };
-		BDD301971EFB9A95004A9972 /* WatchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301961EFB9A95004A9972 /* WatchFilter.swift */; };
+		BDD301971EFB9A95004A9972 /* WatchPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301961EFB9A95004A9972 /* WatchPlaylist.swift */; };
 		BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3578E27BCD33D0000D155 /* FolderViewController.swift */; };
 		BDD3579127BCD33D0000D155 /* FolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD3578F27BCD33D0000D155 /* FolderViewController.xib */; };
 		BDD3579327BCD50D0000D155 /* FolderViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3579227BCD50D0000D155 /* FolderViewController+CollectionView.swift */; };
@@ -2079,8 +2079,8 @@
 		FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47245A2BA4749F00EA916B /* MenuRow.swift */; };
-		FF4724612BA48CAA00EA916B /* FiltersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724602BA48CA900EA916B /* FiltersListView.swift */; };
-		FF4724632BA48E8D00EA916B /* FiltersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */; };
+		FF4724612BA48CAA00EA916B /* PlaylistsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724602BA48CA900EA916B /* PlaylistsListView.swift */; };
+		FF4724632BA48E8D00EA916B /* PlaylistsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724622BA48E8D00EA916B /* PlaylistsListViewModel.swift */; };
 		FF4724652BA721D300EA916B /* InterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724642BA721D200EA916B /* InterfaceView.swift */; };
 		FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */; };
 		FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D72C87694300587128 /* ReferralCardView.swift */; };
@@ -3733,7 +3733,7 @@
 		BDD3018D1EFB9574004A9972 /* WatchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConstants.swift; sourceTree = "<group>"; };
 		BDD301911EFB9979004A9972 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDataManager.swift; sourceTree = "<group>"; };
-		BDD301961EFB9A95004A9972 /* WatchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchFilter.swift; sourceTree = "<group>"; };
+		BDD301961EFB9A95004A9972 /* WatchPlaylist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchPlaylist.swift; sourceTree = "<group>"; };
 		BDD3578E27BCD33D0000D155 /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		BDD3578F27BCD33D0000D155 /* FolderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolderViewController.xib; sourceTree = "<group>"; };
 		BDD3579227BCD50D0000D155 /* FolderViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderViewController+CollectionView.swift"; sourceTree = "<group>"; };
@@ -4195,8 +4195,8 @@
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
-		FF4724602BA48CA900EA916B /* FiltersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListView.swift; sourceTree = "<group>"; };
-		FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListViewModel.swift; sourceTree = "<group>"; };
+		FF4724602BA48CA900EA916B /* PlaylistsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsListView.swift; sourceTree = "<group>"; };
+		FF4724622BA48E8D00EA916B /* PlaylistsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsListViewModel.swift; sourceTree = "<group>"; };
 		FF4724642BA721D200EA916B /* InterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceView.swift; sourceTree = "<group>"; };
 		FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassView.swift; sourceTree = "<group>"; };
 		FF4A73D72C87694300587128 /* ReferralCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardView.swift; sourceTree = "<group>"; };
@@ -6358,8 +6358,8 @@
 		BD4CF4882456C09900155515 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				FF4724602BA48CA900EA916B /* FiltersListView.swift */,
-				FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */,
+				FF4724602BA48CA900EA916B /* PlaylistsListView.swift */,
+				FF4724622BA48E8D00EA916B /* PlaylistsListViewModel.swift */,
 			);
 			name = Filters;
 			sourceTree = "<group>";
@@ -7308,7 +7308,7 @@
 				BDD301911EFB9979004A9972 /* SessionManager.swift */,
 				BD4910CC2457DC86005202CF /* SessionManager+Send.swift */,
 				BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */,
-				BDD301961EFB9A95004A9972 /* WatchFilter.swift */,
+				BDD301961EFB9A95004A9972 /* WatchPlaylist.swift */,
 				BD0EE37E1EFCF15400F2A6DC /* WatchImageHelper.swift */,
 			);
 			name = "Data & Communication";
@@ -11364,7 +11364,7 @@
 				BDE48A412410D90D00ECA6CA /* MNAVChapterReader.m in Sources */,
 				BDCB87271F01349900120EA0 /* Restorable.swift in Sources */,
 				C7D6551528E5153200AD7174 /* Debounce.swift in Sources */,
-				FF4724632BA48E8D00EA916B /* FiltersListViewModel.swift in Sources */,
+				FF4724632BA48E8D00EA916B /* PlaylistsListViewModel.swift in Sources */,
 				468A0FC327D68E7000F800C8 /* DownloadProgressEpisodeActionView.swift in Sources */,
 				F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */,
 				C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */,
@@ -11412,7 +11412,7 @@
 				46703E1427BEF79C00DD7998 /* PreviewHelpers.swift in Sources */,
 				BD38F252253FB0670016713B /* PlaybackCatchUpHelper.swift in Sources */,
 				4670303D27D7B90900844CED /* Podcast+Display.swift in Sources */,
-				FF4724612BA48CAA00EA916B /* FiltersListView.swift in Sources */,
+				FF4724612BA48CAA00EA916B /* PlaylistsListView.swift in Sources */,
 				BDE48A222410D0AD00ECA6CA /* Settings.swift in Sources */,
 				C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */,
@@ -11442,7 +11442,7 @@
 				46B5DFCE27EA16C3006FC2ED /* PhoneSourceViewModel.swift in Sources */,
 				BDDAE72D27F2E76B003741A1 /* FileTypeUtil.swift in Sources */,
 				464B481F27E8FC7E00107CBF /* NowPlayingViewModel.swift in Sources */,
-				BDD301971EFB9A95004A9972 /* WatchFilter.swift in Sources */,
+				BDD301971EFB9A95004A9972 /* WatchPlaylist.swift in Sources */,
 				C791418E294CE33700F1852B /* StorageManager.swift in Sources */,
 				46E905A727E285F20039558C /* UpNextViewModel.swift in Sources */,
 				46D88ABE27DFDB6E00F3BC43 /* FilesListViewModel.swift in Sources */,
