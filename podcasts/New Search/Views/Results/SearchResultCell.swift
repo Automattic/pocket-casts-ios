@@ -12,12 +12,14 @@ struct SearchResultCell: View {
     let result: PodcastFolderSearchResult?
     let played: Bool
     let showDivider: Bool
+    let cellStyle: ListCellButtonStyle
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
         self.episode = episode
         self.result = result
         self.played = episode != nil && played
         self.showDivider = false
+        self.cellStyle = cellStyle
     }
 
     var body: some View {
@@ -37,7 +39,7 @@ struct SearchResultCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(ListCellButtonStyle())
+            .buttonStyle(cellStyle)
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {

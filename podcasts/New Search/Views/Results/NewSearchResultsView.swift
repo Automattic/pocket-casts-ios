@@ -29,13 +29,20 @@ struct NewSearchResultsView: View {
                     )
                 }
                 .frame(maxHeight: .infinity)
-                .background(Theme.sharedTheme.primaryUi02)
+                .background(Theme.sharedTheme.primaryUi01)
             } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(AppTheme.loadingActivityColor().color)
-            }
-            else {
+            } else if searchResults.noResults {
+                HStack(alignment: .center) {
+                    EmptyStateView(title: L10n.discoverNoPodcastsFound,
+                                   message: L10n.discoverNoPodcastsFoundMsg,
+                                   icon: { Image(systemName: "info.circle") })
+                }
+                .frame(maxHeight: .infinity)
+                .background(Theme.sharedTheme.primaryUi01)
+            } else {
                 List {
                     Section {
                         podcastList
@@ -55,35 +62,23 @@ struct NewSearchResultsView: View {
     }
 
     @ViewBuilder var podcastList: some View {
-        if searchResults.podcasts.count > 0 {
-                ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
-                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false)
-                        .listRowBackground(Color.clear)
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                            return 0
-                        }
+        ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
+            SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                .listRowBackground(theme.primaryUi01)
+                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    return 0
                 }
-        } else if !searchResults.isShowingLocalResultsOnly {
-            EmptyStateView(title: L10n.discoverNoPodcastsFound,
-                           message: L10n.discoverNoPodcastsFoundMsg,
-                           icon: { Image(systemName: "info.circle") })
         }
     }
 
     @ViewBuilder var episodeList: some View {
-        if searchResults.episodes.count > 0 {
-            ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-                let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-                SearchResultCell(episode: episode, result: nil, played: played, showDivider: false)
-                    .listRowBackground(Color.clear)
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                        return 0
-                    }
-            }
-        } else if !searchResults.isShowingLocalResultsOnly {
-            EmptyStateView(title: L10n.discoverNoEpisodesFound,
-                           message: L10n.discoverNoPodcastsFoundMsg,
-                           icon: { Image(systemName: "info.circle") })
+        ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
+            let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
+            SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                .listRowBackground(theme.primaryUi01)
+                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    return 0
+                }
         }
     }
 

@@ -373,12 +373,20 @@ struct SecondaryButtonStyle: ButtonStyle {
 struct ListCellButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
 
+    let backgroundStyle: ThemeStyle
+    let hightlightStyle: ThemeStyle
+
+    init(backgroundStyle: ThemeStyle = .primaryUi02, hightlightStyle: ThemeStyle = .primaryUi02Active) {
+        self.backgroundStyle = backgroundStyle
+        self.hightlightStyle = hightlightStyle
+    }
+
     var highlightColor: Color {
-        AppTheme.colorForStyle(.primaryUi02Active, themeOverride: theme.activeTheme).color
+        AppTheme.colorForStyle(hightlightStyle, themeOverride: theme.activeTheme).color
     }
 
     var defaultColor: Color {
-        AppTheme.colorForStyle(.primaryUi02, themeOverride: theme.activeTheme).color
+        AppTheme.colorForStyle(backgroundStyle, themeOverride: theme.activeTheme).color
     }
 
     func makeBody(configuration: Configuration) -> some View {
