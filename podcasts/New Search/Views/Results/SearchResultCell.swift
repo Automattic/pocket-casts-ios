@@ -18,7 +18,7 @@ struct SearchResultCell: View {
         self.episode = episode
         self.result = result
         self.played = episode != nil && played
-        self.showDivider = false
+        self.showDivider = showDivider
         self.cellStyle = cellStyle
     }
 
@@ -72,28 +72,21 @@ struct SearchResultCell: View {
                         }
                     }
                     .allowsHitTesting(false)
-
+                    Spacer()
                     if episode != nil, played {
-                        Spacer()
                         Image("list_played", bundle: nil)
                             .renderingMode(.template)
                             .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
-                    } else {
-                        Spacer()
-                    }
-
-                    if let result, result.kind == .podcast {
-                        Spacer()
+                    } else if let result, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
-                .padding(.trailing, 8)
                 .opacity(played ? 0.5 : 1.0)
                 if showDivider {
                     ThemedDivider()
                 }
             }
-            .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
+            .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
         }
     }
 }
