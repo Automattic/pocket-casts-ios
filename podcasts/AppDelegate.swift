@@ -356,7 +356,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func postLaunchSetup() {
         if !UserDefaults.standard.bool(forKey: "CreatedDefPlaylistsV2") {
-            PlaylistManager.createDefaultFilters()
+            PlaylistManager.createDefaultPlaylists()
             UserDefaults.standard.set(true, forKey: "CreatedDefPlaylistsV2")
         }
         Task {

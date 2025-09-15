@@ -108,7 +108,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createFilter
-        newFilter = PlaylistManager.createNewFilter()
+        newFilter = PlaylistManager.createNewPlaylist()
 
         setupLargeTitle()
         setMinMaxNavBarHeights()
@@ -152,11 +152,11 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     }
 
     override func closeAction() {
-        PlaylistManager.delete(filter: newFilter, fireEvent: true)
+        PlaylistManager.delete(playlist: newFilter, fireEvent: true)
     }
 
     private func reloadFilter() {
-        guard let reloadedFilter = DataManager.sharedManager.findFilter(uuid: newFilter.uuid) else { return }
+        guard let reloadedFilter = DataManager.sharedManager.findPlaylist(uuid: newFilter.uuid) else { return }
         newFilter = reloadedFilter
         newFilter.isNew = true
         chipCollectionView.filter = reloadedFilter

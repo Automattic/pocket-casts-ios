@@ -50,7 +50,7 @@ class AutoplayHelper {
                 guard uuid.isEmpty == false else {
                     return nil
                 }
-                if DataManager.sharedManager.findFilter(uuid: uuid) != nil {
+                if DataManager.sharedManager.findPlaylist(uuid: uuid) != nil {
                     return .filter(uuid: uuid)
                 } else {
                     return .podcast(uuid: uuid)

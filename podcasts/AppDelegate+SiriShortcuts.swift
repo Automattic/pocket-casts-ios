@@ -210,7 +210,7 @@ extension AppDelegate {
     func handleOpenFilterIntent(intent: INIntent) {
         if intent is SJOpenFilterIntent {
             let filterIntent = intent as! SJOpenFilterIntent
-            guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findFilter(uuid: filterId) else { return }
+            guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findPlaylist(uuid: filterId) else { return }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
         }

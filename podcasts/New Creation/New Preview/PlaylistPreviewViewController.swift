@@ -75,13 +75,13 @@ class PlaylistPreviewViewController: PCViewController {
 
         switch mode {
             case .creation:
-            playlist = PlaylistManager.createNewFilter()
+            playlist = PlaylistManager.createNewPlaylist()
             playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
             playlistUUID = playlist.uuid
         case .edit:
-            let result = DataManager.sharedManager.findFilter(uuid: playlistUUID)
+            let result = DataManager.sharedManager.findPlaylist(uuid: playlistUUID)
             if result == nil {
-                playlist = PlaylistManager.createNewFilter()
+                playlist = PlaylistManager.createNewPlaylist()
                 playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
             } else {
                 playlist = result!
@@ -175,7 +175,7 @@ class PlaylistPreviewViewController: PCViewController {
 
     @objc private func closeTapped() {
         if viewModel.isInPreview, viewModel.playlistMode == .creation {
-            PlaylistManager.delete(filter: viewModel.newPlaylist, fireEvent: true)
+            PlaylistManager.delete(playlist: viewModel.newPlaylist, fireEvent: true)
         }
         dismiss()
     }
@@ -197,7 +197,7 @@ class PlaylistPreviewViewController: PCViewController {
         viewModel.newPlaylist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.newPlaylist.isNew = false
         viewModel.removeObserver()
-        DataManager.sharedManager.save(filter: viewModel.newPlaylist)
+        DataManager.sharedManager.save(playlist: viewModel.newPlaylist)
         UserDefaults.standard.set(viewModel.newPlaylist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: viewModel.newPlaylist)

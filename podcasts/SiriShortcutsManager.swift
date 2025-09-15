@@ -323,7 +323,7 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func donateFilterPlayed(filterUuid: String) {
-        guard let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) else { return }
+        guard let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) else { return }
 
         let intent = playFilterIntent(filter: filter)
         let interaction = INInteraction(intent: intent, response: nil)
@@ -415,7 +415,7 @@ class SiriShortcutsManager: CustomObserver {
 
     func playFilter(uuid: String) -> INPlayMediaIntentResponseCode {
         AnalyticsHelper.siriPlayTopFilter()
-        guard let filter = DataManager.sharedManager.findFilter(uuid: uuid) else {
+        guard let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) else {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
@@ -430,7 +430,7 @@ class SiriShortcutsManager: CustomObserver {
     }
 
     func playAllFilter(uuid: String) -> INPlayMediaIntentResponseCode {
-        guard let filter = DataManager.sharedManager.findFilter(uuid: uuid) else {
+        guard let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) else {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 

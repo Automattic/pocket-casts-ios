@@ -76,7 +76,7 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.checkForExpiredPodcastsAndCleanup()
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         #if !APPCLIP
-        FilterManager.checkForAutoDownloads()
+        PlaylistManager.checkForAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
         #endif

@@ -253,7 +253,7 @@ struct Constants {
 
         static let miniPlayerOffset = 80 as CGFloat
         static let extraShowNotesVerticalSpacing: CGFloat = 60
-        static let defaultFilterDownloadLimit = 10 as Int32
+        static let defaultPlaylistDownloadLimit = 10 as Int32
         static let siriArtworkSize = 680
 
         static let minTimeBetweenPodcastImageUpdates = 4.weeks

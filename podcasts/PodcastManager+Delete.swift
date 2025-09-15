@@ -32,7 +32,7 @@ extension PodcastManager {
             dataManager.delete(podcast: podcast)
         }
 
-        FilterManager.handlePodcastUnsubscribed(podcastUuid: podcast.uuid)
+        PlaylistManager.handlePodcastUnsubscribed(podcastUuid: podcast.uuid)
 
         // additionally if this podcast was in a folder, update the folder
         if let folderUuid = savedFolderUuid {

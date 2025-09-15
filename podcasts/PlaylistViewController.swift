@@ -268,7 +268,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            if let reloadedFilter = DataManager.sharedManager.findFilter(uuid: filter.uuid) {
+            if let reloadedFilter = DataManager.sharedManager.findPlaylist(uuid: filter.uuid) {
                 filter = reloadedFilter
                 DispatchQueue.main.async {
                     self.filterCollectionView.filter = reloadedFilter
@@ -406,7 +406,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     func saveFilter() {
         filter.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(filter: filter)
+        DataManager.sharedManager.save(playlist: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
     }
 

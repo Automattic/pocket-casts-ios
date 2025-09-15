@@ -216,7 +216,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         if WatchConstants.Messages.FilterRequest.type == messageType {
             if let filterUuid = message[WatchConstants.Messages.FilterRequest.filterUuid] as? String {
-                let response = handleFilterRequest(filterUuid: filterUuid)
+                let response = handlePlaylistRequest(playlistUuid: filterUuid)
                 replyHandler(response)
             }
         } else if WatchConstants.Messages.DownloadsRequest.type == messageType {
@@ -336,10 +336,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
-    private func handleFilterRequest(filterUuid: String) -> [String: Any] {
-        guard let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) else { return [String: Any]() }
+    private func handlePlaylistRequest(playlistUuid: String) -> [String: Any] {
+        guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid) else { return [String: Any]() }
 
-        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
+        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: episodeQuery, arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()

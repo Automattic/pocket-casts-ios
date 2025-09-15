@@ -70,7 +70,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(filter: filterToEdit)
+        DataManager.sharedManager.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
 
         if isViewingShortcuts == false {
