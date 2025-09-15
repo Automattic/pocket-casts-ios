@@ -107,18 +107,18 @@ class SiriShortcutsManager: CustomObserver {
         return shortcut!
     }
 
-    func playFilterShortcut(filter: EpisodeFilter) -> INShortcut {
-        let shortcut = INShortcut(intent: playFilterIntent(filter: filter))
+    func playPlaylistShortcut(playlist: EpisodeFilter) -> INShortcut {
+        let shortcut = INShortcut(intent: playPlaylistIntent(playlist: playlist))
         return shortcut!
     }
 
-    func playAllFilterShortcut(filter: EpisodeFilter) -> INShortcut {
-        let shortcut = INShortcut(intent: playAllFilterIntent(filter: filter))
+    func playAllPlaylistShortcut(playlist: EpisodeFilter) -> INShortcut {
+        let shortcut = INShortcut(intent: playAllFilterIntent(playlist: playlist))
         return shortcut!
     }
 
-    func openFilterShortcut(filter: EpisodeFilter) -> INShortcut {
-        let shortcut = INShortcut(intent: openFilterIntent(filter: filter))
+    func openPlaylistShortcut(playlist: EpisodeFilter) -> INShortcut {
+        let shortcut = INShortcut(intent: openPlaylistIntent(playlist: playlist))
         return shortcut!
     }
 
@@ -196,48 +196,47 @@ class SiriShortcutsManager: CustomObserver {
         return intent
     }
 
-    func playFilterIntent(filter: EpisodeFilter) -> INIntent {
-        let filterName = filter.playlistName
-        let uuid = filter.uuid
+    func playPlaylistIntent(playlist: EpisodeFilter) -> INIntent {
+        let playlistName = playlist.playlistName
+        let uuid = playlist.uuid
         let episode = INMediaItem(identifier: Constants.SiriActions.playFilterId,
                                   title: L10n.siriShortcutPlayEpisodeTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
-
         let artwork = INImage(named: "siri_filters")
-        let filterContainer = INMediaItem(identifier: uuid,
-                                          title: filterName,
+        let playlistContainer = INMediaItem(identifier: uuid,
+                                          title: playlistName,
                                           type: .podcastPlaylist,
                                           artwork: artwork)
-        let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: filterContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayFilterPhrase(filterName)
+        let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: playlistContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
+        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayFilterPhrase(playlistName)
         return intent
     }
 
-    func playAllFilterIntent(filter: EpisodeFilter) -> INIntent {
-        let filterName = filter.playlistName
-        let uuid = filter.uuid
+    func playAllFilterIntent(playlist: EpisodeFilter) -> INIntent {
+        let playlistName = playlist.playlistName
+        let uuid = playlist.uuid
         let episode = INMediaItem(identifier: Constants.SiriActions.playAllFilterId,
                                   title: L10n.siriShortcutPlayAllTitle,
                                   type: .podcastEpisode,
                                   artwork: nil)
 
         let artwork = INImage(named: "siri_filters")
-        let filterContainer = INMediaItem(identifier: uuid,
-                                          title: filterName,
+        let playlistContainer = INMediaItem(identifier: uuid,
+                                          title: playlistName,
                                           type: .podcastPlaylist,
                                           artwork: artwork)
-        let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: filterContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
-        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayAllPhrase(filterName)
+        let intent = INPlayMediaIntent(mediaItems: [episode], mediaContainer: playlistContainer, playShuffled: false, playbackRepeatMode: .one, resumePlayback: true)
+        intent.suggestedInvocationPhrase = L10n.siriShortcutPlayAllPhrase(playlistName)
         return intent
     }
 
-    func openFilterIntent(filter: EpisodeFilter) -> INIntent {
-        let filterName = filter.playlistName
+    func openPlaylistIntent(playlist: EpisodeFilter) -> INIntent {
+        let playlistName = playlist.playlistName
         let intent = SJOpenFilterIntent()
-        intent.filterUuid = filter.uuid
-        intent.filterName = filterName
-        intent.suggestedInvocationPhrase = L10n.siriShortcutOpenFilterPhrase(filterName)
+        intent.filterUuid = playlist.uuid
+        intent.filterName = playlistName
+        intent.suggestedInvocationPhrase = L10n.siriShortcutOpenFilterPhrase(playlistName)
         return intent
     }
 
@@ -322,10 +321,10 @@ class SiriShortcutsManager: CustomObserver {
         interaction.donate(completion: nil)
     }
 
-    func donateFilterPlayed(filterUuid: String) {
-        guard let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) else { return }
+    func donatePlaylistPlayed(playlistUuid: String) {
+        guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid) else { return }
 
-        let intent = playFilterIntent(filter: filter)
+        let intent = playPlaylistIntent(playlist: playlist)
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.donate(completion: nil)
     }

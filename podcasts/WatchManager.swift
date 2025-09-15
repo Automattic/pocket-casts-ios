@@ -472,7 +472,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion
 
-        applicationDict[WatchConstants.Keys.filters] = serializeFilters()
+        applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
         applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
         applicationDict[WatchConstants.Keys.upNextInfo] = serializeUpNext()
         applicationDict[WatchConstants.Keys.autoArchivePlayedAfter] = Settings.autoArchivePlayedAfter()
@@ -550,21 +550,19 @@ class WatchManager: NSObject, WCSessionDelegate {
         return upNextList
     }
 
-    private func serializeFilters() -> [[String: Any]] {
-        let allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-        var convertedFilters = [[String: Any]]()
-        for filter in allFilters {
-            var convertedFilter = [String: Any]()
-            convertedFilter[WatchConstants.Keys.filterTitle] = filter.playlistName
-            convertedFilter[WatchConstants.Keys.filterUuid] = filter.uuid
-            if let iconName = filter.iconImageName() {
-                convertedFilter[WatchConstants.Keys.filterIcon] = iconName
+    private func serializePlaylists() -> [[String: Any]] {
+        let allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        var convertedPlaylists = [[String: Any]]()
+        for playlist in allPlaylists {
+            var convertedPlaylist = [String: Any]()
+            convertedPlaylist[WatchConstants.Keys.filterTitle] = playlist.playlistName
+            convertedPlaylist[WatchConstants.Keys.filterUuid] = playlist.uuid
+            if let iconName = playlist.iconImageName() {
+                convertedPlaylist[WatchConstants.Keys.filterIcon] = iconName
             }
-
-            convertedFilters.append(convertedFilter)
+            convertedPlaylists.append(convertedPlaylist)
         }
-
-        return convertedFilters
+        return convertedPlaylists
     }
 
     private func serializePodcastArchiveSettings() -> [[String: Any]]? {

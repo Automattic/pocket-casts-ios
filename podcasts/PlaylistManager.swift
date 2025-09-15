@@ -94,16 +94,22 @@ class PlaylistManager {
     }
 
     class func checkForAutoDownloads() {
-        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
 
-        if filters.count == 0 { return }
+        if playlists.isEmpty { return }
 
         let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
         let mobileDataAllowed = Settings.autoDownloadMobileDataAllowed()
-        for filter in filters {
-            guard filter.autoDownloadEpisodes else { continue }
+        for playlist in playlists {
+            guard playlist.autoDownloadEpisodes else { continue }
 
-            let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Int(filter.maxAutoDownloadEpisodes()))
+            let query: String
+            if FeatureFlag.playlistsRebranding.enabled {
+                query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
+            } else {
+                query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
+            }
+
             let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
             for episode in episodes {
                 if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }
@@ -118,19 +124,19 @@ class PlaylistManager {
     }
 
     class func handlePodcastUnsubscribed(podcastUuid: String) {
-        let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-        if filters.count == 0 { return }
+        let playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        if playlists.isEmpty { return }
 
-        for filter in filters {
-            guard !filter.filterAllPodcasts, filter.podcastUuids.count > 0 else { continue }
+        for playlist in playlists {
+            guard !playlist.filterAllPodcasts, playlist.podcastUuids.count > 0 else { continue }
 
-            var podcastUuids = filter.podcastUuids.components(separatedBy: ",")
+            var podcastUuids = playlist.podcastUuids.components(separatedBy: ",")
             guard let indexOfUuid = podcastUuids.firstIndex(of: podcastUuid) else { continue }
 
             podcastUuids.remove(at: indexOfUuid)
-            filter.podcastUuids = podcastUuids.joined(separator: ",")
-            if SyncManager.isUserLoggedIn() { filter.syncStatus = SyncStatus.notSynced.rawValue }
-            DataManager.sharedManager.save(playlist: filter)
+            playlist.podcastUuids = podcastUuids.joined(separator: ",")
+            if SyncManager.isUserLoggedIn() { playlist.syncStatus = SyncStatus.notSynced.rawValue }
+            DataManager.sharedManager.save(playlist: playlist)
         }
     }
 

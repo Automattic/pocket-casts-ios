@@ -133,7 +133,7 @@ class EpisodesDataManager {
         return "podcast_id = \(podcast.id) \(sortStr)"
     }
 
-    // MARK: - Filters
+    // MARK: - Playlists
 
     func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems) -> [ListEpisode] {
         let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: limit)

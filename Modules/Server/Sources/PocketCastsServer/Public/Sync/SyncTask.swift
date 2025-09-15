@@ -150,7 +150,7 @@ class SyncTask: ApiBaseTask {
             return
         }
 
-        // next we need their filters
+        // next we need their playlists
         let retrievePlaylistsTask = RetrievePlaylistsTask()
         retrievePlaylistsTask.completion = { playlists in
             guard let playlists = playlists else { return }

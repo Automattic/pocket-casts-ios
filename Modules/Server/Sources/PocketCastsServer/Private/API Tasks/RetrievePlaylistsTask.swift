@@ -6,7 +6,7 @@ import SwiftProtobuf
 class RetrievePlaylistsTask: ApiBaseTask {
     var completion: (([EpisodeFilter]?) -> Void)?
 
-    private var filters = [EpisodeFilter]()
+    private var playlists = [EpisodeFilter]()
 
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/playlist/list"
@@ -36,10 +36,10 @@ class RetrievePlaylistsTask: ApiBaseTask {
                     if serverFilter.manual.value { continue } // we don't care about manual playlists
 
                     let convertedFilter = convertFromProto(serverFilter)
-                    filters.append(convertedFilter)
+                    playlists.append(convertedFilter)
                 }
 
-                completion?(filters)
+                completion?(playlists)
             } catch {
                 FileLog.shared.addMessage("Decoding playlists failed \(error.localizedDescription)")
                 completion?(nil)

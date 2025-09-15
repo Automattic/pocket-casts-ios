@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class PlaybackActionHelper {
-    class func play(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
+    class func play(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil, playlist: AutoplayHelper.Playlist? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
 
         AutoplayHelper.shared.playedFrom(playlist: playlist)
@@ -16,10 +16,10 @@ class PlaybackActionHelper {
 
         if !episode.downloaded(pathFinder: DownloadManager.shared) {
             NetworkUtils.shared.streamEpisodeRequested({
-                performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
+                performPlay(episode: episode, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
             }, disallowed: nil)
         } else {
-            performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
+            performPlay(episode: episode, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
         }
     }
 
@@ -78,7 +78,7 @@ class PlaybackActionHelper {
         AnalyticsEpisodeHelper.shared.episodeUploadCancelled(episodeUUID: episodeUuid)
     }
 
-    private class func performPlay(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
+    private class func performPlay(episode: BaseEpisode, playlistUuid: String? = nil, podcastUuid: String? = nil) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.play()
         } else {
@@ -103,8 +103,8 @@ class PlaybackActionHelper {
             }
         }
 
-        if let filterUuid = filterUuid {
-            SiriShortcutsManager.shared.donateFilterPlayed(filterUuid: filterUuid)
+        if let playlistUuid = playlistUuid {
+            SiriShortcutsManager.shared.donatePlaylistPlayed(playlistUuid: playlistUuid)
         } else if let podcastUuid = podcastUuid {
             SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
         }
