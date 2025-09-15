@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,7 +32,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dwj-kh-UlW" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="96" width="414" height="732"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="• Must be at least 6 characters" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4r-SE-YnO" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="16" y="199" width="382" height="17"/>
@@ -120,7 +120,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWw-XQ-9qm" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="746" width="382" height="56"/>
+                            <rect key="frame" x="16" y="668" width="382" height="56"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="a6T-wr-gNk"/>
@@ -139,7 +139,7 @@
                             </connections>
                         </button>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Yh7-Hy-eo6">
-                            <rect key="frame" x="197" y="764" width="20" height="20"/>
+                            <rect key="frame" x="197" y="686" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -155,7 +155,7 @@
                         <constraint firstItem="JWw-XQ-9qm" firstAttribute="centerY" secondItem="Yh7-Hy-eo6" secondAttribute="centerY" id="jRY-yd-YIj"/>
                         <constraint firstItem="kUO-eE-vAQ" firstAttribute="trailing" secondItem="bnk-Ub-n06" secondAttribute="trailing" id="mIl-1D-Z7a"/>
                         <constraint firstItem="JWw-XQ-9qm" firstAttribute="centerX" secondItem="Yh7-Hy-eo6" secondAttribute="centerX" id="mNf-rO-1ow"/>
-                        <constraint firstAttribute="bottom" secondItem="JWw-XQ-9qm" secondAttribute="bottom" constant="16" id="vkB-4C-h0b"/>
+                        <constraint firstAttribute="bottom" secondItem="JWw-XQ-9qm" secondAttribute="bottom" constant="8" id="vkB-4C-h0b"/>
                         <constraint firstItem="I4r-SE-YnO" firstAttribute="trailing" secondItem="kUO-eE-vAQ" secondAttribute="trailing" id="wpB-3G-Yqd"/>
                         <constraint firstItem="I4r-SE-YnO" firstAttribute="leading" secondItem="kUO-eE-vAQ" secondAttribute="leading" id="xOv-Lf-0J8"/>
                     </constraints>

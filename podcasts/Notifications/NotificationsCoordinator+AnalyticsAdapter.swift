@@ -9,6 +9,9 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateDailyReminders(name: String, properties: [AnyHashable: Any]?) {
+        guard NotificationsGroup.dailyReminders.isEnabled else {
+            return
+        }
         for notification in NotificationsGroup.dailyReminders.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {
                 markNotification(notification)
@@ -35,6 +38,9 @@ extension NotificationsCoordinator: AnalyticsAdapter {
     }
 
     func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
+        guard NotificationsGroup.recommendations.isEnabled else {
+            return
+        }
         var shouldUpdateNotifications = false
         for notification in NotificationsGroup.recommendations.notifications {
             if notification.checkCancelConditionsForEvent(name: name, properties: properties) {

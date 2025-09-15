@@ -53,7 +53,7 @@ struct SyncSigninView: View {
             }
             .padding()
         }
-        .background(theme.primaryInteractive02)
+        .background(theme.primaryUi01)
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.accountLogin)
         .onAppear {

@@ -110,7 +110,7 @@ struct InterestsView: View {
     }
 
     var body: some View {
-        Group {
+        VStack {
             if viewModel.isLoaded {
                 mainBody
             } else {
@@ -197,7 +197,7 @@ struct InterestsView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(theme.primaryText02)
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 16)
         }
         .padding(.top, 20)
     }
@@ -205,14 +205,17 @@ struct InterestsView: View {
     var showMoreCategoriesButton: some View {
         HStack {
             Spacer()
-            Button(L10n.interestsShowMoreCategories) {
+            Button(action: {
                 OnboardingFlow.shared.track(.onboardingInterestsShownMoreTapped)
                 showMore.toggle()
                 withAnimation() {
                     viewModel.showAll()
                 }
+            }) {
+                Text(L10n.interestsShowMoreCategories)
+                    .font(size: 17, style: .body, weight: .medium)
+                    .tint(theme.primaryInteractive01)
             }
-            .tint(theme.primaryInteractive01)
             Spacer()
         }
         .padding(.horizontal, 20)
