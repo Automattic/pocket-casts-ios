@@ -13952,7 +13952,7 @@
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.5.2;
+				minimumVersion = 3.5.4;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {

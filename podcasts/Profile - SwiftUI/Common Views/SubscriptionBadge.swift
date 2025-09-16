@@ -24,23 +24,59 @@ struct SubscriptionBadge: View {
         }
     }
 
+    private var iconSize: CGFloat {
+        switch displayMode {
+            case .plain:
+                14
+            default:
+                12
+        }
+    }
+
+    private var cornerRadius: CGFloat {
+        switch displayMode {
+            case .plain:
+                800
+            default:
+                20
+        }
+    }
+
+    private var horizontalPadding: CGFloat {
+        switch displayMode {
+            case .plain:
+                8
+            default:
+                10
+        }
+    }
+
+    private var verticalPadding: CGFloat {
+        switch displayMode {
+            case .plain:
+                2
+            default:
+                6
+        }
+    }
+
     @ViewBuilder
     private func render(with model: BadgeModel) -> some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 4) {
             Image(model.iconName)
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 12, height: 12)
+                .frame(width: iconSize, height: iconSize)
                 .foregroundColor(foregroundColor ?? model.iconColor)
 
             Text(model.label)
-                .font(size: fontSize, style: .subheadline, weight: .semibold)
+                .font(size: fontSize, style: .subheadline, weight: displayMode == .plain ? .medium : .semibold)
                 .foregroundColor(foregroundColor ?? .white)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(model.background.cornerRadius(20))
+        .padding(.horizontal, horizontalPadding)
+        .padding(.vertical, verticalPadding)
+        .background(model.background.cornerRadius(cornerRadius))
     }
 
     private struct BadgeModel {

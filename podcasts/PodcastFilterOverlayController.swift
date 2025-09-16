@@ -27,6 +27,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         if FeatureFlag.playlistsRebranding.enabled {
             largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         }
+
+        insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastTable)
+
         delegate = self
         podcastTable.delegate = self
         podcastTable.dataSource = self
@@ -144,13 +148,17 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16)
         ])
 
+        podcastTableBottomConstraint.isActive = false
+
         view.addSubview(footerView)
         view.bringSubviewToFront(footerView)
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             footerView.heightAnchor.constraint(equalToConstant: 110),
-            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+
+            podcastTable.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
 
         view.layoutSubviews()

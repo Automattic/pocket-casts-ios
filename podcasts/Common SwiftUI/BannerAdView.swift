@@ -28,7 +28,7 @@ class BannerAdModel: ObservableObject {
         self.titleLabel = promotion.urlTitle
         self.onLinkTap = onLinkTap
         self.adID = promotion.id
-        self.location = promotion.location.rawValue.toSnakeCaseFromCamelCase()
+        self.location = promotion.location.rawValue
     }
 }
 

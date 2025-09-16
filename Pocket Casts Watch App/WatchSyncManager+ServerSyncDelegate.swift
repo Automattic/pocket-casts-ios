@@ -95,7 +95,7 @@ extension WatchSyncManager: ServerSyncDelegate {
     }
 
     func privateUserAgent() -> String {
-        "Pocket Casts/iOS/" + Settings.appVersion()
+        "Pocket Casts/watchOS/" + Settings.appVersion()
     }
 
     func autoDownloadLatestEpisodes(uuids: [String]) {}

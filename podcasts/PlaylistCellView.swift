@@ -5,17 +5,14 @@ struct PlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistCellViewModel
 
-    @State private var isOn: Bool
-    private let onToggleChange: ((Bool) -> Void)?
+    @Binding private var isSelected: Bool
 
     init(
         viewModel: PlaylistCellViewModel,
-        selected: Bool = false,
-        onToggleChange: ((Bool) -> Void)? = nil
+        isSelected: Binding<Bool> = .constant(false)
     ) {
         self.viewModel = viewModel
-        self._isOn = State(initialValue: selected)
-        self.onToggleChange = onToggleChange
+        self._isSelected = isSelected
     }
 
     var body: some View {
@@ -43,11 +40,8 @@ struct PlaylistCellView: View {
                 }
                 .padding(.trailing, 8.0)
             case .toggle:
-                Toggle("", isOn: $isOn)
+                Toggle("", isOn: $isSelected)
                     .labelsHidden()
-                    .onChange(of: isOn) { newValue in
-                        onToggleChange?(newValue)
-                    }
                     .tint(theme.primaryInteractive01)
                     .padding(.trailing, 16.0)
             }
@@ -77,7 +71,7 @@ struct PlaylistCellView: View {
                         playlist: model(),
                         displayType: .toggle
                     ),
-                    selected: true
+                    isSelected: .constant(true)
                 )
                 .frame(width: 350, height: 81)
                 .background(.white)

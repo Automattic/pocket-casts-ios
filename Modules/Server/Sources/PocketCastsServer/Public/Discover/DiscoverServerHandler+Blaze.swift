@@ -12,7 +12,7 @@ public struct BlazePromotion: Decodable {
     public let location: Location
 
     public enum Location: String, Decodable {
-        case podcastList
+        case podcastList = "podcast_list"
         case player
         case unknown
 
