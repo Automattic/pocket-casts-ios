@@ -1072,8 +1072,6 @@
 		BD6C3F062379236A00C01403 /* ShelfCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C3F042379236A00C01403 /* ShelfCell.swift */; };
 		BD6C3F072379236A00C01403 /* ShelfCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6C3F052379236A00C01403 /* ShelfCell.xib */; };
 		BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */; };
-		BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */; };
-		BD6D417F200C557A00CA8993 /* PodcastHeadingTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */; };
 		BD6D4181200C5BD600CA8993 /* Podcasts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */; };
 		BD6D4187200C802900CA8993 /* PodcastViewController+NetworkLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */; };
 		BD6F1645219AB82700F34D14 /* UISearchBar+TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6F1644219AB82700F34D14 /* UISearchBar+TextColor.swift */; };
@@ -3402,8 +3400,6 @@
 		BD6C3F042379236A00C01403 /* ShelfCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCell.swift; sourceTree = "<group>"; };
 		BD6C3F052379236A00C01403 /* ShelfCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShelfCell.xib; sourceTree = "<group>"; };
 		BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBadgeView.swift; sourceTree = "<group>"; };
-		BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeadingTableCell.swift; sourceTree = "<group>"; };
-		BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastHeadingTableCell.xib; sourceTree = "<group>"; };
 		BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Podcasts.xcassets; sourceTree = "<group>"; };
 		BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastViewController+NetworkLoad.swift"; sourceTree = "<group>"; };
 		BD6E223D27338A2C00474349 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -6610,8 +6606,6 @@
 				4086511A23B1CE8400D7585A /* CreateSiriShortcutCell.xib */,
 				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
 				BD0B68732203EFCC002CCE3F /* EpisodeLimitCell.xib */,
-				BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */,
-				BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -9904,7 +9898,6 @@
 				BD6B665C245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@2x~ipad.png in Resources */,
 				4051A5802281B38100C13C12 /* NewsletterCell.xib in Resources */,
 				BDA0030B1F7B318B00DCB4AE /* AppIcon-Default83.5x83.5@2x~ipad.png in Resources */,
-				BD6D417F200C557A00CA8993 /* PodcastHeadingTableCell.xib in Resources */,
 				BD907DA721533243004D7C02 /* PodcastEffectsViewController.xib in Resources */,
 				BDA003041F7B318B00DCB4AE /* AppIcon-Default40x40~ipad.png in Resources */,
 				4053CE052150B3D5001C92B1 /* Filter.xcassets in Resources */,
@@ -10579,7 +10572,6 @@
 				40B1613822F3B66900759E41 /* ThemeableTextField.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */,
-				BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */,
 				FF19C3112DC91A3C002B6C41 /* NotificationsPermissionsView.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
