@@ -1,4 +1,5 @@
 import Foundation
+import RegexBuilder
 
 public class PlaylistQueryBuilder {
     public enum SelectClause {
@@ -33,13 +34,32 @@ public class PlaylistQueryBuilder {
         limit: Int = 0
     ) -> String {
         let select = select(clause: clause)
+
+        var queryValues = [QueryResult]()
         let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
-        let rules = add(smartRulesFor: playlist)
-        let episodes = add(episodesFor: playlist)
-        var queryString = "\(select) WHERE episode.archived = 0 \(addedUuid.value) \(rules.value) \(episodes.value)"
-        queryString = queryString.replacingOccurrences(of: "AND ()", with: "")
-        queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
-        if addedUuid.boolValue { queryString += ")" }
+        queryValues.append(addedUuid)
+        if playlist.manual {
+            queryValues.append(add(episodesFor: playlist))
+        } else {
+            queryValues.append(add(smartRulesFor: playlist))
+        }
+        let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+
+        var queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
+        queryString += ")"
+
+        func emptyGroup(for keyword: String) -> Regex<Substring> {
+            Regex {
+                keyword
+                ZeroOrMore(.whitespace)
+                "("
+                ZeroOrMore(.whitespace)
+                ")"
+            }
+        }
+
+        queryString.replace(emptyGroup(for: "AND"), with: "")
+        queryString.replace(emptyGroup(for: "OR"), with: "OR (1)")
         if let searchTerm {
             queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
@@ -135,14 +155,12 @@ public class PlaylistQueryBuilder {
             haveStartedWhere: &haveStartedWhere
         )
 
-        queryString += ")"
-
         return .value(queryString, haveStartedWhere)
     }
 
     private class func add(episodesFor playlist: EpisodeFilter) -> QueryResult {
-        if playlist.manual {
-            .value("AND episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
+        if playlist.manual && !playlist.episodes.isEmpty {
+            .value("episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
         } else {
             .value("", false)
         }
