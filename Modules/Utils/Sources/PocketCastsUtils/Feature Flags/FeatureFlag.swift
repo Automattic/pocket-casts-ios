@@ -127,9 +127,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the episode IDs from the server's response rather than our local database IDs
     case useSyncResponseEpisodeIDs
 
-    ///Use html description for podcast details
-    case usePodcastHTMLDescription
-
     /// Disables logout / keychain clearing when errors occur in the background
     case avoidLogoutInBackground
 
@@ -330,8 +327,6 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .useSyncResponseEpisodeIDs:
             true
-        case .usePodcastHTMLDescription:
-            true
         case .avoidLogoutInBackground:
             true
         case .disablePrivateFeedSharing:
@@ -427,8 +422,6 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
-        case .usePodcastHTMLDescription:
-            "use_podcast_html_description"
         default:
             rawValue.lowerSnakeCased()
         }
