@@ -32,12 +32,27 @@ class RetrieveFiltersTask: ApiBaseTask {
                     return
                 }
 
+                var addedEpisodes: [Episode] = []
                 for serverFilter in serverFilters {
-                    if serverFilter.manual.value { continue } // we don't care about manual playlists
-
                     let convertedFilter = convertFromProto(serverFilter)
+
+                    // Add missing episodes
+                    let serverSet = Set(serverFilter.episodeOrder)
+                    let matchedEpisodes = Set(DataManager.sharedManager.findMatchingEpisodes(uuids: convertedFilter.episodes))
+                    let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+
+                    let episodes: [Episode] = missingEpisodes.compactMap { episode in
+                        let playlistEpisode = serverFilter.episodes.first(where: { $0.episode == episode })
+
+                        guard let playlistEpisode else { return nil }
+                        return Episode(playlistEpisode)
+                    }
+                    addedEpisodes = episodes
+
                     filters.append(convertedFilter)
                 }
+
+                DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
 
                 completion?(filters)
             } catch {
@@ -68,7 +83,8 @@ class RetrieveFiltersTask: ApiBaseTask {
         converted.podcastUuids = protoFilter.podcastUuids
         converted.wasDeleted = protoFilter.isDeleted.value
         converted.sortPosition = protoFilter.sortPosition.value
-
+        converted.manual = protoFilter.manual.value
+        converted.episodes = protoFilter.episodeOrder
         return converted
     }
 }

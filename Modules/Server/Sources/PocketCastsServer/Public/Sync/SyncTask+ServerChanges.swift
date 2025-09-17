@@ -286,10 +286,6 @@ extension SyncTask {
             return
         }
 
-        if filterItem.hasManual, filterItem.manual.value {
-            return // we don't support manual filters
-        }
-
         if existingFilter == nil {
             existingFilter = EpisodeFilter()
             existingFilter?.uuid = filterUuid
@@ -347,7 +343,9 @@ extension SyncTask {
         if filterItem.hasLongerThan {
             filter.longerThan = filterItem.longerThan.value
         }
-
+        if filterItem.hasManual {
+            filter.manual = filterItem.manual.value
+        }
         if filterItem.hasPodcastUuids {
             filter.podcastUuids = filterItem.podcastUuids.value
         } else {
@@ -360,26 +358,15 @@ extension SyncTask {
         let matchedEpisodes = Set(DataManager.sharedManager.findMatchingEpisodes(uuids: filter.episodes))
         let missingEpisodes = serverSet.subtracting(matchedEpisodes)
 
-        let addedEpisodes = missingEpisodes.map { episode in
+        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode in
             let playlistEpisode = filterItem.episodes.first(where: { $0.episode == episode })
-            return self.episode(from: playlistEpisode!)
+            guard let playlistEpisode else { return nil }
+            return Episode(playlistEpisode)
         }
 
         DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
 
-        filter.manual = filterItem.manual.value
-
         DataManager.sharedManager.save(filter: filter)
-    }
-
-    func episode(from playlistEpisode: Api_SyncPlaylistEpisode) -> Episode {
-        let episode = Episode()
-        episode.uuid = playlistEpisode.episode
-        episode.podcastUuid = playlistEpisode.podcast
-        episode.addedDate = Date(timeIntervalSince1970: TimeInterval(playlistEpisode.added.value))
-        episode.title = playlistEpisode.title.value
-        episode.downloadUrl = playlistEpisode.url.value
-        return episode
     }
 
     func isPlayerPlaying(episode: Episode) -> Bool {
