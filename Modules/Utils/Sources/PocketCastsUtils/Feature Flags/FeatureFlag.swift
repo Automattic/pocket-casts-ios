@@ -144,8 +144,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
-    case grdb
-
     /// Enable the generated transcript
     case generatedTranscripts
 
@@ -350,8 +348,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .libroFm:
             false
-        case .grdb:
-            true
         case .encourageAccountCreation:
             true
         case .notificationsRevamp:
@@ -441,13 +437,7 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        switch self {
-            // GRDB can only change to `false` in non-TestFlight versions
-            case .grdb:
-                !Self.isTestFlight
-            default:
-                true
-        }
+        true
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
