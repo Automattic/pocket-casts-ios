@@ -350,7 +350,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .grdb:
             true
         case .encourageAccountCreation:
-            true        
+            true
         case .refreshAndSaveWatchLogsOnSend:
             true
         case .avoidReplaceOnEpisodeSwap:
