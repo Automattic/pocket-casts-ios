@@ -11,11 +11,15 @@ struct SearchResultCell: View {
     let episode: EpisodeSearchResult?
     let result: PodcastFolderSearchResult?
     let played: Bool
+    let showDivider: Bool
+    let cellStyle: ListCellButtonStyle
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
         self.episode = episode
         self.result = result
         self.played = episode != nil && played
+        self.showDivider = showDivider
+        self.cellStyle = cellStyle
     }
 
     var body: some View {
@@ -35,7 +39,7 @@ struct SearchResultCell: View {
                     .foregroundColor(.clear)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .buttonStyle(ListCellButtonStyle())
+            .buttonStyle(cellStyle)
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
@@ -68,24 +72,21 @@ struct SearchResultCell: View {
                         }
                     }
                     .allowsHitTesting(false)
-
+                    Spacer()
                     if episode != nil, played {
-                        Spacer()
                         Image("list_played", bundle: nil)
                             .renderingMode(.template)
                             .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
-                    }
-
-                    if let result, result.kind == .podcast {
-                        Spacer()
+                    } else if let result, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
-                .padding(.trailing, 8)
                 .opacity(played ? 0.5 : 1.0)
-                ThemedDivider()
+                if showDivider {
+                    ThemedDivider()
+                }
             }
-            .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
+            .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
         }
     }
 }
