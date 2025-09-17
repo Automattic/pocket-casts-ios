@@ -121,7 +121,7 @@ private struct LoginLandingContent: View {
                             }
                         }
 
-                        if showGradient == true {
+                        if showGradient == true, !FeatureFlag.newOnboardingAccountCreation.enabled {
                             // Determine how much of the login header takes up of the height
                             // Then make sure the gradient stops there so the content is covered in a solid background
                             let headerPercentage = headerHeight / viewHeight
