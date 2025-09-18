@@ -5328,7 +5328,7 @@
 "feature_marketing_skip_chapters" = "Save time with Preselect Chapters";
 
 /* Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files */
-"feature_marketing_cloud_storage" = "%1$@ Cloud Storage for your files";
+"feature_marketing_cloud_storage" = "%1$@ GB Cloud Storage for your files";
 
 /* Watch playback feature marketing message */
 "feature_marketing_watch_playback" = "Apps for Wear OS and Apple Watch";
