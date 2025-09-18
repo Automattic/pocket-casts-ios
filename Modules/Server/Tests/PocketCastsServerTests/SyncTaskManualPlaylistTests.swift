@@ -70,7 +70,7 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         proto.title.value = "Title"
         proto.url.value = "http://example.com/ep.mp3"
 
-        let episode = syncTask.episode(from: proto)
+        let episode = Episode(proto)
 
         XCTAssertEqual(episode.uuid, "uuid-123")
         XCTAssertEqual(episode.podcastUuid, "pod-123")
