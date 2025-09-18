@@ -153,9 +153,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Libro.fm icons in Paywall
     case libroFm
 
-    /// Enable the new notifications types and settings
-    case notificationsRevamp
-
     /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
     case refreshAndSaveWatchLogsOnSend
 
@@ -342,8 +339,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .libroFm:
             false
         case .encourageAccountCreation:
-            true
-        case .notificationsRevamp:
             true
         case .refreshAndSaveWatchLogsOnSend:
             true
