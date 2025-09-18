@@ -108,7 +108,7 @@ struct NotificationsPermissionsView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             if FeatureFlag.newOnboardingAccountCreation.enabled {
                 Spacer()
                     .frame(maxHeight: 136)
@@ -135,6 +135,7 @@ struct NotificationsPermissionsView: View {
                 .textStyle(SecondaryText())
                 .font(.body)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Spacer()
             if FeatureFlag.newOnboardingAccountCreation.enabled {
                 VStack(alignment: .leading, spacing: 24) {
@@ -142,7 +143,8 @@ struct NotificationsPermissionsView: View {
                     optionRow(for: .notifications)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 34)
+                .padding(.top, 8)
+                .padding(.bottom, 34)
             }
             Button(action: {
                 Analytics.track(.notificationsPermissionsAllowTapped)
@@ -158,6 +160,7 @@ struct NotificationsPermissionsView: View {
                 Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
                 .textStyle(RoundedButton())
             }
+            Spacer()
         }
         .padding()
         .background(theme.primaryUi01)
