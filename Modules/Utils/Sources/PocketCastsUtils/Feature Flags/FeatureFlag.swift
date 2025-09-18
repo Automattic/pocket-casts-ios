@@ -149,9 +149,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
 
-    /// Force full screen login on iPhone
-    case fullScreenLogin
-
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -343,8 +340,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedTranscripts:
             true
         case .podcastNewformAppsFlyer:
-            true
-        case .fullScreenLogin:
             true
         case .libroFm:
             false
