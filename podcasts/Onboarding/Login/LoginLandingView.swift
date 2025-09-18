@@ -81,22 +81,29 @@ private struct LoginLandingContent: View {
                         .clipped()
                 }
 
-                VStack {
+                VStack(spacing: 0) {
                     if !FeatureFlag.newOnboardingAccountCreation.enabled {
                         // Title and Subtitle
                         VStack(spacing: 8) {
                             LoginLabel(title, for: .title)
                             LoginLabel(subtitle, for: .subtitle)
                         }
-
-                        Spacer()
                     }
-
+                    Spacer()
+                    Rectangle().frame(height: 10)
+                        .foregroundStyle(Color.clear)
+                        .background {
+                        LinearGradient(gradient: Gradient(stops: [
+                            Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
+                            Gradient.Stop(color: backgroundColor, location: 0.9),
+                        ]), startPoint: .top, endPoint: .bottom)
+                        }
                     HStack(spacing: 0) {
                         Spacer()
                         LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
                         Spacer()
                     }
+                    .background(backgroundColor)
                 }
                 .padding(.horizontal, Config.padding)
                 .padding(.top, headerHeight)
@@ -344,8 +351,6 @@ private struct LoginButtons: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Spacer()
-
             SocialLoginButtons(coordinator: coordinator)
 
             Button(FeatureFlag.newOnboardingAccountCreation.enabled ? "Sign up with email" : "Sign Up") {
