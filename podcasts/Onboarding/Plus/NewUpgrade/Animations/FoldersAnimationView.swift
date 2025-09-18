@@ -135,10 +135,11 @@ struct FoldersAnimationView: View {
                         Spacer().frame(width: (animationProgress * 20) + 10)
                     }
                 }
-                .frame(width: geometry.size.width)
                 Spacer()
             }
+            .frame(maxWidth: geometry.size.width)
         }
+        .frame(minHeight: 210)
         .onAppear() {
             animate()
         }
