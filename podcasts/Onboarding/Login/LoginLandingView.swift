@@ -88,6 +88,7 @@ private struct LoginLandingContent: View {
                             LoginLabel(title, for: .title)
                             LoginLabel(subtitle, for: .subtitle)
                         }
+                        .padding(.horizontal, Config.padding)
                     }
                     Spacer()
                     Rectangle().frame(height: 10)
@@ -103,9 +104,9 @@ private struct LoginLandingContent: View {
                         LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
                         Spacer()
                     }
+                    .padding(.horizontal, Config.padding)
                     .background(backgroundColor)
                 }
-                .padding(.horizontal, Config.padding)
                 .padding(.top, headerHeight)
                 .if(coordinator.isOnboarding) {
                     $0.padding(.bottom)
