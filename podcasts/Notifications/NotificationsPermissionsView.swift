@@ -108,58 +108,75 @@ struct NotificationsPermissionsView: View {
     }
 
     var body: some View {
-        VStack {
-            if FeatureFlag.newOnboardingAccountCreation.enabled {
-                Spacer()
-                    .frame(maxHeight: 136)
-            } else {
-                Button(action: {
-                    Analytics.track(.notificationsPermissionsNotNowTapped)
-                    dismissAction()
-                }) {
-                    HStack {
+        ZStack(alignment: .bottom) {
+            ScrollView {
+                VStack(spacing: 0) {
+                    if FeatureFlag.newOnboardingAccountCreation.enabled {
                         Spacer()
-                        Text(L10n.eoyNotNow)
-                            .foregroundStyle(theme.primaryInteractive01)
-                            .font(.body.weight(.medium))
+                            .frame(maxHeight: 136)
+                    } else {
+                        Button(action: {
+                            Analytics.track(.notificationsPermissionsNotNowTapped)
+                            dismissAction()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text(L10n.eoyNotNow)
+                                    .foregroundStyle(theme.primaryInteractive01)
+                                    .font(.body.weight(.medium))
+                            }
+                        }
                     }
-                }
-            }
-            Image("notifications_permissions_banner")
-            Spacer().frame(height: 24)
-            Text(L10n.notificationsPermissionsTitle)
-                .textStyle(PrimaryText())
-                .font(.largeTitle.bold())
-            Spacer().frame(height: 20)
-            Text(L10n.notificationsPermissionsBody)
-                .textStyle(SecondaryText())
-                .font(.body)
-                .multilineTextAlignment(.center)
-            Spacer()
-            if FeatureFlag.newOnboardingAccountCreation.enabled {
-                VStack(alignment: .leading, spacing: 24) {
-                    optionRow(for: .newsletter)
-                    optionRow(for: .notifications)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 34)
-            }
-            Button(action: {
-                Analytics.track(.notificationsPermissionsAllowTapped)
-                viewModel.saveNewsletterOptIn()
-                viewModel.trackNewsletterOptIn()
-                Task {
-                    if viewModel.notificationsOptIn {
-                        await viewModel.setupPermissions()
+                    Image("notifications_permissions_banner")
+                    Spacer().frame(height: 24)
+                    Text(L10n.notificationsPermissionsTitle)
+                        .textStyle(PrimaryText())
+                        .font(.largeTitle.bold())
+                    Spacer().frame(height: 20)
+                    Text(L10n.notificationsPermissionsBody)
+                        .textStyle(SecondaryText())
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    if FeatureFlag.newOnboardingAccountCreation.enabled {
+                        VStack(alignment: .leading, spacing: 24) {
+                            optionRow(for: .newsletter)
+                            optionRow(for: .notifications)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 34)
+                        .padding(.horizontal, 4)
                     }
-                    dismissAction()
+                    Spacer()
+                    Rectangle().fill(.clear).frame(height: 44)
                 }
-            }) {
-                Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
-                .textStyle(RoundedButton())
+                .padding(.horizontal, 16)
             }
+            ZStack {
+                Button(action: {
+                    Analytics.track(.notificationsPermissionsAllowTapped)
+                    viewModel.saveNewsletterOptIn()
+                    viewModel.trackNewsletterOptIn()
+                    Task {
+                        if viewModel.notificationsOptIn {
+                            await viewModel.setupPermissions()
+                        }
+                        dismissAction()
+                    }
+                }) {
+                    Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
+                        .textStyle(RoundedButton())
+                }
+            }
+            .padding(16)
+            .background(
+                LinearGradient(gradient: Gradient(stops: [
+                    Gradient.Stop(color: theme.primaryUi01.opacity(0.0), location: 0.0),
+                    Gradient.Stop(color: theme.primaryUi01, location: 0.1),
+                ]), startPoint: .top, endPoint: .bottom)
+            )
         }
-        .padding()
         .background(theme.primaryUi01)
         .onAppear() {
             Analytics.track(.notificationsPermissionsShown)
