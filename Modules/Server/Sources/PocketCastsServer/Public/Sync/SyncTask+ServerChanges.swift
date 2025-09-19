@@ -352,8 +352,6 @@ extension SyncTask {
             filter.podcastUuids = ""
         }
 
-        filter.episodes = filterItem.episodeOrder
-
         let serverSet = Set(filterItem.episodeOrder)
         let matchedEpisodes = Set(DataManager.sharedManager.findMatchingEpisodes(uuids: filter.episodes))
         let missingEpisodes = serverSet.subtracting(matchedEpisodes)

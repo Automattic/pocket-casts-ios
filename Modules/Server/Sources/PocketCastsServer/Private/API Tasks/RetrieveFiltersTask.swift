@@ -84,7 +84,6 @@ class RetrieveFiltersTask: ApiBaseTask {
         converted.wasDeleted = protoFilter.isDeleted.value
         converted.sortPosition = protoFilter.sortPosition.value
         converted.manual = protoFilter.manual.value
-        converted.episodes = protoFilter.episodeOrder
         return converted
     }
 }

@@ -28,7 +28,6 @@ public class EpisodeFilter: NSObject {
     @objc public var shorterThan = 0 as Int32
     @objc public var syncStatus = 0 as Int32
     @objc public var wasDeleted = false
-    @objc public var episodes: [String] = []
     @objc public var manual: Bool = false
 
     // Internal tracking

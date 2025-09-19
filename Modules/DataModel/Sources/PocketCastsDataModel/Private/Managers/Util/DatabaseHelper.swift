@@ -839,7 +839,7 @@ class DatabaseHelper {
         if schemaVersion < 59 {
             do {
                 try db.executeUpdate("ALTER TABLE SJFilteredPlaylist DROP COLUMN rawPlaylistType;", values: nil)
-                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN episodes TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJPlaylistEpisode ADD COLUMN playlist_uuid TEXT;", values: nil)
                 schemaVersion = 59
             } catch {
                 failedAt(59)

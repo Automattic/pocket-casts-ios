@@ -25,7 +25,6 @@ class EpisodeFilterDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "episodes",
         "manual"
     ]
 
@@ -255,7 +254,6 @@ class EpisodeFilterDataManager {
         filter.filterDuration = rs.bool(forColumn: "filterDuration")
         filter.longerThan = rs.int(forColumn: "longerThan")
         filter.shorterThan = rs.int(forColumn: "shorterThan")
-        filter.episodes = rs.string(forColumn: "episodes")?.components(separatedBy: ",") ?? []
         filter.manual = rs.bool(forColumn: "manual")
 
         return filter
@@ -286,7 +284,6 @@ class EpisodeFilterDataManager {
         values.append(filter.filterDuration)
         values.append(filter.longerThan)
         values.append(filter.shorterThan)
-        values.append(filter.episodes.joined(separator: ","))
         values.append(filter.manual)
 
         if includeUuidForWhere {
