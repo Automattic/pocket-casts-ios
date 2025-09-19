@@ -40,7 +40,7 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
     }
 
     private func pushOnboarding() {
-        let controller = OnboardingFlow.shared.begin(flow: FeatureFlag.newOnboardingAccountCreation ? .loggedOut : .initialOnboarding, in: navigationController, source: .unknown)
+        let controller = OnboardingFlow.shared.begin(flow: FeatureFlag.newOnboardingAccountCreation.enabled ? .loggedOut : .initialOnboarding, in: navigationController, source: .unknown)
         navigationController?.pushViewController(controller, animated: true)
     }
 
