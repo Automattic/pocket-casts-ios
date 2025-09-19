@@ -145,28 +145,38 @@ struct NotificationsPermissionsView: View {
                             optionRow(for: .notifications)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 8)
-                        .padding(.bottom, 34)
+                        .padding(.vertical, 34)
+                        .padding(.horizontal, 4)
                     }
                     Spacer()
+                    Rectangle().fill(.clear).frame(height: 44)
                 }
+                .padding(.horizontal, 16)
             }
-            Button(action: {
-                Analytics.track(.notificationsPermissionsAllowTapped)
-                viewModel.saveNewsletterOptIn()
-                viewModel.trackNewsletterOptIn()
-                Task {
-                    if viewModel.notificationsOptIn {
-                        await viewModel.setupPermissions()
+            ZStack {
+                Button(action: {
+                    Analytics.track(.notificationsPermissionsAllowTapped)
+                    viewModel.saveNewsletterOptIn()
+                    viewModel.trackNewsletterOptIn()
+                    Task {
+                        if viewModel.notificationsOptIn {
+                            await viewModel.setupPermissions()
+                        }
+                        dismissAction()
                     }
-                    dismissAction()
+                }) {
+                    Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
+                        .textStyle(RoundedButton())
                 }
-            }) {
-                Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
-                    .textStyle(RoundedButton())
             }
+            .padding(16)
+            .background(
+                LinearGradient(gradient: Gradient(stops: [
+                    Gradient.Stop(color: theme.primaryUi01.opacity(0.0), location: 0.0),
+                    Gradient.Stop(color: theme.primaryUi01, location: 0.1),
+                ]), startPoint: .top, endPoint: .bottom)
+            )
         }
-        .padding()
         .background(theme.primaryUi01)
         .onAppear() {
             Analytics.track(.notificationsPermissionsShown)
