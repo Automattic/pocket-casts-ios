@@ -108,43 +108,48 @@ struct NotificationsPermissionsView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            if FeatureFlag.newOnboardingAccountCreation.enabled {
-                Spacer()
-                    .frame(maxHeight: 136)
-            } else {
-                Button(action: {
-                    Analytics.track(.notificationsPermissionsNotNowTapped)
-                    dismissAction()
-                }) {
-                    HStack {
+        ZStack(alignment: .bottom) {
+            ScrollView {
+                VStack(spacing: 0) {
+                    if FeatureFlag.newOnboardingAccountCreation.enabled {
                         Spacer()
-                        Text(L10n.eoyNotNow)
-                            .foregroundStyle(theme.primaryInteractive01)
-                            .font(.body.weight(.medium))
+                            .frame(maxHeight: 136)
+                    } else {
+                        Button(action: {
+                            Analytics.track(.notificationsPermissionsNotNowTapped)
+                            dismissAction()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text(L10n.eoyNotNow)
+                                    .foregroundStyle(theme.primaryInteractive01)
+                                    .font(.body.weight(.medium))
+                            }
+                        }
                     }
+                    Image("notifications_permissions_banner")
+                    Spacer().frame(height: 24)
+                    Text(L10n.notificationsPermissionsTitle)
+                        .textStyle(PrimaryText())
+                        .font(.largeTitle.bold())
+                    Spacer().frame(height: 20)
+                    Text(L10n.notificationsPermissionsBody)
+                        .textStyle(SecondaryText())
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    if FeatureFlag.newOnboardingAccountCreation.enabled {
+                        VStack(alignment: .leading, spacing: 24) {
+                            optionRow(for: .newsletter)
+                            optionRow(for: .notifications)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 8)
+                        .padding(.bottom, 34)
+                    }
+                    Spacer()
                 }
-            }
-            Image("notifications_permissions_banner")
-            Spacer().frame(height: 24)
-            Text(L10n.notificationsPermissionsTitle)
-                .textStyle(PrimaryText())
-                .font(.largeTitle.bold())
-            Spacer().frame(height: 20)
-            Text(L10n.notificationsPermissionsBody)
-                .textStyle(SecondaryText())
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Spacer()
-            if FeatureFlag.newOnboardingAccountCreation.enabled {
-                VStack(alignment: .leading, spacing: 24) {
-                    optionRow(for: .newsletter)
-                    optionRow(for: .notifications)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, 8)
-                .padding(.bottom, 34)
             }
             Button(action: {
                 Analytics.track(.notificationsPermissionsAllowTapped)
@@ -158,9 +163,8 @@ struct NotificationsPermissionsView: View {
                 }
             }) {
                 Text(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.notificationsPermissionsSavePreferences : L10n.notificationsPermissionsAction)
-                .textStyle(RoundedButton())
+                    .textStyle(RoundedButton())
             }
-            Spacer()
         }
         .padding()
         .background(theme.primaryUi01)
