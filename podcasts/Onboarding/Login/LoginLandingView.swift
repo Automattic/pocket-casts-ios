@@ -81,24 +81,32 @@ private struct LoginLandingContent: View {
                         .clipped()
                 }
 
-                VStack {
+                VStack(spacing: 0) {
                     if !FeatureFlag.newOnboardingAccountCreation.enabled {
                         // Title and Subtitle
                         VStack(spacing: 8) {
                             LoginLabel(title, for: .title)
                             LoginLabel(subtitle, for: .subtitle)
                         }
-
-                        Spacer()
+                        .padding(.horizontal, Config.padding)
                     }
-
+                    Spacer()
+                    Rectangle().frame(height: 10)
+                        .foregroundStyle(Color.clear)
+                        .background {
+                        LinearGradient(gradient: Gradient(stops: [
+                            Gradient.Stop(color: backgroundColor.opacity(0.0), location: 0.0),
+                            Gradient.Stop(color: backgroundColor, location: 0.9),
+                        ]), startPoint: .top, endPoint: .bottom)
+                        }
                     HStack(spacing: 0) {
                         Spacer()
                         LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
                         Spacer()
                     }
+                    .padding(.horizontal, Config.padding)
+                    .background(backgroundColor)
                 }
-                .padding(.horizontal, Config.padding)
                 .padding(.top, headerHeight)
                 .if(coordinator.isOnboarding) {
                     $0.padding(.bottom)
@@ -121,7 +129,7 @@ private struct LoginLandingContent: View {
                             }
                         }
 
-                        if showGradient == true {
+                        if showGradient == true, !FeatureFlag.newOnboardingAccountCreation.enabled {
                             // Determine how much of the login header takes up of the height
                             // Then make sure the gradient stops there so the content is covered in a solid background
                             let headerPercentage = headerHeight / viewHeight
@@ -344,8 +352,6 @@ private struct LoginButtons: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Spacer()
-
             SocialLoginButtons(coordinator: coordinator)
 
             Button(FeatureFlag.newOnboardingAccountCreation.enabled ? "Sign up with email" : "Sign Up") {

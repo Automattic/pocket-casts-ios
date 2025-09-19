@@ -14,6 +14,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var bannerTask: Task<Void, Never>? = nil
 
+    // Detect Display Zoom (zoomed display makes UI elements appear larger).
+    // Scale controls down slightly when zoomed to avoid oversized buttons.
+    private var isZoomed: Bool {
+        A11y.isDisplayZoomed
+    }
+
     var videoViewController: VideoViewController?
 
     @IBOutlet var skipBackBtn: SkipButton! {
@@ -298,8 +304,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = displayTranscript ? 40 : view.bounds.height > 710 ? 100 : 80
-        if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+        // Base height for play/pause. If zoomed and not showing transcript, scale down a bit.
+        let baseHeight: CGFloat = displayTranscript ? 40 : (view.bounds.height > 710 ? 100 : 80)
+        let scaledHeight: CGFloat = (!displayTranscript && isZoomed) ? baseHeight * 0.9 : baseHeight
+        if playPauseHeightConstraint.constant != scaledHeight { playPauseHeightConstraint.constant = scaledHeight }
+
+        // Ensure skip buttons are not too large on zoomed displays.
+        // Use small size either when showing transcript or when display is zoomed.
+        let skipSize: SkipButton.Size = (displayTranscript || isZoomed) ? .small : .large
+        skipBackBtn.changeSize(to: skipSize)
+        skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
     }
@@ -486,8 +500,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             // Display/hide the view that will fill the empty space
             fillView.isHidden = !isShowing
 
-            // Change skip back and forward size
-            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            // Change skip back and forward size (also keep small on zoomed displays)
+            let skipButtonSize: SkipButton.Size = (isShowing || isZoomed) ? .small : .large
             skipBackBtn.changeSize(to: skipButtonSize)
             skipFwdBtn.changeSize(to: skipButtonSize)
             skipBackBtn.layoutIfNeeded()
