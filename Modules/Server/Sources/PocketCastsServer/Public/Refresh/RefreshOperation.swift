@@ -86,7 +86,7 @@ class RefreshOperation: Operation {
                     FileLog.shared.addMessage("Sync succeeded")
 
                     ServerNotificationsHelper.shared.fireSyncCompleted()
-                    ServerConfig.shared.syncDelegate?.filterChanged()
+                    ServerConfig.shared.syncDelegate?.playlistChanged()
                 }
             } else { // no sync required, we're done
                 completionHandler?(refreshResult == .successNewData ? .newData : .noData)

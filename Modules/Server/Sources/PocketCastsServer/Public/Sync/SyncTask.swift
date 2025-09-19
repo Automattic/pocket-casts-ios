@@ -150,14 +150,14 @@ class SyncTask: ApiBaseTask {
             return
         }
 
-        // next we need their filters
-        let retrieveFiltersTask = RetrieveFiltersTask()
-        retrieveFiltersTask.completion = { filters in
-            guard let filters = filters else { return }
+        // next we need their playlists
+        let retrievePlaylistsTask = RetrievePlaylistsTask()
+        retrievePlaylistsTask.completion = { playlists in
+            guard let playlists = playlists else { return }
 
-            self.processServerFilters(filters)
+            self.processServerPlaylists(playlists)
         }
-        retrieveFiltersTask.runTaskSynchronously()
+        retrievePlaylistsTask.runTaskSynchronously()
 
         // Retrieve all the bookmarks
         RetrieveBookmarksTask { bookmarks in
@@ -214,7 +214,7 @@ class SyncTask: ApiBaseTask {
             if !FeatureFlag.useSyncResponseEpisodeIDs.enabled {
                 DataManager.sharedManager.markAllSynced(episodes: episodesToSync)
             }
-            DataManager.sharedManager.markAllEpisodeFiltersSynced()
+            DataManager.sharedManager.markAllPlaylistsSynced()
             DataManager.sharedManager.markAllFoldersSynced()
 
             Task {
@@ -249,7 +249,7 @@ class SyncTask: ApiBaseTask {
         if let episodeChanges = changedEpisodes(for: episodesToSync) {
             records += episodeChanges
         }
-        if let filterChanges = changedFilters() {
+        if let filterChanges = changedPlaylists() {
             records += filterChanges
         }
         if let folderChanges = changedFolders() {

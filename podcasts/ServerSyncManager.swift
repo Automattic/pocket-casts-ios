@@ -30,10 +30,10 @@ class ServerSyncManager: ServerSyncDelegate {
         AnalyticsHelper.subscribedToPodcast()
     }
 
-    // MARK: - Filters
+    // MARK: - Playlists
 
-    func filterChanged() {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+    func playlistChanged() {
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
     }
 
     // MARK: - Episode functions
@@ -76,7 +76,7 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.checkForExpiredPodcastsAndCleanup()
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         #if !APPCLIP
-        FilterManager.checkForAutoDownloads()
+        PlaylistManager.checkForAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
         #endif

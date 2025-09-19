@@ -111,42 +111,42 @@ extension SyncTask {
         return folderRecords
     }
 
-    func changedFilters() -> [Api_Record]? {
-        let filtersToSync = DataManager.sharedManager.allUnsyncedFilters()
+    func changedPlaylists() -> [Api_Record]? {
+        let playlistsToSync = DataManager.sharedManager.allUnsyncedPlaylists()
 
-        if filtersToSync.count == 0 { return nil }
+        if playlistsToSync.count == 0 { return nil }
 
-        var filterRecords = [Api_Record]()
-        for filter in filtersToSync {
-            var filterRecord = Api_SyncUserPlaylist()
-            filterRecord.allPodcasts.value = filter.podcastUuids.count == 0
-            filterRecord.uuid = filter.uuid
-            filterRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
-            filterRecord.isDeleted.value = filter.wasDeleted
-            filterRecord.title.value = filter.playlistName
-            filterRecord.podcastUuids.value = filter.podcastUuids
-            filterRecord.audioVideo.value = filter.filterAudioVideoType
-            filterRecord.notDownloaded.value = filter.filterNotDownloaded
-            filterRecord.downloaded.value = filter.filterDownloaded
-            filterRecord.downloading.value = filter.filterDownloading
-            filterRecord.finished.value = filter.filterFinished
-            filterRecord.partiallyPlayed.value = filter.filterPartiallyPlayed
-            filterRecord.unplayed.value = filter.filterUnplayed
-            filterRecord.starred.value = filter.filterStarred
-            filterRecord.filterHours.value = filter.filterHours
-            filterRecord.sortPosition.value = filter.sortPosition
-            filterRecord.sortType.value = filter.sortType
-            filterRecord.iconID.value = filter.customIcon
-            filterRecord.filterDuration.value = filter.filterDuration
-            filterRecord.shorterThan.value = filter.shorterThan
-            filterRecord.longerThan.value = filter.longerThan
+        var playlistRecords = [Api_Record]()
+        for playlist in playlistsToSync {
+            var playlistRecord = Api_SyncUserPlaylist()
+            playlistRecord.allPodcasts.value = playlist.podcastUuids.count == 0
+            playlistRecord.uuid = playlist.uuid
+            playlistRecord.originalUuid = playlist.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
+            playlistRecord.isDeleted.value = playlist.wasDeleted
+            playlistRecord.title.value = playlist.playlistName
+            playlistRecord.podcastUuids.value = playlist.podcastUuids
+            playlistRecord.audioVideo.value = playlist.filterAudioVideoType
+            playlistRecord.notDownloaded.value = playlist.filterNotDownloaded
+            playlistRecord.downloaded.value = playlist.filterDownloaded
+            playlistRecord.downloading.value = playlist.filterDownloading
+            playlistRecord.finished.value = playlist.filterFinished
+            playlistRecord.partiallyPlayed.value = playlist.filterPartiallyPlayed
+            playlistRecord.unplayed.value = playlist.filterUnplayed
+            playlistRecord.starred.value = playlist.filterStarred
+            playlistRecord.filterHours.value = playlist.filterHours
+            playlistRecord.sortPosition.value = playlist.sortPosition
+            playlistRecord.sortType.value = playlist.sortType
+            playlistRecord.iconID.value = playlist.customIcon
+            playlistRecord.filterDuration.value = playlist.filterDuration
+            playlistRecord.shorterThan.value = playlist.shorterThan
+            playlistRecord.longerThan.value = playlist.longerThan
 
             var apiRecord = Api_Record()
-            apiRecord.playlist = filterRecord
-            filterRecords.append(apiRecord)
+            apiRecord.playlist = playlistRecord
+            playlistRecords.append(apiRecord)
         }
 
-        return filterRecords
+        return playlistRecords
     }
 
     /// Retrieve any bookmarks that need to be sent to the server

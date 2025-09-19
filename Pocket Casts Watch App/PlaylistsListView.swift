@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct FiltersListView: View {
-    @StateObject var viewModel = FiltersListViewModel()
+struct PlaylistsListView: View {
+    @StateObject var viewModel = PlaylistsListViewModel()
 
     var body: some View {
-        ItemListContainer(isEmpty: viewModel.filters.isEmpty, noItemsTitle: L10n.watchNoFilters, loading: viewModel.isLoading) {
+        ItemListContainer(isEmpty: viewModel.playlists.isEmpty, noItemsTitle: L10n.watchNoFilters, loading: viewModel.isLoading) {
             List {
-                ForEach(viewModel.filters, id: \.uuid) { filter in
+                ForEach(viewModel.playlists, id: \.uuid) { filter in
                     NavigationLink(destination: FilterEpisodeListView(viewModel: FilterEpisodeListViewModel(filter: filter))) {
                         MenuRow(label: filter.title, icon: filter.iconName ?? "filter_list", count: viewModel.episodeCount(for: filter))
                     }
@@ -22,5 +22,5 @@ struct FiltersListView: View {
 }
 
 #Preview {
-    FiltersListView()
+    PlaylistsListView()
 }

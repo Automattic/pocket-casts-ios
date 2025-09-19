@@ -116,7 +116,7 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            if let reloadedPlaylist = DataManager.sharedManager.findFilter(uuid: playlist.uuid) {
+            if let reloadedPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
                 playlist = reloadedPlaylist
 
                 DispatchQueue.main.async { [weak self] in

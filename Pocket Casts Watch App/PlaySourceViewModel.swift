@@ -68,12 +68,12 @@ protocol PlaySourceViewModel {
     var userEpisodeSortOrder: UploadedSort { get set }
     func fetchUserEpisodes(forOrder: UploadedSort?) -> AnyPublisher<[BaseEpisode], PlaySourceError>
 
-    // MARK: Filters
+    // MARK: Playlists
 
-    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError>
-    func fetchFilter(_ uuid: String) -> (any Filter)?
-    func fetchFilterEpisodes(_ filter: any Filter) -> AnyPublisher<[BaseEpisode], PlaySourceError>
-    func episodeCount(for filter: Filter) -> Int
+    func fetchPlaylists() -> AnyPublisher<[PlaylistRepresentable], PlaySourceError>
+    func fetchPlaylist(_ uuid: String) -> (any PlaylistRepresentable)?
+    func fetchPlaylistEpisodes(_ playlist: any PlaylistRepresentable) -> AnyPublisher<[BaseEpisode], PlaySourceError>
+    func episodeCount(for playlist: PlaylistRepresentable) -> Int
 
     // MARK: Up Next
 

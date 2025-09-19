@@ -127,13 +127,13 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .filterSelection:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
-            let autoDownloadFilterCount = FilterManager.autoDownloadFilterCount()
+            let autoDownloadPlaylistsCount = PlaylistManager.autoDownloadPlaylistsCount()
             let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
             let singularPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedSingular : L10n.settingsAutoDownloadsFiltersSelectedSingular
-            let pluralPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedFormat(autoDownloadFilterCount.localized()) : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadFilterCount.localized())
+            let pluralPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedFormat(autoDownloadPlaylistsCount.localized()) : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadPlaylistsCount.localized())
             let noPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsNoPlaylistsSelected : L10n.settingsAutoDownloadsNoFiltersSelected
-            let playlistStr = autoDownloadFilterCount == 1 ? singularPlaylistString : pluralPlaylistString
-            cell.cellLabel.text = autoDownloadFilterCount > 0 ? playlistStr : noPlaylistString
+            let playlistStr = autoDownloadPlaylistsCount == 1 ? singularPlaylistString : pluralPlaylistString
+            cell.cellLabel.text = autoDownloadPlaylistsCount > 0 ? playlistStr : noPlaylistString
             cell.cellSecondaryLabel.text = ""
 
             return cell
@@ -178,14 +178,14 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": true, "source": AnalyticsSource.autoDownloadSettings])
                 playlist.autoDownloadEpisodes = true
                 playlist.autoDownloadLimit = playlist.maxAutoDownloadEpisodes()
-                DataManager.sharedManager.save(filter: playlist)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+                DataManager.sharedManager.save(playlist: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             }
             playlistSelectionViewController.playlistUnselected = { playlist in
                 Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": false, "source": AnalyticsSource.autoDownloadSettings])
                 playlist.autoDownloadEpisodes = false
-                DataManager.sharedManager.save(filter: playlist)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+                DataManager.sharedManager.save(playlist: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             }
             playlistSelectionViewController.didChangePlaylist = {
                 Analytics.track(.settingsAutoDownloadFiltersChanged)

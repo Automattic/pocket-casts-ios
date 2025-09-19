@@ -104,8 +104,8 @@ extension PlaylistDetailViewController {
         let playlist = self.viewModel.playlist!
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.update(playlist: playlist)
-        DataManager.sharedManager.save(filter: viewModel.playlist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: viewModel.playlist)
+        DataManager.sharedManager.save(playlist: viewModel.playlist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
     }
 
     func downloadableCount(listEpisodes: [ListEpisode]) -> Int {

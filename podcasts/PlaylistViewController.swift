@@ -250,7 +250,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(refreshFilterFromNotification))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(refreshFilterFromNotification))
         addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification))
@@ -268,7 +268,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            if let reloadedFilter = DataManager.sharedManager.findFilter(uuid: filter.uuid) {
+            if let reloadedFilter = DataManager.sharedManager.findPlaylist(uuid: filter.uuid) {
                 filter = reloadedFilter
                 DispatchQueue.main.async {
                     self.filterCollectionView.filter = reloadedFilter
@@ -406,8 +406,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     func saveFilter() {
         filter.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(filter: filter)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+        DataManager.sharedManager.save(playlist: filter)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filter)
     }
 
     override func handleThemeChanged() {

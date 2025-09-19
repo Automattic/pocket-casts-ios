@@ -153,7 +153,7 @@ class NavigationManager {
         } else if place == NavigationManager.discoverPageKey {
             navigateToDiscover(data: data, animated: animated)
         } else if place == NavigationManager.filterPageKey {
-            if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) {
+            if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
             } else {
                 mainController?.navigateToFilter(nil, animated: animated)
