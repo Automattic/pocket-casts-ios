@@ -1057,6 +1057,9 @@
 /* Menu prompt to open the Filter options. Also used for the title of the filter options screen. */
 "filter_options" = "Filter Options";
 
+/* Menu prompt to open the Playlist options. Also used for the title of the playlist options screen. */
+"playlist_options" = "Playlist Options";
+
 /* Title for filter options related to release date settings. */
 "filter_release_date" = "Release Date";
 

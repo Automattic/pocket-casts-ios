@@ -2318,6 +2318,8 @@ internal enum L10n {
   internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
   /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
+  /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
+  internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.

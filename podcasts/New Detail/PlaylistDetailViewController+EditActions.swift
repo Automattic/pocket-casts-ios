@@ -4,34 +4,104 @@ import PocketCastsServer
 import PocketCastsUtils
 
 extension PlaylistDetailViewController {
+    private enum ActionType {
+        case downloadAll
+        case queueAll
+    }
+
     @objc func moreTapped() {
         Analytics.track(.filterOptionsButtonTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
 
-        let chromecastAction = OptionAction(label: "Chromecast", icon: "nav_cast_off") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "chromecast"])
-            self.castButtonTapped()
-        }
+        let chromecastAction = chromecastAction()
         optionsPicker.addAction(action: chromecastAction)
 
-        let multiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
+        let multiSelectAction = multiSelectAction()
+        optionsPicker.addAction(action: multiSelectAction)
+
+        let sortAction = sortAction()
+        optionsPicker.addAction(action: sortAction)
+
+        if viewModel.isManualPlaylist {
+
+        }
+        
+        let downloadAllAction = downloadAllOption()
+        optionsPicker.addAction(action: downloadAllAction)
+        
+        if viewModel.isManualPlaylist {
+
+        }
+        
+        let editAction = editAction()
+        optionsPicker.addAction(action: editAction)
+
+        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    //MARK: - Multiselect
+
+    private func multiSelectAction() -> OptionAction {
+        OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
-        optionsPicker.addAction(action: multiSelectAction)
+    }
 
+    //MARK: - Chromecast
+    
+    private func chromecastAction() -> OptionAction {
+        OptionAction(label: "Chromecast", icon: "nav_cast_off") {
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "chromecast"])
+            self.castButtonTapped()
+        }
+    }
+
+    //MARK: - Sort
+
+    private func sortAction() -> OptionAction {
         let currentSort = PlaylistSort(rawValue: viewModel.playlist.sortType)?.description ?? ""
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
+        return OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "sort_by"])
             self.showSortByPicker()
         }
-        let editAction = OptionAction(label: L10n.filterOptions, icon: "profile-settings") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
-            self.filterOptionsTapped()
-        }
+    }
 
-        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
+    private func showSortByPicker() {
+        let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
+
+        addSortAction(to: optionsPicker, sortOrder: .newestToOldest)
+        addSortAction(to: optionsPicker, sortOrder: .oldestToNewest)
+        addSortAction(to: optionsPicker, sortOrder: .shortestToLongest)
+        addSortAction(to: optionsPicker, sortOrder: .longestToShortest)
+
+        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
+        let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) {
+            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
+            let playlist = self.viewModel.playlist!
+            playlist.sortType = sortOrder.rawValue
+            self.viewModel.update(playlist: playlist)
+            self.savePlaylist()
+        }
+        optionPicker.addAction(action: action)
+    }
+
+    private func savePlaylist() {
+        let playlist = self.viewModel.playlist!
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        viewModel.update(playlist: playlist)
+        DataManager.sharedManager.save(playlist: viewModel.playlist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
+    }
+
+    //MARK: - Download
+
+    private func downloadAllOption() -> OptionAction {
+        OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "download_all"])
 
@@ -64,51 +134,9 @@ extension PlaylistDetailViewController {
             }
             confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
         }
-
-        optionsPicker.addAction(action: sortAction)
-        optionsPicker.addAction(action: downloadAllAction)
-        optionsPicker.addAction(action: editAction)
-
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
-
-    func showSortByPicker() {
-        let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
-
-        addSortAction(to: optionsPicker, sortOrder: .newestToOldest)
-        addSortAction(to: optionsPicker, sortOrder: .oldestToNewest)
-        addSortAction(to: optionsPicker, sortOrder: .shortestToLongest)
-        addSortAction(to: optionsPicker, sortOrder: .longestToShortest)
-
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
-    }
-
-    @objc func filterOptionsTapped() {
-        let filterEditController = FilterEditOptionsViewController()
-        filterEditController.filterToEdit = viewModel.playlist
-        navigationController?.pushViewController(filterEditController, animated: true)
-    }
-
-    private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
-        let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) {
-            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
-            let playlist = self.viewModel.playlist!
-            playlist.sortType = sortOrder.rawValue
-            self.viewModel.update(playlist: playlist)
-            self.savePlaylist()
-        }
-        optionPicker.addAction(action: action)
-    }
-
-    func savePlaylist() {
-        let playlist = self.viewModel.playlist!
-        playlist.syncStatus = SyncStatus.notSynced.rawValue
-        viewModel.update(playlist: playlist)
-        DataManager.sharedManager.save(playlist: viewModel.playlist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
-    }
-
-    func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
+    
+    private func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
         if listEpisodes.count == 0 { return 0 }
         var count = 0
 
@@ -120,53 +148,53 @@ extension PlaylistDetailViewController {
         return count
     }
 
-    func downloadAll() {
+    private func downloadAll() {
+        start(action: .downloadAll, forAllEpisodes: viewModel.episodes)
+    }
+
+    private func queueAll() {
+        start(action: .queueAll, forAllEpisodes: viewModel.episodes)
+    }
+
+    private func start(action: ActionType, forAllEpisodes episodes: [ListEpisode]) {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
 
-            if self.viewModel.episodes.count == 0 { return }
+            if self.viewModel.episodes.isEmpty { return }
 
-            self.downloadItems(allEpisodes: self.viewModel.episodes)
-        }
-    }
+            var queuedEpisodes = 0
+            for listEpisode in episodes {
+                if listEpisode.episode.downloading() || listEpisode.episode.downloaded(pathFinder: DownloadManager.shared) || listEpisode.episode.queued() {
+                    continue
+                }
 
-    func queueAll() {
-        DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+                switch action {
+                case .downloadAll:
+                    DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
+                case .queueAll:
+                    DownloadManager.shared.queueForLaterDownload(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
+                }
 
-            if self.viewModel.episodes.count == 0 { return }
-            self.queueItems(allEpisodes: self.viewModel.episodes)
-        }
-    }
-
-    func queueItems(allEpisodes: [ListEpisode]) {
-        var queuedEpisodes = 0
-        for listEpisode in allEpisodes {
-            if listEpisode.episode.downloading() || listEpisode.episode.downloaded(pathFinder: DownloadManager.shared) || listEpisode.episode.queued() {
-                continue
-            }
-
-            DownloadManager.shared.queueForLaterDownload(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-
-            queuedEpisodes += 1
-            if queuedEpisodes == Constants.Limits.maxBulkDownloads {
-                return
+                queuedEpisodes += 1
+                if queuedEpisodes == Constants.Limits.maxBulkDownloads {
+                    return
+                }
             }
         }
     }
 
-    func downloadItems(allEpisodes: [ListEpisode]) {
-        var queuedEpisodes = 0
-        for listEpisode in allEpisodes {
-            if listEpisode.episode.downloading() || listEpisode.episode.downloaded(pathFinder: DownloadManager.shared) || listEpisode.episode.queued() {
-                continue
-            }
+    //MARK: - Edit
 
-            DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
-            queuedEpisodes += 1
-            if queuedEpisodes == Constants.Limits.maxBulkDownloads {
-                return
-            }
+    private func editAction() -> OptionAction {
+        OptionAction(label: L10n.playlistOptions, icon: "profile-settings") {
+            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
+            self.playlistOptionsTapped()
         }
+    }
+
+    private func playlistOptionsTapped() {
+        let filterEditController = FilterEditOptionsViewController()
+        filterEditController.filterToEdit = viewModel.playlist
+        navigationController?.pushViewController(filterEditController, animated: true)
     }
 }
