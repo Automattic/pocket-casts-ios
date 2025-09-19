@@ -8,7 +8,7 @@ extension SyncTask {
         DataManager.sharedManager.markAllPlaylistsUnsynced()
 
         for playlist in playlists {
-            // if we have this filter locally, assume the server version is more up to date, so blow ours away
+            // if we have this playlist locally, assume the server version is more up to date, so blow ours away
             if let localPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
                 DataManager.sharedManager.delete(playlist: localPlaylist)
             }
