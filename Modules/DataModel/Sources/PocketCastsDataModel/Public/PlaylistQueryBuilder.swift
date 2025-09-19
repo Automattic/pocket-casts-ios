@@ -33,20 +33,28 @@ public class PlaylistQueryBuilder {
         searchTerm: String? = nil,
         limit: Int = 0
     ) -> String {
-        let select = select(clause: clause)
 
-        var queryValues = [QueryResult]()
-        let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
-        queryValues.append(addedUuid)
+        var queryString: String = ""
+
         if playlist.manual {
-            queryValues.append(add(episodesFor: playlist))
+            let select = manualSelect(clause: clause, for: playlist)
+            queryString = "\(select) WHERE episode.archived = 0"
+            if clause == .episode || clause == .episodeCount {
+                // Restrict to episodes present in the playlist using a subquery to avoid duplicates
+                queryString += " AND episode.uuid IN (SELECT DISTINCT episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = '\(playlist.uuid)')"
+            }
         } else {
-            queryValues.append(add(smartRulesFor: playlist))
-        }
-        let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            let select = select(clause: clause)
 
-        var queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
-        queryString += ")"
+            var queryValues = [QueryResult]()
+            let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
+            queryValues.append(addedUuid)
+            queryValues.append(add(smartRulesFor: playlist))
+            let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+
+            queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
+            queryString += ")"
+        }
 
         func emptyGroup(for keyword: String) -> Regex<Substring> {
             Regex {
@@ -64,12 +72,27 @@ public class PlaylistQueryBuilder {
             queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: playlist.sortType) { queryString += " \(sort) " }
+        if playlist.manual && clause == .episode {
+            queryString += " ORDER BY (SELECT MIN(episodePosition) FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = '\(playlist.uuid)' AND episodeUuid = episode.uuid) ASC"
+        } else if let sort = add(sortFor: playlist.sortType) {
+            queryString += " \(sort) "
+        }
         if limit > 0 { queryString += " LIMIT \(limit)" }
         return queryString
     }
 
     private static func select(clause: SelectClause) -> String {
+        switch clause {
+        case .episode:
+            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .episodeCount:
+            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .podcast:
+            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        }
+    }
+
+    private static func manualSelect(clause: SelectClause, for playlist: EpisodeFilter) -> String {
         switch clause {
         case .episode:
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
@@ -156,14 +179,6 @@ public class PlaylistQueryBuilder {
         )
 
         return .value(queryString, haveStartedWhere)
-    }
-
-    private class func add(episodesFor playlist: EpisodeFilter) -> QueryResult {
-        if playlist.manual && !playlist.episodes.isEmpty {
-            .value("episode.uuid IN (\(playlist.episodes.map({ "'\($0)'" }).joined(separator: ",")))", false)
-        } else {
-            .value("", false)
-        }
     }
 
     private static func buildPlayingStatusQuery(

@@ -919,6 +919,10 @@ public class DataManager {
         filterManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
+    public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
+        episodeManager.episodes(for: playlist, dbQueue: dbQueue)
+    }
+
     public func deleteDeletedFilters() {
         filterManager.deleteDeletedFilters(dbQueue: dbQueue)
     }
@@ -929,6 +933,10 @@ public class DataManager {
 
     public func save(filter: EpisodeFilter) {
         filterManager.save(filter: filter, dbQueue: dbQueue)
+    }
+
+    public func add(episodes: [Episode], to filter: EpisodeFilter) {
+        filterManager.add(episodes: episodes, to: filter, dbQueue: dbQueue)
     }
 
     public func delete(filter: EpisodeFilter) {

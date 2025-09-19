@@ -227,6 +227,62 @@ class EpisodeFilterDataManager {
         return highestPosition + 1
     }
 
+    func add(episodes: [Episode], to filter: EpisodeFilter, dbQueue: PCDBQueue) {
+        // Ensure the filter exists and has a valid id before inserting playlist items
+        if filter.id == 0 {
+            save(filter: filter, dbQueue: dbQueue)
+        }
+
+        guard episodes.count > 0 else { return }
+
+        dbQueue.write { db in
+            do {
+                // Find current max position for this playlist (by playlist_uuid)
+                var startPosition: Int32 = 0
+                do {
+                    let rs = try db.executeQuery("SELECT COALESCE(MAX(episodePosition), 0) FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ?", values: [filter.uuid])
+                    defer { rs.close() }
+                    if rs.next() {
+                        startPosition = rs.int(forColumnIndex: 0)
+                    }
+                }
+
+                var nextPosition = startPosition
+
+                // Insert each episode, avoiding duplicates for this playlist
+                for episode in episodes {
+                    // Ensure uniqueness within this playlist
+                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid = ?", values: [filter.uuid, episode.uuid])
+
+                    nextPosition += 1
+                    let insertColumns = [
+                        "id",
+                        "episodePosition",
+                        "episodeUuid",
+                        "playlist_id",
+                        "title",
+                        "podcastUuid",
+                        "playlist_uuid"
+                    ].joined(separator: ",")
+
+                    let values: [Any] = [
+                        DBUtils.generateUniqueId(),
+                        nextPosition,
+                        episode.uuid,
+                        filter.id,
+                        episode.displayableTitle(),
+                        episode.podcastUuid,
+                        filter.uuid
+                    ]
+
+                    try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(insertColumns)) VALUES (?,?,?,?,?,?,?)", values: values)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.addEpisodes error: \(error)")
+            }
+        }
+    }
+
     // MARK: - Conversion
 
     private func createFilterFrom(resultSet rs: PCDBResultSet) -> EpisodeFilter {

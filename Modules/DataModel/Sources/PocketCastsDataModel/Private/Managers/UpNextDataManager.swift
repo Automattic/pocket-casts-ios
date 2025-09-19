@@ -2,7 +2,7 @@ import PocketCastsUtils
 import Foundation
 
 class UpNextDataManager {
-    private static let upNextPlaylistId = 1
+    static let upNextPlaylistId = 1
 
     private let columnNames = [
         "id",
@@ -231,7 +231,7 @@ class UpNextDataManager {
     private func cacheEpisodes(dbQueue: PCDBQueue) {
         dbQueue.read { db in
             do {
-                let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) ORDER by episodePosition", values: nil)
+                let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ? ORDER by episodePosition", values: [UpNextDataManager.upNextPlaylistId])
                 defer { resultSet.close() }
 
                 var newItems = [PlaylistEpisode]()

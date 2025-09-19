@@ -38,7 +38,7 @@ class RetrieveFiltersTask: ApiBaseTask {
 
                     // Add missing episodes
                     let serverSet = Set(serverFilter.episodeOrder)
-                    let matchedEpisodes = Set(DataManager.sharedManager.findMatchingEpisodes(uuids: convertedFilter.episodes))
+                    let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: convertedFilter).map { $0.uuid }
                     let missingEpisodes = serverSet.subtracting(matchedEpisodes)
 
                     let episodes: [Episode] = missingEpisodes.compactMap { episode in

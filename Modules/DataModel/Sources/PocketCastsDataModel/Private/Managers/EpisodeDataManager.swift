@@ -45,6 +45,12 @@ class EpisodeDataManager {
         "deselectedChaptersModified"
     ]
 
+    enum Constants {
+        enum Limits {
+            static let maxFilterItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+        }
+    }
+
     // MARK: - Query
 
     func findBy(uuid: String, dbQueue: PCDBQueue) -> Episode? {
@@ -1032,6 +1038,28 @@ class EpisodeDataManager {
                 FileLog.shared.addMessage("EpisodeDataManager.updateAll error: \(error)")
             }
         }
+    }
+
+    func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems, dbQueue: PCDBQueue) -> [Episode] {
+
+        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: nil, limit: limit)
+
+        var episodes = [Episode]()
+        dbQueue.read { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let episode = self.createEpisodeFrom(resultSet: resultSet) {
+                        episodes.append(episode)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.episodesForFilter error: \(error)")
+            }
+        }
+        return episodes
     }
 
     // MARK: - Conversion

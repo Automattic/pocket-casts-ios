@@ -151,24 +151,21 @@ extension SyncTask {
         filterRecord.filterDuration.value = filter.filterDuration
         filterRecord.shorterThan.value = filter.shorterThan
         filterRecord.longerThan.value = filter.longerThan
+        filterRecord.manual.value = filter.manual
 
         if filter.manual {
-            filterRecord.episodes = filter.episodes.map { uuid in
-                createSyncEpisode(from: uuid)
+            let episodes = DataManager.sharedManager.playlistEpisodes(for: filter)
+            filterRecord.episodes = episodes.map { episode in
+                createSyncEpisode(from: episode)
             }
-            filterRecord.episodeOrder = filter.episodes
-            filterRecord.manual = true
+            filterRecord.episodeOrder = episodes.map { $0.uuid }
         }
         return filterRecord
     }
 
-    private func createSyncEpisode(from uuid: String) -> Api_SyncPlaylistEpisode {
-        guard let episode = DataManager.sharedManager.findEpisode(uuid: uuid) else {
-            fatalError("Missing local episode in Playlist Sync")
-        }
-
+    private func createSyncEpisode(from episode: Episode) -> Api_SyncPlaylistEpisode {
         var playlistEpisode = Api_SyncPlaylistEpisode()
-        playlistEpisode.episode = uuid
+        playlistEpisode.episode = episode.uuid
         playlistEpisode.podcast = episode.parentIdentifier()
 
         if let addedDate = episode.addedDate {
