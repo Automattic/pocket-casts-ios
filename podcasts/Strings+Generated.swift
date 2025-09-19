@@ -1228,7 +1228,7 @@ internal enum L10n {
   internal static var featureMarketingBookmarks: String { return L10n.tr("Localizable", "feature_marketing_bookmarks", fallback: "Keep timestamps with Bookmarks") }
   /// Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files
   internal static func featureMarketingCloudStorage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ Cloud Storage for your files")
+    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ GB Cloud Storage for your files")
   }
   /// Patron early access to new features marketing message
   internal static var featureMarketingEarlyAccess: String { return L10n.tr("Localizable", "feature_marketing_early_access", fallback: "Early access to new features") }
