@@ -54,6 +54,9 @@ public class PlaylistQueryBuilder {
 
             queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
             queryString += ")"
+            if addedUuid.boolValue {
+                queryString += ")"
+            }
         }
 
         func emptyGroup(for keyword: String) -> Regex<Substring> {

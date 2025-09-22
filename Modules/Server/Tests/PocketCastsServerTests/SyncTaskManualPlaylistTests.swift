@@ -41,9 +41,9 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         filter.uuid = "playlist-1"
         filter.playlistName = "Manual"
         filter.manual = true
-        filter.episodes = [e1.uuid, e2.uuid]
         filter.syncStatus = SyncStatus.notSynced.rawValue
         dataManager.save(filter: filter)
+        dataManager.add(episodes: [e1, e2], to: filter)
 
         let records = syncTask.changedFilters()
         let playlistRecords = records?.compactMap { $0.record }.compactMap { record -> Api_SyncUserPlaylist? in

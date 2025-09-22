@@ -920,7 +920,14 @@ public class DataManager {
     }
 
     public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        episodeManager.episodes(for: playlist, dbQueue: dbQueue)
+        let limit = EpisodeDataManager.Constants.Limits.maxFilterItems
+        let query = PlaylistQueryBuilder.query(
+            clause: .episode,
+            for: playlist,
+            episodeUuidToAdd: nil,
+            limit: limit
+        )
+        return episodeManager.findPlaylistEpisodesWhere(query: query, arguments: nil, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {
