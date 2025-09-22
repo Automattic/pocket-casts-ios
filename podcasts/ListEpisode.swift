@@ -39,8 +39,12 @@ class ListEpisode: ListItem {
     }
 }
 
-extension ListEpisode: Identifiable {
+extension ListEpisode: Identifiable, Hashable {
     var id: String {
         episode.uuid
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

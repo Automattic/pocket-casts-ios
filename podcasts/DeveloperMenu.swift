@@ -8,8 +8,13 @@ struct DeveloperMenu: View {
     @State var showingExporter = false
     @State var showingPlaylistsOnboarding = false
     @State var showingRecommendationsOnboarding = false
+    @State var showingInterestsOnboarding = false
+    @State var showingRecommendationsOnboardingSelected = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
+    @State var showingNotificationsPermissions = false
+
+    @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
     var body: some View {
         List {
@@ -307,6 +312,11 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Notifications Permissions Screen") {
+                    showingNotificationsPermissions.toggle()
+                }.sheet(isPresented: $showingNotificationsPermissions) {
+                    NotificationsPermissionsView()
+                }
                 Button("Speed Up Notifications") {
                     NotificationsGroup.speedUpNotifications = true
                 }
@@ -371,6 +381,21 @@ struct DeveloperMenu: View {
                             .environmentObject(Theme.sharedTheme)
                     }
                 }
+                Button("Show Onboarding Interests") {
+                    showingInterestsOnboarding = true
+                }
+                .sheet(isPresented: $showingInterestsOnboarding) {
+                    InterestsView(continueCallback: { categories in
+                        showInterestRecommendations(categories: categories)
+                    }, notNowCallback: {
+                        showingInterestsOnboarding.toggle()
+                    }, isInsideNavigation: false)
+                        .environmentObject(Theme.sharedTheme)
+                }
+                .sheet(isPresented: $showingRecommendationsOnboardingSelected) {
+                    OnboardingRecommendationsView(coordinator: LoginCoordinator(), viewModel: self.recommendationsViewModel)
+                        .environmentObject(Theme.sharedTheme)
+                }
             } header: {
                 Text("Onboarding")
             }
@@ -382,6 +407,12 @@ struct DeveloperMenu: View {
             }
         }
         .miniPlayerSafeAreaInset()
+    }
+
+    func showInterestRecommendations(categories: [DiscoverCategory]) {
+        showingInterestsOnboarding = false
+        recommendationsViewModel.configuration = .preselected(categories)
+        showingRecommendationsOnboardingSelected = true
     }
 }
 

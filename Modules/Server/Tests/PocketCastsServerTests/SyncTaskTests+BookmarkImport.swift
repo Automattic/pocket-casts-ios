@@ -1,7 +1,7 @@
 @testable import PocketCastsServer
 @testable import PocketCastsDataModel
-import FMDB
 import XCTest
+import GRDB
 
 final class SyncTaskTests_BookmarkImport: XCTestCase {
     private var dataManager: DataManager!
@@ -9,7 +9,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
-        dataManager = DataManager(dbQueue: FMDBQueue(fmdbQueue: FMDatabaseQueue()), shouldCloseQueueAfterSetup: false)
+        dataManager = DataManager(dbQueue: GRDBQueue(dbPool: try! DatabasePool(path: NSTemporaryDirectory().appending("\(UUID().uuidString).sqlite"))))
         bookmarkManager = dataManager.bookmarks
         syncTask = SyncTask(dataManager: dataManager)
     }

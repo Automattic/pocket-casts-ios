@@ -165,8 +165,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             }
         case .filterSelection:
                 let filterSelectionViewController = FilterSelectionViewController()
-                filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
-                let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
+                filterSelectionViewController.allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+                let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { filter -> String? in
                     filter.autoDownloadEpisodes ? filter.uuid : nil
                 }
                 filterSelectionViewController.selectedFilters = selectedFilters

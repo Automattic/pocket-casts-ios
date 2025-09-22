@@ -76,7 +76,30 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func getStartedTapped() {
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "get_started"])
-        let view = OnboardingRecommendationsView(coordinator: self)
+        let hostingController: UIViewController
+        if FeatureFlag.newOnboardingRecommendationChanges.enabled {
+            let view = InterestsView(continueCallback: { categories in
+                self.interestsContinueTapped(categories: categories)
+            }) {
+                self.interestsContinueTapped(categories: nil)
+            }
+            hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+        } else {
+            hostingController = UIHostingController(rootView: OnboardingRecommendationsView(coordinator: self).setupDefaultEnvironment())
+        }
+
+        hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    func interestsContinueTapped(categories: [DiscoverCategory]?) {
+        let configuration: RecommendationsViewModel.Configuration
+        if let categories {
+            configuration = .preselected(categories)
+        } else {
+            configuration = .all
+        }
+        let view = OnboardingRecommendationsView(coordinator: self, viewModel: RecommendationsViewModel(configuration: configuration))
         let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
         hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.pushViewController(hostingController, animated: true)

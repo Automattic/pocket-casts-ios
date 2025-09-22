@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 public struct AutoAddCandidatesDataManager {
     private let dbQueue: PCDBQueue

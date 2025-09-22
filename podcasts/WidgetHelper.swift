@@ -109,9 +109,9 @@ class WidgetHelper {
 
         var filterItems = [CommonUpNextItem]()
         var filterName: String?
-        if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first {
+        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first {
             filterName = topFilter.playlistName
-            let query = PlaylistHelper.queryFor(filter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries(), limit: WidgetHelper.maxFilterToPublish)
+            let query = PlaylistQueryBuilder.queryFor(filter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries(), limit: WidgetHelper.maxFilterToPublish)
 
             let loadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
             for (index, playlistEpisode) in loadedEpisodes.enumerated() {

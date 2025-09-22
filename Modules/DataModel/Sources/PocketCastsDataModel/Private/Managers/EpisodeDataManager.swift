@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 class EpisodeDataManager {
     private let columnNames = [
@@ -144,6 +144,10 @@ class EpisodeDataManager {
 
     func findEpisodesWhere(customWhere: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+    }
+
+    func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
+        loadMultiple(query: query, values: arguments, dbQueue: dbQueue)
     }
 
     func unsyncedEpisodes(limit: Int, dbQueue: PCDBQueue) -> [Episode] {

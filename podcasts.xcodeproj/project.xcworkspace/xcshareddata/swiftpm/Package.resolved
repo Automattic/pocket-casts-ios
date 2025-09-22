@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
-        "revision" : "437f586a62c07c6ceec9baf043237b2afe7ea1ac",
-        "version" : "3.5.2"
+        "revision" : "048f3c469f4c82d636da380a5766a8b1c5982238",
+        "version" : "3.5.4"
       }
     },
     {
@@ -88,15 +88,6 @@
       "state" : {
         "revision" : "eca84fd638116dd6adb633b5a3f31cc7befcbb7d",
         "version" : "10.29.0"
-      }
-    },
-    {
-      "identity" : "fmdb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ccgus/fmdb.git",
-      "state" : {
-        "revision" : "e6e1c0eff4f115c46a850db9dc92fb41a01a8b55",
-        "version" : "2.7.8"
       }
     },
     {
@@ -331,6 +322,15 @@
       "state" : {
         "revision" : "5815e06b9ab916af6e2729b637efcdced887d8b9",
         "version" : "2.1.0"
+      }
+    },
+    {
+      "identity" : "wrappinghstack",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ksemianov/WrappingHStack",
+      "state" : {
+        "revision" : "3300f68b6bf5f8a75ee7ca8a40f136a558053d10",
+        "version" : "0.2.0"
       }
     }
   ],

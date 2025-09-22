@@ -19,8 +19,19 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     private let buttonCellId = "ButtonCell"
     private let settingsCellId = "SettingsCell"
     private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit, siriShortcut }
-    private static let tableDataAutoDownloadDisabled: [[TableRow]] = [[.filterName], [.color, .icon], [.autodownload]]
-    private static let tableDataAutoDownloadEnabled: [[TableRow]] = [[.filterName], [.color, .icon], [.autodownload, .autoDownloadLimit]]
+    private static let playlistRebrandingIsEnabled = FeatureFlag.playlistsRebranding.enabled
+    private static let tableDataAutoDownloadDisabled: [[TableRow]] = {
+        if playlistRebrandingIsEnabled {
+            return [[.filterName], [.autodownload]]
+        }
+        return [[.filterName], [.color, .icon], [.autodownload]]
+    }()
+    private static let tableDataAutoDownloadEnabled: [[TableRow]] = {
+        if playlistRebrandingIsEnabled {
+            return [[.filterName], [.autodownload, .autoDownloadLimit]]
+        }
+        return [[.filterName], [.color, .icon], [.autodownload, .autoDownloadLimit]]
+    }()
     private var filterNameTextField: UITextField!
     private var existingShortcut: Any!
 
@@ -100,7 +111,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableRow = tableData()[indexPath.section][indexPath.row]
-
         switch tableRow {
         case .filterName:
             let cell = tableView.dequeueReusableCell(withIdentifier: nameCellId) as! EditFilterNameCell
@@ -124,7 +134,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         case .autodownload:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
-            cell.cellSwitch.onStyle = filterToEdit.playlistStyle()
+            cell.cellSwitch.onStyle = Self.playlistRebrandingIsEnabled ? .primaryIcon01 : filterToEdit.playlistStyle()
 
             cell.cellLabel.text = L10n.settingsAutoDownload
             cell.cellLabel.font.withSize(16)
@@ -144,7 +154,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) as! TopLevelSettingsCell
             cell.settingsLabel.text = L10n.settingsSiriShortcuts
             cell.settingsImage.image = UIImage(named: "settings_shortcuts")
-            cell.settingsImage.tintColor = filterToEdit.playlistColor()
+            cell.settingsImage.tintColor = Self.playlistRebrandingIsEnabled ? AppTheme.colorForStyle(.primaryIcon01) : filterToEdit.playlistColor()
             return cell
         }
     }
@@ -178,7 +188,8 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 2 {
+        let autoDownloadSection = Self.playlistRebrandingIsEnabled ? 1 : 2
+        if section == autoDownloadSection {
             return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.autoDownloadOffSubtitle
         }
         return nil

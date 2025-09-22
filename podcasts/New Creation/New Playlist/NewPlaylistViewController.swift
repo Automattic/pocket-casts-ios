@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsDataModel
 
 class NewPlaylistViewController: PCViewController {
     weak var delegate: FilterCreatedDelegate?
@@ -135,7 +136,20 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func createManualPlaylist() {
+        let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
+        let playlist = PlaylistManager.createNewFilter()
+        playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
+        playlist.rawPlaylistType = 1
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        playlist.isNew = false
+        DataManager.sharedManager.save(filter: playlist)
+        UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
+        delegate?.filterCreated(newFilter: playlist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
 
+        //TODO: Add analytics for manual playlist creation
+
+        dismiss(animated: true, completion: nil)
     }
 
     private func createSmartPlaylist() {

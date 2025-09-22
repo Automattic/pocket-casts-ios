@@ -8,7 +8,7 @@ import SwiftUI
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
 
-    enum Tab { case podcasts, filter, discover, profile, upNext }
+    enum Tab: Int { case podcasts, filter, discover, profile, upNext }
 
     var pcTabs = [Tab]()
 
@@ -119,6 +119,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             showEndOfYearPromptIfNeeded()
 
             viewDidAppearBefore = true
+        }
+
+        // if this key was never set lets default to Discovery or Podcast depending of podcasts followed
+        if UserDefaults.standard.object(forKey: Constants.UserDefaults.lastTabOpened) == nil {
+            selectedIndex = DataManager.sharedManager.podcastCount() > 0 ? Tab.podcasts.rawValue: Tab.discover.rawValue
         }
 
         showInitialOnboardingIfNeeded()

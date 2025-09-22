@@ -3,13 +3,105 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+class RecommendationsViewModel: ObservableObject {
+
+    enum Configuration {
+        case all
+        case preselected([DiscoverCategory])
+    }
+
+    @Published var categories: [DiscoverCategory] = []
+    private var layout: DiscoverLayout?
+    @Published var categoryPodcasts: [Int: [DiscoverPodcast]] = [:]
+    @Published var isLoaded: Bool = false
+
+    var configuration: Configuration {
+        didSet {
+            Task {
+                await load()
+            }
+        }
+    }
+
+    init(configuration: Configuration = .all) {
+        self.configuration = configuration
+    }
+
+    func load() async {
+        switch configuration {
+            case .all:
+                let page = await DiscoverServerHandler.shared.discoverPage()
+                guard let layout = page.0 else {
+                    return
+                }
+
+                let categoriesItem = layout.layout?.first { item in
+                    item.type == "categories"
+                }
+                guard let categoriesItem else {
+                    return
+                }
+                let categories = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
+                self.layout = layout
+                await MainActor.run {
+                    self.categories = categories
+                    self.isLoaded = true
+                }
+                await loadCategoryPodcasts(layout: layout)
+            case .preselected(let categories):
+                await MainActor.run {
+                    self.categories = categories
+                    self.isLoaded = true
+                }
+                await loadOnboardingPodcasts()
+        }
+    }
+
+    private func regionCode(for layout: DiscoverLayout) -> String {
+        let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
+        let serverRegion = layout.regions?[currentRegionCode]?.code ?? "us"
+        return serverRegion
+    }
+
+    private func loadCategoryPodcasts(layout: DiscoverLayout) async {
+        let regionCode = regionCode(for: layout)
+
+        await withTaskGroup(of: Void.self) { group in
+            for category in categories {
+                group.addTask {
+                    let source = category.source?.replacingOccurrences(of: layout.regionCodeToken, with: regionCode)
+                    let podcasts = await DiscoverServerHandler.shared.discoverCategoryDetails(source: source ?? "", authenticated: false)?.podcasts ?? []
+
+                    await MainActor.run {
+                        self.categoryPodcasts[category.id ?? 0] = podcasts
+                    }
+                }
+            }
+        }
+    }
+
+    private func loadOnboardingPodcasts() async {
+        await withTaskGroup(of: Void.self) { group in
+            for category in categories {
+                group.addTask {
+                    let source = category.sourceOnboarding
+                    let podcasts = await DiscoverServerHandler.shared.discoverCategoryDetails(source: source ?? "", authenticated: false)?.podcasts ?? []
+
+                    await MainActor.run {
+                        self.categoryPodcasts[category.id ?? 0] = podcasts
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct OnboardingRecommendationsView: View {
 
     let coordinator: LoginCoordinator
 
-    @State var categories: [DiscoverCategory] = []
-    @State var layout: DiscoverLayout?
-    @State var categoryPodcasts: [Int: [DiscoverPodcast]] = [:]
+    @ObservedObject var viewModel: RecommendationsViewModel
+
     @State var showingImport = false
 
     @EnvironmentObject var theme: Theme
@@ -18,16 +110,21 @@ struct OnboardingRecommendationsView: View {
     @State var searchResults = [PodcastFolderSearchResult]()
     @State var searchTask: Task<Void, Never>?
 
+    init(coordinator: LoginCoordinator, viewModel: RecommendationsViewModel = RecommendationsViewModel(configuration: .all)) {
+        self.coordinator = coordinator
+        self.viewModel = viewModel
+    }
+
     var body: some View {
         Group {
-            if layout != nil {
+            if viewModel.isLoaded {
                 ZStack(alignment: .bottom) {
                     ScrollView(.vertical) {
                         VStack(spacing: 16) {
                             header()
                             searchBar()
                             if searchTerm.isEmpty {
-                                ForEach(categories, id: \.id) { category in
+                                ForEach(viewModel.categories, id: \.id) { category in
                                     VStack(alignment: .leading, spacing: 16) {
                                         Text(category.name ?? "Unknown")
                                             .font(.title2.weight(.bold))
@@ -36,7 +133,7 @@ struct OnboardingRecommendationsView: View {
                                             .padding(.horizontal, 20)
                                         DiscoverPodcastsGridView(
                                             category: category,
-                                            podcasts: categoryPodcasts[category.id ?? 0] ?? []
+                                            podcasts: viewModel.categoryPodcasts[category.id ?? 0] ?? []
                                         )
                                         .frame(minHeight: (DiscoverPodcastsGridView.Constants.itemHeight * 2) + DiscoverPodcastsGridView.Constants.gridSpacing + 4)
                                     }
@@ -71,30 +168,15 @@ struct OnboardingRecommendationsView: View {
                         .padding(.top, 2)
                         .padding(.bottom)
                     }
-                    .background(theme.primaryInteractive02)
+                    .background(theme.primaryUi01)
                     .background(.ultraThinMaterial)
                 }
             } else {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryIcon01))
                     .task {
-                        let page = await DiscoverServerHandler.shared.discoverPage()
-                        guard let layout = page.0 else {
-                            return
-                        }
-
-                        let categoriesItem = layout.layout?.first { item in
-                            item.type == "categories"
-                        }
-                        guard let categoriesItem else {
-                            return
-                        }
-                        categories = await DiscoverServerHandler.shared.discoverCategories(source: categoriesItem.source ?? "", authenticated: categoriesItem.isAuthenticated)
-                        self.layout = layout
-
                         OnboardingFlow.shared.track(.recommendationsShown)
-
-                        await loadCategoryPodcasts(layout: layout)
+                        await viewModel.load()
                     }
             }
         }
@@ -107,7 +189,7 @@ struct OnboardingRecommendationsView: View {
                 .tint(theme.primaryInteractive01)
             }
         }
-        .background(theme.primaryInteractive02)
+        .background(theme.primaryUi01)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
         .onDisappear {
             Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
@@ -144,30 +226,6 @@ struct OnboardingRecommendationsView: View {
         }
     }
 
-    private func regionCode(for layout: DiscoverLayout) -> String {
-        let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
-        let serverRegion = layout.regions?[currentRegionCode]?.code ?? "us"
-        return serverRegion
-    }
-
-    private func loadCategoryPodcasts(layout: DiscoverLayout) async {
-        let regionCode = regionCode(for: layout)
-
-        await withTaskGroup(of: Void.self) { group in
-            for category in categories {
-                group.addTask {
-                    let source = category.source?.replacingOccurrences(of: layout.regionCodeToken, with: regionCode)
-                    let podcasts = await DiscoverServerHandler.shared.discoverCategoryDetails(source: source ?? "", authenticated: false)?.podcasts ?? []
-
-                    await MainActor.run {
-                        self.categoryPodcasts[category.id ?? 0] = podcasts
-                    }
-                }
-            }
-        }
-    }
-
-
     @ViewBuilder func header() -> some View {
         VStack(spacing: 16) {
             VStack(alignment: .center, spacing: 16) {
@@ -180,7 +238,7 @@ struct OnboardingRecommendationsView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(theme.primaryText02)
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 16)
         }
         .padding(.top, 20)
         .sheet(isPresented: $showingImport) {

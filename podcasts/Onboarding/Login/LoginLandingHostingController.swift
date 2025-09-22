@@ -31,7 +31,7 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
 
         if FeatureFlag.newOnboardingAccountCreation.enabled {
             let dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
-            dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
+            dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .regular),
                                                 NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
             navigationItem.rightBarButtonItem = dismissItem
         }

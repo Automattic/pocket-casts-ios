@@ -1,5 +1,5 @@
-import FMDB
 import GRDB
+import Foundation
 import PocketCastsUtils
 import SQLite3
 
@@ -39,19 +39,11 @@ public class DataManager {
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
-        var dbQueue: PCDBQueue
-        if FeatureFlag.grdb.enabled {
-            var config = Configuration()
-            config.busyMode = .timeout(10)
-            let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
-            dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
-            DataManager.setDatabaseFileProtectionToNone()
-            FileLog.shared.addMessage("[DataManager] Initialized using GRDB")
-        } else {
-            let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-            dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!)
-            FileLog.shared.addMessage("[DataManager] Initialized using FMDB")
-        }
+        var config = Configuration()
+        config.busyMode = .timeout(10)
+        let dbPool = try! DatabasePool(path: DataManager.pathToDb(), configuration: config)
+        let dbQueue = GRDBQueue(dbPool: dbPool, logger: Self.logger)
+        DataManager.setDatabaseFileProtectionToNone()
 
         self.init(dbQueue: dbQueue)
     }
@@ -86,16 +78,10 @@ public class DataManager {
     }
 
     /// Creates a DataManager using the given `PCDBQueue`.
-    /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
-    public init(dbQueue: PCDBQueue, shouldCloseQueueAfterSetup: Bool = true) {
+    public init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
 
         DatabaseHelper.setup(queue: dbQueue)
-
-        if shouldCloseQueueAfterSetup && !FeatureFlag.grdb.enabled {
-            // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
-            dbQueue.close()
-        }
 
         // closing it above won't affect these calls, since they will re-open it
         podcastManager.setup(dbQueue: dbQueue)
@@ -509,6 +495,10 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
+    public func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
+        episodeManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
+    }
+
     public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
         episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
     }
@@ -905,11 +895,15 @@ public class DataManager {
 
     // MARK: - Filters
 
-    public func allFilters(includeDeleted: Bool) -> [EpisodeFilter] {
-        filterManager.allFilters(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    public func allPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        filterManager.allPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
-    public func filterCount(includeDeleted: Bool) -> Int {
+    public func allSmartPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        filterManager.allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
+    public func playlistsCount(includeDeleted: Bool) -> Int {
         filterManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
@@ -919,6 +913,14 @@ public class DataManager {
 
     public func episodeCount(forFilter: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
         filterManager.episodeCount(forFilter: forFilter, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    }
+
+    public func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        filterManager.smartPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    }
+
+    public func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        filterManager.manualPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {

@@ -2389,6 +2389,9 @@
 /* Section Header for selecting the options for setting the app badge based on the user's filters. */
 "settings_badge_filter_header" = "EPISODE FILTER COUNT";
 
+/* Section Header for selecting the options for setting the app badge based on the user's smart playlists. */
+"settings_badge_smart_playlist_header" = "SMART PLAYLIST EPISODE COUNT";
+
 /* Option for setting the app badge based on the new episodes since the app opened. */
 "settings_badge_new_since_opened" = "New Since App Opened";
 
@@ -2628,6 +2631,9 @@
 
 /* App badge choice to have the badge reflect the filter count */
 "settings_notifications_filter_count" = "Filter count";
+
+/* App badge choice to have the badge reflect the smart playlist count */
+"settings_notifications_smart_playlist_count" = "Smart Playlist count";
 
 /* Subtitle explaining what notifications to expect when you enable notifications. */
 "settings_notifications_subtitle" = "Notifies you when a new episode is available. Also useful for improving the reliability of auto downloads.";
@@ -5417,6 +5423,27 @@
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart Rules";
 
+/* Message shown when you have no episodes in a playlist */
+"playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
+
+/* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
+"playlist_detail_description" = "%1$@ episodes • %2$@";
+
+/* Manual Playlist: header button title to add new episodes to the playlist */
+"playlist_manual_add_episodes" = "Add Episodes";
+
+/* Manual Playlist: empty state title when no episodes are added */
+"playlist_manual_empty_state_title" = "Start building your playlist";
+
+/* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
+
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+
+/* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_browse_shows_title" = "Browse Shows";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
@@ -5452,4 +5479,16 @@
 
 /* Subscription Plan title for custom upgrade screen for the folders feature */
 "subscription_feature_custom_title_folders" = "Folders: your podcasts, perfectly placed";
+
+/* Interests screen title */
+"interests_title" = "Tell us about your favorite topics";
+
+/* Interests screen subtitle */
+"interests_subtitle" = "Great podcasts, handpicked by real people, are coming your way!";
+
+/* Interests screen show more categories button text */
+"interests_show_more_categories" = "Show more categories";
+
+/* Interests screen button title for interests confirmation. The %1$@ argument is the minimum number of interests you need to select. Ex: Select at least 3*/
+"interests_select_at_least" = "Select at least %1$@";
 

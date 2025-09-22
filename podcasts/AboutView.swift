@@ -120,6 +120,8 @@ struct AboutView: View {
                         .listRowBackground(Color.clear)
                     }
                     .colorScheme(theme.activeTheme.isDark ? .dark : .light)
+                    .scrollContentBackground(.hidden)
+                    .background(theme.primaryUi04)
                 }
                 NavigationLink(destination: LegalAndMore(), isActive: $showLegalAndMore) {}
             }

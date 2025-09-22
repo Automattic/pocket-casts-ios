@@ -1640,6 +1640,16 @@ internal enum L10n {
   internal static var importTitle: String { return L10n.tr("Localizable", "import_title", fallback: "Bring your\npodcasts with you") }
   /// A common string used throughout the app. Status message informing the user that the episode has been started but not finished.
   internal static var inProgress: String { return L10n.tr("Localizable", "in_progress", fallback: "In Progress") }
+  /// Interests screen button title for interests confirmation. The %1$@ argument is the minimum number of interests you need to select. Ex: Select at least 3
+  internal static func interestsSelectAtLeast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "interests_select_at_least", String(describing: p1), fallback: "Select at least %1$@")
+  }
+  /// Interests screen show more categories button text
+  internal static var interestsShowMoreCategories: String { return L10n.tr("Localizable", "interests_show_more_categories", fallback: "Show more categories") }
+  /// Interests screen subtitle
+  internal static var interestsSubtitle: String { return L10n.tr("Localizable", "interests_subtitle", fallback: "Great podcasts, handpicked by real people, are coming your way!") }
+  /// Interests screen title
+  internal static var interestsTitle: String { return L10n.tr("Localizable", "interests_title", fallback: "Tell us about your favorite topics") }
   /// Title for the hardware keyboard command that closes the player.
   internal static var keycommandClosePlayer: String { return L10n.tr("Localizable", "keycommand_close_player", fallback: "Close Player") }
   /// Title for the hardware keyboard command that decreases the playback speed.
@@ -2294,12 +2304,28 @@ internal enum L10n {
   internal static var playlistCreationCreateSmartPlaylistButtonSubtitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_subtitle", fallback: "Automatically add episodes based on rules.") }
   /// Title for the button used to open the rules during the Playlist creation
   internal static var playlistCreationCreateSmartPlaylistButtonTitle: String { return L10n.tr("Localizable", "playlist_creation_create_smart_playlist_button_title", fallback: "Make into Smart Playlist") }
+  /// Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time.
+  internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
+  }
+  /// Manual Playlist: header button title to add new episodes to the playlist
+  internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
+  /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
+  /// Manual Playlist: empty state title when no episodes are added
+  internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
+  /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
   }
+  /// Message shown when you have no episodes in a playlist
+  internal static var playlistSmartNoEpisodesMsg: String { return L10n.tr("Localizable", "playlist_smart_no_episodes_msg", fallback: "Either it’s time to celebrate completing this list, or edit your rules to get some more.") }
   /// Smart Playlist preview: description that appears when initially there are no rules set
   internal static var playlistSmartPreviewDescription: String { return L10n.tr("Localizable", "playlist_smart_preview_description", fallback: "Set up Smart Rules to automatically add episodes to your Smart Playlist.") }
   /// Smart Playlist preview: title for the enabled rules section
@@ -3174,6 +3200,8 @@ internal enum L10n {
   internal static var settingsBadgeFilterHeader: String { return L10n.tr("Localizable", "settings_badge_filter_header", fallback: "EPISODE FILTER COUNT") }
   /// Option for setting the app badge based on the new episodes since the app opened.
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened", fallback: "New Since App Opened") }
+  /// Section Header for selecting the options for setting the app badge based on the user's smart playlists.
+  internal static var settingsBadgeSmartPlaylistHeader: String { return L10n.tr("Localizable", "settings_badge_smart_playlist_header", fallback: "SMART PLAYLIST EPISODE COUNT") }
   /// Option for setting the app badge based on the total unplayed episodes.
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed", fallback: "Total Unplayed") }
   /// Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark .
@@ -3364,6 +3392,8 @@ internal enum L10n {
   internal static var settingsNotifications: String { return L10n.tr("Localizable", "settings_notifications", fallback: "Notifications") }
   /// App badge choice to have the badge reflect the filter count
   internal static var settingsNotificationsFilterCount: String { return L10n.tr("Localizable", "settings_notifications_filter_count", fallback: "Filter count") }
+  /// App badge choice to have the badge reflect the smart playlist count
+  internal static var settingsNotificationsSmartPlaylistCount: String { return L10n.tr("Localizable", "settings_notifications_smart_playlist_count", fallback: "Smart Playlist count") }
   /// Subtitle explaining what notifications to expect when you enable notifications.
   internal static var settingsNotificationsSubtitle: String { return L10n.tr("Localizable", "settings_notifications_subtitle", fallback: "Notifies you when a new episode is available. Also useful for improving the reliability of auto downloads.") }
   /// A common string used throughout the app. Refers to the Import/Export OPML settings menu

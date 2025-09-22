@@ -1,4 +1,3 @@
-import FMDB
 import PocketCastsUtils
 
 class EpisodeFilterDataManager {
@@ -33,7 +32,12 @@ class EpisodeFilterDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
+                let query: String
+                if FeatureFlag.playlistsRebranding.enabled {
+                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName)" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE wasDeleted = 0"
+                } else {
+                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0"
+                }
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -44,7 +48,6 @@ class EpisodeFilterDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.count error: \(error)")
             }
         }
-
         return count
     }
 
@@ -52,7 +55,7 @@ class EpisodeFilterDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let queryForFilter = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
+                let queryForFilter = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
                 let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForFilter)", values: nil)
                 defer { resultSet.close() }
 
@@ -67,9 +70,39 @@ class EpisodeFilterDataManager {
         return count
     }
 
-    func allFilters(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
+    func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+        var count = 0
+        dbQueue.read { db in
+            do {
+                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
 
+                if resultSet.next() {
+                    count = resultSet.long(forColumnIndex: 0)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.smartPlaylistEpisodeCount error: \(error)")
+            }
+        }
+
+        return count
+    }
+
+    func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+        return 0 //TODO: implement new playlist query
+    }
+
+    func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        if FeatureFlag.playlistsRebranding.enabled {
+            let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
+            return allFilters(query: query, values: nil, dbQueue: dbQueue)
+        }
+        return allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
+    func allSmartPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        let query = includeDeleted ? "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.filtersTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
         return allFilters(query: query, values: nil, dbQueue: dbQueue)
     }
 
