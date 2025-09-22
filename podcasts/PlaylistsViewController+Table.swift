@@ -106,8 +106,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, let filter = playlists[safe: indexPath.row] {
-            PlaylistManager.delete(playlist: filter, fireEvent: false)
+        if editingStyle == .delete, let playlist = playlists[safe: indexPath.row] {
+            PlaylistManager.delete(playlist: playlist, fireEvent: false)
             playlists.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .top)

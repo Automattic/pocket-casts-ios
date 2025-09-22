@@ -1071,8 +1071,6 @@
 		BD6C3F062379236A00C01403 /* ShelfCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C3F042379236A00C01403 /* ShelfCell.swift */; };
 		BD6C3F072379236A00C01403 /* ShelfCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6C3F052379236A00C01403 /* ShelfCell.xib */; };
 		BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */; };
-		BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */; };
-		BD6D417F200C557A00CA8993 /* PodcastHeadingTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */; };
 		BD6D4181200C5BD600CA8993 /* Podcasts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */; };
 		BD6D4187200C802900CA8993 /* PodcastViewController+NetworkLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */; };
 		BD6F1645219AB82700F34D14 /* UISearchBar+TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6F1644219AB82700F34D14 /* UISearchBar+TextColor.swift */; };
@@ -2076,6 +2074,7 @@
 		FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */; };
 		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
 		FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD5812B9F4B2D009B58B5 /* Kingfisher */; };
+		FF2EC0692E745DED00069C94 /* NewSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */; };
 		FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47245A2BA4749F00EA916B /* MenuRow.swift */; };
@@ -3400,8 +3399,6 @@
 		BD6C3F042379236A00C01403 /* ShelfCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCell.swift; sourceTree = "<group>"; };
 		BD6C3F052379236A00C01403 /* ShelfCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShelfCell.xib; sourceTree = "<group>"; };
 		BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBadgeView.swift; sourceTree = "<group>"; };
-		BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeadingTableCell.swift; sourceTree = "<group>"; };
-		BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastHeadingTableCell.xib; sourceTree = "<group>"; };
 		BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Podcasts.xcassets; sourceTree = "<group>"; };
 		BD6D4186200C802900CA8993 /* PodcastViewController+NetworkLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastViewController+NetworkLoad.swift"; sourceTree = "<group>"; };
 		BD6E223D27338A2C00474349 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -4192,6 +4189,7 @@
 		FF267FB92E16E1890004EF02 /* UpgradeFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeFeaturesView.swift; sourceTree = "<group>"; };
 		FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeProductsView.swift; sourceTree = "<group>"; };
 		FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeAccountViewModel.swift; sourceTree = "<group>"; };
+		FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSearchResultsView.swift; sourceTree = "<group>"; };
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -5265,6 +5263,7 @@
 			isa = PBXGroup;
 			children = (
 				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
+				FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */,
 				8B67A26629A7D80E0076886D /* SearchResultCell.swift */,
 				8B67A26829A7D8690076886D /* PodcastCarouselView.swift */,
 				8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */,
@@ -6607,8 +6606,6 @@
 				4086511A23B1CE8400D7585A /* CreateSiriShortcutCell.xib */,
 				BD0B68722203EFCC002CCE3F /* EpisodeLimitCell.swift */,
 				BD0B68732203EFCC002CCE3F /* EpisodeLimitCell.xib */,
-				BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */,
-				BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -9901,7 +9898,6 @@
 				BD6B665C245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@2x~ipad.png in Resources */,
 				4051A5802281B38100C13C12 /* NewsletterCell.xib in Resources */,
 				BDA0030B1F7B318B00DCB4AE /* AppIcon-Default83.5x83.5@2x~ipad.png in Resources */,
-				BD6D417F200C557A00CA8993 /* PodcastHeadingTableCell.xib in Resources */,
 				BD907DA721533243004D7C02 /* PodcastEffectsViewController.xib in Resources */,
 				BDA003041F7B318B00DCB4AE /* AppIcon-Default40x40~ipad.png in Resources */,
 				4053CE052150B3D5001C92B1 /* Filter.xcassets in Resources */,
@@ -10575,7 +10571,6 @@
 				40B1613822F3B66900759E41 /* ThemeableTextField.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				C7F2257F29145988001E4547 /* ShareableMetadataProvider.swift in Sources */,
-				BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */,
 				FF19C3112DC91A3C002B6C41 /* NotificationsPermissionsView.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
@@ -10931,6 +10926,7 @@
 				BDC377631C44E6BD001FD219 /* EmptyHeaderView.swift in Sources */,
 				8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */,
 				BD9324772398BC9D004F19A1 /* FeatureTour.swift in Sources */,
+				FF2EC0692E745DED00069C94 /* NewSearchResultsView.swift in Sources */,
 				BDFB53C72362A2570001806E /* NowPlayingPlayerItemViewController.swift in Sources */,
 				BD4DB9951CAB8CFF009E512F /* PCRefreshControl.swift in Sources */,
 				8B6B68E728F74A010032BFFF /* StoriesModel.swift in Sources */,

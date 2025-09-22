@@ -15,7 +15,15 @@ struct SearchResultsView: View {
 
     var body: some View {
         Group {
-            NavigationLink(destination: SearchResultsListView(displayMode: displayMode).setupDefaultEnvironment().environmentObject(searchAnalyticsHelper).environmentObject(searchResults).environmentObject(searchHistory), isActive: $showInlineResults) { EmptyView() }
+            NavigationLink(destination:
+                            SearchResultsListView(displayMode: displayMode)
+                                .setupDefaultEnvironment()
+                                .environmentObject(searchAnalyticsHelper)
+                                .environmentObject(searchResults)
+                                .environmentObject(searchHistory),
+                           isActive: $showInlineResults) {
+                EmptyView()
+            }
 
             if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
                 HStack(alignment: .center) {
@@ -38,9 +46,7 @@ struct SearchResultsView: View {
                         displayMode = .podcasts
                         showInlineResults = true
                     }
-
                     PodcastsCarouselView()
-
                     episodeList()
                 }
             }

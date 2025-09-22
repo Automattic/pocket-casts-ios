@@ -7,6 +7,7 @@
 - New onboarding screens with User Stories, Interests and Recommendations Screens [#3469](https://github.com/Automattic/pocket-casts-ios/pull/3469)
 - Disable multiple windows on iPad [#3484](https://github.com/Automattic/pocket-casts-ios/pull/3484)
 - Fix You Might Like tab reloading when navigating back to the Podcast page [#3480](https://github.com/Automattic/pocket-casts-ios/pull/3480)
+- Fix About background color [#3504](https://github.com/Automattic/pocket-casts-ios/pull/3504)
 
 7.97
 -----

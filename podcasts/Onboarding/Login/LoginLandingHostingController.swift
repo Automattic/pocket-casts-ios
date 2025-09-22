@@ -18,14 +18,8 @@ class LoginLandingHostingController<Content>: OnboardingHostingViewController<Co
 
         if navigationController?.viewControllers.first == self {
             let dismissItem: UIBarButtonItem
-            if FeatureFlag.fullScreenLogin.enabled {
-                dismissItem = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
-                dismissItem.tintColor = ThemeColor.primaryText01()
-            } else {
-                dismissItem = UIBarButtonItem(title: L10n.eoyNotNow, style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
-                dismissItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.font(with: .body, weight: .medium),
-                                                    NSAttributedString.Key.foregroundColor: iconTintColor], for: .normal)
-            }
+            dismissItem = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: viewModel, action: #selector(viewModel.dismissTapped))
+            dismissItem.tintColor = ThemeColor.primaryText01()
             navigationItem.rightBarButtonItem = dismissItem
         }
 

@@ -284,9 +284,6 @@ class NavigationManager {
     }
 
     func showNotificationsPermissionsModal() {
-        guard FeatureFlag.notificationsRevamp.enabled else {
-            return
-        }
         mainController?.showNotificationsPermissions()
     }
 }
