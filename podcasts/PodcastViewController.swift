@@ -1260,7 +1260,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
             let bar = ActionBarView(title: state.title, style: ThemedActionBarStyle(), actions: actions)
                 .padding(.bottom) // match internal spacing
-                .miniPlayerSafeAreaInset(multiplier: 1.7)
 
             if let host = bookmarksActionBarHost {
                 host.rootView = AnyView(bar)
@@ -1308,6 +1307,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func updateBookmarksActionBarBottomConstraint(animated: Bool = true) {
         guard let bottom = bookmarksActionBarBottomConstraint else { return }
         guard let host = bookmarksActionBarHost else { return }
+        bottom.constant = -bookmarksActionBarBottomOffset()
         if animated {
             UIView.animate(withDuration: 0.1) { host.view.layoutIfNeeded(); self.view.layoutIfNeeded() }
         } else {
@@ -1324,6 +1324,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
         bookmarksActionBarHost = nil
         bookmarksActionBarBottomConstraint = nil
+    }
+
+    private func bookmarksActionBarBottomOffset() -> CGFloat {
+        let miniPlayerOffset = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        return miniPlayerOffset
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
