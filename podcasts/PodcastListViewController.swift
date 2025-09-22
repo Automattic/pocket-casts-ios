@@ -177,6 +177,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                     self.setupBannerAd(promotion: promotion, shouldAnimate: false)
                 }
             }
+        } else {
+            if bannerAdModel != nil {
+                bannerAdModel = nil
+                UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                    self.isAnimatingBannerAd = false
+                } completion: { _ in
+                    self.podcastsCollectionView.performBatchUpdates({
+                        self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+                    })
+                }
+            }
         }
     }
 
