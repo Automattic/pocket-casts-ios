@@ -94,7 +94,7 @@ private struct LoginLandingContent: View {
 
                     HStack(spacing: 0) {
                         Spacer()
-                        LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
+                        LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding || !FeatureFlag.newOnboardingAccountCreation.enabled)
                             .frame(maxWidth: 400)
                         Spacer()
                     }

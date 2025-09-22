@@ -2,6 +2,10 @@
 -----
 
 
+7.97.1
+-----
+- Add missing login button for onboarding screen [#3513](https://github.com/Automattic/pocket-casts-ios/pull/3513)
+
 7.97
 -----
 - Enable Banner Ads in the Podcasts list and Player for free users [#3459](https://github.com/Automattic/pocket-casts-ios/pull/3459)
