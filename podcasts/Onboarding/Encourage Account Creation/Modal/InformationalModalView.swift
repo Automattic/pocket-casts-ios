@@ -56,13 +56,13 @@ struct InformationalModalView: View {
     private var labels: some View {
         VStack(spacing: 0) {
             Text(L10n.eacInformationalViewModalTitle)
-                .font(size: FeatureFlag.newOnboardingAccountCreation.enabled ? 28 : 22, style: FeatureFlag.newOnboardingAccountCreation.enabled ? .title : .body, weight: .bold)
+                .font(size: 22, style: .body, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .multilineTextAlignment(.center)
                 .padding(.top, isiPad ? 0 : 20.0)
                 .padding(.bottom, 12.0)
             Text(L10n.eacInformationalViewModalDescription)
-                .font(size: FeatureFlag.newOnboardingAccountCreation.enabled ? 17.0 : 15, style: .body, weight: FeatureFlag.newOnboardingAccountCreation.enabled ? .regular : .medium)
+                .font(size: 15, style: .body, weight: .medium)
                 .foregroundStyle(theme.primaryText02)
                 .multilineTextAlignment(.center)
         }
