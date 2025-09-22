@@ -10,7 +10,7 @@ public protocol ServerSyncDelegate {
 
     func subscribedToPodcast()
 
-    func filterChanged()
+    func playlistChanged()
 
     func episodeStarredChanged(episode: Episode)
     func archiveEpisodeExternal(episode: Episode)

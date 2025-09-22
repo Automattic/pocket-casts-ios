@@ -17,7 +17,7 @@ class WidgetHelper {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.currentlyPlayingEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.upNextQueueChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.filterChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.playlistChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.podcastAdded, object: nil)
     }
 
@@ -109,7 +109,7 @@ class WidgetHelper {
 
         var filterItems = [CommonUpNextItem]()
         var filterName: String?
-        if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first {
+        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first {
             filterName = topFilter.playlistName
             let query = PlaylistQueryBuilder.queryFor(filter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries(), limit: WidgetHelper.maxFilterToPublish)
 

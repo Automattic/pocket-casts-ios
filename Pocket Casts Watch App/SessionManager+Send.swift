@@ -172,13 +172,13 @@ extension SessionManager {
         }
     }
 
-    func requestContents(filter: WatchFilter, replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
+    func requestContents(playlist: WatchPlaylist, replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
         if !WCSession.default.isReachable {
             errorHandler?()
             return
         }
 
-        let filterRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.FilterRequest.type, WatchConstants.Messages.FilterRequest.filterUuid: filter.uuid] as [String: Any]
+        let filterRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.FilterRequest.type, WatchConstants.Messages.FilterRequest.filterUuid: playlist.uuid] as [String: Any]
         WCSession.default.sendMessage(filterRequest, replyHandler: { episodesData in
             let episodes = WatchDataManager.convertToEpisodeList(data: episodesData)
             replyHandler?(episodes)

@@ -159,15 +159,23 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
             return cell
         case .inFilters:
+            let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellSecondaryLabel.text = nil
-            cell.setImage(imageName: "settings_filter", tintColor: podcast.iconTintColor())
+            cell.setImage(
+                imageName: playlistRebrandingEnabled ? "playlists_tab" : "settings_filter",
+                tintColor: podcast.iconTintColor()
+            )
 
-            let filterCount = filterUuidsPodcastAppearsIn().count
-            if filterCount == 0 {
-                cell.cellLabel.text = L10n.settingsNotInFilters
+            let playlistsCount = playlistUuidsPodcastAppearsIn().count
+            if playlistsCount == 0 {
+                cell.cellLabel.text = playlistRebrandingEnabled ? L10n.settingsNotInSmartPlaylists : L10n.settingsNotInFilters
             } else {
-                cell.cellLabel.text = filterCount == 1 ? L10n.settingsInFiltersSingular : L10n.settingsInFiltersPluralFormat(filterCount.localized())
+                cell.cellLabel.text = if playlistsCount == 1 {
+                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistSingular : L10n.settingsInFiltersSingular
+                } else {
+                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistsPluralFormat(playlistsCount.localized()) : L10n.settingsInFiltersPluralFormat(playlistsCount.localized())
+                }
             }
 
             return cell
@@ -232,28 +240,29 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let archiveController = PodcastArchiveViewController(podcast: podcast)
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
-            let filterSelectionViewController = FilterSelectionViewController()
-            filterSelectionViewController.allFilters = filtersPodcastCanAppearIn()
-            filterSelectionViewController.selectedFilters = filterUuidsPodcastAppearsIn()
-            filterSelectionViewController.filterSelected = { [weak self] filter in
+            let playlistSelectionViewController = PlaylistSelectionViewController()
+            playlistSelectionViewController.navigationTitle = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectSmartPlaylistsPlural : L10n.settingsSelectFiltersPlural
+            playlistSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
+            playlistSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
+            playlistSelectionViewController.playlistSelected = { [weak self] playlist in
                 guard let self = self else { return }
 
-                filter.addPodcast(podcastUuid: self.podcast.uuid)
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+                playlist.addPodcast(podcastUuid: self.podcast.uuid)
+                DataManager.sharedManager.save(playlist: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            filterSelectionViewController.filterUnselected = { [weak self] filter in
+            playlistSelectionViewController.playlistUnselected = { [weak self] playlist in
                 guard let self = self else { return }
 
-                filter.removePodcast(podcastUuid: self.podcast.uuid)
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+                playlist.removePodcast(podcastUuid: self.podcast.uuid)
+                DataManager.sharedManager.save(playlist: playlist)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
-            navigationController?.pushViewController(filterSelectionViewController, animated: true)
+            navigationController?.pushViewController(playlistSelectionViewController, animated: true)
         } else if row == .siriShortcut {
             if let voiceShortcut = existingSiriVoiceShortcut() {
                 let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
@@ -389,7 +398,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             data[1].append(.globalUpNext)
         }
 
-        if filtersPodcastCanAppearIn().count > 0 {
+        if playlistsPodcastCanAppearIn().count > 0 {
             data.append([.inFilters])
         }
         data.append([.siriShortcut])
@@ -398,15 +407,15 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         return data
     }
 
-    private func filterUuidsPodcastAppearsIn() -> [String] {
-        DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
-            filter.podcastUuids.contains(podcast.uuid) ? filter.uuid : nil
+    private func playlistUuidsPodcastAppearsIn() -> [String] {
+        DataManager.sharedManager.allSmartPlaylists(includeDeleted: false).compactMap { playlist -> String? in
+            playlist.podcastUuids.contains(podcast.uuid) ? playlist.uuid : nil
         }
     }
 
-    private func filtersPodcastCanAppearIn() -> [EpisodeFilter] {
-        DataManager.sharedManager.allFilters(includeDeleted: false).filter { filter -> Bool in
-            filter.filterAllPodcasts == false
+    private func playlistsPodcastCanAppearIn() -> [EpisodeFilter] {
+        DataManager.sharedManager.allSmartPlaylists(includeDeleted: false).filter { playlist -> Bool in
+            playlist.filterAllPodcasts == false
         }
     }
 

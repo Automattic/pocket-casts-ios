@@ -175,29 +175,29 @@ class PhoneSourceViewModel: PlaySourceViewModel {
         .eraseToAnyPublisher()
     }
 
-    // MARK: Filters
+    // MARK: Playlists
 
-    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError> {
-        let filters = WatchDataManager.filters() ?? []
-        return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+    func fetchPlaylists() -> AnyPublisher<[PlaylistRepresentable], PlaySourceError> {
+        let playlists = WatchDataManager.playlists() ?? []
+        return Just(playlists).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
-    func fetchFilter(_ uuid: String) -> Filter? {
-        WatchDataManager.filters()?.first(where: { $0.uuid == uuid })
+    func fetchPlaylist(_ uuid: String) -> PlaylistRepresentable? {
+        WatchDataManager.playlists()?.first(where: { $0.uuid == uuid })
     }
 
-    internal func fetchFilterEpisodes(_ filter: Filter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
-        guard let filter = filter as? WatchFilter else {
-            /// Play Source should be communicating using `WatchFilter`. This is likely a developer error.
+    internal func fetchPlaylistEpisodes(_ playlist: PlaylistRepresentable) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
+        guard let playlist = playlist as? WatchPlaylist else {
+            /// Play Source should be communicating using `WatchPlaylist`. This is likely a developer error.
             return Fail<[BaseEpisode], PlaySourceError>(error: .wrongBaseType).eraseToAnyPublisher()
         }
 
-        return fetchFilterEpisodes(filter)
+        return fetchPlaylistEpisodes(playlist)
     }
 
-    func fetchFilterEpisodes(_ filter: WatchFilter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
+    func fetchPlaylistEpisodes(_ playlist: WatchPlaylist) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
         Future { promise in
-            SessionManager.shared.requestContents(filter: filter, replyHandler: { episodes in
+            SessionManager.shared.requestContents(playlist: playlist, replyHandler: { episodes in
                 promise(.success(episodes))
             }, errorHandler: {
                 promise(.failure(.requestFailed))
@@ -206,7 +206,7 @@ class PhoneSourceViewModel: PlaySourceViewModel {
         .eraseToAnyPublisher()
     }
 
-    func episodeCount(for filter: Filter) -> Int {
+    func episodeCount(for playlist: PlaylistRepresentable) -> Int {
         // We don't show this information for the phone source
         return 0
     }

@@ -14,6 +14,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var bannerTask: Task<Void, Never>? = nil
 
+    // Detect Display Zoom (zoomed display makes UI elements appear larger).
+    // Scale controls down slightly when zoomed to avoid oversized buttons.
+    private var isZoomed: Bool {
+        A11y.isDisplayZoomed
+    }
+
     var videoViewController: VideoViewController?
 
     @IBOutlet var skipBackBtn: SkipButton! {
@@ -247,14 +253,18 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func loadBannerAd() {
 #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled && !SubscriptionHelper.hasActiveSubscription() {
-            removeBannerAd()
-            bannerTask = Task { [weak self] in
-                if let promotion = await DiscoverServerHandler.shared.blazePromotion(for: .player) {
-                    guard Task.isCancelled == false else { return }
-                    try? await Task.sleep(for: .seconds(2)) // Delay by 2 seconds so we don't immediately show
-                    await MainActor.run {
-                        self?.addAdBanner(promotion: promotion)
+            DiscoverServerHandler.shared.blazePromotion(for: .player) { [weak self] promotion, shouldAnimate in
+                guard let self = self else { return }
+
+                if shouldAnimate {
+                    self.bannerTask = Task { [weak self] in
+                        try? await Task.sleep(for: .seconds(2))
+                        await MainActor.run {
+                            self?.addAdBanner(promotion: promotion, animated: true)
+                        }
                     }
+                } else {
+                    self.addAdBanner(promotion: promotion, animated: false)
                 }
             }
         }
@@ -294,8 +304,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = displayTranscript ? 40 : view.bounds.height > 710 ? 100 : 80
-        if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+        // Base height for play/pause. If zoomed and not showing transcript, scale down a bit.
+        let baseHeight: CGFloat = displayTranscript ? 40 : (view.bounds.height > 710 ? 100 : 80)
+        let scaledHeight: CGFloat = (!displayTranscript && isZoomed) ? baseHeight * 0.9 : baseHeight
+        if playPauseHeightConstraint.constant != scaledHeight { playPauseHeightConstraint.constant = scaledHeight }
+
+        // Ensure skip buttons are not too large on zoomed displays.
+        // Use small size either when showing transcript or when display is zoomed.
+        let skipSize: SkipButton.Size = (displayTranscript || isZoomed) ? .small : .large
+        skipBackBtn.changeSize(to: skipSize)
+        skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
     }
@@ -482,8 +500,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             // Display/hide the view that will fill the empty space
             fillView.isHidden = !isShowing
 
-            // Change skip back and forward size
-            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            // Change skip back and forward size (also keep small on zoomed displays)
+            let skipButtonSize: SkipButton.Size = (isShowing || isZoomed) ? .small : .large
             skipBackBtn.changeSize(to: skipButtonSize)
             skipFwdBtn.changeSize(to: skipButtonSize)
             skipBackBtn.layoutIfNeeded()
@@ -512,10 +530,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     // MARK: Banner Ad
 
-    func addAdBanner(promotion: BlazePromotion) {
+    func addAdBanner(promotion: BlazePromotion, animated: Bool = true) {
+        removeBannerAd()
+
         guard let stackView = episodeImage.superview as? UIStackView else { return }
 
-        let model = BannerAdModel(promotion: promotion, source: AnalyticsSource.player.rawValue) {
+        let model = BannerAdModel(promotion: promotion) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
 
@@ -548,14 +568,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         view.layoutIfNeeded()
 
-        // Animate move first
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
-            topConstraint.constant = 0
-            self.view.layoutIfNeeded()
-        }
+        if animated {
+            // Animate move first
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                topConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            }
 
-        // Animate opacity second so it's more noticeable
-        UIView.animate(withDuration: 0.2, delay: 0.05) {
+            // Animate opacity second so it's more noticeable
+            UIView.animate(withDuration: 0.2, delay: 0.05) {
+                adUiView.alpha = 1
+            }
+        } else {
+            topConstraint.constant = 0
             adUiView.alpha = 1
         }
     }

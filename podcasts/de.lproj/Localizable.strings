@@ -297,6 +297,8 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Warum meldest du diese Werbung?</string>
     <key>banner_ads_report_broken</key>
     <string>Die Werbung scheint fehlerhaft zu sein</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Du hast diese Werbung gemeldet.</string>
     <key>banner_ads_report_malicious</key>
     <string>Die Werbung ist bösartig</string>
     <key>banner_ads_report_other</key>
@@ -1518,6 +1520,10 @@ Podcasts mit</string>
     <string>Keine Folgen gefunden</string>
     <key>loading</key>
     <string>Wird geladen ...</string>
+    <key>login_landing_subtitle</key>
+    <string>Deine Podcasts, immer synchron. Schütze deine Bibliothek und genieße Pocket Casts im Web und auf dem Desktop.</string>
+    <key>login_landing_title</key>
+    <string>Dein Pocket Casts-Konto erstellen</string>
     <key>login_subtitle</key>
     <string>Erstelle ein Konto, um dein Audioerlebnis auf all deinen Geräten zu synchronisieren.</string>
     <key>login_title</key>
@@ -1756,6 +1762,14 @@ Podcasts mit</string>
     <string>Aus</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts-Benutzer</string>
+    <key>onboarding_quote_best</key>
+    <string>Die beste Podcast-App auf dem Markt. Bei Weitem</string>
+    <key>onboarding_quote_customization</key>
+    <string>Die Anpassungsmöglichkeiten sind der Wahnsinn.</string>
+    <key>onboarding_quote_folders</key>
+    <string>Meine Podcasts nach Ordnern zu organisieren ist genial.</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Hier sind einige großartige Shows, mit denen du beginnen kannst. Tippe, wenn du Podcasts abonnieren, eine Suche durchführen oder Inhalte aus anderen Apps importieren möchtest.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2017,26 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wiedergabefehler</string>
     <key>player_user_episode_upload_error</key>
     <string>Fehler beim Upload</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Keine der Folgen in deinen Podcasts entspricht diesen Regeln.
+
+Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünftige Folgen.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Wiedergabeliste erstellen</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Füge Folgen basierend auf Regeln automatisch hinzu.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>In eine intelligente Wiedergabeliste umwandeln</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Intelligente Wiedergabeliste erstellen</string>
+    <key>playlist_preview_title</key>
+    <string>Vorschau von %@ anzeigen</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Wiedergabeliste hinzuzufügen.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Aktivierte Regeln</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Weitere Optionen</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Neu abonnierte Podcasts werden automatisch hinzugefügt.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2051,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Füge nur mit Stern markierte Folgen hinzu, die deinen anderen Regeln entsprechen.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Mit Stern markierte Folgen</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Intelligente Regeln</string>
     <key>playlists</key>
     <string>Wiedergabelisten</string>
     <key>playlists_default_new_playlist</key>

@@ -38,7 +38,7 @@ class PlaylistPreviewViewModel: ObservableObject {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleFilterChanged(_:)),
-            name: Constants.Notifications.filterChanged,
+            name: Constants.Notifications.playlistChanged,
             object: nil
         )
     }
@@ -152,7 +152,7 @@ class PlaylistPreviewViewModel: ObservableObject {
             operationQueue.cancelAllOperations()
             episodes.removeAll()
         }
-        let refreshOperation = PlaylistRefreshOperation(filter: newPlaylist) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: newPlaylist) { [weak self] newData in
             self?.episodes = newData
             DispatchQueue.main.async {
                 self?.newPlaylistHasChanged = true

@@ -23,10 +23,10 @@ extension WatchSyncManager: ServerSyncDelegate {
 
     func subscribedToPodcast() {}
 
-    // MARK: - Filters
+    // MARK: - Playlists
 
-    func filterChanged() {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+    func playlistChanged() {
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
     }
 
     // MARK: - Episode functions
@@ -95,7 +95,7 @@ extension WatchSyncManager: ServerSyncDelegate {
     }
 
     func privateUserAgent() -> String {
-        "Pocket Casts/iOS/" + Settings.appVersion()
+        "Pocket Casts/watchOS/" + Settings.appVersion()
     }
 
     func autoDownloadLatestEpisodes(uuids: [String]) {}

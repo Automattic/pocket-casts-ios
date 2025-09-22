@@ -7,6 +7,15 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         queue = DispatchQueue(label: label, attributes: .concurrent)
     }
 
+    deinit {
+        //ensure that all work is done before releasing the table
+        queue.sync(flags: .barrier) { [weak self] in
+            //Last work item
+            print("Remove all before dealocating")
+            self?.table.removeAll()
+        }
+    }
+
     func value(forKey key: Key) -> Value? {
         var value: Value?
         queue.sync { [weak self] in

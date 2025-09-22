@@ -2368,6 +2368,15 @@
 /* Label indicating no filters have been selected. */
 "settings_auto_downloads_no_filters_selected" = "No Filters Selected";
 
+/* Label indicating the number of selected playlists. '%1$@' is a placeholder for the number of playlists selected. */
+"settings_auto_downloads_playlists_selected_format" = "%1$@ Playlists Selected";
+
+/* Label indicating the number of selected playlists. This is the singular form for an accompanying plural option. */
+"settings_auto_downloads_playlists_selected_singular" = "1 Playlist Selected";
+
+/* Label indicating no playlists have been selected. */
+"settings_auto_downloads_no_playlists_selected" = "No Playlists Selected";
+
 /* Label indicating no podcasts have been selected. */
 "settings_auto_downloads_no_podcasts_selected" = "No Podcasts Selected";
 
@@ -2380,6 +2389,9 @@
 /* Subtitle explaining the toggle to auto download the top episodes of a filter. */
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
 
+/* Subtitle explaining the toggle to auto download the top episodes of a playlist. */
+"settings_auto_downloads_subtitle_playlists" = "Download the top episodes in a playlist.";
+
 /* Subtitle explaining the toggle to auto download New Episodes. */
 "settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.";
 
@@ -2388,6 +2400,9 @@
 
 /* Section Header for selecting the options for setting the app badge based on the user's filters. */
 "settings_badge_filter_header" = "EPISODE FILTER COUNT";
+
+/* Section Header for selecting the options for setting the app badge based on the user's smart playlists. */
+"settings_badge_smart_playlist_header" = "SMART PLAYLIST EPISODE COUNT";
 
 /* Option for setting the app badge based on the new episodes since the app opened. */
 "settings_badge_new_since_opened" = "New Since App Opened";
@@ -2614,6 +2629,12 @@
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
 
+/* Informs the user that the current podcast is included in more Smart Playlists. '%1$@' is a placeholder for the number of filters this podcast is included in. */
+"settings_in_smart_playlists_plural_format" = "Included In %1$@ Smart Playlists";
+
+/* Informs the user that the current podcast is included in one Smart Playlist. This is the singular form of an accompanying plural string. */
+"settings_in_smart_playlist_singular" = "Included In 1 Smart Playlist";
+
 /* Setting section header. Indicates that the options in this section will appear in the menu vs an action bar. */
 "settings_in_menu" = "IN MENU";
 
@@ -2623,11 +2644,17 @@
 /* Informs the user that the current podcast isn't included in any filters. */
 "settings_not_in_filters" = "Not Included In Any Filters";
 
+/* Informs the user that the current podcast isn't included in any playlists. */
+"settings_not_in_smart_playlists" = "Not Included In Any Smart Playlists";
+
 /* A common string used throughout the app. Refers to the Notifications settings menu. */
 "settings_notifications" = "Notifications";
 
 /* App badge choice to have the badge reflect the filter count */
 "settings_notifications_filter_count" = "Filter count";
+
+/* App badge choice to have the badge reflect the smart playlist count */
+"settings_notifications_smart_playlist_count" = "Smart Playlist count";
 
 /* Subtitle explaining what notifications to expect when you enable notifications. */
 "settings_notifications_subtitle" = "Notifies you when a new episode is available. Also useful for improving the reliability of auto downloads.";
@@ -2649,6 +2676,12 @@
 
 /* Prompt to select filters */
 "settings_select_filters_plural" = "Select Filters";
+
+/* Prompt to select playlists */
+"settings_select_playlists_plural" = "Select Playlists";
+
+/* Prompt to select smart playlists */
+"settings_select_smart_playlists_plural" = "Select Smart Playlists";
 
 /* Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered. */
 "settings_shortcuts_filter_open_filter" = "Open Filter";
@@ -5322,7 +5355,7 @@
 "feature_marketing_skip_chapters" = "Save time with Preselect Chapters";
 
 /* Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files */
-"feature_marketing_cloud_storage" = "%1$@ Cloud Storage for your files";
+"feature_marketing_cloud_storage" = "%1$@ GB Cloud Storage for your files";
 
 /* Watch playback feature marketing message */
 "feature_marketing_watch_playback" = "Apps for Wear OS and Apple Watch";
@@ -5417,8 +5450,26 @@
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart Rules";
 
+/* Message shown when you have no episodes in a playlist */
+"playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
+
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
+
+/* Manual Playlist: header button title to add new episodes to the playlist */
+"playlist_manual_add_episodes" = "Add Episodes";
+
+/* Manual Playlist: empty state title when no episodes are added */
+"playlist_manual_empty_state_title" = "Start building your playlist";
+
+/* Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_title_no_podcasts" = "Add episodes to your playlist";
+
+/* Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
+
+/* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
+"playlist_manual_browse_shows_title" = "Browse Shows";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

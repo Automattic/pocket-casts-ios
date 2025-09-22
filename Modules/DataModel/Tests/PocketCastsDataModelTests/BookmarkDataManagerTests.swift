@@ -1,6 +1,6 @@
 @testable import PocketCastsDataModel
+import GRDB
 
-import FMDB
 import XCTest
 
 final class BookmarkDataManagerTests: XCTestCase {
@@ -8,7 +8,7 @@ final class BookmarkDataManagerTests: XCTestCase {
     private var dataManager: BookmarkDataManager!
 
     override func setUp(completion: @escaping (Error?) -> Void) {
-        dbQueue = FMDBQueue(fmdbQueue: FMDatabaseQueue())
+        dbQueue = GRDBQueue(dbPool: try! DatabasePool.newTestDatabase()!)
 
         // Create the schema
         // the write call doesn't let you throw, so we'll track if there's an error here then pass it to the completion

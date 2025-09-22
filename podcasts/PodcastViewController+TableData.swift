@@ -44,7 +44,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     func registerCells() {
         episodesTable.register(PodcastTableViewCell.self, forCellReuseIdentifier: PodcastTableViewCell.reuseIdentifier)
         episodesTable.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.episodeCellId)
-        episodesTable.register(UINib(nibName: "PodcastHeadingTableCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.headerCellId)
         episodesTable.register(UINib(nibName: "EpisodeLimitCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.limitCellId)
         episodesTable.register(UINib(nibName: "HeadingCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.groupHeadingCellId)
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
@@ -132,15 +131,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         switch currentViewMode {
         case .episodes:
             if indexPath.section == PodcastViewController.headerSection {
-                if FeatureFlag.podcastViewChanges.enabled {
-                    let cell = podcastHeaderCell
-                    return cell
-                } else {
-                    let cell = podcastHeadingCell
-                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
-                    cell.buttonsEnabled = !isMultiSelectEnabled
-                    return cell
-                }
+                let cell = podcastHeaderCell
+                return cell
             }
 
             guard let itemAtRow = episodeInfo[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
@@ -204,15 +196,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .bookmarks:
             if indexPath.section == PodcastViewController.headerSection {
-                if FeatureFlag.podcastViewChanges.enabled {
-                    let cell = podcastHeaderCell
-                    return cell
-                } else {
-                    let cell = podcastHeadingCell
-                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
-                    cell.buttonsEnabled = !isMultiSelectEnabled
-                    return cell
-                }
+                let cell = podcastHeaderCell
+                return cell
             } else {
                 guard let bookmarkViewModel = bookmarkViewModel else {
                     return UITableViewCell()
@@ -227,15 +212,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
-                if FeatureFlag.podcastViewChanges.enabled {
-                    let cell = podcastHeaderCell
-                    return cell
-                } else {
-                    let cell = podcastHeadingCell
-                    cell.populateFrom(tintColor: podcast?.iconTintColor(), delegate: self, parentController: self)
-                    cell.buttonsEnabled = !isMultiSelectEnabled
-                    return cell
-                }
+                let cell = podcastHeaderCell
+                return cell
             case .loading:
                 let cell = tableView.dequeueReusableCell(withIdentifier: LoadingCell.reuseIdentifier, for: indexPath) as! LoadingCell
                 return cell
@@ -285,7 +263,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if FeatureFlag.podcastViewChanges.enabled, indexPath.section == PodcastViewController.headerSection {
+        if indexPath.section == PodcastViewController.headerSection {
             return podcastHeaderCell.rowHeight
         }
 
@@ -342,11 +320,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 tableView.deselectRow(at: indexPath, animated: true)
 
-                if indexPath.section == PodcastViewController.headerSection {
-                    if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
-                        cell.toggleExpanded(delegate: self)
-                    }
-                } else if indexPath.section == PodcastViewController.allEpisodesSection {
+                if indexPath.section == PodcastViewController.allEpisodesSection {
                     guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
                     let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen, playlist: .podcast(uuid: podcast.uuid))
@@ -356,16 +330,17 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
-            if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled, indexPath.section == PodcastViewController.headerSection {
-                cell.toggleExpanded(delegate: self)
+            if let headerCell = tableView.cellForRow(at: indexPath) as? PodcastHeaderCell,
+               !isMultiSelectEnabled,
+               indexPath.section == PodcastViewController.headerSection {
+                withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
+                    headerCell.viewModel.toggleExpanded()
+                }
             }
-
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
-                if let cell = tableView.cellForRow(at: indexPath) as? PodcastHeadingTableCell, !isMultiSelectEnabled {
-                    cell.toggleExpanded(delegate: self)
-                }
+                break
             case .loading, .empty:
                 break // Do nothing for these state cells
             case .podroll:

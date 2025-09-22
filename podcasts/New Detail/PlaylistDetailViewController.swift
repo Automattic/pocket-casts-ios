@@ -185,6 +185,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.navigationController?.isNavigationBarHidden = true
         addObservers()
         updateColors()
+        reloadNavTitle()
 
         viewModel.reloadPlaylistAndEpisodes()
     }
@@ -244,7 +245,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     private func setupNavigation() {
         supportsGoogleCast = false
 
-        navTitle = viewModel.playlist.playlistName
+        reloadNavTitle()
         scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
 
         addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.learnMore, action: #selector(moreTapped))
@@ -371,10 +372,15 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshMultiSelectEpisodes()
     }
 
+    private func reloadNavTitle() {
+        navTitle = viewModel.playlist.playlistName
+    }
+
     @objc func refreshFilterFromNotification(notification: Notification) {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
+        reloadNavTitle()
         viewModel.reloadPlaylistAndEpisodes()
     }
 

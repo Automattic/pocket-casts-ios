@@ -1228,7 +1228,7 @@ internal enum L10n {
   internal static var featureMarketingBookmarks: String { return L10n.tr("Localizable", "feature_marketing_bookmarks", fallback: "Keep timestamps with Bookmarks") }
   /// Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files
   internal static func featureMarketingCloudStorage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ Cloud Storage for your files")
+    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ GB Cloud Storage for your files")
   }
   /// Patron early access to new features marketing message
   internal static var featureMarketingEarlyAccess: String { return L10n.tr("Localizable", "feature_marketing_early_access", fallback: "Early access to new features") }
@@ -2308,12 +2308,24 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Manual Playlist: header button title to add new episodes to the playlist
+  internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
+  /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
+  /// Manual Playlist: empty state title when no episodes are added
+  internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
+  /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
+  internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
   }
+  /// Message shown when you have no episodes in a playlist
+  internal static var playlistSmartNoEpisodesMsg: String { return L10n.tr("Localizable", "playlist_smart_no_episodes_msg", fallback: "Either it’s time to celebrate completing this list, or edit your rules to get some more.") }
   /// Smart Playlist preview: description that appears when initially there are no rules set
   internal static var playlistSmartPreviewDescription: String { return L10n.tr("Localizable", "playlist_smart_preview_description", fallback: "Set up Smart Rules to automatically add episodes to your Smart Playlist.") }
   /// Smart Playlist preview: title for the enabled rules section
@@ -3168,10 +3180,18 @@ internal enum L10n {
   internal static var settingsAutoDownloadsFiltersSelectedSingular: String { return L10n.tr("Localizable", "settings_auto_downloads_filters_selected_singular", fallback: "1 filter selected") }
   /// Label indicating no filters have been selected.
   internal static var settingsAutoDownloadsNoFiltersSelected: String { return L10n.tr("Localizable", "settings_auto_downloads_no_filters_selected", fallback: "No Filters Selected") }
+  /// Label indicating no playlists have been selected.
+  internal static var settingsAutoDownloadsNoPlaylistsSelected: String { return L10n.tr("Localizable", "settings_auto_downloads_no_playlists_selected", fallback: "No Playlists Selected") }
   /// Label indicating no podcasts have been selected.
   internal static var settingsAutoDownloadsNoPodcastsSelected: String { return L10n.tr("Localizable", "settings_auto_downloads_no_podcasts_selected", fallback: "No Podcasts Selected") }
   /// Auto Downloads Setting - Auto download on follow of a blog
   internal static var settingsAutoDownloadsOnFollow: String { return L10n.tr("Localizable", "settings_auto_downloads_on_follow", fallback: "On Follow") }
+  /// Label indicating the number of selected playlists. '%1$@' is a placeholder for the number of playlists selected.
+  internal static func settingsAutoDownloadsPlaylistsSelectedFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_auto_downloads_playlists_selected_format", String(describing: p1), fallback: "%1$@ Playlists Selected")
+  }
+  /// Label indicating the number of selected playlists. This is the singular form for an accompanying plural option.
+  internal static var settingsAutoDownloadsPlaylistsSelectedSingular: String { return L10n.tr("Localizable", "settings_auto_downloads_playlists_selected_singular", fallback: "1 Playlist Selected") }
   /// Label indicating the number of selected podcasts. '%1$@' is a placeholder for the number of podcasts selected.
   internal static func settingsAutoDownloadsPodcastsSelectedFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "settings_auto_downloads_podcasts_selected_format", String(describing: p1), fallback: "%1$@ podcasts selected")
@@ -3182,12 +3202,16 @@ internal enum L10n {
   internal static var settingsAutoDownloadsSubtitleFilters: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_filters", fallback: "Download the top episodes in a filter.") }
   /// Subtitle explaining the toggle to auto download New Episodes.
   internal static var settingsAutoDownloadsSubtitleNewEpisodes: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_new_episodes", fallback: "Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.") }
+  /// Subtitle explaining the toggle to auto download the top episodes of a playlist.
+  internal static var settingsAutoDownloadsSubtitlePlaylists: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_playlists", fallback: "Download the top episodes in a playlist.") }
   /// Subtitle explaining the toggle to auto download items in the Up Next Queue.
   internal static var settingsAutoDownloadsSubtitleUpNext: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_up_next", fallback: "Download episodes added to Up Next.") }
   /// Section Header for selecting the options for setting the app badge based on the user's filters.
   internal static var settingsBadgeFilterHeader: String { return L10n.tr("Localizable", "settings_badge_filter_header", fallback: "EPISODE FILTER COUNT") }
   /// Option for setting the app badge based on the new episodes since the app opened.
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened", fallback: "New Since App Opened") }
+  /// Section Header for selecting the options for setting the app badge based on the user's smart playlists.
+  internal static var settingsBadgeSmartPlaylistHeader: String { return L10n.tr("Localizable", "settings_badge_smart_playlist_header", fallback: "SMART PLAYLIST EPISODE COUNT") }
   /// Option for setting the app badge based on the total unplayed episodes.
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed", fallback: "Total Unplayed") }
   /// Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark .
@@ -3368,16 +3392,26 @@ internal enum L10n {
   internal static var settingsInFiltersSingular: String { return L10n.tr("Localizable", "settings_in_filters_singular", fallback: "Included In 1 Filter") }
   /// Setting section header. Indicates that the options in this section will appear in the menu vs an action bar.
   internal static var settingsInMenu: String { return L10n.tr("Localizable", "settings_in_menu", fallback: "IN MENU") }
+  /// Informs the user that the current podcast is included in one Smart Playlist. This is the singular form of an accompanying plural string.
+  internal static var settingsInSmartPlaylistSingular: String { return L10n.tr("Localizable", "settings_in_smart_playlist_singular", fallback: "Included In 1 Smart Playlist") }
+  /// Informs the user that the current podcast is included in more Smart Playlists. '%1$@' is a placeholder for the number of filters this podcast is included in.
+  internal static func settingsInSmartPlaylistsPluralFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_in_smart_playlists_plural_format", String(describing: p1), fallback: "Included In %1$@ Smart Playlists")
+  }
   /// A message accompanying the settings for inactive episodes explaining what is considered an inactive episode.
   internal static var settingsInactiveEpisodesMsg: String { return L10n.tr("Localizable", "settings_inactive_episodes_msg", fallback: "Inactive episodes are episodes you haven't played or downloaded in the time you specify above. Downloads are removed when the episode is archived.") }
   /// Label for a setting that allows the user to custom the customize a headphone button skip next action.
   internal static var settingsNextAction: String { return L10n.tr("Localizable", "settings_next_action", fallback: "Next Action") }
   /// Informs the user that the current podcast isn't included in any filters.
   internal static var settingsNotInFilters: String { return L10n.tr("Localizable", "settings_not_in_filters", fallback: "Not Included In Any Filters") }
+  /// Informs the user that the current podcast isn't included in any playlists.
+  internal static var settingsNotInSmartPlaylists: String { return L10n.tr("Localizable", "settings_not_in_smart_playlists", fallback: "Not Included In Any Smart Playlists") }
   /// A common string used throughout the app. Refers to the Notifications settings menu.
   internal static var settingsNotifications: String { return L10n.tr("Localizable", "settings_notifications", fallback: "Notifications") }
   /// App badge choice to have the badge reflect the filter count
   internal static var settingsNotificationsFilterCount: String { return L10n.tr("Localizable", "settings_notifications_filter_count", fallback: "Filter count") }
+  /// App badge choice to have the badge reflect the smart playlist count
+  internal static var settingsNotificationsSmartPlaylistCount: String { return L10n.tr("Localizable", "settings_notifications_smart_playlist_count", fallback: "Smart Playlist count") }
   /// Subtitle explaining what notifications to expect when you enable notifications.
   internal static var settingsNotificationsSubtitle: String { return L10n.tr("Localizable", "settings_notifications_subtitle", fallback: "Notifies you when a new episode is available. Also useful for improving the reliability of auto downloads.") }
   /// A common string used throughout the app. Refers to the Import/Export OPML settings menu
@@ -3400,6 +3434,10 @@ internal enum L10n {
   internal static var settingsSelectFilterSingular: String { return L10n.tr("Localizable", "settings_select_filter_singular", fallback: "Select Filter") }
   /// Prompt to select filters
   internal static var settingsSelectFiltersPlural: String { return L10n.tr("Localizable", "settings_select_filters_plural", fallback: "Select Filters") }
+  /// Prompt to select playlists
+  internal static var settingsSelectPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_playlists_plural", fallback: "Select Playlists") }
+  /// Prompt to select smart playlists
+  internal static var settingsSelectSmartPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_smart_playlists_plural", fallback: "Select Smart Playlists") }
   /// Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered.
   internal static var settingsShortcutsFilterOpenFilter: String { return L10n.tr("Localizable", "settings_shortcuts_filter_open_filter", fallback: "Open Filter") }
   /// Option for the filter Siri Shortcut. This sets the filter to play all episodes in the filter when the shortcut is triggered.

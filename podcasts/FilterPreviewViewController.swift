@@ -108,7 +108,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.createFilter
-        newFilter = PlaylistManager.createNewFilter()
+        newFilter = PlaylistManager.createNewPlaylist()
 
         setupLargeTitle()
         setMinMaxNavBarHeights()
@@ -117,7 +117,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
         (view as? ThemeableView)?.style = .primaryUi01
         chipCollectionView.filter = newFilter
         chipCollectionView.chipActionDelegate = self
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(handleFilterChanged(_:)))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(handleFilterChanged(_:)))
         addCustomObserver(Constants.Notifications.playlistTempChange, selector: #selector(handleFilterColorChanged))
         isModalInPresentation = true
 
@@ -152,11 +152,11 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     }
 
     override func closeAction() {
-        PlaylistManager.delete(filter: newFilter, fireEvent: true)
+        PlaylistManager.delete(playlist: newFilter, fireEvent: true)
     }
 
     private func reloadFilter() {
-        guard let reloadedFilter = DataManager.sharedManager.findFilter(uuid: newFilter.uuid) else { return }
+        guard let reloadedFilter = DataManager.sharedManager.findPlaylist(uuid: newFilter.uuid) else { return }
         newFilter = reloadedFilter
         newFilter.isNew = true
         chipCollectionView.filter = reloadedFilter
@@ -196,7 +196,7 @@ class FilterPreviewViewController: LargeNavBarViewController, FilterChipActionDe
     }
 
     func refreshEpisodes(animated: Bool) {
-        let refreshOperation = PlaylistRefreshOperation(filter: newFilter) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: newFilter) { [weak self] newData in
             guard let strongSelf = self else { return }
             strongSelf.previewTable.isHidden = (newData.count == 0)
             strongSelf.noEpisodeView.isHidden = (newData.count != 0)

@@ -17,7 +17,7 @@ struct PlaylistHeaderView: View {
                 }
 
                 VStack(spacing: 10.0) {
-                    Text(viewModel.playlist.playlistName)
+                    Text(viewModel.playlistName)
                         .font(style: .title2, weight: .bold)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
@@ -34,10 +34,10 @@ struct PlaylistHeaderView: View {
                 HStack(spacing: 8.0) {
                     Spacer()
                     actionButton(
-                        type: .smartRules,
+                        type: viewModel.isManualPlaylist ? .addEpisodes : .smartRules,
                         color: theme.primaryText01,
-                        image: Image("cs-sparkle-black"),
-                        title: L10n.playlistSmartRulesTitle,
+                        image: Image(viewModel.isManualPlaylist ? "filter_new_episode" : "cs-sparkle-black"),
+                        title: viewModel.isManualPlaylist ? L10n.playlistManualAddEpisodes : L10n.playlistSmartRulesTitle,
                         background: .clear,
                         stroke: theme.primaryUi05) { type in
                             viewModel.onButtonTapped(type)
@@ -86,7 +86,7 @@ struct PlaylistHeaderView: View {
             }
             .padding(.horizontal, 16.0)
             .padding(.vertical, 10.0)
-            .frame(idealWidth: 152, maxWidth: 152, minHeight: 40.0)
+            .frame(minWidth: 152, minHeight: 40.0)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(background)

@@ -39,7 +39,7 @@ class WatchSyncManager {
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 
         performUpdateIfRequired(updateKey: "CreatedDefPlaylistsV2") {
-            PlaylistManager.createDefaultFilters()
+            PlaylistManager.createDefaultPlaylists()
         }
 
         performUpdateIfRequired(updateKey: "FirstRunDefaults") {

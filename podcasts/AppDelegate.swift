@@ -49,9 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let appInstallState {
             switch appInstallState {
             case .updated:
-                if FeatureFlag.notificationsRevamp.enabled {
-                    Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
-                }
+                Settings.notificationsNewEpisodes = UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+
                 if FeatureFlag.encourageAccountCreation.enabled, !Settings.hasShownInformationalViewModal {
                     Settings.shouldShowInitialOnboardingFlow = !SyncManager.isUserLoggedIn()
                 }
@@ -356,7 +355,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func postLaunchSetup() {
         if !UserDefaults.standard.bool(forKey: "CreatedDefPlaylistsV2") {
-            PlaylistManager.createDefaultFilters()
+            PlaylistManager.createDefaultPlaylists()
             UserDefaults.standard.set(true, forKey: "CreatedDefPlaylistsV2")
         }
         Task {

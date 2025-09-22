@@ -1,5 +1,7 @@
 import SwiftUI
 import PocketCastsServer
+import Kingfisher
+import PocketCastsUtils
 
 class BannerAdModel: ObservableObject {
     let adText: String
@@ -7,27 +9,27 @@ class BannerAdModel: ObservableObject {
     let adLabel: String
     let titleLabel: String
     let adID: String
-    let source: String
+    let location: String
     let onLinkTap: (() -> Void)?
 
-    init(adText: String, imageURL: URL, linkTitle: String, adID: String, source: String, titleLabel: String = L10n.bannerAdsInfoLabel, onLinkTap: (() -> Void)? = nil) {
+    fileprivate init(adText: String, imageURL: URL, linkTitle: String, adID: String, location: String, titleLabel: String = L10n.bannerAdsInfoLabel, onLinkTap: (() -> Void)? = nil) {
         self.adText = adText
         self.imageURL = imageURL
         self.adLabel = titleLabel
         self.titleLabel = linkTitle
         self.onLinkTap = onLinkTap
         self.adID = adID
-        self.source = source
+        self.location = location
     }
 
-    init(promotion: BlazePromotion, source: String, onLinkTap: (() -> Void)? = nil) {
+    init(promotion: BlazePromotion, onLinkTap: (() -> Void)? = nil) {
         self.adText = promotion.text
         self.imageURL = promotion.imageURL
         self.adLabel = L10n.bannerAdsInfoLabel
         self.titleLabel = promotion.urlTitle
         self.onLinkTap = onLinkTap
         self.adID = promotion.id
-        self.source = source
+        self.location = promotion.location.rawValue
     }
 }
 
@@ -71,8 +73,10 @@ struct BannerAdView: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) private var sizeCategory
 
-    // We override this because we don't want the ad getting _too_ large. In the player, especially, we run out of space.
-    let maxSizeCategory: UIContentSizeCategory = .accessibilityMedium
+    // Keep banner text small only when Display Zoom is enabled.
+    var maxSizeCategory: UIContentSizeCategory {
+        A11y.isDisplayZoomed ? .small : .accessibilityMedium
+    }
 
     init(model: BannerAdModel, colors: Colors) {
         self.model = model
@@ -93,10 +97,10 @@ struct BannerAdView: View {
         }
         .padding(.vertical, 4)
         .onAppear {
-            AnalyticsHelper.bannerImpression(adID: model.adID, source: model.source)
+            AnalyticsHelper.bannerImpression(adID: model.adID, location: model.location)
         }
         .onTapGesture {
-            AnalyticsHelper.bannerTapped(adID: model.adID, source: model.source)
+            AnalyticsHelper.bannerTapped(adID: model.adID, location: model.location)
             model.onLinkTap?()
         }
     }
@@ -118,23 +122,10 @@ struct BannerAdView: View {
     }
 
     @ViewBuilder func creative() -> some View {
-        AsyncImage(url: model.imageURL) { phase in
-            switch phase {
-            case .empty, .failure:
-                ProgressView()
-            case .success(let image):
-                image
-                    .resizable()
-                    .cornerRadius(4)
-            @unknown default:
-                ProgressView()
-                    .onAppear {
-                        assertionFailure("Unexpected AsyncImage phase: \(phase)")
-                    }
-            }
-        }
-        .aspectRatio(1, contentMode: .fit)
-        .frame(width: 86, height: 86)
+        AsyncImageView(url: model.imageURL!)
+            .cornerRadius(4)
+            .aspectRatio(1, contentMode: .fit)
+            .frame(width: 86, height: 86)
     }
 
     @ViewBuilder func text() -> some View {
@@ -166,7 +157,7 @@ struct BannerAdView: View {
     @ViewBuilder func closeButton() -> some View {
         VStack {
             Button(action: {
-                BannerAdReporter.show(for: model.adID, from: model.source)
+                BannerAdReporter.show(for: model.adID, from: model.location)
             }) {
                 Image(systemName: "xmark")
                     .font(.system(size: 12))
@@ -186,7 +177,7 @@ struct BannerAdView: View {
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
             linkTitle: "Libro.fm",
             adID: "test-ad-id",
-            source: "test"
+            location: "test"
         ),
         colors: .podcastList(Theme(previewTheme: .light))
     )
@@ -202,7 +193,7 @@ struct BannerAdView: View {
             imageURL: URL(string: "https://static.pocketcasts.com/discover/images/420/9349e8d0-a87f-013a-d8af-0acc26574db2.jpg")!,
             linkTitle: "Libro.fm",
             adID: "test-ad-id",
-            source: "test"
+            location: "test"
         ),
         colors: .podcastList(Theme(previewTheme: .light))
     )

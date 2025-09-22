@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 public class UpNextHistoryManager {
     /// The number of days to keep the snapshots

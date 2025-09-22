@@ -1,5 +1,5 @@
-import FMDB
 import PocketCastsUtils
+import Foundation
 
 /// Calculates user End of Year stats
 class EndOfYearDataManager {

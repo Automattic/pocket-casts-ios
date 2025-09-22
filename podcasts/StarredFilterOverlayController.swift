@@ -108,7 +108,7 @@ class StarredFilterOverlayController: PCViewController {
             tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             return
         }
-        let refreshOperation = PlaylistRefreshOperation(filter: filterToEdit) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: filterToEdit) { [weak self] newData in
             guard let strongSelf = self, strongSelf.viewModel.toggleIsOn else { return }
             strongSelf.episodes = newData
             strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
@@ -153,8 +153,8 @@ class StarredFilterOverlayController: PCViewController {
 
     @objc private func saveTapped(sender: Any) {
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(filter: filterToEdit)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
+        DataManager.sharedManager.save(playlist: filterToEdit)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
         navigationController?.popViewController(animated: true)
 
         if !filterToEdit.isNew {
