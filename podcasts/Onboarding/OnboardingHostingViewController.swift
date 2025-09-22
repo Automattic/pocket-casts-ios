@@ -55,6 +55,7 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
     }
 
     @objc func themeDidChange() {
+        iconTintColor = AppTheme.colorForStyle(.primaryIcon01)
         updateNavigationBarStyle(animated: false)
     }
 
@@ -77,7 +78,7 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
         appearance.shadowColor = nil
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
+        navigationController?.navigationBar.tintColor = iconTintColor
         // Update the back icon
         let config = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: "arrow.left")?.applyingSymbolConfiguration(config)
