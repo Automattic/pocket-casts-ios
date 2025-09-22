@@ -24,23 +24,25 @@ extension PlaylistDetailViewController {
         optionsPicker.addAction(action: sortAction)
 
         if viewModel.isManualPlaylist {
-
+            let reorderEpisodesAction = reorderEpisodesAction()
+            optionsPicker.addAction(action: reorderEpisodesAction)
         }
-        
+
         let downloadAllAction = downloadAllOption()
         optionsPicker.addAction(action: downloadAllAction)
-        
-        if viewModel.isManualPlaylist {
 
+        if viewModel.isManualPlaylist {
+            let archiveAction = archiveAction()
+            optionsPicker.addAction(action: archiveAction)
         }
-        
+
         let editAction = editAction()
         optionsPicker.addAction(action: editAction)
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
 
-    //MARK: - Multiselect
+    // MARK: - Multiselect
 
     private func multiSelectAction() -> OptionAction {
         OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
@@ -49,8 +51,8 @@ extension PlaylistDetailViewController {
         }
     }
 
-    //MARK: - Chromecast
-    
+    // MARK: - Chromecast
+
     private func chromecastAction() -> OptionAction {
         OptionAction(label: "Chromecast", icon: "nav_cast_off") {
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "chromecast"])
@@ -58,7 +60,7 @@ extension PlaylistDetailViewController {
         }
     }
 
-    //MARK: - Sort
+    // MARK: - Sort
 
     private func sortAction() -> OptionAction {
         let currentSort = PlaylistSort(rawValue: viewModel.playlist.sortType)?.description ?? ""
@@ -98,7 +100,21 @@ extension PlaylistDetailViewController {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
     }
 
-    //MARK: - Download
+    // MARK: - Edit Episodes order
+
+    private func reorderEpisodesAction() -> OptionAction {
+        OptionAction(label: L10n.playlistManualEpisodesOrderOption, icon: "filter_manual_episode_order") { [weak self] in
+            //TODO: Add analytics
+            guard let self = self else { return }
+            self.showCustomOrderList()
+        }
+    }
+
+    private func showCustomOrderList() {
+        //PCIOS-121
+    }
+
+    // MARK: - Download
 
     private func downloadAllOption() -> OptionAction {
         OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
@@ -135,7 +151,7 @@ extension PlaylistDetailViewController {
             confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
         }
     }
-    
+
     private func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
         if listEpisodes.count == 0 { return 0 }
         var count = 0
@@ -183,7 +199,32 @@ extension PlaylistDetailViewController {
         }
     }
 
-    //MARK: - Edit
+    // MARK: - Archive
+
+    private func archiveAction() -> OptionAction {
+        let unarchivedCount = viewModel.unarchivedEpisodesCount()
+
+        if unarchivedCount > 0 {
+            return OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") { [weak self] in
+                //TODO: Add Analytics
+                self?.archiveAllPlaylistEpisodes()
+            }
+        }
+        return OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
+            //TODO: Add Analytics
+            self?.unarchiveAllPlaylistEpisodes()
+        }
+    }
+
+    private func archiveAllPlaylistEpisodes() {
+        //PCIOS-118
+    }
+
+    private func unarchiveAllPlaylistEpisodes() {
+        //PCIOS-118
+    }
+
+    // MARK: - Edit
 
     private func editAction() -> OptionAction {
         OptionAction(label: L10n.playlistOptions, icon: "profile-settings") {

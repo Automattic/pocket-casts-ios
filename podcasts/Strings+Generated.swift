@@ -1228,7 +1228,7 @@ internal enum L10n {
   internal static var featureMarketingBookmarks: String { return L10n.tr("Localizable", "feature_marketing_bookmarks", fallback: "Keep timestamps with Bookmarks") }
   /// Cloud Storage feature marketing message. The %1$@ argument is the amount of cloud disk space available. Ex: 20 GB Cloud Storage for your files
   internal static func featureMarketingCloudStorage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ Cloud Storage for your files")
+    return L10n.tr("Localizable", "feature_marketing_cloud_storage", String(describing: p1), fallback: "%1$@ GB Cloud Storage for your files")
   }
   /// Patron early access to new features marketing message
   internal static var featureMarketingEarlyAccess: String { return L10n.tr("Localizable", "feature_marketing_early_access", fallback: "Early access to new features") }
@@ -2318,6 +2318,8 @@ internal enum L10n {
   internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
   /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
+  /// Manual Playlist: manual episodes order option that appears when showing the options sheet
+  internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Button title used to create a new smart playlist

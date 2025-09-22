@@ -5474,6 +5474,9 @@
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_browse_shows_title" = "Browse Shows";
 
+/* Manual Playlist: manual episodes order option that appears when showing the options sheet */
+"playlist_manual_episodes_order_option" = "Reorder Episodes";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 
