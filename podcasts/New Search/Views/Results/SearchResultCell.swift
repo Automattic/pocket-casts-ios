@@ -136,7 +136,7 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if let episode = model.episode {
+                    if model.episode != nil {
                         if played {
                             Image("list_played", bundle: nil)
                                 .renderingMode(.template)
@@ -171,6 +171,8 @@ extension PodcastFolderSearchResult {
 
 struct EpisodeActionButton: UIViewRepresentable {
 
+    @EnvironmentObject var theme: Theme
+
     @ObservedObject var model: SearchResultCellModel
 
     func makeUIView(context: Context) -> MainEpisodeActionView {
@@ -193,6 +195,7 @@ struct EpisodeActionButton: UIViewRepresentable {
         episode.uuid = episodeUUID
         view.delegate = model
         view.populateFrom(episode: episode)
+        view.tintColor = AppTheme.colorForStyle(.primaryIcon01, themeOverride: theme.activeTheme)
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: MainEpisodeActionView, context: Context) -> CGSize? {
