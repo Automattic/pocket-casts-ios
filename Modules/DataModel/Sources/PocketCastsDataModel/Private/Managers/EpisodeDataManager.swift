@@ -1132,7 +1132,14 @@ public enum SortOrder {
 
 extension EpisodeDataManager {
     func findGhostEpisodes(_ dbQueue: PCDBQueue) -> [Episode] {
-        let query = "SELECT SJEpisode.* FROM SJEpisode LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE SJPodcast.uuid IS NULL"
+        let playlistTable = DataManager.playlistEpisodeTableName
+        let query = """
+        SELECT SJEpisode.*
+        FROM SJEpisode
+        LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid
+        LEFT JOIN \(playlistTable) ON \(playlistTable).episodeUuid = SJEpisode.uuid AND \(playlistTable).wasDeleted = 0 AND \(playlistTable).playlist_uuid IS NOT NULL
+        WHERE SJPodcast.uuid IS NULL AND \(playlistTable).episodeUuid IS NULL
+        """
 
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
     }
