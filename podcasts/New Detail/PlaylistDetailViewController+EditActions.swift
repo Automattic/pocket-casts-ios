@@ -111,7 +111,8 @@ extension PlaylistDetailViewController {
     }
 
     private func showCustomOrderList() {
-        //PCIOS-121
+        let customOrderViewController = PlaylistDetailCustomOrderViewController(episodes: viewModel.episodes, playlistUUID: viewModel.playlist.uuid)
+        navigationController?.pushViewController(customOrderViewController, animated: true)
     }
 
     // MARK: - Download

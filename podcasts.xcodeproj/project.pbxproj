@@ -667,6 +667,7 @@
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory2023.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
+		9A01DDDA2E82EC4C0016E9D1 /* PlaylistDetailCustomOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */; };
 		9A0E6C662D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */; };
 		9A11FC932D91CBF300A1EF3E /* AppsFlyerLib-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */; };
 		9A11FC962D91D06600A1EF3E /* AppsFlyerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */; };
@@ -2992,6 +2993,7 @@
 		8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory2023.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearStory2023.swift; sourceTree = "<group>"; };
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
 		91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravatarSafariViewController.swift; sourceTree = "<group>"; };
+		9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailCustomOrderViewController.swift; sourceTree = "<group>"; };
 		9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedTranscriptsPremiumOverlay.swift; sourceTree = "<group>"; };
 		9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapter.swift; sourceTree = "<group>"; };
 		9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerDataProvider.swift; sourceTree = "<group>"; };
@@ -5530,6 +5532,14 @@
 			path = Folders;
 			sourceTree = "<group>";
 		};
+		9A01DDD82E82EC310016E9D1 /* Custom Order */ = {
+			isa = PBXGroup;
+			children = (
+				9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */,
+			);
+			path = "Custom Order";
+			sourceTree = "<group>";
+		};
 		9A11FC942D91D04E00A1EF3E /* Newform AppsFlyer */ = {
 			isa = PBXGroup;
 			children = (
@@ -5602,6 +5612,7 @@
 				9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */,
 				9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */,
 				9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */,
+				9A01DDD82E82EC310016E9D1 /* Custom Order */,
 			);
 			path = "New Detail";
 			sourceTree = "<group>";
@@ -11146,6 +11157,7 @@
 				9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */,
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
 				F5A4299E2E2DF108004035AE /* UIApplication+OpenSafariVC.swift in Sources */,
+				9A01DDDA2E82EC4C0016E9D1 /* PlaylistDetailCustomOrderViewController.swift in Sources */,
 				BD240C3F231E8BE000FB2CDD /* PCSearchBarController.swift in Sources */,
 				C7DC40242A67054000883D03 /* ToastTheme.swift in Sources */,
 				F5235EE82C3DE13100C98739 /* ScrollableScrollView.swift in Sources */,
