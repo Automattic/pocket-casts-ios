@@ -59,7 +59,7 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
             .receive(on: OperationQueue.main)
             .sink(receiveValue: { [unowned self] notification in
                 guard let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode()?.uuid,
-                      episodeUUID == episode.uuid,           
+                      episodeUUID == episode.uuid,
                       let realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID) else {
                     return
                 }
