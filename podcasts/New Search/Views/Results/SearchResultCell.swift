@@ -13,7 +13,9 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     @Published var refreshTrigger: Bool = true
 
-    init() {
+    init(episode: EpisodeSearchResult?, podcastFolder: PodcastFolderSearchResult?) {
+        self.episode = episode
+        self.podcastFolder = podcastFolder
         setupObservers()
     }
 
@@ -70,35 +72,27 @@ struct SearchResultCell: View {
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    @ObservedObject var model: SearchResultCellModel
+    @StateObject var model: SearchResultCellModel
 
-    let episode: EpisodeSearchResult?
-    let result: PodcastFolderSearchResult?
     let played: Bool
     let showDivider: Bool
     let cellStyle: ListCellButtonStyle
 
-    @State var refreshDate = Date()
-
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init(), model: SearchResultCellModel = SearchResultCellModel()) {
-        self.episode = episode
-        self.result = result
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
         self.played = episode != nil && played
         self.showDivider = showDivider
         self.cellStyle = cellStyle
-        self.model = model
-        self.model.episode = episode
-        self.model.podcastFolder = result
+        self._model = StateObject<SearchResultCellModel>(wrappedValue: SearchResultCellModel(episode: episode, podcastFolder: result))
     }
 
     var body: some View {
         ZStack {
             Button(action: {
-                if let episode {
+                if let episode = model.episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
                     searchHistory.add(episode: episode)
                     searchAnalyticsHelper.trackResultTapped(episode)
-                } else if let result {
+                } else if let result = model.podcastFolder {
                     result.navigateTo()
                     searchHistory.add(podcast: result)
                     searchAnalyticsHelper.trackResultTapped(result)
@@ -112,12 +106,12 @@ struct SearchResultCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    (episode?.podcastUuid ?? result?.uuid).map {
-                        SearchEntryImage(uuid: $0, kind: result?.kind)
+                    (model.episode?.podcastUuid ?? model.podcastFolder?.uuid).map {
+                        SearchEntryImage(uuid: $0, kind: model.podcastFolder?.kind)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        if let episode {
+                        if let episode = model.episode {
                             Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                                 .font(style: .footnote, weight: .bold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
@@ -129,7 +123,7 @@ struct SearchResultCell: View {
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
-                        } else if let result {
+                        } else if let result = model.podcastFolder {
                             Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
@@ -142,7 +136,7 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if let episode {
+                    if let episode = model.episode {
                         if played {
                             Image("list_played", bundle: nil)
                                 .renderingMode(.template)
@@ -151,7 +145,7 @@ struct SearchResultCell: View {
                             EpisodeActionButton(model: self.model)
                                 .frame(width: 44, height: 44)
                         }
-                    } else if let result, result.kind == .podcast {
+                    } else if let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
