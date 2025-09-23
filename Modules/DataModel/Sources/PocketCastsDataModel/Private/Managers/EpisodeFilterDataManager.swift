@@ -162,6 +162,7 @@ class EpisodeFilterDataManager {
     func delete(filter: EpisodeFilter, dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? OR playlist_id = ?", values: [filter.uuid, filter.id])
                 try db.executeUpdate("DELETE FROM \(DataManager.filtersTableName) WHERE uuid = ?", values: [filter.uuid])
             } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.delete error: \(error)")
