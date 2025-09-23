@@ -37,11 +37,55 @@ public class PlaylistQueryBuilder {
         var queryString: String = ""
 
         if playlist.manual {
-            let select = manualSelect(clause: clause, for: playlist)
-            queryString = "\(select) WHERE episode.archived = 0"
-            if clause == .episode || clause == .episodeCount {
-                // Restrict to episodes present in the playlist using a subquery to avoid duplicates
-                queryString += " AND episode.uuid IN (SELECT DISTINCT episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = '\(playlist.uuid)')"
+            let manualCTE =
+                """
+                WITH playlist AS (
+                  SELECT episodeUuid, MIN(episodePosition) AS pos
+                  FROM \(DataManager.playlistEpisodeTableName)
+                  WHERE playlist_uuid = '\(playlist.uuid)'
+                  GROUP BY episodeUuid
+                ),
+                deduped_episode AS (
+                  SELECT episode.*,
+                         ROW_NUMBER() OVER (
+                           PARTITION BY episode.uuid
+                           ORDER BY
+                             CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                             episode.id ASC
+                         ) AS rn
+                  FROM \(DataManager.episodeTableName) episode
+                )
+                """
+
+            let manualJoin =
+                """
+                FROM playlist p
+                JOIN deduped_episode episode
+                  ON episode.uuid = p.episodeUuid
+                  AND episode.rn = 1
+                LEFT JOIN \(DataManager.podcastTableName) podcast
+                  ON episode.podcast_id = podcast.id
+                WHERE episode.archived = 0
+                """
+
+            switch clause {
+            case .episode:
+                queryString =
+                    """
+                    \(manualCTE)
+                    SELECT episode.*
+                    \(manualJoin)
+                    """
+            case .episodeCount:
+                queryString =
+                    """
+                    \(manualCTE)
+                    SELECT COUNT(*)
+                    \(manualJoin)
+                    """
+            case .podcast:
+                let select = manualSelect(clause: clause, for: playlist)
+                queryString = "\(select) WHERE episode.archived = 0"
             }
         } else {
             let select = select(clause: clause)
@@ -76,7 +120,7 @@ public class PlaylistQueryBuilder {
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
         if playlist.manual && clause == .episode {
-            queryString += " ORDER BY (SELECT MIN(episodePosition) FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = '\(playlist.uuid)' AND episodeUuid = episode.uuid) ASC"
+            queryString += " ORDER BY p.pos ASC"
         } else if let sort = add(sortFor: playlist.sortType) {
             queryString += " \(sort) "
         }
