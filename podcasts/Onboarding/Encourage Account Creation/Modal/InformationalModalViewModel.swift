@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import PocketCastsUtils
 
 class InformationalModalViewModel: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
@@ -39,7 +40,7 @@ class InformationalModalViewModel: NSObject, OnboardingModel {
     }
 
     private func pushOnboarding() {
-        let controller = OnboardingFlow.shared.begin(flow: .initialOnboarding, in: navigationController, source: .unknown)
+        let controller = OnboardingFlow.shared.begin(flow: FeatureFlag.newOnboardingAccountCreation.enabled ? .loggedOut : .initialOnboarding, in: navigationController, source: .unknown)
         navigationController?.pushViewController(controller, animated: true)
     }
 
