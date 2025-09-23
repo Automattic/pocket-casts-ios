@@ -1,6 +1,5 @@
 import JLRoutes
 import UIKit
-import FacebookCore
 import PocketCastsUtils
 
 class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {

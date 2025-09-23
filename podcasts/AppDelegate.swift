@@ -7,7 +7,6 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
-import FacebookCore
 import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {

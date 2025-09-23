@@ -5,7 +5,6 @@ import UIKit
 
 class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
     private let legacyDataSource = PrivacySettingsLegacyDataSource()
-    private let dataSource = PrivacySettingsDataSource()
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
