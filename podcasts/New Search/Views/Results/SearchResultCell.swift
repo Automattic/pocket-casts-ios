@@ -3,10 +3,46 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
+class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
+
+    var episodeUUID: String?
+
+    func downloadTapped() {
+
+    }
+
+    func stopDownloadTapped() {
+
+    }
+
+    func playTapped() {
+        guard let episodeUUID else { return }
+
+        let episode = Episode()
+        episode.uuid = episodeUUID
+
+        PlaybackActionHelper.play(episode: episode, playlistUuid: nil, podcastUuid: nil, playlist: nil)
+    }
+
+    func pauseTapped() {
+
+    }
+
+    func errorTapped() {
+
+    }
+
+    func waitingForWifiTapped() {
+
+    }
+}
+
 struct SearchResultCell: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
     @EnvironmentObject var searchHistory: SearchHistoryModel
+
+    @ObservedObject var model: SearchResultCellModel
 
     let episode: EpisodeSearchResult?
     let result: PodcastFolderSearchResult?
@@ -14,12 +50,14 @@ struct SearchResultCell: View {
     let showDivider: Bool
     let cellStyle: ListCellButtonStyle
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init(), model: SearchResultCellModel = SearchResultCellModel()) {
         self.episode = episode
         self.result = result
         self.played = episode != nil && played
         self.showDivider = showDivider
         self.cellStyle = cellStyle
+        self.model = model
+        self.model.episodeUUID = episode?.uuid
     }
 
     var body: some View {
@@ -73,10 +111,16 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if episode != nil, played {
-                        Image("list_played", bundle: nil)
-                            .renderingMode(.template)
-                            .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                    if let episode {
+                        if played {
+                            Image("list_played", bundle: nil)
+                                .renderingMode(.template)
+                                .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                        } else {
+                            EpisodeActionButton(episodeUUID: episode.uuid, delegate: model)
+                                .frame(width: 44, height: 44)
+                                .border(.red)
+                        }
                     } else if let result, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
