@@ -11,7 +11,9 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
-        XCTAssertTrue(query.contains("episode.uuid IN (SELECT DISTINCT episodeUuid"))
+        XCTAssertTrue(query.contains("WITH playlist AS"))
+        XCTAssertTrue(query.contains("SELECT episodeUuid, MIN(episodePosition) AS pos"))
+        XCTAssertTrue(query.contains("JOIN deduped_episode episode"))
         XCTAssertTrue(query.contains("playlist_uuid = 'manual-playlist'"))
     }
 
@@ -22,7 +24,7 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
-        XCTAssertFalse(query.contains("episode.uuid IN (SELECT DISTINCT episodeUuid"))
+        XCTAssertFalse(query.contains("WITH playlist AS"))
     }
 
     func testEmptyManualPlaylistDoesNotProduceInvalidInClause() {

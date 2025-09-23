@@ -42,10 +42,10 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         filter.playlistName = "Manual"
         filter.manual = true
         filter.syncStatus = SyncStatus.notSynced.rawValue
-        dataManager.save(filter: filter)
+        dataManager.save(playlist: filter)
         dataManager.add(episodes: [e1, e2], to: filter)
 
-        let records = syncTask.changedFilters()
+        let records = syncTask.changedPlaylists()
         let playlistRecords = records?.compactMap { $0.record }.compactMap { record -> Api_SyncUserPlaylist? in
             if case let .playlist(p) = record { return p }
             return nil
@@ -86,6 +86,9 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         existing.podcastUuid = "p1"
         existing.podcast_id = 1
         existing.title = "Existing"
+        existing.addedDate = Date()
+        existing.playingStatus = PlayingStatus.notPlayed.rawValue
+        existing.episodeStatus = DownloadStatus.notDownloaded.rawValue
         dataManager.save(episode: existing)
 
         // Build a playlist record containing both
