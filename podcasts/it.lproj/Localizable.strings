@@ -1086,8 +1086,6 @@ che hai ascoltato è stato
     <string>Tutte le funzionalità di Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Salva data e ora con i segnalibri</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ di archiviazione su cloud per i tuoi file</string>
     <key>feature_marketing_early_access</key>
     <string>Accesso anticipato a nuove funzionalità</string>
     <key>feature_marketing_extra_themes_icons</key>

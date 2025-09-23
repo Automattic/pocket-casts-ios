@@ -1086,8 +1086,6 @@ que has escuchado dura
     <string>Todas las funciones de Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Guarda las marcas de tiempo con los marcadores</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ de almacenamiento en la nube para tus archivos</string>
     <key>feature_marketing_early_access</key>
     <string>Acceso anticipado a las nuevas funciones</string>
     <key>feature_marketing_extra_themes_icons</key>

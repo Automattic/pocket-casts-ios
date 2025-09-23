@@ -1086,8 +1086,6 @@ Pocket Casts на полную мощность.</string>
     <string>Все функции Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Сохраняйте отметки времени в закладках</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ облачного хранилища для ваших файлов</string>
     <key>feature_marketing_early_access</key>
     <string>Ранний доступ к новым возможностям</string>
     <key>feature_marketing_extra_themes_icons</key>

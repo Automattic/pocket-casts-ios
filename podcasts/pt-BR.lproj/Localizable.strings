@@ -1086,8 +1086,6 @@ que você ouviu foi
     <string>Todas as funcionalidades no Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Favoritos, que mantêm a data/hora</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ de armazenamento na nuvem para seus arquivos</string>
     <key>feature_marketing_early_access</key>
     <string>Acesso antecipado a novas funcionalidades</string>
     <key>feature_marketing_extra_themes_icons</key>
