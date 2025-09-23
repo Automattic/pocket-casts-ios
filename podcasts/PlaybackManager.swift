@@ -2351,8 +2351,6 @@ extension PlaybackManager {
 extension PlaybackManager {
 
     func playEpisodeSearchResult(_ searchEpisode: EpisodeSearchResult, firstTry: Bool = true) {
-        guard bookmarksEnabled else { return }
-
         let dataManager = DataManager.sharedManager
 
         // Get the bookmark's BaseEpisode so we can load it
