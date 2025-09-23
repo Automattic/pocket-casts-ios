@@ -911,6 +911,29 @@ public class DataManager {
         playlistManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
+    public func playlistContainsEpisode(episodeUuid: String, includeDeleted: Bool = false) -> Bool {
+        var exists = false
+        dbQueue.read { db in
+            do {
+                let query: String
+                if includeDeleted {
+                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND playlist_uuid IS NOT NULL LIMIT 1"
+                } else {
+                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND wasDeleted = 0 AND playlist_uuid IS NOT NULL LIMIT 1"
+                }
+
+                let resultSet = try db.executeQuery(query, values: [episodeUuid])
+                defer { resultSet.close() }
+
+                exists = resultSet.next()
+            } catch {
+                FileLog.shared.addMessage("DataManager.playlistContainsEpisode error: \(error)")
+            }
+        }
+
+        return exists
+    }
+
     public func findPlaylist(uuid: String) -> EpisodeFilter? {
         playlistManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
