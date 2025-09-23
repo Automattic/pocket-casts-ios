@@ -673,7 +673,7 @@
 		9A11FCB42D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
 		9A11FCB62D94626E00A1EF3E /* AnonymousIdentifiableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */; };
 		9A11FCB82D94651A00A1EF3E /* AppsFlyerAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */; };
-		9A11FCBB2D9592B300A1EF3E /* PrivacySettingsLegacyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */; };
+		9A11FCBB2D9592B300A1EF3E /* PrivacySettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsDataSource.swift */; };
 		9A11FCC02D9DA8B800A1EF3E /* InformationalModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */; };
 		9A11FCC42D9DACF000A1EF3E /* InformationalModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */; };
 		9A11FCC62D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */; };
@@ -2990,7 +2990,7 @@
 		9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiable.swift; sourceTree = "<group>"; };
 		9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiableTests.swift; sourceTree = "<group>"; };
 		9A11FCB72D94651A00A1EF3E /* AppsFlyerAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapterTests.swift; sourceTree = "<group>"; };
-		9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsLegacyDataSource.swift; sourceTree = "<group>"; };
+		9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsDataSource.swift; sourceTree = "<group>"; };
 		9A11FCBF2D9DA8B700A1EF3E /* InformationalModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalModalViewModel.swift; sourceTree = "<group>"; };
 		9A11FCC32D9DACF000A1EF3E /* InformationalModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalModalView.swift; sourceTree = "<group>"; };
 		9A11FCC52D9E8BAC00A1EF3E /* InformationalFeatureCardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalFeatureCardItem.swift; sourceTree = "<group>"; };
@@ -5522,7 +5522,7 @@
 			isa = PBXGroup;
 			children = (
 				8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */,
-				9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsLegacyDataSource.swift */,
+				9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsDataSource.swift */,
 				8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */,
 			);
 			path = PrivacySettings;
@@ -10666,7 +10666,7 @@
 				9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */,
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
 				40542E2D2265604700046330 /* AccountViewController.swift in Sources */,
-				9A11FCBB2D9592B300A1EF3E /* PrivacySettingsLegacyDataSource.swift in Sources */,
+				9A11FCBB2D9592B300A1EF3E /* PrivacySettingsDataSource.swift in Sources */,
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,

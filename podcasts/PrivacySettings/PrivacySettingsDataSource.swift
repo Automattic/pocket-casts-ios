@@ -1,6 +1,6 @@
 import UIKit
 
-class PrivacySettingsLegacyDataSource: NSObject, UITableViewDataSource {
+class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
     private let switchCellId = "SwitchCell"
     private let themeableCellId = "ThemeableCell"
     private let themeableCellWithoutSelectionId = "ThemeableCellWithoutSelectionId"
@@ -12,34 +12,37 @@ class PrivacySettingsLegacyDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        4
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.settingsCollectInformation
-            cell.cellSwitch.isOn = !Settings.analyticsOptOut()
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
-
-            return cell
-
-        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId, for: indexPath) as! ThemeableCellWithoutSelection
             cell.style = .primaryUi02
-            cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsCollectInformationAdditionalInformation
             cell.textLabel?.font = .systemFont(ofSize: 16)
             cell.textLabel?.numberOfLines = 0
             return cell
-
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = L10n.settingsFirstPartyAnalytics
+            cell.cellSwitch.isOn = !Settings.analyticsOptOut()
+            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId, for: indexPath) as! ThemeableCellWithoutSelection
+            cell.style = .primaryUi02
+            cell.imageView?.image = UIImage()
+            cell.textLabel?.textColor = ThemeColor.primaryText02()
+            cell.textLabel?.text = L10n.settingsAllowCollectionFirstParty
+            cell.textLabel?.font = .systemFont(ofSize: 16)
+            cell.textLabel?.numberOfLines = 0
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId, for: indexPath) as! ThemeableCell
-            cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
             cell.textLabel?.font = .systemFont(ofSize: 16)
             cell.textLabel?.text = L10n.settingsReadPrivacyPolicy
