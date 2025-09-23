@@ -129,7 +129,7 @@ class UpNextDataManager {
     func delete(playlistEpisode: PlaylistEpisode, dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", values: [playlistEpisode.id])
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ? AND playlist_id = ?", values: [playlistEpisode.id, UpNextDataManager.upNextPlaylistId])
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.delete error: \(error)")
             }
@@ -142,7 +142,7 @@ class UpNextDataManager {
     func deleteAllUpNextEpisodes(dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodes error: \(error)")
             }
@@ -154,7 +154,7 @@ class UpNextDataManager {
     func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", values: [episodeUuid])
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ? AND playlist_id = ?", values: [episodeUuid, UpNextDataManager.upNextPlaylistId])
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesExcept error: \(error)")
             }
@@ -169,7 +169,7 @@ class UpNextDataManager {
                 if uuids.count == 0 {
                     try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
                 } else {
-                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
+                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids))) AND playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])
                 }
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
@@ -183,7 +183,7 @@ class UpNextDataManager {
         guard uuids.count > 0 else { return }
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids))) AND playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])
             } catch {
                 FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
             }
