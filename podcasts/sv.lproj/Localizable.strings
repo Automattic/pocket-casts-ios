@@ -1086,8 +1086,6 @@ du lyssnade på var
     <string>Alla funktionerna i Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Behåll tidsstämplar med bokmärken</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ molnlagring för dina filer</string>
     <key>feature_marketing_early_access</key>
     <string>Tidig åtkomst till nya funktioner</string>
     <key>feature_marketing_extra_themes_icons</key>

@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsUtils
 
 struct InformationalModalView: View {
     @EnvironmentObject var theme: Theme
@@ -55,13 +56,13 @@ struct InformationalModalView: View {
     private var labels: some View {
         VStack(spacing: 0) {
             Text(L10n.eacInformationalViewModalTitle)
-                .font(size: 22.0, style: .body, weight: .bold)
+                .font(size: 22, style: .body, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .multilineTextAlignment(.center)
                 .padding(.top, isiPad ? 0 : 20.0)
                 .padding(.bottom, 12.0)
             Text(L10n.eacInformationalViewModalDescription)
-                .font(size: 15.0, style: .body, weight: .medium)
+                .font(size: 15, style: .body, weight: .medium)
                 .foregroundStyle(theme.primaryText02)
                 .multilineTextAlignment(.center)
         }
@@ -70,7 +71,7 @@ struct InformationalModalView: View {
 
     private var buttons: some View {
         VStack(spacing: 0) {
-            Button(L10n.eacInformationalViewModalGetStartedButton) {
+            Button(FeatureFlag.newOnboardingAccountCreation.enabled ? L10n.createAccount : L10n.eacInformationalViewModalGetStartedButton) {
                 viewModel.getStarted()
             }
             .buttonStyle(RoundedButtonStyle(theme: theme))

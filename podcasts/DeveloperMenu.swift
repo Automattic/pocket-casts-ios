@@ -292,6 +292,7 @@ struct DeveloperMenu: View {
             Section {
                 Button("Reset Informational Modal Visibility") {
                     Settings.shouldShowInitialOnboardingFlow = true
+                    Settings.hasShownInformationalViewModal = false
                 }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {

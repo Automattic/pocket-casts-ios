@@ -1086,8 +1086,6 @@ Pocket Casts。</string>
     <string>Plus 中的所有功能</string>
     <key>feature_marketing_bookmarks</key>
     <string>使用书签保留时间戳</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>供您存放文件的 %1$@ 云存储空间</string>
     <key>feature_marketing_early_access</key>
     <string>抢先体验新功能</string>
     <key>feature_marketing_extra_themes_icons</key>

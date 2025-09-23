@@ -1086,8 +1086,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Plus のすべての機能</string>
     <key>feature_marketing_bookmarks</key>
     <string>ブックマークでタイムスタンプを保存</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>ファイル用の%1$@ のクラウドストレージ</string>
     <key>feature_marketing_early_access</key>
     <string>新機能への早期アクセス</string>
     <key>feature_marketing_extra_themes_icons</key>

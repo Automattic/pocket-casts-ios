@@ -1084,8 +1084,6 @@ waar je naar hebt geluisterd was
     <string>Alle functies van Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Tijdstempels bewaren met bladwijzers</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ cloudopslag voor je bestanden</string>
     <key>feature_marketing_early_access</key>
     <string>Vroegtijdige toegang tot nieuwe functies</string>
     <key>feature_marketing_extra_themes_icons</key>

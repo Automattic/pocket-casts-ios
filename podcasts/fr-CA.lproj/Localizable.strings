@@ -1086,8 +1086,6 @@ que vous avez écouté était
     <string>Toutes les fonctionnalités de Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Conservez des horodatages avec les signets</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ de stockage cloud pour vos fichiers</string>
     <key>feature_marketing_early_access</key>
     <string>Accès en avant-première aux nouvelles fonctionnalités</string>
     <key>feature_marketing_extra_themes_icons</key>
