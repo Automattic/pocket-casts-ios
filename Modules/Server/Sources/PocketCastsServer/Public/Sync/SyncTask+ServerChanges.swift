@@ -363,8 +363,11 @@ extension SyncTask {
         }
 
         DataManager.sharedManager.add(episodes: addedEpisodes, to: filter)
-
         DataManager.sharedManager.save(filter: filter)
+
+        addedEpisodes.forEach { addedEpisode in
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid)
+        }
     }
 
     func isPlayerPlaying(episode: Episode) -> Bool {
