@@ -79,7 +79,7 @@ struct SearchResultCell: View {
                                 .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                         } else if FeatureFlag.searchImprovements.enabled {
                             EpisodeActionButton(model: self.model)
-                                .frame(width: 44, height: 44)
+                                .frame(width: 48, height: 48)
                         }
                     } else if let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)

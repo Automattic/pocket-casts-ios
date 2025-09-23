@@ -43,7 +43,7 @@ class MainEpisodeActionView: UIView {
     }
 
     init() {
-        super.init(frame: CGRect(origin: .zero, size: CGSize(width: 44, height: 44)))
+        super.init(frame: CGRect(origin: .zero, size: CGSize(width: 48, height: 48)))
         commonInit()
     }
 
