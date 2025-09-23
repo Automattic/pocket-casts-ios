@@ -2347,4 +2347,30 @@ extension PlaybackManager {
     }
 }
 
+// MARK: - SearchResults
+extension PlaybackManager {
+
+    func playEpisodeSearchResult(_ searchEpisode: EpisodeSearchResult, firstTry: Bool = true) {
+        guard bookmarksEnabled else { return }
+
+        let dataManager = DataManager.sharedManager
+
+        // Get the bookmark's BaseEpisode so we can load it
+        guard let episode = dataManager.findBaseEpisode(uuid: searchEpisode.uuid) else {
+            if firstTry {
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid) { [weak self] episode in
+                    if episode != nil {
+                        self?.playEpisodeSearchResult(searchEpisode, firstTry: false)
+                    }
+                }
+            }
+            return
+        }
+
+        #if !os(watchOS)
+        // Start the play process
+        PlaybackActionHelper.play(episode: episode, podcastUuid: searchEpisode.podcastUuid)
+        #endif
+    }
+}
 #endif

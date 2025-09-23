@@ -5,7 +5,8 @@ import PocketCastsUtils
 
 class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
-    var episodeUUID: String?
+    var episode: EpisodeSearchResult?
+    var podcastFolder: PodcastFolderSearchResult?
 
     func downloadTapped() {
 
@@ -16,12 +17,10 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func playTapped() {
-        guard let episodeUUID else { return }
-
-        let episode = Episode()
-        episode.uuid = episodeUUID
-
-        PlaybackActionHelper.play(episode: episode, playlistUuid: nil, podcastUuid: nil, playlist: nil)
+        guard let episode else {
+            return
+        }
+        PlaybackManager.shared.playEpisodeSearchResult(episode)
     }
 
     func pauseTapped() {
@@ -57,7 +56,8 @@ struct SearchResultCell: View {
         self.showDivider = showDivider
         self.cellStyle = cellStyle
         self.model = model
-        self.model.episodeUUID = episode?.uuid
+        self.model.episode = episode
+        self.model.podcastFolder = result
     }
 
     var body: some View {
