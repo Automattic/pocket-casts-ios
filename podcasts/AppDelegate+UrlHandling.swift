@@ -18,14 +18,6 @@ extension AppDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            ApplicationDelegate.shared.application(
-                app,
-                open: url,
-                sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-            )
-        }
         guard let progressViewController = SceneHelper.rootViewController() else { return false }
         return handleOpenUrl(url: url, rootViewController: progressViewController)
     }

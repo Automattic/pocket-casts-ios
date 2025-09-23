@@ -19,13 +19,7 @@ class Analytics {
 
     /// Unregisters all the registered adapters, disabling analytics
     static func unregister() {
-        if FeatureFlag.podcastNewformAppsFlyer.enabled,
-           let adapters = Self.shared.adapters {
-            //Keep only third-party adapters
-            Self.shared.adapters = adapters.filter { $0.isThirdPartyAdapter }
-        } else {
-            Self.shared.adapters = nil
-        }
+        Self.shared.adapters = nil
         shared.adaptersRegistered = false
         logCurrentAdapters()
     }

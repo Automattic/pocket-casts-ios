@@ -8,13 +8,6 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            if let userActivity = connectionOptions.userActivities.first,
-               userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-                ApplicationDelegate.shared.application(.shared, continue: userActivity)
-            }
-        }
-
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         window.rootViewController = MainTabBarController()
@@ -44,9 +37,6 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            ApplicationDelegate.shared.application(.shared, continue: userActivity)
-        }
         appDelegate()?.handleContinue(userActivity)
     }
 

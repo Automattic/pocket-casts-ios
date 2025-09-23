@@ -121,10 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        }
-
         return true
     }
 

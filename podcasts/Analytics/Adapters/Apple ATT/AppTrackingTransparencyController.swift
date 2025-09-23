@@ -17,9 +17,6 @@ class AppTrackingTransparencyController: AppTrackingTransparencyProvider {
     var authorizationStatusUpdated: ((Bool, String) -> Void)?
 
     func shouldShowPrompt() -> Bool {
-        guard FeatureFlag.podcastNewformAppsFlyer.enabled else {
-            return false
-        }
         return ATTrackingManager.trackingAuthorizationStatus == .notDetermined
     }
 

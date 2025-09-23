@@ -24,7 +24,6 @@ class AppsFlyerAdapter: AnalyticsAdapter {
 
     func track(name: String, properties: [AnyHashable: Any]?) {
         guard
-            FeatureFlag.podcastNewformAppsFlyer.enabled,
             appTrackingTransparencyProvider.userGaveConsent(),
             dataProvider.supportedEvents.contains(name)
         else {

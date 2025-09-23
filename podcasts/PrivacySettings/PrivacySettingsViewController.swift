@@ -9,11 +9,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
-            if FeatureFlag.podcastNewformAppsFlyer.enabled {
-                dataSource.registerCells(for: settingsTable)
-            } else {
-                legacyDataSource.registerCells(for: settingsTable)
-            }
+            legacyDataSource.registerCells(for: settingsTable)
         }
     }
 
@@ -22,11 +18,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
 
         title = L10n.settingsPrivacy
         settingsTable.rowHeight = UITableView.automaticDimension
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            settingsTable.dataSource = dataSource
-        } else {
-            settingsTable.dataSource = legacyDataSource
-        }
+        settingsTable.dataSource = legacyDataSource
     }
 
     override func viewWillAppear(_ animated: Bool) {

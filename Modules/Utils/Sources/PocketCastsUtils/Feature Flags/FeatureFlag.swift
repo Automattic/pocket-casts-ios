@@ -144,9 +144,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
-    /// Enable Newform AppsFlyer SDK
-    case podcastNewformAppsFlyer
-
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -333,8 +330,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .suggestedFolders:
             true
         case .generatedTranscripts:
-            true
-        case .podcastNewformAppsFlyer:
             true
         case .libroFm:
             false
