@@ -5,6 +5,12 @@ struct PlaylistEpisodePreviewRowView: View {
     @EnvironmentObject var theme: Theme
 
     let episode: BaseEpisode
+    let hideSeparator: Bool
+
+    init(episode: BaseEpisode, hideSeparator: Bool = false) {
+        self.episode = episode
+        self.hideSeparator = hideSeparator
+    }
 
     var body: some View {
         ZStack {
@@ -13,6 +19,9 @@ struct PlaylistEpisodePreviewRowView: View {
                 Rectangle()
                     .fill(theme.primaryUi05)
                     .frame(height: 1)
+                    .if(hideSeparator) {
+                        $0.hidden()
+                    }
             }
             HStack(spacing: 11.0) {
                 PlaylistEpisodeImageViewWrapper(
