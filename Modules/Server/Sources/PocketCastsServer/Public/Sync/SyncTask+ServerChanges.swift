@@ -362,7 +362,7 @@ extension SyncTask {
             return Episode(playlistEpisode)
         }
 
-        DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
+        DataManager.sharedManager.add(episodes: addedEpisodes, to: filter)
 
         DataManager.sharedManager.save(filter: filter)
     }

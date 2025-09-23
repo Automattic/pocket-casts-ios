@@ -48,11 +48,12 @@ class RetrieveFiltersTask: ApiBaseTask {
                         return Episode(playlistEpisode)
                     }
                     addedEpisodes = episodes
+                    DataManager.sharedManager.add(episodes: addedEpisodes, to: convertedFilter)
+                    DataManager.sharedManager.save(filter: convertedFilter)
 
                     filters.append(convertedFilter)
                 }
 
-                DataManager.sharedManager.bulkSave(episodes: addedEpisodes)
 
                 completion?(filters)
             } catch {
