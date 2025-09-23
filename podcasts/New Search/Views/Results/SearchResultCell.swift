@@ -2,18 +2,19 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
+import SwiftUI
+import Combine
 
 class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
 
     var episode: EpisodeSearchResult?
     var podcastFolder: PodcastFolderSearchResult?
+    private(set) var realEpisode: BaseEpisode?
 
-    func downloadTapped() {
+    @Published var refreshTrigger: Bool = true
 
-    }
-
-    func stopDownloadTapped() {
-
+    init() {
+        setupObservers()
     }
 
     func playTapped() {
@@ -24,15 +25,43 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     }
 
     func pauseTapped() {
-
+        PlaybackActionHelper.pause()
     }
 
-    func errorTapped() {
+    func downloadTapped() {}
 
-    }
+    func stopDownloadTapped() {}
 
-    func waitingForWifiTapped() {
+    func errorTapped() {}
 
+    func waitingForWifiTapped() {}
+
+    private var cancellables = Set<AnyCancellable>()
+
+    private func setupObservers() {
+        Publishers.Merge3(
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackStarted),
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackEnded),
+            NotificationCenter.default.publisher(for: Constants.Notifications.playbackPaused),
+        )
+        .receive(on: OperationQueue.main)
+        .sink(receiveValue: { [unowned self] _ in
+            self.refreshTrigger.toggle()
+        })
+        .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackPositionSaved)
+        .receive(on: OperationQueue.main)
+        .sink(receiveValue: { [unowned self] notification in
+            guard let episodeUUID = notification.object as? String,
+                  episodeUUID == episode?.uuid,
+                  let realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID) else {
+                return
+            }
+            self.realEpisode = realEpisode
+            self.refreshTrigger.toggle()
+        })
+        .store(in: &cancellables)
     }
 }
 
@@ -48,6 +77,8 @@ struct SearchResultCell: View {
     let played: Bool
     let showDivider: Bool
     let cellStyle: ListCellButtonStyle
+
+    @State var refreshDate = Date()
 
     init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init(), model: SearchResultCellModel = SearchResultCellModel()) {
         self.episode = episode
@@ -116,10 +147,9 @@ struct SearchResultCell: View {
                             Image("list_played", bundle: nil)
                                 .renderingMode(.template)
                                 .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
-                        } else {
-                            EpisodeActionButton(episodeUUID: episode.uuid, delegate: model)
+                        } else if FeatureFlag.searchImprovements.enabled {
+                            EpisodeActionButton(model: self.model)
                                 .frame(width: 44, height: 44)
-                                .border(.red)
                         }
                     } else if let result, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
@@ -142,5 +172,41 @@ extension PodcastFolderSearchResult {
 
     var authorToDisplay: String {
         author ?? ""
+    }
+}
+
+struct EpisodeActionButton: UIViewRepresentable {
+
+    @ObservedObject var model: SearchResultCellModel
+
+    func makeUIView(context: Context) -> MainEpisodeActionView {
+        let view = MainEpisodeActionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+
+    func updateUIView(_ view: MainEpisodeActionView, context: Context) {
+        guard let episodeUUID = model.episode?.uuid else {
+            return
+        }
+        let episode: BaseEpisode
+        if let realEpisode = model.realEpisode {
+            episode = realEpisode
+        } else {
+            episode = Episode()
+            episode.uuid = episodeUUID
+        }
+        episode.uuid = episodeUUID
+        view.delegate = model
+        view.populateFrom(episode: episode)
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: MainEpisodeActionView, context: Context) -> CGSize? {
+        // Use the proposal, uiView's intrinsic size, or custom logic
+        if let width = proposal.width, let height = proposal.height {
+            return CGSize(width: width, height: height)
+        }
+        // Or, to use the UIKit view's intrinsic content size:
+        return uiView.intrinsicContentSize
     }
 }

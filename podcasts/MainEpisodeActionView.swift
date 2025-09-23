@@ -1,6 +1,5 @@
 import PocketCastsDataModel
 import UIKit
-import SwiftUI
 
 protocol MainEpisodeActionViewDelegate: AnyObject {
     func downloadTapped()
@@ -430,34 +429,4 @@ extension MainEpisodeActionView {
     private func circleProgressLeftColor() -> UIColor {
         tintColor
     }
-}
-
-struct EpisodeActionButton: UIViewRepresentable {
-
-    let episodeUUID: String
-    let delegate: MainEpisodeActionViewDelegate?
-
-    func makeUIView(context: Context) -> MainEpisodeActionView {
-        let view = MainEpisodeActionView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }
-
-    func updateUIView(_ view: MainEpisodeActionView, context: Context) {
-        let episode = Episode()
-        episode.uuid = episodeUUID
-        view.delegate = self.delegate
-        view.populateFrom(episode: episode)
-    }
-
-    func sizeThatFits(_ proposal: ProposedViewSize, uiView: MainEpisodeActionView, context: Context) -> CGSize? {
-        // Use the proposal, uiView's intrinsic size, or custom logic
-        if let width = proposal.width, let height = proposal.height {
-            return CGSize(width: width, height: height)
-        }
-        // Or, to use the UIKit view's intrinsic content size:
-        return uiView.intrinsicContentSize
-    }
-
-
 }
