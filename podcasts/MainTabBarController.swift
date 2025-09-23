@@ -189,6 +189,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if FeatureFlag.encourageAccountCreation.enabled,
            !Settings.hasShownInformationalViewModal,
+           Settings.hasSeenInitialOnboardingBefore,
            (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .updated {
             NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.encourageAccountCreation])
         } else {

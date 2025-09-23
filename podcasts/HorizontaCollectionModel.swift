@@ -11,6 +11,8 @@ extension DiscoverPodcast: @retroactive Identifiable {
 
 class HorizontalCollectionModel: ObservableObject {
 
+    var category: DiscoverCategory?
+
     @Published var item: DiscoverItem?
 
     @Published var podcastCollection: PodcastCollection?
@@ -46,6 +48,7 @@ class HorizontalCollectionModel: ObservableObject {
         guard let source = item.source else { return }
 
         self.item = item
+        self.category = category
         DiscoverServerHandler.shared.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
             guard podcastCollection?.podcasts != nil || podcastCollection?.episodes != nil else { return }
 

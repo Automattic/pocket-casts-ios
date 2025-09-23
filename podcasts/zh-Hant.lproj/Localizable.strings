@@ -1086,8 +1086,6 @@ Pocket Casts Plus</string>
     <string>Plus 的所有功能</string>
     <key>feature_marketing_bookmarks</key>
     <string>使用書籤保留時間戳記</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ 雲端儲存空間，供你的檔案使用</string>
     <key>feature_marketing_early_access</key>
     <string>搶先使用新功能</string>
     <key>feature_marketing_extra_themes_icons</key>
