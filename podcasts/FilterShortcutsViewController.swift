@@ -126,11 +126,11 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             var newShortcut: INShortcut
             switch thisRow {
             case .playTopEpisode:
-                newShortcut = SiriShortcutsManager.shared.playFilterShortcut(filter: filter)
+                newShortcut = SiriShortcutsManager.shared.playPlaylistShortcut(playlist: filter)
             case .playAll:
-                newShortcut = SiriShortcutsManager.shared.playAllFilterShortcut(filter: filter)
+                newShortcut = SiriShortcutsManager.shared.playAllPlaylistShortcut(playlist: filter)
             case .openFilter:
-                newShortcut = SiriShortcutsManager.shared.openFilterShortcut(filter: filter)
+                newShortcut = SiriShortcutsManager.shared.openPlaylistShortcut(playlist: filter)
             }
 
             let viewController = INUIAddVoiceShortcutViewController(shortcut: newShortcut)

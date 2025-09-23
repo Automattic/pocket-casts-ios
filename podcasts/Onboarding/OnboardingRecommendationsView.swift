@@ -168,7 +168,7 @@ struct OnboardingRecommendationsView: View {
                         .padding(.top, 2)
                         .padding(.bottom)
                     }
-                    .background(theme.primaryInteractive02)
+                    .background(theme.primaryUi01)
                     .background(.ultraThinMaterial)
                 }
             } else {
@@ -189,7 +189,7 @@ struct OnboardingRecommendationsView: View {
                 .tint(theme.primaryInteractive01)
             }
         }
-        .background(theme.primaryInteractive02)
+        .background(theme.primaryUi01)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
         .onDisappear {
             Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
@@ -238,7 +238,7 @@ struct OnboardingRecommendationsView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(theme.primaryText02)
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 16)
         }
         .padding(.top, 20)
         .sheet(isPresented: $showingImport) {

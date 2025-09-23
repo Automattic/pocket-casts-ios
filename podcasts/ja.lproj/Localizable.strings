@@ -297,6 +297,8 @@
     <string>この広告を報告する理由</string>
     <key>banner_ads_report_broken</key>
     <string>この広告は表示に不具合がある</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>この広告を報告しました。</string>
     <key>banner_ads_report_malicious</key>
     <string>この広告には悪意がある</string>
     <key>banner_ads_report_other</key>
@@ -1084,8 +1086,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Plus のすべての機能</string>
     <key>feature_marketing_bookmarks</key>
     <string>ブックマークでタイムスタンプを保存</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>ファイル用の%1$@ のクラウドストレージ</string>
     <key>feature_marketing_early_access</key>
     <string>新機能への早期アクセス</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1518,6 +1518,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードがありません</string>
     <key>loading</key>
     <string>読み込み中...</string>
+    <key>login_landing_subtitle</key>
+    <string>ポッドキャストは常に同期されます。 ライブラリを安全に保ち、ウェブとデスクトップで Pocket Casts をお楽しみください。</string>
+    <key>login_landing_title</key>
+    <string>Pocket Casts アカウントを作成</string>
     <key>login_subtitle</key>
     <string>アカウントを作成すると、すべての端末で視聴内容を同期させることができます。</string>
     <key>login_title</key>
@@ -1756,6 +1760,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts ユーザー</string>
+    <key>onboarding_quote_best</key>
+    <string>これまでで最高のポッドキャストアプリ 断然</string>
+    <key>onboarding_quote_customization</key>
+    <string>カスタマイズの幅は驚くほど広い</string>
+    <key>onboarding_quote_folders</key>
+    <string>ポッドキャストをフォルダー別に整理できるのがすばらしい</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>初めてのご利用にぴったりの番組を紹介します。 タップしてフォロー、検索、他のアプリからインポートします。</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2015,26 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エラー</string>
     <key>player_user_episode_upload_error</key>
     <string>アップロードエラー</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>これらのルールに一致するポッドキャストのエピソードはありません。
+
+ルールを調整するか、今後エピソードが一致した場合のためにこのプレイリストを保存できます。</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>プレイリストを作成</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>ルールに基づいてエピソードを自動追加します。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>スマートプレイリストを作成</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>スマートプレイリストを作成</string>
+    <key>playlist_preview_title</key>
+    <string>%@ をプレビュー</string>
+    <key>playlist_smart_preview_description</key>
+    <string>スマートルールを設定して、スマートプレイリストにエピソードを自動的に追加します。</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>有効なルール</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>その他のオプション</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>新たにフォローするポッドキャストは自動的に追加されます。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2049,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>他のルールに一致する星付きエピソードのみを含めます。</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>星付きエピソード</string>
+    <key>playlist_smart_rules_title</key>
+    <string>スマートルール</string>
     <key>playlists</key>
     <string>プレイリスト</string>
     <key>playlists_default_new_playlist</key>

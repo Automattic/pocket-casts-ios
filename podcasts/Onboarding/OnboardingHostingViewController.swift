@@ -3,7 +3,7 @@ import SwiftUI
 
 class OnboardingHostingViewController<Content>: UIHostingController<Content>, UIAdaptivePresentationControllerDelegate where Content: View {
     var navBarIsHidden: Bool = false
-    var iconTintColor: UIColor = AppTheme.colorForStyle(.primaryIcon01)
+    var iconTintColor: UIColor = AppTheme.colorForStyle(.primaryInteractive01)
 
     var viewModel: OnboardingModel?
 

@@ -111,21 +111,21 @@ extension SyncTask {
         return folderRecords
     }
 
-    func changedFilters() -> [Api_Record]? {
-        let filtersToSync = DataManager.sharedManager.allUnsyncedFilters()
+    func changedPlaylists() -> [Api_Record]? {
+        let playlistsToSync = DataManager.sharedManager.allUnsyncedPlaylists()
 
-        if filtersToSync.count == 0 { return nil }
+        if playlistsToSync.count == 0 { return nil }
 
-        var filterRecords = [Api_Record]()
-        for filter in filtersToSync {
-            let playlist = createSyncUserPlaylist(from: filter)
+        var playlistRecords = [Api_Record]()
+        for playlist in playlistsToSync {
+            let syncPlaylist = createSyncUserPlaylist(from: playlist)
 
             var apiRecord = Api_Record()
-            apiRecord.playlist = playlist
-            filterRecords.append(apiRecord)
+            apiRecord.playlist = syncPlaylist
+            playlistRecords.append(apiRecord)
         }
 
-        return filterRecords
+        return playlistRecords
     }
 
     private func createSyncUserPlaylist(from filter: EpisodeFilter) -> Api_SyncUserPlaylist {

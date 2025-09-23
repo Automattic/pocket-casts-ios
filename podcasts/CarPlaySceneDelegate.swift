@@ -50,7 +50,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             Constants.Notifications.opmlImportCompleted,
 
             // Filters
-            Constants.Notifications.filterChanged,
+            Constants.Notifications.playlistChanged,
 
             // Episode changes
             Constants.Notifications.episodeDownloaded,

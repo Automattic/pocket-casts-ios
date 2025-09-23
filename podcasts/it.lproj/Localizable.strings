@@ -297,6 +297,8 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Perché vuoi segnalare questo annuncio?</string>
     <key>banner_ads_report_broken</key>
     <string>Questo annuncio sembra corrotto</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Hai segnalato questo annuncio.</string>
     <key>banner_ads_report_malicious</key>
     <string>È un annuncio dannoso</string>
     <key>banner_ads_report_other</key>
@@ -1084,8 +1086,6 @@ che hai ascoltato è stato
     <string>Tutte le funzionalità di Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Salva data e ora con i segnalibri</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ di archiviazione su cloud per i tuoi file</string>
     <key>feature_marketing_early_access</key>
     <string>Accesso anticipato a nuove funzionalità</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1518,6 +1518,10 @@ pocast con te</string>
     <string>Nessun episodio trovato</string>
     <key>loading</key>
     <string>Caricamento in corso...</string>
+    <key>login_landing_subtitle</key>
+    <string>I tuoi podcast, sempre sincronizzati. Tieni la libreria al sicuro e goditi Pocket Casts su web e desktop.</string>
+    <key>login_landing_title</key>
+    <string>Crea il tuo account Pocket Casts</string>
     <key>login_subtitle</key>
     <string>Crea un account per sincronizzare la tua esperienza di ascolto su tutti i tuoi dispositivi.</string>
     <key>login_title</key>
@@ -1756,6 +1760,14 @@ pocast con te</string>
     <string>Off</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Utente Pocket Casts</string>
+    <key>onboarding_quote_best</key>
+    <string>La migliore app di podcast in circolazione, non c'è dubbio</string>
+    <key>onboarding_quote_customization</key>
+    <string>Il livello di personalizzazione è incredibile</string>
+    <key>onboarding_quote_folders</key>
+    <string>Organizzare i podcast in cartelle è geniale</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Ecco alcuni fantastici show con cui iniziare. Tocca per seguire, cercare o importare da altre app.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2015,26 @@ AGGIORNAMENTI</string>
     <string>Errore di riproduzione</string>
     <key>player_user_episode_upload_error</key>
     <string>Errore di caricamento</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Nessuno degli episodi nei tuoi podcast soddisfa queste regole.
+
+Prova a modificare le regole o salva questa playlist per episodi futuri che potrebbero andare bene.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Crea playlist</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Aggiungi automaticamente episodi in base alle regole.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Trasforma in una playlist intelligente</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Crea playlist intelligente</string>
+    <key>playlist_preview_title</key>
+    <string>Visualizza %@ in anteprima</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Configura regole intelligenti per aggiungere automaticamente episodi alla tua playlist intelligente.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Regole abilitate</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Altre opzioni</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>I nuovi podcast che segui verranno aggiunti automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2049,8 @@ AGGIORNAMENTI</string>
     <string>Includi solo gli episodi preferiti che corrispondono alle altre regole che hai impostato.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Episodi preferiti</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Regole intelligenti</string>
     <key>playlists</key>
     <string>Playlist</string>
     <key>playlists_default_new_playlist</key>

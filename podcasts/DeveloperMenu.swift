@@ -12,6 +12,7 @@ struct DeveloperMenu: View {
     @State var showingRecommendationsOnboardingSelected = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
+    @State var showingNotificationsPermissions = false
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -291,6 +292,7 @@ struct DeveloperMenu: View {
             Section {
                 Button("Reset Informational Modal Visibility") {
                     Settings.shouldShowInitialOnboardingFlow = true
+                    Settings.hasShownInformationalViewModal = false
                 }
                 Button("Reset banners visibility") {
                     InformationalBannerType.allCases.forEach {
@@ -311,6 +313,11 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Notifications Permissions Screen") {
+                    showingNotificationsPermissions.toggle()
+                }.sheet(isPresented: $showingNotificationsPermissions) {
+                    NotificationsPermissionsView()
+                }
                 Button("Speed Up Notifications") {
                     NotificationsGroup.speedUpNotifications = true
                 }

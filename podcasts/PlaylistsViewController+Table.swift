@@ -48,7 +48,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             if cell.tag != indexPath.row { cell.episodeCount?.text = nil }
             cell.tag = indexPath.row // store this so that we know when the cell has been reused to not set the number on it
             DispatchQueue.global(qos: .default).async { () in
-                let count = DataManager.sharedManager.episodeCount(forFilter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries())
+                let count = DataManager.sharedManager.episodeCount(for: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries())
                 DispatchQueue.main.async { () in
                     if cell.tag != indexPath.row { return }
 
@@ -106,8 +106,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, let filter = playlists[safe: indexPath.row] {
-            PlaylistManager.delete(filter: filter, fireEvent: false)
+        if editingStyle == .delete, let playlist = playlists[safe: indexPath.row] {
+            PlaylistManager.delete(playlist: playlist, fireEvent: false)
             playlists.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .top)
@@ -128,10 +128,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
         // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
         for (index, filter) in playlists.enumerated() {
-            DataManager.sharedManager.updatePosition(filter: filter, newPosition: Int32(index))
+            DataManager.sharedManager.updatePosition(playlist: filter, newPosition: Int32(index))
         }
 
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
         Analytics.track(.filterListReordered)
     }
@@ -250,10 +250,10 @@ extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDeleg
         }
 
         for (index, playlist) in playlists.enumerated() {
-            DataManager.sharedManager.updatePosition(filter: playlist, newPosition: Int32(index))
+            DataManager.sharedManager.updatePosition(playlist: playlist, newPosition: Int32(index))
         }
 
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
 
         Analytics.track(.filterListReordered)
     }

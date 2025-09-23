@@ -295,6 +295,8 @@ Download de app voor de volledige ervaring!</string>
     <string>Waarom rapporteer je deze advertentie?</string>
     <key>banner_ads_report_broken</key>
     <string>Deze advertentie lijkt kapot</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Je hebt deze advertentie gemeld.</string>
     <key>banner_ads_report_malicious</key>
     <string>Dit is een schadelijke advertentie</string>
     <key>banner_ads_report_other</key>
@@ -1082,8 +1084,6 @@ waar je naar hebt geluisterd was
     <string>Alle functies van Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Tijdstempels bewaren met bladwijzers</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ cloudopslag voor je bestanden</string>
     <key>feature_marketing_early_access</key>
     <string>Vroegtijdige toegang tot nieuwe functies</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1516,6 +1516,10 @@ podcasts mee</string>
     <string>Geen afleveringen gevonden</string>
     <key>loading</key>
     <string>Laden...</string>
+    <key>login_landing_subtitle</key>
+    <string>Je podcasts, altijd gesynchroniseerd. Houd je bibliotheek veilig en geniet van Pocket Casts op internet en desktop.</string>
+    <key>login_landing_title</key>
+    <string>Maak een Pocket Casts-account</string>
     <key>login_subtitle</key>
     <string>Maak een account aan om je luisterervaring te synchroniseren op al je apparaten.</string>
     <key>login_title</key>
@@ -1754,6 +1758,14 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts-gebruiker</string>
+    <key>onboarding_quote_best</key>
+    <string>Beste podcastapp die er is. Veruit</string>
+    <key>onboarding_quote_customization</key>
+    <string>De hoeveelheid aanpassingsmogelijkheden is waanzinnig</string>
+    <key>onboarding_quote_folders</key>
+    <string>Mijn podcasts organiseren op basis van mappen is geniaal</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Hier zijn een aantal geweldige shows om mee te beginnen. Tik om te volgen, zoeken of importeren vanuit andere apps.</string>
     <key>onboarding_recommendations_title</key>
@@ -2001,12 +2013,26 @@ UPDATES</string>
     <string>Afspeelfout</string>
     <key>player_user_episode_upload_error</key>
     <string>Uploadfout</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Geen van de afleveringen in je podcasts komen overeen met deze regels.
+
+Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige afleveringen die mogelijk hieraan voldoen.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Afspeellijst aanmaken</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Afleveringen automatisch toevoegen op basis van regels.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Maak een slimme afspeellijst</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Slimme afspeellijst aanmaken</string>
+    <key>playlist_preview_title</key>
+    <string>Voorbeeld %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Stel slimme regels in om automatisch afleveringen toe te voegen aan je slimme afspeellijst.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Ingeschakelde regels</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Overige opties</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2021,6 +2047,8 @@ UPDATES</string>
     <string>Neem alleen favoriete afleveringen op die overeenkomen met je andere regels.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Favoriete afleveringen</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Slimme regels</string>
     <key>playlists</key>
     <string>Afspeellijsten</string>
     <key>playlists_default_new_playlist</key>

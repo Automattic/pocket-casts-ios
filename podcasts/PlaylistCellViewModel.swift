@@ -2,6 +2,11 @@ import SwiftUI
 import PocketCastsDataModel
 
 class PlaylistCellViewModel: ObservableObject {
+    enum DisplayType {
+        case count
+        case toggle
+    }
+
     @Published var episodesCount: Int = 0
     @Published var images: [PlaylistArtworkView.ImageItem] = []
 
@@ -14,13 +19,17 @@ class PlaylistCellViewModel: ObservableObject {
     private let episodesDataManager: EpisodesDataManager
     private let episodeArtWork: EpisodeArtwork
 
+    let displayType: DisplayType
+
     init(
         playlist: EpisodeFilter,
+        displayType: DisplayType = .count,
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.playlist = playlist
+        self.displayType = displayType
         self.dataManager = dataManager
         self.imageManager = imageManager
         self.episodeArtWork = .init(imageManager: imageManager)
@@ -38,11 +47,13 @@ class PlaylistCellViewModel: ObservableObject {
     func loadData() {
         images.removeAll()
 
-        loadCount()
+        if displayType == .count {
+            loadCount()
+        }
         loadImages()
     }
 
-    func loadCount() {
+    private func loadCount() {
         if isLoadingCount { return }
         isLoadingCount = true
         Task { [weak self] in
@@ -55,7 +66,7 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    func loadImages() {
+    private func loadImages() {
         if isLoadingImages { return }
         isLoadingImages = true
         Task { [weak self] in

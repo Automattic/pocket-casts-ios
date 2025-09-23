@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import Kingfisher
+import PocketCastsUtils
 
 class BannerAdModel: ObservableObject {
     let adText: String
@@ -28,7 +29,7 @@ class BannerAdModel: ObservableObject {
         self.titleLabel = promotion.urlTitle
         self.onLinkTap = onLinkTap
         self.adID = promotion.id
-        self.location = promotion.location.rawValue.toSnakeCaseFromCamelCase()
+        self.location = promotion.location.rawValue
     }
 }
 
@@ -72,8 +73,10 @@ struct BannerAdView: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) private var sizeCategory
 
-    // We override this because we don't want the ad getting _too_ large. In the player, especially, we run out of space.
-    let maxSizeCategory: UIContentSizeCategory = .accessibilityMedium
+    // Keep banner text small only when Display Zoom is enabled.
+    var maxSizeCategory: UIContentSizeCategory {
+        A11y.isDisplayZoomed ? .small : .accessibilityMedium
+    }
 
     init(model: BannerAdModel, colors: Colors) {
         self.model = model

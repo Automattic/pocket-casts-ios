@@ -6,7 +6,7 @@ class ShortcutManager: CustomObserver {
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(shortcutsRequireUpdate))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(shortcutsRequireUpdate))
         addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(shortcutsRequireUpdate))
 
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(shortcutsRequireUpdate))
@@ -33,15 +33,15 @@ class ShortcutManager: CustomObserver {
     private func updateShortcuts() {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
 
-        // top filter
-        if let topFilter = DataManager.sharedManager.allPlaylists(includeDeleted: false).first, let iconName = topFilter.iconImageName() {
+        // top playlist
+        if let topPlaylist = DataManager.sharedManager.allPlaylists(includeDeleted: false).first, let iconName = topPlaylist.iconImageName() {
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
                     type: "au.com.shiftyjelly.podcasts",
-                    localizedTitle: topFilter.playlistName,
-                    localizedSubtitle: "\(DataManager.sharedManager.episodeCount(forFilter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries())) items",
+                    localizedTitle: topPlaylist.playlistName,
+                    localizedSubtitle: "\(DataManager.sharedManager.episodeCount(for: topPlaylist, episodeUuidToAdd: topPlaylist.episodeUuidToAddToQueries())) items",
                     icon: UIApplicationShortcutIcon(templateImageName: iconName),
-                    userInfo: ["url": "pktc://shortcuts/filter/\(topFilter.uuid)" as NSSecureCoding]
+                    userInfo: ["url": "pktc://shortcuts/filter/\(topPlaylist.uuid)" as NSSecureCoding]
                 )
             )
         }

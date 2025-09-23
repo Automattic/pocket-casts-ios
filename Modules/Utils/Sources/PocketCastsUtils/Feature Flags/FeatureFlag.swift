@@ -127,9 +127,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the episode IDs from the server's response rather than our local database IDs
     case useSyncResponseEpisodeIDs
 
-    ///Use html description for podcast details
-    case usePodcastHTMLDescription
-
     /// Disables logout / keychain clearing when errors occur in the background
     case avoidLogoutInBackground
 
@@ -144,28 +141,17 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable Disable the use of suggested folders
     case suggestedFolders
 
-    case grdb
-
     /// Enable the generated transcript
     case generatedTranscripts
 
-    /// Enable the new podcast view
-    case podcastViewChanges
-
     /// Enable Newform AppsFlyer SDK
     case podcastNewformAppsFlyer
-
-    /// Force full screen login on iPhone
-    case fullScreenLogin
 
     /// Encourage Account Creation
     case encourageAccountCreation
 
     /// Enable Libro.fm icons in Paywall
     case libroFm
-
-    /// Enable the new notifications types and settings
-    case notificationsRevamp
 
     /// Any time watch data is sent, we refresh the watch logs and save them to a file for sending to Zendesk or exporting
     case refreshAndSaveWatchLogsOnSend
@@ -244,6 +230,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
+
+    /// Use the new search endpoint and new UI
+    case searchImprovements
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -333,8 +322,6 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .useSyncResponseEpisodeIDs:
             true
-        case .usePodcastHTMLDescription:
-            true
         case .avoidLogoutInBackground:
             true
         case .disablePrivateFeedSharing:
@@ -347,19 +334,11 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
-        case .podcastViewChanges:
-            true
         case .podcastNewformAppsFlyer:
-            true
-        case .fullScreenLogin:
             true
         case .libroFm:
             false
-        case .grdb:
-            true
         case .encourageAccountCreation:
-            true
-        case .notificationsRevamp:
             true
         case .refreshAndSaveWatchLogsOnSend:
             true
@@ -413,6 +392,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .newOnboardingRecommendationChanges:
             true
+        case .searchImprovements:
+            true
         }
     }
 
@@ -432,10 +413,6 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
-        case .usePodcastHTMLDescription:
-            "use_podcast_html_description"
-        case .podcastViewChanges:
-            "podcast_view_changes_2025"
         default:
             rawValue.lowerSnakeCased()
         }
@@ -448,13 +425,7 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        switch self {
-            // GRDB can only change to `false` in non-TestFlight versions
-            case .grdb:
-                !Self.isTestFlight
-            default:
-                true
-        }
+        true
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"

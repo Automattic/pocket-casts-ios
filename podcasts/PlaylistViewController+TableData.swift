@@ -51,7 +51,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
         cell.playlist = .filter(uuid: filter.uuid)
         cell.delegate = self
         if let listEpisode = episodes[safe: indexPath.row] {
-            cell.populateFrom(episode: listEpisode.episode, tintColor: filter.playlistColor(), filterUuid: filter.uuid)
+            cell.populateFrom(episode: listEpisode.episode, tintColor: filter.playlistColor(), playlistUuid: filter.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
             if isMultiSelectEnabled {
                 cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)

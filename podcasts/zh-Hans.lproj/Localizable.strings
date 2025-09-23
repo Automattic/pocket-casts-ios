@@ -297,6 +297,8 @@
     <string>您为何要举报此广告？</string>
     <key>banner_ads_report_broken</key>
     <string>这则广告似乎显示异常</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>您举报了这则广告。</string>
     <key>banner_ads_report_malicious</key>
     <string>这是一则恶意广告</string>
     <key>banner_ads_report_other</key>
@@ -1084,8 +1086,6 @@ Pocket Casts。</string>
     <string>Plus 中的所有功能</string>
     <key>feature_marketing_bookmarks</key>
     <string>使用书签保留时间戳</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>供您存放文件的 %1$@ 云存储空间</string>
     <key>feature_marketing_early_access</key>
     <string>抢先体验新功能</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1518,6 +1518,10 @@ Pocket Casts。</string>
     <string>未找到剧集</string>
     <key>loading</key>
     <string>正在加载...</string>
+    <key>login_landing_subtitle</key>
+    <string>您的播客，始终保持同步。 保护您的媒体库安全，并在网页和桌面端畅享 Pocket Casts。</string>
+    <key>login_landing_title</key>
+    <string>创建您的 Pocket Casts 账户</string>
     <key>login_subtitle</key>
     <string>创建账户，以在您的所有设备上同步收听体验。</string>
     <key>login_title</key>
@@ -1756,6 +1760,14 @@ Pocket Casts。</string>
     <string>关闭</string>
     <key>ok</key>
     <string>确定</string>
+    <key>onboarding_quote_author</key>
+    <string>Pocket Casts 用户</string>
+    <key>onboarding_quote_best</key>
+    <string>目前最好用的播客应用程序。 到目前为止</string>
+    <key>onboarding_quote_customization</key>
+    <string>自定义程度高到惊人</string>
+    <key>onboarding_quote_folders</key>
+    <string>用文件夹整理播客节目真是天才设计</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>以下是一些值得一听的精彩节目。 轻点以关注、搜索或从其他应用程序导入。</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2015,26 @@ Pocket Casts。</string>
     <string>播放错误</string>
     <key>player_user_episode_upload_error</key>
     <string>上传错误</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>您的播客中没有符合这些规则的剧集。
+
+请尝试调整规则，或保存此播放列表，以便匹配以后可能符合规则的剧集。</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>创建播放列表</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>根据规则自动添加剧集。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>生成智能播放列表</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>创建智能播放列表</string>
+    <key>playlist_preview_title</key>
+    <string>预览 %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>设置智能规则，自动将剧集添加到您的智能播放列表。</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>已启用的规则</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>其他选项</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>您关注的新播客将会自动添加。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2049,8 @@ Pocket Casts。</string>
     <string>仅包括符合您的其他规则的星标剧集。</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>星标剧集</string>
+    <key>playlist_smart_rules_title</key>
+    <string>智能规则</string>
     <key>playlists</key>
     <string>播放列表</string>
     <key>playlists_default_new_playlist</key>

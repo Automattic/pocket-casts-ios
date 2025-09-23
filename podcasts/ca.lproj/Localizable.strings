@@ -1466,6 +1466,14 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <string>Emporta't els teus pòdcasts amb tu</string>
     <key>in_progress</key>
     <string>En progrés</string>
+    <key>interests_select_at_least</key>
+    <string>Selecciona almenys %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Mostra més categories</string>
+    <key>interests_subtitle</key>
+    <string>Arriben grans pòdcasts, triats a mà per persones reals!</string>
+    <key>interests_title</key>
+    <string>Explica’ns quins són els teus temes preferits</string>
     <key>keycommand_close_player</key>
     <string>Tancar el reproductor</string>
     <key>keycommand_decrease_speed</key>
@@ -1675,7 +1683,7 @@ Nota: Potser necessitaràs enviar-te per correu electrònic el fitxer OPML, mant
     <key>notifications_onboarding_import_title</key>
     <string>Importa els teus pòdcasts fàcilment</string>
     <key>notifications_onboarding_newsletter_subtitle</key>
-    <string>Un cop al mes, tota la màgia dels podcasts</string>
+    <string>Un cop al mes, tot el bo i millor dels pòdcasts</string>
     <key>notifications_onboarding_newsletter_title</key>
     <string>Subscriu-te a la nostra newsletter</string>
     <key>notifications_onboarding_notifications_subtitle</key>
@@ -2021,10 +2029,24 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Afegeix episodis automàticament segons les regles.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Fes-ho en una llista de reproducció intel·ligent</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ episodis • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Afegir episodis</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Navega pels pòdcasts</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Llisca cap a l’esquerra en un episodi per afegir-lo a la teva llista de reproducció.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Comença a crear la teva llista de reproducció</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Afegeix episodis a la teva llista de reproducció</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crear una llista de reproducció intel·ligent</string>
     <key>playlist_preview_title</key>
     <string>Previsualitzar %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Arribats aquí, pots celebrar que la llista s'ha acabat o modificar la configuració dels filtres per trobar més episodis.</string>
     <key>playlist_smart_preview_description</key>
     <string>Configura regles intel·ligents per afegir automàticament episodis a la teva llista de reproducció intel·ligent.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2790,6 +2812,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>NÚMERO DE FILTRES D'EPISODIS</string>
     <key>settings_badge_new_since_opened</key>
     <string>Nous episodis des que s'ha obert l'aplicació</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>RECOMPTE D’EPISODIS DE LA LLISTA DE REPRODUCCIÓ INTEL·LIGENT</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total d'episodis sense reproduir</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2966,6 +2990,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Notificacions</string>
     <key>settings_notifications_filter_count</key>
     <string>Nombre de filtres</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Recompte de llista de reproducció intel·ligent</string>
     <key>settings_notifications_subtitle</key>
     <string>Notifica quan hi ha un nou episodi disponible. També és útil per a millorar la fiabilitat de les descàrregues automàtiques.</string>
     <key>settings_opml</key>

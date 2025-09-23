@@ -137,7 +137,7 @@ class NewPlaylistViewController: PCViewController {
 
     @objc private func createManualPlaylist() {
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
-        let playlist = PlaylistManager.createNewFilter()
+        let playlist = PlaylistManager.createNewPlaylist()
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
@@ -149,10 +149,10 @@ class NewPlaylistViewController: PCViewController {
         }
         DataManager.sharedManager.add(episodes: episodes, to: playlist)
 
-        DataManager.sharedManager.save(filter: playlist)
+        DataManager.sharedManager.save(playlist: playlist)
         UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: playlist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: playlist)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
 
         //TODO: Add analytics for manual playlist creation
 

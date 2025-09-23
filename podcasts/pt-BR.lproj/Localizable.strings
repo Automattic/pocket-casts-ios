@@ -297,6 +297,8 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Por que você está denunciando este anúncio?</string>
     <key>banner_ads_report_broken</key>
     <string>Este anúncio parece estar corrompido</string>
+    <key>banner_ads_report_confirmation</key>
+    <string>Você denunciou este anúncio.</string>
     <key>banner_ads_report_malicious</key>
     <string>Este anúncio é mal-intencionado</string>
     <key>banner_ads_report_other</key>
@@ -1084,8 +1086,6 @@ que você ouviu foi
     <string>Todas as funcionalidades no Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Favoritos, que mantêm a data/hora</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ de armazenamento na nuvem para seus arquivos</string>
     <key>feature_marketing_early_access</key>
     <string>Acesso antecipado a novas funcionalidades</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1518,6 +1518,10 @@ podcasts com você</string>
     <string>Nenhum episódio encontrado</string>
     <key>loading</key>
     <string>Carregando...</string>
+    <key>login_landing_subtitle</key>
+    <string>Seus podcasts sempre sincronizados. Mantenha sua biblioteca segura e aproveite o Pocket Casts na Web e no aplicativo para computador.</string>
+    <key>login_landing_title</key>
+    <string>Crie sua conta do Pocket Casts</string>
     <key>login_subtitle</key>
     <string>Crie uma conta para sincronizar sua experiência sonora em todos os seus dispositivos.</string>
     <key>login_title</key>
@@ -1756,6 +1760,14 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>onboarding_quote_author</key>
+    <string>Usuário do Pocket Casts</string>
+    <key>onboarding_quote_best</key>
+    <string>De longe, o melhor aplicativo. De longe</string>
+    <key>onboarding_quote_customization</key>
+    <string>São inúmeras opções de personalização</string>
+    <key>onboarding_quote_folders</key>
+    <string>Organizar meus podcasts por pastas é genial</string>
     <key>onboarding_recommendations_subtitle</key>
     <string>Aqui estão alguns ótimos programas por onde começar. Toque para seguir, pesquisar ou importar de outros aplicativos.</string>
     <key>onboarding_recommendations_title</key>
@@ -2003,12 +2015,26 @@ ATUALIZAÇÕES</string>
     <string>Erro na reprodução</string>
     <key>player_user_episode_upload_error</key>
     <string>Erro no upload</string>
+    <key>playlist_create_no_episodes_description</key>
+    <string>Nenhum dos episódios nos seus podcasts corresponde a estas regras.
+
+Tente ajustá-las ou salve esta lista de reprodução para futuros episódios correspondentes.</string>
     <key>playlist_creation_create_playlist_button</key>
     <string>Criar lista de reprodução</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Adicione episódios automaticamente com base em regras.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Crie uma lista de reprodução inteligente</string>
+    <key>playlist_preview_create_smart_playlist</key>
+    <string>Criar lista de reprodução inteligente</string>
+    <key>playlist_preview_title</key>
+    <string>Visualizar %@</string>
+    <key>playlist_smart_preview_description</key>
+    <string>Configure regras Inteligentes para adicionar episódios automaticamente à sua lista de reprodução inteligente.</string>
+    <key>playlist_smart_preview_enabled_rules</key>
+    <string>Regras ativadas</string>
+    <key>playlist_smart_preview_other_rules</key>
+    <string>Outras opções</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Os novos podcasts que você seguir serão adicionados automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2023,6 +2049,8 @@ ATUALIZAÇÕES</string>
     <string>Inclua apenas episódios favoritados que correspondam às suas outras regras.</string>
     <key>playlist_smart_rule_starred_header_title</key>
     <string>Episódios favoritados</string>
+    <key>playlist_smart_rules_title</key>
+    <string>Regras inteligentes</string>
     <key>playlists</key>
     <string>Listas de reprodução</string>
     <key>playlists_default_new_playlist</key>

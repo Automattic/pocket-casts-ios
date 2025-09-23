@@ -3,18 +3,18 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveFiltersTask: ApiBaseTask {
+class RetrievePlaylistsTask: ApiBaseTask {
     var completion: (([EpisodeFilter]?) -> Void)?
 
-    private var filters = [EpisodeFilter]()
+    private var playlists = [EpisodeFilter]()
 
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/playlist/list"
 
         do {
-            var filterRequest = Api_UserPlaylistListRequest()
-            filterRequest.m = ServerConstants.Values.apiScope
-            let data = try filterRequest.serializedData()
+            var playlistRequest = Api_UserPlaylistListRequest()
+            playlistRequest.m = ServerConstants.Values.apiScope
+            let data = try playlistRequest.serializedData()
 
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
 
@@ -25,43 +25,43 @@ class RetrieveFiltersTask: ApiBaseTask {
             }
 
             do {
-                let serverFilters = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
-                if serverFilters.count == 0 {
+                let serverPlaylists = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
+                if serverPlaylists.count == 0 {
                     completion?(nil)
 
                     return
                 }
 
                 var addedEpisodes: [Episode] = []
-                for serverFilter in serverFilters {
-                    let convertedFilter = convertFromProto(serverFilter)
+                for serverPlaylist in serverPlaylists {
+                    let convertedPlaylist = convertFromProto(serverPlaylist)
 
                     // Add missing episodes
-                    let serverSet = Set(serverFilter.episodeOrder)
-                    let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: convertedFilter).map { $0.uuid }
+                    let serverSet = Set(serverPlaylist.episodeOrder)
+                    let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: convertedPlaylist).map { $0.uuid }
                     let missingEpisodes = serverSet.subtracting(matchedEpisodes)
 
                     let episodes: [Episode] = missingEpisodes.compactMap { episode in
-                        let playlistEpisode = serverFilter.episodes.first(where: { $0.episode == episode })
+                        let playlistEpisode = serverPlaylist.episodes.first(where: { $0.episode == episode })
 
                         guard let playlistEpisode else { return nil }
                         return Episode(playlistEpisode)
                     }
                     addedEpisodes = episodes
-                    DataManager.sharedManager.add(episodes: addedEpisodes, to: convertedFilter)
-                    DataManager.sharedManager.save(filter: convertedFilter)
+                    DataManager.sharedManager.add(episodes: addedEpisodes, to: convertedPlaylist)
+                    DataManager.sharedManager.save(playlist: convertedPlaylist)
 
-                    filters.append(convertedFilter)
+                    playlists.append(convertedPlaylist)
                 }
 
 
-                completion?(filters)
+                completion?(playlists)
             } catch {
-                FileLog.shared.addMessage("Decoding filters failed \(error.localizedDescription)")
+                FileLog.shared.addMessage("Decoding playlists failed \(error.localizedDescription)")
                 completion?(nil)
             }
         } catch {
-            FileLog.shared.addMessage("retrieve filters failed \(error.localizedDescription)")
+            FileLog.shared.addMessage("retrieve playlists failed \(error.localizedDescription)")
             completion?(nil)
         }
     }

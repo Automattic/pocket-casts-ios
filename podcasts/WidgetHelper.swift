@@ -17,7 +17,7 @@ class WidgetHelper {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.currentlyPlayingEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.upNextQueueChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.filterChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.playlistChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFilterChanged), name: Constants.Notifications.podcastAdded, object: nil)
     }
 
