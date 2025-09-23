@@ -75,8 +75,10 @@ struct SearchResultCell: View {
                     if model.episode != nil {
                         if played {
                             Image("list_played", bundle: nil)
+                                .resizable()
                                 .renderingMode(.template)
                                 .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                                .frame(width: 48, height: 48)
                         } else if FeatureFlag.searchImprovements.enabled {
                             EpisodeActionButton(model: self.model)
                                 .frame(width: 48, height: 48)
