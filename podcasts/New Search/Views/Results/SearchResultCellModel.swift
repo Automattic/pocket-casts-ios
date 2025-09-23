@@ -39,6 +39,11 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
     private var cancellables = Set<AnyCancellable>()
 
     private func setupObservers() {
+        guard let episode else {
+            //Only need to setup Observers for podcast episodes
+            return
+        }
+
         Publishers.Merge3(
             NotificationCenter.default.publisher(for: Constants.Notifications.playbackStarted),
             NotificationCenter.default.publisher(for: Constants.Notifications.playbackEnded),
@@ -50,17 +55,17 @@ class SearchResultCellModel: ObservableObject, MainEpisodeActionViewDelegate {
         })
         .store(in: &cancellables)
 
-        NotificationCenter.default.publisher(for: Constants.Notifications.playbackPositionSaved)
-        .receive(on: OperationQueue.main)
-        .sink(receiveValue: { [unowned self] notification in
-            guard let episodeUUID = notification.object as? String,
-                  episodeUUID == episode?.uuid,
-                  let realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID) else {
-                return
-            }
-            self.realEpisode = realEpisode
-            self.refreshTrigger.toggle()
-        })
-        .store(in: &cancellables)
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
+            .receive(on: OperationQueue.main)
+            .sink(receiveValue: { [unowned self] notification in
+                guard let episodeUUID = notification.object as? String ?? PlaybackManager.shared.currentEpisode()?.uuid,
+                      episodeUUID == episode.uuid,           
+                      let realEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUUID) else {
+                    return
+                }
+                self.realEpisode = realEpisode
+                self.refreshTrigger.toggle()
+            })
+            .store(in: &cancellables)
     }
 }
