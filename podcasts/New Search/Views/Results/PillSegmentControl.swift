@@ -72,7 +72,7 @@ struct PillButtonStyle: ButtonStyle {
         theme.primaryText01
     }
     private var selectedBackground: Color {
-        theme.secondaryIcon01
+        theme.primaryInteractive01
     }
     private var selectedForeground: Color {
         theme.secondaryUi01

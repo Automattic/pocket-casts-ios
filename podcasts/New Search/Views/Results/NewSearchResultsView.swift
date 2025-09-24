@@ -70,6 +70,8 @@ struct NewSearchResultsView: View {
         PillSegmentControl(SearchResultsListView.DisplayMode.allCases, selection: $displayMode) { item in
             Text(item.localizedDescription)
         }
+        .padding(.bottom, 8)
+        .background(theme.secondaryUi01)
     }
 
     @ViewBuilder var podcastList: some View {
