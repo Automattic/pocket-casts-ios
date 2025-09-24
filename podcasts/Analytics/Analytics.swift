@@ -13,8 +13,7 @@ class Analytics {
 
     static func register(adapters: [AnalyticsAdapter]) {
         Self.shared.adapters = adapters
-        shared.adaptersRegistered = true
-        logCurrentAdapters()
+        Self.shared.setAdaptersRegisteredStatus(true)
     }
 
     /// Unregisters all the registered adapters, disabling analytics
@@ -26,8 +25,7 @@ class Analytics {
         } else {
             Self.shared.adapters = nil
         }
-        shared.adaptersRegistered = false
-        logCurrentAdapters()
+        Self.shared.setAdaptersRegisteredStatus(false)
     }
 #if !os(watchOS) && !APPCLIP
     static func add(analyticsAppThemeProvider: AnalyticsAppThemeProviding) {
@@ -59,6 +57,11 @@ class Analytics {
         FileLog.shared.console("Analytics adapters: \(Self.shared.adapters ?? [])")
 #endif
     }
+
+    fileprivate func setAdaptersRegisteredStatus(_ value: Bool) {
+        adaptersRegistered = value
+        Self.logCurrentAdapters()
+    }
 }
 
 // MARK: - Analytics + Source
@@ -84,6 +87,7 @@ extension Analytics {
     func optInOfAnalytics() {
 #if !os(watchOS) && !APPCLIP
         Settings.setAnalytics(optOut: false)
+        setAdaptersRegisteredStatus(false)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
         Analytics.track(.analyticsOptIn)
 #endif
