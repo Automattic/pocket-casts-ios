@@ -1040,28 +1040,6 @@ class EpisodeDataManager {
         }
     }
 
-    func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems, dbQueue: PCDBQueue) -> [Episode] {
-
-        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: nil, limit: limit)
-
-        var episodes = [Episode]()
-        dbQueue.read { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
-
-                while resultSet.next() {
-                    if let episode = self.createEpisodeFrom(resultSet: resultSet) {
-                        episodes.append(episode)
-                    }
-                }
-            } catch {
-                FileLog.shared.addMessage("EpisodeFilterDataManager.episodesForFilter error: \(error)")
-            }
-        }
-        return episodes
-    }
-
     // MARK: - Conversion
 
     private func createEpisodeFrom(resultSet rs: PCDBResultSet) -> Episode? {
