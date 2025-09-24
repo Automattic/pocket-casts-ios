@@ -161,8 +161,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func loadBannerAd() {
+        bannerTask?.cancel()
+
         if FeatureFlag.bannerAdPodcasts.enabled && !SubscriptionHelper.hasActiveSubscription() {
-            bannerTask?.cancel()
             DiscoverServerHandler.shared.blazePromotion(for: .podcastList) { [weak self] promotion, shouldAnimate in
                 guard let self = self else { return }
 
@@ -175,6 +176,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                     }
                 } else {
                     self.setupBannerAd(promotion: promotion, shouldAnimate: false)
+                }
+            }
+        } else {
+            if bannerAdModel != nil {
+                bannerAdModel = nil
+                UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                    self.isAnimatingBannerAd = false
+                } completion: { _ in
+                    self.podcastsCollectionView.performBatchUpdates({
+                        self.podcastsCollectionView.collectionViewLayout.invalidateLayout()
+                    })
                 }
             }
         }

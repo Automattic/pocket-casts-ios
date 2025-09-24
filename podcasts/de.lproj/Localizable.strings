@@ -1086,8 +1086,6 @@ Folge dauerte
     <string>Alle Funktionen in Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Zeitstempel mit Lesezeichen behalten</string>
-    <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ Cloud-Speicher für deine Dateien</string>
     <key>feature_marketing_early_access</key>
     <string>Frühzeitiger Zugriff auf neue Funktionen</string>
     <key>feature_marketing_extra_themes_icons</key>
