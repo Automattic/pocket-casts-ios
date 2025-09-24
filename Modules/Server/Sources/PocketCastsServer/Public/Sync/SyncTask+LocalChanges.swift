@@ -129,38 +129,38 @@ extension SyncTask {
     }
 
     private func createSyncUserPlaylist(from filter: EpisodeFilter) -> Api_SyncUserPlaylist {
-        var filterRecord = Api_SyncUserPlaylist()
-        filterRecord.allPodcasts.value = filter.podcastUuids.count == 0
-        filterRecord.uuid = filter.uuid
-        filterRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
-        filterRecord.isDeleted.value = filter.wasDeleted
-        filterRecord.title.value = filter.playlistName
-        filterRecord.podcastUuids.value = filter.podcastUuids
-        filterRecord.audioVideo.value = filter.filterAudioVideoType
-        filterRecord.notDownloaded.value = filter.filterNotDownloaded
-        filterRecord.downloaded.value = filter.filterDownloaded
-        filterRecord.downloading.value = filter.filterDownloading
-        filterRecord.finished.value = filter.filterFinished
-        filterRecord.partiallyPlayed.value = filter.filterPartiallyPlayed
-        filterRecord.unplayed.value = filter.filterUnplayed
-        filterRecord.starred.value = filter.filterStarred
-        filterRecord.filterHours.value = filter.filterHours
-        filterRecord.sortPosition.value = filter.sortPosition
-        filterRecord.sortType.value = filter.sortType
-        filterRecord.iconID.value = filter.customIcon
-        filterRecord.filterDuration.value = filter.filterDuration
-        filterRecord.shorterThan.value = filter.shorterThan
-        filterRecord.longerThan.value = filter.longerThan
-        filterRecord.manual.value = filter.manual
+        var playlistRecord = Api_SyncUserPlaylist()
+        playlistRecord.allPodcasts.value = filter.podcastUuids.count == 0
+        playlistRecord.uuid = filter.uuid
+        playlistRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
+        playlistRecord.isDeleted.value = filter.wasDeleted
+        playlistRecord.title.value = filter.playlistName
+        playlistRecord.podcastUuids.value = filter.podcastUuids
+        playlistRecord.audioVideo.value = filter.filterAudioVideoType
+        playlistRecord.notDownloaded.value = filter.filterNotDownloaded
+        playlistRecord.downloaded.value = filter.filterDownloaded
+        playlistRecord.downloading.value = filter.filterDownloading
+        playlistRecord.finished.value = filter.filterFinished
+        playlistRecord.partiallyPlayed.value = filter.filterPartiallyPlayed
+        playlistRecord.unplayed.value = filter.filterUnplayed
+        playlistRecord.starred.value = filter.filterStarred
+        playlistRecord.filterHours.value = filter.filterHours
+        playlistRecord.sortPosition.value = filter.sortPosition
+        playlistRecord.sortType.value = filter.sortType
+        playlistRecord.iconID.value = filter.customIcon
+        playlistRecord.filterDuration.value = filter.filterDuration
+        playlistRecord.shorterThan.value = filter.shorterThan
+        playlistRecord.longerThan.value = filter.longerThan
+        playlistRecord.manual.value = filter.manual
 
         if filter.manual {
             let episodes = DataManager.sharedManager.playlistEpisodes(for: filter)
-            filterRecord.episodes = episodes.map { episode in
+            playlistRecord.episodes = episodes.map { episode in
                 createSyncEpisode(from: episode)
             }
-            filterRecord.episodeOrder = episodes.map { $0.uuid }
+            playlistRecord.episodeOrder = episodes.map { $0.uuid }
         }
-        return filterRecord
+        return playlistRecord
     }
 
     private func createSyncEpisode(from episode: Episode) -> Api_SyncPlaylistEpisode {

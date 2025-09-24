@@ -47,7 +47,7 @@ class EpisodeDataManager {
 
     enum Constants {
         enum Limits {
-            static let maxFilterItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+            static let maxPlaylistItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
         }
     }
 

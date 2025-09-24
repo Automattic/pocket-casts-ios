@@ -947,7 +947,7 @@ public class DataManager {
     }
 
     public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        let limit = EpisodeDataManager.Constants.Limits.maxFilterItems
+        let limit = EpisodeDataManager.Constants.Limits.maxPlaylistItems
         let query = PlaylistQueryBuilder.query(
             clause: .episode,
             for: playlist,
