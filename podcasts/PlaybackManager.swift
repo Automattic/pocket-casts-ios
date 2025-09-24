@@ -2355,11 +2355,10 @@ extension PlaybackManager {
 
         // Get the bookmark's BaseEpisode so we can load it
         guard let episode = dataManager.findBaseEpisode(uuid: searchEpisode.uuid) else {
-            if firstTry {
-                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid) { [weak self] episode in
-                    if episode != nil {
-                        self?.playEpisodeSearchResult(searchEpisode, firstTry: false)
-                    }
+            guard firstTry else { return }
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: searchEpisode.uuid, podcastUuid: searchEpisode.podcastUuid) { [weak self] episode in
+                if episode != nil {
+                    self?.playEpisodeSearchResult(searchEpisode, firstTry: false)
                 }
             }
             return
