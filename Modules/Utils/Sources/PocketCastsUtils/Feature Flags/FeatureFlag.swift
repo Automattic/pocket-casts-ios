@@ -11,9 +11,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether logging of AppsFlyer events in console are enabled
-    case appsFlyerLogging
-
     /// Whether End Of Year feature is enabled
     case endOfYear
 
@@ -250,8 +247,6 @@ public enum FeatureFlag: String, CaseIterable {
                 true
             }
         case .firebaseLogging:
-            false
-        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
