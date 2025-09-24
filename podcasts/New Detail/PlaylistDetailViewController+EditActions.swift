@@ -119,8 +119,9 @@ extension PlaylistDetailViewController {
             guard let self else { return }
 
             switch editAction {
-            case .delete(episode: let episode):
+            case .delete(episode: _):
                 // TODO: handle delete
+                break
             case .orderChanged:
                 let playlist = self.viewModel.playlist!
                 playlist.sortType = PlaylistSort.dragAndDrop.rawValue
