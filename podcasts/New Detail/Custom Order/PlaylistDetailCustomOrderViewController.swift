@@ -3,8 +3,14 @@ import SwiftUI
 import PocketCastsDataModel
 
 class PlaylistDetailCustomOrderViewController: PCViewController {
+    enum EditAction {
+        case orderChanged
+        case delete(episode: ListEpisode)
+    }
+
     private var episodes: [ListEpisode]
     private let playlistUUID: String
+    private let onApplyAction: (EditAction) -> Void
 
     private(set) var tableView: ThemeableTable! {
         didSet {
@@ -21,9 +27,14 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
         }
     }
 
-    init(episodes: [ListEpisode], playlistUUID: String) {
+    init(
+        episodes: [ListEpisode],
+        playlistUUID: String,
+        onApplyAction: @escaping (EditAction) -> Void
+    ) {
         self.episodes = episodes
         self.playlistUUID = playlistUUID
+        self.onApplyAction = onApplyAction
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -114,13 +125,16 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let episode = episodes[safe: indexPath.row] {
-//            PlaylistManager.delete(playlist: playlist, fireEvent: false)
+            // TODO: Delete episode from playlist in DB here?
+
+            onApplyAction(.delete(episode: episode))
+
             episodes.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.endUpdates()
 
-//            Analytics.track(.filterDeleted)
+            // TODO: Add analytics
         }
     }
 
@@ -133,86 +147,13 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
         episodes.remove(at: sourceIndexPath.row)
         episodes.insert(movedObject, at: destinationIndexPath.row)
 
-        // Set the SortType to custom
-
-//        // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
-//        for (index, episode) in episodes.enumerated() {
+        // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
+        for (index, episode) in episodes.enumerated() {
 //            DataManager.sharedManager.updatePosition(playlist: filter, newPosition: Int32(index))
-//        }
-
-//        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
-//
-//        Analytics.track(.filterListReordered)
-    }
-}
-
-class PlaylistEpisodePreviewCell: ThemeableCell {
-    static let reuseIdentifier = "PlaylistEpisodePreviewCell"
-
-    lazy var separatorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        accessoryType = .disclosureIndicator
-
-        self.style = .primaryUi01
-        iconStyle = .primaryIcon02
-
-        updateColor()
-
-        separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
-        layoutMargins = .zero
-        preservesSuperviewLayoutMargins = false
-
-        addSubview(separatorView)
-        NSLayoutConstraint.activate([
-            separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
-            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separatorView.heightAnchor.constraint(equalToConstant: 1.0)
-        ])
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        ensureCorrectReorderColor()
-    }
-
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        ensureCorrectReorderColor()
-    }
-
-    private func ensureCorrectReorderColor() {
-        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
-
-        overrideUserInterfaceStyle = theme.isDark ? .dark : .light
-    }
-
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func set(episode: Episode) {
-        contentConfiguration = UIHostingConfiguration {
-            PlaylistEpisodePreviewRowView(
-                episode: episode,
-                hideSeparator: true
-            )
-            .environmentObject(Theme.sharedTheme)
-            .frame(maxWidth: .infinity, minHeight: 80.0, alignment: .leading)
-            .padding(.leading, 16.0)
-            .padding(.vertical, 5.0)
         }
-        .margins(.horizontal, 0)
-        .margins(.vertical, 0)
 
-        separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
-        bringSubviewToFront(separatorView)
+        onApplyAction(.orderChanged)
+
+        // TODO: Add analytics
     }
 }

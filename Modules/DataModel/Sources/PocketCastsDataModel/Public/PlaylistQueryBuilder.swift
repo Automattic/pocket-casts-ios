@@ -79,6 +79,8 @@ public class PlaylistQueryBuilder {
             return "ORDER BY episode.duration ASC, episode.addedDate ASC"
         case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        case .dragAndDrop:
+            return  nil // TODO: add order for manual playlist
         }
     }
 

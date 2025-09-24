@@ -78,6 +78,10 @@ extension PlaylistDetailViewController {
         addSortAction(to: optionsPicker, sortOrder: .shortestToLongest)
         addSortAction(to: optionsPicker, sortOrder: .longestToShortest)
 
+        if viewModel.isManualPlaylist {
+            addSortAction(to: optionsPicker, sortOrder: .dragAndDrop)
+        }
+
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
 
@@ -111,7 +115,19 @@ extension PlaylistDetailViewController {
     }
 
     private func showCustomOrderList() {
-        let customOrderViewController = PlaylistDetailCustomOrderViewController(episodes: viewModel.episodes, playlistUUID: viewModel.playlist.uuid)
+        let customOrderViewController = PlaylistDetailCustomOrderViewController(episodes: viewModel.episodes, playlistUUID: viewModel.playlist.uuid) { [weak self] editAction in
+            guard let self else { return }
+
+            switch editAction {
+            case .delete(episode: let episode):
+                // TODO: handle delete
+            case .orderChanged:
+                let playlist = self.viewModel.playlist!
+                playlist.sortType = PlaylistSort.dragAndDrop.rawValue
+                self.viewModel.update(playlist: playlist)
+                self.savePlaylist()
+            }
+        }
         navigationController?.pushViewController(customOrderViewController, animated: true)
     }
 

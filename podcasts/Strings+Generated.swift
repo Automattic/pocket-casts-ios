@@ -2764,6 +2764,8 @@ internal enum L10n {
   internal static var podcastsBadgeLatestEpisode: String { return L10n.tr("Localizable", "podcasts_badge_latest_episode", fallback: "Only Latest Episode") }
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
+  /// Episodes will be displayed in custom order by drag and drop
+  internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Drag and Drop") }
   /// Episodes will be displayed in order from the longest to the shortest.
   internal static var podcastsEpisodeSortLongestToShortest: String { return L10n.tr("Localizable", "podcasts_episode_sort_longest_to_shortest", fallback: "Longest to Shortest") }
   /// Episodes will be displayed in order from the most resent to the oldest.

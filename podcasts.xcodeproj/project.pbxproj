@@ -668,6 +668,7 @@
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
 		9A01DDDA2E82EC4C0016E9D1 /* PlaylistDetailCustomOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */; };
+		9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A01DDDB2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift */; };
 		9A0E6C662D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */; };
 		9A11FC932D91CBF300A1EF3E /* AppsFlyerLib-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 9A11FC922D91CBF300A1EF3E /* AppsFlyerLib-Dynamic */; };
 		9A11FC962D91D06600A1EF3E /* AppsFlyerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */; };
@@ -2994,6 +2995,7 @@
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
 		91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravatarSafariViewController.swift; sourceTree = "<group>"; };
 		9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailCustomOrderViewController.swift; sourceTree = "<group>"; };
+		9A01DDDB2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistEpisodePreviewCell.swift; sourceTree = "<group>"; };
 		9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedTranscriptsPremiumOverlay.swift; sourceTree = "<group>"; };
 		9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAdapter.swift; sourceTree = "<group>"; };
 		9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerDataProvider.swift; sourceTree = "<group>"; };
@@ -5536,6 +5538,7 @@
 			isa = PBXGroup;
 			children = (
 				9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */,
+				9A01DDDB2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift */,
 			);
 			path = "Custom Order";
 			sourceTree = "<group>";
@@ -10386,6 +10389,7 @@
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				BDC5360A27C88A5700EFCF31 /* FolderPreviewWrapper.swift in Sources */,
 				8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */,
+				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
 				BD6D4187200C802900CA8993 /* PodcastViewController+NetworkLoad.swift in Sources */,
 				40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */,
 				9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */,
