@@ -361,11 +361,24 @@ extension SyncTask {
             return Episode(playlistEpisode)
         }
 
+        addedEpisodes.forEach { episode in
+            guard DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil else { return }
+
+            if episode.addedDate == nil {
+                episode.addedDate = Date()
+            }
+            if episode.podcast_id == 0 {
+                episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+            }
+
+            DataManager.sharedManager.save(episode: episode)
+        }
+
         DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
         DataManager.sharedManager.save(playlist: playlist)
 
         addedEpisodes.forEach { addedEpisode in
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid)
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
         }
     }
 
