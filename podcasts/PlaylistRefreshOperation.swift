@@ -29,7 +29,7 @@ class PlaylistRefreshOperation: Operation {
                 case .smart:
                     newData = episodesDataManager.smartPlaylistEpisodes(for: playlist)
                 case .manual:
-                    newData = episodesDataManager.smartPlaylistEpisodes(for: playlist)
+                    newData = episodesDataManager.manualPlaylistEpisodes(for: playlist)
                 }
             } else {
                 newData = episodesDataManager.episodes(for: playlist)
