@@ -8,28 +8,27 @@ struct SearchResultCell: View {
     @EnvironmentObject var searchAnalyticsHelper: SearchAnalyticsHelper
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
-    let episode: EpisodeSearchResult?
-    let result: PodcastFolderSearchResult?
+    @StateObject var model: SearchResultCellModel
+
     let played: Bool
     let showDivider: Bool
     let cellStyle: ListCellButtonStyle
 
     init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
-        self.episode = episode
-        self.result = result
         self.played = episode != nil && played
         self.showDivider = showDivider
         self.cellStyle = cellStyle
+        self._model = StateObject<SearchResultCellModel>(wrappedValue: SearchResultCellModel(episode: episode, podcastFolder: result))
     }
 
     var body: some View {
         ZStack {
             Button(action: {
-                if let episode {
+                if let episode = model.episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
                     searchHistory.add(episode: episode)
                     searchAnalyticsHelper.trackResultTapped(episode)
-                } else if let result {
+                } else if let result = model.podcastFolder {
                     result.navigateTo()
                     searchHistory.add(podcast: result)
                     searchAnalyticsHelper.trackResultTapped(result)
@@ -43,12 +42,12 @@ struct SearchResultCell: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {
-                    (episode?.podcastUuid ?? result?.uuid).map {
-                        SearchEntryImage(uuid: $0, kind: result?.kind)
+                    (model.episode?.podcastUuid ?? model.podcastFolder?.uuid).map {
+                        SearchEntryImage(uuid: $0, kind: model.podcastFolder?.kind)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        if let episode {
+                        if let episode = model.episode {
                             Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                                 .font(style: .footnote, weight: .bold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
@@ -60,7 +59,7 @@ struct SearchResultCell: View {
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
-                        } else if let result {
+                        } else if let result = model.podcastFolder {
                             Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
@@ -73,11 +72,18 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if episode != nil, played {
-                        Image("list_played", bundle: nil)
-                            .renderingMode(.template)
-                            .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
-                    } else if let result, result.kind == .podcast {
+                    if model.episode != nil {
+                        if played {
+                            Image("list_played", bundle: nil)
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                                .frame(width: 48, height: 48)
+                        } else if FeatureFlag.searchImprovements.enabled {
+                            EpisodeActionButton(model: self.model)
+                                .frame(width: 48, height: 48)
+                        }
+                    } else if let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
@@ -98,5 +104,44 @@ extension PodcastFolderSearchResult {
 
     var authorToDisplay: String {
         author ?? ""
+    }
+}
+
+struct EpisodeActionButton: UIViewRepresentable {
+
+    @EnvironmentObject var theme: Theme
+
+    @ObservedObject var model: SearchResultCellModel
+
+    func makeUIView(context: Context) -> MainEpisodeActionView {
+        let view = MainEpisodeActionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+
+    func updateUIView(_ view: MainEpisodeActionView, context: Context) {
+        guard let episodeUUID = model.episode?.uuid else {
+            return
+        }
+        let episode: BaseEpisode
+        if let realEpisode = model.realEpisode {
+            episode = realEpisode
+        } else {
+            episode = Episode()
+            episode.uuid = episodeUUID
+        }
+        episode.uuid = episodeUUID
+        view.delegate = model
+        view.populateFrom(episode: episode)
+        view.tintColor = AppTheme.colorForStyle(.primaryIcon01, themeOverride: theme.activeTheme)
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: MainEpisodeActionView, context: Context) -> CGSize? {
+        // Use the proposal, uiView's intrinsic size, or custom logic
+        if let width = proposal.width, let height = proposal.height {
+            return CGSize(width: width, height: height)
+        }
+        // Or, to use the UIKit view's intrinsic content size:
+        return uiView.intrinsicContentSize
     }
 }
