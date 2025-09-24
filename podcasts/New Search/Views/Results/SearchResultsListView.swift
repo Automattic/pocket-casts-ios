@@ -5,6 +5,7 @@ struct SearchResultsListView: View {
     enum DisplayMode: String, AnalyticsDescribable {
         case podcasts
         case episodes
+        case allResults
 
         var analyticsDescription: String {
             rawValue
@@ -35,8 +36,14 @@ struct SearchResultsListView: View {
 
                             SearchResultCell(episode: episode, result: nil)
                         }
+                    case .allResults:
+                        ForEach(searchResults.podcasts, id: \.self) { podcast in
+                            SearchResultCell(episode: nil, result: podcast)
+                        }
+                        ForEach(searchResults.episodes, id: \.self) { episode in
+                            SearchResultCell(episode: episode, result: nil)
+                        }
                     }
-
                     if displayMode == .podcasts && searchResults.isSearchingForPodcasts || displayMode == .episodes && searchResults.isSearchingForEpisodes {
                         ProgressView()
                         .frame(maxWidth: .infinity)

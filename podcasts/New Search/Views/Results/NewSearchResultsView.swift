@@ -11,7 +11,7 @@ struct NewSearchResultsView: View {
     @State var identifier = 0
 
     @State var showInlineResults = false
-    @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
+    @State var displayMode: SearchResultsListView.DisplayMode = .allResults
 
     var body: some View {
         ZStack {
@@ -43,19 +43,29 @@ struct NewSearchResultsView: View {
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
             } else {
-                List {
-                    Section {
-                        podcastList
+                VStack {
+                    Picker("Results", selection: $displayMode) {
+                        Text("All Results").tag(SearchResultsListView.DisplayMode.allResults)
+                        Text("Podcasts").tag(SearchResultsListView.DisplayMode.podcasts)
+                        Text("Episodes").tag(SearchResultsListView.DisplayMode.episodes)
                     }
-                    if !searchResults.hideEpisodes {
-                        Section {
-                            episodeList
+                    .pickerStyle(.segmented)
+                    List {
+                        if displayMode == .allResults || displayMode == .podcasts {
+                            Section {
+                                podcastList
+                            }
+                        }
+                        if displayMode == .allResults || displayMode == .episodes {
+                            Section {
+                                episodeList
+                            }
                         }
                     }
+                    .listStyle(.plain)
+                    .listRowSeparatorTint(theme.primaryUi05)
+                    .scrollContentBackground(.hidden)
                 }
-                .listStyle(.plain)
-                .listRowSeparatorTint(theme.primaryUi05)
-                .scrollContentBackground(.hidden)
             }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
