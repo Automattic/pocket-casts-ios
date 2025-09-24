@@ -72,6 +72,9 @@ struct NewSearchResultsView: View {
         }
         .padding(.bottom, 8)
         .background(theme.secondaryUi01)
+        .onChange(of: displayMode) { newValue in
+            searchAnalyticsHelper.trackFilterTapped(newValue.analyticsDescription)
+        }
     }
 
     @ViewBuilder var podcastList: some View {
