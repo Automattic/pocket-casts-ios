@@ -44,12 +44,7 @@ struct NewSearchResultsView: View {
                 .background(Theme.sharedTheme.primaryUi01)
             } else {
                 VStack {
-                    Picker("Results", selection: $displayMode) {
-                        Text("All Results").tag(SearchResultsListView.DisplayMode.allResults)
-                        Text("Podcasts").tag(SearchResultsListView.DisplayMode.podcasts)
-                        Text("Episodes").tag(SearchResultsListView.DisplayMode.episodes)
-                    }
-                    .pickerStyle(.segmented)
+                    filterPicker
                     List {
                         if displayMode == .allResults || displayMode == .podcasts {
                             Section {
@@ -69,6 +64,13 @@ struct NewSearchResultsView: View {
             }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
+    }
+
+    @ViewBuilder var filterPicker: some View {
+        PillSegmentControl(SearchResultsListView.DisplayMode.allCases, selection: $displayMode) { item in
+            Text(item.localizedDescription)
+        }
+        .padding(.horizontal, 16)
     }
 
     @ViewBuilder var podcastList: some View {

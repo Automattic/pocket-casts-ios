@@ -2,13 +2,28 @@ import SwiftUI
 import PocketCastsServer
 
 struct SearchResultsListView: View {
-    enum DisplayMode: String, AnalyticsDescribable {
+    enum DisplayMode: String, AnalyticsDescribable, CaseIterable, Identifiable {
+        case allResults
         case podcasts
         case episodes
-        case allResults
 
         var analyticsDescription: String {
             rawValue
+        }
+
+        var id: String {
+            rawValue
+        }
+
+        var localizedDescription: String {
+            switch self {
+                case .allResults:
+                    return L10n.allResults
+                case .podcasts:
+                    return L10n.podcastsPlural
+                case .episodes:
+                    return L10n.episodes
+            }
         }
     }
 
