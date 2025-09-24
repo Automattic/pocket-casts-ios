@@ -70,7 +70,6 @@ struct NewSearchResultsView: View {
         PillSegmentControl(SearchResultsListView.DisplayMode.allCases, selection: $displayMode) { item in
             Text(item.localizedDescription)
         }
-        .padding(.horizontal, 16)
     }
 
     @ViewBuilder var podcastList: some View {

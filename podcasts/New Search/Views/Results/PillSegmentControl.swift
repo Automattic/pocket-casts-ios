@@ -20,7 +20,8 @@ struct PillSegmentControl<Data: RandomAccessCollection, Content: View>: View whe
 
     var body: some View {
         ScrollView(.horizontal) {
-            HStack(alignment: .center) {
+            HStack(alignment: .center, spacing: 8) {
+                Spacer().frame(width: 8, height: 1)
                 ForEach(data) { item in
                     Button(action: {
                         selection = item
@@ -29,9 +30,15 @@ struct PillSegmentControl<Data: RandomAccessCollection, Content: View>: View whe
                     }
                     .buttonStyle(PillButtonStyle(isSelected: selection.id == item.id))
                 }
-                Spacer()
+                Spacer().frame(width: 8, height: 1)
             }
-        }.scrollIndicators(.hidden)
+        }
+        .scrollIndicators(.hidden)
+        .modify {
+            if #available(iOS 16.4, *) {
+                $0.scrollBounceBehavior(.basedOnSize, axes: .horizontal)
+            }
+        }
     }}
 
 
@@ -83,7 +90,7 @@ struct PillButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.callout.weight(.medium))
+            .font(.subheadline.weight(.medium))
             .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, Constants.Padding.horizontal)
             .padding(.vertical, Constants.Padding.vertical)
@@ -97,4 +104,3 @@ struct PillButtonStyle: ButtonStyle {
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
 }
-
