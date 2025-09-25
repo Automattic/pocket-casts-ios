@@ -37,15 +37,6 @@
       }
     },
     {
-      "identity" : "appsflyerframework-dynamic",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AppsFlyerSDK/AppsFlyerFramework-Dynamic",
-      "state" : {
-        "revision" : "9ff9532a55c1c44c3566d192773cdf5d454ea384",
-        "version" : "6.17.0"
-      }
-    },
-    {
       "identity" : "automattic-tracks-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
@@ -70,15 +61,6 @@
       "state" : {
         "revision" : "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
         "version" : "3.4.0"
-      }
-    },
-    {
-      "identity" : "facebook-ios-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/facebook/facebook-ios-sdk",
-      "state" : {
-        "revision" : "b28dde427715b45a26ebebf697929f4a81b15e04",
-        "version" : "18.0.0"
       }
     },
     {

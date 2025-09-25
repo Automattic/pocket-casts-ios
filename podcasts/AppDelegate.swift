@@ -7,7 +7,6 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
-import FacebookCore
 import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -120,10 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        }
 
         return true
     }
