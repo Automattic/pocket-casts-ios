@@ -5,6 +5,7 @@ import PocketCastsDataModel
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let episodeSearch = EpisodeSearchTask()
+    private let predictiveSearch = PredictiveSearchTask()
 
     private let analyticsHelper: SearchAnalyticsHelper
 
@@ -13,9 +14,11 @@ class SearchResultsModel: ObservableObject {
 
     @Published var episodeSearchError: Error?
     @Published var podcastSearchError: Error?
+    @Published var predictiveSearchError: Error?
 
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
+    @Published var predictive: [PredictiveSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
@@ -43,6 +46,36 @@ class SearchResultsModel: ObservableObject {
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
+    }
+
+    @MainActor
+    func predictiveSearch(term: String) {
+        currentSearchTerm = term
+        episodeSearchError = nil
+        podcastSearchError = nil
+
+        if !isShowingLocalResultsOnly {
+            clearSearch()
+        }
+
+        guard !term.startsWith(string: "http:") else {
+            return
+        }
+
+        Task {
+            isSearchingForPodcasts = true
+            do {
+                let results = try await predictiveSearch.search(term: term)
+                show(predictiveResults: results)
+            } catch {
+                predictiveSearchError = error
+                //analyticsHelper.trackFailed(error)
+            }
+
+            isSearchingForPodcasts = false
+        }
+
+        //analyticsHelper.trackSearchPerformed()
     }
 
     @MainActor
@@ -142,5 +175,9 @@ class SearchResultsModel: ObservableObject {
         } else {
             podcasts = podcastResults
         }
+    }
+
+    private func show(predictiveResults: [PredictiveSearchResult]) {
+        predictive = predictiveResults        
     }
 }

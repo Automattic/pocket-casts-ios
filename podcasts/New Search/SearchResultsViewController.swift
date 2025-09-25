@@ -57,6 +57,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
+        //TODO: branch here
         searchResults.search(term: searchTerm)
 
         if !triggeredByTimer {
