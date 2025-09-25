@@ -152,6 +152,10 @@ class PlaylistDetailViewModel: ObservableObject {
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
     }
 
+    func unarchivedEpisodesCount() -> Int {
+        return 1 // TODO: query playlist unarchived episodes
+    }
+
     private func buildChangeSet(
         source: [ListEpisode],
         newData: [ListEpisode]

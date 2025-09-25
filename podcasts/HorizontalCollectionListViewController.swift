@@ -22,4 +22,13 @@ class HorizontalCollectionListViewController: ThemedHostingController<Horizontal
         model.populateFrom(item: item, region: region, category: category)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let listId = model.item?.uuid {
+            let categoryId = model.category?.id.map(String.init)
+            AnalyticsHelper.listImpression(listId: listId, category: categoryId)
+        }
+    }
+
 }
