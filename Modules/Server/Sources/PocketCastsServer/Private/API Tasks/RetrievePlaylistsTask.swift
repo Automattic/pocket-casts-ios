@@ -4,9 +4,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 
 class RetrievePlaylistsTask: ApiBaseTask {
-    var completion: (([EpisodeFilter]?) -> Void)?
-
-    private var playlists = [EpisodeFilter]()
+    var completion: (([(EpisodeFilter, [Episode])]?) -> Void)?
 
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/playlist/list"
@@ -32,30 +30,15 @@ class RetrievePlaylistsTask: ApiBaseTask {
                     return
                 }
 
-                var addedEpisodes: [Episode] = []
-                for serverPlaylist in serverPlaylists {
-                    let convertedPlaylist = convertFromProto(serverPlaylist)
-
-                    // Add missing episodes
-                    let serverSet = Set(serverPlaylist.episodeOrder)
-                    let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: convertedPlaylist).map { $0.uuid }
-                    let missingEpisodes = serverSet.subtracting(matchedEpisodes)
-
-                    let episodes: [Episode] = missingEpisodes.compactMap { episode in
-                        let playlistEpisode = serverPlaylist.episodes.first(where: { $0.episode == episode })
-
-                        guard let playlistEpisode else { return nil }
-                        return Episode(playlistEpisode)
+                let result = serverPlaylists.map { serverPlaylist in
+                    let episodes = serverPlaylist.episodes.map {
+                        Episode($0)
                     }
-                    addedEpisodes = episodes
-                    DataManager.sharedManager.add(episodes: addedEpisodes, to: convertedPlaylist)
-                    DataManager.sharedManager.save(playlist: convertedPlaylist)
-
-                    playlists.append(convertedPlaylist)
+                    let orderedEpisodes = episodes.sorted { serverPlaylist.episodeOrder.firstIndex(of: $0.uuid) ?? 0 < serverPlaylist.episodeOrder.firstIndex(of: $1.uuid) ?? 0 }
+                    return (convertFromProto(serverPlaylist), orderedEpisodes)
                 }
 
-
-                completion?(playlists)
+                completion?(result)
             } catch {
                 FileLog.shared.addMessage("Decoding playlists failed \(error.localizedDescription)")
                 completion?(nil)
