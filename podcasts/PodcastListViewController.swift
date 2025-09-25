@@ -157,6 +157,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             guard let self = self else { return }
 
             self.updateNavigationButtons()
+            self.loadBannerAd()
         }
     }
 
