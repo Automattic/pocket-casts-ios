@@ -253,7 +253,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func loadBannerAd() {
 #if !APPCLIP
         if FeatureFlag.bannerAdPlayer.enabled &&
-            !SubscriptionHelper.hasActiveSubscription() &&
             !SubscriptionHelper.shouldRemoveBannerAd {
             DiscoverServerHandler.shared.blazePromotion(for: .player) { [weak self] promotion, shouldAnimate in
                 guard let self = self else { return }
