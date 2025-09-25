@@ -164,8 +164,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     private func loadBannerAd() {
         bannerTask?.cancel()
 
-        if FeatureFlag.bannerAdPodcasts.enabled &&
-            !SubscriptionHelper.shouldRemoveBannerAd {
+        if SubscriptionHelper.shouldDisplayBannerAd {
             DiscoverServerHandler.shared.blazePromotion(for: .podcastList) { [weak self] promotion, shouldAnimate in
                 guard let self = self else { return }
 
@@ -472,6 +471,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func setupBannerAd(promotion: BlazePromotion, shouldAnimate: Bool) {
+        guard SubscriptionHelper.shouldDisplayBannerAd else {
+            return
+        }
         bannerAdModel = BannerAdModel(promotion: promotion) {
             UIApplication.shared.openSafariVCIfPossible(promotion.urlApple)
         }
