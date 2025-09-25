@@ -1086,6 +1086,8 @@ que has escuchado dura
     <string>Todas las funciones de Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Guarda las marcas de tiempo con los marcadores</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ GB de almacenamiento en la nube para tus archivos</string>
     <key>feature_marketing_early_access</key>
     <string>Acceso anticipado a las nuevas funciones</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Nota: Es posible que tengas que mandarte el archivo OPML por correo electrónico
 pódcast contigo</string>
     <key>in_progress</key>
     <string>En progreso</string>
+    <key>interests_select_at_least</key>
+    <string>Seleccionar al menos %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Mostrar más categorías</string>
+    <key>interests_subtitle</key>
+    <string>Te esperan podcast geniales, elegidos por personas reales.</string>
+    <key>interests_title</key>
+    <string>Háblanos de tus temas favoritos</string>
     <key>keycommand_close_player</key>
     <string>Cerrar reproductor</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Intenta ajustar las reglas, o guarda esta lista de reproducción para futuros ep
     <string>Añade automáticamente episodios según las reglas.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Convertir en lista de reproducción inteligente</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ episodios • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Añadir episodios</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Explorar programas</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Desliza hacia la izquierda en un episodio para añadirlo a tu lista de reproducción.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Empieza a crear tu lista de reproducción</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Añade episodios a tu lista de reproducción</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crear lista de reproducción inteligente</string>
     <key>playlist_preview_title</key>
     <string>Previsualizar %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Llegados aquí, puedes celebrar que la lista está terminada o modificar las reglas para encontrar más episodios.</string>
     <key>playlist_smart_preview_description</key>
     <string>Configura «Reglas inteligentes» para añadir automáticamente episodios a tu «Lista de reproducción inteligente».</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>RECUENTO DEL FILTRO DE EPISODIOS</string>
     <key>settings_badge_new_since_opened</key>
     <string>Nuevos episodios desde que se abrió la aplicación</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>NÚMERO DE EPISODIOS DE LA LISTA DE REPRODUCCIÓN INTELIGENTE</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total de episodios no reproducidos</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Avisos</string>
     <key>settings_notifications_filter_count</key>
     <string>Recuento de filtros</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Número de listas de reproducción inteligentes</string>
     <key>settings_notifications_subtitle</key>
     <string>Te avisa cuando hay un nuevo episodio disponible. También es útil para mejorar la fiabilidad de las descargas automáticas.</string>
     <key>settings_opml</key>

@@ -1086,6 +1086,8 @@ Pocket Casts на полную мощность.</string>
     <string>Все функции Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Сохраняйте отметки времени в закладках</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ ГБ облачного хранилища для ваших файлов</string>
     <key>feature_marketing_early_access</key>
     <string>Ранний доступ к новым возможностям</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Pocket Casts на полную мощность.</string>
 подкасты с собой</string>
     <key>in_progress</key>
     <string>Выполняется</string>
+    <key>interests_select_at_least</key>
+    <string>Выбрать хотя бы %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Показать больше рубрик</string>
+    <key>interests_subtitle</key>
+    <string>Отличные подкасты, подобранные вручную, уже на пути к вам!</string>
+    <key>interests_title</key>
+    <string>Расскажите нам о своих любимых темах</string>
     <key>keycommand_close_player</key>
     <string>Закрыть плеер</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Pocket Casts на полную мощность.</string>
     <string>Автоматически добавлять выпуски на основе правил.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Преобразовать в умный плейлист</string>
+    <key>playlist_detail_description</key>
+    <string>Выпусков: %1$@ • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Добавить выпуски</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Просмотр шоу</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Смахните выпуск влево, чтобы добавить его в плейлист.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Начните создавать плей-лист</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Добавить выпуски в плейлист</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Создать умный плейлист</string>
     <key>playlist_preview_title</key>
     <string>Предварительный просмотр %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>У вас два варианта: порадоваться завершению этого списка или изменить правила, чтобы его расширить.</string>
     <key>playlist_smart_preview_description</key>
     <string>Настройте умные правила, чтобы автоматически добавлять выпуски в свой умный плейлист.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Pocket Casts на полную мощность.</string>
     <string>СЧЕТЧИК ФИЛЬТРА ВЫПУСКОВ</string>
     <key>settings_badge_new_since_opened</key>
     <string>Новые выпуски с момента открытия</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>СЧЕТЧИК ВЫПУСКОВ УМНОГО ПЛЕЙЛИСТА</string>
     <key>settings_badge_total_unplayed</key>
     <string>Всего не прослушано</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Pocket Casts на полную мощность.</string>
     <string>Уведомления</string>
     <key>settings_notifications_filter_count</key>
     <string>Счетчик фильтра </string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Счётчик умного плейлиста</string>
     <key>settings_notifications_subtitle</key>
     <string>Уведомляет вас о выходе нового выпуска. Также полезно для повышения надежности автоматического скачивания.</string>
     <key>settings_opml</key>

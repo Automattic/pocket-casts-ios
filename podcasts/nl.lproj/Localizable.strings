@@ -1084,6 +1084,8 @@ waar je naar hebt geluisterd was
     <string>Alle functies van Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Tijdstempels bewaren met bladwijzers</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ GB cloudopslag voor je bestanden</string>
     <key>feature_marketing_early_access</key>
     <string>Vroegtijdige toegang tot nieuwe functies</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1468,6 +1470,14 @@ Opmerking: Mogelijk moet je het OPML-bestand naar jezelf mailen. Hiervoor druk j
 podcasts mee</string>
     <key>in_progress</key>
     <string>Nog steeds bezig</string>
+    <key>interests_select_at_least</key>
+    <string>Selecteer minimaal %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Meer categorieën weergeven</string>
+    <key>interests_subtitle</key>
+    <string>Geweldige podcasts, zorgvuldig geselecteerd door echte mensen, komen jouw kant op!</string>
+    <key>interests_title</key>
+    <string>Vertel ons over je favoriete onderwerpen</string>
     <key>keycommand_close_player</key>
     <string>Speler sluiten</string>
     <key>keycommand_decrease_speed</key>
@@ -2023,10 +2033,22 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Afleveringen automatisch toevoegen op basis van regels.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Maak een slimme afspeellijst</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Afleveringen toevoegen</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Door shows bladeren</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Swipe en aflevering naar links om deze aan je afspeellijst toe te voegen.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Begin met het bouwen van je afspeellijst</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Afleveringen aan je afspeellijst toevoegen</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Slimme afspeellijst aanmaken</string>
     <key>playlist_preview_title</key>
     <string>Voorbeeld %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Het wordt ofwel tijd om te vieren dat je deze lijst hebt afgerond of om je regels te bewerken om er meer te krijgen.</string>
     <key>playlist_smart_preview_description</key>
     <string>Stel slimme regels in om automatisch afleveringen toe te voegen aan je slimme afspeellijst.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2791,6 +2813,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>AANTAL AFLEVERINGFILTERS</string>
     <key>settings_badge_new_since_opened</key>
     <string>Nieuwe sinds de app werd geopend</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>AANTAL AFLEVERINGEN IN DE SLIMME AFSPEELLIJST</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totaal niet-afgespeeld</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2967,6 +2991,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Meldingen</string>
     <key>settings_notifications_filter_count</key>
     <string>Aantal filters</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Aantal slimme afspeellijsten</string>
     <key>settings_notifications_subtitle</key>
     <string>Geeft je een melding wanneer een nieuwe aflevering beschikbaar is. Ook nuttig voor het verbeteren van de betrouwbaarheid van automatische downloads.</string>
     <key>settings_opml</key>
