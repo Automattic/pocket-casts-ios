@@ -175,7 +175,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                     }
 
                     // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                    if actionBarVisible {
+                    if actionBarVisible && !useExternalActionBar {
                         Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
                     }
                 }
@@ -204,7 +204,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
             BookmarkRow(bookmark: bookmark, style: style)
             if !viewModel.isLast(item: bookmark) { divider }
         }
-        if actionBarVisible { Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding) }
+        if actionBarVisible && !useExternalActionBar { Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding) }
     }
 
     @ViewBuilder
