@@ -197,8 +197,8 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     func saveFilterAndNotify() {
         guard let filter = filter else { return }
         filter.syncStatus = SyncStatus.notSynced.rawValue
-        DataManager.sharedManager.save(filter: filter)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+        DataManager.sharedManager.save(playlist: filter)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filter)
 
         if !filter.isNew {
             Analytics.track(.filterUpdated, properties: ["group": "starred", "source": "filters"])

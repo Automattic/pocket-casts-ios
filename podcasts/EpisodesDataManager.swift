@@ -13,7 +13,7 @@ class EpisodesDataManager {
                 return episodes(for: podcast).flatMap { $0.elements.compactMap { ($0 as? ListEpisode)?.episode } }
             }
         case .filter(uuid: let uuid):
-            if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+            if let filter = DataManager.sharedManager.findPlaylist(uuid: uuid) {
                 return episodes(for: filter).map { $0.episode }
             }
         case .downloads:
@@ -133,7 +133,7 @@ class EpisodesDataManager {
         return "podcast_id = \(podcast.id) \(sortStr)"
     }
 
-    // MARK: - Filters
+    // MARK: - Playlists
 
     func episodes(for filter: EpisodeFilter, limit: Int = Constants.Limits.maxFilterItems) -> [ListEpisode] {
         let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: limit)

@@ -2,11 +2,11 @@ import PocketCastsDataModel
 import WatchKit
 
 class WatchDataManager {
-    class func filters() -> [WatchFilter]? {
+    class func playlists() -> [WatchPlaylist]? {
         if let data = UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.data) as? [String: Any], let filters = data[WatchConstants.Keys.filters] as? [[String: Any]] {
-            var convertedFilters = [WatchFilter]()
+            var convertedFilters = [WatchPlaylist]()
             for filter in filters {
-                let convertedFilter = WatchFilter()
+                let convertedFilter = WatchPlaylist()
                 if let title = filter[WatchConstants.Keys.filterTitle] as? String {
                     convertedFilter.title = title
                 }

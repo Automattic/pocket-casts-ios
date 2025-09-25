@@ -1,23 +1,23 @@
 import PocketCastsDataModel
 import WatchKit
 
-protocol Filter {
+protocol PlaylistRepresentable {
     var uuid: String { get }
     var title: String { get }
     var iconName: String? { get }
 }
 
-class WatchFilter: Equatable, Filter {
+class WatchPlaylist: Equatable, PlaylistRepresentable {
     var title = ""
     var uuid = ""
     var iconName: String? = ""
 
-    static func == (lhs: WatchFilter, rhs: WatchFilter) -> Bool {
+    static func == (lhs: WatchPlaylist, rhs: WatchPlaylist) -> Bool {
         lhs.title == rhs.title && lhs.uuid == rhs.uuid && lhs.iconName == rhs.iconName
     }
 }
 
-extension EpisodeFilter: Filter {
+extension EpisodeFilter: PlaylistRepresentable {
     var title: String {
         playlistName
     }

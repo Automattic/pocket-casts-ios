@@ -32,7 +32,7 @@ struct Constants {
         static let episodeDownloaded = NSNotification.Name(rawValue: "SJEpisodeDownloaded")
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
-        static let filterChanged = NSNotification.Name(rawValue: "FilterChanged")
+        static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
         static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
@@ -253,7 +253,7 @@ struct Constants {
 
         static let miniPlayerOffset = 80 as CGFloat
         static let extraShowNotesVerticalSpacing: CGFloat = 60
-        static let defaultFilterDownloadLimit = 10 as Int32
+        static let defaultPlaylistDownloadLimit = 10 as Int32
         static let siriArtworkSize = 680
 
         static let minTimeBetweenPodcastImageUpdates = 4.weeks

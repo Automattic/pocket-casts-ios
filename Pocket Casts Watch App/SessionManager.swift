@@ -17,7 +17,7 @@ class SessionManager: NSObject, WCSessionDelegate {
 
     func setup() {
         // wake up the app if we don't have any data, this should cause it to send us some
-        if WatchDataManager.filters() == nil {
+        if WatchDataManager.playlists() == nil {
             requestData()
         }
     }

@@ -131,21 +131,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var loadingBgView: UIView! {
         didSet {
-            if FeatureFlag.podcastViewChanges.enabled {
-                loadingBgView.backgroundColor = .clear
-            } else {
-                loadingBgView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
-            }
+            loadingBgView.backgroundColor = .clear
         }
     }
 
     @IBOutlet var loadingImageBg: UIView! {
         didSet {
-            if FeatureFlag.podcastViewChanges.enabled {
-                loadingImageBg.backgroundColor = .clear
-            } else {
-                loadingImageBg.backgroundColor = ThemeColor.primaryUi05()
-            }
+            loadingImageBg.backgroundColor = .clear
         }
     }
 
@@ -170,16 +162,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         self.longPressMultiSelectIndexPath = nil
                     }
                     if let podcast = self.podcast {
-                        if FeatureFlag.podcastViewChanges.enabled {
-                            self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-                            self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                            self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                        } else {
-                            let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
-                            self.multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-                            self.multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-                            self.multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-                        }
+                        self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
+                        self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+                        self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+
                         self.updateSelectAllBtn()
                         self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                         self.multiSelectHeaderView.isHidden = false
@@ -316,21 +302,19 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         searchController?.podcastDelegate = self
 
         operationQueue.maxConcurrentOperationCount = 1
-        if FeatureFlag.podcastViewChanges.enabled {
-            scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
-            episodesTable.themeStyle = .primaryUi02
-            episodesTable.addSubview(blurHeaderView)
-            let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
-            NSLayoutConstraint.activate([
-                blurHeaderPositionConstraint,
-                blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
-                blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
-                blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            ])
-            self.blurHeaderPositionConstraint = blurHeaderPositionConstraint
-        } else {
-            scrollPointToChangeTitle = 38
-        }
+
+        scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
+        episodesTable.themeStyle = .primaryUi02
+        episodesTable.addSubview(blurHeaderView)
+        let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
+        NSLayoutConstraint.activate([
+            blurHeaderPositionConstraint,
+            blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
+            blurHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -20),
+            blurHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+        ])
+        self.blurHeaderPositionConstraint = blurHeaderPositionConstraint
+
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
         addGoogleCastBtn()
         loadPodcastInfo()
@@ -405,9 +389,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
-        if FeatureFlag.podcastViewChanges.enabled {
-            self.navigationController?.isNavigationBarHidden = true
-        }
+        self.navigationController?.isNavigationBarHidden = true
         updateColors()
     }
 
@@ -425,12 +407,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var blurHeaderPosition: CGFloat {
         summaryExpanded ? PodcastHeaderView.Constants.largeImageSize : PodcastHeaderView.Constants.smallImageSize / 2
     }
-
-    lazy var podcastHeadingCell: PodcastHeadingTableCell = {
-         let nib = Bundle.main.loadNibNamed("PodcastHeadingTableCell", owner: self, options: nil)
-         let cell = nib?[0] as! PodcastHeadingTableCell
-         return cell
-    }()
 
     lazy var podcastHeaderCell: PodcastHeaderCell = {
         return PodcastHeaderCell(podcast: self.podcast!, vc: self)
@@ -480,9 +456,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-        if FeatureFlag.podcastViewChanges.enabled {
-            self.navigationController?.isNavigationBarHidden = true
-        }
+        self.navigationController?.isNavigationBarHidden = true
         showViewChangesTipIfNeeded()
 
         // Load recommendations when view appears
@@ -555,28 +529,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func updateColors() {
         reloadData()
         if let podcast = podcast {
-            if FeatureFlag.podcastViewChanges.enabled {
-                updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
+            updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
 
-                multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-                multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                // we need to do this for scenarios when theme was changed
-                updateNavigationBar(position: episodesTable.contentOffset.y)
-            } else {
-                let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
-                updateNavColors(bgColor: ThemeColor.podcastUi03(podcastColor: podcastBgColor), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
-
-                multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-                multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-                multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-            }
+            multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
+            multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+            multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
+            // we need to do this for scenarios when theme was changed
+            updateNavigationBar(position: episodesTable.contentOffset.y)
         } else {
-            if FeatureFlag.podcastViewChanges.enabled {
-                updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
-            } else {
-                updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01(), buttonBackgroundColor: .clear)
-            }
+            updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
         }
     }
 
@@ -817,11 +778,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func setSummaryExpanded(expanded: Bool) {
         summaryExpanded = expanded
-        if FeatureFlag.podcastViewChanges.enabled {
-            blurHeaderPositionConstraint?.constant = blurHeaderPosition
-            UIView.animate(withDuration: 0.2) {
-                self.view.layoutIfNeeded()
-            }
+        blurHeaderPositionConstraint?.constant = blurHeaderPosition
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
         }
     }
 
@@ -1272,9 +1231,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
             refreshControl = CustomRefreshControl()
-            if FeatureFlag.podcastViewChanges.enabled {
-                refreshControl?.customTintColor = contrastColorForPodcastImage
-            }
+            refreshControl?.customTintColor = contrastColorForPodcastImage
             refreshControl?.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
@@ -1407,8 +1364,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var dimmingView: UIView?
 
     func showViewChangesTipIfNeeded() {
-        guard FeatureFlag.podcastViewChanges.enabled,
-              Settings.shouldShowPodcastViewChangesTip,
+        guard Settings.shouldShowPodcastViewChangesTip,
               self.podcast != nil,
               viewChangesTipVC == nil
         else {

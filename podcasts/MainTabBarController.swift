@@ -181,12 +181,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
-            Task {
-                await AppTrackingTransparencyController.shared.promptConsentAlert()
-            }
-        }
-
         if FeatureFlag.encourageAccountCreation.enabled,
            !Settings.hasShownInformationalViewModal,
            Settings.hasSeenInitialOnboardingBefore,

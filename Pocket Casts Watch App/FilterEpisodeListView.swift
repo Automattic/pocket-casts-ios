@@ -3,7 +3,7 @@ import SwiftUI
 struct FilterEpisodeListView: View {
     private static let filterUUIDKey = "filterUUID"
 
-    static func context(withFilter filter: Filter) -> [String: Any] {
+    static func context(withFilter filter: PlaylistRepresentable) -> [String: Any] {
         [filterUUIDKey: filter.uuid]
     }
 
@@ -72,8 +72,8 @@ struct FilterEpisodeListView: View {
 }
 
 struct FilterEpisodeListView_Previews: PreviewProvider {
-    static var testFilter: WatchFilter {
-        let filter = WatchFilter()
+    static var testFilter: WatchPlaylist {
+        let filter = WatchPlaylist()
         filter.title = "New Releases"
         filter.iconName = "filter_headphones"
         return filter

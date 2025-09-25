@@ -183,13 +183,13 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     // MARK: Filters
 
-    internal func fetchFilterEpisodes(_ filter: Filter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
-        guard let filter = filter as? EpisodeFilter else {
+    internal func fetchPlaylistEpisodes(_ playlist: PlaylistRepresentable) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
+        guard let playlist = playlist as? EpisodeFilter else {
             /// Watch Source should be communicating using `EpisodeFilter`. This is likely a developer error.
             return Fail<[BaseEpisode], PlaySourceError>(error: .wrongBaseType).eraseToAnyPublisher()
         }
 
-        return fetchFilterEpisodes(filter)
+        return fetchFilterEpisodes(playlist)
     }
 
     func fetchFilterEpisodes(_ filter: EpisodeFilter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
@@ -198,20 +198,20 @@ class WatchSourceViewModel: PlaySourceViewModel {
         return Just(filterEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
-    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError> {
+    func fetchPlaylists() -> AnyPublisher<[PlaylistRepresentable], PlaySourceError> {
         let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
         return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
-    func fetchFilter(_ uuid: String) -> Filter? {
-        DataManager.sharedManager.findFilter(uuid: uuid)
+    func fetchPlaylist(_ uuid: String) -> PlaylistRepresentable? {
+        DataManager.sharedManager.findPlaylist(uuid: uuid)
     }
 
-    func episodeCount(for filter: Filter) -> Int {
-        guard let episodeFilter = filter as? EpisodeFilter else {
+    func episodeCount(for playlist: PlaylistRepresentable) -> Int {
+        guard let playlist = playlist as? EpisodeFilter else {
             return 0
         }
-        return DataManager.sharedManager.episodeCount(forFilter: episodeFilter, episodeUuidToAdd: episodeFilter.episodeUuidToAddToQueries())
+        return DataManager.sharedManager.episodeCount(for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries())
     }
 
     // MARK: Up Next
