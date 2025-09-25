@@ -89,9 +89,9 @@ open class SubscriptionHelper: NSObject {
     }
 
     public class func subscriptionCreateDate() -> Date? {
-        let renewalTimeInterval = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionCreateDate)
-        let renewalDate = Date(timeIntervalSince1970: TimeInterval(renewalTimeInterval))
-        return renewalDate
+        let createDateTimeInterval = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionCreateDate)
+        let createDate = Date(timeIntervalSince1970: TimeInterval(createDateTimeInterval))
+        return createDate
     }
 
     public class func timeToSubscriptionExpiry() -> TimeInterval? {
