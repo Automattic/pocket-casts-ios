@@ -115,20 +115,7 @@ extension PlaylistDetailViewController {
     }
 
     private func showCustomOrderList() {
-        let customOrderViewController = PlaylistDetailCustomOrderViewController(episodes: viewModel.episodes, playlistUUID: viewModel.playlist.uuid) { [weak self] editAction in
-            guard let self else { return }
-
-            switch editAction {
-            case .delete(episode: _):
-                // TODO: handle delete
-                break
-            case .orderChanged:
-                let playlist = self.viewModel.playlist!
-                playlist.sortType = PlaylistSort.dragAndDrop.rawValue
-                self.viewModel.update(playlist: playlist)
-                self.savePlaylist()
-            }
-        }
+        let customOrderViewController = PlaylistDetailCustomOrderViewController(viewModel: viewModel)
         navigationController?.pushViewController(customOrderViewController, animated: true)
     }
 

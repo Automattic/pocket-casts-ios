@@ -3,14 +3,8 @@ import SwiftUI
 import PocketCastsDataModel
 
 class PlaylistDetailCustomOrderViewController: PCViewController {
-    enum EditAction {
-        case orderChanged
-        case delete(episode: ListEpisode)
-    }
-
-    private var episodes: [ListEpisode]
-    private let playlistUUID: String
-    private let onApplyAction: (EditAction) -> Void
+    private weak var viewModel: PlaylistDetailViewModel?
+    private var episodes: [ListEpisode] = []
 
     private(set) var tableView: ThemeableTable! {
         didSet {
@@ -27,14 +21,8 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
         }
     }
 
-    init(
-        episodes: [ListEpisode],
-        playlistUUID: String,
-        onApplyAction: @escaping (EditAction) -> Void
-    ) {
-        self.episodes = episodes
-        self.playlistUUID = playlistUUID
-        self.onApplyAction = onApplyAction
+    init(viewModel: PlaylistDetailViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -77,6 +65,8 @@ class PlaylistDetailCustomOrderViewController: PCViewController {
     }
 
     private func setupContent() {
+        episodes = viewModel?.episodes ?? []
+
         tableView = ThemeableTable()
         view.addSubview(tableView)
 
@@ -125,9 +115,7 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let episode = episodes[safe: indexPath.row] {
-            // TODO: Delete episode from playlist in DB here?
-
-            onApplyAction(.delete(episode: episode))
+            viewModel?.delete(episodes: [episode.episode.uuid])
 
             episodes.remove(at: indexPath.row)
             tableView.beginUpdates()
@@ -147,12 +135,7 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
         episodes.remove(at: sourceIndexPath.row)
         episodes.insert(movedObject, at: destinationIndexPath.row)
 
-        // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
-        for (index, episode) in episodes.enumerated() {
-//            DataManager.sharedManager.updatePosition(playlist: filter, newPosition: Int32(index))
-        }
-
-        onApplyAction(.orderChanged)
+        viewModel?.move(episode: movedObject, toIndex: destinationIndexPath.row)
 
         // TODO: Add analytics
     }

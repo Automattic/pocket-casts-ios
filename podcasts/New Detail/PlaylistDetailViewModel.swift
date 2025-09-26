@@ -156,6 +156,14 @@ class PlaylistDetailViewModel: ObservableObject {
         return 1 // TODO: query playlist unarchived episodes
     }
 
+    func delete(episodes uuids: [String]) {
+        dataManager.deleteEpisodes(uuids, from: playlist)
+    }
+
+    func move(episode: ListEpisode, toIndex index: Int) {
+        dataManager.moveEpisode(episode.episode.uuid, in: playlist, to: index)
+    }
+
     private func buildChangeSet(
         source: [ListEpisode],
         newData: [ListEpisode]
