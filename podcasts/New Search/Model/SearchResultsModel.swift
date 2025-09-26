@@ -178,6 +178,6 @@ class SearchResultsModel: ObservableObject {
     }
 
     private func show(predictiveResults: [PredictiveSearchResult]) {
-        predictive = predictiveResults        
+        predictive = predictiveResults
     }
 }

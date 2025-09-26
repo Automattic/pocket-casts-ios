@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import PocketCastsUtils
 
 protocol SearchResultsDelegate {
     func clearSearch()
@@ -57,8 +58,12 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
-        //TODO: branch here
-        searchResults.search(term: searchTerm)
+
+        if FeatureFlag.searchImprovements.enabled, triggeredByTimer {
+            searchResults.predictiveSearch(term: searchTerm)
+        } else {
+            searchResults.search(term: searchTerm)
+        }
 
         if !triggeredByTimer {
             searchHistoryModel.add(searchTerm: searchTerm)
