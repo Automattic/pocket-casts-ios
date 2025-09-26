@@ -11,7 +11,7 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         //ensure that all work is done before releasing the table
         queue.async(flags: .barrier) { [table] in
             //Last work item
-            print("Dealocating table with \(table.count) elements")
+            FileLog.shared.console("Dealocating table with \(table.count) elements")
         }
     }
 
