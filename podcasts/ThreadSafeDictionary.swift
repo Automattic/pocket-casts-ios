@@ -1,3 +1,5 @@
+import PocketCastsUtils
+
 class ThreadSafeDictionary<Key: Hashable, Value> {
 
     private let queue: DispatchQueue
