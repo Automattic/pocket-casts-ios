@@ -460,6 +460,10 @@ public class DataManager {
         episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
     }
 
+    public func findMatchingEpisodes(uuids: [String]) -> [String] {
+        episodeManager.findMatchingEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
     public func findPlayedEpisodesCount(podcastId: Int64) async -> Int {
         await episodeManager.findPlayedEpisodesCount(podcastId: podcastId, dbQueue: dbQueue)
     }
@@ -495,8 +499,8 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
-    public func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
-        episodeManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
+    public func findPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
+        episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
 
     public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
@@ -907,6 +911,29 @@ public class DataManager {
         playlistManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
+    public func playlistContainsEpisode(episodeUuid: String, includeDeleted: Bool = false) -> Bool {
+        var exists = false
+        dbQueue.read { db in
+            do {
+                let query: String
+                if includeDeleted {
+                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND playlist_uuid IS NOT NULL LIMIT 1"
+                } else {
+                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND wasDeleted = 0 AND playlist_uuid IS NOT NULL LIMIT 1"
+                }
+
+                let resultSet = try db.executeQuery(query, values: [episodeUuid])
+                defer { resultSet.close() }
+
+                exists = resultSet.next()
+            } catch {
+                FileLog.shared.addMessage("DataManager.playlistContainsEpisode error: \(error)")
+            }
+        }
+
+        return exists
+    }
+
     public func findPlaylist(uuid: String) -> EpisodeFilter? {
         playlistManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
@@ -915,12 +942,19 @@ public class DataManager {
         playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
-    public func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.smartPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        playlistManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
-    public func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.manualPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
+        let limit = EpisodeDataManager.Constants.Limits.maxPlaylistItems
+        let query = PlaylistQueryBuilder.query(
+            clause: .episode,
+            for: playlist,
+            episodeUuidToAdd: nil,
+            limit: limit
+        )
+        return episodeManager.findPlaylistEpisodesWhere(query: query, arguments: nil, dbQueue: dbQueue)
     }
 
     public func deleteDeletedPlaylists() {
@@ -933,6 +967,10 @@ public class DataManager {
 
     public func save(playlist: EpisodeFilter) {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
+    }
+
+    public func add(episodes: [Episode], to playlist: EpisodeFilter) {
+        playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
 
     public func delete(playlist: EpisodeFilter) {

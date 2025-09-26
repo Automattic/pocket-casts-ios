@@ -23,7 +23,11 @@ extension Episode {
     }
 
     func episodeCanBeCleanedUp() -> Bool {
-        !keepEpisode && !downloaded(pathFinder: DownloadManager.shared) && !inProgress() && !PlaybackManager.shared.inUpNext(episode: self)
+        !keepEpisode &&
+        !downloaded(pathFinder: DownloadManager.shared) &&
+        !inProgress() &&
+        !PlaybackManager.shared.inUpNext(episode: self) &&
+        !DataManager.sharedManager.playlistContainsEpisode(episodeUuid: uuid)
     }
 
     public func subTitle() -> String {

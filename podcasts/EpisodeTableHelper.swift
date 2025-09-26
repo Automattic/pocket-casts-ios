@@ -8,8 +8,8 @@ struct EpisodeTableHelper {
         return loadedEpisodes.toListEpisodes(tintColor: tintColor)
     }
 
-    static func loadSmartPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]? = nil) -> [ListEpisode] {
-        let loadedEpisodes = DataManager.sharedManager.findSmartPlaylistEpisodesWhere(query: query, arguments: arguments)
+    static func loadPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]? = nil) -> [ListEpisode] {
+        let loadedEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: arguments)
         return loadedEpisodes.toListEpisodes(tintColor: tintColor)
     }
 
