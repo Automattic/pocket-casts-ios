@@ -1150,6 +1150,25 @@ struct Api_ChangeableSettings: @unchecked Sendable {
   /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
 
+  /// unused as not set from clients google.protobuf.BoolValue developer = 94;
+  var smartFoldersNumberOfTimesShown: Api_Int32Setting {
+    get {return _storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
+    set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
+  }
+  /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
+  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
+
+  var smartFoldersLastDateShown: Api_StringSetting {
+    get {return _storage._smartFoldersLastDateShown ?? Api_StringSetting()}
+    set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
+  }
+  /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
+  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1982,6 +2001,25 @@ struct Api_NamedSettings: @unchecked Sendable {
   var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
   /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
+
+  /// unused as not set from clients google.protobuf.BoolValue developer = 94;
+  var smartFoldersNumberOfTimesShown: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._smartFoldersNumberOfTimesShown ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
+  }
+  /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
+  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
+
+  var smartFoldersLastDateShown: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._smartFoldersLastDateShown ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
+  }
+  /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
+  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2825,6 +2863,24 @@ struct Api_NamedSettingsResponse: @unchecked Sendable {
   /// Clears the value of `developer`. Subsequent reads from it will return its default value.
   mutating func clearDeveloper() {_uniqueStorage()._developer = nil}
 
+  var smartFoldersNumberOfTimesShown: Api_Int32Setting {
+    get {return _storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
+    set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
+  }
+  /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
+  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
+
+  var smartFoldersLastDateShown: Api_StringSetting {
+    get {return _storage._smartFoldersLastDateShown ?? Api_StringSetting()}
+    set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
+  }
+  /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
+  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
+  mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -3011,6 +3067,8 @@ struct Api_ApiPodcastResponse: Sendable {
 
   var url: String = String()
 
+  var slug: String = String()
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -3151,6 +3209,11 @@ struct Api_UserPodcastResponse: @unchecked Sendable {
   var hasIsPrivate: Bool {return _storage._isPrivate != nil}
   /// Clears the value of `isPrivate`. Subsequent reads from it will return its default value.
   mutating func clearIsPrivate() {_uniqueStorage()._isPrivate = nil}
+
+  var slug: String {
+    get {return _storage._slug}
+    set {_uniqueStorage()._slug = newValue}
+  }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -3435,6 +3498,16 @@ struct Api_EpisodeResponse: @unchecked Sendable {
   var bookmarks: [Api_BookmarkResponse] {
     get {return _storage._bookmarks}
     set {_uniqueStorage()._bookmarks = newValue}
+  }
+
+  var podcastSlug: String {
+    get {return _storage._podcastSlug}
+    set {_uniqueStorage()._podcastSlug = newValue}
+  }
+
+  var slug: String {
+    get {return _storage._slug}
+    set {_uniqueStorage()._slug = newValue}
   }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -4429,11 +4502,96 @@ struct Api_PlaylistSyncResponse: @unchecked Sendable {
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
+  var episodeOrder: [String] {
+    get {return _storage._episodeOrder}
+    set {_uniqueStorage()._episodeOrder = newValue}
+  }
+
+  var episodes: [Api_SyncPlaylistEpisode] {
+    get {return _storage._episodes}
+    set {_uniqueStorage()._episodes = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct Api_SyncPlaylistEpisode: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var episode: String = String()
+
+  var podcast: String = String()
+
+  var added: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _added ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_added = newValue}
+  }
+  /// Returns true if `added` has been explicitly set.
+  var hasAdded: Bool {return self._added != nil}
+  /// Clears the value of `added`. Subsequent reads from it will return its default value.
+  mutating func clearAdded() {self._added = nil}
+
+  var published: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_published = newValue}
+  }
+  /// Returns true if `published` has been explicitly set.
+  var hasPublished: Bool {return self._published != nil}
+  /// Clears the value of `published`. Subsequent reads from it will return its default value.
+  mutating func clearPublished() {self._published = nil}
+
+  var title: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_title = newValue}
+  }
+  /// Returns true if `title` has been explicitly set.
+  var hasTitle: Bool {return self._title != nil}
+  /// Clears the value of `title`. Subsequent reads from it will return its default value.
+  mutating func clearTitle() {self._title = nil}
+
+  var url: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _url ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_url = newValue}
+  }
+  /// Returns true if `url` has been explicitly set.
+  var hasURL: Bool {return self._url != nil}
+  /// Clears the value of `url`. Subsequent reads from it will return its default value.
+  mutating func clearURL() {self._url = nil}
+
+  var podcastSlug: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _podcastSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_podcastSlug = newValue}
+  }
+  /// Returns true if `podcastSlug` has been explicitly set.
+  var hasPodcastSlug: Bool {return self._podcastSlug != nil}
+  /// Clears the value of `podcastSlug`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastSlug() {self._podcastSlug = nil}
+
+  var episodeSlug: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _episodeSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_episodeSlug = newValue}
+  }
+  /// Returns true if `episodeSlug` has been explicitly set.
+  var hasEpisodeSlug: Bool {return self._episodeSlug != nil}
+  /// Clears the value of `episodeSlug`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeSlug() {self._episodeSlug = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _added: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _published: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+  fileprivate var _url: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+  fileprivate var _podcastSlug: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+  fileprivate var _episodeSlug: SwiftProtobuf.Google_Protobuf_StringValue? = nil
 }
 
 struct Api_CheckEligibleRequest: Sendable {
@@ -4719,15 +4877,29 @@ struct Api_PaymentResponse: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  /// paymentDate is deprecated, but we still need to support it.
+  /// It must be in YYYY-MM-DD format.
+  /// It was never returned for stores other than web.
   var paymentDate: String = String()
 
   var amount: Double = 0
 
   var currency: String = String()
 
+  var date: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _date ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_date = newValue}
+  }
+  /// Returns true if `date` has been explicitly set.
+  var hasDate: Bool {return self._date != nil}
+  /// Clears the value of `date`. Subsequent reads from it will return its default value.
+  mutating func clearDate() {self._date = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _date: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_PodcastPair: Sendable {
@@ -4827,11 +4999,44 @@ struct Api_SubscriptionsStatusResponse: @unchecked Sendable {
     set {_uniqueStorage()._tier = newValue}
   }
 
+  var features: Api_Features {
+    get {return _storage._features ?? Api_Features()}
+    set {_uniqueStorage()._features = newValue}
+  }
+  /// Returns true if `features` has been explicitly set.
+  var hasFeatures: Bool {return _storage._features != nil}
+  /// Clears the value of `features`. Subsequent reads from it will return its default value.
+  mutating func clearFeatures() {_uniqueStorage()._features = nil}
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+/// require boolean features where the default value is false (protobuf default value for bool is false)
+struct Api_Features: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var removeBannerAds: Bool = false
+
+  var removeDiscoverAds: Bool = false
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 struct Api_CancelUserSubscriptionRequest: Sendable {
@@ -5758,6 +5963,16 @@ struct Api_SyncUserPlaylist: @unchecked Sendable {
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
+  var episodeOrder: [String] {
+    get {return _storage._episodeOrder}
+    set {_uniqueStorage()._episodeOrder = newValue}
+  }
+
+  var episodes: [Api_SyncPlaylistEpisode] {
+    get {return _storage._episodes}
+    set {_uniqueStorage()._episodes = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -6398,6 +6613,17 @@ struct Api_LegacyRecord: @unchecked Sendable {
   /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
 
+  /// extra manual playlist fields
+  var episodeOrder: [String] {
+    get {return _storage._episodeOrder}
+    set {_uniqueStorage()._episodeOrder = newValue}
+  }
+
+  var episodes: [Api_SyncPlaylistEpisode] {
+    get {return _storage._episodes}
+    set {_uniqueStorage()._episodes = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -6928,6 +7154,17 @@ struct Api_LegacyResponseRecord: @unchecked Sendable {
   var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
   /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
+
+  /// additional manual playlist fields
+  var episodeOrder: [String] {
+    get {return _storage._episodeOrder}
+    set {_uniqueStorage()._episodeOrder = newValue}
+  }
+
+  var episodes: [Api_SyncPlaylistEpisode] {
+    get {return _storage._episodes}
+    set {_uniqueStorage()._episodes = newValue}
+  }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -7461,6 +7698,20 @@ struct Api_WinbackResponse: Sendable {
   init() {}
 }
 
+struct Api_WinbackEligibilityResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var eligible: Bool = false
+
+  var reason: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct Api_UserSubscriptionSurveyRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -7475,17 +7726,61 @@ struct Api_UserSubscriptionSurveyRequest: Sendable {
   init() {}
 }
 
+struct Api_UpdatePlanRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var planID: Int64 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_UpdatePlanResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var expiryDate: Int64 = 0
+
+  var autoRenewing: Bool = false
+
+  var frequency: Int32 = 0
+
+  var planID: Int64 = 0
+
+  var tier: Int32 = 0
+
+  var errorMessage: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_PodcastsEpisodesRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var podcastUuids: [String] = []
+
+  var episodeUuids: [String] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "api"
 
 extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserChangeResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "success"),
-    2: .same(proto: "message"),
-    3: .same(proto: "messageId"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0\u{1}message\0\u{1}messageId\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7529,11 +7824,7 @@ extension Api_UserChangeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserResetPasswordRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "reset_password_token"),
-    2: .same(proto: "password"),
-    3: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}reset_password_token\0\u{1}password\0\u{1}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7573,9 +7864,7 @@ extension Api_UserResetPasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_EmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EmailRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7605,11 +7894,7 @@ extension Api_EmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserChangeEmailRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-    2: .same(proto: "password"),
-    3: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{1}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7649,11 +7934,7 @@ extension Api_UserChangeEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_UserChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserChangePasswordRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "old_password"),
-    2: .standard(proto: "new_password"),
-    4: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}old_password\0\u{3}new_password\0\u{2}\u{2}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7731,13 +8012,7 @@ extension Api_EmptyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SupportFeedbackRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "message"),
-    2: .same(proto: "email"),
-    3: .same(proto: "subject"),
-    4: .same(proto: "debug"),
-    5: .same(proto: "inbox"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}message\0\u{1}email\0\u{1}subject\0\u{1}debug\0\u{1}inbox\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7787,9 +8062,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_CreateBetaUserRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CreateBetaUserRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7819,19 +8092,7 @@ extension Api_CreateBetaUserRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserLoginRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-    2: .same(proto: "password"),
-    3: .same(proto: "scope"),
-    4: .same(proto: "dt"),
-    5: .same(proto: "device"),
-    6: .same(proto: "v"),
-    7: .same(proto: "m"),
-    8: .same(proto: "av"),
-    9: .same(proto: "f"),
-    10: .same(proto: "l"),
-    11: .same(proto: "c"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{1}scope\0\u{1}dt\0\u{1}device\0\u{1}v\0\u{1}m\0\u{1}av\0\u{1}f\0\u{1}l\0\u{1}c\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7911,11 +8172,7 @@ extension Api_UserLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserLoginResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "token"),
-    2: .same(proto: "uuid"),
-    3: .same(proto: "email"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0\u{1}uuid\0\u{1}email\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7955,10 +8212,7 @@ extension Api_UserLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BasicRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -7993,9 +8247,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserIdResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "id"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8025,11 +8277,7 @@ extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_UserPlaylistEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPlaylistEpisodesRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-    3: .same(proto: "uuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0\u{1}uuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8069,11 +8317,7 @@ extension Api_UserPlaylistEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf.
 
 extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPlaylistListRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-    3: .standard(proto: "exclude_deleted"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0\u{3}exclude_deleted\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8113,10 +8357,7 @@ extension Api_UserPlaylistListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPodcastListRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8151,12 +8392,7 @@ extension Api_UserPodcastListRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettingsRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-    3: .same(proto: "settings"),
-    4: .standard(proto: "changed_settings"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0\u{1}settings\0\u{3}changed_settings\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8205,99 +8441,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ChangeableSettings"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "grid_layout"),
-    2: .standard(proto: "grid_order"),
-    3: .standard(proto: "show_played"),
-    4: .same(proto: "theme"),
-    5: .standard(proto: "skip_forward"),
-    6: .standard(proto: "skip_back"),
-    7: .standard(proto: "web_version"),
-    8: .same(proto: "language"),
-    9: .standard(proto: "recommendations_on"),
-    11: .standard(proto: "use_embedded_artwork"),
-    12: .standard(proto: "playback_speed"),
-    14: .standard(proto: "volume_boost"),
-    15: .same(proto: "badges"),
-    16: .standard(proto: "free_gift_acknowledgement"),
-    17: .standard(proto: "marketing_opt_in"),
-    18: .standard(proto: "auto_archive_played_episodes"),
-    19: .standard(proto: "auto_archive_includes_starred"),
-    20: .same(proto: "region"),
-    21: .standard(proto: "row_action"),
-    22: .standard(proto: "up_next_swipe"),
-    23: .standard(proto: "episode_grouping"),
-    24: .standard(proto: "show_archived"),
-    25: .standard(proto: "open_links"),
-    26: .standard(proto: "media_actions"),
-    27: .standard(proto: "media_actions_order"),
-    28: .standard(proto: "keep_screen_awake"),
-    29: .standard(proto: "open_player"),
-    30: .standard(proto: "intelligent_resumption"),
-    31: .standard(proto: "play_up_next_on_tap"),
-    32: .standard(proto: "remote_skip_chapters"),
-    33: .standard(proto: "playback_actions"),
-    34: .standard(proto: "legacy_bluetooth"),
-    35: .standard(proto: "multi_select_gesture"),
-    36: .standard(proto: "chapter_titles"),
-    37: .same(proto: "notifications"),
-    38: .standard(proto: "notification_actions"),
-    39: .standard(proto: "play_over_notifications"),
-    40: .standard(proto: "hide_notification_on_pause"),
-    41: .standard(proto: "app_badge"),
-    42: .standard(proto: "app_badge_filter"),
-    43: .standard(proto: "auto_archive_played"),
-    44: .standard(proto: "auto_archive_inactive"),
-    45: .standard(proto: "auto_up_next_limit"),
-    46: .standard(proto: "auto_up_next_limit_reached"),
-    47: .standard(proto: "warn_data_usage"),
-    48: .standard(proto: "files_auto_up_next"),
-    49: .standard(proto: "files_after_playing_delete_local"),
-    50: .standard(proto: "files_after_playing_delete_cloud"),
-    51: .standard(proto: "privacy_analytics"),
-    52: .standard(proto: "privacy_crash_reports"),
-    53: .standard(proto: "privacy_link_account"),
-    54: .standard(proto: "player_shelf"),
-    55: .standard(proto: "auto_subscribe_to_played"),
-    56: .standard(proto: "auto_show_played"),
-    57: .standard(proto: "auto_play_enabled"),
-    58: .standard(proto: "auto_play_last_list_uuid"),
-    59: .standard(proto: "trim_silence"),
-    60: .standard(proto: "show_artwork_on_lock_screen"),
-    61: .standard(proto: "headphone_controls_next_action"),
-    62: .standard(proto: "headphone_controls_previous_action"),
-    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
-    64: .standard(proto: "dark_theme_preference"),
-    65: .standard(proto: "light_theme_preference"),
-    66: .standard(proto: "use_system_theme"),
-    67: .standard(proto: "episode_bookmarks_sort_type"),
-    68: .standard(proto: "player_bookmarks_sort_type"),
-    69: .standard(proto: "podcast_bookmarks_sort_type"),
-    70: .standard(proto: "use_dark_up_next_theme"),
-    71: .standard(proto: "use_dynamic_colors_for_widget"),
-    72: .standard(proto: "files_sort_order"),
-    73: .standard(proto: "background_refresh"),
-    74: .standard(proto: "auto_download_unmetered_only"),
-    75: .standard(proto: "auto_download_only_when_charging"),
-    76: .standard(proto: "auto_download_up_next"),
-    77: .standard(proto: "cloud_auto_upload"),
-    78: .standard(proto: "cloud_auto_download"),
-    79: .standard(proto: "cloud_download_unmetered_only"),
-    80: .standard(proto: "use_rss_artwork"),
-    81: .standard(proto: "bookmarks_sort_order"),
-    82: .standard(proto: "auto_archive_played_episodes_global"),
-    83: .standard(proto: "auto_archive_includes_starred_global"),
-    84: .standard(proto: "files_auto_up_next_global"),
-    85: .standard(proto: "files_after_playing_delete_local_global"),
-    86: .standard(proto: "files_after_playing_delete_cloud_global"),
-    87: .standard(proto: "player_shelf_global"),
-    88: .standard(proto: "row_action_global"),
-    89: .standard(proto: "use_embedded_artwork_global"),
-    90: .standard(proto: "recommendations_on_global"),
-    91: .standard(proto: "grid_layout_global"),
-    92: .standard(proto: "volume_boost_global"),
-    93: .standard(proto: "badges_global"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -8391,16 +8535,14 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     var _gridLayoutGlobal: Api_Int32Setting? = nil
     var _volumeBoostGlobal: Api_BoolSetting? = nil
     var _badgesGlobal: Api_Int32Setting? = nil
+    var _smartFoldersNumberOfTimesShown: Api_Int32Setting? = nil
+    var _smartFoldersLastDateShown: Api_StringSetting? = nil
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -8496,6 +8638,8 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       _gridLayoutGlobal = source._gridLayoutGlobal
       _volumeBoostGlobal = source._volumeBoostGlobal
       _badgesGlobal = source._badgesGlobal
+      _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
+      _smartFoldersLastDateShown = source._smartFoldersLastDateShown
     }
   }
 
@@ -8605,6 +8749,8 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         case 91: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayoutGlobal) }()
         case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
         case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
+        case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
+        case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
         default: break
         }
       }
@@ -8889,6 +9035,12 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       } }()
       try { if let v = _storage._badgesGlobal {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 93)
+      } }()
+      try { if let v = _storage._smartFoldersNumberOfTimesShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 95)
+      } }()
+      try { if let v = _storage._smartFoldersLastDateShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
       } }()
     }
     try unknownFields.traverse(visitor: &visitor)
@@ -8990,6 +9142,8 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         if _storage._gridLayoutGlobal != rhs_storage._gridLayoutGlobal {return false}
         if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
         if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
+        if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
+        if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9001,99 +9155,7 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettings"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "grid_layout"),
-    2: .standard(proto: "grid_order"),
-    3: .standard(proto: "show_played"),
-    4: .same(proto: "theme"),
-    5: .standard(proto: "skip_forward"),
-    6: .standard(proto: "skip_back"),
-    7: .standard(proto: "web_version"),
-    8: .same(proto: "language"),
-    9: .standard(proto: "recommendations_on"),
-    11: .standard(proto: "use_embedded_artwork"),
-    12: .standard(proto: "playback_speed"),
-    14: .standard(proto: "volume_boost"),
-    15: .same(proto: "badges"),
-    16: .standard(proto: "free_gift_acknowledgement"),
-    17: .standard(proto: "marketing_opt_in"),
-    18: .standard(proto: "auto_archive_played_episodes"),
-    19: .standard(proto: "auto_archive_includes_starred"),
-    20: .same(proto: "region"),
-    21: .standard(proto: "row_action"),
-    22: .standard(proto: "up_next_swipe"),
-    23: .standard(proto: "episode_grouping"),
-    24: .standard(proto: "show_archived"),
-    25: .standard(proto: "open_links"),
-    26: .standard(proto: "media_actions"),
-    27: .standard(proto: "media_actions_order"),
-    28: .standard(proto: "keep_screen_awake"),
-    29: .standard(proto: "open_player"),
-    30: .standard(proto: "intelligent_resumption"),
-    31: .standard(proto: "play_up_next_on_tap"),
-    32: .standard(proto: "remote_skip_chapters"),
-    33: .standard(proto: "playback_actions"),
-    34: .standard(proto: "legacy_bluetooth"),
-    35: .standard(proto: "multi_select_gesture"),
-    36: .standard(proto: "chapter_titles"),
-    37: .same(proto: "notifications"),
-    38: .standard(proto: "notification_actions"),
-    39: .standard(proto: "play_over_notifications"),
-    40: .standard(proto: "hide_notification_on_pause"),
-    41: .standard(proto: "app_badge"),
-    42: .standard(proto: "app_badge_filter"),
-    43: .standard(proto: "auto_archive_played"),
-    44: .standard(proto: "auto_archive_inactive"),
-    45: .standard(proto: "auto_up_next_limit"),
-    46: .standard(proto: "auto_up_next_limit_reached"),
-    47: .standard(proto: "warn_data_usage"),
-    48: .standard(proto: "files_auto_up_next"),
-    49: .standard(proto: "files_after_playing_delete_local"),
-    50: .standard(proto: "files_after_playing_delete_cloud"),
-    51: .standard(proto: "privacy_analytics"),
-    52: .standard(proto: "privacy_crash_reports"),
-    53: .standard(proto: "privacy_link_account"),
-    54: .standard(proto: "player_shelf"),
-    55: .standard(proto: "auto_subscribe_to_played"),
-    56: .standard(proto: "auto_show_played"),
-    57: .standard(proto: "auto_play_enabled"),
-    58: .standard(proto: "auto_play_last_list_uuid"),
-    59: .standard(proto: "trim_silence"),
-    60: .standard(proto: "show_artwork_on_lock_screen"),
-    61: .standard(proto: "headphone_controls_next_action"),
-    62: .standard(proto: "headphone_controls_previous_action"),
-    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
-    64: .standard(proto: "dark_theme_preference"),
-    65: .standard(proto: "light_theme_preference"),
-    66: .standard(proto: "use_system_theme"),
-    67: .standard(proto: "episode_bookmarks_sort_type"),
-    68: .standard(proto: "player_bookmarks_sort_type"),
-    69: .standard(proto: "podcast_bookmarks_sort_type"),
-    70: .standard(proto: "use_dark_up_next_theme"),
-    71: .standard(proto: "use_dynamic_colors_for_widget"),
-    72: .standard(proto: "files_sort_order"),
-    73: .standard(proto: "background_refresh"),
-    74: .standard(proto: "auto_download_unmetered_only"),
-    75: .standard(proto: "auto_download_only_when_charging"),
-    76: .standard(proto: "auto_download_up_next"),
-    77: .standard(proto: "cloud_auto_upload"),
-    78: .standard(proto: "cloud_auto_download"),
-    79: .standard(proto: "cloud_download_unmetered_only"),
-    80: .standard(proto: "use_rss_artwork"),
-    81: .standard(proto: "bookmarks_sort_order"),
-    82: .standard(proto: "auto_archive_played_episodes_global"),
-    83: .standard(proto: "auto_archive_includes_starred_global"),
-    84: .standard(proto: "files_auto_up_next_global"),
-    85: .standard(proto: "files_after_playing_delete_local_global"),
-    86: .standard(proto: "files_after_playing_delete_cloud_global"),
-    87: .standard(proto: "player_shelf_global"),
-    88: .standard(proto: "row_action_global"),
-    89: .standard(proto: "use_embedded_artwork_global"),
-    90: .standard(proto: "recommendations_on_global"),
-    91: .standard(proto: "grid_layout_global"),
-    92: .standard(proto: "volume_boost_global"),
-    93: .standard(proto: "badges_global"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
@@ -9187,16 +9249,14 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _gridLayoutGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _volumeBoostGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _badgesGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _smartFoldersNumberOfTimesShown: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _smartFoldersLastDateShown: SwiftProtobuf.Google_Protobuf_StringValue? = nil
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -9292,6 +9352,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _gridLayoutGlobal = source._gridLayoutGlobal
       _volumeBoostGlobal = source._volumeBoostGlobal
       _badgesGlobal = source._badgesGlobal
+      _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
+      _smartFoldersLastDateShown = source._smartFoldersLastDateShown
     }
   }
 
@@ -9401,6 +9463,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 91: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayoutGlobal) }()
         case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
         case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
+        case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
+        case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
         default: break
         }
       }
@@ -9686,6 +9750,12 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._badgesGlobal {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 93)
       } }()
+      try { if let v = _storage._smartFoldersNumberOfTimesShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 95)
+      } }()
+      try { if let v = _storage._smartFoldersLastDateShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9786,6 +9856,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._gridLayoutGlobal != rhs_storage._gridLayoutGlobal {return false}
         if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
         if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
+        if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
+        if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9797,100 +9869,7 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettingsResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "grid_layout"),
-    2: .standard(proto: "grid_order"),
-    3: .standard(proto: "show_played"),
-    4: .same(proto: "theme"),
-    5: .standard(proto: "skip_forward"),
-    6: .standard(proto: "skip_back"),
-    7: .standard(proto: "web_version"),
-    8: .same(proto: "language"),
-    9: .standard(proto: "recommendations_on"),
-    11: .standard(proto: "use_embedded_artwork"),
-    12: .standard(proto: "playback_speed"),
-    14: .standard(proto: "volume_boost"),
-    15: .same(proto: "badges"),
-    16: .standard(proto: "free_gift_acknowledgement"),
-    17: .standard(proto: "marketing_opt_in"),
-    18: .standard(proto: "auto_archive_played_episodes"),
-    19: .standard(proto: "auto_archive_includes_starred"),
-    20: .same(proto: "region"),
-    21: .standard(proto: "row_action"),
-    22: .standard(proto: "up_next_swipe"),
-    23: .standard(proto: "episode_grouping"),
-    24: .standard(proto: "show_archived"),
-    25: .standard(proto: "open_links"),
-    26: .standard(proto: "media_actions"),
-    27: .standard(proto: "media_actions_order"),
-    28: .standard(proto: "keep_screen_awake"),
-    29: .standard(proto: "open_player"),
-    30: .standard(proto: "intelligent_resumption"),
-    31: .standard(proto: "play_up_next_on_tap"),
-    32: .standard(proto: "remote_skip_chapters"),
-    33: .standard(proto: "playback_actions"),
-    34: .standard(proto: "legacy_bluetooth"),
-    35: .standard(proto: "multi_select_gesture"),
-    36: .standard(proto: "chapter_titles"),
-    37: .same(proto: "notifications"),
-    38: .standard(proto: "notification_actions"),
-    39: .standard(proto: "play_over_notifications"),
-    40: .standard(proto: "hide_notification_on_pause"),
-    41: .standard(proto: "app_badge"),
-    42: .standard(proto: "app_badge_filter"),
-    43: .standard(proto: "auto_archive_played"),
-    44: .standard(proto: "auto_archive_inactive"),
-    45: .standard(proto: "auto_up_next_limit"),
-    46: .standard(proto: "auto_up_next_limit_reached"),
-    47: .standard(proto: "warn_data_usage"),
-    48: .standard(proto: "files_auto_up_next"),
-    49: .standard(proto: "files_after_playing_delete_local"),
-    50: .standard(proto: "files_after_playing_delete_cloud"),
-    51: .standard(proto: "privacy_analytics"),
-    52: .standard(proto: "privacy_crash_reports"),
-    53: .standard(proto: "privacy_link_account"),
-    54: .standard(proto: "player_shelf"),
-    55: .standard(proto: "auto_subscribe_to_played"),
-    56: .standard(proto: "auto_show_played"),
-    57: .standard(proto: "auto_play_enabled"),
-    58: .standard(proto: "auto_play_last_list_uuid"),
-    59: .standard(proto: "trim_silence"),
-    60: .standard(proto: "show_artwork_on_lock_screen"),
-    61: .standard(proto: "headphone_controls_next_action"),
-    62: .standard(proto: "headphone_controls_previous_action"),
-    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
-    64: .standard(proto: "dark_theme_preference"),
-    65: .standard(proto: "light_theme_preference"),
-    66: .standard(proto: "use_system_theme"),
-    67: .standard(proto: "episode_bookmarks_sort_type"),
-    68: .standard(proto: "player_bookmarks_sort_type"),
-    69: .standard(proto: "podcast_bookmarks_sort_type"),
-    70: .standard(proto: "use_dark_up_next_theme"),
-    71: .standard(proto: "use_dynamic_colors_for_widget"),
-    72: .standard(proto: "files_sort_order"),
-    73: .standard(proto: "background_refresh"),
-    74: .standard(proto: "auto_download_unmetered_only"),
-    75: .standard(proto: "auto_download_only_when_charging"),
-    76: .standard(proto: "auto_download_up_next"),
-    77: .standard(proto: "cloud_auto_upload"),
-    78: .standard(proto: "cloud_auto_download"),
-    79: .standard(proto: "cloud_download_unmetered_only"),
-    80: .standard(proto: "use_rss_artwork"),
-    81: .standard(proto: "bookmarks_sort_order"),
-    82: .standard(proto: "auto_archive_played_episodes_global"),
-    83: .standard(proto: "auto_archive_includes_starred_global"),
-    84: .standard(proto: "files_auto_up_next_global"),
-    85: .standard(proto: "files_after_playing_delete_local_global"),
-    86: .standard(proto: "files_after_playing_delete_cloud_global"),
-    87: .standard(proto: "player_shelf_global"),
-    88: .standard(proto: "row_action_global"),
-    89: .standard(proto: "use_embedded_artwork_global"),
-    90: .standard(proto: "recommendations_on_global"),
-    91: .standard(proto: "grid_layout_global"),
-    92: .standard(proto: "volume_boost_global"),
-    93: .standard(proto: "badges_global"),
-    94: .same(proto: "developer"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{1}developer\0\u{3}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -9985,16 +9964,14 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _volumeBoostGlobal: Api_BoolSetting? = nil
     var _badgesGlobal: Api_Int32Setting? = nil
     var _developer: Api_BoolSetting? = nil
+    var _smartFoldersNumberOfTimesShown: Api_Int32Setting? = nil
+    var _smartFoldersLastDateShown: Api_StringSetting? = nil
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -10091,6 +10068,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _volumeBoostGlobal = source._volumeBoostGlobal
       _badgesGlobal = source._badgesGlobal
       _developer = source._developer
+      _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
+      _smartFoldersLastDateShown = source._smartFoldersLastDateShown
     }
   }
 
@@ -10201,6 +10180,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
         case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         case 94: try { try decoder.decodeSingularMessageField(value: &_storage._developer) }()
+        case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
+        case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
         default: break
         }
       }
@@ -10489,6 +10470,12 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._developer {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 94)
       } }()
+      try { if let v = _storage._smartFoldersNumberOfTimesShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 95)
+      } }()
+      try { if let v = _storage._smartFoldersLastDateShown {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -10590,6 +10577,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
         if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         if _storage._developer != rhs_storage._developer {return false}
+        if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
+        if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -10601,11 +10590,7 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Int32Setting"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "value"),
-    2: .same(proto: "changed"),
-    3: .standard(proto: "modified_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}value\0\u{1}changed\0\u{3}modified_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10649,11 +10634,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BoolSetting"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "value"),
-    2: .same(proto: "changed"),
-    3: .standard(proto: "modified_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}value\0\u{1}changed\0\u{3}modified_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10697,11 +10678,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 
 extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StringSetting"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "value"),
-    2: .same(proto: "changed"),
-    3: .standard(proto: "modified_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}value\0\u{1}changed\0\u{3}modified_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10745,11 +10722,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".DoubleSetting"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "value"),
-    2: .same(proto: "changed"),
-    3: .standard(proto: "modified_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}value\0\u{1}changed\0\u{3}modified_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10793,13 +10766,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ApiPodcastResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "title"),
-    3: .same(proto: "author"),
-    4: .same(proto: "description"),
-    5: .same(proto: "url"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}author\0\u{1}description\0\u{1}url\0\u{1}slug\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10812,6 +10779,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       case 3: try { try decoder.decodeSingularStringField(value: &self.author) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self.description_p) }()
       case 5: try { try decoder.decodeSingularStringField(value: &self.url) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.slug) }()
       default: break
       }
     }
@@ -10833,6 +10801,9 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     if !self.url.isEmpty {
       try visitor.visitSingularStringField(value: self.url, fieldNumber: 5)
     }
+    if !self.slug.isEmpty {
+      try visitor.visitSingularStringField(value: self.slug, fieldNumber: 6)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -10842,6 +10813,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     if lhs.author != rhs.author {return false}
     if lhs.description_p != rhs.description_p {return false}
     if lhs.url != rhs.url {return false}
+    if lhs.slug != rhs.slug {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -10849,9 +10821,7 @@ extension Api_ApiPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_ApiPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ApiPodcastListResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "podcasts"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}podcasts\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -10881,27 +10851,7 @@ extension Api_ApiPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPodcastResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "episodes_sort_order"),
-    3: .standard(proto: "auto_start_from"),
-    4: .same(proto: "title"),
-    5: .same(proto: "author"),
-    6: .same(proto: "description"),
-    7: .same(proto: "url"),
-    8: .standard(proto: "last_episode_published"),
-    9: .same(proto: "unplayed"),
-    10: .standard(proto: "last_episode_uuid"),
-    11: .standard(proto: "last_episode_playing_status"),
-    12: .standard(proto: "last_episode_archived"),
-    13: .standard(proto: "auto_skip_last"),
-    14: .standard(proto: "folder_uuid"),
-    15: .standard(proto: "sort_position"),
-    16: .standard(proto: "date_added"),
-    17: .same(proto: "settings"),
-    18: .standard(proto: "description_html"),
-    19: .standard(proto: "is_private"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}episodes_sort_order\0\u{3}auto_start_from\0\u{1}title\0\u{1}author\0\u{1}description\0\u{1}url\0\u{3}last_episode_published\0\u{1}unplayed\0\u{3}last_episode_uuid\0\u{3}last_episode_playing_status\0\u{3}last_episode_archived\0\u{3}auto_skip_last\0\u{3}folder_uuid\0\u{3}sort_position\0\u{3}date_added\0\u{1}settings\0\u{3}description_html\0\u{3}is_private\0\u{1}slug\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -10923,16 +10873,13 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     var _settings: Api_PodcastSettings? = nil
     var _descriptionHtml: String = String()
     var _isPrivate: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _slug: String = String()
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -10956,6 +10903,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       _settings = source._settings
       _descriptionHtml = source._descriptionHtml
       _isPrivate = source._isPrivate
+      _slug = source._slug
     }
   }
 
@@ -10993,6 +10941,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         case 17: try { try decoder.decodeSingularMessageField(value: &_storage._settings) }()
         case 18: try { try decoder.decodeSingularStringField(value: &_storage._descriptionHtml) }()
         case 19: try { try decoder.decodeSingularMessageField(value: &_storage._isPrivate) }()
+        case 20: try { try decoder.decodeSingularStringField(value: &_storage._slug) }()
         default: break
         }
       }
@@ -11062,6 +11011,9 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       try { if let v = _storage._isPrivate {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 19)
       } }()
+      if !_storage._slug.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._slug, fieldNumber: 20)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11090,6 +11042,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         if _storage._settings != rhs_storage._settings {return false}
         if _storage._descriptionHtml != rhs_storage._descriptionHtml {return false}
         if _storage._isPrivate != rhs_storage._isPrivate {return false}
+        if _storage._slug != rhs_storage._slug {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -11101,9 +11054,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Api_UserPlaylistListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPlaylistListResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "playlists"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}playlists\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11133,10 +11084,7 @@ extension Api_UserPlaylistListResponse: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_UserPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserPodcastListResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "podcasts"),
-    2: .same(proto: "folders"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}podcasts\0\u{1}folders\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11171,10 +11119,7 @@ extension Api_UserPodcastListResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserLastSyncAtResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "last_sync_at"),
-    2: .standard(proto: "last_sync_at_ms"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}last_sync_at\0\u{3}last_sync_at_ms\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11209,12 +11154,7 @@ extension Api_UserLastSyncAtResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UuidRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-    3: .same(proto: "uuid"),
-    4: .standard(proto: "include_bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0\u{1}uuid\0\u{3}include_bookmarks\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11259,9 +11199,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 
 extension Api_UuidListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UuidListResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuids"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuids\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11291,11 +11229,7 @@ extension Api_UuidListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".KeywordRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "v"),
-    2: .same(proto: "m"),
-    3: .same(proto: "keyword"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}v\0\u{1}m\0\u{1}keyword\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11335,12 +11269,7 @@ extension Api_KeywordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncEpisodesResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "episodes"),
-    2: .standard(proto: "auto_start_from"),
-    3: .standard(proto: "episodes_sort_order"),
-    4: .standard(proto: "auto_skip_last"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}episodes\0\u{3}auto_start_from\0\u{3}episodes_sort_order\0\u{3}auto_skip_last\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11389,13 +11318,7 @@ extension Api_SyncEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FindUserEpisodesRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-    2: .same(proto: "page"),
-    3: .same(proto: "sort"),
-    4: .same(proto: "v"),
-    5: .same(proto: "m"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{1}page\0\u{1}sort\0\u{1}v\0\u{1}m\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11445,10 +11368,7 @@ extension Api_FindUserEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EpisodesResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "total"),
-    2: .same(proto: "episodes"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}total\0\u{1}episodes\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11483,11 +11403,7 @@ extension Api_EpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FindUserEpisodeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "v"),
-    3: .same(proto: "m"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}v\0\u{1}m\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11527,26 +11443,7 @@ extension Api_FindUserEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EpisodeResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "url"),
-    3: .same(proto: "published"),
-    4: .same(proto: "duration"),
-    5: .standard(proto: "file_type"),
-    6: .same(proto: "title"),
-    7: .same(proto: "size"),
-    8: .standard(proto: "playing_status"),
-    9: .standard(proto: "played_up_to"),
-    10: .same(proto: "starred"),
-    11: .standard(proto: "podcast_uuid"),
-    12: .standard(proto: "podcast_title"),
-    13: .standard(proto: "episode_type"),
-    14: .standard(proto: "episode_season"),
-    15: .standard(proto: "episode_number"),
-    16: .standard(proto: "is_deleted"),
-    17: .same(proto: "author"),
-    18: .same(proto: "bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}url\0\u{1}published\0\u{1}duration\0\u{3}file_type\0\u{1}title\0\u{1}size\0\u{3}playing_status\0\u{3}played_up_to\0\u{1}starred\0\u{3}podcast_uuid\0\u{3}podcast_title\0\u{3}episode_type\0\u{3}episode_season\0\u{3}episode_number\0\u{3}is_deleted\0\u{1}author\0\u{1}bookmarks\0\u{3}podcast_slug\0\u{1}slug\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -11567,16 +11464,14 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     var _isDeleted: Bool = false
     var _author: String = String()
     var _bookmarks: [Api_BookmarkResponse] = []
+    var _podcastSlug: String = String()
+    var _slug: String = String()
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -11599,6 +11494,8 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       _isDeleted = source._isDeleted
       _author = source._author
       _bookmarks = source._bookmarks
+      _podcastSlug = source._podcastSlug
+      _slug = source._slug
     }
   }
 
@@ -11635,6 +11532,8 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         case 16: try { try decoder.decodeSingularBoolField(value: &_storage._isDeleted) }()
         case 17: try { try decoder.decodeSingularStringField(value: &_storage._author) }()
         case 18: try { try decoder.decodeRepeatedMessageField(value: &_storage._bookmarks) }()
+        case 19: try { try decoder.decodeSingularStringField(value: &_storage._podcastSlug) }()
+        case 20: try { try decoder.decodeSingularStringField(value: &_storage._slug) }()
         default: break
         }
       }
@@ -11701,6 +11600,12 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       if !_storage._bookmarks.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._bookmarks, fieldNumber: 18)
       }
+      if !_storage._podcastSlug.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._podcastSlug, fieldNumber: 19)
+      }
+      if !_storage._slug.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._slug, fieldNumber: 20)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11728,6 +11633,8 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         if _storage._isDeleted != rhs_storage._isDeleted {return false}
         if _storage._author != rhs_storage._author {return false}
         if _storage._bookmarks != rhs_storage._bookmarks {return false}
+        if _storage._podcastSlug != rhs_storage._podcastSlug {return false}
+        if _storage._slug != rhs_storage._slug {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -11758,14 +11665,7 @@ extension Api_SyncUpdateEpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._M
 
 extension Api_UpdateEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpdateEpisodeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "podcast"),
-    3: .same(proto: "position"),
-    4: .same(proto: "status"),
-    5: .same(proto: "duration"),
-    6: .same(proto: "stats"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}podcast\0\u{1}position\0\u{1}status\0\u{1}duration\0\u{1}stats\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11843,15 +11743,7 @@ extension Api_UpdateEpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StatsRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_id"),
-    2: .standard(proto: "time_silence_removal"),
-    3: .standard(proto: "time_skipping"),
-    4: .standard(proto: "time_intro_skipping"),
-    5: .standard(proto: "time_variable_speed"),
-    6: .standard(proto: "time_listened"),
-    7: .standard(proto: "device_type"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_id\0\u{3}time_silence_removal\0\u{3}time_skipping\0\u{3}time_intro_skipping\0\u{3}time_variable_speed\0\u{3}time_listened\0\u{3}device_type\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11911,11 +11803,7 @@ extension Api_StatsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_UpdateEpisodeStarRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpdateEpisodeStarRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "podcast"),
-    3: .same(proto: "star"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}podcast\0\u{1}star\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -11974,11 +11862,7 @@ extension Api_UpdateEpisodeStarResponse: SwiftProtobuf.Message, SwiftProtobuf._M
 
 extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EpisodeWithPodcast"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "podcast"),
-    3: .standard(proto: "include_bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}podcast\0\u{3}include_bookmarks\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12018,10 +11902,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpdateEpisodesArchiveRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "archive"),
-    2: .same(proto: "episodes"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}archive\0\u{1}episodes\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12056,11 +11937,7 @@ extension Api_UpdateEpisodesArchiveRequest: SwiftProtobuf.Message, SwiftProtobuf
 
 extension Api_UpdateEpisodeDeselectChaptersRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpdateEpisodeDeselectChaptersRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "podcast"),
-    3: .standard(proto: "deselected_chapters"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}podcast\0\u{3}deselected_chapters\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12119,14 +11996,7 @@ extension Api_UpdateEpisodeDeselectChaptersResponse: SwiftProtobuf.Message, Swif
 
 extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextSyncRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_time"),
-    2: .same(proto: "version"),
-    3: .same(proto: "model"),
-    4: .standard(proto: "up_next"),
-    5: .standard(proto: "show_play_status"),
-    6: .standard(proto: "device_id"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_time\0\u{1}version\0\u{1}model\0\u{3}up_next\0\u{3}show_play_status\0\u{3}device_id\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12185,11 +12055,7 @@ extension Api_UpNextSyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextPlayRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "version"),
-    2: .same(proto: "model"),
-    3: .same(proto: "episode"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}version\0\u{1}model\0\u{1}episode\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12233,13 +12099,7 @@ extension Api_UpNextPlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextListRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "limit"),
-    2: .same(proto: "version"),
-    3: .same(proto: "model"),
-    4: .standard(proto: "server_modified"),
-    5: .standard(proto: "show_play_status"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}limit\0\u{1}version\0\u{1}model\0\u{3}server_modified\0\u{3}show_play_status\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12289,13 +12149,7 @@ extension Api_UpNextListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextEpisodeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    4: .same(proto: "title"),
-    5: .same(proto: "url"),
-    6: .same(proto: "podcast"),
-    7: .same(proto: "published"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{2}\u{3}title\0\u{1}url\0\u{1}podcast\0\u{1}published\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12349,11 +12203,7 @@ extension Api_UpNextEpisodeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextChanges"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "server_modified"),
-    2: .same(proto: "changes"),
-    3: .same(proto: "order"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}server_modified\0\u{1}changes\0\u{1}order\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12393,16 +12243,7 @@ extension Api_UpNextChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = Api_UpNextChanges.protoMessageName + ".Change"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "action"),
-    3: .same(proto: "modified"),
-    4: .same(proto: "title"),
-    5: .same(proto: "url"),
-    6: .same(proto: "podcast"),
-    7: .same(proto: "episodes"),
-    8: .same(proto: "published"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}action\0\u{1}modified\0\u{1}title\0\u{1}url\0\u{1}podcast\0\u{1}episodes\0\u{1}published\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12471,11 +12312,7 @@ extension Api_UpNextChanges.Change: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "server_modified"),
-    4: .same(proto: "episodes"),
-    5: .same(proto: "episodeSync"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}server_modified\0\u{2}\u{3}episodes\0\u{1}episodeSync\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12515,13 +12352,7 @@ extension Api_UpNextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = Api_UpNextResponse.protoMessageName + ".EpisodeResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "title"),
-    2: .same(proto: "url"),
-    3: .same(proto: "podcast"),
-    4: .same(proto: "uuid"),
-    5: .same(proto: "published"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}title\0\u{1}url\0\u{1}podcast\0\u{1}uuid\0\u{1}published\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12575,11 +12406,7 @@ extension Api_UpNextResponse.EpisodeResponse: SwiftProtobuf.Message, SwiftProtob
 
 extension Api_UpNextResponse.EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = Api_UpNextResponse.protoMessageName + ".EpisodeSyncResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    6: .standard(proto: "played_up_to"),
-    7: .same(proto: "duration"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{4}\u{5}played_up_to\0\u{1}duration\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12623,15 +12450,7 @@ extension Api_UpNextResponse.EpisodeSyncResponse: SwiftProtobuf.Message, SwiftPr
 
 extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".HistoryChange"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "action"),
-    2: .same(proto: "podcast"),
-    3: .same(proto: "episode"),
-    4: .standard(proto: "modified_at"),
-    5: .same(proto: "title"),
-    6: .same(proto: "url"),
-    7: .same(proto: "published"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}action\0\u{1}podcast\0\u{1}episode\0\u{3}modified_at\0\u{1}title\0\u{1}url\0\u{1}published\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12695,12 +12514,7 @@ extension Api_HistoryChange: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".HistorySyncRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_time"),
-    2: .standard(proto: "server_modified"),
-    3: .same(proto: "changes"),
-    4: .same(proto: "version"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_time\0\u{3}server_modified\0\u{1}changes\0\u{1}version\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12745,11 +12559,7 @@ extension Api_HistorySyncRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".HistoryResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "server_modified"),
-    2: .standard(proto: "last_cleared"),
-    3: .same(proto: "changes"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}server_modified\0\u{3}last_cleared\0\u{1}changes\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12789,11 +12599,7 @@ extension Api_HistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_YearHistoryRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".YearHistoryRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    2: .same(proto: "version"),
-    3: .same(proto: "count"),
-    4: .same(proto: "year"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\u{2}version\0\u{1}count\0\u{1}year\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12833,10 +12639,7 @@ extension Api_YearHistoryRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_YearHistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".YearHistoryResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    2: .same(proto: "count"),
-    3: .same(proto: "history"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\u{2}count\0\u{1}history\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12898,10 +12701,7 @@ extension Api_YearHistoryResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UpNextRemoveRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuids"),
-    2: .same(proto: "version"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuids\0\u{1}version\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -12936,16 +12736,7 @@ extension Api_UpNextRemoveRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".EpisodeSyncResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "playing_status"),
-    3: .standard(proto: "played_up_to"),
-    4: .standard(proto: "is_deleted"),
-    5: .same(proto: "starred"),
-    6: .same(proto: "duration"),
-    7: .same(proto: "bookmarks"),
-    8: .standard(proto: "deselected_chapters"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}playing_status\0\u{3}played_up_to\0\u{3}is_deleted\0\u{1}starred\0\u{1}duration\0\u{1}bookmarks\0\u{3}deselected_chapters\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13010,9 +12801,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Api_SearchPodcastsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SearchPodcastsRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "term"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}term\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13042,10 +12831,7 @@ extension Api_SearchPodcastsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".HealthResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "ok"),
-    2: .same(proto: "messages"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}ok\0\u{1}messages\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13080,14 +12866,7 @@ extension Api_HealthResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StatsResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "time_silence_removal"),
-    2: .standard(proto: "time_skipping"),
-    3: .standard(proto: "time_intro_skipping"),
-    4: .standard(proto: "time_variable_speed"),
-    5: .standard(proto: "time_listened"),
-    6: .standard(proto: "times_started_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}time_silence_removal\0\u{3}time_skipping\0\u{3}time_intro_skipping\0\u{3}time_variable_speed\0\u{3}time_listened\0\u{3}times_started_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13146,11 +12925,7 @@ extension Api_StatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".RegisterRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-    2: .same(proto: "password"),
-    3: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{1}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13190,15 +12965,7 @@ extension Api_RegisterRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_UserAuthorizeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserAuthorizeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-    2: .same(proto: "password"),
-    3: .standard(proto: "response_type"),
-    4: .standard(proto: "client_id"),
-    5: .standard(proto: "redirect_uri"),
-    6: .same(proto: "scope"),
-    7: .same(proto: "state"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{3}response_type\0\u{3}client_id\0\u{3}redirect_uri\0\u{1}scope\0\u{1}state\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13258,12 +13025,7 @@ extension Api_UserAuthorizeRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_UserTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserTokenRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
-    2: .standard(proto: "grant_type"),
-    3: .standard(proto: "refresh_token"),
-    4: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0\u{3}grant_type\0\u{3}refresh_token\0\u{1}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13308,12 +13070,7 @@ extension Api_UserTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_UserTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserTokenResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "access_token"),
-    2: .standard(proto: "token_type"),
-    3: .standard(proto: "expires_in"),
-    4: .standard(proto: "refresh_token"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}access_token\0\u{3}token_type\0\u{3}expires_in\0\u{3}refresh_token\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13362,9 +13119,7 @@ extension Api_UserTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_UserRevokeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserRevokeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "refresh_token"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}refresh_token\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13394,12 +13149,7 @@ extension Api_UserRevokeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_UserAuthorizeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserAuthorizeResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "success"),
-    2: .same(proto: "code"),
-    3: .same(proto: "error"),
-    4: .same(proto: "state"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0\u{1}code\0\u{1}error\0\u{1}state\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13444,13 +13194,7 @@ extension Api_UserAuthorizeResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".RegisterResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "success"),
-    2: .same(proto: "message"),
-    3: .same(proto: "token"),
-    4: .same(proto: "uuid"),
-    5: .same(proto: "errors"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0\u{1}message\0\u{1}token\0\u{1}uuid\0\u{1}errors\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13504,9 +13248,7 @@ extension Api_RegisterResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_StarredEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StarredEpisodesResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "episodes"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}episodes\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13536,15 +13278,7 @@ extension Api_StarredEpisodesResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".StarredEpisode"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "podcast_uuid"),
-    3: .same(proto: "duration"),
-    4: .standard(proto: "playing_status"),
-    5: .standard(proto: "played_up_to"),
-    6: .standard(proto: "is_deleted"),
-    7: .standard(proto: "starred_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}podcast_uuid\0\u{1}duration\0\u{3}playing_status\0\u{3}played_up_to\0\u{3}is_deleted\0\u{3}starred_modified\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13604,31 +13338,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PlaylistSyncResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "is_deleted"),
-    3: .same(proto: "title"),
-    4: .standard(proto: "audio_video"),
-    5: .standard(proto: "not_downloaded"),
-    6: .same(proto: "downloaded"),
-    7: .same(proto: "downloading"),
-    8: .same(proto: "finished"),
-    9: .standard(proto: "partially_played"),
-    10: .same(proto: "unplayed"),
-    11: .same(proto: "starred"),
-    12: .same(proto: "manual"),
-    13: .standard(proto: "sort_position"),
-    14: .standard(proto: "sort_type"),
-    15: .standard(proto: "icon_id"),
-    16: .standard(proto: "all_podcasts"),
-    17: .standard(proto: "filter_hours"),
-    18: .standard(proto: "podcast_uuids"),
-    19: .standard(proto: "episode_uuids"),
-    20: .standard(proto: "original_uuid"),
-    21: .standard(proto: "filter_duration"),
-    22: .standard(proto: "longer_than"),
-    23: .standard(proto: "shorter_than"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}all_podcasts\0\u{3}filter_hours\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -13654,16 +13364,14 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _episodeOrder: [String] = []
+    var _episodes: [Api_SyncPlaylistEpisode] = []
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -13691,6 +13399,8 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _filterDuration = source._filterDuration
       _longerThan = source._longerThan
       _shorterThan = source._shorterThan
+      _episodeOrder = source._episodeOrder
+      _episodes = source._episodes
     }
   }
 
@@ -13732,6 +13442,8 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 21: try { try decoder.decodeSingularMessageField(value: &_storage._filterDuration) }()
         case 22: try { try decoder.decodeSingularMessageField(value: &_storage._longerThan) }()
         case 23: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
+        case 24: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
+        case 25: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
         default: break
         }
       }
@@ -13813,6 +13525,12 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._shorterThan {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
       } }()
+      if !_storage._episodeOrder.isEmpty {
+        try visitor.visitRepeatedStringField(value: _storage._episodeOrder, fieldNumber: 24)
+      }
+      if !_storage._episodes.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 25)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -13845,6 +13563,8 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._filterDuration != rhs_storage._filterDuration {return false}
         if _storage._longerThan != rhs_storage._longerThan {return false}
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
+        if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
+        if _storage._episodes != rhs_storage._episodes {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -13854,13 +13574,78 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
+extension Api_SyncPlaylistEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SyncPlaylistEpisode"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}episode\0\u{1}podcast\0\u{1}added\0\u{1}published\0\u{1}title\0\u{1}url\0\u{3}podcast_slug\0\u{3}episode_slug\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.episode) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.podcast) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._added) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._published) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._title) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._url) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._podcastSlug) }()
+      case 8: try { try decoder.decodeSingularMessageField(value: &self._episodeSlug) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.episode.isEmpty {
+      try visitor.visitSingularStringField(value: self.episode, fieldNumber: 1)
+    }
+    if !self.podcast.isEmpty {
+      try visitor.visitSingularStringField(value: self.podcast, fieldNumber: 2)
+    }
+    try { if let v = self._added {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._published {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try { if let v = self._title {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    } }()
+    try { if let v = self._url {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
+    try { if let v = self._podcastSlug {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    try { if let v = self._episodeSlug {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_SyncPlaylistEpisode, rhs: Api_SyncPlaylistEpisode) -> Bool {
+    if lhs.episode != rhs.episode {return false}
+    if lhs.podcast != rhs.podcast {return false}
+    if lhs._added != rhs._added {return false}
+    if lhs._published != rhs._published {return false}
+    if lhs._title != rhs._title {return false}
+    if lhs._url != rhs._url {return false}
+    if lhs._podcastSlug != rhs._podcastSlug {return false}
+    if lhs._episodeSlug != rhs._episodeSlug {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Api_CheckEligibleRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CheckEligibleRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "android"),
-    2: .same(proto: "apple"),
-    3: .same(proto: "web"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}android\0\u{1}apple\0\u{1}web\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13944,10 +13729,7 @@ extension Api_CheckEligibleRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_CheckEligibleResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CheckEligibleResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "platform"),
-    2: .same(proto: "eligible"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}platform\0\u{1}eligible\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -13982,11 +13764,7 @@ extension Api_CheckEligibleResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsPurchaseAndroidRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "purchaseToken"),
-    2: .same(proto: "sku"),
-    3: .same(proto: "newsletterOptIn"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}purchaseToken\0\u{1}sku\0\u{1}newsletterOptIn\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14026,10 +13804,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: SwiftProtobuf.Message, SwiftP
 
 extension Api_SubscriptionsPurchaseAppleRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsPurchaseAppleRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "receipt"),
-    2: .same(proto: "newsletterOptIn"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}receipt\0\u{1}newsletterOptIn\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14064,14 +13839,7 @@ extension Api_SubscriptionsPurchaseAppleRequest: SwiftProtobuf.Message, SwiftPro
 
 extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsPurchaseWebRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "transactionId"),
-    2: .same(proto: "email"),
-    3: .same(proto: "paddleUserId"),
-    4: .same(proto: "productId"),
-    5: .same(proto: "newsletterOptIn"),
-    6: .same(proto: "subscriptionId"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}transactionId\0\u{1}email\0\u{1}paddleUserId\0\u{1}productId\0\u{1}newsletterOptIn\0\u{1}subscriptionId\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14126,14 +13894,7 @@ extension Api_SubscriptionsPurchaseWebRequest: SwiftProtobuf.Message, SwiftProto
 
 extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsWebStatusResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "monthly"),
-    2: .same(proto: "yearly"),
-    3: .same(proto: "trial"),
-    4: .same(proto: "webStatus"),
-    5: .same(proto: "plus"),
-    6: .same(proto: "patron"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}monthly\0\u{1}yearly\0\u{1}trial\0\u{1}webStatus\0\u{1}plus\0\u{1}patron\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14192,11 +13953,7 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
 
 extension Api_SubscriptionsWebProduct: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsWebProduct"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "monthly"),
-    2: .same(proto: "yearly"),
-    3: .same(proto: "trialDays"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}monthly\0\u{1}yearly\0\u{1}trialDays\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14236,26 +13993,7 @@ extension Api_SubscriptionsWebProduct: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "platform"),
-    2: .same(proto: "type"),
-    3: .same(proto: "frequency"),
-    4: .same(proto: "autoRenewing"),
-    5: .same(proto: "expiryDate"),
-    7: .same(proto: "cancelUrl"),
-    8: .same(proto: "updateUrl"),
-    9: .same(proto: "web"),
-    10: .same(proto: "plan"),
-    11: .same(proto: "index"),
-    12: .standard(proto: "gift_days"),
-    13: .same(proto: "paid"),
-    14: .same(proto: "webStatus"),
-    15: .standard(proto: "bundle_uuid"),
-    16: .same(proto: "podcasts"),
-    17: .same(proto: "eligible"),
-    18: .standard(proto: "next_payment"),
-    19: .same(proto: "tier"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}platform\0\u{1}type\0\u{1}frequency\0\u{1}autoRenewing\0\u{1}expiryDate\0\u{2}\u{2}cancelUrl\0\u{1}updateUrl\0\u{1}web\0\u{1}plan\0\u{1}index\0\u{3}gift_days\0\u{1}paid\0\u{1}webStatus\0\u{3}bundle_uuid\0\u{1}podcasts\0\u{1}eligible\0\u{3}next_payment\0\u{1}tier\0\u{b}podcast_uuid\0\u{c}\u{6}\u{1}")
 
   fileprivate class _StorageClass {
     var _platform: Int32 = 0
@@ -14277,15 +14015,11 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _nextPayment: Api_PaymentResponse? = nil
     var _tier: String = String()
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -14448,11 +14182,7 @@ extension Api_SubscriptionResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PaymentResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "payment_date"),
-    2: .same(proto: "amount"),
-    3: .same(proto: "currency"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}payment_date\0\u{1}amount\0\u{1}currency\0\u{1}date\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14463,12 +14193,17 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 1: try { try decoder.decodeSingularStringField(value: &self.paymentDate) }()
       case 2: try { try decoder.decodeSingularDoubleField(value: &self.amount) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.currency) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._date) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.paymentDate.isEmpty {
       try visitor.visitSingularStringField(value: self.paymentDate, fieldNumber: 1)
     }
@@ -14478,6 +14213,9 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if !self.currency.isEmpty {
       try visitor.visitSingularStringField(value: self.currency, fieldNumber: 3)
     }
+    try { if let v = self._date {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -14485,6 +14223,7 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.paymentDate != rhs.paymentDate {return false}
     if lhs.amount != rhs.amount {return false}
     if lhs.currency != rhs.currency {return false}
+    if lhs._date != rhs._date {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -14492,10 +14231,7 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_PodcastPair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastPair"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "masterPodcastUuid"),
-    2: .same(proto: "userPodcastUuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}masterPodcastUuid\0\u{1}userPodcastUuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14530,22 +14266,7 @@ extension Api_PodcastPair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 
 extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsStatusResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "paid"),
-    2: .same(proto: "platform"),
-    3: .same(proto: "expiryDate"),
-    4: .same(proto: "autoRenewing"),
-    5: .same(proto: "giftDays"),
-    6: .same(proto: "cancelUrl"),
-    7: .same(proto: "updateUrl"),
-    8: .same(proto: "frequency"),
-    9: .same(proto: "web"),
-    10: .same(proto: "subscriptions"),
-    11: .same(proto: "type"),
-    12: .same(proto: "index"),
-    13: .same(proto: "webStatus"),
-    14: .same(proto: "tier"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}paid\0\u{1}platform\0\u{1}expiryDate\0\u{1}autoRenewing\0\u{1}giftDays\0\u{1}cancelUrl\0\u{1}updateUrl\0\u{1}frequency\0\u{1}web\0\u{1}subscriptions\0\u{1}type\0\u{1}index\0\u{1}webStatus\0\u{1}tier\0\u{1}features\0\u{1}createdAt\0")
 
   fileprivate class _StorageClass {
     var _paid: Int32 = 0
@@ -14562,16 +14283,14 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     var _index: Int32 = 0
     var _webStatus: Int32 = 0
     var _tier: String = String()
+    var _features: Api_Features? = nil
+    var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -14590,6 +14309,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       _index = source._index
       _webStatus = source._webStatus
       _tier = source._tier
+      _features = source._features
+      _createdAt = source._createdAt
     }
   }
 
@@ -14622,6 +14343,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         case 12: try { try decoder.decodeSingularInt32Field(value: &_storage._index) }()
         case 13: try { try decoder.decodeSingularInt32Field(value: &_storage._webStatus) }()
         case 14: try { try decoder.decodeSingularStringField(value: &_storage._tier) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._features) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         default: break
         }
       }
@@ -14676,6 +14399,12 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       if !_storage._tier.isEmpty {
         try visitor.visitSingularStringField(value: _storage._tier, fieldNumber: 14)
       }
+      try { if let v = _storage._features {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._createdAt {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -14699,6 +14428,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         if _storage._index != rhs_storage._index {return false}
         if _storage._webStatus != rhs_storage._webStatus {return false}
         if _storage._tier != rhs_storage._tier {return false}
+        if _storage._features != rhs_storage._features {return false}
+        if _storage._createdAt != rhs_storage._createdAt {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -14708,11 +14439,44 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
   }
 }
 
+extension Api_Features: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".Features"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}remove_banner_ads\0\u{3}remove_discover_ads\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.removeBannerAds) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.removeDiscoverAds) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.removeBannerAds != false {
+      try visitor.visitSingularBoolField(value: self.removeBannerAds, fieldNumber: 1)
+    }
+    if self.removeDiscoverAds != false {
+      try visitor.visitSingularBoolField(value: self.removeDiscoverAds, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_Features, rhs: Api_Features) -> Bool {
+    if lhs.removeBannerAds != rhs.removeBannerAds {return false}
+    if lhs.removeDiscoverAds != rhs.removeDiscoverAds {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Api_CancelUserSubscriptionRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".CancelUserSubscriptionRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "bundleUuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}bundleUuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14742,25 +14506,7 @@ extension Api_CancelUserSubscriptionRequest: SwiftProtobuf.Message, SwiftProtobu
 
 extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "device"),
-    2: .same(proto: "datetime"),
-    3: .same(proto: "v"),
-    4: .same(proto: "av"),
-    5: .same(proto: "ac"),
-    6: .same(proto: "h"),
-    7: .same(proto: "dt"),
-    8: .same(proto: "c"),
-    9: .same(proto: "l"),
-    10: .same(proto: "m"),
-    11: .same(proto: "email"),
-    12: .same(proto: "password"),
-    13: .same(proto: "token"),
-    14: .standard(proto: "device_utc_time_ms"),
-    15: .same(proto: "data"),
-    16: .same(proto: "message"),
-    17: .standard(proto: "last_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}device\0\u{1}datetime\0\u{1}v\0\u{1}av\0\u{1}ac\0\u{1}h\0\u{1}dt\0\u{1}c\0\u{1}l\0\u{1}m\0\u{1}email\0\u{1}password\0\u{1}token\0\u{3}device_utc_time_ms\0\u{1}data\0\u{1}message\0\u{3}last_modified\0")
 
   fileprivate class _StorageClass {
     var _device: String = String()
@@ -14781,15 +14527,11 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _message: String = String()
     var _lastModified: String = String()
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -14942,12 +14684,7 @@ extension Api_LegacyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "status"),
-    2: .same(proto: "token"),
-    3: .same(proto: "copyright"),
-    4: .same(proto: "result"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}status\0\u{1}token\0\u{1}copyright\0\u{1}result\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -14992,14 +14729,7 @@ extension Api_LegacyResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUpdateRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_utc_time_ms"),
-    2: .standard(proto: "last_modified"),
-    3: .same(proto: "country"),
-    4: .standard(proto: "device_id"),
-    5: .same(proto: "records"),
-    6: .standard(proto: "device_type"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_utc_time_ms\0\u{3}last_modified\0\u{1}country\0\u{3}device_id\0\u{1}records\0\u{3}device_type\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15058,10 +14788,7 @@ extension Api_SyncUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUpdateResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "last_modified"),
-    2: .same(proto: "records"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}last_modified\0\u{1}records\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15096,14 +14823,7 @@ extension Api_SyncUpdateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Record"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "podcast"),
-    2: .same(proto: "episode"),
-    3: .same(proto: "playlist"),
-    4: .same(proto: "device"),
-    5: .same(proto: "folder"),
-    6: .same(proto: "bookmark"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}podcast\0\u{1}episode\0\u{1}playlist\0\u{1}device\0\u{1}folder\0\u{1}bookmark\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15238,18 +14958,7 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
 
 extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserPodcast"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "is_deleted"),
-    3: .same(proto: "subscribed"),
-    4: .standard(proto: "auto_start_from"),
-    5: .standard(proto: "episodes_sort_order"),
-    6: .standard(proto: "auto_skip_last"),
-    7: .standard(proto: "folder_uuid"),
-    8: .standard(proto: "sort_position"),
-    9: .standard(proto: "date_added"),
-    10: .same(proto: "settings"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}subscribed\0\u{3}auto_start_from\0\u{3}episodes_sort_order\0\u{3}auto_skip_last\0\u{3}folder_uuid\0\u{3}sort_position\0\u{3}date_added\0\u{1}settings\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15328,24 +15037,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastSettings"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "notification"),
-    2: .standard(proto: "add_to_up_next"),
-    3: .standard(proto: "add_to_up_next_position"),
-    4: .standard(proto: "auto_archive"),
-    5: .standard(proto: "playback_effects"),
-    6: .standard(proto: "playback_speed"),
-    7: .standard(proto: "trim_silence"),
-    8: .standard(proto: "volume_boost"),
-    9: .standard(proto: "auto_start_from"),
-    10: .standard(proto: "auto_skip_last"),
-    11: .standard(proto: "episodes_sort_order"),
-    12: .standard(proto: "auto_archive_played"),
-    13: .standard(proto: "auto_archive_inactive"),
-    14: .standard(proto: "auto_archive_episode_limit"),
-    15: .standard(proto: "episode_grouping"),
-    16: .standard(proto: "show_archived"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}notification\0\u{3}add_to_up_next\0\u{3}add_to_up_next_position\0\u{3}auto_archive\0\u{3}playback_effects\0\u{3}playback_speed\0\u{3}trim_silence\0\u{3}volume_boost\0\u{3}auto_start_from\0\u{3}auto_skip_last\0\u{3}episodes_sort_order\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_archive_episode_limit\0\u{3}episode_grouping\0\u{3}show_archived\0")
 
   fileprivate class _StorageClass {
     var _notification: Api_BoolSetting? = nil
@@ -15365,15 +15057,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     var _episodeGrouping: Api_Int32Setting? = nil
     var _showArchived: Api_BoolSetting? = nil
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -15524,22 +15212,7 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserEpisode"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "podcast_uuid"),
-    3: .standard(proto: "is_deleted"),
-    4: .standard(proto: "is_deleted_modified"),
-    5: .same(proto: "duration"),
-    6: .standard(proto: "duration_modified"),
-    7: .standard(proto: "playing_status"),
-    8: .standard(proto: "playing_status_modified"),
-    9: .standard(proto: "played_up_to"),
-    10: .standard(proto: "played_up_to_modified"),
-    11: .same(proto: "starred"),
-    12: .standard(proto: "starred_modified"),
-    13: .standard(proto: "deselected_chapters"),
-    14: .standard(proto: "deselected_chapters_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15638,16 +15311,7 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserDevice"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_id"),
-    2: .standard(proto: "device_type"),
-    3: .standard(proto: "times_started_at"),
-    4: .standard(proto: "time_silence_removal"),
-    5: .standard(proto: "time_variable_speed"),
-    6: .standard(proto: "time_intro_skipping"),
-    7: .standard(proto: "time_skipping"),
-    8: .standard(proto: "time_listened"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_id\0\u{3}device_type\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -15716,31 +15380,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserPlaylist"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "is_deleted"),
-    3: .same(proto: "title"),
-    4: .standard(proto: "all_podcasts"),
-    5: .standard(proto: "podcast_uuids"),
-    6: .standard(proto: "episode_uuids"),
-    7: .standard(proto: "audio_video"),
-    8: .standard(proto: "not_downloaded"),
-    9: .same(proto: "downloaded"),
-    10: .same(proto: "downloading"),
-    11: .same(proto: "finished"),
-    12: .standard(proto: "partially_played"),
-    13: .same(proto: "unplayed"),
-    14: .same(proto: "starred"),
-    15: .same(proto: "manual"),
-    16: .standard(proto: "sort_position"),
-    17: .standard(proto: "sort_type"),
-    18: .standard(proto: "icon_id"),
-    19: .standard(proto: "filter_hours"),
-    20: .standard(proto: "original_uuid"),
-    21: .standard(proto: "filter_duration"),
-    22: .standard(proto: "longer_than"),
-    23: .standard(proto: "shorter_than"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -15766,16 +15406,14 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     var _filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _longerThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _episodeOrder: [String] = []
+    var _episodes: [Api_SyncPlaylistEpisode] = []
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -15803,6 +15441,8 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       _filterDuration = source._filterDuration
       _longerThan = source._longerThan
       _shorterThan = source._shorterThan
+      _episodeOrder = source._episodeOrder
+      _episodes = source._episodes
     }
   }
 
@@ -15844,6 +15484,8 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         case 21: try { try decoder.decodeSingularMessageField(value: &_storage._filterDuration) }()
         case 22: try { try decoder.decodeSingularMessageField(value: &_storage._longerThan) }()
         case 23: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
+        case 24: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
+        case 25: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
         default: break
         }
       }
@@ -15925,6 +15567,12 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       try { if let v = _storage._shorterThan {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
       } }()
+      if !_storage._episodeOrder.isEmpty {
+        try visitor.visitRepeatedStringField(value: _storage._episodeOrder, fieldNumber: 24)
+      }
+      if !_storage._episodes.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 25)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -15957,6 +15605,8 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         if _storage._filterDuration != rhs_storage._filterDuration {return false}
         if _storage._longerThan != rhs_storage._longerThan {return false}
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
+        if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
+        if _storage._episodes != rhs_storage._episodes {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -15968,15 +15618,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_SyncUserFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserFolder"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "folder_uuid"),
-    2: .standard(proto: "is_deleted"),
-    3: .same(proto: "name"),
-    4: .same(proto: "color"),
-    5: .standard(proto: "sort_position"),
-    6: .standard(proto: "podcasts_sort_type"),
-    7: .standard(proto: "date_added"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}folder_uuid\0\u{3}is_deleted\0\u{1}name\0\u{1}color\0\u{3}sort_position\0\u{3}podcasts_sort_type\0\u{3}date_added\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16040,17 +15682,7 @@ extension Api_SyncUserFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_SyncUserBookmark: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserBookmark"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "bookmark_uuid"),
-    2: .standard(proto: "podcast_uuid"),
-    3: .standard(proto: "episode_uuid"),
-    4: .standard(proto: "created_at"),
-    5: .same(proto: "time"),
-    6: .same(proto: "title"),
-    7: .standard(proto: "title_modified"),
-    8: .standard(proto: "is_deleted"),
-    9: .standard(proto: "is_deleted_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}bookmark_uuid\0\u{3}podcast_uuid\0\u{3}episode_uuid\0\u{3}created_at\0\u{1}time\0\u{1}title\0\u{3}title_modified\0\u{3}is_deleted\0\u{3}is_deleted_modified\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16124,9 +15756,7 @@ extension Api_SyncUserBookmark: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncData"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    4: .same(proto: "records"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\u{4}records\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16156,10 +15786,7 @@ extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncRecord"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "type"),
-    2: .same(proto: "fields"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}fields\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16198,61 +15825,7 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyRecord"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "user_podcast_uuid"),
-    3: .standard(proto: "episode_uuid"),
-    4: .standard(proto: "podcast_uuid"),
-    5: .standard(proto: "is_deleted"),
-    6: .standard(proto: "is_deleted_modified"),
-    7: .same(proto: "duration"),
-    8: .standard(proto: "duration_modified"),
-    9: .standard(proto: "playing_status"),
-    10: .standard(proto: "playing_status_modified"),
-    11: .standard(proto: "played_up_to"),
-    12: .standard(proto: "played_up_to_modified"),
-    13: .same(proto: "starred"),
-    14: .standard(proto: "starred_modified"),
-    15: .standard(proto: "times_started_at"),
-    16: .standard(proto: "time_silence_removal"),
-    17: .standard(proto: "time_variable_speed"),
-    18: .standard(proto: "time_intro_skipping"),
-    19: .standard(proto: "time_skipping"),
-    20: .standard(proto: "time_listened"),
-    21: .standard(proto: "auto_start_from"),
-    22: .same(proto: "subscribed"),
-    23: .same(proto: "title"),
-    24: .standard(proto: "all_podcasts"),
-    25: .standard(proto: "podcast_uuids"),
-    26: .standard(proto: "episode_uuids"),
-    27: .standard(proto: "audio_video"),
-    28: .standard(proto: "not_downloaded"),
-    29: .same(proto: "downloaded"),
-    30: .same(proto: "downloading"),
-    31: .same(proto: "finished"),
-    32: .standard(proto: "partially_played"),
-    33: .same(proto: "unplayed"),
-    34: .same(proto: "manual"),
-    35: .standard(proto: "sort_position"),
-    36: .standard(proto: "sort_type"),
-    37: .standard(proto: "icon_id"),
-    38: .standard(proto: "filter_hours"),
-    39: .standard(proto: "auto_skip_last"),
-    40: .standard(proto: "filter_duration"),
-    41: .standard(proto: "longer_than"),
-    42: .standard(proto: "shorter_than"),
-    43: .standard(proto: "folder_uuid"),
-    44: .same(proto: "name"),
-    45: .same(proto: "color"),
-    46: .standard(proto: "podcasts_sort_type"),
-    47: .standard(proto: "date_added"),
-    48: .standard(proto: "bookmark_uuid"),
-    49: .same(proto: "time"),
-    50: .standard(proto: "title_modified"),
-    51: .standard(proto: "created_at"),
-    52: .standard(proto: "deselected_chapters"),
-    53: .standard(proto: "deselected_chapters_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0")
 
   fileprivate class _StorageClass {
     var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
@@ -16308,16 +15881,14 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
     var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+    var _episodeOrder: [String] = []
+    var _episodes: [Api_SyncPlaylistEpisode] = []
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -16375,6 +15946,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _createdAt = source._createdAt
       _deselectedChapters = source._deselectedChapters
       _deselectedChaptersModified = source._deselectedChaptersModified
+      _episodeOrder = source._episodeOrder
+      _episodes = source._episodes
     }
   }
 
@@ -16446,6 +16019,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
         case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
+        case 54: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
+        case 55: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
         default: break
         }
       }
@@ -16617,6 +16192,12 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._deselectedChaptersModified {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
       } }()
+      if !_storage._episodeOrder.isEmpty {
+        try visitor.visitRepeatedStringField(value: _storage._episodeOrder, fieldNumber: 54)
+      }
+      if !_storage._episodes.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 55)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16679,6 +16260,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._createdAt != rhs_storage._createdAt {return false}
         if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
         if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
+        if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
+        if _storage._episodes != rhs_storage._episodes {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -16690,10 +16273,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "last_modified"),
-    2: .same(proto: "changes"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}last_modified\0\u{1}changes\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16728,10 +16308,7 @@ extension Api_LegacySyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncResponseRecord"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "type"),
-    2: .same(proto: "fields"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}type\0\u{1}fields\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -16770,61 +16347,7 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyResponseRecord"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .standard(proto: "user_podcast_uuid"),
-    3: .standard(proto: "episode_uuid"),
-    4: .standard(proto: "podcast_uuid"),
-    5: .standard(proto: "is_deleted"),
-    6: .standard(proto: "is_deleted_modified"),
-    7: .same(proto: "duration"),
-    8: .standard(proto: "duration_modified"),
-    9: .standard(proto: "playing_status"),
-    10: .standard(proto: "playing_status_modified"),
-    11: .standard(proto: "played_up_to"),
-    12: .standard(proto: "played_up_to_modified"),
-    13: .same(proto: "starred"),
-    14: .standard(proto: "starred_modified"),
-    15: .standard(proto: "times_started_at"),
-    16: .standard(proto: "time_silence_removal"),
-    17: .standard(proto: "time_variable_speed"),
-    18: .standard(proto: "time_intro_skipping"),
-    19: .standard(proto: "time_skipping"),
-    20: .standard(proto: "time_listened"),
-    21: .standard(proto: "auto_start_from"),
-    22: .same(proto: "subscribed"),
-    23: .same(proto: "title"),
-    24: .standard(proto: "all_podcasts"),
-    25: .standard(proto: "podcast_uuids"),
-    26: .standard(proto: "episode_uuids"),
-    27: .standard(proto: "audio_video"),
-    28: .standard(proto: "not_downloaded"),
-    29: .same(proto: "downloaded"),
-    30: .same(proto: "downloading"),
-    31: .same(proto: "finished"),
-    32: .standard(proto: "partially_played"),
-    33: .same(proto: "unplayed"),
-    34: .same(proto: "manual"),
-    35: .standard(proto: "sort_position"),
-    36: .standard(proto: "sort_type"),
-    37: .standard(proto: "icon_id"),
-    38: .standard(proto: "filter_hours"),
-    39: .standard(proto: "auto_skip_last"),
-    40: .standard(proto: "filter_duration"),
-    41: .standard(proto: "longer_than"),
-    42: .standard(proto: "shorter_than"),
-    43: .standard(proto: "folder_uuid"),
-    44: .same(proto: "name"),
-    45: .same(proto: "color"),
-    46: .standard(proto: "podcasts_sort_type"),
-    47: .standard(proto: "date_added"),
-    48: .standard(proto: "bookmark_uuid"),
-    49: .same(proto: "time"),
-    50: .standard(proto: "title_modified"),
-    51: .standard(proto: "created_at"),
-    52: .standard(proto: "deselected_chapters"),
-    53: .standard(proto: "deselected_chapters_modified"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0")
 
   fileprivate class _StorageClass {
     var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
@@ -16880,16 +16403,14 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
     var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+    var _episodeOrder: [String] = []
+    var _episodes: [Api_SyncPlaylistEpisode] = []
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -16947,6 +16468,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _createdAt = source._createdAt
       _deselectedChapters = source._deselectedChapters
       _deselectedChaptersModified = source._deselectedChaptersModified
+      _episodeOrder = source._episodeOrder
+      _episodes = source._episodes
     }
   }
 
@@ -17018,6 +16541,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
         case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
+        case 54: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
+        case 55: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
         default: break
         }
       }
@@ -17189,6 +16714,12 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._deselectedChaptersModified {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
       } }()
+      if !_storage._episodeOrder.isEmpty {
+        try visitor.visitRepeatedStringField(value: _storage._episodeOrder, fieldNumber: 54)
+      }
+      if !_storage._episodes.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 55)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -17251,6 +16782,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._createdAt != rhs_storage._createdAt {return false}
         if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
         if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
+        if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
+        if _storage._episodes != rhs_storage._episodes {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -17262,14 +16795,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyStatsResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "times_started_at"),
-    2: .standard(proto: "time_silence_removal"),
-    3: .standard(proto: "time_variable_speed"),
-    4: .standard(proto: "time_intro_skipping"),
-    5: .standard(proto: "time_skipping"),
-    6: .standard(proto: "time_listened"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17324,9 +16850,7 @@ extension Api_LegacyStatsResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Api_PromotionCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PromotionCode"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17356,12 +16880,7 @@ extension Api_PromotionCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Promotion"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
-    2: .same(proto: "description"),
-    3: .standard(proto: "starts_at"),
-    4: .standard(proto: "ends_at"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0\u{1}description\0\u{3}starts_at\0\u{3}ends_at\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17406,11 +16925,7 @@ extension Api_Promotion: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementa
 
 extension Api_PodcastSubscriptionCheckRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastSubscriptionCheckRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "user_uuid"),
-    2: .standard(proto: "podcast_uuid"),
-    3: .same(proto: "platform"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}user_uuid\0\u{3}podcast_uuid\0\u{1}platform\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17450,10 +16965,7 @@ extension Api_PodcastSubscriptionCheckRequest: SwiftProtobuf.Message, SwiftProto
 
 extension Api_BundleUserRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BundleUserRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "user_uuid"),
-    2: .same(proto: "bundles"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}user_uuid\0\u{1}bundles\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17488,10 +17000,7 @@ extension Api_BundleUserRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_BundleUserResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BundleUserResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "user_exists"),
-    2: .same(proto: "paid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}user_exists\0\u{1}paid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17526,10 +17035,7 @@ extension Api_BundleUserResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_PodcastSubscriptionCheckResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastSubscriptionCheckResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "paid"),
-    2: .standard(proto: "user_exists"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}paid\0\u{3}user_exists\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17564,12 +17070,7 @@ extension Api_PodcastSubscriptionCheckResponse: SwiftProtobuf.Message, SwiftProt
 
 extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastFolderRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "version"),
-    2: .same(proto: "model"),
-    3: .same(proto: "folder"),
-    4: .same(proto: "podcasts"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}version\0\u{1}model\0\u{1}folder\0\u{1}podcasts\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17618,14 +17119,7 @@ extension Api_PodcastFolderRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastFolder"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "folder_uuid"),
-    2: .same(proto: "name"),
-    3: .same(proto: "color"),
-    4: .standard(proto: "sort_position"),
-    5: .standard(proto: "podcasts_sort_type"),
-    6: .standard(proto: "date_added"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}sort_position\0\u{3}podcasts_sort_type\0\u{3}date_added\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17684,12 +17178,7 @@ extension Api_PodcastFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_PodcastFolderSortRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastFolderSortRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "version"),
-    2: .same(proto: "model"),
-    3: .same(proto: "podcasts"),
-    4: .same(proto: "folders"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}version\0\u{1}model\0\u{1}podcasts\0\u{1}folders\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17734,10 +17223,7 @@ extension Api_PodcastFolderSortRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_PodcastFolderSorting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastFolderSorting"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "position"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}position\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17772,12 +17258,7 @@ extension Api_PodcastFolderSorting: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_TokenLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".TokenLoginRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "id_token"),
-    2: .same(proto: "email"),
-    3: .same(proto: "password"),
-    4: .same(proto: "scope"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}id_token\0\u{1}email\0\u{1}password\0\u{1}scope\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17822,15 +17303,7 @@ extension Api_TokenLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_TokenLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".TokenLoginResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "email"),
-    2: .same(proto: "uuid"),
-    3: .standard(proto: "is_new"),
-    4: .standard(proto: "access_token"),
-    5: .standard(proto: "token_type"),
-    6: .standard(proto: "expires_in"),
-    7: .standard(proto: "refresh_token"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}uuid\0\u{3}is_new\0\u{3}access_token\0\u{3}token_type\0\u{3}expires_in\0\u{3}refresh_token\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17890,11 +17363,7 @@ extension Api_TokenLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_TokenErrorResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".TokenErrorResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "error"),
-    2: .standard(proto: "error_description"),
-    3: .standard(proto: "error_uri"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}error\0\u{3}error_description\0\u{3}error_uri\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17934,9 +17403,7 @@ extension Api_TokenErrorResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_VerifyEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".VerifyEmailRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "verify_email_token"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}verify_email_token\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -17966,10 +17433,7 @@ extension Api_VerifyEmailRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_AuthorizeCallbackRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".AuthorizeCallbackRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "id_token"),
-    2: .same(proto: "state"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}id_token\0\u{1}state\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18004,12 +17468,7 @@ extension Api_AuthorizeCallbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_BookmarkRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BookmarkRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-    2: .standard(proto: "episode_uuid"),
-    3: .same(proto: "time"),
-    4: .same(proto: "title"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{3}episode_uuid\0\u{1}time\0\u{1}title\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18058,9 +17517,7 @@ extension Api_BookmarkRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension Api_BookmarksRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BookmarksRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}bookmarks\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18090,14 +17547,7 @@ extension Api_BookmarksRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_BookmarkResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BookmarkResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "bookmark_uuid"),
-    2: .standard(proto: "podcast_uuid"),
-    3: .standard(proto: "episode_uuid"),
-    5: .same(proto: "time"),
-    6: .same(proto: "title"),
-    7: .same(proto: "createdAt"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}bookmark_uuid\0\u{3}podcast_uuid\0\u{3}episode_uuid\0\u{2}\u{2}time\0\u{1}title\0\u{1}createdAt\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18156,9 +17606,7 @@ extension Api_BookmarkResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_BookmarksResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".BookmarksResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}bookmarks\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18188,11 +17636,7 @@ extension Api_BookmarksResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Api_PodcastRating: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRating"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-    3: .standard(proto: "modified_at"),
-    4: .standard(proto: "podcast_rating"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{4}\u{2}modified_at\0\u{3}podcast_rating\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18236,9 +17680,7 @@ extension Api_PodcastRating: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_PodcastRatingsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingsResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_ratings"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_ratings\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18268,10 +17710,7 @@ extension Api_PodcastRatingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Api_PodcastRatingAddRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingAddRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-    2: .standard(proto: "podcast_rating"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{3}podcast_rating\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18306,9 +17745,7 @@ extension Api_PodcastRatingAddRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Api_PodcastRatingShowRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingShowRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18338,9 +17775,7 @@ extension Api_PodcastRatingShowRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_PodcastRatingUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingUpdateRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_rating"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_rating\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18370,11 +17805,7 @@ extension Api_PodcastRatingUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Api_PodcastRatingAggregateResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingAggregateResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_uuid"),
-    2: .standard(proto: "podcast_ratings_count"),
-    3: .standard(proto: "podcast_ratings_total"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuid\0\u{3}podcast_ratings_count\0\u{3}podcast_ratings_total\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18414,10 +17845,7 @@ extension Api_PodcastRatingAggregateResponse: SwiftProtobuf.Message, SwiftProtob
 
 extension Api_ReferralCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ReferralCode"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
-    2: .same(proto: "url"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0\u{1}url\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18452,11 +17880,7 @@ extension Api_ReferralCode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_ReferralValidationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ReferralValidationResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "offer"),
-    2: .same(proto: "platform"),
-    3: .same(proto: "details"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}offer\0\u{1}platform\0\u{1}details\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18496,9 +17920,7 @@ extension Api_ReferralValidationResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Api_ReferralRedemption: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ReferralRedemption"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "code"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18528,12 +17950,7 @@ extension Api_ReferralRedemption: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_WinbackResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".WinbackResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "offer"),
-    2: .same(proto: "platform"),
-    3: .same(proto: "details"),
-    4: .same(proto: "code"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}offer\0\u{1}platform\0\u{1}details\0\u{1}code\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18576,12 +17993,44 @@ extension Api_WinbackResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
   }
 }
 
+extension Api_WinbackEligibilityResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".WinbackEligibilityResponse"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}eligible\0\u{1}reason\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.eligible) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.reason) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.eligible != false {
+      try visitor.visitSingularBoolField(value: self.eligible, fieldNumber: 1)
+    }
+    if !self.reason.isEmpty {
+      try visitor.visitSingularStringField(value: self.reason, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_WinbackEligibilityResponse, rhs: Api_WinbackEligibilityResponse) -> Bool {
+    if lhs.eligible != rhs.eligible {return false}
+    if lhs.reason != rhs.reason {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Api_UserSubscriptionSurveyRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserSubscriptionSurveyRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "reason"),
-    2: .same(proto: "other"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}reason\0\u{1}other\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -18609,6 +18058,126 @@ extension Api_UserSubscriptionSurveyRequest: SwiftProtobuf.Message, SwiftProtobu
   static func ==(lhs: Api_UserSubscriptionSurveyRequest, rhs: Api_UserSubscriptionSurveyRequest) -> Bool {
     if lhs.reason != rhs.reason {return false}
     if lhs.other != rhs.other {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UpdatePlanRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UpdatePlanRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}plan_id\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self.planID) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.planID != 0 {
+      try visitor.visitSingularInt64Field(value: self.planID, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UpdatePlanRequest, rhs: Api_UpdatePlanRequest) -> Bool {
+    if lhs.planID != rhs.planID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_UpdatePlanResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".UpdatePlanResponse"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}expiry_date\0\u{3}auto_renewing\0\u{1}frequency\0\u{3}plan_id\0\u{1}tier\0\u{3}error_message\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt64Field(value: &self.expiryDate) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.autoRenewing) }()
+      case 3: try { try decoder.decodeSingularInt32Field(value: &self.frequency) }()
+      case 4: try { try decoder.decodeSingularInt64Field(value: &self.planID) }()
+      case 5: try { try decoder.decodeSingularInt32Field(value: &self.tier) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.errorMessage) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.expiryDate != 0 {
+      try visitor.visitSingularInt64Field(value: self.expiryDate, fieldNumber: 1)
+    }
+    if self.autoRenewing != false {
+      try visitor.visitSingularBoolField(value: self.autoRenewing, fieldNumber: 2)
+    }
+    if self.frequency != 0 {
+      try visitor.visitSingularInt32Field(value: self.frequency, fieldNumber: 3)
+    }
+    if self.planID != 0 {
+      try visitor.visitSingularInt64Field(value: self.planID, fieldNumber: 4)
+    }
+    if self.tier != 0 {
+      try visitor.visitSingularInt32Field(value: self.tier, fieldNumber: 5)
+    }
+    if !self.errorMessage.isEmpty {
+      try visitor.visitSingularStringField(value: self.errorMessage, fieldNumber: 6)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_UpdatePlanResponse, rhs: Api_UpdatePlanResponse) -> Bool {
+    if lhs.expiryDate != rhs.expiryDate {return false}
+    if lhs.autoRenewing != rhs.autoRenewing {return false}
+    if lhs.frequency != rhs.frequency {return false}
+    if lhs.planID != rhs.planID {return false}
+    if lhs.tier != rhs.tier {return false}
+    if lhs.errorMessage != rhs.errorMessage {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PodcastsEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PodcastsEpisodesRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}podcast_uuids\0\u{3}episode_uuids\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedStringField(value: &self.podcastUuids) }()
+      case 2: try { try decoder.decodeRepeatedStringField(value: &self.episodeUuids) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.podcastUuids.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.podcastUuids, fieldNumber: 1)
+    }
+    if !self.episodeUuids.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.episodeUuids, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PodcastsEpisodesRequest, rhs: Api_PodcastsEpisodesRequest) -> Bool {
+    if lhs.podcastUuids != rhs.podcastUuids {return false}
+    if lhs.episodeUuids != rhs.episodeUuids {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

@@ -1086,6 +1086,8 @@ Pocket Casts。</string>
     <string>Plus 中的所有功能</string>
     <key>feature_marketing_bookmarks</key>
     <string>使用书签保留时间戳</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>供您存放文件的 %1$@ GB 云存储空间</string>
     <key>feature_marketing_early_access</key>
     <string>抢先体验新功能</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Pocket Casts。</string>
 访问您的播客</string>
     <key>in_progress</key>
     <string>正在进行</string>
+    <key>interests_select_at_least</key>
+    <string>至少选择 %1$@ 项</string>
+    <key>interests_show_more_categories</key>
+    <string>显示更多分类</string>
+    <key>interests_subtitle</key>
+    <string>优质播客即将上线，真人严选，声声入耳！</string>
+    <key>interests_title</key>
+    <string>谈谈您最感兴趣的话题</string>
     <key>keycommand_close_player</key>
     <string>关闭播放器</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Pocket Casts。</string>
     <string>根据规则自动添加剧集。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>生成智能播放列表</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ 集 • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>添加剧集</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>浏览节目</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>向左滑动剧集即可将其添加到您的播放列表。</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>开始构建您的播放列表</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>将剧集添加到您的播放列表</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>创建智能播放列表</string>
     <key>playlist_preview_title</key>
     <string>预览 %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>您已完成此列表，但还可以编辑规则以获取更多内容。</string>
     <key>playlist_smart_preview_description</key>
     <string>设置智能规则，自动将剧集添加到您的智能播放列表。</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Pocket Casts。</string>
     <string>剧集过滤器计数</string>
     <key>settings_badge_new_since_opened</key>
     <string>自应用程序打开以来的新剧集</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>智能播放列表剧集数</string>
     <key>settings_badge_total_unplayed</key>
     <string>未播放总数</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Pocket Casts。</string>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
     <string>过滤器计数</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>智能播放列表数</string>
     <key>settings_notifications_subtitle</key>
     <string>当有新剧集时通知您。 还有助于提高自动下载的可靠性。</string>
     <key>settings_opml</key>

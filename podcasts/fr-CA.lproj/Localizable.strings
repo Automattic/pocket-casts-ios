@@ -1086,6 +1086,8 @@ que vous avez écouté était
     <string>Toutes les fonctionnalités de Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Conservez des horodatages avec les signets</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ Go de stockage cloud pour vos fichiers</string>
     <key>feature_marketing_early_access</key>
     <string>Accès en avant-première aux nouvelles fonctionnalités</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Remarque : vous devrez peut-être vous envoyer le fichier OPML par e-mail, appu
 podcasts partout avec</string>
     <key>in_progress</key>
     <string>En cours</string>
+    <key>interests_select_at_least</key>
+    <string>Sélectionner au moins %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Afficher plus de catégories</string>
+    <key>interests_subtitle</key>
+    <string>De magnifiques podcasts, triés sur le volet par de vraies personnes, arrivent !</string>
+    <key>interests_title</key>
+    <string>Parlez-nous de vos sujets favoris</string>
     <key>keycommand_close_player</key>
     <string>Fermer le lecteur</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les f
     <string>Ajoutez automatiquement des épisodes en fonction des règles.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Transformer en liste de lecture intelligente</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ épisodes • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Ajouter des épisodes</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Parcourir les émissions</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre liste de lecture.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Commencer à créer votre liste de lecture</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Ajouter des épisodes à votre liste de lecture</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Créer une liste de lecture intelligente</string>
     <key>playlist_preview_title</key>
     <string>Prévisualiser %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Il est temps de fêter le fait d’avoir terminé cette liste ou de modifier vos règles afin d’en obtenir d’autres.</string>
     <key>playlist_smart_preview_description</key>
     <string>Configurez des règles intelligentes pour ajouter automatiquement des épisodes à votre liste de lecture intelligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>NOMBRE DE FILTRES D’ÉPISODES</string>
     <key>settings_badge_new_since_opened</key>
     <string>Nouveau depuis l’ouverture de l’application</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>COMPTEUR D’ÉPISODES DE LISTE DE LECTURE INTELLIGENT</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total non lus</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Notifications</string>
     <key>settings_notifications_filter_count</key>
     <string>Nombre de filtres</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Compteur de liste de lecture intelligent</string>
     <key>settings_notifications_subtitle</key>
     <string>Recevez une notification lorsqu’un nouvel épisode est disponible. Également utile pour améliorer la fiabilité des téléchargements automatiques.</string>
     <key>settings_opml</key>
