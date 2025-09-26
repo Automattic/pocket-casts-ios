@@ -1086,6 +1086,8 @@ Pocket Casts Plus</string>
     <string>Plus 的所有功能</string>
     <key>feature_marketing_bookmarks</key>
     <string>使用書籤保留時間戳記</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ GB 雲端儲存空間，供你的檔案使用</string>
     <key>feature_marketing_early_access</key>
     <string>搶先使用新功能</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Pocket Casts Plus</string>
 隨身帶著聽 </string>
     <key>in_progress</key>
     <string>進行中</string>
+    <key>interests_select_at_least</key>
+    <string>至少選取 %1$@ 個</string>
+    <key>interests_show_more_categories</key>
+    <string>顯示更多分類</string>
+    <key>interests_subtitle</key>
+    <string>即將獻上精彩的編輯精選 Podcast！</string>
+    <key>interests_title</key>
+    <string>與我們分享你的最愛主題</string>
     <key>keycommand_close_player</key>
     <string>關閉播放器</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Pocket Casts Plus</string>
     <string>根據規則自動新增單集。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>彙整成智慧播放清單</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ 個單集 • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>新增單集</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>瀏覽節目</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>對單集左滑，即可新增至播放清單。</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>著手建立自己的播放清單</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>將單集新增至播放清單</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>建立智慧播放清單</string>
     <key>playlist_preview_title</key>
     <string>預覽「%@」</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>恭喜你聽完這份清單了，或者你可以編輯篩選規則以獲得更多內容。</string>
     <key>playlist_smart_preview_description</key>
     <string>設定「智慧規則」，自動將單集新增至智慧播放清單。</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Pocket Casts Plus</string>
     <string>單集篩選器數量</string>
     <key>settings_badge_new_since_opened</key>
     <string>應用程式開啟以來的新單集</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>智慧播放清單單集數量</string>
     <key>settings_badge_total_unplayed</key>
     <string>未播放總單集</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Pocket Casts Plus</string>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
     <string>篩選器數量</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>智慧播放清單數量</string>
     <key>settings_notifications_subtitle</key>
     <string>有新單集可聆聽時會通知你。也有助於改善自動下載功能的可靠性。</string>
     <key>settings_opml</key>

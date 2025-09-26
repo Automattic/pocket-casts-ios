@@ -28,13 +28,21 @@ class SubscriptionStatusTask: ApiBaseTask {
                 SubscriptionHelper.setSubscriptionType(Int(status.type))
                 SubscriptionHelper.subscriptionTier = SubscriptionTier(rawValue: status.tier) ?? .none
 
+                SubscriptionHelper.shouldRemoveBannerAd = status.features.removeBannerAds
+                SubscriptionHelper.shouldRemoveDiscoverAds = status.features.removeDiscoverAds
+                SubscriptionHelper.setSubscriptionCreateDate(status.createdAt.timeIntervalSince1970)
+
                 NotificationCenter.default.post(name: ServerNotifications.subscriptionStatusChanged, object: nil)
 
                 var expiryDateString = "nil"
                 if let expiryDate = SubscriptionHelper.subscriptionRenewalDate() {
                     expiryDateString = expiryDate.description
                 }
-                FileLog.shared.addMessage("Received subscription status paid : \(status.paid), platform : \(status.platform), frequency : \(status.frequency), giftDays : \(status.giftDays), expiryDate : \(expiryDateString), autoRenewing : \(status.autoRenewing), timeToSubscriptionExpiry: \(SubscriptionHelper.timeToSubscriptionExpiry() ?? 0), originalSubscriptionStatus: \(originalSubscriptionStatus)")
+                var createDateString = "nil"
+                if let createDate = SubscriptionHelper.subscriptionCreateDate() {
+                    createDateString = createDate.description
+                }
+                FileLog.shared.addMessage("Received subscription status paid : \(status.paid), platform : \(status.platform), frequency : \(status.frequency), giftDays : \(status.giftDays), createDate: \(createDateString), expiryDate : \(expiryDateString), autoRenewing : \(status.autoRenewing), timeToSubscriptionExpiry: \(SubscriptionHelper.timeToSubscriptionExpiry() ?? 0), originalSubscriptionStatus: \(originalSubscriptionStatus), shouldRemoveBannerAd: \(status.features.removeBannerAds), shouldRemoveDiscoverAds: \(status.features.removeDiscoverAds)")
                 if originalSubscriptionStatus, !SubscriptionHelper.hasActiveSubscription() {
                     ServerConfig.shared.syncDelegate?.cleanupCloudOnlyFiles()
                 }
