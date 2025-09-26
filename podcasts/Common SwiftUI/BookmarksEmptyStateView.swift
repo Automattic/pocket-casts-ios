@@ -20,7 +20,7 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
 
                 action()
             })
-        ], style: style)
+        ], style: style, maxContentWidth: .infinity)
     }
 }
 

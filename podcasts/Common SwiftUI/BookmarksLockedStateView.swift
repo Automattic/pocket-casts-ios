@@ -20,7 +20,7 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
             .init(title: actionTitle, action: {
                 upgradeModel.upgradeTapped()
             })
-        ], style: style)
+        ], style: style, maxContentWidth: .infinity)
     }
 }
 
