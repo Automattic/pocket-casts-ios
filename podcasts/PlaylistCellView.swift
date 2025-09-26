@@ -81,7 +81,6 @@ struct PlaylistCellView: View {
 
         private func model() -> EpisodeFilter {
             let filter = EpisodeFilter()
-            filter.rawPlaylistType = 0
             filter.playlistName = "New Releases"
             return filter
         }

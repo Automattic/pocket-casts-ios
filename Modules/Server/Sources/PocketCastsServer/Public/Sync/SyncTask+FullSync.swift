@@ -3,21 +3,30 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension SyncTask {
-    func processServerPlaylists(_ playlists: [EpisodeFilter]) {
+    func processServerPlaylists(_ playlists: [(EpisodeFilter, [Episode])]) {
         // before looking at the server playlists, mark any we have here locally as needing to be syncing so they get pushed up with the next sync
         DataManager.sharedManager.markAllPlaylistsUnsynced()
 
-        for playlist in playlists {
+        playlists.forEach { (playlist, serverEpisodes) in
             // if we have this playlist locally, assume the server version is more up to date, so blow ours away
             if let localPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
                 DataManager.sharedManager.delete(playlist: localPlaylist)
             }
 
             // save the server version of the filter, as long as it's not deleted
-            if !playlist.wasDeleted {
-                playlist.syncStatus = SyncStatus.synced.rawValue
-                DataManager.sharedManager.save(playlist: playlist)
+            guard !playlist.wasDeleted else {
+                return
             }
+
+            var addedEpisodes: [Episode] = []
+
+            // Add missing episodes
+            let matchedEpisodeUuids = Set(DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid })
+            addedEpisodes = serverEpisodes.filter { !matchedEpisodeUuids.contains($0.uuid) }
+
+            playlist.syncStatus = SyncStatus.synced.rawValue
+            DataManager.sharedManager.save(playlist: playlist)
+            DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
         }
     }
 

@@ -4,17 +4,15 @@ import PocketCastsUtils
 import SwiftProtobuf
 
 class RetrievePlaylistsTask: ApiBaseTask {
-    var completion: (([EpisodeFilter]?) -> Void)?
-
-    private var playlists = [EpisodeFilter]()
+    var completion: (([(EpisodeFilter, [Episode])]?) -> Void)?
 
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/playlist/list"
 
         do {
-            var filterRequest = Api_UserPlaylistListRequest()
-            filterRequest.m = ServerConstants.Values.apiScope
-            let data = try filterRequest.serializedData()
+            var playlistRequest = Api_UserPlaylistListRequest()
+            playlistRequest.m = ServerConstants.Values.apiScope
+            let data = try playlistRequest.serializedData()
 
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
 
@@ -25,21 +23,22 @@ class RetrievePlaylistsTask: ApiBaseTask {
             }
 
             do {
-                let serverFilters = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
-                if serverFilters.count == 0 {
+                let serverPlaylists = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
+                if serverPlaylists.count == 0 {
                     completion?(nil)
 
                     return
                 }
 
-                for serverFilter in serverFilters {
-                    if serverFilter.manual.value { continue } // we don't care about manual playlists
-
-                    let convertedFilter = convertFromProto(serverFilter)
-                    playlists.append(convertedFilter)
+                let result = serverPlaylists.map { serverPlaylist in
+                    let episodes = serverPlaylist.episodes.map {
+                        Episode($0)
+                    }
+                    let orderedEpisodes = episodes.sorted { serverPlaylist.episodeOrder.firstIndex(of: $0.uuid) ?? 0 < serverPlaylist.episodeOrder.firstIndex(of: $1.uuid) ?? 0 }
+                    return (convertFromProto(serverPlaylist), orderedEpisodes)
                 }
 
-                completion?(playlists)
+                completion?(result)
             } catch {
                 FileLog.shared.addMessage("Decoding playlists failed \(error.localizedDescription)")
                 completion?(nil)
@@ -68,7 +67,7 @@ class RetrievePlaylistsTask: ApiBaseTask {
         converted.podcastUuids = protoFilter.podcastUuids
         converted.wasDeleted = protoFilter.isDeleted.value
         converted.sortPosition = protoFilter.sortPosition.value
-
+        converted.manual = protoFilter.manual.value
         return converted
     }
 }

@@ -25,7 +25,7 @@ class PlaylistDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "rawPlaylistType"
+        "manual"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -70,7 +70,7 @@ class PlaylistDataManager {
         return count
     }
 
-    func smartPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+    func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.read { db in
             do {
@@ -89,16 +89,14 @@ class PlaylistDataManager {
         return count
     }
 
-    func manualPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
-        return 0 //TODO: implement new playlist query
-    }
-
     func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        let query: String
         if FeatureFlag.playlistsRebranding.enabled {
-            let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
-            return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
+            query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
+        } else {
+            query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
         }
-        return allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+        return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 
     func allSmartPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
@@ -170,6 +168,7 @@ class PlaylistDataManager {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistsTableName) WHERE uuid = ?", values: [playlist.uuid])
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? OR playlist_id = ?", values: [playlist.uuid, playlist.id])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.delete error: \(error)")
             }
@@ -233,6 +232,62 @@ class PlaylistDataManager {
         return highestPosition + 1
     }
 
+    func add(episodes: [Episode], to playlist: EpisodeFilter, dbQueue: PCDBQueue) {
+        // Ensure the filter exists and has a valid id before inserting playlist items
+        if playlist.id == 0 {
+            save(playlist: playlist, dbQueue: dbQueue)
+        }
+
+        guard episodes.count > 0 else { return }
+
+        dbQueue.write { db in
+            do {
+                // Find current max position for this playlist (by playlist_uuid)
+                var startPosition: Int32 = 0
+                do {
+                    let rs = try db.executeQuery("SELECT COALESCE(MAX(episodePosition), 0) FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ?", values: [playlist.uuid])
+                    defer { rs.close() }
+                    if rs.next() {
+                        startPosition = rs.int(forColumnIndex: 0)
+                    }
+                }
+
+                var nextPosition = startPosition
+
+                // Insert each episode, avoiding duplicates for this playlist
+                for episode in episodes {
+                    // Ensure uniqueness within this playlist
+                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid = ?", values: [playlist.uuid, episode.uuid])
+
+                    nextPosition += 1
+                    let insertColumns = [
+                        "id",
+                        "episodePosition",
+                        "episodeUuid",
+                        "playlist_id",
+                        "title",
+                        "podcastUuid",
+                        "playlist_uuid"
+                    ].joined(separator: ",")
+
+                    let values: [Any] = [
+                        DBUtils.generateUniqueId(),
+                        nextPosition,
+                        episode.uuid,
+                        playlist.id,
+                        episode.displayableTitle(),
+                        episode.podcastUuid,
+                        playlist.uuid
+                    ]
+
+                    try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(insertColumns)) VALUES (?,?,?,?,?,?,?)", values: values)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeFilterDataManager.addEpisodes error: \(error)")
+            }
+        }
+    }
+
     // MARK: - Conversion
 
     private func createPlaylistFrom(resultSet rs: PCDBResultSet) -> EpisodeFilter {
@@ -260,7 +315,8 @@ class PlaylistDataManager {
         playlist.filterDuration = rs.bool(forColumn: "filterDuration")
         playlist.longerThan = rs.int(forColumn: "longerThan")
         playlist.shorterThan = rs.int(forColumn: "shorterThan")
-        playlist.rawPlaylistType = rs.int(forColumn: "rawPlaylistType")
+        playlist.manual = rs.bool(forColumn: "manual")
+
         return playlist
     }
 
@@ -289,7 +345,7 @@ class PlaylistDataManager {
         values.append(playlist.filterDuration)
         values.append(playlist.longerThan)
         values.append(playlist.shorterThan)
-        values.append(playlist.rawPlaylistType)
+        values.append(playlist.manual)
 
         if includeUuidForWhere {
             values.append(playlist.uuid)
