@@ -1,5 +1,6 @@
 7.99
 -----
+- Fix archive filter in episode search [#3526](https://github.com/Automattic/pocket-casts-ios/pull/3526)
 
 7.98
 -----
