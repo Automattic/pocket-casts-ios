@@ -11,7 +11,6 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
         //ensure that all work is done before releasing the table
         queue.sync(flags: .barrier) { [weak self] in
             //Last work item
-            print("Remove all before dealocating")
             self?.table.removeAll()
         }
     }
