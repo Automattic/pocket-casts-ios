@@ -171,7 +171,7 @@ public class PlaylistQueryBuilder {
         case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
         case .dragAndDrop:
-            return  nil // TODO: add order for manual playlist
+            return  nil // Available for manual playlist only
         }
     }
 
