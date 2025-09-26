@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 
 struct NewSearchResultsView: View {
     @EnvironmentObject var theme: Theme
@@ -46,14 +47,20 @@ struct NewSearchResultsView: View {
                 VStack {
                     filterPicker
                     List {
-                        if displayMode == .allResults || displayMode == .podcasts {
+                        if searchResults.isDoingPredictiveSearch {
                             Section {
-                                podcastList
+                                predictiveList
                             }
-                        }
-                        if displayMode == .allResults || displayMode == .episodes {
-                            Section {
-                                episodeList
+                        } else {
+                            if displayMode == .allResults || displayMode == .podcasts {
+                                Section {
+                                    podcastList
+                                }
+                            }
+                            if displayMode == .allResults || displayMode == .episodes {
+                                Section {
+                                    episodeList
+                                }
                             }
                         }
                     }
@@ -95,6 +102,23 @@ struct NewSearchResultsView: View {
                 .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                     return 0
                 }
+        }
+    }
+
+    @ViewBuilder var predictiveList: some View {
+        ForEach(searchResults.predictive.prefix(Constants.maxNumberOfEpisodes), id: \.self) { predictiveSearch in
+            switch predictiveSearch.type {
+                case "term":
+                    Text(predictiveSearch.value ?? "")
+                case "podcast":
+                    SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                        .listRowBackground(theme.primaryUi01)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+                default:
+                    EmptyView()
+            }
         }
     }
 

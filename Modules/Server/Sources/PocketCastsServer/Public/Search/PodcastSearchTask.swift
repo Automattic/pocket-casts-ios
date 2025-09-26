@@ -50,6 +50,20 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.kind = .folder
     }
 
+    public init?(from predictiveResult: PredictiveSearchResult) {
+        guard
+            predictiveResult.type == "podcast",
+            let podcast = predictiveResult.podcast
+        else {
+            return nil
+        }
+        self.uuid = podcast.uuid
+        self.author = podcast.author
+        self.title = podcast.title
+        self.kind = .podcast
+        self.isLocal = false
+    }
+
     public enum Kind: Codable {
         case podcast, folder
     }

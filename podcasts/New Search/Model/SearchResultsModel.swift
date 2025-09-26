@@ -9,6 +9,7 @@ class SearchResultsModel: ObservableObject {
 
     private let analyticsHelper: SearchAnalyticsHelper
 
+    @Published var isDoingPredictiveSearch = false
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
@@ -37,7 +38,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        return podcasts.isEmpty && episodes.isEmpty
+        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty
     }
 
     func clearSearch() {
@@ -54,16 +55,12 @@ class SearchResultsModel: ObservableObject {
         episodeSearchError = nil
         podcastSearchError = nil
 
-        if !isShowingLocalResultsOnly {
-            clearSearch()
-        }
-
         guard !term.startsWith(string: "http:") else {
             return
         }
 
         Task {
-            isSearchingForPodcasts = true
+            isDoingPredictiveSearch = true
             do {
                 let results = try await predictiveSearch.search(term: term)
                 show(predictiveResults: results)
@@ -71,8 +68,6 @@ class SearchResultsModel: ObservableObject {
                 predictiveSearchError = error
                 //analyticsHelper.trackFailed(error)
             }
-
-            isSearchingForPodcasts = false
         }
 
         //analyticsHelper.trackSearchPerformed()
