@@ -4877,15 +4877,29 @@ struct Api_PaymentResponse: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  /// paymentDate is deprecated, but we still need to support it.
+  /// It must be in YYYY-MM-DD format.
+  /// It was never returned for stores other than web.
   var paymentDate: String = String()
 
   var amount: Double = 0
 
   var currency: String = String()
 
+  var date: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _date ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_date = newValue}
+  }
+  /// Returns true if `date` has been explicitly set.
+  var hasDate: Bool {return self._date != nil}
+  /// Clears the value of `date`. Subsequent reads from it will return its default value.
+  mutating func clearDate() {self._date = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _date: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_PodcastPair: Sendable {
@@ -4985,11 +4999,44 @@ struct Api_SubscriptionsStatusResponse: @unchecked Sendable {
     set {_uniqueStorage()._tier = newValue}
   }
 
+  var features: Api_Features {
+    get {return _storage._features ?? Api_Features()}
+    set {_uniqueStorage()._features = newValue}
+  }
+  /// Returns true if `features` has been explicitly set.
+  var hasFeatures: Bool {return _storage._features != nil}
+  /// Clears the value of `features`. Subsequent reads from it will return its default value.
+  mutating func clearFeatures() {_uniqueStorage()._features = nil}
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+/// require boolean features where the default value is false (protobuf default value for bool is false)
+struct Api_Features: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var removeBannerAds: Bool = false
+
+  var removeDiscoverAds: Bool = false
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 struct Api_CancelUserSubscriptionRequest: Sendable {
@@ -14876,6 +14923,7 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     1: .standard(proto: "payment_date"),
     2: .same(proto: "amount"),
     3: .same(proto: "currency"),
+    4: .same(proto: "date"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -14887,12 +14935,17 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 1: try { try decoder.decodeSingularStringField(value: &self.paymentDate) }()
       case 2: try { try decoder.decodeSingularDoubleField(value: &self.amount) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.currency) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._date) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.paymentDate.isEmpty {
       try visitor.visitSingularStringField(value: self.paymentDate, fieldNumber: 1)
     }
@@ -14902,6 +14955,9 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if !self.currency.isEmpty {
       try visitor.visitSingularStringField(value: self.currency, fieldNumber: 3)
     }
+    try { if let v = self._date {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -14909,6 +14965,7 @@ extension Api_PaymentResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.paymentDate != rhs.paymentDate {return false}
     if lhs.amount != rhs.amount {return false}
     if lhs.currency != rhs.currency {return false}
+    if lhs._date != rhs._date {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -14969,6 +15026,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     12: .same(proto: "index"),
     13: .same(proto: "webStatus"),
     14: .same(proto: "tier"),
+    15: .same(proto: "features"),
+    16: .same(proto: "createdAt"),
   ]
 
   fileprivate class _StorageClass {
@@ -14986,6 +15045,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     var _index: Int32 = 0
     var _webStatus: Int32 = 0
     var _tier: String = String()
+    var _features: Api_Features? = nil
+    var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
     #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
@@ -15014,6 +15075,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       _index = source._index
       _webStatus = source._webStatus
       _tier = source._tier
+      _features = source._features
+      _createdAt = source._createdAt
     }
   }
 
@@ -15046,6 +15109,8 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         case 12: try { try decoder.decodeSingularInt32Field(value: &_storage._index) }()
         case 13: try { try decoder.decodeSingularInt32Field(value: &_storage._webStatus) }()
         case 14: try { try decoder.decodeSingularStringField(value: &_storage._tier) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._features) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         default: break
         }
       }
@@ -15100,6 +15165,12 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       if !_storage._tier.isEmpty {
         try visitor.visitSingularStringField(value: _storage._tier, fieldNumber: 14)
       }
+      try { if let v = _storage._features {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._createdAt {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -15123,10 +15194,50 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         if _storage._index != rhs_storage._index {return false}
         if _storage._webStatus != rhs_storage._webStatus {return false}
         if _storage._tier != rhs_storage._tier {return false}
+        if _storage._features != rhs_storage._features {return false}
+        if _storage._createdAt != rhs_storage._createdAt {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_Features: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".Features"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "remove_banner_ads"),
+    2: .standard(proto: "remove_discover_ads"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.removeBannerAds) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.removeDiscoverAds) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.removeBannerAds != false {
+      try visitor.visitSingularBoolField(value: self.removeBannerAds, fieldNumber: 1)
+    }
+    if self.removeDiscoverAds != false {
+      try visitor.visitSingularBoolField(value: self.removeDiscoverAds, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_Features, rhs: Api_Features) -> Bool {
+    if lhs.removeBannerAds != rhs.removeBannerAds {return false}
+    if lhs.removeDiscoverAds != rhs.removeDiscoverAds {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

@@ -11,9 +11,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
 
-    /// Whether logging of AppsFlyer events in console are enabled
-    case appsFlyerLogging
-
     /// Whether End Of Year feature is enabled
     case endOfYear
 
@@ -144,9 +141,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
-    /// Enable Newform AppsFlyer SDK
-    case podcastNewformAppsFlyer
-
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -234,6 +228,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new search endpoint and new UI
     case searchImprovements
 
+    /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
+    case podcastBookmarksInline
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -253,8 +250,6 @@ public enum FeatureFlag: String, CaseIterable {
                 true
             }
         case .firebaseLogging:
-            false
-        case .appsFlyerLogging:
             false
         case .endOfYear:
             false
@@ -334,8 +329,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
-        case .podcastNewformAppsFlyer:
-            true
         case .libroFm:
             false
         case .encourageAccountCreation:
@@ -393,7 +386,9 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
-            true
+            false
+        case .podcastBookmarksInline:
+            false
         }
     }
 
