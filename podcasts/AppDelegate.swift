@@ -120,6 +120,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
+        if FeatureFlag.earlyReloadSubscriptionStatus.enabled,
+           SyncManager.isUserLoggedIn(),
+           appInstallState == .updated {
+            ApiServerHandler.shared.retrieveSubscriptionStatus()
+            FileLog.shared.addMessage("Reload subscription status early as the app updated")
+        }
+
         return true
     }
 
