@@ -9,7 +9,7 @@ class SearchResultsModel: ObservableObject {
 
     private let analyticsHelper: SearchAnalyticsHelper
 
-    @Published var isDoingPredictiveSearch = false
+    @Published var isShowingPredictiveSearch = false
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
@@ -55,12 +55,12 @@ class SearchResultsModel: ObservableObject {
         episodeSearchError = nil
         podcastSearchError = nil
 
-        guard !term.startsWith(string: "http:") else {
+        guard !term.startsWith(string: "http:"), term.count > 1 else {
             return
         }
 
         Task {
-            isDoingPredictiveSearch = true
+            isShowingPredictiveSearch = true
             do {
                 let results = try await predictiveSearch.search(term: term)
                 show(predictiveResults: results)
@@ -164,6 +164,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {
+        isShowingPredictiveSearch = false
         if isShowingLocalResultsOnly {
             podcasts.append(contentsOf: podcastResults.filter { !podcasts.contains($0) })
             isShowingLocalResultsOnly = false

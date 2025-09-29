@@ -45,9 +45,11 @@ struct NewSearchResultsView: View {
                 .background(Theme.sharedTheme.primaryUi01)
             } else {
                 VStack {
-                    filterPicker
+                    if !searchResults.isShowingPredictiveSearch {
+                        filterPicker
+                    }
                     List {
-                        if searchResults.isDoingPredictiveSearch {
+                        if searchResults.isShowingPredictiveSearch {
                             Section {
                                 predictiveList
                             }
