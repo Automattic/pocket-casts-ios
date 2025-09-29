@@ -100,7 +100,7 @@ extension EpisodeFilter {
 
             customIcon = Int32(newIcon)
             syncStatus = SyncStatus.notSynced.rawValue
-            DataManager.sharedManager.save(filter: self)
+            DataManager.sharedManager.save(playlist: self)
         }
 
         func playlistColor() -> UIColor {
@@ -126,7 +126,7 @@ extension EpisodeFilter {
     #endif
 
     func maxAutoDownloadEpisodes() -> Int32 {
-        autoDownloadLimit == 0 ? Constants.Values.defaultFilterDownloadLimit : autoDownloadLimit
+        autoDownloadLimit == 0 ? Constants.Values.defaultPlaylistDownloadLimit : autoDownloadLimit
     }
 
     func episodeUuidToAddToQueries() -> String? {

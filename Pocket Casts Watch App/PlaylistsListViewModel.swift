@@ -2,9 +2,9 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
-class FiltersListViewModel: ObservableObject {
+class PlaylistsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
-    @Published var filters: [Filter] = []
+    @Published var playlists: [PlaylistRepresentable] = []
     private let playSourceViewModel = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
 
@@ -19,17 +19,17 @@ class FiltersListViewModel: ObservableObject {
 
     public func loadData() {
         isLoading = true
-        playSourceViewModel.fetchFilters()
+        playSourceViewModel.fetchPlaylists()
             .replaceError(with: [])
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { [unowned self] filters in
+            .sink(receiveValue: { [unowned self] playlists in
                 self.isLoading = false
-                self.filters = filters
+                self.playlists = playlists
             })
             .store(in: &cancellables)
     }
 
-    func episodeCount(for filter: Filter) -> Int {
-        return playSourceViewModel.episodeCount(for: filter)
+    func episodeCount(for playlist: PlaylistRepresentable) -> Int {
+        return playSourceViewModel.episodeCount(for: playlist)
     }
 }

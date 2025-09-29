@@ -18,7 +18,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         return NotificationsCoordinator.shared
     }()
 
-    enum Section: Int {
+    enum Section: Int, CaseIterable {
         case episodes = 0
         case recommendationsAndReminders
         case featuresAndOffers
@@ -138,7 +138,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return FeatureFlag.notificationsRevamp.enabled ? 3 : 1
+        return Section.allCases.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -83,7 +83,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     var playlist: AutoplayHelper.Playlist?
 
     private var inUpNext = false
-    private var filterUuid: String?
+    private var playlistUuid: String?
     private var podcastUuid: String?
     private var listUuid: String?
     private var mainTintColor: UIColor? {
@@ -158,9 +158,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     // MARK: - Populate Method
 
-    func populateFrom(episode: BaseEpisode, tintColor: UIColor?, filterUuid: String? = nil, podcastUuid: String? = nil, listUuid: String? = nil) {
+    func populateFrom(episode: BaseEpisode, tintColor: UIColor?, playlistUuid: String? = nil, podcastUuid: String? = nil, listUuid: String? = nil) {
         self.episode = episode
-        self.filterUuid = filterUuid
+        self.playlistUuid = playlistUuid
         self.podcastUuid = podcastUuid
         self.listUuid = listUuid
         mainTintColor = tintColor ?? ThemeColor.primaryIcon01()
@@ -368,12 +368,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
 
         if Thread.isMainThread {
-            populateFrom(episode: newEpisode, tintColor: mainTintColor, filterUuid: filterUuid, podcastUuid: podcastUuid)
+            populateFrom(episode: newEpisode, tintColor: mainTintColor, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
 
-                self.populateFrom(episode: newEpisode, tintColor: self.mainTintColor, filterUuid: self.filterUuid, podcastUuid: self.podcastUuid)
+                self.populateFrom(episode: newEpisode, tintColor: self.mainTintColor, playlistUuid: self.playlistUuid, podcastUuid: self.podcastUuid)
             }
         }
     }
@@ -437,7 +437,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 
-        PlaybackActionHelper.play(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid, playlist: playlist)
+        PlaybackActionHelper.play(episode: episode, playlistUuid: playlistUuid, podcastUuid: podcastUuid, playlist: playlist)
     }
 
     func pauseTapped() {
@@ -447,7 +447,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     func errorTapped() {
         guard let episode = episode else { return }
 
-        let statusBarStyle = filterUuid == nil ? UIStatusBarStyle.lightContent : AppTheme.defaultStatusBarStyle()
+        let statusBarStyle = playlistUuid == nil ? UIStatusBarStyle.lightContent : AppTheme.defaultStatusBarStyle()
         if episode.playbackError() {
             let optionsPicker = OptionsPicker(title: nil)
             let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
@@ -495,7 +495,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         statusIndicator.isHidden = true
         uploadProgressIndicator.isHidden = true
         uploadStatusIndicator.isHidden = true
-        filterUuid = nil
+        playlistUuid = nil
         podcastUuid = nil
         showTick = false
         shouldShowSelect = false

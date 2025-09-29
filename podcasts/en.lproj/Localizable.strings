@@ -1057,6 +1057,9 @@
 /* Menu prompt to open the Filter options. Also used for the title of the filter options screen. */
 "filter_options" = "Filter Options";
 
+/* Menu prompt to open the Playlist options. Also used for the title of the playlist options screen. */
+"playlist_options" = "Playlist Options";
+
 /* Title for filter options related to release date settings. */
 "filter_release_date" = "Release Date";
 
@@ -2368,6 +2371,15 @@
 /* Label indicating no filters have been selected. */
 "settings_auto_downloads_no_filters_selected" = "No Filters Selected";
 
+/* Label indicating the number of selected playlists. '%1$@' is a placeholder for the number of playlists selected. */
+"settings_auto_downloads_playlists_selected_format" = "%1$@ Playlists Selected";
+
+/* Label indicating the number of selected playlists. This is the singular form for an accompanying plural option. */
+"settings_auto_downloads_playlists_selected_singular" = "1 Playlist Selected";
+
+/* Label indicating no playlists have been selected. */
+"settings_auto_downloads_no_playlists_selected" = "No Playlists Selected";
+
 /* Label indicating no podcasts have been selected. */
 "settings_auto_downloads_no_podcasts_selected" = "No Podcasts Selected";
 
@@ -2379,6 +2391,9 @@
 
 /* Subtitle explaining the toggle to auto download the top episodes of a filter. */
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
+
+/* Subtitle explaining the toggle to auto download the top episodes of a playlist. */
+"settings_auto_downloads_subtitle_playlists" = "Download the top episodes in a playlist.";
 
 /* Subtitle explaining the toggle to auto download New Episodes. */
 "settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes, save episodes from newly followed shows, and manage your storage by setting a limit on how many episodes are saved.";
@@ -2617,6 +2632,12 @@
 /* Informs the user that the current podcast is included in one filter. This is the singular form of an accompanying plural string. */
 "settings_in_filters_singular" = "Included In 1 Filter";
 
+/* Informs the user that the current podcast is included in more Smart Playlists. '%1$@' is a placeholder for the number of filters this podcast is included in. */
+"settings_in_smart_playlists_plural_format" = "Included In %1$@ Smart Playlists";
+
+/* Informs the user that the current podcast is included in one Smart Playlist. This is the singular form of an accompanying plural string. */
+"settings_in_smart_playlist_singular" = "Included In 1 Smart Playlist";
+
 /* Setting section header. Indicates that the options in this section will appear in the menu vs an action bar. */
 "settings_in_menu" = "IN MENU";
 
@@ -2625,6 +2646,9 @@
 
 /* Informs the user that the current podcast isn't included in any filters. */
 "settings_not_in_filters" = "Not Included In Any Filters";
+
+/* Informs the user that the current podcast isn't included in any playlists. */
+"settings_not_in_smart_playlists" = "Not Included In Any Smart Playlists";
 
 /* A common string used throughout the app. Refers to the Notifications settings menu. */
 "settings_notifications" = "Notifications";
@@ -2655,6 +2679,12 @@
 
 /* Prompt to select filters */
 "settings_select_filters_plural" = "Select Filters";
+
+/* Prompt to select playlists */
+"settings_select_playlists_plural" = "Select Playlists";
+
+/* Prompt to select smart playlists */
+"settings_select_smart_playlists_plural" = "Select Smart Playlists";
 
 /* Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered. */
 "settings_shortcuts_filter_open_filter" = "Open Filter";
@@ -5443,6 +5473,9 @@
 
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
 "playlist_manual_browse_shows_title" = "Browse Shows";
+
+/* Manual Playlist: manual episodes order option that appears when showing the options sheet */
+"playlist_manual_episodes_order_option" = "Reorder Episodes";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

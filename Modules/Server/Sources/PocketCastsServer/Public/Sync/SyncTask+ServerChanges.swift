@@ -6,7 +6,7 @@ extension SyncTask {
     func processServerData(response: Api_SyncUpdateResponse) {
         var podcastsToImport = [Api_SyncUserPodcast]()
         var episodesToImport = [Api_SyncUserEpisode]()
-        var filtersToImport = [Api_SyncUserPlaylist]()
+        var playlistsToImport = [Api_SyncUserPlaylist]()
         var foldersToImport = [Api_SyncUserFolder]()
         var bookmarksToImport = [Api_SyncUserBookmark]()
 
@@ -19,7 +19,7 @@ extension SyncTask {
             case .episode:
                 episodesToImport.append(item.episode)
             case .playlist:
-                filtersToImport.append(item.playlist)
+                playlistsToImport.append(item.playlist)
             case .folder:
                 foldersToImport.append(item.folder)
             case .bookmark:
@@ -70,11 +70,11 @@ extension SyncTask {
             }
         }
 
-        for filterItem in filtersToImport {
+        for playlistItem in playlistsToImport {
             importQueue.addOperation { [weak self] in
                 guard let strongSelf = self else { return }
 
-                strongSelf.importFilter(filterItem)
+                strongSelf.importPlaylist(playlistItem)
             }
         }
 
@@ -273,88 +273,113 @@ extension SyncTask {
         DataManager.sharedManager.save(folder: folder)
     }
 
-    private func importFilter(_ filterItem: Api_SyncUserPlaylist) {
-        let filterUuid = filterItem.originalUuid // it's important to use this field, not uuid because the server won't change the case on this one
-        var existingFilter = DataManager.sharedManager.findFilter(uuid: filterUuid)
+    private func importPlaylist(_ playlistItem: Api_SyncUserPlaylist) {
+        let playlistUuid = playlistItem.originalUuid // it's important to use this field, not uuid because the server won't change the case on this one
+        var existingPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid)
 
         // if the filter exists, and another device has deleted it, then delete it
-        if filterItem.hasIsDeleted, filterItem.isDeleted.value {
-            if let filter = existingFilter {
-                DataManager.sharedManager.delete(filter: filter)
+        if playlistItem.hasIsDeleted, playlistItem.isDeleted.value {
+            if let playlist = existingPlaylist {
+                DataManager.sharedManager.delete(playlist: playlist)
             }
 
             return
         }
 
-        if filterItem.hasManual, filterItem.manual.value {
-            return // we don't support manual filters
+        if existingPlaylist == nil {
+            existingPlaylist = EpisodeFilter()
+            existingPlaylist?.uuid = playlistUuid
         }
 
-        if existingFilter == nil {
-            existingFilter = EpisodeFilter()
-            existingFilter?.uuid = filterUuid
-        }
+        guard let playlist = existingPlaylist else { return }
 
-        guard let filter = existingFilter else { return }
-
-        filter.wasDeleted = false
-        filter.syncStatus = SyncStatus.synced.rawValue
-        if filterItem.hasTitle {
-            filter.playlistName = filterItem.title.value
+        playlist.syncStatus = SyncStatus.synced.rawValue
+        if playlistItem.hasTitle {
+            playlist.playlistName = playlistItem.title.value
         }
-        if filterItem.hasAllPodcasts {
-            filter.filterAllPodcasts = filterItem.allPodcasts.value
+        if playlistItem.hasAllPodcasts {
+            playlist.filterAllPodcasts = playlistItem.allPodcasts.value
         }
-        if filterItem.hasAudioVideo {
-            filter.filterAudioVideoType = filterItem.audioVideo.value
+        if playlistItem.hasAudioVideo {
+            playlist.filterAudioVideoType = playlistItem.audioVideo.value
         }
-        if filterItem.hasNotDownloaded {
-            filter.filterNotDownloaded = filterItem.notDownloaded.value
+        if playlistItem.hasNotDownloaded {
+            playlist.filterNotDownloaded = playlistItem.notDownloaded.value
         }
-        if filterItem.hasDownloaded {
-            filter.filterDownloaded = filterItem.downloaded.value
+        if playlistItem.hasDownloaded {
+            playlist.filterDownloaded = playlistItem.downloaded.value
         }
-        if filterItem.hasFinished {
-            filter.filterFinished = filterItem.finished.value
+        if playlistItem.hasFinished {
+            playlist.filterFinished = playlistItem.finished.value
         }
-        if filterItem.hasPartiallyPlayed {
-            filter.filterPartiallyPlayed = filterItem.partiallyPlayed.value
+        if playlistItem.hasPartiallyPlayed {
+            playlist.filterPartiallyPlayed = playlistItem.partiallyPlayed.value
         }
-        if filterItem.hasUnplayed {
-            filter.filterUnplayed = filterItem.unplayed.value
+        if playlistItem.hasUnplayed {
+            playlist.filterUnplayed = playlistItem.unplayed.value
         }
-        if filterItem.hasStarred {
-            filter.filterStarred = filterItem.starred.value
+        if playlistItem.hasStarred {
+            playlist.filterStarred = playlistItem.starred.value
         }
-        if filterItem.hasSortPosition {
-            filter.sortPosition = filterItem.sortPosition.value
+        if playlistItem.hasSortPosition {
+            playlist.sortPosition = playlistItem.sortPosition.value
         }
-        if filterItem.hasSortType {
-            filter.sortType = filterItem.sortType.value
+        if playlistItem.hasSortType {
+            playlist.sortType = playlistItem.sortType.value
         }
-        if filterItem.hasIconID {
-            filter.customIcon = filterItem.iconID.value
+        if playlistItem.hasIconID {
+            playlist.customIcon = playlistItem.iconID.value
         }
-        if filterItem.hasFilterHours {
-            filter.filterHours = filterItem.filterHours.value
+        if playlistItem.hasFilterHours {
+            playlist.filterHours = playlistItem.filterHours.value
         }
-        if filterItem.hasFilterDuration {
-            filter.filterDuration = filterItem.filterDuration.value
+        if playlistItem.hasFilterDuration {
+            playlist.filterDuration = playlistItem.filterDuration.value
         }
-        if filterItem.hasShorterThan {
-            filter.shorterThan = filterItem.shorterThan.value
+        if playlistItem.hasShorterThan {
+            playlist.shorterThan = playlistItem.shorterThan.value
         }
-        if filterItem.hasLongerThan {
-            filter.longerThan = filterItem.longerThan.value
+        if playlistItem.hasLongerThan {
+            playlist.longerThan = playlistItem.longerThan.value
         }
-
-        if filterItem.hasPodcastUuids {
-            filter.podcastUuids = filterItem.podcastUuids.value
+        if playlistItem.hasManual {
+            playlist.manual = playlistItem.manual.value
+        }
+        if playlistItem.hasPodcastUuids {
+            playlist.podcastUuids = playlistItem.podcastUuids.value
         } else {
-            filter.podcastUuids = ""
+            playlist.podcastUuids = ""
         }
 
-        DataManager.sharedManager.save(filter: filter)
+        let serverSet = Set(playlistItem.episodeOrder)
+        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+        let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+
+        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode in
+            let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
+            guard let playlistEpisode else { return nil }
+            return Episode(playlistEpisode)
+        }
+
+        addedEpisodes.forEach { episode in
+            guard DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil else { return }
+
+            if episode.addedDate == nil {
+                episode.addedDate = Date()
+            }
+            if episode.podcast_id == 0 {
+                episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+            }
+
+            DataManager.sharedManager.save(episode: episode)
+        }
+
+        DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+        DataManager.sharedManager.save(playlist: playlist)
+
+        addedEpisodes.forEach { addedEpisode in
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+        }
     }
 
     func isPlayerPlaying(episode: Episode) -> Bool {

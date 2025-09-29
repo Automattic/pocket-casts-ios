@@ -12,7 +12,9 @@ public struct MiniPlayerSafeAreaInset: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                Color.clear.frame(height: Constants.Values.miniPlayerOffset * multipler) // Adjust the bottom inset
+                // Adjust the bottom inset only when the mini player is visible
+                Color.clear
+                    .frame(height: (isMiniPlayerVisible ? Constants.Values.miniPlayerOffset : 0) * multipler)
             }
             .onAppear {
                 isMiniPlayerVisible = (PlaybackManager.shared.currentEpisode() != nil)

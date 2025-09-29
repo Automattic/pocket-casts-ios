@@ -33,6 +33,10 @@ class SearchResultsModel: ObservableObject {
         self.dataMangager = dataManager
     }
 
+    var noResults: Bool {
+        return podcasts.isEmpty && episodes.isEmpty
+    }
+
     func clearSearch() {
         podcasts = []
         episodes = []

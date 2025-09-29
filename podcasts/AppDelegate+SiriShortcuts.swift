@@ -4,14 +4,9 @@ import Intents
 import JLRoutes
 import PocketCastsDataModel
 import PocketCastsUtils
-import FacebookCore
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            ApplicationDelegate.shared.application(application, continue: userActivity)
-        }
-
         handleContinue(userActivity)
 
         return true
@@ -210,7 +205,7 @@ extension AppDelegate {
     func handleOpenFilterIntent(intent: INIntent) {
         if intent is SJOpenFilterIntent {
             let filterIntent = intent as! SJOpenFilterIntent
-            guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findFilter(uuid: filterId) else { return }
+            guard let filterId = filterIntent.filterUuid, let filter = DataManager.sharedManager.findPlaylist(uuid: filterId) else { return }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
         }

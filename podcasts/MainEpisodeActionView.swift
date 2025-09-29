@@ -42,9 +42,17 @@ class MainEpisodeActionView: UIView {
         }
     }
 
+    init() {
+        super.init(frame: CGRect(origin: .zero, size: CGSize(width: 48, height: 48)))
+        commonInit()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
 
+    private func commonInit() {
         backgroundColor = UIColor.clear
         tintAdjustmentMode = .normal // stops the button from being tinted grey when a VC is presented over it (like the episode card)
 

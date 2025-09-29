@@ -19,13 +19,7 @@ extension AppDelegate {
             adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
         }
 
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            adapters.append(AppsFlyerAdapter(appTrackingTransparencyProvider: AppTrackingTransparencyController.shared))
-        }
-
-        if FeatureFlag.notificationsRevamp.enabled {
-            adapters.append(NotificationsCoordinator.shared)
-        }
+        adapters.append(NotificationsCoordinator.shared)
 
         if FeatureFlag.userSatisfactionSurvey.enabled {
             adapters.append(UserSatisfactionSurveyManager.shared)

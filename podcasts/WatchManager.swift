@@ -39,7 +39,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             self.isSettingUp = false
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateWatchData), name: Constants.Notifications.filterChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateWatchData), name: Constants.Notifications.playlistChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsDidRefresh), name: ServerNotifications.podcastsRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(podcastsDidRefresh), name: Constants.Notifications.opmlImportCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(syncCompleted), name: ServerNotifications.syncCompleted, object: nil)
@@ -216,7 +216,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         if WatchConstants.Messages.FilterRequest.type == messageType {
             if let filterUuid = message[WatchConstants.Messages.FilterRequest.filterUuid] as? String {
-                let response = handleFilterRequest(filterUuid: filterUuid)
+                let response = handlePlaylistRequest(playlistUuid: filterUuid)
                 replyHandler(response)
             }
         } else if WatchConstants.Messages.DownloadsRequest.type == messageType {
@@ -336,10 +336,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
-    private func handleFilterRequest(filterUuid: String) -> [String: Any] {
-        guard let filter = DataManager.sharedManager.findFilter(uuid: filterUuid) else { return [String: Any]() }
+    private func handlePlaylistRequest(playlistUuid: String) -> [String: Any] {
+        guard let playlist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid) else { return [String: Any]() }
 
-        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
+        let episodeQuery = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Constants.Limits.maxListItemsToSendToWatch)
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: episodeQuery, arguments: nil)
 
         var convertedEpisodes = [[String: Any]]()
@@ -472,7 +472,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion
 
-        applicationDict[WatchConstants.Keys.filters] = serializeFilters()
+        applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
         applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
         applicationDict[WatchConstants.Keys.upNextInfo] = serializeUpNext()
         applicationDict[WatchConstants.Keys.autoArchivePlayedAfter] = Settings.autoArchivePlayedAfter()
@@ -550,21 +550,19 @@ class WatchManager: NSObject, WCSessionDelegate {
         return upNextList
     }
 
-    private func serializeFilters() -> [[String: Any]] {
-        let allFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-        var convertedFilters = [[String: Any]]()
-        for filter in allFilters {
-            var convertedFilter = [String: Any]()
-            convertedFilter[WatchConstants.Keys.filterTitle] = filter.playlistName
-            convertedFilter[WatchConstants.Keys.filterUuid] = filter.uuid
-            if let iconName = filter.iconImageName() {
-                convertedFilter[WatchConstants.Keys.filterIcon] = iconName
+    private func serializePlaylists() -> [[String: Any]] {
+        let allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+        var convertedPlaylists = [[String: Any]]()
+        for playlist in allPlaylists {
+            var convertedPlaylist = [String: Any]()
+            convertedPlaylist[WatchConstants.Keys.filterTitle] = playlist.playlistName
+            convertedPlaylist[WatchConstants.Keys.filterUuid] = playlist.uuid
+            if let iconName = playlist.iconImageName() {
+                convertedPlaylist[WatchConstants.Keys.filterIcon] = iconName
             }
-
-            convertedFilters.append(convertedFilter)
+            convertedPlaylists.append(convertedPlaylist)
         }
-
-        return convertedFilters
+        return convertedPlaylists
     }
 
     private func serializePodcastArchiveSettings() -> [[String: Any]]? {

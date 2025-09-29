@@ -4,9 +4,16 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 struct PodcastTableCellView: View {
+
     @EnvironmentObject var theme: Theme
+
     let viewModel: PodcastCellViewModel
-    let onSubscribe: ((PodcastCellViewModel) -> Void)? = nil
+    let onSubscribe: ((PodcastCellViewModel) -> Void)?
+
+    init(viewModel: PodcastCellViewModel, onSubscribe: ((PodcastCellViewModel) -> Void)? = nil) {
+        self.viewModel = viewModel
+        self.onSubscribe = onSubscribe
+    }
 
     var body: some View {
         HStack(spacing: 8) {

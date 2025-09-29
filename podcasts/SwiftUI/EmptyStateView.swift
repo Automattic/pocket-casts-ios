@@ -46,19 +46,22 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
     let title: () -> Title
     let message: String?
     let actions: [EmptyStateAction]
+    let maxContentWidth: CGFloat?
 
     init(
         @ViewBuilder title: @escaping () -> Title,
         message: String?,
         icon: (() -> Image)? = nil,
         actions: [EmptyStateAction],
-        style: Style
+        style: Style,
+        maxContentWidth: CGFloat? = 400
     ) {
         self.title = title
         self.message = message
         self.icon = icon
         self.actions = actions
         self.style = style
+        self.maxContentWidth = maxContentWidth
     }
 
     var body: some View {
@@ -90,7 +93,7 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             .font(style: .subheadline, weight: .medium)
             .foregroundStyle(style.button)
         }
-        .frame(maxWidth: 400)
+        .frame(maxWidth: maxContentWidth)
         .padding(.horizontal, EmptyConstants.padding)
         .padding(.vertical, EmptyConstants.verticalPadding)
         .padding(EmptyConstants.padding)
@@ -105,7 +108,12 @@ private enum EmptyConstants {
 }
 
 extension EmptyStateView where Title == Text {
-    init(title: String, message: String?, icon: (() -> Image)? = nil, actions: [EmptyStateAction] = [], style: Style = .defaultStyle) {
+    init(title: String,
+         message: String?,
+         icon: (() -> Image)? = nil,
+         actions: [EmptyStateAction] = [],
+         style: Style = .defaultStyle,
+         maxContentWidth: CGFloat? = 400) {
         self.message = message
         self.actions = actions
         self.icon = icon
@@ -113,6 +121,7 @@ extension EmptyStateView where Title == Text {
             Text(title)
         }
         self.style = style
+        self.maxContentWidth = maxContentWidth
     }
 }
 

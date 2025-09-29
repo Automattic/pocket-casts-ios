@@ -2,6 +2,11 @@ import SwiftUI
 import PocketCastsDataModel
 
 class PlaylistCellViewModel: ObservableObject {
+    enum DisplayType {
+        case count
+        case toggle
+    }
+
     @Published var episodesCount: Int = 0
     @Published var images: [PlaylistArtworkView.ImageItem] = []
 
@@ -14,13 +19,17 @@ class PlaylistCellViewModel: ObservableObject {
     private let episodesDataManager: EpisodesDataManager
     private let episodeArtWork: EpisodeArtwork
 
+    let displayType: DisplayType
+
     init(
         playlist: EpisodeFilter,
+        displayType: DisplayType = .count,
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.playlist = playlist
+        self.displayType = displayType
         self.dataManager = dataManager
         self.imageManager = imageManager
         self.episodeArtWork = .init(imageManager: imageManager)
@@ -32,17 +41,19 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     func isSmartPlaylist() -> Bool {
-        playlist.playlistType == .smart
+        playlist.manual == false
     }
 
     func loadData() {
         images.removeAll()
 
-        loadCount()
+        if displayType == .count {
+            loadCount()
+        }
         loadImages()
     }
 
-    func loadCount() {
+    private func loadCount() {
         if isLoadingCount { return }
         isLoadingCount = true
         Task { [weak self] in
@@ -55,7 +66,7 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    func loadImages() {
+    private func loadImages() {
         if isLoadingImages { return }
         isLoadingImages = true
         Task { [weak self] in
@@ -78,16 +89,9 @@ class PlaylistCellViewModel: ObservableObject {
 
     private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
         let playlist = self.playlist
-        switch playlist.playlistType {
-        case .smart:
-            return await Task.detached(priority: .userInitiated) { [weak self] in
-                self?.episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: limit) ?? []
-            }.value
-        case .manual:
-            return await Task.detached(priority: .userInitiated) { [weak self] in
-                self?.episodesDataManager.manualPlaylistEpisodes(for: playlist, limit: limit) ?? []
-            }.value
-        }
+        return await Task.detached(priority: .userInitiated) { [weak self] in
+            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit) ?? []
+        }.value
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
@@ -123,16 +127,8 @@ class PlaylistCellViewModel: ObservableObject {
         let playlist = self.playlist
         let dataManager = self.dataManager
 
-        if !isSmartPlaylist() {
-            return await Task.detached(priority: .userInitiated) {
-                dataManager.manualPlaylistEpisodeCount(
-                    for: playlist,
-                    episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-                )
-            }.value
-        }
         return await Task.detached(priority: .userInitiated) {
-            dataManager.smartPlaylistEpisodeCount(
+            dataManager.playlistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )

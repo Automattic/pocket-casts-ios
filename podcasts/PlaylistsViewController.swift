@@ -80,7 +80,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
-            if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
+            if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findPlaylist(uuid: lastFilterUuid) {
                 DispatchQueue.main.async {
                     self.showFilter(filter)
                 }
@@ -114,7 +114,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateNavTintColors()
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(filtersUpdated))
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])

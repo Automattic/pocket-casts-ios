@@ -108,7 +108,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func recommendationsContinueTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "recommendations_continue"])
-        let view = LoginLandingView(coordinator: self, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+        let view = LoginLandingView(coordinator: self, fullScreenMode: true)
         let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         hostingController.viewModel = self
         navigationController?.pushViewController(hostingController, animated: true)
@@ -291,16 +291,14 @@ extension LoginCoordinator {
             let hostingController = IntroCarouselHostingController(rootView: view)
             controller = hostingController
         } else {
-            let view = LoginLandingView(coordinator: coordinator, fullScreenMode: FeatureFlag.fullScreenLogin.enabled)
+            let view = LoginLandingView(coordinator: coordinator, fullScreenMode: true)
             let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
             hostingController.viewModel = coordinator
             controller = hostingController
         }
 
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
-        if FeatureFlag.fullScreenLogin.enabled {
-            navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
-        }
+        navController.modalPresentationStyle = UIDevice.current.isiPad() ? .formSheet : .fullScreen
         coordinator.navigationController = navController
 
         return (navigationController == nil) ? navController : controller
