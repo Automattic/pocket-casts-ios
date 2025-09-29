@@ -44,6 +44,8 @@ struct PlaylistCellView: View {
                     .labelsHidden()
                     .tint(theme.primaryInteractive01)
                     .padding(.trailing, 16.0)
+            case .check, .addNew:
+                EmptyView()
             }
         }
         .background(.clear)

@@ -5,6 +5,8 @@ class PlaylistCellViewModel: ObservableObject {
     enum DisplayType {
         case count
         case toggle
+        case check
+        case addNew
     }
 
     @Published var episodesCount: Int = 0
@@ -47,10 +49,15 @@ class PlaylistCellViewModel: ObservableObject {
     func loadData() {
         images.removeAll()
 
-        if displayType == .count {
+        switch displayType {
+        case .count, .check:
             loadCount()
+            loadImages()
+        case .toggle:
+            loadImages()
+        case .addNew:
+            return
         }
-        loadImages()
     }
 
     private func loadCount() {
