@@ -1,5 +1,6 @@
 7.99
 -----
+- Bookmarks tab opens inline in the Podcast page[#3532](https://github.com/Automattic/pocket-casts-ios/pull/3532)
 
 7.98
 -----
