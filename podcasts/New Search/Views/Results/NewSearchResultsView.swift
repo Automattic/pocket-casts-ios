@@ -111,18 +111,17 @@ struct NewSearchResultsView: View {
         ForEach(searchResults.predictive.prefix(Constants.maxNumberOfEpisodes), id: \.self) { predictiveSearch in
             switch predictiveSearch.type {
                 case "term":
-                    HStack(spacing: 0) {
-                        Image("search")
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                            .padding(.trailing, 12)
-                        Text(predictiveSearch.value ?? "")
-                            .font(style: .subheadline, weight: .medium)
-                        Spacer()
-                    }
+                    termRow(term: predictiveSearch.value ?? "")
                     .listRowBackground(theme.primaryUi01)
                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                         return 0
+                    }
+                    .buttonize {
+                        guard let searchTerm = predictiveSearch.value else {
+                            return
+                        }                        
+                        searchResults.search(term: searchTerm)
+                        searchHistory.add(searchTerm: searchTerm)
                     }
                 case "podcast":
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
@@ -133,6 +132,19 @@ struct NewSearchResultsView: View {
                 default:
                     EmptyView()
             }
+        }
+    }
+
+    @ViewBuilder
+    func termRow(term: String) -> some View {
+        HStack(spacing: 0) {
+            Image("search")
+                .frame(width: 24, height: 24)
+                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                .padding(.trailing, 12)
+            Text(term)
+                .font(style: .subheadline, weight: .medium)
+            Spacer()
         }
     }
 
