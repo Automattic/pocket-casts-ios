@@ -109,7 +109,19 @@ struct NewSearchResultsView: View {
         ForEach(searchResults.predictive.prefix(Constants.maxNumberOfEpisodes), id: \.self) { predictiveSearch in
             switch predictiveSearch.type {
                 case "term":
-                    Text(predictiveSearch.value ?? "")
+                    HStack(spacing: 0) {
+                        Image("search")
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                            .padding(.trailing, 12)
+                        Text(predictiveSearch.value ?? "")
+                            .font(style: .subheadline, weight: .medium)
+                        Spacer()
+                    }
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
                 case "podcast":
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
