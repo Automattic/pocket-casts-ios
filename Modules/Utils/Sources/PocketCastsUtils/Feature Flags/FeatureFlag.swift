@@ -391,7 +391,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .searchImprovements:
             false
         case .podcastBookmarksInline:
-            false
+            true
         case .earlyReloadSubscriptionStatus:
             true
         }
