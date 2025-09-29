@@ -245,6 +245,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new interests and recommendations flow
     case newOnboardingRecommendationChanges
 
+    /// Enable reloading the subscription status in App Delegate
+    case earlyReloadSubscriptionStatus
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -412,6 +415,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgradeTrialTimeline:
             false
         case .newOnboardingRecommendationChanges:
+            true
+        case .earlyReloadSubscriptionStatus:
             true
         }
     }
