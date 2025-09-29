@@ -130,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            SyncManager.isUserLoggedIn(),
            appInstallState == .updated {
             ApiServerHandler.shared.retrieveSubscriptionStatus()
+            FileLog.shared.addMessage("Reload subscription status early as the app updated")
         }
 
         return true
