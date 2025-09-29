@@ -231,6 +231,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
     case podcastBookmarksInline
 
+    /// Enable reloading the subscription status in App Delegate
+    case earlyReloadSubscriptionStatus
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -389,6 +392,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .podcastBookmarksInline:
             false
+        case .earlyReloadSubscriptionStatus:
+            true
         }
     }
 
