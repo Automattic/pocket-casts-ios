@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsUtils
 
 protocol PCSearchBarDelegate: AnyObject {
     func searchDidBegin()
@@ -61,7 +62,9 @@ class PCSearchBarController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if FeatureFlag.searchImprovements.enabled {
+            searchDebounce = 0.2.seconds
+        }
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
