@@ -7,6 +7,27 @@ struct PlaylistCellView: View {
 
     @Binding private var isSelected: Bool
 
+    private var title: String {
+        switch viewModel.displayType {
+        case .addNew:
+            return L10n.playlistsDefaultNewPlaylist
+        default:
+            return viewModel.playListName()
+        }
+    }
+
+    private var subtitle: String? {
+        switch viewModel.displayType {
+        case .check:
+            return "\(viewModel.episodesCount) episodes"
+        default:
+            if viewModel.isSmartPlaylist() {
+                return L10n.smartPlaylist
+            }
+            return nil
+        }
+    }
+
     init(
         viewModel: PlaylistCellViewModel,
         isSelected: Binding<Bool> = .constant(false)
@@ -21,22 +42,18 @@ struct PlaylistCellView: View {
                 .frame(width: 56.0, height: 56.0)
                 .padding(.leading, 16.0)
             VStack(alignment: .leading, spacing: 2.0) {
-                Text(viewModel.playListName())
+                Text(title)
                     .foregroundStyle(theme.primaryText01)
                     .font(size: 15.0, style: .body, weight: .medium)
-                if viewModel.isSmartPlaylist() {
-                    Text(L10n.smartPlaylist)
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 14.0, style: .body, weight: .regular)
+                if let subtitle {
+                    subtitleView(text: subtitle)
                 }
             }
             Spacer()
             switch viewModel.displayType {
             case .count:
                 HStack(spacing: 5.0) {
-                    Text("\(viewModel.episodesCount)")
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 14.0, style: .body, weight: .regular)
+                    subtitleView(text: "\(viewModel.episodesCount)")
                 }
                 .padding(.trailing, 8.0)
             case .toggle:
@@ -52,6 +69,12 @@ struct PlaylistCellView: View {
         .onAppear {
             viewModel.loadData()
         }
+    }
+
+    private func subtitleView(text: String) -> some View {
+        Text(text)
+            .foregroundStyle(theme.primaryText02)
+            .font(size: 14.0, style: .body, weight: .regular)
     }
 }
 
