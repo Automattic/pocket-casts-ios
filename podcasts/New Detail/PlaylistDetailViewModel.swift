@@ -164,6 +164,13 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.moveEpisode(episode.episode.uuid, in: playlist, to: index)
     }
 
+    func updatePlaylist(sortType type: PlaylistSort) {
+        if playlist.sortType == type.rawValue { return }
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        playlist.sortType = type.rawValue
+        dataManager.save(playlist: playlist)
+    }
+
     private func buildChangeSet(
         source: [ListEpisode],
         newData: [ListEpisode]
