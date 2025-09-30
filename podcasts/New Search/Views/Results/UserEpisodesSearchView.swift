@@ -85,25 +85,27 @@ struct UserEpisodesSearchView: View {
         if displayedPodcasts.isEmpty {
             podcastEmptyState
         } else {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(displayedPodcasts.enumerated()), id: \.element.uuid) { index, podcast in
-                        if let result = PodcastFolderSearchResult(from: podcast) {
-                            SearchResultCell(
-                                episode: nil,
-                                result: result,
-                                played: false,
-                                showDivider: index < displayedPodcasts.count - 1,
-                                showPodcastSubscribeButton: false,
-                                cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                            ) {
-                                selectPodcast(podcast)
-                            }
+            List {
+                ForEach(Array(displayedPodcasts.enumerated()), id: \.element.uuid) { index, podcast in
+                    if let result = PodcastFolderSearchResult(from: podcast) {
+                        SearchResultCell(
+                            episode: nil,
+                            result: result,
+                            played: false,
+                            showDivider: index < displayedPodcasts.count - 1,
+                            showPodcastSubscribeButton: false,
+                            cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
+                        ) {
+                            selectPodcast(podcast)
                         }
+                        .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                     }
                 }
-                .padding(.horizontal, 8)
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
     }
 
@@ -131,29 +133,31 @@ struct UserEpisodesSearchView: View {
         } else if episodes.isEmpty {
             episodesEmptyState
         } else {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(episodes.enumerated()), id: \.element) { index, episode in
-                        let played = playedEpisodeUUIDs.contains(episode.uuid)
-                        SearchResultCell(
-                            episode: episode,
-                            result: nil,
-                            played: played,
-                            showDivider: index < episodes.count - 1,
-                            cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                        ) {
-                            NavigationManager.sharedManager.navigateTo(
-                                NavigationManager.episodePageKey,
-                                data: [
-                                    NavigationManager.episodeUuidKey: episode.uuid,
-                                    NavigationManager.podcastKey: episode.podcastUuid
-                                ]
-                            )
-                        }
+            List {
+                ForEach(Array(episodes.enumerated()), id: \.element) { index, episode in
+                    let played = playedEpisodeUUIDs.contains(episode.uuid)
+                    SearchResultCell(
+                        episode: episode,
+                        result: nil,
+                        played: played,
+                        showDivider: index < episodes.count - 1,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
+                    ) {
+                        NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.episodePageKey,
+                            data: [
+                                NavigationManager.episodeUuidKey: episode.uuid,
+                                NavigationManager.podcastKey: episode.podcastUuid
+                            ]
+                        )
                     }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 }
-                .padding(.horizontal, 8)
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
     }
 
