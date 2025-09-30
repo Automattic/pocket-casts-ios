@@ -234,6 +234,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new search endpoint and new UI
     case searchImprovements
 
+    /// Use the new predictive endpoint and show predictions
+    case searchPredictive
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -393,6 +396,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
+            false
+        case .searchPredictive:
             false
         }
     }

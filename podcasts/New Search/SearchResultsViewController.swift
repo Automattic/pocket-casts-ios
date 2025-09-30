@@ -59,7 +59,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
 
-        if FeatureFlag.searchImprovements.enabled, triggeredByTimer {
+        if FeatureFlag.searchPredictive.enabled, triggeredByTimer {
             searchResults.predictiveSearch(term: searchTerm)
         } else {
             searchResults.search(term: searchTerm)

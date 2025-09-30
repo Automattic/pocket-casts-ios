@@ -21,7 +21,7 @@ struct SearchView: View {
     @ViewBuilder
     private var searchView: some View {
         if displaySearch.isSearching {
-            if FeatureFlag.searchImprovements.enabled {
+            if FeatureFlag.searchImprovements.enabled || FeatureFlag.searchPredictive.enabled {
                 NewSearchResultsView()
             } else {
                 SearchResultsView()

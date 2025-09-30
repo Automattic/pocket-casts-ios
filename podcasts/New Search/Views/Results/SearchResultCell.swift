@@ -79,7 +79,7 @@ struct SearchResultCell: View {
                                 .renderingMode(.template)
                                 .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                                 .frame(width: 48, height: 48)
-                        } else if FeatureFlag.searchImprovements.enabled {
+                        } else if FeatureFlag.searchImprovements.enabled || FeatureFlag.searchPredictive.enabled {
                             EpisodeActionButton(model: self.model)
                                 .frame(width: 48, height: 48)
                         }
@@ -92,7 +92,7 @@ struct SearchResultCell: View {
                     ThemedDivider()
                 }
             }
-            .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+            .padding(FeatureFlag.searchImprovements.enabled || FeatureFlag.searchPredictive.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
         }
     }
 }
