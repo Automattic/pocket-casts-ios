@@ -503,8 +503,8 @@ public class DataManager {
         episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
 
-    public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
-        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
+    public func findEpisodesAndPodcastsWhere(customWhere: String, listenedTo: Bool) -> [Episode] {
+        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, listenedTo: listenedTo, dbQueue: dbQueue)
     }
 
     public func findLatestEpisode(podcast: Podcast) -> Episode? {

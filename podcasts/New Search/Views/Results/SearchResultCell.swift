@@ -13,25 +13,23 @@ struct SearchResultCell: View {
     let played: Bool
     let showDivider: Bool
     let cellStyle: ListCellButtonStyle
+    let action: (() -> Void)?
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init()) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init(), action: (() -> Void)? = nil) {
         self.played = episode != nil && played
         self.showDivider = showDivider
         self.cellStyle = cellStyle
         self._model = StateObject<SearchResultCellModel>(wrappedValue: SearchResultCellModel(episode: episode, podcastFolder: result))
+        self.action = action
     }
 
     var body: some View {
         ZStack {
             Button(action: {
-                if let episode = model.episode {
-                    NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
-                    searchHistory.add(episode: episode)
-                    searchAnalyticsHelper.trackResultTapped(episode)
-                } else if let result = model.podcastFolder {
-                    result.navigateTo()
-                    searchHistory.add(podcast: result)
-                    searchAnalyticsHelper.trackResultTapped(result)
+                if let action {
+                    action()
+                } else {
+                    performDefaultAction()
                 }
             }) {
                 Rectangle()
@@ -93,6 +91,18 @@ struct SearchResultCell: View {
                 }
             }
             .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+        }
+    }
+
+    private func performDefaultAction() {
+        if let episode = model.episode {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid, NavigationManager.podcastKey: episode.podcastUuid])
+            searchHistory.add(episode: episode)
+            searchAnalyticsHelper.trackResultTapped(episode)
+        } else if let result = model.podcastFolder {
+            result.navigateTo()
+            searchHistory.add(podcast: result)
+            searchAnalyticsHelper.trackResultTapped(result)
         }
     }
 }
