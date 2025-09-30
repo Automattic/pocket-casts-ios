@@ -86,6 +86,7 @@ struct UserEpisodesSearchView: View {
                                 result: result,
                                 played: false,
                                 showDivider: index < displayedPodcasts.count - 1,
+                                showPodcastSubscribeButton: false,
                                 cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
                             ) {
                                 selectPodcast(podcast)

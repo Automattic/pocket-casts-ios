@@ -12,12 +12,14 @@ struct SearchResultCell: View {
 
     let played: Bool
     let showDivider: Bool
+    let showPodcastSubscribeButton: Bool
     let cellStyle: ListCellButtonStyle
     let action: (() -> Void)?
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, cellStyle: ListCellButtonStyle = .init(), action: (() -> Void)? = nil) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, showPodcastSubscribeButton: Bool = true, cellStyle: ListCellButtonStyle = .init(), action: (() -> Void)? = nil) {
         self.played = episode != nil && played
         self.showDivider = showDivider
+        self.showPodcastSubscribeButton = showPodcastSubscribeButton
         self.cellStyle = cellStyle
         self._model = StateObject<SearchResultCellModel>(wrappedValue: SearchResultCellModel(episode: episode, podcastFolder: result))
         self.action = action
@@ -81,7 +83,7 @@ struct SearchResultCell: View {
                             EpisodeActionButton(model: self.model)
                                 .frame(width: 48, height: 48)
                         }
-                    } else if let result = model.podcastFolder, result.kind == .podcast {
+                    } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
