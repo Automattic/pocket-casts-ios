@@ -10,6 +10,8 @@ class SearchResultsModel: ObservableObject {
     private let analyticsHelper: SearchAnalyticsHelper
 
     @Published var isShowingPredictiveSearch = false
+    @Published var isSearchingPredictive = false
+
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
@@ -60,7 +62,7 @@ class SearchResultsModel: ObservableObject {
         }
 
         Task {
-            isShowingPredictiveSearch = true
+            isSearchingPredictive = true
             do {
                 let results = try await predictiveSearch.search(term: term)
                 show(predictiveResults: results)
@@ -68,6 +70,7 @@ class SearchResultsModel: ObservableObject {
                 predictiveSearchError = error
                 //analyticsHelper.trackFailed(error)
             }
+            isSearchingPredictive = false
         }
 
         //analyticsHelper.trackSearchPerformed()
@@ -174,6 +177,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     private func show(predictiveResults: [PredictiveSearchResult]) {
+        isShowingPredictiveSearch = true
         predictive = predictiveResults
     }
 }

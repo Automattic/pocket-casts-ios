@@ -31,7 +31,7 @@ struct NewSearchResultsView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
-            } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts {
+            } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts || searchResults.isSearchingPredictive {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(AppTheme.loadingActivityColor().color)
@@ -120,7 +120,7 @@ struct NewSearchResultsView: View {
                         searchResults.search(term: searchTerm)
                         searchHistory.add(searchTerm: searchTerm)
                     }
-                case .podcast(let podcast):
+                case .podcast:
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
                         .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
