@@ -30,6 +30,10 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": searchResult.uuid, "result_type": searchResult])
     }
 
+    func trackFilterTapped(_ filter: String) {
+        Analytics.track(.searchFilterTapped, properties: ["source": source, "filter": filter])
+    }
+
     // MARK: - Search History
 
     func trackHistoryCleared() {
