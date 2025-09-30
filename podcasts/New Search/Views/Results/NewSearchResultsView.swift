@@ -132,14 +132,26 @@ struct NewSearchResultsView: View {
         }
     }
 
+    func highlightTerm(_ term: String, on searchTerm: String) -> AttributedString {
+        var result = AttributedString(searchTerm)
+        result.foregroundColor = theme.primaryText02
+        guard let range = result.range(of: term) else {
+            return result
+        }
+        result[range].foregroundColor = theme.primaryText01
+
+        return result
+    }
+
     @ViewBuilder
     func termRow(term: String) -> some View {
+        let formattedText = highlightTerm(searchResults.currentSearchTerm, on: term)
         HStack(spacing: 0) {
             Image("search")
                 .frame(width: 24, height: 24)
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                 .padding(.trailing, 12)
-            Text(term)
+            Text(formattedText)
                 .font(style: .subheadline, weight: .medium)
             Spacer()
         }
