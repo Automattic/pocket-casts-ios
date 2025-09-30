@@ -63,7 +63,7 @@ class PCSearchBarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if FeatureFlag.searchImprovements.enabled {
-            searchDebounce = 0.2.seconds
+            searchDebounce = 0.1.seconds
         }
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
