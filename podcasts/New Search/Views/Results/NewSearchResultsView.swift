@@ -110,20 +110,17 @@ struct NewSearchResultsView: View {
     @ViewBuilder var predictiveList: some View {
         ForEach(searchResults.predictive.prefix(Constants.maxNumberOfEpisodes), id: \.self) { predictiveSearch in
             switch predictiveSearch.type {
-                case "term":
-                    termRow(term: predictiveSearch.value ?? "")
+                case .term(let searchTerm):
+                    termRow(term: searchTerm)
                     .listRowBackground(theme.primaryUi01)
                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                         return 0
                     }
                     .buttonize {
-                        guard let searchTerm = predictiveSearch.value else {
-                            return
-                        }                        
                         searchResults.search(term: searchTerm)
                         searchHistory.add(searchTerm: searchTerm)
                     }
-                case "podcast":
+                case .podcast(let podcast):
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
                         .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in

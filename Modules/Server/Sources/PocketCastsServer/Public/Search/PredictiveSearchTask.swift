@@ -10,24 +10,33 @@ public struct PredictivePodcastSearchResult: Codable, Hashable {
     let author: String
 }
 
-public struct PredictiveSearchResult: Codable, Hashable {
-    public let type: String
-    public let value: String?
-    public let podcast: PredictivePodcastSearchResult?
+public enum PredictiveSearchResultType: Hashable {
+    case unknown(String)
+    case term(String)
+    case podcast(PredictivePodcastSearchResult)
+}
+
+public struct PredictiveSearchResult: Decodable, Hashable {
+    public let type: PredictiveSearchResultType
+
+    enum CodingKeys: String, CodingKey {
+        case type
+        case value
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.type = try container.decode(String.self, forKey: .type)
+        let type = try container.decode(String.self, forKey: .type)
         switch type {
             case "term":
-                self.value = try container.decode(String.self, forKey: .value)
-                self.podcast = nil
+                let value = try container.decode(String.self, forKey: .value)
+                self.type = .term(value)
             case "podcast":
-                self.value = nil
-                self.podcast = try container.decode(PredictivePodcastSearchResult.self, forKey: .value)
+                let podcast = try container.decode(PredictivePodcastSearchResult.self, forKey: .value)
+                self.type = .podcast(podcast)
             default:
-                self.value = try container.decode(String.self, forKey: .value)
-                self.podcast = nil
+                let value = try container.decode(String.self, forKey: .value)
+                self.type = .unknown(value)
         }
     }
 }

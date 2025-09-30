@@ -51,17 +51,17 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     }
 
     public init?(from predictiveResult: PredictiveSearchResult) {
-        guard
-            predictiveResult.type == "podcast",
-            let podcast = predictiveResult.podcast
-        else {
-            return nil
+        switch predictiveResult.type {
+            case .podcast(let podcast):
+                self.uuid = podcast.uuid
+                self.author = podcast.author
+                self.title = podcast.title
+                self.kind = .podcast
+                self.isLocal = false
+            default:
+                return nil
         }
-        self.uuid = podcast.uuid
-        self.author = podcast.author
-        self.title = podcast.title
-        self.kind = .podcast
-        self.isLocal = false
+
     }
 
     public enum Kind: Codable {
