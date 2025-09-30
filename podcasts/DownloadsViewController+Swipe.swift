@@ -37,6 +37,10 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
         "downloads"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .downloads
+    }
+
     func archivingRemovesFromList() -> Bool {
         true
     }
@@ -50,4 +54,6 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: downloadsTable, at: indexPath)
     }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { } // we don't support this one
 }

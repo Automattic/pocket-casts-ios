@@ -31,6 +31,10 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
         "listening_history"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .listeningHistory
+    }
+
     func archivingRemovesFromList() -> Bool {
         false
     }
@@ -44,4 +48,6 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: listeningHistoryTable, at: indexPath)
     }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { } // we don't support this one
 }

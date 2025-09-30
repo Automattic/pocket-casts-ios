@@ -1,13 +1,26 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
+
+enum SwipeSourceType {
+    case podcast
+    case playlistDetail
+    case filter
+    case downloads
+    case starred
+    case listeningHistory
+    case uploaded
+}
 
 protocol SwipeHandler: AnyObject {
     var swipeSource: String { get }
+    var swipeSourceType: SwipeSourceType { get }
 
     func archivingRemovesFromList() -> Bool
     func actionPerformed(willBeRemoved: Bool)
     func deleteRequested(uuid: String)
     func share(episode: Episode, at: IndexPath)
+    func addToManualPlaylist(episode: Episode, at: IndexPath)
 }
 
 enum SwipeActionsHelper {
@@ -98,6 +111,15 @@ enum SwipeActionsHelper {
                 return true
             })
             tableSwipeActions.addAction(shareAction)
+
+            if FeatureFlag.playlistsRebranding.enabled, swipeHandler.swipeSourceType == .podcast {
+                let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
+                        swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
+                        Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
+                    return true
+                })
+                tableSwipeActions.addAction(shareAction)
+            }
         }
 
         return tableSwipeActions
@@ -122,6 +144,7 @@ enum SwipeActionsHelper {
         case unarchive
         case archive
         case share
+        case addToManualPlaylist
 
         var analyticsDescription: String {
             switch self {
@@ -139,6 +162,8 @@ enum SwipeActionsHelper {
                 return "archive"
             case .share:
                 return "share"
+            case .addToManualPlaylist:
+                return "add_to_manual_playlist"
             }
         }
     }
