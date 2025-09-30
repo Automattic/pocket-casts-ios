@@ -907,6 +907,10 @@ public class DataManager {
         playlistManager.allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
+    public func allManualPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        playlistManager.allManualPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
     public func playlistsCount(includeDeleted: Bool) -> Int {
         playlistManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }

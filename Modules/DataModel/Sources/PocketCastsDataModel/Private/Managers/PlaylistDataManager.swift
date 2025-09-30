@@ -104,6 +104,11 @@ class PlaylistDataManager {
         return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 
+    func allManualPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
+        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 1 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+        return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
+    }
+
     func findBy(uuid: String, dbQueue: PCDBQueue) -> EpisodeFilter? {
         var playlist: EpisodeFilter?
         dbQueue.read { db in
