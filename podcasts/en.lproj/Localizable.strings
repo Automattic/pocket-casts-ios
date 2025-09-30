@@ -5465,6 +5465,9 @@
 /* Manual Playlist: header button title to add new episodes to the playlist */
 "playlist_manual_add_episodes" = "Add Episodes";
 
+/* Navigation title that appears when adding episodes to a playlist. %@ is the playlist name. */
+"playlist_add_to_title" = "Add to \"%@\"";
+
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
 

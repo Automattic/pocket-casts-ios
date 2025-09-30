@@ -2297,6 +2297,10 @@ internal enum L10n {
   internal static var playerUserEpisodePlaybackError: String { return L10n.tr("Localizable", "player_user_episode_playback_error", fallback: "Playback Error") }
   /// Error title when there is an upload error.
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
+  /// Navigation title that appears when adding episodes to a playlist. %@ is the playlist name.
+  internal static func playlistAddToTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_add_to_title", String(describing: p1), fallback: "Add to \"%@\"")
+  }
   /// Used on the screen to create a new playlist. The description about why the list of filtered episodes is empty. The 
   ///  represent a new line
   internal static var playlistCreateNoEpisodesDescription: String { return L10n.tr("Localizable", "playlist_create_no_episodes_description", fallback: "None of the episodes in your podcasts match these rules.\n\nTry adjusting the rules, or save this playlist for future episodes that might fit.") }

@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 struct UserEpisodesSearchView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dismiss) private var dismiss
 
     @State private var searchText: String = ""
     @State private var searchTokens: [PodcastSearchToken] = []
@@ -17,6 +18,13 @@ struct UserEpisodesSearchView: View {
     @State private var selectedPodcast: Podcast?
 
     private let episodesDataManager = EpisodesDataManager()
+    private let playlistName: String?
+    private let dismissAction: (() -> Void)?
+
+    init(playlistName: String? = nil, dismissAction: (() -> Void)? = nil) {
+        self.playlistName = playlistName
+        self.dismissAction = dismissAction
+    }
 
     var body: some View {
         content
@@ -40,6 +48,9 @@ struct UserEpisodesSearchView: View {
             .onChange(of: searchTokens) { newTokens in
                 handleSearchTokensChange(newTokens)
             }
+            .toolbar { searchToolbarContent() }
+            .navigationTitle(navigationTitle)
+            .navigationBarTitleDisplayMode(.inline)
     }
 
     private var searchPrompt: Text {
@@ -317,6 +328,46 @@ struct UserEpisodesSearchView: View {
             self.id = podcast.uuid
             self.title = podcast.title ?? ""
         }
+    }
+}
+
+private extension UserEpisodesSearchView {
+    @ToolbarContentBuilder
+    func searchToolbarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                closeModal()
+            } label: {
+                Image("close")
+                    .renderingMode(.template)
+                    .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            }
+            .accessibilityLabel(L10n.close)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                closeModal()
+            } label: {
+                Text(L10n.done)
+            }
+            .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+        }
+    }
+
+    func closeModal() {
+        if let dismissAction {
+            dismissAction()
+        } else {
+            dismiss()
+        }
+    }
+
+    var navigationTitle: String {
+        guard let name = playlistName?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty else {
+            return L10n.playlistManualAddEpisodes
+        }
+
+        return L10n.playlistAddToTitle(name)
     }
 }
 
