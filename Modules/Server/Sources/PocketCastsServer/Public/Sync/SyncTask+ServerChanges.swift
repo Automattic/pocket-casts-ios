@@ -375,10 +375,29 @@ extension SyncTask {
         }
 
         DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+
+        updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
+
+        playlist.syncStatus = SyncStatus.synced.rawValue
         DataManager.sharedManager.save(playlist: playlist)
 
         addedEpisodes.forEach { addedEpisode in
             ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+        }
+    }
+
+    private func updateEpisodePositionsIfNeeded(for playlistItem: Api_SyncUserPlaylist, playlist: EpisodeFilter) {
+        guard playlist.manual else { return }
+
+        let orderedEpisodeUuids = playlistItem.episodeOrder.isEmpty ? playlistItem.episodes.map { $0.episode } : playlistItem.episodeOrder
+        guard !orderedEpisodeUuids.isEmpty else { return }
+
+        var processedUuids = Set<String>()
+
+        for (index, episodeUuid) in orderedEpisodeUuids.enumerated() {
+            guard !episodeUuid.isEmpty, processedUuids.insert(episodeUuid).inserted else { continue }
+
+            DataManager.sharedManager.moveEpisode(episodeUuid, in: playlist, to: index)
         }
     }
 
