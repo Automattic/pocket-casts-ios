@@ -51,6 +51,14 @@ struct UserEpisodesSearchView: View {
             .toolbar { searchToolbarContent() }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
+            .modify({ view in
+                if #available(iOS 17.1, *) {
+                    view
+                        .searchPresentationToolbarBehavior(.avoidHidingContent)
+                } else {
+                    view
+                }
+            })
     }
 
     private var searchPrompt: Text {
