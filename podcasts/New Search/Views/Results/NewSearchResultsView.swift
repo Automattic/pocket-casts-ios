@@ -116,10 +116,6 @@ struct NewSearchResultsView: View {
                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                         return 0
                     }
-                    .buttonize {
-                        searchResults.search(term: searchTerm)
-                        searchHistory.add(searchTerm: searchTerm)
-                    }
                 case .podcast:
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
@@ -146,15 +142,20 @@ struct NewSearchResultsView: View {
     @ViewBuilder
     func termRow(term: String) -> some View {
         let formattedText = highlightTerm(searchResults.currentSearchTerm, on: term)
-        HStack(spacing: 0) {
-            Image("search")
-                .frame(width: 24, height: 24)
-                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                .padding(.trailing, 12)
-            Text(formattedText)
-                .font(style: .subheadline, weight: .medium)
-            Spacer()
-        }
+        Button(action: {
+            searchResults.search(term: term)
+            searchHistory.add(searchTerm: term)
+        }, label: {
+            HStack(spacing: 0) {
+                Image("search")
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                    .padding(.trailing, 12)
+                Text(formattedText)
+                    .font(style: .subheadline, weight: .medium)
+                Spacer()
+            }
+        })
     }
 
     enum Constants {
