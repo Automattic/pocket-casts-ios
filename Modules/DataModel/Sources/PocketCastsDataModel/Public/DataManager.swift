@@ -302,6 +302,10 @@ public class DataManager {
         podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
+    public func searchPodcasts(term: String) -> [Podcast] {
+        podcastManager.searchPodcasts(term: term, dbQueue: dbQueue)
+    }
+
     public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
