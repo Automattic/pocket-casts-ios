@@ -177,7 +177,8 @@ class PlaylistDataManager {
                 }
 
                 playlist.syncStatus = SyncStatus.notSynced.rawValue
-                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
+                playlist.sortType = PlaylistSort.dragAndDrop.rawValue
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, sortType = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.sortType, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.moveEpisode error: \(error)")
             }
