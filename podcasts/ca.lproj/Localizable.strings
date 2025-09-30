@@ -1083,7 +1083,7 @@ Ens veiem el 2024!</string>
     <key>feature_marketing_bookmarks</key>
     <string>Conserva moments destacats amb els marcadors</string>
     <key>feature_marketing_cloud_storage</key>
-    <string>%1$@ d'emmagatzematge al núvol per als teus fitxers</string>
+    <string>%1$@ GB d'emmagatzematge al núvol per als teus fitxers</string>
     <key>feature_marketing_early_access</key>
     <string>Accés anticipat a noves funcions</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -2144,7 +2144,7 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
     <key>plus_feature_librofm</key>
-    <string>Àudiollibre gratuït des de Libro.fm</string>
+    <string>Audiollibres gratuïts des de Libro.fm</string>
     <key>plus_feature_slumber</key>
     <string>1 any de contingut exclusiu de Slumber Studios</string>
     <key>plus_feature_slumber_new</key>
@@ -2510,7 +2510,7 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Desar els teus favorits</string>
     <key>purchase_terms</key>
-    <string>En continuar, acceptes el nostre %1$@ i %2$@</string>
+    <string>En continuar, acceptes la nostra %1$@ i %2$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Esborrar %1$@ episodis</string>
     <key>queue_clear_episode_queue_singular</key>
