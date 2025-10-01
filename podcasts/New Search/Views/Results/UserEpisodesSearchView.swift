@@ -8,7 +8,6 @@ struct UserEpisodesSearchView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var searchText: String = ""
-    @State private var searchTokens: [PodcastSearchToken] = []
     @State private var searchTask: Task<Void, Never>?
     @State private var isSearching = false
     @State private var episodes: [EpisodeSearchResult] = []
@@ -34,20 +33,14 @@ struct UserEpisodesSearchView: View {
             .onDisappear { searchTask?.cancel() }
             .searchable(
                 text: $searchText,
-                tokens: $searchTokens,
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: searchPrompt
-            ) { token in
-                Text(token.title)
-            }
+            )
             .onSubmit(of: .search) {
                 triggerImmediateSearch()
             }
             .onChange(of: searchText) { newValue in
                 handleSearchTextChange(newValue)
-            }
-            .onChange(of: searchTokens) { newTokens in
-                handleSearchTokensChange(newTokens)
             }
             .toolbar { searchToolbarContent() }
             .navigationTitle(navigationTitle)
@@ -87,6 +80,12 @@ struct UserEpisodesSearchView: View {
             podcastEmptyState
         } else {
             List {
+                Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
+                    .font(style: .headline, weight: .semibold)
+                    .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                    .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 ForEach(Array(displayedPodcasts.enumerated()), id: \.element.uuid) { index, podcast in
                     if let result = PodcastFolderSearchResult(from: podcast) {
                         SearchResultCell(
@@ -112,7 +111,7 @@ struct UserEpisodesSearchView: View {
 
     private var podcastEmptyState: some View {
         VStack(spacing: 12) {
-            Text(L10n.searchPodcasts)
+            Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
                 .font(style: .title3, weight: .semibold)
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
             Text(L10n.listeningHistorySearchNoEpisodesText)
@@ -206,27 +205,6 @@ struct UserEpisodesSearchView: View {
         }
     }
 
-    private func handleSearchTokensChange(_ tokens: [PodcastSearchToken]) {
-        guard let firstToken = tokens.first else {
-            selectedPodcast = nil
-            searchTask?.cancel()
-            searchText = ""
-            clearEpisodeResults()
-            filterPodcasts(using: searchText)
-            return
-        }
-
-        if tokens.count > 1 {
-            searchTokens = [firstToken]
-        }
-
-        guard selectedPodcast?.uuid != firstToken.id else { return }
-
-        if let podcast = allPodcasts.first(where: { $0.uuid == firstToken.id }) ?? DataManager.sharedManager.findPodcast(uuid: firstToken.id, includeUnsubscribed: true) {
-            enterEpisodeMode(with: podcast, shouldUpdateTokens: false)
-        }
-    }
-
     private func filterPodcasts(using term: String) {
         let trimmed = term.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty {
@@ -237,17 +215,11 @@ struct UserEpisodesSearchView: View {
     }
 
     private func selectPodcast(_ podcast: Podcast) {
-        enterEpisodeMode(with: podcast, shouldUpdateTokens: true)
+        enterEpisodeMode(with: podcast)
     }
 
-    private func enterEpisodeMode(with podcast: Podcast, shouldUpdateTokens: Bool) {
+    private func enterEpisodeMode(with podcast: Podcast) {
         selectedPodcast = podcast
-        if shouldUpdateTokens {
-            let token = PodcastSearchToken(podcast: podcast)
-            if searchTokens != [token] {
-                searchTokens = [token]
-            }
-        }
         searchText = ""
         clearEpisodeResults()
         preloadEpisodesForSelectedPodcast()
@@ -314,6 +286,13 @@ struct UserEpisodesSearchView: View {
         playedEpisodeUUIDs.removeAll()
     }
 
+    private func clearSelectedPodcast() {
+        selectedPodcast = nil
+        searchText = ""
+        clearEpisodeResults()
+        filterPodcasts(using: searchText)
+    }
+
     private func preloadEpisodesForSelectedPodcast() {
         guard let podcast = selectedPodcast else { return }
 
@@ -334,29 +313,30 @@ struct UserEpisodesSearchView: View {
         case podcasts, episodes
     }
 
-    private struct PodcastSearchToken: Identifiable, Hashable {
-        let id: String
-        let title: String
-
-        init(podcast: Podcast) {
-            self.id = podcast.uuid
-            self.title = podcast.title ?? ""
-        }
-    }
 }
 
 private extension UserEpisodesSearchView {
     @ToolbarContentBuilder
     func searchToolbarContent() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
-            Button {
-                closeModal()
-            } label: {
-                Image("close")
-                    .renderingMode(.template)
-                    .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+            if selectedPodcast == nil {
+                Button {
+                    closeModal()
+                } label: {
+                    Image("close")
+                        .renderingMode(.template)
+                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                }
+                .accessibilityLabel(L10n.close)
+            } else {
+                Button {
+                    clearSelectedPodcast()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                .accessibilityLabel(L10n.back)
             }
-            .accessibilityLabel(L10n.close)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
