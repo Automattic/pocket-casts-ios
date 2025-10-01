@@ -16,6 +16,7 @@ struct UserEpisodesSearchView: View {
     @State private var displayedPodcasts: [Podcast] = []
     @State private var selectedPodcast: Podcast?
     @State private var addedEpisodeCount = 0
+    @State private var playlistEpisodeUUIDs = Set<String>()
 
     private let episodesDataManager = EpisodesDataManager()
     private let playlist: EpisodeFilter
@@ -29,7 +30,10 @@ struct UserEpisodesSearchView: View {
     var body: some View {
         content
             .background(AppTheme.color(for: .primaryUi02, theme: theme).ignoresSafeArea())
-            .onAppear { loadPodcastsIfNeeded() }
+            .onAppear {
+                loadPodcastsIfNeeded()
+                refreshPlaylistEpisodes()
+            }
             .onDisappear { searchTask?.cancel() }
             .searchable(
                 text: $searchText,
@@ -134,22 +138,26 @@ struct UserEpisodesSearchView: View {
             episodesEmptyState
         } else {
             List {
-                ForEach(Array(episodes.enumerated()), id: \.element) { index, episode in
-                    let played = playedEpisodeUUIDs.contains(episode.uuid)
+                ForEach(Array(episodes.enumerated()), id: \.element) { index, searchResult in
+                    let played = playedEpisodeUUIDs.contains(searchResult.uuid)
                     SearchResultCell(
-                        episode: episode,
+                        episode: searchResult,
                         result: nil,
                         played: played,
                         showDivider: index < episodes.count - 1,
                         showEpisodeAddButton: true,
                         cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)) {
-                            guard let episode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else {
+                            guard let realEpisode = DataManager.sharedManager.findEpisode(uuid: searchResult.uuid) else {
                                 assertionFailure("Episode should exist")
                                 return
                             }
-                            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+                            DataManager.sharedManager.add(episodes: [realEpisode], to: playlist)
+                            playlistEpisodeUUIDs.insert(searchResult.uuid)
+                            withAnimation {
+                                episodes.removeAll { $0.uuid == searchResult.uuid }
+                                playedEpisodeUUIDs.remove(searchResult.uuid)
+                            }
                             addedEpisodeCount += 1
-                            //TODO: Remove episode from list with animation
                     }
                     .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                     .listRowSeparator(.hidden)
@@ -196,6 +204,11 @@ struct UserEpisodesSearchView: View {
         displayedPodcasts = podcasts
     }
 
+    private func refreshPlaylistEpisodes() {
+        let playlistEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist)
+        playlistEpisodeUUIDs = Set(playlistEpisodes.map { $0.uuid })
+    }
+
     private func handleSearchTextChange(_ newValue: String) {
         switch searchMode {
         case .podcasts:
@@ -220,6 +233,7 @@ struct UserEpisodesSearchView: View {
 
     private func enterEpisodeMode(with podcast: Podcast) {
         selectedPodcast = podcast
+        refreshPlaylistEpisodes()
         searchText = ""
         clearEpisodeResults()
         preloadEpisodesForSelectedPodcast()
@@ -271,9 +285,12 @@ struct UserEpisodesSearchView: View {
         let sections = episodesDataManager.searchEpisodes(for: term, listenedTo: false)
         let listEpisodes = sections.flatMap { $0.elements }
         let filtered = listEpisodes.filter { $0.episode.podcastUuid == podcastUuid }
+        let availableListEpisodes = filtered.filter { listEpisode in
+            !playlistEpisodeUUIDs.contains(listEpisode.episode.uuid)
+        }
 
-        episodes = filtered.map { EpisodeSearchResult(listEpisode: $0) }
-        playedEpisodeUUIDs = Set(filtered.compactMap { episode in
+        episodes = availableListEpisodes.map { EpisodeSearchResult(listEpisode: $0) }
+        playedEpisodeUUIDs = Set(availableListEpisodes.compactMap { episode in
             episode.episode.played() ? episode.episode.uuid : nil
         })
         isSearching = false
@@ -303,8 +320,13 @@ struct UserEpisodesSearchView: View {
             return lhsDate > rhsDate
         }
 
-        episodes = sortedEpisodes.map { EpisodeSearchResult(episode: $0) }
-        playedEpisodeUUIDs = Set(sortedEpisodes.compactMap { episode in
+        let excluded = playlistEpisodeUUIDs
+        let availableEpisodes = sortedEpisodes.filter { episode in
+            !excluded.contains(episode.uuid)
+        }
+
+        episodes = availableEpisodes.map { EpisodeSearchResult(episode: $0) }
+        playedEpisodeUUIDs = Set(availableEpisodes.compactMap { episode in
             episode.played() ? episode.uuid : nil
         })
     }
