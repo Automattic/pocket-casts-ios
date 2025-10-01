@@ -419,24 +419,7 @@ fileprivate let _protobuf_package = "files"
 
 extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".File"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "title"),
-    3: .same(proto: "size"),
-    4: .same(proto: "contentType"),
-    5: .same(proto: "playedUpTo"),
-    6: .same(proto: "playedUpToModified"),
-    7: .same(proto: "playingStatus"),
-    8: .same(proto: "playingStatusModified"),
-    9: .same(proto: "duration"),
-    10: .same(proto: "published"),
-    11: .same(proto: "colour"),
-    12: .same(proto: "imageUrl"),
-    13: .same(proto: "hasCustomImage"),
-    14: .same(proto: "modifiedAt"),
-    15: .same(proto: "imageStatus"),
-    16: .same(proto: "bookmarks"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}size\0\u{1}contentType\0\u{1}playedUpTo\0\u{1}playedUpToModified\0\u{1}playingStatus\0\u{1}playingStatusModified\0\u{1}duration\0\u{1}published\0\u{1}colour\0\u{1}imageUrl\0\u{1}hasCustomImage\0\u{1}modifiedAt\0\u{1}imageStatus\0\u{1}bookmarks\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -456,15 +439,11 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     var _imageStatus: Int32 = 0
     var _bookmarks: [Api_BookmarkResponse] = []
 
-    #if swift(>=5.10)
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
       // This will force a copy to be made of this reference when the first mutation occurs;
       // hence, it is safe to mark this as `nonisolated(unsafe)`.
       static nonisolated(unsafe) let defaultInstance = _StorageClass()
-    #else
-      static let defaultInstance = _StorageClass()
-    #endif
 
     private init() {}
 
@@ -615,14 +594,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
 
 extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUpdate"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "title"),
-    3: .same(proto: "playedUpTo"),
-    4: .same(proto: "playingStatus"),
-    5: .same(proto: "duration"),
-    6: .same(proto: "colour"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}playedUpTo\0\u{1}playingStatus\0\u{1}duration\0\u{1}colour\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -681,11 +653,7 @@ extension Files_FileUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Files_AccountUsage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".AccountUsage"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "totalSize"),
-    2: .same(proto: "usedSize"),
-    3: .same(proto: "totalFiles"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}totalSize\0\u{1}usedSize\0\u{1}totalFiles\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -744,10 +712,7 @@ extension Files_FileListRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileListResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "files"),
-    2: .same(proto: "account"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}files\0\u{1}account\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -786,9 +751,7 @@ extension Files_FileListResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileListUpdateRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "files"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}files\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -818,15 +781,7 @@ extension Files_FileListUpdateRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "title"),
-    3: .same(proto: "size"),
-    4: .same(proto: "contentType"),
-    5: .same(proto: "duration"),
-    6: .same(proto: "colour"),
-    7: .same(proto: "hasCustomImage"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}title\0\u{1}size\0\u{1}contentType\0\u{1}duration\0\u{1}colour\0\u{1}hasCustomImage\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -890,10 +845,7 @@ extension Files_FileUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "url"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}url\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -928,11 +880,7 @@ extension Files_FileUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ImageUploadRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "size"),
-    3: .same(proto: "contentType"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}size\0\u{1}contentType\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -972,9 +920,7 @@ extension Files_ImageUploadRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ImageUploadResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "url"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}url\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1004,20 +950,7 @@ extension Files_ImageUploadResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileUploadedStatusRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "Type"),
-    2: .same(proto: "MessageId"),
-    3: .same(proto: "TopicArn"),
-    4: .same(proto: "Subject"),
-    5: .same(proto: "Token"),
-    6: .same(proto: "Message"),
-    7: .same(proto: "SubscribeURL"),
-    8: .same(proto: "Timestamp"),
-    9: .same(proto: "SignatureVersion"),
-    10: .same(proto: "Signature"),
-    11: .same(proto: "SigningCertURL"),
-    12: .same(proto: "UnsubscribeURL"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}Type\0\u{1}MessageId\0\u{1}TopicArn\0\u{1}Subject\0\u{1}Token\0\u{1}Message\0\u{1}SubscribeURL\0\u{1}Timestamp\0\u{1}SignatureVersion\0\u{1}Signature\0\u{1}SigningCertURL\0\u{1}UnsubscribeURL\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1102,9 +1035,7 @@ extension Files_FileUploadedStatusRequest: SwiftProtobuf.Message, SwiftProtobuf.
 
 extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1134,9 +1065,7 @@ extension Files_FileRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Files_FileDeleteRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FileDeleteRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1204,9 +1133,7 @@ extension Files_FilePlayRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 
 extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".FilePlayResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "url"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}url\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1236,9 +1163,7 @@ extension Files_FilePlayResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Files_SuccessResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SuccessResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "success"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}success\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {

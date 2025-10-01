@@ -993,6 +993,23 @@ public class DataManager {
         playlistManager.updatePosition(playlist: playlist, newPosition: newPosition, dbQueue: dbQueue)
     }
 
+    // Manual Playlist episode management
+    public func moveEpisode(_ episodeUuid: String, in playlist: EpisodeFilter, to index: Int) {
+        playlistManager.moveEpisode(episodeUuid, in: playlist, to: index, dbQueue: dbQueue)
+    }
+
+    public func updateEpisodePosition(_ episodeUuid: String, in playlist: EpisodeFilter, to position: Int32) {
+        playlistManager.updateEpisodePosition(episodeUuid, in: playlist, to: position, dbQueue: dbQueue)
+    }
+
+    public func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
+        playlistManager.deleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
+    }
+
+    public func deleteAllEpisodes(in playlist: EpisodeFilter) {
+        playlistManager.deleteAllEpisodes(in: playlist, dbQueue: dbQueue)
+    }
+
     // MARK: - Folders
 
     public func save(folder: Folder) {

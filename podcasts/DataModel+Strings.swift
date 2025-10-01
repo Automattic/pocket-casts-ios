@@ -65,6 +65,8 @@ public extension PlaylistSort {
             return L10n.podcastsEpisodeSortShortestToLongest
         case .longestToShortest:
             return L10n.podcastsEpisodeSortLongestToShortest
+        case .dragAndDrop:
+            return L10n.podcastsEpisodeSortDragAndDrop
         }
     }
 }

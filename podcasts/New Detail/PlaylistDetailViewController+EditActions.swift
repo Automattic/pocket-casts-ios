@@ -78,6 +78,10 @@ extension PlaylistDetailViewController {
         addSortAction(to: optionsPicker, sortOrder: .shortestToLongest)
         addSortAction(to: optionsPicker, sortOrder: .longestToShortest)
 
+        if viewModel.isManualPlaylist {
+            addSortAction(to: optionsPicker, sortOrder: .dragAndDrop)
+        }
+
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
 
@@ -111,7 +115,8 @@ extension PlaylistDetailViewController {
     }
 
     private func showCustomOrderList() {
-        //PCIOS-121
+        let customOrderViewController = PlaylistDetailCustomOrderViewController(viewModel: viewModel)
+        navigationController?.pushViewController(customOrderViewController, animated: true)
     }
 
     // MARK: - Download

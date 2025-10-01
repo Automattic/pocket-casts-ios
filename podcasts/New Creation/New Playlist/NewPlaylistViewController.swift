@@ -142,13 +142,7 @@ class NewPlaylistViewController: PCViewController {
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
-
-        let episodes = DataManager.sharedManager.allUpNextEpisodes().compactMap { baseEpisode in
-            let episode = DataManager.sharedManager.findEpisode(uuid: baseEpisode.uuid)
-            return episode
-        }
-        DataManager.sharedManager.add(episodes: episodes, to: playlist)
-
+        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
         DataManager.sharedManager.save(playlist: playlist)
         UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: playlist)

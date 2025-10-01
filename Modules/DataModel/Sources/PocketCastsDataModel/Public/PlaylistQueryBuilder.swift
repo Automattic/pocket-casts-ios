@@ -119,9 +119,7 @@ public class PlaylistQueryBuilder {
             queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if playlist.manual && clause == .episode {
-            queryString += " ORDER BY p.pos ASC"
-        } else if let sort = add(sortFor: playlist.sortType) {
+        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }
@@ -170,6 +168,8 @@ public class PlaylistQueryBuilder {
             return "ORDER BY episode.duration ASC, episode.addedDate ASC"
         case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        case .dragAndDrop:
+            return "ORDER BY p.pos ASC" // Only for manual playlist
         }
     }
 
