@@ -89,6 +89,23 @@ class PlaylistDataManager {
         return count
     }
 
+    func playlistContainsPodcast(podcastUuid: String, includeDeleted: Bool = false, dbQueue: PCDBQueue) -> Bool {
+        var exists = false
+        dbQueue.read { db in
+            do {
+                let query = PlaylistQueryBuilder.podcastExistsInPlaylistEpisodesQuery(includeDeleted: includeDeleted)
+                let resultSet = try db.executeQuery(query, values: [podcastUuid])
+                defer { resultSet.close() }
+
+                exists = resultSet.next()
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.playlistContainsPodcast error: \(error)")
+            }
+        }
+
+        return exists
+    }
+
     func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
         let query: String
         if FeatureFlag.playlistsRebranding.enabled {

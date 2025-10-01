@@ -8,7 +8,7 @@ struct SQLiteValidator {
 
     /// Validates a SQL statement by preparing it against a test database
     /// that has been initialized using DatabaseHelper.setup(queue:).
-    static func validate(sql: String) throws {
+    static func validate(sql: String, values: [Any]? = nil) throws {
         // Create a fresh test database pool
         guard let dbPool = try DatabasePool.newTestDatabase() else {
             throw SQLiteError.failedNewTestDatabase
@@ -22,7 +22,7 @@ struct SQLiteValidator {
         var error: Error?
         queue.read { db in
             do {
-                _ = try db.executeQuery(sql, values: nil)
+                _ = try db.executeQuery(sql, values: values)
             } catch let inError {
                 error = inError
             }

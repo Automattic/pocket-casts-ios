@@ -126,6 +126,11 @@ public class PlaylistQueryBuilder {
         return queryString
     }
 
+    public class func podcastExistsInPlaylistEpisodesQuery(includeDeleted: Bool = false) -> String {
+        let deletedClause = includeDeleted ? "" : " AND wasDeleted = 0"
+        return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"
+    }
+
     private static func select(clause: SelectClause) -> String {
         switch clause {
         case .episode:
