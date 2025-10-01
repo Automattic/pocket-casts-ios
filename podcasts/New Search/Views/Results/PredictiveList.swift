@@ -15,17 +15,16 @@ struct PredictiveList: View {
                 case .term(let searchTerm):
                     VStack {
                         termRow(term: searchTerm)
-                            .listRowBackground(theme.primaryUi01)
-                            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                                return 0
-                            }
-                            .if(!FeatureFlag.searchImprovements.enabled) { content in
-                                content.padding(EdgeInsets(top: 12, leading: 8, bottom: 12, trailing: 8))
-                            }
-
                         if !FeatureFlag.searchImprovements.enabled {
                             ThemedDivider()
                         }
+                    }
+                    .if(!FeatureFlag.searchImprovements.enabled) { content in
+                        content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+                    }
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
                     }
                     .background(theme.primaryUi01)
                 case .podcast:
@@ -67,6 +66,7 @@ struct PredictiveList: View {
                     .font(style: .subheadline, weight: .medium)
                 Spacer()
             }
+            .background(theme.primaryUi01)
         })
     }
 
