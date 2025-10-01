@@ -934,6 +934,10 @@ public class DataManager {
         return exists
     }
 
+    public func playlistContainsPodcast(podcastUuid: String, includeDeleted: Bool = false) -> Bool {
+        playlistManager.playlistContainsPodcast(podcastUuid: podcastUuid, includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
     public func findPlaylist(uuid: String) -> EpisodeFilter? {
         playlistManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
