@@ -5489,6 +5489,9 @@
 /* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
 "playlist_manual_episode_add_to_playlist" = "Add to playlist";
 
+/* Toast message when the playlist is full */
+"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
+
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
 

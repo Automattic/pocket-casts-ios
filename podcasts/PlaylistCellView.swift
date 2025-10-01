@@ -7,6 +7,7 @@ struct PlaylistCellView: View {
 
     @Binding private var isSelected: Bool
     @State private var refreshToken = UUID()
+    private let canBeDisabled: Bool
 
     private var title: String {
         switch viewModel.displayType {
@@ -31,12 +32,20 @@ struct PlaylistCellView: View {
         }
     }
 
+    var shouldDisableRow: Bool {
+        canBeDisabled &&
+        !isSelected &&
+        !viewModel.isBelowEpisodeLimit
+    }
+
     init(
         viewModel: PlaylistCellViewModel,
-        isSelected: Binding<Bool> = .constant(false)
+        isSelected: Binding<Bool> = .constant(false),
+        canBeDisabled: Bool = false
     ) {
         self.viewModel = viewModel
         self._isSelected = isSelected
+        self.canBeDisabled = canBeDisabled
     }
 
     var body: some View {
@@ -74,15 +83,15 @@ struct PlaylistCellView: View {
             view
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if viewModel.isBelowEpisodeLimit {
+                    if !shouldDisableRow {
                         isSelected.toggle()
                         refreshToken = UUID()
                     } else {
-                        Toast.show("Playlist is full. Try creating a new one")
+                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
                     }
                 }
         }
-        .opacity(viewModel.isBelowEpisodeLimit ? 1.0 : 0.6)
+        .opacity(shouldDisableRow ? 0.45 : 1.0)
         .onAppear {
             viewModel.loadData()
         }

@@ -62,7 +62,8 @@ class PlaylistCell: ThemeableCell {
         cellType: PlaylistCellType = .count,
         playlist: EpisodeFilter,
         isLastRow: Bool,
-        isSelected: Binding<Bool> = .constant(false)
+        isSelected: Binding<Bool> = .constant(false),
+        canBeDisabled: Bool = false
     ) {
         accessoryType = cellType == .count ? .disclosureIndicator : .none
 
@@ -72,7 +73,8 @@ class PlaylistCell: ThemeableCell {
                     playlist: playlist,
                     displayType: cellType
                 ),
-                isSelected: isSelected
+                isSelected: isSelected,
+                canBeDisabled: canBeDisabled
             )
             .environmentObject(Theme.sharedTheme)
             .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)

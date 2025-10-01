@@ -183,6 +183,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
             cell.configureAddPlaylistCell()
         default:
             let playlist = manualPlaylists[indexPath.row]
+            let episodeIsInPlaylist = initialSelectedPlaylists.contains(playlist.uuid)
             let onToggleChange: (Bool) -> Void = { [weak self] selected in
                 guard let self = self else { return }
 
@@ -205,7 +206,9 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 cellType: .check,
                 playlist: playlist,
                 isLastRow: indexPath.row == manualPlaylists.count - 1,
-                isSelected: isSelected)
+                isSelected: isSelected,
+                canBeDisabled: !episodeIsInPlaylist
+            )
         }
         return cell
     }
