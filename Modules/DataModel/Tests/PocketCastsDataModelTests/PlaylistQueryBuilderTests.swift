@@ -41,13 +41,13 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         let query = PlaylistQueryBuilder.podcastExistsInPlaylistEpisodesQuery()
 
         XCTAssertTrue(query.contains("wasDeleted = 0"))
-        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query, values: ["1234"]))
     }
 
     func testPodcastExistsQueryIncludesDeletedWhenRequested() {
         let query = PlaylistQueryBuilder.podcastExistsInPlaylistEpisodesQuery(includeDeleted: true)
 
         XCTAssertFalse(query.contains("wasDeleted = 0"))
-        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query, values: ["1234"]))
     }
 }
