@@ -5462,6 +5462,9 @@
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
 
+/* Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player */
+"playlist_episodes_count" = "%1$@ episodes";
+
 /* Manual Playlist: header button title to add new episodes to the playlist */
 "playlist_manual_add_episodes" = "Add Episodes";
 
@@ -5479,6 +5482,9 @@
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
 "playlist_manual_episodes_order_option" = "Reorder Episodes";
+
+/* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
+"playlist_manual_episode_add_to_playlist" = "Add to playlist";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

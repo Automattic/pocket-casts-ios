@@ -20,7 +20,7 @@ struct PlaylistCellView: View {
     private var subtitle: String? {
         switch viewModel.displayType {
         case .check:
-            return "\(viewModel.episodesCount) episodes"
+            return L10n.playlistEpisodesCount(viewModel.episodesCount)
         case .toggle, .count:
             if viewModel.isSmartPlaylist() {
                 return L10n.smartPlaylist

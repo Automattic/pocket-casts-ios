@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class ManualPlaylistsChooserViewController: PCViewController {
     private var manualPlaylists: [EpisodeFilter] = [] {
@@ -8,10 +9,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
             tableView.reloadData()
         }
     }
-    private var selectedPlaylists: Set<String> = []
+    private var initialSelectedPlaylists: Set<String> = []
+    private var newSelectedPlaylists: Set<String> = []
     private let episode: Episode
+    private let dataManager = DataManager.sharedManager
 
-    var tableView: ThemeableTable! {
+    private var tableView: ThemeableTable! {
         didSet {
             tableView.themeStyle = .primaryUi01
             tableView.estimatedRowHeight = 80
@@ -22,6 +25,24 @@ class ManualPlaylistsChooserViewController: PCViewController {
             tableView.dataSource = self
             tableView.separatorStyle = .none
             tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+        }
+    }
+
+    private var doneButton: UIButton! {
+        didSet {
+            doneButton.translatesAutoresizingMaskIntoConstraints = false
+            doneButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
+            doneButton.layer.cornerRadius = 12
+            doneButton.addTarget(self, action: #selector(doneTapped), for: .touchUpInside)
+            let attributedTitle = NSAttributedString(string: L10n.done, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+            doneButton.setAttributedTitle(attributedTitle, for: .normal)
+        }
+    }
+
+    private var footerView: ThemeableView! {
+        didSet {
+            footerView.translatesAutoresizingMaskIntoConstraints = false
+            footerView.backgroundColor = AppTheme.viewBackgroundColor()
         }
     }
 
@@ -46,7 +67,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         let backgroundColor = AppTheme.viewBackgroundColor()
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
-        title = "Add to playlist"
+        title = L10n.playlistManualEpisodeAddToPlaylist
 
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
 
@@ -73,16 +94,36 @@ class ManualPlaylistsChooserViewController: PCViewController {
         tableView = ThemeableTable()
         view.insertSubview(tableView, at: 0)
 
+        footerView = ThemeableView()
+        view.addSubview(footerView)
+
+        doneButton = UIButton(type: .custom)
+        footerView.addSubview(doneButton)
+
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            footerView.heightAnchor.constraint(equalToConstant: 110),
+            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+
+            doneButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
+            doneButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
+            doneButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
+            doneButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
+
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor, constant: 0)
         ])
 
         view.layoutSubviews()
 
-        manualPlaylists = DataManager.sharedManager.allManualPlaylists(includeDeleted: false)
+        manualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
+
+        let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
+        initialSelectedPlaylists = Set(uuids)
+        newSelectedPlaylists = initialSelectedPlaylists
     }
 
     private func addCloseButton() {
@@ -94,6 +135,24 @@ class ManualPlaylistsChooserViewController: PCViewController {
     }
 
     @objc private func closeTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func doneTapped() {
+        let added = newSelectedPlaylists.subtracting(initialSelectedPlaylists)
+        let removed = initialSelectedPlaylists.subtracting(newSelectedPlaylists)
+
+        FileLog.shared.console("Added \(added), removed \(removed)")
+
+        manualPlaylists.forEach { playlist in
+            if added.contains(playlist.uuid) {
+                dataManager.add(episodes: [episode], to: playlist)
+            }
+            if removed.contains(playlist.uuid) {
+                dataManager.deleteEpisodes([episode.uuid], from: playlist)
+            }
+        }
+
         dismiss(animated: true, completion: nil)
     }
 }
@@ -123,20 +182,15 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 guard let self = self else { return }
 
                 if selected {
-                    self.selectedPlaylists.insert(playlist.uuid)
-//                    self.playlistSelected?(playlist)
+                    self.newSelectedPlaylists.insert(playlist.uuid)
                 } else {
-                    self.selectedPlaylists.remove(playlist.uuid)
-//                    self.playlistUnselected?(playlist)
+                    self.newSelectedPlaylists.remove(playlist.uuid)
                 }
-
-//                self.didChange = true
-                print("Toggle \(playlist.uuid)")
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
                     guard let self = self else { return false }
-                    return self.selectedPlaylists.contains(playlist.uuid)
+                    return self.newSelectedPlaylists.contains(playlist.uuid)
                 },
                 set: { newValue in
                     onToggleChange(newValue)
@@ -160,6 +214,6 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        print("Push add Playlist")
+        // TODO: Push manual playlist creation
     }
 }

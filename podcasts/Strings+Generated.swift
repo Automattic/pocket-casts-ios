@@ -2310,6 +2310,10 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player
+  internal static func playlistEpisodesCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_count", String(describing: p1), fallback: "%1$@ episodes")
+  }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
@@ -2320,6 +2324,8 @@ internal enum L10n {
   internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
   /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
+  /// Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title
+  internal static var playlistManualEpisodeAddToPlaylist: String { return L10n.tr("Localizable", "playlist_manual_episode_add_to_playlist", fallback: "Add to playlist") }
   /// Manual Playlist: manual episodes order option that appears when showing the options sheet
   internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.

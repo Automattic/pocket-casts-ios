@@ -919,7 +919,7 @@ public class DataManager {
         playlistManager.playlistContainsEpisode(episodeUuid: episodeUuid, includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
-    func manualPlaylistUUIDs(for episodeUUID: String) -> [String] {
+    public func manualPlaylistUUIDs(for episodeUUID: String) -> [String] {
         playlistManager.manualPlaylistUUIDs(for: episodeUUID, dbQueue: dbQueue)
     }
 
