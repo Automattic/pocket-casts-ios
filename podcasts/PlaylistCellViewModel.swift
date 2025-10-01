@@ -13,7 +13,11 @@ class PlaylistCellViewModel: ObservableObject {
     @Published var images: [PlaylistArtworkView.ImageItem] = []
 
     var isBelowEpisodeLimit: Bool {
-        episodesCount < 4
+#if DEBUG
+        episodesCount < Settings.debugPlaylistsLimit
+#else
+        episodesCount < Constants.Limits.maxFilterItems
+#endif
     }
 
     private var playlist: EpisodeFilter

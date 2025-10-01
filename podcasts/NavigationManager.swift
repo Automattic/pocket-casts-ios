@@ -97,8 +97,8 @@ class NavigationManager {
 
     // MARK: - Navigation
 
-    func navigateTo(_ place: String, data: NSDictionary? = nil) {
-        performNavigation(place, data: data, animated: true)
+    func navigateTo(_ place: String, data: NSDictionary? = nil, animated: Bool = true) {
+        performNavigation(place, data: data, animated: animated)
     }
 
     func mainViewControllerDidLoad(controller: NavigationProtocol) {

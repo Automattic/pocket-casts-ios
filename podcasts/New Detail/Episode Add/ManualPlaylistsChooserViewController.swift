@@ -75,6 +75,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
 
         navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = backgroundColor
@@ -222,7 +223,8 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        // TODO: Push manual playlist creation
+        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode))
+        navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }
 

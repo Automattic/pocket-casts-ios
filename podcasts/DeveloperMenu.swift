@@ -13,6 +13,7 @@ struct DeveloperMenu: View {
     @State var showSurvey = false
     @State var showIntroCarousel = false
     @State var showingNotificationsPermissions = false
+    @State var enableDebugPlaylistLimit = false
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -399,6 +400,17 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Onboarding")
+            }
+
+            Section {
+                Toggle(isOn: $enableDebugPlaylistLimit) {
+                    Text("Enable Debug Playlists limit")
+                }
+                .onChange(of: enableDebugPlaylistLimit) { newValue in
+                    Settings.debugPlaylistsLimit = newValue ? 6 : Constants.Limits.maxFilterItems
+                }
+            } header: {
+                Text("Playlist Rebranding")
             }
 
             Section {
