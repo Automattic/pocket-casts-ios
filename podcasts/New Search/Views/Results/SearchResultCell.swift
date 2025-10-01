@@ -66,7 +66,7 @@ struct SearchResultCell: View {
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(result.kind == .folder ? L10n.folder : result.authorToDisplay)
+                            Text(subtitle(for: result))
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
@@ -116,6 +116,20 @@ struct SearchResultCell: View {
             searchHistory.add(podcast: result)
             searchAnalyticsHelper.trackResultTapped(result)
         }
+    }
+}
+
+private extension SearchResultCell {
+    func subtitle(for result: PodcastFolderSearchResult) -> String {
+        if result.kind == .folder {
+            guard let folder = DataManager.sharedManager.findFolder(uuid: result.uuid) else {
+                return L10n.folder
+            }
+            let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
+            return L10n.podcastCount(count)
+        }
+
+        return result.authorToDisplay
     }
 }
 
