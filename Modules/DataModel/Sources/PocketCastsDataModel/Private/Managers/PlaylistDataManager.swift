@@ -216,15 +216,21 @@ class PlaylistDataManager {
 
                 guard let currentIndex = items.firstIndex(where: { $0.uuid == episodeUuid }) else { return }
 
+                let clampedTargetIndex = newIndex.clamped(to: 0...max(items.count - 1, 0))
+                if clampedTargetIndex == currentIndex { return }
+
                 var reordered = items
                 let element = reordered.remove(at: currentIndex)
-                let clampedIndex = max(0, min(newIndex, reordered.count))
+                let clampedIndex = newIndex.clamped(to: 0...reordered.count)
                 reordered.insert(element, at: clampedIndex)
 
                 // Persist new positions
                 for (index, item) in reordered.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, item.id])
                 }
+
+                playlist.syncStatus = SyncStatus.notSynced.rawValue
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.moveEpisode error: \(error)")
             }
@@ -244,6 +250,8 @@ class PlaylistDataManager {
             do {
                 let inClause = DataHelper.convertArrayToInString(episodeUuids)
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid IN (\(inClause))", values: [playlist.uuid])
+                let removedCount = db.changes
+                if removedCount == 0 { return }
 
                 // Reindex remaining
                 let rs = try db.executeQuery("SELECT id FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC", values: [playlist.uuid])
@@ -253,6 +261,9 @@ class PlaylistDataManager {
                 for (index, id) in ids.enumerated() {
                     try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, id])
                 }
+
+                playlist.syncStatus = SyncStatus.notSynced.rawValue
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.deleteEpisodes error: \(error)")
             }
@@ -264,6 +275,12 @@ class PlaylistDataManager {
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? OR playlist_id = ?", values: [playlist.uuid, playlist.id])
+
+                let removedCount = db.changes
+                if removedCount > 0 {
+                    playlist.syncStatus = SyncStatus.notSynced.rawValue
+                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
+                }
             } catch {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.deleteAllEpisodes error: \(error)")
             }

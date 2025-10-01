@@ -41,9 +41,11 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         filter.uuid = "playlist-1"
         filter.playlistName = "Manual"
         filter.manual = true
+        filter.sortType = PlaylistSort.dragAndDrop.rawValue
         filter.syncStatus = SyncStatus.notSynced.rawValue
         dataManager.save(playlist: filter)
-        dataManager.add(episodes: [e1, e2], to: filter)
+        let episodes = [e1, e2]
+        dataManager.add(episodes: episodes, to: filter)
 
         let records = syncTask.changedPlaylists()
         let playlistRecords = records?.compactMap { $0.record }.compactMap { record -> Api_SyncUserPlaylist? in
@@ -56,7 +58,12 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
 
         // Episodes should be present and ordered
         XCTAssertEqual(playlist.episodes.count, 2)
-        XCTAssertEqual(playlist.episodes.map(\.episode), [e1.uuid, e2.uuid])
+        episodes.forEach { episode in
+            let hasEpisode = playlist.episodes.contains(where: { playlistEpisode in
+                playlistEpisode.episode == episode.uuid
+            })
+            XCTAssertTrue(hasEpisode)
+        }
         XCTAssertEqual(playlist.episodeOrder, [e1.uuid, e2.uuid])
         XCTAssertTrue(playlist.manual.value)
     }

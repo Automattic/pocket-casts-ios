@@ -41,6 +41,54 @@ final class PlaylistEpisodeManipulationTests: XCTestCase {
         XCTAssertEqual(count, 0)
     }
 
+    func testMoveEpisodeMarksPlaylistDirty() throws {
+        guard let dbPool = try DatabasePool.newTestDatabase() else { throw SQLiteValidator.SQLiteError.failedNewTestDatabase }
+        let queue = GRDBQueue(dbPool: dbPool)
+        DatabaseHelper.setup(queue: queue)
+        let dm = try DataManager(dbQueue: queue)
+
+        let playlist = EpisodeFilter()
+        playlist.manual = true
+        playlist.uuid = "pl-move"
+        playlist.playlistName = "Manual"
+        playlist.syncStatus = SyncStatus.synced.rawValue
+        dm.save(playlist: playlist)
+
+        let e1 = Episode(); e1.uuid = "m1"; e1.podcastUuid = "p1"; e1.title = "First"
+        let e2 = Episode(); e2.uuid = "m2"; e2.podcastUuid = "p1"; e2.title = "Second"
+        dm.add(episodes: [e1, e2], to: playlist)
+
+        dm.moveEpisode(e1.uuid, in: playlist, to: 1)
+
+        XCTAssertEqual(playlist.syncStatus, SyncStatus.notSynced.rawValue)
+        let reloaded = try XCTUnwrap(dm.findPlaylist(uuid: playlist.uuid))
+        XCTAssertEqual(reloaded.syncStatus, SyncStatus.notSynced.rawValue)
+    }
+
+    func testDeleteEpisodesMarksPlaylistDirty() throws {
+        guard let dbPool = try DatabasePool.newTestDatabase() else { throw SQLiteValidator.SQLiteError.failedNewTestDatabase }
+        let queue = GRDBQueue(dbPool: dbPool)
+        DatabaseHelper.setup(queue: queue)
+        let dm = try DataManager(dbQueue: queue)
+
+        let playlist = EpisodeFilter()
+        playlist.manual = true
+        playlist.uuid = "pl-delete"
+        playlist.playlistName = "Manual"
+        playlist.syncStatus = SyncStatus.synced.rawValue
+        dm.save(playlist: playlist)
+
+        let e1 = Episode(); e1.uuid = "d1"; e1.podcastUuid = "p1"; e1.title = "Delete"
+        let e2 = Episode(); e2.uuid = "d2"; e2.podcastUuid = "p1"; e2.title = "Keep"
+        dm.add(episodes: [e1, e2], to: playlist)
+
+        dm.deleteEpisodes([e1.uuid], from: playlist)
+
+        XCTAssertEqual(playlist.syncStatus, SyncStatus.notSynced.rawValue)
+        let reloaded = try XCTUnwrap(dm.findPlaylist(uuid: playlist.uuid))
+        XCTAssertEqual(reloaded.syncStatus, SyncStatus.notSynced.rawValue)
+    }
+
     // Helpers
     private func assertPlaylistOrder(dbQueue: PCDBQueue, playlistUuid: String, expected: [String]) throws {
         let sql = "SELECT episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC"

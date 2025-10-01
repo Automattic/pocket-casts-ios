@@ -131,6 +131,8 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if sourceIndexPath == destinationIndexPath { return }
 
+        viewModel?.updatePlaylist(sortType: .dragAndDrop)
+
         let movedObject = episodes[sourceIndexPath.row]
         episodes.remove(at: sourceIndexPath.row)
         episodes.insert(movedObject, at: destinationIndexPath.row)
