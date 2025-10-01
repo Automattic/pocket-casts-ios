@@ -16,13 +16,14 @@ struct UserEpisodesSearchView: View {
     @State private var allPodcasts: [Podcast] = []
     @State private var displayedPodcasts: [Podcast] = []
     @State private var selectedPodcast: Podcast?
+    @State private var addedEpisodeCount = 0
 
     private let episodesDataManager = EpisodesDataManager()
-    private let playlistName: String?
+    private let playlist: EpisodeFilter
     private let dismissAction: (() -> Void)?
 
-    init(playlistName: String? = nil, dismissAction: (() -> Void)? = nil) {
-        self.playlistName = playlistName
+    init(playlist: EpisodeFilter, dismissAction: (() -> Void)? = nil) {
+        self.playlist = playlist
         self.dismissAction = dismissAction
     }
 
@@ -94,10 +95,10 @@ struct UserEpisodesSearchView: View {
                             played: false,
                             showDivider: index < displayedPodcasts.count - 1,
                             showPodcastSubscribeButton: false,
-                            cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                        ) {
+                            cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
+                            action: {
                             selectPodcast(podcast)
-                        }
+                        })
                         .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
@@ -141,15 +142,15 @@ struct UserEpisodesSearchView: View {
                         result: nil,
                         played: played,
                         showDivider: index < episodes.count - 1,
-                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                    ) {
-                        NavigationManager.sharedManager.navigateTo(
-                            NavigationManager.episodePageKey,
-                            data: [
-                                NavigationManager.episodeUuidKey: episode.uuid,
-                                NavigationManager.podcastKey: episode.podcastUuid
-                            ]
-                        )
+                        showEpisodeAddButton: true,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)) {
+                            guard let episode = DataManager.sharedManager.findEpisode(uuid: episode.uuid) else {
+                                assertionFailure("Episode should exist")
+                                return
+                            }
+                            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+                            addedEpisodeCount += 1
+                            //TODO: Remove episode from list with animation
                     }
                     .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                     .listRowSeparator(.hidden)
@@ -376,11 +377,18 @@ private extension UserEpisodesSearchView {
     }
 
     var navigationTitle: String {
-        guard let name = playlistName?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty else {
-            return L10n.playlistManualAddEpisodes
+        let name = playlist.playlistName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard addedEpisodeCount > 0 else {
+            return L10n.playlistAddToTitle(name)
         }
 
-        return L10n.playlistAddToTitle(name)
+        if addedEpisodeCount == 1 {
+            let format = L10n.localizedFormat("playlist_episode_added_title", "Localizable", "1 episode added to \"%@\"")
+            return String(format: format, locale: Locale.current, name)
+        } else {
+            let format = L10n.localizedFormat("playlist_episodes_added_title", "Localizable", "%1$@ episodes added to \"%2$@\"")
+            return String(format: format, locale: Locale.current, addedEpisodeCount.localized(), name)
+        }
     }
 }
 
@@ -400,7 +408,7 @@ private extension EpisodeSearchResult {
 
 struct UserEpisodesSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        UserEpisodesSearchView()
+        UserEpisodesSearchView(playlist: EpisodeFilter())
             .environmentObject(SearchAnalyticsHelper(source: .unknown))
             .environmentObject(SearchHistoryModel(userDefaults: UserDefaults(suiteName: "UserEpisodesSearchViewPreview") ?? .standard))
             .previewWithAllThemes()

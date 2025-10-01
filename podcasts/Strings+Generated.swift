@@ -2314,6 +2314,14 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
+  internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
+  }
+  /// Navigation title shown after adding multiple episodes to a playlist. %1$@ is the episode count. %2$@ is the playlist name.
+  internal static func playlistEpisodesAddedTitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_added_title", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes added to \"%2$@\"")
+  }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
