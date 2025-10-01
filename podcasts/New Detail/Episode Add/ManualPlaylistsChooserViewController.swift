@@ -3,14 +3,17 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
+private enum TableSection: Int, CaseIterable {
+    case addNewPlaylist = 0
+    case playlists = 1
+}
+
 class ManualPlaylistsChooserViewController: PCViewController {
-    private var manualPlaylists: [EpisodeFilter] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var manualPlaylists: [EpisodeFilter] = []
+    private var tempManualPlaylists: [EpisodeFilter] = []
     private var initialSelectedPlaylists: Set<String> = []
     private var newSelectedPlaylists: Set<String> = []
+    private var searchController: PCSearchBarController?
     private let episode: Episode
     private let dataManager = DataManager.sharedManager
 
@@ -100,6 +103,8 @@ class ManualPlaylistsChooserViewController: PCViewController {
         doneButton = UIButton(type: .custom)
         footerView.addSubview(doneButton)
 
+        setupSearchController()
+
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
@@ -159,12 +164,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
 extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return TableSection.allCases.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
+        case TableSection.addNewPlaylist.rawValue:
             return 1
         default:
             return manualPlaylists.count
@@ -174,7 +179,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseIdentifier, for: indexPath) as! PlaylistCell
         switch indexPath.section {
-        case 0:
+        case TableSection.addNewPlaylist.rawValue:
             cell.configureAddPlaylistCell()
         default:
             let playlist = manualPlaylists[indexPath.row]
@@ -206,14 +211,81 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        indexPath.section == 0
+        indexPath.section == TableSection.addNewPlaylist.rawValue
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section == 0 else { return }
+        guard indexPath.section == TableSection.addNewPlaylist.rawValue else { return }
 
         tableView.deselectRow(at: indexPath, animated: true)
 
         // TODO: Push manual playlist creation
+    }
+}
+
+extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
+    func searchDidBegin() {
+        tempManualPlaylists = manualPlaylists
+    }
+
+    func searchDidEnd() {
+        manualPlaylists = tempManualPlaylists
+        tempManualPlaylists.removeAll()
+        tableView.reload(section: .playlists, with: .automatic)
+    }
+
+    func searchWasCleared() {
+        // TODO: Add analytics
+
+        manualPlaylists = tempManualPlaylists
+        tableView.reload(section: .playlists, with: .automatic)
+    }
+
+    func searchTermChanged(_ searchTerm: String) { }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        // TODO: Add analytics
+
+        manualPlaylists = tempManualPlaylists.filter {
+            $0.playlistName.localizedCaseInsensitiveContains(searchTerm)
+        }
+        tableView.reload(section: .playlists, with: .automatic)
+        completion()
+    }
+
+    private func setupSearchController() {
+        searchController = PCSearchBarController()
+        searchController?.searchDebounce = 0.2
+
+        guard let searchController else {
+            return
+        }
+
+        searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
+        view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        NSLayoutConstraint.activate([
+            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            topAnchor
+        ])
+
+        searchController.placeholderText = "Find playlist"
+        searchController.searchControllerTopConstant = topAnchor
+        searchController.setupScrollView(tableView, hideSearchInitially: false)
+        searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+        searchController.searchDelegate = self
+
+        tableView.verticalScrollIndicatorInsets.top = PCSearchBarController.defaultHeight
+    }
+}
+
+fileprivate extension UITableView {
+    func reload(section: TableSection, with animation: UITableView.RowAnimation) {
+        reloadSections(IndexSet(integer: section.rawValue), with: animation)
     }
 }
