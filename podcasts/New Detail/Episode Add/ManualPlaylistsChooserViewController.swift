@@ -274,7 +274,7 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
             topAnchor
         ])
 
-        searchController.placeholderText = "Find playlist"
+        searchController.placeholderText = L10n.playlistSearch
         searchController.searchControllerTopConstant = topAnchor
         searchController.setupScrollView(tableView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()

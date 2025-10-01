@@ -5468,6 +5468,9 @@
 /* Manual Playlist: header button title to add new episodes to the playlist */
 "playlist_manual_add_episodes" = "Add Episodes";
 
+/* Search placeholder used in the add episode to manual playlist search from podcast and player */
+"playlist_search" = "Find playlist";
+
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
 

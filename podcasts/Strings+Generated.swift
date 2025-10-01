@@ -2336,6 +2336,8 @@ internal enum L10n {
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
   }
+  /// Search placeholder used in the add episode to manual playlist search from podcast and player
+  internal static var playlistSearch: String { return L10n.tr("Localizable", "playlist_search", fallback: "Find playlist") }
   /// Message shown when you have no episodes in a playlist
   internal static var playlistSmartNoEpisodesMsg: String { return L10n.tr("Localizable", "playlist_smart_no_episodes_msg", fallback: "Either it’s time to celebrate completing this list, or edit your rules to get some more.") }
   /// Smart Playlist preview: description that appears when initially there are no rules set
