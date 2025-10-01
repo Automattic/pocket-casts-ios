@@ -6,6 +6,7 @@ import PocketCastsUtils
 struct UserEpisodesSearchView: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var searchText: String = ""
     @State private var searchTask: Task<Void, Never>?
@@ -68,14 +69,19 @@ struct UserEpisodesSearchView: View {
         }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch searchMode {
-        case .podcasts:
-            podcastResultsContent
-        case .episodes:
-            episodeResultsContent
+        ZStack {
+            if searchMode == .podcasts {
+                podcastResultsContent
+                    .transition(podcastTransition)
+            }
+
+            if searchMode == .episodes {
+                episodeResultsContent
+                    .transition(episodeTransition)
+            }
         }
+        .animation(navigationAnimation, value: searchMode)
     }
 
     @ViewBuilder
@@ -228,7 +234,9 @@ struct UserEpisodesSearchView: View {
     }
 
     private func selectPodcast(_ podcast: Podcast) {
-        enterEpisodeMode(with: podcast)
+        withAnimation(navigationAnimation) {
+            enterEpisodeMode(with: podcast)
+        }
     }
 
     private func enterEpisodeMode(with podcast: Podcast) {
@@ -304,10 +312,24 @@ struct UserEpisodesSearchView: View {
     }
 
     private func clearSelectedPodcast() {
-        selectedPodcast = nil
-        searchText = ""
+        withAnimation(navigationAnimation) {
+            selectedPodcast = nil
+            searchText = ""
+        }
         clearEpisodeResults()
         filterPodcasts(using: searchText)
+    }
+
+    private var podcastTransition: AnyTransition {
+        reduceMotion ? .opacity : .move(edge: .leading)
+    }
+
+    private var episodeTransition: AnyTransition {
+        reduceMotion ? .opacity : .move(edge: .trailing)
+    }
+
+    private var navigationAnimation: Animation {
+        reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3)
     }
 
     private func preloadEpisodesForSelectedPodcast() {
