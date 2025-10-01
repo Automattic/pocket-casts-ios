@@ -7,6 +7,7 @@ class PlaylistCell: ThemeableCell {
 
     static let reuseIdentifier = "PlaylistCell"
     static let cellHeight = 81.0
+    static let emptyPlaylist = EpisodeFilter()
 
     lazy var separatorView: UIView = {
         let view = UIView()
@@ -61,8 +62,7 @@ class PlaylistCell: ThemeableCell {
         cellType: PlaylistCellType = .count,
         playlist: EpisodeFilter,
         isLastRow: Bool,
-        isSelected: Binding<Bool> = .constant(false),
-        onTap: (() -> Void)? = nil
+        isSelected: Binding<Bool> = .constant(false)
     ) {
         accessoryType = cellType == .count ? .disclosureIndicator : .none
 
@@ -72,8 +72,7 @@ class PlaylistCell: ThemeableCell {
                     playlist: playlist,
                     displayType: cellType
                 ),
-                isSelected: isSelected,
-                onTap: onTap
+                isSelected: isSelected
             )
             .environmentObject(Theme.sharedTheme)
             .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
@@ -84,5 +83,25 @@ class PlaylistCell: ThemeableCell {
         separatorView.isHidden = isLastRow
         separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
         bringSubviewToFront(separatorView)
+    }
+
+    func configureAddPlaylistCell() {
+        accessoryType = .none
+
+        contentConfiguration = UIHostingConfiguration {
+            PlaylistCellView(
+                viewModel: PlaylistCellViewModel(
+                    playlist: Self.emptyPlaylist,
+                    displayType: .addNew
+                ),
+                isSelected: .constant(false)
+            )
+            .environmentObject(Theme.sharedTheme)
+            .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
+        }
+        .margins(.horizontal, 0)
+        .margins(.vertical, 0)
+
+        separatorView.isHidden = true
     }
 }

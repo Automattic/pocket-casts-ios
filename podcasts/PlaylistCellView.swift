@@ -6,7 +6,7 @@ struct PlaylistCellView: View {
     @ObservedObject var viewModel: PlaylistCellViewModel
 
     @Binding private var isSelected: Bool
-    private var onTap: (() -> Void)? = nil
+    @State private var refreshToken = UUID()
 
     private var title: String {
         switch viewModel.displayType {
@@ -30,15 +30,13 @@ struct PlaylistCellView: View {
             return nil
         }
     }
-    
+
     init(
         viewModel: PlaylistCellViewModel,
-        isSelected: Binding<Bool> = .constant(false),
-        onTap: (() -> Void)? = nil
+        isSelected: Binding<Bool> = .constant(false)
     ) {
         self.viewModel = viewModel
         self._isSelected = isSelected
-        self.onTap = onTap
     }
 
     var body: some View {
@@ -78,10 +76,13 @@ struct PlaylistCellView: View {
                 .onTapGesture {
                     if viewModel.isBelowEpisodeLimit {
                         isSelected.toggle()
+                        refreshToken = UUID()
+                    } else {
+                        Toast.show("Playlist is full. Try creating a new one")
                     }
-                    onTap?()
                 }
         }
+        .opacity(viewModel.isBelowEpisodeLimit ? 1.0 : 0.6)
         .onAppear {
             viewModel.loadData()
         }
@@ -121,6 +122,7 @@ struct PlaylistCellView: View {
                 }
             }
             .padding(.trailing, 16.0)
+            .id(refreshToken)
         case .addNew:
             EmptyView()
         }

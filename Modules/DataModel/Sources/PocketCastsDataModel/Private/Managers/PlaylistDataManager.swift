@@ -100,12 +100,12 @@ class PlaylistDataManager {
     }
 
     func allSmartPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
         return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 
     func allManualPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 1 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 1 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 1 AND wasDeleted = 0 ORDER BY sortPosition ASC"
         return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 
@@ -139,6 +139,54 @@ class PlaylistDataManager {
 
     func allUnsyncedPlaylists(dbQueue: PCDBQueue) -> [EpisodeFilter] {
         allPlaylists(query: "SELECT * from \(DataManager.playlistsTableName) WHERE syncStatus = ? ORDER BY sortPosition ASC", values: [SyncStatus.notSynced.rawValue], dbQueue: dbQueue)
+    }
+
+    func playlistContainsEpisode(episodeUuid: String, includeDeleted: Bool, dbQueue: PCDBQueue) -> Bool {
+        var exists = false
+        dbQueue.read { db in
+            do {
+                let query: String
+                if includeDeleted {
+                    query = "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid = ? AND playlist_uuid IS NOT NULL LIMIT 1"
+                } else {
+                    query = "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid = ? AND wasDeleted = 0 AND playlist_uuid IS NOT NULL LIMIT 1"
+                }
+
+                let resultSet = try db.executeQuery(query, values: [episodeUuid])
+                defer { resultSet.close() }
+
+                exists = resultSet.next()
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.playlistContainsEpisode error: \(error)")
+            }
+        }
+
+        return exists
+    }
+
+    func manualPlaylistUUIDs(for episodeUUID: String, dbQueue: PCDBQueue) -> [String] {
+        var uuids: [String] = []
+        dbQueue.read { db in
+            do {
+                let query = """
+                        SELECT playlist_uuid
+                        FROM \(DataManager.playlistEpisodeTableName)
+                        WHERE episodeUuid = ?
+                        GROUP BY playlist_uuid
+                    """
+                let resultSet = try db.executeQuery(query, values: [episodeUUID])
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let uuid = resultSet.string(forColumn: "playlist_uuid") {
+                        uuids.append(uuid)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.manualPlaylistUUIDs error: \(error)")
+            }
+        }
+        return uuids
     }
 
     func updatePosition(playlist: EpisodeFilter, newPosition: Int32, dbQueue: PCDBQueue) {
@@ -281,7 +329,7 @@ class PlaylistDataManager {
                     allPlaylists.append(filter)
                 }
             } catch {
-                FileLog.shared.addMessage("PlaylistDataManager.allFilters error: \(error)")
+                FileLog.shared.addMessage("PlaylistDataManager.allPlaylists error: \(error)")
             }
         }
         return allPlaylists
