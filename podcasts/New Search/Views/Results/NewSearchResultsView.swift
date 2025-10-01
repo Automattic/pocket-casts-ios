@@ -15,7 +15,7 @@ struct NewSearchResultsView: View {
     @State var displayMode: SearchResultsListView.DisplayMode = .allResults
 
     var body: some View {
-        ZStack {
+        Group {
             if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
                 HStack(alignment: .center) {
                     EmptyStateView(
@@ -31,7 +31,7 @@ struct NewSearchResultsView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
-            } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts || searchResults.isSearchingPredictive {
+            } else if searchResults.isSearchingForEpisodes || searchResults.isSearchingForPodcasts || (searchResults.isSearchingPredictive && searchResults.predictive.isEmpty) {
                   ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(AppTheme.loadingActivityColor().color)
@@ -43,32 +43,36 @@ struct NewSearchResultsView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
+            } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
+                List {
+                    Section {
+                        PredictiveList()
+                    }
+                }
+                .scrollDismissesKeyboard(.immediately)
+                .listStyle(.plain)
+                .listRowSeparatorTint(theme.primaryUi05)
+                .scrollContentBackground(.hidden)
             } else {
                 VStack {
-                    if !searchResults.isShowingPredictiveSearch, FeatureFlag.searchImprovements.enabled {
-                        filterPicker
-                    }
+                    filterPicker
                     List {
-                        if searchResults.isShowingPredictiveSearch {
+                        if displayMode == .allResults || displayMode == .podcasts {
                             Section {
-                                predictiveList
+                                podcastList
                             }
-                        } else {
-                            if displayMode == .allResults || displayMode == .podcasts {
-                                Section {
-                                    podcastList
-                                }
-                            }
-                            if displayMode == .allResults || displayMode == .episodes {
-                                Section {
-                                    episodeList
-                                }
+                        }
+                        if displayMode == .allResults || displayMode == .episodes {
+                            Section {
+                                episodeList
                             }
                         }
                     }
+                    .scrollDismissesKeyboard(.immediately)
                     .listStyle(.plain)
                     .listRowSeparatorTint(theme.primaryUi05)
                     .scrollContentBackground(.hidden)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
             }
         }
