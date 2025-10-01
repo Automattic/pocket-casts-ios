@@ -88,6 +88,12 @@ open class SubscriptionHelper: NSObject {
         return renewalDate
     }
 
+    public class func subscriptionCreateDate() -> Date? {
+        let createDateTimeInterval = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionCreateDate)
+        let createDate = Date(timeIntervalSince1970: TimeInterval(createDateTimeInterval))
+        return createDate
+    }
+
     public class func timeToSubscriptionExpiry() -> TimeInterval? {
         if !hasRenewingSubscription() {
             let renewalTimeInterval = UserDefaults.standard.double(forKey: ServerConstants.UserDefaults.subscriptionExpiryDate)
@@ -129,6 +135,10 @@ open class SubscriptionHelper: NSObject {
 
     public class func setSubscriptionExpiryDate(_ value: TimeInterval) {
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.subscriptionExpiryDate)
+    }
+
+    public class func setSubscriptionCreateDate(_ value: TimeInterval) {
+        UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.subscriptionCreateDate)
     }
 
     public class func setSubscriptionGiftDays(_ value: Int) {
@@ -230,5 +240,29 @@ open class SubscriptionHelper: NSObject {
             }
         }
         return nil
+    }
+
+    // MARK: Banner AD
+
+    public class var shouldRemoveBannerAd: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.removeBannerAds)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.removeBannerAds)
+        }
+    }
+
+    public class var shouldRemoveDiscoverAds: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.removeDiscoverAds)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: ServerConstants.UserDefaults.removeDiscoverAds)
+        }
+    }
+
+    public class var shouldDisplayBannerAd: Bool {
+        FeatureFlag.bannerAdPodcasts.enabled && !(SubscriptionHelper.hasActiveSubscription() || SubscriptionHelper.shouldRemoveBannerAd)
     }
 }

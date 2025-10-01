@@ -1086,6 +1086,8 @@ Folge dauerte
     <string>Alle Funktionen in Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Zeitstempel mit Lesezeichen behalten</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ GB Cloud-Speicher für deine Dateien</string>
     <key>feature_marketing_early_access</key>
     <string>Frühzeitiger Zugriff auf neue Funktionen</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Hinweis: Möglicherweise musst du dir die OPML-Datei per E-Mail zuschicken. Drü
 Podcasts mit</string>
     <key>in_progress</key>
     <string>Unfertig</string>
+    <key>interests_select_at_least</key>
+    <string>Mindestens %1$@ auswählen</string>
+    <key>interests_show_more_categories</key>
+    <string>Weitere Kategorien anzeigen</string>
+    <key>interests_subtitle</key>
+    <string>Tolle Podcasts, handverlesen von echten Menschen – nur für dich!</string>
+    <key>interests_title</key>
+    <string>Erzähle uns von deinen Lieblingsthemen</string>
     <key>keycommand_close_player</key>
     <string>Player schließen</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>Füge Folgen basierend auf Regeln automatisch hinzu.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>In eine intelligente Wiedergabeliste umwandeln</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ Folgen • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Folgen hinzufügen</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Shows durchsuchen</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Wische bei einer Folge nach links, um sie zu deiner Wiedergabeliste hinzuzufügen.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Deine Wiedergabeliste erstellen</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Folgen zu deiner Wiedergabeliste hinzufügen</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Intelligente Wiedergabeliste erstellen</string>
     <key>playlist_preview_title</key>
     <string>Vorschau von %@ anzeigen</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Jetzt kannst du entweder stolz darauf sein, deine Liste durchgehört zu haben, oder deine Regeln bearbeiten, um dir noch mehr Podcasts vorzuknöpfen.</string>
     <key>playlist_smart_preview_description</key>
     <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Wiedergabeliste hinzuzufügen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>FILTERANZAHL FÜR FOLGE</string>
     <key>settings_badge_new_since_opened</key>
     <string>Neu seit Öffnen der App</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>ANZAHL DER FOLGEN IN INTELLIGENTEN WIEDERGABELISTEN</string>
     <key>settings_badge_total_unplayed</key>
     <string>Anzahl nicht angehörter Titel</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Benachrichtigungen</string>
     <key>settings_notifications_filter_count</key>
     <string>Filteranzahl</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Anzahl intelligenter Wiedergabelisten</string>
     <key>settings_notifications_subtitle</key>
     <string>Du wirst über neue Folgen benachrichtigt. Hilft dir auch, die Zuverlässigkeit von automatischen Downloads zu verbessern.</string>
     <key>settings_opml</key>

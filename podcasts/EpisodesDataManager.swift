@@ -143,21 +143,13 @@ class EpisodesDataManager {
         return EpisodeTableHelper.loadEpisodes(tintColor: tintColor, query: query, arguments: nil)
     }
 
-    func manualPlaylistEpisodes(
-        for playlist: EpisodeFilter,
-        limit: Int = Constants.Limits.maxFilterItems,
-        search: String? = nil
-    ) -> [ListEpisode] {
-        return [] //TODO: Implement new playlist query
-    }
-
-    func smartPlaylistEpisodes(
+    func playlistEpisodes(
         for playlist: EpisodeFilter,
         limit: Int = Constants.Limits.maxFilterItems,
         search: String? = nil
     ) -> [ListEpisode] {
         let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), searchTerm: search, limit: limit)
-        return EpisodeTableHelper.loadSmartPlaylistEpisodes(query: query)
+        return EpisodeTableHelper.loadPlaylistEpisodes(query: query)
     }
 
     // MARK: - Downloads

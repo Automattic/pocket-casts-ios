@@ -11,7 +11,7 @@ struct NewSearchResultsView: View {
     @State var identifier = 0
 
     @State var showInlineResults = false
-    @State var displayMode: SearchResultsListView.DisplayMode = .podcasts
+    @State var displayMode: SearchResultsListView.DisplayMode = .allResults
 
     var body: some View {
         ZStack {
@@ -43,22 +43,38 @@ struct NewSearchResultsView: View {
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
             } else {
-                List {
-                    Section {
-                        podcastList
-                    }
-                    if !searchResults.hideEpisodes {
-                        Section {
-                            episodeList
+                VStack {
+                    filterPicker
+                    List {
+                        if displayMode == .allResults || displayMode == .podcasts {
+                            Section {
+                                podcastList
+                            }
+                        }
+                        if displayMode == .allResults || displayMode == .episodes {
+                            Section {
+                                episodeList
+                            }
                         }
                     }
+                    .listStyle(.plain)
+                    .listRowSeparatorTint(theme.primaryUi05)
+                    .scrollContentBackground(.hidden)
                 }
-                .listStyle(.plain)
-                .listRowSeparatorTint(theme.primaryUi05)
-                .scrollContentBackground(.hidden)
             }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
+    }
+
+    @ViewBuilder var filterPicker: some View {
+        PillSegmentControl(SearchResultsListView.DisplayMode.allCases, selection: $displayMode) { item in
+            Text(item.localizedDescription)
+        }
+        .padding(.bottom, 8)
+        .background(theme.secondaryUi01)
+        .onChange(of: displayMode) { newValue in
+            searchAnalyticsHelper.trackFilterTapped(newValue.analyticsDescription)
+        }
     }
 
     @ViewBuilder var podcastList: some View {

@@ -2028,6 +2028,9 @@
 /* Episodes will be displayed in order from the shortest to the longest. */
 "podcasts_episode_sort_shortest_to_longest" = "Shortest to Longest";
 
+/* Episodes will be displayed in custom order by drag and drop */
+"podcasts_episode_sort_drag_and_drop" = "Drag and Drop";
+
 /* Presents the podcasts with large podcast artwork tiles. */
 "podcasts_large_grid" = "Large Grid";
 
@@ -5525,3 +5528,5 @@
 /* Interests screen button title for interests confirmation. The %1$@ argument is the minimum number of interests you need to select. Ex: Select at least 3*/
 "interests_select_at_least" = "Select at least %1$@";
 
+/* Search Results filter option */
+"all_results" = "All Results";

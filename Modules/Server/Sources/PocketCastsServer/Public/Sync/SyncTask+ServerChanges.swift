@@ -286,10 +286,6 @@ extension SyncTask {
             return
         }
 
-        if playlistItem.hasManual, playlistItem.manual.value {
-            return // we don't support manual playlists
-        }
-
         if existingPlaylist == nil {
             existingPlaylist = EpisodeFilter()
             existingPlaylist?.uuid = playlistUuid
@@ -297,7 +293,6 @@ extension SyncTask {
 
         guard let playlist = existingPlaylist else { return }
 
-        playlist.wasDeleted = false
         playlist.syncStatus = SyncStatus.synced.rawValue
         if playlistItem.hasTitle {
             playlist.playlistName = playlistItem.title.value
@@ -347,14 +342,63 @@ extension SyncTask {
         if playlistItem.hasLongerThan {
             playlist.longerThan = playlistItem.longerThan.value
         }
-
+        if playlistItem.hasManual {
+            playlist.manual = playlistItem.manual.value
+        }
         if playlistItem.hasPodcastUuids {
             playlist.podcastUuids = playlistItem.podcastUuids.value
         } else {
             playlist.podcastUuids = ""
         }
 
+        let serverSet = Set(playlistItem.episodeOrder)
+        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+        let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+
+        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode in
+            let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
+            guard let playlistEpisode else { return nil }
+            return Episode(playlistEpisode)
+        }
+
+        addedEpisodes.forEach { episode in
+            guard DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil else { return }
+
+            if episode.addedDate == nil {
+                episode.addedDate = Date()
+            }
+            if episode.podcast_id == 0 {
+                episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+            }
+
+            DataManager.sharedManager.save(episode: episode)
+        }
+
+        DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+
+        updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
+
+        playlist.syncStatus = SyncStatus.synced.rawValue
         DataManager.sharedManager.save(playlist: playlist)
+
+        addedEpisodes.forEach { addedEpisode in
+            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+        }
+    }
+
+    private func updateEpisodePositionsIfNeeded(for playlistItem: Api_SyncUserPlaylist, playlist: EpisodeFilter) {
+        guard playlist.manual else { return }
+
+        let orderedEpisodeUuids = playlistItem.episodeOrder.isEmpty ? playlistItem.episodes.map { $0.episode } : playlistItem.episodeOrder
+        guard !orderedEpisodeUuids.isEmpty else { return }
+
+        var processedUuids = Set<String>()
+
+        for (index, episodeUuid) in orderedEpisodeUuids.enumerated() {
+            guard !episodeUuid.isEmpty, processedUuids.insert(episodeUuid).inserted else { continue }
+
+            DataManager.sharedManager.moveEpisode(episodeUuid, in: playlist, to: index)
+        }
     }
 
     func isPlayerPlaying(episode: Episode) -> Bool {

@@ -13,15 +13,29 @@ struct PodcastDetailsTabView: View {
         case episodes
         case bookmarks
         case youMightLike
+
+        init(from viewMode: PodcastViewController.ViewMode) {
+            switch viewMode {
+            case .episodes:
+                self = .episodes
+            case .bookmarks:
+                self = .bookmarks
+            case .youMightLike:
+                self = .youMightLike
+            }
+        }
     }
 
     var body: some View {
-        if FeatureFlag.recommendations.enabled {
-            ScrollView(.horizontal, showsIndicators: false) {
+        Group {
+            if FeatureFlag.recommendations.enabled {
+                ScrollView(.horizontal, showsIndicators: false) { tabs }
+            } else {
                 tabs
             }
-        } else {
-            tabs
+        }
+        .onReceive(delegate?.currentViewModePublisher ?? Just(.episodes).eraseToAnyPublisher()) { viewMode in
+            selectedTab = Tab(from: viewMode)
         }
     }
 
@@ -39,6 +53,7 @@ struct PodcastDetailsTabView: View {
 
             Text(L10n.bookmarks)
                 .buttonize {
+                    selectedTab = .bookmarks
                     delegate?.showBookmarks()
                 } customize: { config in
                     config.label

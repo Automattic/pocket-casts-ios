@@ -64,7 +64,7 @@ public enum SyncStatus: Int32 {
 }
 
 public enum PlaylistSort: Int32 {
-    case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3
+    case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3, dragAndDrop = 4
 }
 
 public struct EpisodeBasicData {

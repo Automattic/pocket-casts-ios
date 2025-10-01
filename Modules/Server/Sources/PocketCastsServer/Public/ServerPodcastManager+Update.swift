@@ -258,7 +258,9 @@ extension ServerPodcastManager {
         if serverUuids.count == 0 { return } // don't clean up based on empty episodes results
 
         let inStr = serverUuids.joined(separator: ",")
-        let nonServerEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcast_id == ? AND uuid NOT IN (\(inStr))", arguments: [podcast.id])
+        let playlistTable = DataManager.playlistEpisodeTableName
+        let customWhere = "podcast_id == ? AND uuid NOT IN (\(inStr)) AND uuid NOT IN (SELECT episodeUuid FROM \(playlistTable) WHERE wasDeleted = 0 AND playlist_uuid IS NOT NULL)"
+        let nonServerEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: customWhere, arguments: [podcast.id])
         for episode in nonServerEpisodes {
             guard ServerConfig.shared.syncDelegate?.episodeCanBeCleanedUp(episode: episode) == true else { continue }
 

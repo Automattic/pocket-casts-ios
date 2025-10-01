@@ -144,7 +144,7 @@ public class ServerPodcastManager: NSObject {
         return nil
     }
 
-    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, completion: ((Episode?) -> ())? = nil) {
+    public func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool = false, completion: ((Episode?) -> ())? = nil) {
         let url = ServerConstants.Urls.cache() + "mobile/podcast/findbyepisode/\(podcastUuid)/\(episodeUuid)"
 
         if let info = loadFrom(url: url) {
@@ -153,7 +153,7 @@ public class ServerPodcastManager: NSObject {
                 _ = addPodcast(podcastInfo: info, subscribe: false, lastModified: nil)
             }
 
-            let episode = addEpisode(podcastInfo: info)
+            let episode = addEpisode(podcastInfo: info, shouldUpdate: shouldUpdateEpisode)
             completion?(episode)
         }
     }
@@ -221,7 +221,7 @@ public class ServerPodcastManager: NSObject {
         return true
     }
 
-    private func addEpisode(podcastInfo: [String: Any]) -> Episode? {
+    private func addEpisode(podcastInfo: [String: Any], shouldUpdate: Bool = false) -> Episode? {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any],
               let podcastUuid = podcastJson["uuid"] as? String,
               let episodesJson = podcastJson["episodes"] as? [[String: Any]],
@@ -230,7 +230,31 @@ public class ServerPodcastManager: NSObject {
               let uuid = firstEpisode["uuid"] as? String else { return nil }
 
         if let episode = DataManager.sharedManager.findEpisode(uuid: uuid) {
-            return episode // we already have this episode
+            if shouldUpdate {
+                let updatedEpisode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
+
+                // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
+                episode.title = updatedEpisode.title
+                episode.downloadUrl = updatedEpisode.downloadUrl
+                episode.fileType = updatedEpisode.fileType
+                episode.sizeInBytes = updatedEpisode.sizeInBytes
+                episode.duration = updatedEpisode.duration
+                episode.publishedDate = updatedEpisode.publishedDate
+                episode.episodeNumber = updatedEpisode.episodeNumber
+                episode.seasonNumber = updatedEpisode.seasonNumber
+                episode.episodeType = updatedEpisode.episodeType
+
+                if episode.addedDate == nil {
+                    episode.addedDate = updatedEpisode.addedDate
+                }
+
+                if episode.podcast_id == 0 {
+                    episode.podcast_id = podcast.id
+                }
+
+                DataManager.sharedManager.save(episode: episode)
+            }
+            return episode
         }
 
         let episode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)

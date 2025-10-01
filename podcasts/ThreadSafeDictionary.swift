@@ -1,3 +1,5 @@
+import PocketCastsUtils
+
 class ThreadSafeDictionary<Key: Hashable, Value> {
 
     private let queue: DispatchQueue
@@ -9,10 +11,9 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
 
     deinit {
         //ensure that all work is done before releasing the table
-        queue.sync(flags: .barrier) { [weak self] in
+        queue.async(flags: .barrier) { [table] in
             //Last work item
-            print("Remove all before dealocating")
-            self?.table.removeAll()
+            FileLog.shared.console("Dealocating table with \(table.count) elements")
         }
     }
 
