@@ -10,13 +10,6 @@ extension PodcastManager {
         if SyncManager.isUserLoggedIn() {
             // if the user has signed in, there's a cleanup task that will run later to remove episodes they haven't interacted but we do some basic cleanup here
             // eg: remove downloaded/queued episodes and remove any that are in Up Next
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
-            for episode in episodes {
-                PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false)
-                downloadManager.removeFromQueue(episode: episode, fireNotification: false, userInitiated: false)
-                EpisodeManager.deleteDownloadedFiles(episode: episode)
-            }
-
             podcast.folderUuid = nil
             podcast.subscribed = 0
             podcast.autoArchiveEpisodeLimit = 0
