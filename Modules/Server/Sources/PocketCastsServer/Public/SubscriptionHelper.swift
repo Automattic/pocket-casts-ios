@@ -263,6 +263,10 @@ open class SubscriptionHelper: NSObject {
     }
 
     public class var shouldDisplayBannerAd: Bool {
-        FeatureFlag.bannerAdPodcasts.enabled && !(SubscriptionHelper.hasActiveSubscription() || SubscriptionHelper.shouldRemoveBannerAd)
+        FeatureFlag.bannerAdPodcasts.enabled && !(SubscriptionHelper.shouldRemoveBannerAd || SubscriptionHelper.hasActiveSubscription())
+    }
+
+    public class var shouldDisplayPlayerBannerAd: Bool {
+        FeatureFlag.bannerAdPlayer.enabled && !(SubscriptionHelper.shouldRemoveBannerAd || SubscriptionHelper.hasActiveSubscription())
     }
 }
