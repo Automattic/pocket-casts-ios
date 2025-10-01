@@ -700,6 +700,7 @@ enum AnalyticsEvent: String {
     case searchDismissed
     case searchPerformed
     case searchFailed
+    case searchPredictiveFailed
     case searchResultTapped
     case searchListShown
     case searchCleared

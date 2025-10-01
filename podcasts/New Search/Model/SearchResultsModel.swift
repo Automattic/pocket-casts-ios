@@ -68,12 +68,10 @@ class SearchResultsModel: ObservableObject {
                 show(predictiveResults: results)
             } catch {
                 predictiveSearchError = error
-                //analyticsHelper.trackFailed(error)
+                analyticsHelper.trackPredictiveFailed(error)
             }
             isSearchingPredictive = false
         }
-
-        //analyticsHelper.trackSearchPerformed()
     }
 
     @MainActor
