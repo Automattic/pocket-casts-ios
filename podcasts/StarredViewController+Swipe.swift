@@ -55,5 +55,9 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: starredTable, at: indexPath)
     }
 
-    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { } // we don't support this one
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
+        let manualPlaylistsChooser = ManualPlaylistsChooserViewController(episode: episode)
+        let navVC = SJUIUtils.navController(for: manualPlaylistsChooser)
+        present(navVC, animated: true, completion: nil)
+    }
 }

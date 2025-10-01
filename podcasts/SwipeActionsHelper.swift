@@ -4,12 +4,22 @@ import PocketCastsUtils
 
 enum SwipeSourceType {
     case podcast
-    case playlistDetail
+    case smartPlaylistDetail
+    case manualPlaylistDetail
     case filter
     case downloads
     case starred
     case listeningHistory
     case uploaded
+
+    var canAddToManualPlaylist: Bool {
+        switch self {
+        case .filter, .uploaded, .manualPlaylistDetail:
+            false
+        default:
+            true
+        }
+    }
 }
 
 protocol SwipeHandler: AnyObject {
@@ -112,7 +122,7 @@ enum SwipeActionsHelper {
             })
             tableSwipeActions.addAction(shareAction)
 
-            if FeatureFlag.playlistsRebranding.enabled, swipeHandler.swipeSourceType == .podcast {
+            if FeatureFlag.playlistsRebranding.enabled, swipeHandler.swipeSourceType.canAddToManualPlaylist {
                 let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
                         swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
                         Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
