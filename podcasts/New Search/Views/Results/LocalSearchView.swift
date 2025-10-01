@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct UserEpisodesSearchView: View {
+struct LocalSearchView: View {
     @EnvironmentObject var theme: Theme
     @EnvironmentObject var searchResults: SearchResultsModel
     @Environment(\.dismiss) private var dismiss
@@ -76,59 +76,41 @@ struct UserEpisodesSearchView: View {
     private var content: some View {
         ZStack {
             if searchMode == .podcasts {
-                podcastResultsContent
-                    .transition(podcastTransition)
+                LocalSearchPodcastResultsView(
+                    listMode: podcastListMode,
+                    selectedFolder: selectedFolder,
+                    searchText: searchText,
+                    defaultLibraryItems: defaultLibraryItems,
+                    folderResults: filteredFolderPodcastResults,
+                    hasAnyPodcastsInFolder: !folderPodcasts.isEmpty,
+                    searchResults: podcastSearchResults,
+                    onSelectResult: { handleSelection(for: $0) }
+                )
+                .transition(podcastTransition)
             }
 
             if searchMode == .episodes {
-                episodeResultsContent
-                    .transition(episodeTransition)
+                LocalSearchEpisodeResultsView(
+                    isLoading: isEpisodeSearchInFlight,
+                    episodes: episodes,
+                    searchText: searchText,
+                    selectedPodcastTitle: selectedPodcast?.title,
+                    onAddEpisode: { handleAddEpisode($0) }
+                )
+                .transition(episodeTransition)
             }
         }
         .animation(navigationAnimation, value: searchMode)
     }
 
-    private var podcastResults: [PodcastFolderSearchResult] {
-        if shouldShowDefaultLibraryList {
-            return []
-        }
-
-        if selectedFolder != nil {
-            return filteredFolderPodcasts.compactMap { PodcastFolderSearchResult(from: $0) }
-        }
-
-        return searchResults.podcasts.filter { result in
+    private var podcastSearchResults: [PodcastFolderSearchResult] {
+        searchResults.podcasts.filter { result in
             (result.kind == .podcast || result.kind == .folder) && (result.isLocal ?? true)
         }
     }
 
-    @ViewBuilder
-    private var podcastResultsContent: some View {
-        ZStack {
-            if podcastListMode == .library {
-                defaultLibraryList
-                    .transition(libraryTransition)
-            }
-
-            if podcastListMode == .folder {
-                folderPodcastList
-                    .transition(forwardTransition)
-            }
-
-            if podcastListMode == .search {
-                searchResultsList
-                    .transition(searchTransition)
-            }
-        }
-        .animation(podcastListAnimation, value: podcastListMode)
-    }
-
     private var trimmedSearchText: String {
         searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private var shouldShowDefaultLibraryList: Bool {
-        podcastListMode == .library
     }
 
     private var podcastListMode: PodcastListMode {
@@ -155,210 +137,8 @@ struct UserEpisodesSearchView: View {
         }
     }
 
-    @ViewBuilder
-    private var defaultLibraryList: some View {
-        let entries = defaultLibraryItems
-
-        if entries.isEmpty {
-            podcastEmptyState
-        } else {
-            List {
-                listHeader
-                ForEach(Array(entries.enumerated()), id: \.element.id) { index, result in
-                    SearchResultCell(
-                        episode: nil,
-                        result: result,
-                        played: false,
-                        showDivider: index < entries.count - 1,
-                        showPodcastSubscribeButton: false,
-                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
-                        action: {
-                        handleSelection(for: result)
-                    })
-                    .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                }
-            }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-        }
-    }
-
-    @ViewBuilder
-    private var folderPodcastList: some View {
-        if filteredFolderPodcasts.isEmpty {
-            podcastEmptyState
-        } else {
-            List {
-                listHeader
-                ForEach(Array(filteredFolderPodcasts.enumerated()), id: \.element.uuid) { index, podcast in
-                    if let result = PodcastFolderSearchResult(from: podcast) {
-                        SearchResultCell(
-                            episode: nil,
-                            result: result,
-                            played: false,
-                            showDivider: index < filteredFolderPodcasts.count - 1,
-                            showPodcastSubscribeButton: false,
-                            cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
-                            action: {
-                            selectPodcast(result)
-                        })
-                        .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                    }
-                }
-            }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-        }
-    }
-
-    @ViewBuilder
-    private var searchResultsList: some View {
-        let podcasts = podcastResults
-        if podcasts.isEmpty {
-            podcastEmptyState
-        } else {
-            List {
-                listHeader
-                ForEach(Array(podcasts.enumerated()), id: \.element.id) { index, podcastResult in
-                    SearchResultCell(
-                        episode: nil,
-                        result: podcastResult,
-                        played: false,
-                        showDivider: index < podcasts.count - 1,
-                        showPodcastSubscribeButton: false,
-                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
-                        action: {
-                        handleSelection(for: podcastResult)
-                    })
-                    .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                }
-            }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-        }
-    }
-
-    @ViewBuilder
-    private var listHeader: some View {
-        if selectedFolder != nil {
-            EmptyView()
-        } else {
-            Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
-                .font(style: .headline, weight: .semibold)
-                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-        }
-    }
-
-    private var podcastEmptyState: some View {
-        VStack(spacing: 12) {
-            if let folder = selectedFolder {
-                if folderPodcasts.isEmpty {
-                    EmptyStateView(
-                        title: L10n.folderEmptyTitle,
-                        message: L10n.folderEmptyDescription,
-                        icon: { Image(systemName: "folder") }
-                    )
-                } else {
-                    EmptyStateView(
-                        title: L10n.discoverNoPodcastsFound,
-                        message: L10n.discoverNoPodcastsFoundMsg,
-                        icon: { Image(systemName: "info.circle") }
-                    )
-                }
-            } else {
-                let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-                if trimmed.isEmpty {
-                    Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
-                        .font(style: .title3, weight: .semibold)
-                        .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                    Text(L10n.listeningHistorySearchNoEpisodesText)
-                        .multilineTextAlignment(.center)
-                        .font(style: .body)
-                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                        .padding(.horizontal, 32)
-                } else {
-                    EmptyStateView(
-                        title: L10n.discoverNoPodcastsFound,
-                        message: L10n.discoverNoPodcastsFoundMsg,
-                        icon: { Image(systemName: "info.circle") }
-                    )
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top, 48)
-    }
-
-    @ViewBuilder
-    private var episodeResultsContent: some View {
-        if isEpisodeSearchInFlight {
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .tint(AppTheme.loadingActivityColor().color)
-        } else if episodes.isEmpty {
-            episodesEmptyState
-        } else {
-            List {
-                ForEach(Array(episodes.enumerated()), id: \.element) { index, searchResult in
-                    SearchResultCell(
-                        episode: searchResult,
-                        result: nil,
-                        played: false,
-                        showDivider: index < episodes.count - 1,
-                        showEpisodeAddButton: true,
-                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)) {
-                            guard let realEpisode = DataManager.sharedManager.findEpisode(uuid: searchResult.uuid) else {
-                                assertionFailure("Episode should exist")
-                                return
-                            }
-                            DataManager.sharedManager.add(episodes: [realEpisode], to: playlist)
-                            playlistEpisodeUUIDs.insert(searchResult.uuid)
-                            withAnimation {
-                                episodes.removeAll { $0.uuid == searchResult.uuid }
-                            }
-                            addedEpisodeCount += 1
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                }
-            }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-        }
-    }
-
-    private var episodesEmptyState: some View {
-        VStack(spacing: 12) {
-            let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-            if trimmed.count < 2 {
-                Text(selectedPodcast?.title ?? L10n.search)
-                    .font(style: .title3, weight: .semibold)
-                    .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                Text(L10n.listeningHistorySearchNoEpisodesText)
-                    .multilineTextAlignment(.center)
-                    .font(style: .body)
-                    .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                    .padding(.horizontal, 32)
-            } else {
-                EmptyStateView(
-                    title: L10n.listeningHistorySearchNoEpisodesTitle,
-                    message: L10n.listeningHistorySearchNoEpisodesText,
-                    icon: { Image(systemName: "info.circle") }
-                )
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top, 48)
+    private var filteredFolderPodcastResults: [PodcastFolderSearchResult] {
+        filteredFolderPodcasts.compactMap { PodcastFolderSearchResult(from: $0) }
     }
 
     private var searchMode: SearchMode {
@@ -542,6 +322,19 @@ struct UserEpisodesSearchView: View {
         currentSearchPodcastUUID = nil
     }
 
+    private func handleAddEpisode(_ searchResult: EpisodeSearchResult) {
+        guard let realEpisode = DataManager.sharedManager.findEpisode(uuid: searchResult.uuid) else {
+            assertionFailure("Episode should exist")
+            return
+        }
+        DataManager.sharedManager.add(episodes: [realEpisode], to: playlist)
+        playlistEpisodeUUIDs.insert(searchResult.uuid)
+        withAnimation {
+            episodes.removeAll { $0.uuid == searchResult.uuid }
+        }
+        addedEpisodeCount += 1
+    }
+
     private func clearSelectedPodcast() {
         withAnimation(navigationAnimation) {
             selectedPodcast = nil
@@ -570,45 +363,8 @@ struct UserEpisodesSearchView: View {
         reduceMotion ? .opacity : .move(edge: .trailing)
     }
 
-    private var libraryTransition: AnyTransition {
-        if reduceMotion {
-            return .opacity
-        }
-        return .asymmetric(
-            insertion: .move(edge: .leading),
-            removal: .move(edge: .leading)
-        )
-    }
-
-    private var forwardTransition: AnyTransition {
-        if reduceMotion {
-            return .opacity
-        }
-        return .asymmetric(
-            insertion: .move(edge: .trailing),
-            removal: .move(edge: .trailing)
-        )
-    }
-
-    private var searchTransition: AnyTransition {
-        if reduceMotion {
-            return .opacity
-        }
-        return .asymmetric(
-            insertion: .move(edge: .trailing),
-            removal: .move(edge: .leading)
-        )
-    }
-
     private var navigationAnimation: Animation {
         reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3)
-    }
-
-    private var podcastListAnimation: Animation? {
-        if case .search = podcastListMode {
-            return nil
-        }
-        return navigationAnimation
     }
 
     private func preloadEpisodesForSelectedPodcast() {
@@ -635,11 +391,11 @@ struct UserEpisodesSearchView: View {
 
 }
 
-private enum PodcastListMode {
+enum PodcastListMode {
     case library, folder, search
 }
 
-private extension UserEpisodesSearchView {
+private extension LocalSearchView {
     @ToolbarContentBuilder
     func searchToolbarContent() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -718,11 +474,11 @@ private extension EpisodeSearchResult {
     }
 }
 
-struct UserEpisodesSearchView_Previews: PreviewProvider {
+struct LocalSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        UserEpisodesSearchView(playlist: EpisodeFilter())
+        LocalSearchView(playlist: EpisodeFilter())
             .environmentObject(SearchAnalyticsHelper(source: .unknown))
-            .environmentObject(SearchHistoryModel(userDefaults: UserDefaults(suiteName: "UserEpisodesSearchViewPreview") ?? .standard))
+            .environmentObject(SearchHistoryModel(userDefaults: UserDefaults(suiteName: "LocalSearchViewPreview") ?? .standard))
             .previewWithAllThemes()
     }
 }

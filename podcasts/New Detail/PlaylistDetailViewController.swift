@@ -403,7 +403,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 //        }
         let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
         let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
-        let vc = UIHostingController(rootView: UserEpisodesSearchView(
+        let vc = UIHostingController(rootView: LocalSearchView(
             playlist: viewModel.playlist,
             dismissAction: { [weak self] in
                 self?.dismiss(animated: true)
