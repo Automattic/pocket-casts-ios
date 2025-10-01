@@ -139,9 +139,10 @@ class NewPlaylistViewController: PCViewController {
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
-        playlist.rawPlaylistType = 1
+        playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
+        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
         DataManager.sharedManager.save(playlist: playlist)
         UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
         delegate?.filterCreated(newFilter: playlist)

@@ -25,12 +25,7 @@ class PlaylistRefreshOperation: Operation {
 
             let newData: [ListEpisode]
             if FeatureFlag.playlistsRebranding.enabled {
-                switch playlist.playlistType {
-                case .smart:
-                    newData = episodesDataManager.smartPlaylistEpisodes(for: playlist)
-                case .manual:
-                    newData = episodesDataManager.manualPlaylistEpisodes(for: playlist)
-                }
+                newData = episodesDataManager.playlistEpisodes(for: playlist)
             } else {
                 newData = episodesDataManager.episodes(for: playlist)
             }

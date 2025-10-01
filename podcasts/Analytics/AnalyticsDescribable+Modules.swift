@@ -82,6 +82,8 @@ extension PlaylistSort: AnalyticsDescribable {
             return "shortest_to_longest"
         case .longestToShortest:
             return "longest_to_shortest"
+        case .dragAndDrop:
+            return "drag_and_drop"
         }
     }
 }

@@ -4,16 +4,11 @@ import PocketCastsUtils
 import UIKit
 
 class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
-    private let legacyDataSource = PrivacySettingsLegacyDataSource()
     private let dataSource = PrivacySettingsDataSource()
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
-            if FeatureFlag.podcastNewformAppsFlyer.enabled {
-                dataSource.registerCells(for: settingsTable)
-            } else {
-                legacyDataSource.registerCells(for: settingsTable)
-            }
+            dataSource.registerCells(for: settingsTable)
         }
     }
 
@@ -22,11 +17,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
 
         title = L10n.settingsPrivacy
         settingsTable.rowHeight = UITableView.automaticDimension
-        if FeatureFlag.podcastNewformAppsFlyer.enabled {
-            settingsTable.dataSource = dataSource
-        } else {
-            settingsTable.dataSource = legacyDataSource
-        }
+        settingsTable.dataSource = dataSource
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +34,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 2, 5:
+        case 3:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
         default:
             break

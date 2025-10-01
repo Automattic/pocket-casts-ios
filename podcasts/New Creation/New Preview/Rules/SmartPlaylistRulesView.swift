@@ -159,7 +159,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
                     PlaylistEpisodePreviewRowView(
                         episode: episode.episode
                     )
-                        .frame(height: 80)
+                        .frame(minHeight: 80)
                         .listRowClearStyle()
                 }
                 .padding(.leading, 16.0)
@@ -199,7 +199,6 @@ fileprivate extension View {
 
         private func model() -> EpisodeFilter {
             let filter = EpisodeFilter()
-            filter.rawPlaylistType = 0
             filter.playlistName = "New Releases"
             filter.podcastSmartRuleApplied = true
             return filter

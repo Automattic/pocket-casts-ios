@@ -12,7 +12,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        6
+        4
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,23 +41,6 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.textLabel?.font = .systemFont(ofSize: 16)
             cell.textLabel?.numberOfLines = 0
             return cell
-        case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.settingsThirdPartyAnalytics
-            cell.cellSwitch.isOn = AppTrackingTransparencyController.shared.userGaveConsent()
-            cell.cellSwitch.isEnabled = AppTrackingTransparencyController.shared.userSawPrompt()
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(openSettings(_:)), for: UIControl.Event.valueChanged)
-            return cell
-        case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId, for: indexPath) as! ThemeableCellWithoutSelection
-            cell.style = .primaryUi02
-            cell.imageView?.image = UIImage()
-            cell.textLabel?.textColor = ThemeColor.primaryText02()
-            cell.textLabel?.text = L10n.settingsAllowCollectionThirdParty
-            cell.textLabel?.font = .systemFont(ofSize: 16)
-            cell.textLabel?.numberOfLines = 0
-            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId, for: indexPath) as! ThemeableCell
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
@@ -72,20 +55,6 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             Analytics.shared.optInOfAnalytics()
         } else {
             Analytics.shared.optOutOfAnalytics()
-        }
-    }
-
-    @objc private func openSettings(_ sender: UISwitch) {
-        if sender.isOn {
-            Analytics.track(.analyticsThirdPartyOptIn)
-        } else {
-            Analytics.track(.analyticsThirdPartyOptOut)
-        }
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url, options: [:]) {
-                _ in
-                sender.isOn = AppTrackingTransparencyController.shared.userGaveConsent()
-            }
         }
     }
 }

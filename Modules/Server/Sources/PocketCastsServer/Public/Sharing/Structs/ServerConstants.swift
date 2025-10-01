@@ -145,6 +145,9 @@ public enum ServerConstants {
         static let statsAutoSkipServer = "StatsIntroSkipServer"
         static let statsStartedDateServer = "StatsStartedDateServer"
         static let userId = "UserId"
+        static let removeBannerAds = "SJSubscriptionRemoveBannerAds"
+        static let removeDiscoverAds = "SJSubscriptionRemoveDiscoverAds"
+        static let subscriptionCreateDate = "SJSubscriptionCreateDate"
     }
 
     public enum Limits {

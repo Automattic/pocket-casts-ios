@@ -1086,6 +1086,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Plus のすべての機能</string>
     <key>feature_marketing_bookmarks</key>
     <string>ブックマークでタイムスタンプを保存</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>ファイル用の%1$@GB のクラウドストレージ</string>
     <key>feature_marketing_early_access</key>
     <string>新機能への早期アクセス</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Pocket Casts を最大限に活用しましょう。</string>
 移すことができます</string>
     <key>in_progress</key>
     <string>進行中</string>
+    <key>interests_select_at_least</key>
+    <string>%1$@件以上を選択</string>
+    <key>interests_show_more_categories</key>
+    <string>カテゴリーをさらに表示</string>
+    <key>interests_subtitle</key>
+    <string>人間が選んだ素晴らしいポッドキャストをお届けします !</string>
+    <key>interests_title</key>
+    <string>お気に入りのトピックについて教えてください</string>
     <key>keycommand_close_player</key>
     <string>プレーヤーを閉じる</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ルールに基づいてエピソードを自動追加します。</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>スマートプレイリストを作成</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@件のエピソード • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>すべてのエピソード</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>ショーを閲覧</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>エピソードを左にスワイプしてプレイリストに追加します。</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>プレイリストの作成を開始</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>プレイリストにエピソードを追加</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>スマートプレイリストを作成</string>
     <key>playlist_preview_title</key>
     <string>%@ をプレビュー</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>リストにあるすべてのエピソードを再生しました。ルールを編集してさらに追加しますか ?</string>
     <key>playlist_smart_preview_description</key>
     <string>スマートルールを設定して、スマートプレイリストにエピソードを自動的に追加します。</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードのフィルター数</string>
     <key>settings_badge_new_since_opened</key>
     <string>アプリ開始後の新エピソード</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>スマートプレイリストのエピソード数</string>
     <key>settings_badge_total_unplayed</key>
     <string>合計未再生数</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
     <string>フィルター数</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>スマートプレイリスト数</string>
     <key>settings_notifications_subtitle</key>
     <string>新規エピソードが追加されたら通知します。 自動ダウンロードの信頼度向上にも貢献します。</string>
     <key>settings_opml</key>

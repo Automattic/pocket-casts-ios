@@ -45,6 +45,12 @@ class EpisodeDataManager {
         "deselectedChaptersModified"
     ]
 
+    enum Constants {
+        enum Limits {
+            static let maxPlaylistItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+        }
+    }
+
     // MARK: - Query
 
     func findBy(uuid: String, dbQueue: PCDBQueue) -> Episode? {
@@ -79,6 +85,33 @@ class EpisodeDataManager {
                 FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
             }
         }
+        return episodes
+    }
+
+    func findMatchingEpisodes(uuids: [String], dbQueue: PCDBQueue) -> [String] {
+        let list = uuids.map { "'\($0)'" }.joined(separator: ",")
+
+        let query = """
+        SELECT uuid from \(DataManager.episodeTableName)
+        WHERE uuid IN (\(list))
+        LIMIT \(uuids.count)
+        """
+
+        var episodes = [String]()
+        dbQueue.read { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    episodes.append(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.findMissingEpisodes error: \(error)")
+            }
+        }
+
         return episodes
     }
 
@@ -146,7 +179,7 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
     }
 
-    func findSmartPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
+    func findPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
         loadMultiple(query: query, values: arguments, dbQueue: dbQueue)
     }
 
@@ -1077,7 +1110,14 @@ public enum SortOrder {
 
 extension EpisodeDataManager {
     func findGhostEpisodes(_ dbQueue: PCDBQueue) -> [Episode] {
-        let query = "SELECT SJEpisode.* FROM SJEpisode LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE SJPodcast.uuid IS NULL"
+        let playlistTable = DataManager.playlistEpisodeTableName
+        let query = """
+        SELECT SJEpisode.*
+        FROM SJEpisode
+        LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid
+        LEFT JOIN \(playlistTable) ON \(playlistTable).episodeUuid = SJEpisode.uuid AND \(playlistTable).wasDeleted = 0 AND \(playlistTable).playlist_uuid IS NOT NULL
+        WHERE SJPodcast.uuid IS NULL AND \(playlistTable).episodeUuid IS NULL
+        """
 
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
     }

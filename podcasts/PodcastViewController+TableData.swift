@@ -49,6 +49,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         episodesTable.register(UINib(nibName: "NoSearchResultsCell", bundle: nil), forCellReuseIdentifier: PodcastViewController.noSearchResultsCell)
         episodesTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
         episodesTable.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
+        episodesTable.register(BookmarksHostingCell.self, forCellReuseIdentifier: BookmarksHostingCell.reuseIdentifier)
     }
 
     func registerLongPress() {
@@ -89,7 +90,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return 2
         case .bookmarks:
-            return 0 // Bookmarks are shown in a separate controller
+            return 2 // Header + Bookmarks
         case .youMightLike:
             if isLoadingRecommendations.value || !hasSimilarShows.value {
                 return 2 // Header + Loading
@@ -113,7 +114,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         case .episodes:
             return episodeInfo[safe: section]?.elements.count ?? 0
         case .bookmarks:
-            return 0
+            return section == PodcastViewController.headerSection ? 1 : 1 // Header + Bookmarks list
         case .youMightLike:
             switch youMightLikeSectionType(for: section) {
             case .header, .loading, .empty:
@@ -194,7 +195,19 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
-            return UITableViewCell()
+            if indexPath.section == PodcastViewController.headerSection {
+                let cell = podcastHeaderCell
+                return cell
+            } else {
+                guard let bookmarkViewModel = bookmarkViewModel else {
+                    return UITableViewCell()
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
+                cell.configure(with: bookmarkViewModel) { [weak self] state in
+                    self?.updateBookmarksActionBar(state: state, viewModel: bookmarkViewModel)
+                }
+                return cell
+            }
 
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
@@ -253,11 +266,17 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == PodcastViewController.headerSection {
             return podcastHeaderCell.rowHeight
         }
+
+        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
+            // For bookmarks, we need to calculate the height dynamically
+            return UITableView.automaticDimension
+        }
+
         return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        cellHeights[indexPath] ?? 80
+        return cellHeights[indexPath] ?? 80
     }
 
     // MARK: - Selection
@@ -311,8 +330,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .bookmarks:
-            break
-
+            if let headerCell = tableView.cellForRow(at: indexPath) as? PodcastHeaderCell,
+               !isMultiSelectEnabled,
+               indexPath.section == PodcastViewController.headerSection {
+                withAnimation(.interpolatingSpring(stiffness: 100, damping: 15)) {
+                    headerCell.viewModel.toggleExpanded()
+                }
+            }
         case .youMightLike:
             switch youMightLikeSectionType(for: indexPath.section) {
             case .header:
@@ -358,36 +382,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - Table Config
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .youMightLike {
-            switch youMightLikeSectionType(for: section) {
-            case .podroll:
-                return 34
-            case .podcasts:
-                switch youMightLikeSectionType(for: section - 1) {
-                case .header:
-                    return 16 // Padding between header
-                case .podroll:
-                    return 34
-                default:
-                    return CGFloat.leastNonzeroMagnitude
-                }
-            default:
-                return CGFloat.leastNonzeroMagnitude
-            }
-        }
-        return PodcastViewController.allEpisodesSection == section ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
-    }
-
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if currentViewMode == .youMightLike {
-            return CGFloat.leastNonzeroMagnitude
-        }
-        return PodcastViewController.allEpisodesSection == section ? 100 : CGFloat.leastNonzeroMagnitude
+        return headerHeightValue(for: currentViewMode, section: section, estimated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard currentViewMode == .youMightLike else {
+            // Episodes show a UIKit search header; Bookmarks embeds search inside its cell.
             return currentViewMode == .episodes ? searchController?.view : nil
         }
 
@@ -441,6 +442,39 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         return CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return headerHeightValue(for: currentViewMode, section: section, estimated: false)
+    }
+
+    private func headerHeightValue(for mode: ViewMode, section: Int, estimated: Bool) -> CGFloat {
+        switch mode {
+        case .bookmarks:
+            // Remove default header spacing above Bookmarks list so the search field aligns under tabs
+            return .leastNonzeroMagnitude
+        case .youMightLike:
+            switch youMightLikeSectionType(for: section) {
+            case .podroll:
+                return 34
+            case .podcasts:
+                switch youMightLikeSectionType(for: section - 1) {
+                case .header:
+                    return 16 // Padding between header
+                case .podroll:
+                    return 34
+                default:
+                    return .leastNonzeroMagnitude
+                }
+            default:
+                return .leastNonzeroMagnitude
+            }
+        case .episodes:
+            if PodcastViewController.allEpisodesSection == section {
+                return estimated ? 100 : UITableView.automaticDimension
+            }
+            return .leastNonzeroMagnitude
+        }
     }
 
     // MARK: - Swipe Actions

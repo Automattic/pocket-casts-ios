@@ -1086,6 +1086,8 @@ du lyssnade på var
     <string>Alla funktionerna i Plus</string>
     <key>feature_marketing_bookmarks</key>
     <string>Behåll tidsstämplar med bokmärken</string>
+    <key>feature_marketing_cloud_storage</key>
+    <string>%1$@ GB molnlagring för dina filer</string>
     <key>feature_marketing_early_access</key>
     <string>Tidig åtkomst till nya funktioner</string>
     <key>feature_marketing_extra_themes_icons</key>
@@ -1470,6 +1472,14 @@ Anmärkning: Du kan behöva skicka OPML-filen till dig själv via e-post, trycka
 podcasts med dig</string>
     <key>in_progress</key>
     <string>Pågår</string>
+    <key>interests_select_at_least</key>
+    <string>Välj minst %1$@</string>
+    <key>interests_show_more_categories</key>
+    <string>Visa fler kategorier</string>
+    <key>interests_subtitle</key>
+    <string>Bra podcasts, utvalda av riktiga människor, är på väg!</string>
+    <key>interests_title</key>
+    <string>Berätta om dina favoritämnen</string>
     <key>keycommand_close_player</key>
     <string>Stäng spelare</string>
     <key>keycommand_decrease_speed</key>
@@ -2025,10 +2035,24 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Lägg automatiskt till avsnitt baserat på regler.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Gör till smart spellista</string>
+    <key>playlist_detail_description</key>
+    <string>%1$@ avsnitt • %2$@</string>
+    <key>playlist_manual_add_episodes</key>
+    <string>Lägg till avsnitt</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Bläddra bland shower</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
+    <key>playlist_manual_empty_state_title</key>
+    <string>Börja bygga din spellista</string>
+    <key>playlist_manual_empty_state_title_no_podcasts</key>
+    <string>Lägg till avsnitt i din spellista</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Skapa smart spellista</string>
     <key>playlist_preview_title</key>
     <string>Förhandsgranska %@</string>
+    <key>playlist_smart_no_episodes_msg</key>
+    <string>Det är antingen dags att fira att den här listan är slutförd eller att redigera dina regler för att hitta mer.</string>
     <key>playlist_smart_preview_description</key>
     <string>Konfigurera smarta regler för att automatiskt lägga till avsnitt i din smarta spellista.</string>
     <key>playlist_smart_preview_enabled_rules</key>
@@ -2795,6 +2819,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>FILTERANTAL FÖR AVSNITT</string>
     <key>settings_badge_new_since_opened</key>
     <string>Nya sedan appen öppnades</string>
+    <key>settings_badge_smart_playlist_header</key>
+    <string>ANTAL AVSNITT FÖR SMART SPELLISTA</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totalt antal ospelade</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -2971,6 +2997,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Aviseringar</string>
     <key>settings_notifications_filter_count</key>
     <string>Filterantal</string>
+    <key>settings_notifications_smart_playlist_count</key>
+    <string>Antal för smart spellista</string>
     <key>settings_notifications_subtitle</key>
     <string>Du blir meddelad när ett nytt avsnitt släpps. Det är också användbart för att förbättra tillförlitligheten av automatisk nedladdning.</string>
     <key>settings_opml</key>

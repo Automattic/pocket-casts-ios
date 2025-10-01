@@ -60,29 +60,43 @@ extension PodcastViewController {
     }
 
     @IBAction func selectAllTapped() {
-        let shouldSelectAll = multiSelectAllBtn.title(for: .normal) == L10n.selectAll
-        if shouldSelectAll {
-            guard let allObjects = episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
-            episodesTable.selectAllBelow(indexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            // Forward select all/deselect all to bookmarks VM
+            vm.toggleSelectAll()
+            updateSelectAllBtn()
         } else {
-            episodesTable.deselectAll()
-            if selectedEpisodes.count != 0 { // special case where hidden (archived) episodes are selected
-                selectedEpisodes.removeAll()
+            let shouldSelectAll = multiSelectAllBtn.title(for: .normal) == L10n.selectAll
+            if shouldSelectAll {
+                guard let allObjects = episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+                episodesTable.selectAllBelow(indexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
+            } else {
+                episodesTable.deselectAll()
+                if selectedEpisodes.count != 0 { // special case where hidden (archived) episodes are selected
+                    selectedEpisodes.removeAll()
+                }
             }
+            updateSelectAllBtn()
         }
-        updateSelectAllBtn()
     }
 
     @IBAction func cancelTapped() {
-        isMultiSelectEnabled = false
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            vm.toggleMultiSelection()
+        } else {
+            isMultiSelectEnabled = false
+        }
     }
 
     func updateSelectAllBtn() {
-        let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
-        if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) {
-            multiSelectAllBtn.setTitle(L10n.selectAll, for: .normal)
+        if currentViewMode == .bookmarks, let vm = bookmarkViewModel {
+            multiSelectAllBtn.setTitle(vm.hasSelectedAll ? L10n.deselectAll : L10n.selectAll, for: .normal)
         } else {
-            multiSelectAllBtn.setTitle(L10n.deselectAll, for: .normal)
+            let episodesInTable = episodeInfo[PodcastViewController.allEpisodesSection].elements.compactMap { $0 as? ListEpisode }.count
+            if MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodesInTable) {
+                multiSelectAllBtn.setTitle(L10n.selectAll, for: .normal)
+            } else {
+                multiSelectAllBtn.setTitle(L10n.deselectAll, for: .normal)
+            }
         }
     }
 

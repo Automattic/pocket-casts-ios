@@ -18,6 +18,8 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
     /// The actions to display in the action bar
     var actions: [ActionBarView<Style>.Action] = []
 
+    // No manual padding; rely on miniPlayerSafeAreaInset()
+
     var body: some View {
         ZStack(alignment: .bottom) {
             content()
@@ -27,12 +29,13 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
                     .padding(.bottom)
             }
         }
-        .padding(.bottom)
+        // Automatically add space when the mini player is visible
+        .miniPlayerSafeAreaInset(multiplier: 1.7)
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
-        .ignoresSafeArea()
     }
 }
+// Removed geometry-based padding and mini player notifications; handled by miniPlayerSafeAreaInset().
 
 // MARK: - ActionBarStyle
 

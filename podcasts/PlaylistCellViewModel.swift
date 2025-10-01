@@ -41,7 +41,7 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     func isSmartPlaylist() -> Bool {
-        playlist.playlistType == .smart
+        playlist.manual == false
     }
 
     func loadData() {
@@ -89,16 +89,9 @@ class PlaylistCellViewModel: ObservableObject {
 
     private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
         let playlist = self.playlist
-        switch playlist.playlistType {
-        case .smart:
-            return await Task.detached(priority: .userInitiated) { [weak self] in
-                self?.episodesDataManager.smartPlaylistEpisodes(for: playlist, limit: limit) ?? []
-            }.value
-        case .manual:
-            return await Task.detached(priority: .userInitiated) { [weak self] in
-                self?.episodesDataManager.manualPlaylistEpisodes(for: playlist, limit: limit) ?? []
-            }.value
-        }
+        return await Task.detached(priority: .userInitiated) { [weak self] in
+            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit) ?? []
+        }.value
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
@@ -134,16 +127,8 @@ class PlaylistCellViewModel: ObservableObject {
         let playlist = self.playlist
         let dataManager = self.dataManager
 
-        if !isSmartPlaylist() {
-            return await Task.detached(priority: .userInitiated) {
-                dataManager.manualPlaylistEpisodeCount(
-                    for: playlist,
-                    episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-                )
-            }.value
-        }
         return await Task.detached(priority: .userInitiated) {
-            dataManager.smartPlaylistEpisodeCount(
+            dataManager.playlistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )

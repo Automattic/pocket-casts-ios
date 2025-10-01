@@ -1,4 +1,5 @@
 import Foundation
+import RegexBuilder
 
 public class PlaylistQueryBuilder {
     public enum SelectClause {
@@ -32,23 +33,111 @@ public class PlaylistQueryBuilder {
         searchTerm: String? = nil,
         limit: Int = 0
     ) -> String {
-        let select = select(clause: clause)
-        let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
-        let rules = add(smartRulesFor: playlist)
-        var queryString = "\(select) WHERE episode.archived = 0 \(addedUuid.value) \(rules.value)"
-        queryString = queryString.replacingOccurrences(of: "AND ()", with: "")
-        queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
-        if addedUuid.boolValue { queryString += ")" }
+
+        var queryString: String = ""
+
+        if playlist.manual {
+            let manualCTE =
+                """
+                WITH playlist AS (
+                  SELECT episodeUuid, MIN(episodePosition) AS pos
+                  FROM \(DataManager.playlistEpisodeTableName)
+                  WHERE playlist_uuid = '\(playlist.uuid)'
+                  GROUP BY episodeUuid
+                ),
+                deduped_episode AS (
+                  SELECT episode.*,
+                         ROW_NUMBER() OVER (
+                           PARTITION BY episode.uuid
+                           ORDER BY
+                             CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                             episode.id ASC
+                         ) AS rn
+                  FROM \(DataManager.episodeTableName) episode
+                )
+                """
+
+            let manualJoin =
+                """
+                FROM playlist p
+                JOIN deduped_episode episode
+                  ON episode.uuid = p.episodeUuid
+                  AND episode.rn = 1
+                LEFT JOIN \(DataManager.podcastTableName) podcast
+                  ON episode.podcast_id = podcast.id
+                WHERE episode.archived = 0
+                """
+
+            switch clause {
+            case .episode:
+                queryString =
+                    """
+                    \(manualCTE)
+                    SELECT episode.*
+                    \(manualJoin)
+                    """
+            case .episodeCount:
+                queryString =
+                    """
+                    \(manualCTE)
+                    SELECT COUNT(*)
+                    \(manualJoin)
+                    """
+            case .podcast:
+                let select = manualSelect(clause: clause, for: playlist)
+                queryString = "\(select) WHERE episode.archived = 0"
+            }
+        } else {
+            let select = select(clause: clause)
+
+            var queryValues = [QueryResult]()
+            let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
+            queryValues.append(addedUuid)
+            queryValues.append(add(smartRulesFor: playlist))
+            let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+
+            queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
+            queryString += ")"
+            if addedUuid.boolValue {
+                queryString += ")"
+            }
+        }
+
+        func emptyGroup(for keyword: String) -> Regex<Substring> {
+            Regex {
+                keyword
+                ZeroOrMore(.whitespace)
+                "("
+                ZeroOrMore(.whitespace)
+                ")"
+            }
+        }
+
+        queryString.replace(emptyGroup(for: "AND"), with: "")
+        queryString.replace(emptyGroup(for: "OR"), with: "OR (1)")
         if let searchTerm {
             queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: playlist.sortType) { queryString += " \(sort) " }
+        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount {
+            queryString += " \(sort) "
+        }
         if limit > 0 { queryString += " LIMIT \(limit)" }
         return queryString
     }
 
     private static func select(clause: SelectClause) -> String {
+        switch clause {
+        case .episode:
+            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .episodeCount:
+            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .podcast:
+            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        }
+    }
+
+    private static func manualSelect(clause: SelectClause, for playlist: EpisodeFilter) -> String {
         switch clause {
         case .episode:
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
@@ -79,6 +168,8 @@ public class PlaylistQueryBuilder {
             return "ORDER BY episode.duration ASC, episode.addedDate ASC"
         case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        case .dragAndDrop:
+            return "ORDER BY p.pos ASC" // Only for manual playlist
         }
     }
 
@@ -133,8 +224,6 @@ public class PlaylistQueryBuilder {
             queryString: &queryString,
             haveStartedWhere: &haveStartedWhere
         )
-
-        queryString += ")"
 
         return .value(queryString, haveStartedWhere)
     }
