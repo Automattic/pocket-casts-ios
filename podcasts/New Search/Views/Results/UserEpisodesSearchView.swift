@@ -65,7 +65,7 @@ struct UserEpisodesSearchView: View {
         case .podcasts:
             return Text(L10n.searchPodcasts)
         case .episodes:
-            return Text(L10n.search)
+            return Text(L10n.localizedFormat("user_episodes_search_episodes_prompt", "Localizable", "Search Episodes"))
         }
     }
 
