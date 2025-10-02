@@ -112,18 +112,15 @@ final class LocalSearchViewModel: ObservableObject {
         selectedPodcast = podcast
         selectedFolder = nil
         searchText = ""
-    }
 
-    func finalizeEpisodeModeTransition() {
         episodeCoordinator?.clearResults()
         episodeCoordinator?.refreshPlaylistEpisodes()
-        episodeCoordinator?.preloadEpisodes(for: selectedPodcast, delay: 0.2)
+        episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
     }
 
     func selectPodcast(_ podcastResult: PodcastFolderSearchResult) {
         guard let podcast = podcast(from: podcastResult) else { return }
         beginEpisodeMode(with: podcast)
-        finalizeEpisodeModeTransition()
     }
 
     func selectFolder(_ folderResult: PodcastFolderSearchResult) {

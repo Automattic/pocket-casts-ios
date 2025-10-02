@@ -14,33 +14,46 @@ struct LocalSearchEpisodeResultsView: View {
     let onAddEpisode: (EpisodeSearchResult) -> Void
 
     var body: some View {
-        if isLoading {
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .tint(AppTheme.loadingActivityColor().color)
-        } else if episodes.isEmpty {
-            episodesEmptyState
-        } else {
-            List {
-                ForEach(episodes, id: \.uuid) { searchResult in
-                    SearchResultCell(
-                        episode: searchResult,
-                        result: nil,
-                        played: false,
-                        showDivider: searchResult.uuid != episodes.last?.uuid,
-                        showEpisodeAddButton: true,
-                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)) {
-                            onAddEpisode(searchResult)
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                }
+        ZStack {
+            resultsList
+                .opacity(episodes.isEmpty ? 0 : 1)
+                .allowsHitTesting(!episodes.isEmpty)
+
+            if isLoading {
+                loadingOverlay
+            } else if episodes.isEmpty {
+                episodesEmptyState
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-            .animation(removalAnimation, value: episodes)
         }
+    }
+
+    private var resultsList: some View {
+        List {
+            ForEach(episodes, id: \.uuid) { searchResult in
+                SearchResultCell(
+                    episode: searchResult,
+                    result: nil,
+                    played: false,
+                    showDivider: searchResult.uuid != episodes.last?.uuid,
+                    showEpisodeAddButton: true,
+                    cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
+                ) {
+                    onAddEpisode(searchResult)
+                }
+                .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .animation(removalAnimation, value: episodes)
+    }
+
+    private var loadingOverlay: some View {
+        ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .tint(AppTheme.loadingActivityColor().color)
     }
 
     private var removalAnimation: Animation? {

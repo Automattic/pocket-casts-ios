@@ -109,10 +109,7 @@ struct LocalSearchView: View {
             viewModel.selectFolder(result)
         } else {
             guard let podcast = viewModel.podcast(from: result) else { return }
-            withAnimation(navigationAnimation) {
-                viewModel.beginEpisodeMode(with: podcast)
-            }
-            viewModel.finalizeEpisodeModeTransition()
+            viewModel.beginEpisodeMode(with: podcast)
         }
     }
 

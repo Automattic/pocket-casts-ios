@@ -39,10 +39,6 @@ final class LocalSearchCoordinator {
         playlistEpisodeUUIDs = Set(playlistEpisodes.map { $0.uuid })
     }
 
-    func preloadEpisodes(for podcast: Podcast?) {
-        preloadEpisodes(for: podcast, delay: 0)
-    }
-
     func scheduleSearch(for trimmedTerm: String, podcastUuid: String?) {
         cancelPendingSearch()
 
@@ -94,7 +90,7 @@ final class LocalSearchCoordinator {
         }
     }
 
-    func preloadEpisodes(for podcast: Podcast?, delay: TimeInterval) {
+    func preloadEpisodes(for podcast: Podcast?) {
         cancelPreloadTask()
         episodes = []
         guard let podcast else {
@@ -102,16 +98,13 @@ final class LocalSearchCoordinator {
             return
         }
 
-        schedulePreloadTask(for: podcast, delay: .seconds(1))
+        schedulePreloadTask(for: podcast)
     }
 
-    private func schedulePreloadTask(for podcast: Podcast, delay: Duration) {
+    private func schedulePreloadTask(for podcast: Podcast) {
         cancelPreloadTask()
         isSearchInFlight = true
         preloadTask = Task { [weak self] in
-            if delay > .zero {
-                try? await Task.sleep(for: delay)
-            }
             guard let self else { return }
 
             let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
