@@ -24,11 +24,8 @@ struct LocalSearchView: View {
         navigationContent
             .background(backgroundColor.ignoresSafeArea())
             .safeAreaInset(edge: .top) {
-                SearchField(text: .constant(""), placeholder: L10n.searchPodcasts)
+                searchBar
                     .background(backgroundColor)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
             }
             .onAppear {
                 viewModel.onAppear(searchResultsModel: searchResults)
@@ -125,7 +122,7 @@ private extension LocalSearchView {
     private var podcastsView: some View {
         LocalSearchPodcastResultsView(
             listMode: viewModel.rootListMode,
-            selectedFolder: viewModel.selectedFolder,
+            selectedFolder: nil,
             searchText: viewModel.searchText,
             defaultLibraryItems: viewModel.defaultLibraryItems,
             folderResults: viewModel.filteredFolderPodcastResults,
@@ -137,6 +134,33 @@ private extension LocalSearchView {
         .background(backgroundColor.ignoresSafeArea())
         .navigationTitle(viewModel.navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var searchPromptString: String {
+        switch viewModel.searchMode {
+        case .podcasts:
+            return L10n.searchPodcasts
+        case .episodes:
+            return L10n.localizedFormat("user_episodes_search_episodes_prompt", "Localizable", "Search Episodes")
+        }
+    }
+
+    private var searchBar: some View {
+        SearchField(
+            theme: LocalSearchFieldTheme(),
+            text: $viewModel.searchText,
+            showsCancelButton: false,
+            placeholder: searchPromptString
+        )
+        .submitLabel(.search)
+        .textInputAutocapitalization(.never)
+        .autocorrectionDisabled(true)
+        .onSubmit {
+            viewModel.triggerImmediateSearch()
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
     }
 
     private var closeButton: some View {
@@ -253,6 +277,14 @@ private enum LocalSearchRoute: Hashable {
         if case .podcast = self { return true }
         return false
     }
+}
+
+private final class LocalSearchFieldTheme: SearchField.SearchTheme {
+    override var background: Color { theme.primaryField01 }
+    override var placeholder: Color { theme.primaryText02 }
+    override var text: Color { theme.primaryText02 }
+    override var cancel: Color { theme.primaryText01 }
+    override var icon: Color { theme.primaryIcon02 }
 }
 
 struct LocalSearchView_Previews: PreviewProvider {
