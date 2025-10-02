@@ -121,7 +121,7 @@ private extension LocalSearchView {
 
     private var podcastsView: some View {
         LocalSearchPodcastResultsView(
-            listMode: rootListMode,
+            listMode: viewModel.rootListMode,
             selectedFolder: nil,
             searchText: viewModel.searchText,
             defaultLibraryItems: viewModel.defaultLibraryItems,
@@ -192,11 +192,6 @@ private extension LocalSearchView {
         }
         .fontWeight(.semibold)
         .foregroundColor(AppTheme.color(for: .secondaryIcon01, theme: theme))
-    }
-
-    private var rootListMode: PodcastListMode {
-        let trimmed = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? .library : .search
     }
 
     @ViewBuilder
