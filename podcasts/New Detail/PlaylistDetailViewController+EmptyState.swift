@@ -63,7 +63,7 @@ extension PlaylistDetailViewController {
             return
         }
         if viewModel.hasSubscribedPodcasts {
-            //TODO: open new add episode screen
+            addEpisodes()
             return
         }
         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)

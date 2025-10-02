@@ -25,7 +25,9 @@ final class LocalSearchCoordinator {
     }
 
     deinit {
-        cancelPreloadTask()
+        DispatchQueue.main.async { [weak self] in
+            self?.cancelPreloadTask()
+        }
     }
 
     func refreshPlaylistEpisodes() {
@@ -69,6 +71,7 @@ final class LocalSearchCoordinator {
         }
     }
 
+    @MainActor
     private func cancelPreloadTask() {
         preloadTask?.cancel()
         preloadTask = nil
@@ -84,5 +87,16 @@ final class LocalSearchCoordinator {
         playlistEpisodeUUIDs.insert(searchResult.uuid)
         episodes.removeAll { $0.uuid == searchResult.uuid }
         addedEpisodeCount += 1
+    }
+}
+
+
+extension EpisodeSearchResult {
+    init(episode: Episode, dataManager: DataManager = DataManager.sharedManager) {
+        let publishedDate = episode.publishedDate ?? episode.addedDate ?? Date()
+        let duration = episode.duration > 0 ? episode.duration : nil
+        let podcastTitle = episode.parentPodcast(dataManager: dataManager)?.title ?? ""
+
+        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle)
     }
 }

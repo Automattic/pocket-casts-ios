@@ -23,6 +23,13 @@ struct LocalSearchView: View {
     var body: some View {
         navigationContent
             .background(backgroundColor.ignoresSafeArea())
+            .safeAreaInset(edge: .top) {
+                SearchField(text: .constant(""), placeholder: L10n.searchPodcasts)
+                    .background(backgroundColor)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+            }
             .onAppear {
                 viewModel.onAppear(searchResultsModel: searchResults)
                 previousNavigationPath = navigationPath

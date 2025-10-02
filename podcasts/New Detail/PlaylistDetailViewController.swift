@@ -1,6 +1,7 @@
 import UIKit
 import PocketCastsDataModel
 import DifferenceKit
+import SwiftUI
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -160,7 +161,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             case .smartRules:
                 self.editPlaylist()
             case .addEpisodes:
-                break
+                self.addEpisodes()
             }
         }
     }
@@ -392,6 +393,23 @@ class PlaylistDetailViewController: FakeNavViewController {
         let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
             self?.viewModel.reloadPlaylistAndEpisodes()
         }
+        let navVC = SJUIUtils.navController(for: vc)
+        present(navVC, animated: true, completion: nil)
+    }
+
+    func addEpisodes() {
+        let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
+        let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
+        let vc = PCHostingController(rootView: LocalSearchView(
+            playlist: viewModel.playlist,
+            dismissAction: { [weak self] in
+                self?.dismiss(animated: true)
+            }
+        )
+            .environmentObject(Theme.sharedTheme)
+            .environmentObject(searchAnalyticsHelper)
+            .environmentObject(searchResults)
+        )
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
     }
