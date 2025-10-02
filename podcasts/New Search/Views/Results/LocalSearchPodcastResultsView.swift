@@ -21,20 +21,16 @@ struct LocalSearchPodcastResultsView: View {
         ZStack {
             if listMode == .library {
                 defaultLibraryList
-                    .transition(libraryTransition)
             }
 
             if listMode == .folder {
                 folderPodcastList
-                    .transition(forwardTransition)
             }
 
             if listMode == .search {
                 searchResultsList
-                    .transition(searchTransition)
             }
         }
-        .animation(podcastListAnimation, value: listMode)
     }
 
     @ViewBuilder
@@ -178,33 +174,5 @@ struct LocalSearchPodcastResultsView: View {
 
     private var navigationAnimation: Animation {
         reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3)
-    }
-
-    private var podcastListAnimation: Animation? {
-        if disableLibraryAnimation {
-            return nil
-        }
-        if case .search = listMode {
-            return nil
-        }
-        return navigationAnimation
-    }
-
-    private var libraryTransition: AnyTransition {
-        if disableLibraryAnimation {
-            return .identity
-        }
-        return reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading))
-    }
-
-    private var forwardTransition: AnyTransition {
-        reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing))
-    }
-
-    private var searchTransition: AnyTransition {
-        if disableLibraryAnimation {
-            return .identity
-        }
-        return reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
     }
 }
