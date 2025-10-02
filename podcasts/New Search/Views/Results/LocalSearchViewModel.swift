@@ -14,15 +14,34 @@ final class LocalSearchViewModel: ObservableObject {
     @Published private(set) var filteredFolderPodcasts: [Podcast] = []
     @Published private(set) var isEpisodeSearchInFlight = false
     @Published private(set) var addedEpisodeCount = 0
+    @Published private(set) var searchResultsPodcasts: [PodcastFolderSearchResult] = []
+    @Published private(set) var disableLibraryAnimation = false
 
     let playlist: EpisodeFilter
 
-    private var episodeCoordinator: LocalSearchCoordinator?
     private var cancellables = Set<AnyCancellable>()
+    private var searchResultsModel: SearchResultsModel?
+    private var episodeCoordinator: LocalSearchCoordinator?
     private var hasAppeared = false
+
+    private struct PodcastSearchState {
+        let term: String
+        let results: [PodcastFolderSearchResult]
+    }
+
+    private var previouslySelectedFolder: Folder?
+    private var previousPodcastSearchState: PodcastSearchState?
+    private var folderSearchStateStack: [PodcastSearchState] = []
 
     init(playlist: EpisodeFilter) {
         self.playlist = playlist
+
+        $searchText
+            .removeDuplicates()
+            .sink { [weak self] newValue in
+                self?.handleSearchTextChange(newValue)
+            }
+            .store(in: &cancellables)
     }
 
     var searchMode: SearchMode {
@@ -30,11 +49,20 @@ final class LocalSearchViewModel: ObservableObject {
     }
 
     var podcastListMode: PodcastListMode {
-        selectedFolder == nil ? .library : .folder
+        if selectedFolder != nil {
+            return .folder
+        }
+        if !trimmedSearchText.isEmpty || previousPodcastSearchState != nil || !folderSearchStateStack.isEmpty {
+            return .search
+        }
+        return .library
     }
 
     var rootListMode: PodcastListMode {
-        selectedFolder == nil ? .library : .folder
+        if !trimmedSearchText.isEmpty || previousPodcastSearchState != nil || !folderSearchStateStack.isEmpty {
+            return .search
+        }
+        return .library
     }
 
     var defaultLibraryItems: [PodcastFolderSearchResult] {
@@ -59,14 +87,6 @@ final class LocalSearchViewModel: ObservableObject {
         !folderPodcasts.isEmpty
     }
 
-    var searchResultsPodcasts: [PodcastFolderSearchResult] {
-        []
-    }
-
-    var disableLibraryAnimation: Bool {
-        false
-    }
-
     var navigationTitle: String {
         let name = playlist.playlistName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard addedEpisodeCount > 0 else {
@@ -83,14 +103,15 @@ final class LocalSearchViewModel: ObservableObject {
     }
 
     func onAppear(searchResultsModel: SearchResultsModel) {
-        configureEpisodeCoordinatorIfNeeded()
+        configureSearchResultsIfNeeded(searchResultsModel)
         guard !hasAppeared else { return }
         hasAppeared = true
+        loadPodcastsIfNeeded()
         refreshPlaylistEpisodes()
     }
 
     func onDisappear() {
-        episodeCoordinator?.clearResults()
+        episodeCoordinator?.cancelPendingSearch()
     }
 
     func podcast(from result: PodcastFolderSearchResult) -> Podcast? {
@@ -102,8 +123,11 @@ final class LocalSearchViewModel: ObservableObject {
     }
 
     func beginEpisodeMode(with podcast: Podcast) {
+        previousPodcastSearchState = currentSearchState()
+        previouslySelectedFolder = selectedFolder
         selectedPodcast = podcast
         searchText = ""
+
         episodeCoordinator?.clearResults()
         episodeCoordinator?.refreshPlaylistEpisodes()
         episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
@@ -119,38 +143,131 @@ final class LocalSearchViewModel: ObservableObject {
               let folder = DataManager.sharedManager.findFolder(uuid: folderResult.uuid) else {
             return
         }
+
+        if let searchState = currentSearchState() {
+            folderSearchStateStack.append(searchState)
+        }
+
         selectedFolder = folder
+        previouslySelectedFolder = folder
         selectedPodcast = nil
-        loadPodcastsForSelectedFolder(folder)
         episodeCoordinator?.clearResults()
+        loadPodcastsForSelectedFolder(folder)
+        if !trimmedSearchText.isEmpty {
+            searchText = ""
+        } else {
+            filterPodcasts(using: searchText)
+        }
     }
 
     func clearSelectedPodcast() {
+        let searchState = previousPodcastSearchState
         selectedPodcast = nil
-        episodeCoordinator?.clearResults()
-        episodeCoordinator?.preloadEpisodes(for: nil)
+        if let folder = previouslySelectedFolder {
+            selectedFolder = folder
+            loadPodcastsForSelectedFolder(folder)
+            let restoreTerm = searchState?.term ?? ""
+            if searchText != restoreTerm {
+                searchText = restoreTerm
+            } else {
+                filterPodcasts(using: restoreTerm)
+            }
+        } else if let searchState, !searchState.term.isEmpty {
+            selectedFolder = nil
+            searchResultsPodcasts = searchState.results
+            if searchText != searchState.term {
+                searchText = searchState.term
+            } else {
+                filterPodcasts(using: searchState.term)
+            }
+        } else {
+            selectedFolder = nil
+            if !searchText.isEmpty {
+                searchText = ""
+            }
+            filterPodcasts(using: "")
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.episodeCoordinator?.clearResults()
+        }
+        previousPodcastSearchState = nil
     }
 
     func clearSelectedFolder() {
         selectedFolder = nil
         folderPodcasts = []
         filteredFolderPodcasts = []
+        if let previousState = folderSearchStateStack.popLast() {
+            searchResultsPodcasts = previousState.results
+            if searchText != previousState.term {
+                searchText = previousState.term
+            } else {
+                filterPodcasts(using: previousState.term)
+            }
+        } else {
+            searchText = ""
+            filterPodcasts(using: searchText, disableAnimationsWhenClearing: false)
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.episodeCoordinator?.clearResults()
+        }
+        previouslySelectedFolder = nil
     }
 
     func triggerImmediateSearch() {
-        episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
+        guard searchMode == .episodes,
+              let coordinator = episodeCoordinator else { return }
+
+        let trimmed = trimmedSearchText
+        guard let podcastUuid = selectedPodcast?.uuid, trimmed.count >= 2 else {
+            coordinator.clearResults()
+            coordinator.preloadEpisodes(for: selectedPodcast)
+            return
+        }
+
+        coordinator.triggerImmediateSearch(for: trimmed, podcastUuid: podcastUuid)
     }
 
     func handleAddEpisode(_ searchResult: EpisodeSearchResult) {
         episodeCoordinator?.handleAddEpisode(searchResult)
-        addedEpisodeCount = episodeCoordinator?.addedEpisodeCount ?? 0
     }
 
-    private func configureEpisodeCoordinatorIfNeeded() {
+    private func configureSearchResultsIfNeeded(_ searchResultsModel: SearchResultsModel) {
+        guard self.searchResultsModel !== searchResultsModel else { return }
+        self.searchResultsModel = searchResultsModel
+        configureEpisodeCoordinatorIfNeeded(using: searchResultsModel)
+
+        searchResultsModel.$podcasts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] results in
+                guard let self else { return }
+                self.searchResultsPodcasts = results.filter { result in
+                    (result.kind == .podcast || result.kind == .folder) && (result.isLocal ?? true)
+                }
+            }
+            .store(in: &cancellables)
+
+        searchResultsModel.$episodes
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] results in
+                self?.updateEpisodesFromSearchResults(results)
+            }
+            .store(in: &cancellables)
+
+        searchResultsModel.$episodeSearchError
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.handleEpisodeSearchError(error)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func configureEpisodeCoordinatorIfNeeded(using searchResultsModel: SearchResultsModel) {
         guard episodeCoordinator == nil else { return }
 
         let coordinator = LocalSearchCoordinator(
-            playlist: playlist
+            playlist: playlist,
+            searchResultsModel: searchResultsModel
         )
 
         coordinator.$episodes
@@ -173,8 +290,12 @@ final class LocalSearchViewModel: ObservableObject {
         episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
     }
 
-    private func refreshPlaylistEpisodes() {
-        episodeCoordinator?.refreshPlaylistEpisodes()
+    private var trimmedSearchText: String {
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func loadPodcastsIfNeeded() {
+        filterPodcasts(using: searchText)
     }
 
     private func loadPodcastsForSelectedFolder(_ folder: Folder) {
@@ -189,11 +310,105 @@ final class LocalSearchViewModel: ObservableObject {
         filteredFolderPodcasts = sorted
     }
 
+    private func refreshPlaylistEpisodes() {
+        episodeCoordinator?.refreshPlaylistEpisodes()
+    }
+
+    private func handleSearchTextChange(_ newValue: String) {
+        switch searchMode {
+        case .podcasts:
+            filterPodcasts(using: newValue)
+        case .episodes:
+            scheduleEpisodeSearch(with: newValue)
+        }
+    }
+
+    private func filterPodcasts(using term: String, disableAnimationsWhenClearing: Bool = true) {
+        let trimmed = term.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if selectedFolder != nil {
+            if trimmed.isEmpty {
+                filteredFolderPodcasts = folderPodcasts
+            } else {
+                filteredFolderPodcasts = folderPodcasts.filter { podcast in
+                    guard let title = podcast.title else { return false }
+                    return title.localizedCaseInsensitiveContains(trimmed)
+                }
+            }
+        } else {
+            guard let searchResultsModel else { return }
+            if trimmed.isEmpty {
+                if disableAnimationsWhenClearing {
+                    disableLibraryAnimation = true
+                }
+                let transaction = disableAnimationsWhenClearing ? Transaction(animation: nil) : Transaction()
+                withTransaction(transaction) {
+                    searchResultsModel.clearSearch()
+                }
+                if disableAnimationsWhenClearing {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.disableLibraryAnimation = false
+                    }
+                }
+            } else {
+                searchResultsModel.searchLocally(term: trimmed)
+            }
+        }
+    }
+
+    private func scheduleEpisodeSearch(with term: String) {
+        guard let coordinator = episodeCoordinator else { return }
+
+        let trimmed = term.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let podcastUuid = selectedPodcast?.uuid, trimmed.count >= 2 else {
+            coordinator.clearResults()
+            coordinator.preloadEpisodes(for: selectedPodcast)
+            return
+        }
+
+        coordinator.scheduleSearch(for: trimmed, podcastUuid: podcastUuid)
+    }
+
+    private func updateEpisodesFromSearchResults(_ results: [EpisodeSearchResult]) {
+        episodeCoordinator?.updateEpisodesFromSearchResults(
+            results,
+            selectedPodcastUUID: selectedPodcast?.uuid,
+            trimmedSearchText: trimmedSearchText
+        )
+    }
+
+    private func handleEpisodeSearchError(_ error: Error?) {
+        episodeCoordinator?.handleSearchError(
+            error,
+            selectedPodcastUUID: selectedPodcast?.uuid,
+            trimmedSearchText: trimmedSearchText
+        )
+    }
+}
+
+extension EpisodeSearchResult {
+    init(episode: Episode, dataManager: DataManager = DataManager.sharedManager) {
+        let publishedDate = episode.publishedDate ?? episode.addedDate ?? Date()
+        let duration = episode.duration > 0 ? episode.duration : nil
+        let podcastTitle = episode.parentPodcast(dataManager: dataManager)?.title ?? ""
+
+        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle)
+    }
+
+    init(listEpisode: ListEpisode, dataManager: DataManager = DataManager.sharedManager) {
+        self.init(episode: listEpisode.episode, dataManager: dataManager)
+    }
 }
 
 extension LocalSearchViewModel {
     enum SearchMode {
         case podcasts
         case episodes
+    }
+
+    private func currentSearchState() -> PodcastSearchState? {
+        let trimmed = trimmedSearchText
+        guard !trimmed.isEmpty else { return nil }
+        return PodcastSearchState(term: trimmed, results: searchResultsPodcasts)
     }
 }
