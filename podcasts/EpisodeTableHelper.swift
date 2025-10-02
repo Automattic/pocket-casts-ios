@@ -68,9 +68,9 @@ struct EpisodeTableHelper {
         return [newData]
     }
 
-    static func searchSectionedEpisodes(for search: String, tintColor: UIColor = AppTheme.appTintColor(), episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
+    static func searchSectionedEpisodes(for search: String, listenedTo: Bool, tintColor: UIColor = AppTheme.appTintColor(), episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
         let escapedSearch = search.escapeLike(escapeChar: "\\")
-        let loadedEpisodes = DataManager.sharedManager.findEpisodesAndPodcastsWhere(customWhere: escapedSearch)
+        let loadedEpisodes = DataManager.sharedManager.findEpisodesAndPodcastsWhere(customWhere: escapedSearch, listenedTo: listenedTo)
 
         var previousSectionName = ""
         var currSectionIndex = -1
