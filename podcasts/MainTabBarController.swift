@@ -426,6 +426,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.filter)
     }
 
+    func presentManualPlaylistsChooser(for episode: Episode) {
+        guard let navController = selectedViewController as? UINavigationController else {
+            return
+        }
+        let manualPlaylistsChooser = ManualPlaylistsChooserViewController(episode: episode)
+        let navVC = SJUIUtils.navController(for: manualPlaylistsChooser)
+        navController.topViewController?.present(navVC, animated: true, completion: nil)
+    }
+
     func navigateToAddCustom(_ url: URL) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: {
             self.switchToTab(.profile)

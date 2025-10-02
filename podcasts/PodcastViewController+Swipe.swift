@@ -58,8 +58,11 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func addToManualPlaylist(episode: Episode, at: IndexPath) {
-        let manualPlaylistsChooser = ManualPlaylistsChooserViewController(episode: episode)
-        let navVC = SJUIUtils.navController(for: manualPlaylistsChooser)
-        present(navVC, animated: true, completion: nil)
+        NavigationManager.sharedManager.navigateTo(
+            NavigationManager.manualPlaylistsChooserKey,
+            data: [
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+            ]
+        )
     }
 }

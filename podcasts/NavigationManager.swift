@@ -79,6 +79,9 @@ class NavigationManager {
     static let featurePageKey = "featurePageKey"
     static let featureKey = "featureKey"
 
+    static let manualPlaylistsChooserKey = "manualPlaylistsChooserKey"
+    static let manualPlaylistsChooserEpisodeKey = "manualPlaylistsChooserEpisodeKey"
+
     static let sharedManager = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
@@ -245,6 +248,10 @@ class NavigationManager {
             mainController?.showSettings(row: row)
         } else if place == NavigationManager.featurePageKey {
             navigateToFeature(data: data, animated: animated)
+        } else if place == NavigationManager.manualPlaylistsChooserKey {
+            if let episode = data?[NavigationManager.manualPlaylistsChooserEpisodeKey] as? Episode {
+                mainController?.presentManualPlaylistsChooser(for: episode)
+            }
         }
     }
 
