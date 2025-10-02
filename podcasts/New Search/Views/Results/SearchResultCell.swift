@@ -89,9 +89,10 @@ struct SearchResultCell: View {
                             Button(action: {
                                 action?()
                             }) {
-                                Image(systemName: "plus.circle")
+                                Image("plus-circle")
+                                    .resizable()
                             }
-                            .frame(width: 48, height: 48)
+                            .frame(width: 32, height: 32)
                         }
                     } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)

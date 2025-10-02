@@ -36,7 +36,8 @@ struct LocalSearchView: View {
             .toolbar {
                 LocalSearchToolbar(
                     viewModel: viewModel,
-                    iconColor: ThemeColor.secondaryIcon01(for: theme.activeTheme).color,
+                    tintColor: .secondaryIcon01,
+                    iconColor: .primaryIcon02,
                     navigationAnimation: navigationAnimation,
                     onClose: closeModal
                 )
@@ -147,8 +148,10 @@ private extension LocalSearchView {
 }
 
 private struct LocalSearchToolbar: ToolbarContent {
+    @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: LocalSearchViewModel
-    let iconColor: Color
+    let tintColor: ThemeStyle // For active buttons
+    let iconColor: ThemeStyle // For inactive buttons
     let navigationAnimation: Animation
     let onClose: () -> Void
 
@@ -160,9 +163,9 @@ private struct LocalSearchToolbar: ToolbarContent {
                         viewModel.clearSelectedPodcast()
                     }
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image("nav-back")
                 }
-                .foregroundColor(iconColor)
+                .foregroundColor(AppTheme.color(for: iconColor, theme: theme))
                 .accessibilityLabel(L10n.back)
             } else if viewModel.selectedFolder != nil {
                 Button {
@@ -170,9 +173,9 @@ private struct LocalSearchToolbar: ToolbarContent {
                         viewModel.clearSelectedFolder()
                     }
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image("nav-back")
                 }
-                .foregroundColor(iconColor)
+                .foregroundColor(AppTheme.color(for: iconColor, theme: theme))
                 .accessibilityLabel(L10n.back)
             } else {
                 Button {
@@ -180,9 +183,10 @@ private struct LocalSearchToolbar: ToolbarContent {
                 } label: {
                     Image("close")
                         .renderingMode(.template)
-                        .foregroundColor(iconColor)
+                        .foregroundColor(AppTheme.color(for: iconColor, theme: theme))
                 }
                 .accessibilityLabel(L10n.close)
+                .foregroundColor(AppTheme.color(for: iconColor, theme: theme))
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -191,7 +195,8 @@ private struct LocalSearchToolbar: ToolbarContent {
             } label: {
                 Text(L10n.done)
             }
-            .foregroundColor(iconColor)
+            .fontWeight(.semibold)
+            .foregroundColor(AppTheme.color(for: tintColor, theme: theme))
         }
     }
 }
