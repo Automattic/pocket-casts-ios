@@ -34,6 +34,10 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchPredictiveFailed, properties: ["source": source, "error_code": (error as NSError).code])
     }
 
+    func trackPredictiveTermTapped() {
+        Analytics.track(.searchPredictiveTermTapped, properties: ["source": source])
+    }
+
     func trackResultTapped(_ searchResult: AnalyticsSearchResultItem) {
         Analytics.track(.searchResultTapped, properties: ["source": source, "uuid": searchResult.uuid, "result_type": searchResult])
     }
