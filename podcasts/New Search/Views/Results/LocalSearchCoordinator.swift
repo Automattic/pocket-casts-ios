@@ -121,7 +121,7 @@ final class LocalSearchCoordinator {
                 return lhsDate > rhsDate
             }
 
-            let availableEpisodes = sortedEpisodes.filter { !playlistEpisodeUUIDs.contains($0.uuid) }
+            let availableEpisodes = sortedEpisodes.filter { !self.playlistEpisodeUUIDs.contains($0.uuid) }
             self.episodes = availableEpisodes.map { EpisodeSearchResult(episode: $0) }
             self.isSearchInFlight = false
         }

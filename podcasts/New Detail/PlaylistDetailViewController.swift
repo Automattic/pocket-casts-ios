@@ -398,9 +398,6 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func addEpisodes() {
-//        let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
-//            self?.viewModel.reloadPlaylistAndEpisodes()
-//        }
         let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
         let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
         let vc = UIHostingController(rootView: LocalSearchView(

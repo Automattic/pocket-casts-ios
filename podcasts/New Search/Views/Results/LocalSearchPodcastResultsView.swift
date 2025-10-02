@@ -140,7 +140,7 @@ struct LocalSearchPodcastResultsView: View {
 
     private var podcastEmptyState: some View {
         VStack(spacing: 12) {
-            if let folder = selectedFolder {
+            if selectedFolder != nil {
                 if hasAnyPodcastsInFolder {
                     EmptyStateView(
                         title: L10n.discoverNoPodcastsFound,
