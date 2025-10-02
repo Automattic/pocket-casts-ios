@@ -29,6 +29,7 @@ class SearchResultsModel: ObservableObject {
     @Published var hideEpisodes = false
 
     private(set) var currentSearchTerm: String = ""
+    private(set) var currentPredictiveSearchTerm: String = ""
 
     private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
@@ -66,6 +67,7 @@ class SearchResultsModel: ObservableObject {
             do {
                 let results = try await predictiveSearch.search(term: term)
                 show(predictiveResults: results)
+                currentPredictiveSearchTerm = term
             } catch {
                 predictiveSearchError = error
                 analyticsHelper.trackPredictiveFailed(error)

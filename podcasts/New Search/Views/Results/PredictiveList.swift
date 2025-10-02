@@ -52,7 +52,7 @@ struct PredictiveList: View {
 
     @ViewBuilder
     func termRow(term: String) -> some View {
-        let formattedText = highlightTerm(searchResults.currentSearchTerm, on: term)
+        let formattedText = highlightTerm(searchResults.currentPredictiveSearchTerm, on: term)
         Button(action: {
             searchResults.search(term: term)
             searchHistory.add(searchTerm: term)
