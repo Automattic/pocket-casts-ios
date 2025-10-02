@@ -126,9 +126,7 @@ struct LocalSearchPodcastResultsView: View {
 
     @ViewBuilder
     private var listHeader: some View {
-        if selectedFolder != nil {
-            EmptyView()
-        } else {
+        if listMode == .library {
             Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
                 .font(style: .headline, weight: .semibold)
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
@@ -140,7 +138,7 @@ struct LocalSearchPodcastResultsView: View {
 
     private var podcastEmptyState: some View {
         VStack(spacing: 12) {
-            if selectedFolder != nil {
+            if listMode == .folder {
                 if hasAnyPodcastsInFolder {
                     EmptyStateView(
                         title: L10n.discoverNoPodcastsFound,
