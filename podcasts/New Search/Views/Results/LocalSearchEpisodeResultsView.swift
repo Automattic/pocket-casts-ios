@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 struct LocalSearchEpisodeResultsView: View {
     @EnvironmentObject private var theme: Theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     let isLoading: Bool
     let episodes: [EpisodeSearchResult]
@@ -21,12 +22,12 @@ struct LocalSearchEpisodeResultsView: View {
             episodesEmptyState
         } else {
             List {
-                ForEach(Array(episodes.enumerated()), id: \.element) { index, searchResult in
+                ForEach(episodes, id: \.uuid) { searchResult in
                     SearchResultCell(
                         episode: searchResult,
                         result: nil,
                         played: false,
-                        showDivider: index < episodes.count - 1,
+                        showDivider: searchResult.uuid != episodes.last?.uuid,
                         showEpisodeAddButton: true,
                         cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)) {
                             onAddEpisode(searchResult)
@@ -38,7 +39,12 @@ struct LocalSearchEpisodeResultsView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
+            .animation(removalAnimation, value: episodes)
         }
+    }
+
+    private var removalAnimation: Animation? {
+        reduceMotion ? nil : .easeInOut(duration: 0.25)
     }
 
     private var episodesEmptyState: some View {

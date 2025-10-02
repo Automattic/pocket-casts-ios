@@ -87,8 +87,12 @@ struct LocalSearchView: View {
                     searchText: viewModel.searchText,
                     selectedPodcastTitle: viewModel.selectedPodcast?.title,
                     onAddEpisode: { result in
-                        withAnimation(navigationAnimation) {
+                        if reduceMotion {
                             viewModel.handleAddEpisode(result)
+                        } else {
+                            withAnimation(episodeRemovalAnimation) {
+                                viewModel.handleAddEpisode(result)
+                            }
                         }
                     }
                 )
@@ -121,6 +125,10 @@ struct LocalSearchView: View {
 
     private var navigationAnimation: Animation {
         reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3)
+    }
+
+    private var episodeRemovalAnimation: Animation {
+        .easeInOut(duration: 0.25)
     }
 }
 
