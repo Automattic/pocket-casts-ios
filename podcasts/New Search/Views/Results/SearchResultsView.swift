@@ -49,6 +49,9 @@ struct SearchResultsView: View {
                 } else {
                     SearchListView {
                         PredictiveList()
+                            .onAppear {
+                                self.searchAnalyticsHelper.trackPredictiveShown()
+                            }
                     }
                 }
             } else {

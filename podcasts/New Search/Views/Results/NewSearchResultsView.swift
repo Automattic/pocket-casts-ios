@@ -47,6 +47,9 @@ struct NewSearchResultsView: View {
                 List {
                     Section {
                         PredictiveList()
+                            .onAppear {
+                                self.searchAnalyticsHelper.trackPredictiveShown()
+                            }
                     }
                 }
                 .scrollDismissesKeyboard(.immediately)
