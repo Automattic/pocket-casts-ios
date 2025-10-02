@@ -158,7 +158,7 @@ final class LocalSearchViewModel: ObservableObject {
         folderPodcasts = []
         filteredFolderPodcasts = []
         searchText = ""
-        filterPodcasts(using: searchText)
+        filterPodcasts(using: searchText, disableAnimationsWhenClearing: false)
         DispatchQueue.main.async { [weak self] in
             self?.episodeCoordinator?.clearResults()
         }
@@ -274,7 +274,7 @@ final class LocalSearchViewModel: ObservableObject {
         }
     }
 
-    private func filterPodcasts(using term: String) {
+    private func filterPodcasts(using term: String, disableAnimationsWhenClearing: Bool = true) {
         let trimmed = term.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if selectedFolder != nil {
@@ -289,12 +289,17 @@ final class LocalSearchViewModel: ObservableObject {
         } else {
             guard let searchResultsModel else { return }
             if trimmed.isEmpty {
-                disableLibraryAnimation = true
-                withTransaction(Transaction(animation: nil)) {
+                if disableAnimationsWhenClearing {
+                    disableLibraryAnimation = true
+                }
+                let transaction = disableAnimationsWhenClearing ? Transaction(animation: nil) : Transaction()
+                withTransaction(transaction) {
                     searchResultsModel.clearSearch()
                 }
-                DispatchQueue.main.async { [weak self] in
-                    self?.disableLibraryAnimation = false
+                if disableAnimationsWhenClearing {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.disableLibraryAnimation = false
+                    }
                 }
             } else {
                 searchResultsModel.searchLocally(term: trimmed)
