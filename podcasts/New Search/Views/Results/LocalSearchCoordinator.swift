@@ -51,7 +51,7 @@ final class LocalSearchCoordinator {
             return
         }
 
-        scheduleSearchTask(delayNanoseconds: 300_000_000, term: trimmedTerm, podcastUuid: podcastUuid)
+        scheduleSearchTask(delay: .milliseconds(3), term: trimmedTerm, podcastUuid: podcastUuid)
     }
 
     func triggerImmediateSearch(for trimmedTerm: String, podcastUuid: String?) {
@@ -62,7 +62,7 @@ final class LocalSearchCoordinator {
             return
         }
 
-        scheduleSearchTask(delayNanoseconds: 0, term: trimmedTerm, podcastUuid: podcastUuid)
+        scheduleSearchTask(delay: .zero, term: trimmedTerm, podcastUuid: podcastUuid)
     }
 
     func cancelPendingSearch() {
@@ -83,11 +83,11 @@ final class LocalSearchCoordinator {
         currentSearchPodcastUUID = nil
     }
 
-    private func scheduleSearchTask(delayNanoseconds: UInt64, term: String, podcastUuid: String) {
+    private func scheduleSearchTask(delay: Duration, term: String, podcastUuid: String) {
         isSearchInFlight = true
         searchTask = Task { [weak self] in
-            if delayNanoseconds > 0 {
-                try? await Task.sleep(nanoseconds: delayNanoseconds)
+            if delay > .zero {
+                try? await Task.sleep(for: delay)
             }
             guard !Task.isCancelled else { return }
             await self?.performSearch(term: term, podcastUuid: podcastUuid)
@@ -102,16 +102,15 @@ final class LocalSearchCoordinator {
             return
         }
 
-        let nanoseconds = UInt64(max(delay, 0) * 1_000_000_000)
-        schedulePreloadTask(for: podcast, delayNanoseconds: nanoseconds)
+        schedulePreloadTask(for: podcast, delay: .seconds(1))
     }
 
-    private func schedulePreloadTask(for podcast: Podcast, delayNanoseconds: UInt64) {
+    private func schedulePreloadTask(for podcast: Podcast, delay: Duration) {
         cancelPreloadTask()
         isSearchInFlight = true
         preloadTask = Task { [weak self] in
-            if delayNanoseconds > 0 {
-                try? await Task.sleep(nanoseconds: delayNanoseconds)
+            if delay > .zero {
+                try? await Task.sleep(for: delay)
             }
             guard let self else { return }
 
