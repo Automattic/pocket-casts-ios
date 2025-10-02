@@ -15,6 +15,7 @@ final class LocalSearchViewModel: ObservableObject {
     @Published private(set) var isEpisodeSearchInFlight = false
     @Published private(set) var addedEpisodeCount = 0
     @Published private(set) var searchResultsPodcasts: [PodcastFolderSearchResult] = []
+    @Published private(set) var disableLibraryAnimation = false
 
     let playlist: EpisodeFilter
 
@@ -288,7 +289,13 @@ final class LocalSearchViewModel: ObservableObject {
         } else {
             guard let searchResultsModel else { return }
             if trimmed.isEmpty {
-                searchResultsModel.clearSearch()
+                disableLibraryAnimation = true
+                withTransaction(Transaction(animation: nil)) {
+                    searchResultsModel.clearSearch()
+                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.disableLibraryAnimation = false
+                }
             } else {
                 searchResultsModel.searchLocally(term: trimmed)
             }

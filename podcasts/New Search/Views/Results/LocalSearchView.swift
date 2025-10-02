@@ -73,7 +73,8 @@ struct LocalSearchView: View {
                     folderResults: viewModel.filteredFolderPodcastResults,
                     hasAnyPodcastsInFolder: viewModel.hasAnyPodcastsInFolder,
                     searchResults: viewModel.searchResultsPodcasts,
-                    onSelectResult: { handleSelection(for: $0) }
+                    onSelectResult: { handleSelection(for: $0) },
+                    disableLibraryAnimation: viewModel.disableLibraryAnimation
                 )
                 .id("podcasts")
                 .transition(podcastTransition)

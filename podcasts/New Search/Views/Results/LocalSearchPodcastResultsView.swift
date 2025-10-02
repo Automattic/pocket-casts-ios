@@ -15,6 +15,7 @@ struct LocalSearchPodcastResultsView: View {
     let hasAnyPodcastsInFolder: Bool
     let searchResults: [PodcastFolderSearchResult]
     let onSelectResult: (PodcastFolderSearchResult) -> Void
+    let disableLibraryAnimation: Bool
 
     var body: some View {
         ZStack {
@@ -182,6 +183,9 @@ struct LocalSearchPodcastResultsView: View {
     }
 
     private var podcastListAnimation: Animation? {
+        if disableLibraryAnimation {
+            return nil
+        }
         if case .search = listMode {
             return nil
         }
@@ -189,7 +193,10 @@ struct LocalSearchPodcastResultsView: View {
     }
 
     private var libraryTransition: AnyTransition {
-        reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading))
+        if disableLibraryAnimation {
+            return .identity
+        }
+        return reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading))
     }
 
     private var forwardTransition: AnyTransition {
@@ -197,6 +204,9 @@ struct LocalSearchPodcastResultsView: View {
     }
 
     private var searchTransition: AnyTransition {
-        reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+        if disableLibraryAnimation {
+            return .identity
+        }
+        return reduceMotion ? .opacity : .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
     }
 }
