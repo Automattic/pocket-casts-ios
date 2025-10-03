@@ -1,7 +1,14 @@
 import Foundation
 import PocketCastsDataModel
 
-public class ServerPodcastManager: NSObject {
+protocol ServerPodcastManaging: AnyObject {
+    func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int, completion: ((Bool) -> Void)?)
+    func addMissingPodcast(episodeUuid: String, podcastUuid: String)
+    func addMissingEpisode(episodeUuid: String, podcastUuid: String) -> Episode?
+    func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String, shouldUpdateEpisode: Bool, completion: ((Episode?) -> Void)?)
+}
+
+public class ServerPodcastManager: NSObject, ServerPodcastManaging {
     private static let maxAutoDownloadSeperationTime = 12.hours
 
     public static let shared = ServerPodcastManager()
