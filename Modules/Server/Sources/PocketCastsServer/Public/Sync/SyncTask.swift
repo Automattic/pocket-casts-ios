@@ -18,6 +18,15 @@ class SyncTask: ApiBaseTask {
 
     var status = UpdateStatus.notStarted
 
+    let serverPodcastManager: ServerPodcastManaging
+
+    init(dataManager: DataManager = .sharedManager,
+         serverPodcastManager: ServerPodcastManaging = ServerPodcastManager.shared,
+         urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
+        self.serverPodcastManager = serverPodcastManager
+        super.init(dataManager: dataManager, urlConnection: urlConnection)
+    }
+
     private lazy var legacyLastModifiedFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withYear, .withMonth, .withDay, .withDashSeparatorInDate, .withColonSeparatorInTime, .withTime, .withFractionalSeconds]

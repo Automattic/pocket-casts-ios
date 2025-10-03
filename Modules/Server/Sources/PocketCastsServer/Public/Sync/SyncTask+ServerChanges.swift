@@ -125,7 +125,7 @@ extension SyncTask {
         } else {
             let semaphore = DispatchSemaphore(value: 0)
 
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
+            serverPodcastManager.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, autoDownloads: 0, completion: { success in
                 if success {
                     if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
                         podcast.syncStatus = SyncStatus.synced.rawValue
@@ -181,7 +181,7 @@ extension SyncTask {
         if existingEpisode == nil {
             // we don't have this episode so try and find it
             FileLog.shared.addMessage("Trying to find missing episode as part of a sync \(episodeItem.uuid)")
-            existingEpisode = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
+            existingEpisode = serverPodcastManager.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
         }
 
         guard let episode = existingEpisode else { return }
@@ -382,7 +382,7 @@ extension SyncTask {
         DataManager.sharedManager.save(playlist: playlist)
 
         addedEpisodes.forEach { addedEpisode in
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+            serverPodcastManager.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true, completion: nil)
         }
     }
 
