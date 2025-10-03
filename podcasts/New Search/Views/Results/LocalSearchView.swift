@@ -25,7 +25,7 @@ struct LocalSearchView: View {
             .background(backgroundColor.ignoresSafeArea())
             .safeAreaInset(edge: .top) {
                 searchBar
-                    .background(backgroundColor)
+                    .background(theme.secondaryUi01)
             }
             .onAppear {
                 viewModel.onAppear(searchResultsModel: searchResults)
@@ -46,9 +46,6 @@ struct LocalSearchView: View {
             }
             .navigationTitle(viewModel.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
-            .modify({ view in
-                view.toolbarBackground(.hidden, for: .navigationBar)
-            })
             .modify({ view in
                 if #available(iOS 17.1, *) {
                     view
