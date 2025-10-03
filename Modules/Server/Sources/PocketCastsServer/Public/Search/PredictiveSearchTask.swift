@@ -49,7 +49,7 @@ public class PredictiveSearchTask {
     }
 
     public func search(term: String) async throws -> [PredictiveSearchResult] {
-        var components = URLComponents(string: ServerConstants.Urls.search + "autocomplete/search)")
+        var components = URLComponents(string: ServerConstants.Urls.search + "autocomplete/search")
         components?.queryItems = [URLQueryItem(name: "q", value: term)]
         guard let searchURL = components?.url else {
             throw URL.URLCreationError.invalidURLString
