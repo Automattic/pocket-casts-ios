@@ -432,7 +432,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
         let manualPlaylistsChooser = ManualPlaylistsChooserViewController(episode: episode)
         let navVC = SJUIUtils.navController(for: manualPlaylistsChooser)
-        navController.topViewController?.present(navVC, animated: true, completion: nil)
+        if presentedViewController is PlayerContainerViewController {
+            presentedViewController?.present(navVC, animated: true, completion: nil)
+        } else {
+            navController.topViewController?.present(navVC, animated: true, completion: nil)
+        }
     }
 
     func navigateToAddCustom(_ url: URL) {
