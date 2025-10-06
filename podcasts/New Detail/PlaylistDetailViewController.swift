@@ -403,13 +403,19 @@ class PlaylistDetailViewController: FakeNavViewController {
         let vc = PCHostingController(rootView: LocalSearchView(
             playlist: viewModel.playlist,
             dismissAction: { [weak self] in
-                self?.dismiss(animated: true)
+                self?.dismiss(animated: true) {
+                    self?.viewModel.reloadPlaylistAndEpisodes()
+                }
             }
         )
             .environmentObject(Theme.sharedTheme)
             .environmentObject(searchAnalyticsHelper)
             .environmentObject(searchResults)
         )
+
+        // Disable drag-to-dismiss gesture to ensure viewModel reload is called
+        vc.isModalInPresentation = true
+
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
     }
