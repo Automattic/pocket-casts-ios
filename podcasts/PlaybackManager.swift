@@ -547,6 +547,12 @@ class PlaybackManager: ServerPlaybackDelegate {
             AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
         }
 
+        // If we don't have a current episode, reload the persisted queue to updated our cache just in case
+        // We're getting reports from users about Up Next being cleared where this line is indicated by the logs
+        if currentEpisode() == nil {
+            queue.loadPersistedQueue()
+        }
+
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
