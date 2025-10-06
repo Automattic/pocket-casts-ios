@@ -403,7 +403,9 @@ class PlaylistDetailViewController: FakeNavViewController {
         let vc = PCHostingController(rootView: LocalSearchView(
             playlist: viewModel.playlist,
             dismissAction: { [weak self] in
-                self?.dismiss(animated: true)
+                self?.dismiss(animated: true) {
+                    self?.viewModel.reloadPlaylistAndEpisodes()
+                }
             }
         )
             .environmentObject(Theme.sharedTheme)
