@@ -578,19 +578,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.add(episode: episode, fireNotification: true, partOfBulkAdd: false, toTop: toTop)
     }
 
-    func insertIntoUpNext(episode: Episode, position: Int) {
-        guard let playingEpisode = currentEpisode() else {
-            // if there's nothing playing, just play this
-            load(episode: episode, autoPlay: false, overrideUpNext: true)
-
-            return
-        }
-
-        if playingEpisode.uuid == episode.uuid { return }
-
-        queue.insert(episode: episode, position: position)
-    }
-
     func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {
         if userInitiated, let episode {
             AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
