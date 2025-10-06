@@ -475,6 +475,8 @@ extension PlayerAction: AnalyticsDescribable {
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
         switch self {
+        case .addToPlaylist:
+            return FeatureFlag.playlistsRebranding.enabled
         default:
             return true
         }
