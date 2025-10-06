@@ -228,6 +228,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new search endpoint and new UI
     case searchImprovements
 
+    /// Use the new predictive endpoint and show predictions
+    case searchPredictive
+
     /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
     case podcastBookmarksInline
 
@@ -389,6 +392,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
+            false
+        case .searchPredictive:
             false
         case .podcastBookmarksInline:
             true

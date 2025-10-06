@@ -5,17 +5,23 @@ import PocketCastsDataModel
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let episodeSearch = EpisodeSearchTask()
+    private let predictiveSearch = PredictiveSearchTask()
 
     private let analyticsHelper: SearchAnalyticsHelper
+
+    @Published var isShowingPredictiveSearch = false
+    @Published var isSearchingPredictive = false
 
     @Published var isSearchingForPodcasts = false
     @Published var isSearchingForEpisodes = false
 
     @Published var episodeSearchError: Error?
     @Published var podcastSearchError: Error?
+    @Published var predictiveSearchError: Error?
 
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
+    @Published var predictive: [PredictiveSearchResult] = []
 
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
@@ -23,6 +29,7 @@ class SearchResultsModel: ObservableObject {
     @Published var hideEpisodes = false
 
     private(set) var currentSearchTerm: String = ""
+    private(set) var currentPredictiveSearchTerm: String = ""
 
     private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
@@ -34,7 +41,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        return podcasts.isEmpty && episodes.isEmpty
+        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty
     }
 
     func clearSearch() {
@@ -43,6 +50,30 @@ class SearchResultsModel: ObservableObject {
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
+    }
+
+    @MainActor
+    func predictiveSearch(term: String) {
+        currentSearchTerm = term
+        episodeSearchError = nil
+        podcastSearchError = nil
+
+        guard !term.startsWith(string: "http:"), term.count > 1 else {
+            return
+        }
+
+        Task {
+            isSearchingPredictive = true
+            do {
+                let results = try await predictiveSearch.search(term: term)
+                show(predictiveResults: results)
+                currentPredictiveSearchTerm = term
+            } catch {
+                predictiveSearchError = error
+                analyticsHelper.trackPredictiveFailed(error)
+            }
+            isSearchingPredictive = false
+        }
     }
 
     @MainActor
@@ -136,11 +167,17 @@ class SearchResultsModel: ObservableObject {
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {
+        isShowingPredictiveSearch = false
         if isShowingLocalResultsOnly {
             podcasts.append(contentsOf: podcastResults.filter { !podcasts.contains($0) })
             isShowingLocalResultsOnly = false
         } else {
             podcasts = podcastResults
         }
+    }
+
+    private func show(predictiveResults: [PredictiveSearchResult]) {
+        isShowingPredictiveSearch = true
+        predictive = predictiveResults
     }
 }

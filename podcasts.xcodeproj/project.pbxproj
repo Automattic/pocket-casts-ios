@@ -2093,6 +2093,7 @@
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */; };
+		FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
 		FF68E8BA2DF338A800114FC7 /* HorizontalCollectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */; };
@@ -4211,6 +4212,7 @@
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoldersAnimationView.swift; sourceTree = "<group>"; };
+		FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveList.swift; sourceTree = "<group>"; };
 		FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceNavigationView.swift; sourceTree = "<group>"; };
 		FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsApp.swift; sourceTree = "<group>"; };
 		FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionList.swift; sourceTree = "<group>"; };
@@ -5262,6 +5264,7 @@
 		8B67A26129A7D58E0076886D /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */,
 				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
 				FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */,
 				FF8660AC2E84380900731A87 /* PillSegmentControl.swift */,
@@ -10666,6 +10669,7 @@
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
+				FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */,
 				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
