@@ -2207,6 +2207,14 @@ internal enum L10n {
   internal static func playback2024YearOverYearCompareTitleUpOver500(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_year_over_year_compare_title_up_over_500", String(describing: p1), fallback: "Compared to 2023, your listening time went up more than %1$@")
   }
+  /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
+  internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// See your listening stats, top podcasts, and more.
+  internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
+  /// Playback 2025
+  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// View My Playback 2025
+  internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts", fallback: "All podcasts") }
   /// Playback settings option in the Effects Player panel

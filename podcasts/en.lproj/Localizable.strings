@@ -5530,3 +5530,16 @@
 
 /* Search Results filter option */
 "all_results" = "All Results";
+
+/// A description of the Playback 2025 feature
+"playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/// Description for the Playback 2025 feature
+"playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/// Title for the Playback 2025 feature
+"playback_2025_feature_title" = "Playback 2025";
+
+/// Label of the Playback 2025 call to action buton
+"playback_2025_view_year" = "View My Playback 2025";
+

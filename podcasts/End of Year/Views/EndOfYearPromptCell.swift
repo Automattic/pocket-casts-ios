@@ -15,7 +15,7 @@ class EndOfYearPromptCell: ThemeableCell {
         case .y2024:
             viewModel = .init(title: L10n.playback2024FeatureTitle, description: L10n.playback2024FeatureDescription, imageName: "playback-24", imagePadding: 60)
         case .y2025:
-            viewModel = .init(title: L10n.playback2024FeatureTitle, description: L10n.playback2024FeatureDescription, imageName: "playback-24", imagePadding: 60)
+            viewModel = .init(title: L10n.playback2025FeatureTitle, description: L10n.playback2025FeatureDescription, imageName: "playback-24", imagePadding: 60)
         }
 
         let childView = UIHostingController(rootView: EndOfYearCard(viewModel: viewModel)

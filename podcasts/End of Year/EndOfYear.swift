@@ -122,7 +122,7 @@ struct EndOfYear {
         case .y2024:
             viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
         case .y2025:
-            viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
+            viewModel = .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-featured")
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController)
