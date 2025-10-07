@@ -184,8 +184,12 @@ extension SyncTask {
             podcast.sortOrder = podcastItem.sortPosition.value
         }
 
-        if checkIsDeleted, podcastItem.hasIsDeleted {
-            podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
+        if checkIsDeleted {
+            if podcastItem.hasIsDeleted {
+                podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
+            } else if podcastItem.hasSubscribed {
+                podcast.subscribed = podcastItem.subscribed.value ? 1 : 0
+            }
         }
 
         if FeatureFlag.settingsSync.enabled {
