@@ -31,7 +31,7 @@ final class SyncTaskTests_PodcastImport: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testDoesNotReSubscribeMissingPodcastWhenServerMarksUnsubscribed() {
+    func testDoesNotReSubscribeMissingPodcastWhenServerMarksUnsubscribed() throws {
         let uuid = "pod-missing"
 
         var podcast = Api_SyncUserPodcast()
@@ -46,7 +46,10 @@ final class SyncTaskTests_PodcastImport: XCTestCase {
 
         syncTask.processServerData(response: response)
 
-        XCTAssertTrue(serverPodcastManager.addFromUuidCalls.isEmpty)
+        XCTAssertEqual(serverPodcastManager.addFromUuidCalls.count, 1)
+        let addCall = try XCTUnwrap(serverPodcastManager.addFromUuidCalls.first)
+        XCTAssertEqual(addCall.uuid, uuid)
+        XCTAssertFalse(addCall.subscribe)
         XCTAssertNil(DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true))
     }
 }
