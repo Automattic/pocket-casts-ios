@@ -110,6 +110,15 @@ extension SyncTask {
 
         let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
         let isDeleted = podcastItem.hasIsDeleted && podcastItem.isDeleted.value
+        let shouldSubscribe: Bool = {
+            if podcastItem.hasIsDeleted {
+                return !podcastItem.isDeleted.value
+            }
+            if podcastItem.hasSubscribed {
+                return podcastItem.subscribed.value
+            }
+            return true
+        }()
 
         if isDeleted {
             guard let podcast = existingPodcast else { return }
@@ -133,23 +142,24 @@ extension SyncTask {
             DataManager.sharedManager.save(podcast: podcast)
 
             ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
-        } else {
-            let semaphore = DispatchSemaphore(value: 0)
-
-            serverPodcastManager.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, autoDownloads: 0, completion: { success in
-                if success {
-                    if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
-                        podcast.syncStatus = SyncStatus.synced.rawValue
-                        self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
-
-                        DataManager.sharedManager.save(podcast: podcast)
-                    }
-                }
-
-                semaphore.signal()
-            })
-            _ = semaphore.wait(timeout: .distantFuture)
+            return
         }
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        serverPodcastManager.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: shouldSubscribe, autoDownloads: 0, completion: { success in
+            if success {
+                if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
+                    podcast.syncStatus = SyncStatus.synced.rawValue
+                    self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
+
+                    DataManager.sharedManager.save(podcast: podcast)
+                }
+            }
+
+            semaphore.signal()
+        })
+        _ = semaphore.wait(timeout: .distantFuture)
 
     }
 
