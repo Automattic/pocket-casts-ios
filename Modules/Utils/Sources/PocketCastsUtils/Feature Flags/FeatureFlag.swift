@@ -237,6 +237,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
 
+    /// Enable localization headers
+    case enableLocalizationHeaders
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -398,6 +401,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
+            true
+        case .enableLocalizationHeaders:
             true
         }
     }
