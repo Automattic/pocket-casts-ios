@@ -36,13 +36,25 @@ struct PlaylistEpisodePreviewRowView: View {
                     Text(episode.title ?? "")
                         .font(size: 15.0, style: .body, weight: .medium)
                         .foregroundStyle(theme.primaryText01)
-                    Text(episode.displayableTimeLeft())
-                        .font(size: 12.0, style: .body, weight: .semibold)
-                        .foregroundStyle(theme.primaryText02)
+                    HStack(spacing: 4) {
+                        if episode.wasDeleted {
+                            Image("option-cross-circle")
+                            Text(L10n.podcastUnavailable)
+                            Text("•")
+                        } else if episode.archived {
+                            Image("list_archived")
+                            Text(L10n.podcastArchived)
+                            Text("•")
+                        }
+                        Text(episode.displayableTimeLeft())
+                    }
+                    .font(size: 12.0, style: .body, weight: .semibold)
+                    .foregroundStyle(theme.primaryText02)
                 }
                 Spacer()
             }
         }
+        .opacity(episode.played() || episode.archived || episode.wasDeleted ? 0.5 : 1.0)
     }
 }
 

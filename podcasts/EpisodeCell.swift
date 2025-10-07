@@ -202,7 +202,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             bookmarkIcon.tintColor = mainTintColor
             bookmarkIcon.isHidden = !showBookmarksIcon
 
-            let hideStatus = !episode.archived && !episode.downloaded(pathFinder: DownloadManager.shared) && !episode.downloadFailed() && !uploadFailed && !episode.playbackError()
+            let hideStatus = !episode.archived && !episode.wasDeleted && !episode.downloaded(pathFinder: DownloadManager.shared) && !episode.downloadFailed() && !uploadFailed && !episode.playbackError()
             if !hideStatus {
                 let statusImage: UIImage?
                 if episode.downloadFailed() || uploadFailed || episode.playbackError() {
@@ -215,8 +215,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                     if showBookmarksIcon {
                         statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
                         bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
-                    } else {
+                    } else if episode.wasDeleted {
+                        statusImage = UIImage(named: "option-cross-circle")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else if episode.archived {
                         statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else {
+                        statusImage = nil
                     }
                 }
                 statusIndicator.image = statusImage
@@ -242,7 +246,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 }
             }
 
-            if episode.played() || episode.archived {
+            if episode.played() || episode.archived || episode.wasDeleted {
                 episodeImage.alpha = EpisodeCell.playedAlpha
                 contentStackView.alpha = EpisodeCell.playedAlpha
             } else {
@@ -255,7 +259,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
         EpisodeDateHelper.setDate(episode: episode, on: dayName, tintColor: mainTintColor)
 
-        if episode.archived {
+        if episode.wasDeleted {
+            informationLabel.text = L10n.podcastUnavailable + " • " + episode.displayableInfo(includeSize: false)
+        }
+        else if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
             informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)

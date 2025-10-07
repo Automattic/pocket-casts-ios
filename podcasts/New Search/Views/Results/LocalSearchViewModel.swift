@@ -391,8 +391,9 @@ extension EpisodeSearchResult {
         let publishedDate = episode.publishedDate ?? episode.addedDate ?? Date()
         let duration = episode.duration > 0 ? episode.duration : nil
         let podcastTitle = episode.parentPodcast(dataManager: dataManager)?.title ?? ""
+        let state: EpisodeSearchResult.State = episode.wasDeleted ? .unavailable : episode.archived ? .archived : .normal
 
-        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle)
+        self.init(uuid: episode.uuid, title: episode.displayableTitle(), publishedDate: publishedDate, state: state, duration: duration, podcastUuid: episode.podcastUuid, podcastTitle: podcastTitle)
     }
 
     init(listEpisode: ListEpisode, dataManager: DataManager = DataManager.sharedManager) {
