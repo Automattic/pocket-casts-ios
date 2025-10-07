@@ -5,6 +5,7 @@ public class PlaylistQueryBuilder {
     public enum SelectClause {
         case episode
         case episodeCount
+        case allEpisodeCount
         case podcast
     }
 
@@ -85,6 +86,13 @@ public class PlaylistQueryBuilder {
                     \(manualJoin)
                     WHERE episode.archived = \(shouldShowArchived ? "1" : "0")
                     """
+            case .allEpisodeCount:
+                queryString =
+                    """
+                    \(manualCTE)
+                    SELECT COUNT(*)
+                    \(manualJoin)
+                    """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)
                 queryString = "\(select) WHERE episode.archived = 0"
@@ -118,7 +126,8 @@ public class PlaylistQueryBuilder {
         queryString.replace(emptyGroup(for: "AND"), with: "")
         queryString.replace(emptyGroup(for: "OR"), with: "OR (1)")
         if let searchTerm {
-            queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
+            let searchClause = playlist.manual ? "WHERE" : "AND"
+            queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
         if let sort = add(sortFor: playlist.sortType), clause != .episodeCount {
@@ -137,7 +146,7 @@ public class PlaylistQueryBuilder {
         switch clause {
         case .episode:
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .episodeCount:
+        case .episodeCount, .allEpisodeCount:
             return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
         case .podcast:
             return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
@@ -148,7 +157,7 @@ public class PlaylistQueryBuilder {
         switch clause {
         case .episode:
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .episodeCount:
+        case .episodeCount, .allEpisodeCount:
             return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
         case .podcast:
             return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"

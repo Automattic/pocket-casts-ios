@@ -74,7 +74,7 @@ class PlaylistDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived)
+                let query = PlaylistQueryBuilder.query(clause: .allEpisodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived)
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 

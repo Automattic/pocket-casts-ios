@@ -2318,6 +2318,12 @@ internal enum L10n {
   internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "Playlist is full. Try creating a new one") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
+  /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
+  internal static var playlistManualArchivedEpisodePlaceholder: String { return L10n.tr("Localizable", "playlist_manual_archived_episode_placeholder", fallback: "Your episode in this playlist has been archived") }
+  /// Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes
+  internal static func playlistManualArchivedEpisodesPlaceholder(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_manual_archived_episodes_placeholder", String(describing: p1), fallback: "All %1$@ episodes of this playlist have been archived")
+  }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts

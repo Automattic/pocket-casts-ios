@@ -8,12 +8,14 @@ class PlaylistDetailViewModel: ObservableObject {
 
     enum Section: String, ContentEquatable, ContentIdentifiable {
         case header
+        case archive
         case episodes
 
-        func isContentEqual(to source: PlaylistDetailViewModel.Section) -> Bool {
+        func isContentEqual(to source: Section) -> Bool {
             self == source
         }
     }
+
     enum ButtonTag {
         case smartRules
         case addEpisodes
@@ -23,7 +25,8 @@ class PlaylistDetailViewModel: ObservableObject {
     let onButtonTapped: (ButtonTag) -> Void
 
     var episodes: [ListEpisode] {
-        dataSource[safe: 1]?.elements as? [ListEpisode] ?? []
+        let index = index(for: .episodes)
+        return dataSource[safe: index]?.elements as? [ListEpisode] ?? []
     }
 
     var isManualPlaylist: Bool {
@@ -34,10 +37,29 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.podcastCount() > 0
     }
 
+    var numberOfSection: Int {
+        isManualPlaylist ? 3 : 2
+    }
+
+    var shouldShowArchivePlaceholder: Bool {
+        archivedEpisodesCount > 0 && !shouldShowArchived
+    }
+
+    var shouldShowEmptyPlaceholder: Bool {
+        episodes.isEmpty && !shouldShowArchivePlaceholder
+    }
+
+    var archivedEpisodesCount: Int {
+        dataManager.playlistEpisodeCount(
+            for: playlist,
+            episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
+            shouldShowArchived: true
+        )
+    }
+
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
-    @Published var archivedEpisodesCount: Int = 0
     @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter!
@@ -85,11 +107,9 @@ class PlaylistDetailViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let count = await self.getEpisodesCount()
-                let archivedCount = await self.getEpisodesCount(archived: true)
                 if self.isSearching {
                     await MainActor.run {
                         self.episodesCount = count
-                        self.archivedEpisodesCount = archivedCount
                         self.isLoadingData = false
                     }
                 } else {
@@ -98,7 +118,6 @@ class PlaylistDetailViewModel: ObservableObject {
                     await MainActor.run {
                         self.images = images
                         self.episodesCount = count
-                        self.archivedEpisodesCount = archivedCount
                         self.isLoadingData = false
                     }
                 }
@@ -176,6 +195,17 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.save(playlist: playlist)
     }
 
+    func index(for section: Section) -> Int {
+        switch section {
+        case .header:
+            return 0
+        case .archive:
+            return 1
+        case .episodes:
+            return isManualPlaylist ? 2 : 1
+        }
+    }
+
     private func buildChangeSet(
         source: [ListEpisode],
         newData: [ListEpisode]
@@ -190,6 +220,14 @@ class PlaylistDetailViewModel: ObservableObject {
                 PlaylistHeaderViewCellPlaceholder()
             ])
         )
+        if isManualPlaylist {
+            finalData.append(ArraySection(
+                model: .archive,
+                elements: [
+                    PlaylistArchiveViewCellPlaceholder()
+                ])
+            )
+        }
         if newData.isEmpty, isSearching {
             finalData.append(ArraySection(
                 model: .episodes,
@@ -197,13 +235,14 @@ class PlaylistDetailViewModel: ObservableObject {
                     NoSearchResultsPlaceholder()
                 ])
             )
-        } else if newData.isEmpty, shouldShowArchived {
+        } else if newData.isEmpty, !shouldShowArchived {
             finalData.append(ArraySection(
                 model: .episodes,
                 elements: [
                     AllArchivedPlaceholder(
-                        archived: 0,
-                        message: "All 4 episodes of this playlist have been archived")
+                        archived: archivedEpisodesCount,
+                        message: archivedEpisodesCount == 1 ? L10n.playlistManualArchivedEpisodePlaceholder : L10n.playlistManualArchivedEpisodesPlaceholder(archivedEpisodesCount)
+                    )
                 ])
             )
         } else {
@@ -275,17 +314,21 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        dataSource[1] = ArraySection(
+        let index = index(for: .episodes)
+        dataSource[index] = ArraySection(
             model: .episodes,
-            elements: tempEpisodes)
+            elements: tempEpisodes
+        )
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        dataSource[1] = ArraySection(
+        let index = index(for: .episodes)
+        dataSource[index] = ArraySection(
             model: .episodes,
-            elements: tempEpisodes)
+            elements: tempEpisodes
+        )
         tempEpisodes.removeAll()
 
         reloadPlaylistAndEpisodes()
@@ -305,7 +348,7 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
