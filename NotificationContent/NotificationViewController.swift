@@ -30,7 +30,10 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                     podcastImage.image = UIImage(data: data)
                     attachment.url.stopAccessingSecurityScopedResource()
                 }
-            } catch {}
+            } catch {
+                // Log the error for debugging purposes
+                FileLog.shared.addMessage("NotificationViewController: Failed to load podcast image - \(error.localizedDescription)")
+            }
         } else {
             podcastImage.image = UIImage(named: "no-artwork")
         }

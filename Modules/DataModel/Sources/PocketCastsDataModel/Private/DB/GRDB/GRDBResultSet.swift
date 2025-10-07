@@ -3,7 +3,7 @@ import Foundation
 
 class GRDBResultSet: PCDBResultSet {
     private let rowCursor: RowCursor
-    private var row: Row!
+    private var row: Row?
 
     private var closed = false
 
@@ -20,12 +20,19 @@ class GRDBResultSet: PCDBResultSet {
             fatalError("Result set is closed")
         }
 
-        try? row = rowCursor.next()
+        do {
+            row = try rowCursor.next()
+        } catch {
+            FileLog.shared.addMessage("GRDBResultSet: Error getting next row - \(error.localizedDescription)")
+            row = nil
+        }
         return row != nil
     }
 
     func int(forColumnIndex: Int32) -> Int32 {
-        guard let valueForColumn = Array(row.databaseValues)[safe: Int(forColumnIndex)], let int32Value = Int32.fromDatabaseValue(valueForColumn) else {
+        guard let row = row,
+              let valueForColumn = Array(row.databaseValues)[safe: Int(forColumnIndex)], 
+              let int32Value = Int32.fromDatabaseValue(valueForColumn) else {
             return 0
         }
 
@@ -33,15 +40,17 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func int(forColumn: String) -> Int32 {
-        row[forColumn]
+        row?[forColumn] ?? 0
     }
 
     func long(forColumn: String) -> Int {
-        row[forColumn]
+        row?[forColumn] ?? 0
     }
 
     func long(forColumnIndex: Int32) -> Int {
-        guard let valueForColumn = Array(row.databaseValues)[safe: Int(forColumnIndex)], let intValue = Int.fromDatabaseValue(valueForColumn) else {
+        guard let row = row,
+              let valueForColumn = Array(row.databaseValues)[safe: Int(forColumnIndex)], 
+              let intValue = Int.fromDatabaseValue(valueForColumn) else {
             return 0
         }
 
@@ -49,22 +58,24 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func object(forColumn: String) -> Any? {
-        row[forColumn]
+        row?[forColumn]
     }
 
     func string(forColumn: String) -> String? {
-        row[forColumn]
+        row?[forColumn]
     }
 
     func longLongInt(forColumn: String) -> Int64 {
-        row[forColumn] ?? 0
+        row?[forColumn] ?? 0
     }
 
     func bool(forColumn: String) -> Bool {
-        row[forColumn] ?? false
+        row?[forColumn] ?? false
     }
 
     func double(forColumn: String) -> Double {
+        guard let row = row else { return 0 }
+        
         // GRDB sometimes convert the date right away to a String
         // When casting back to double, it becomes the year, which mess up
         // the date. We deal with this special case here
@@ -76,6 +87,6 @@ class GRDBResultSet: PCDBResultSet {
     }
 
     func date(forColumn: String) -> Date? {
-        row[forColumn]
+        row?[forColumn]
     }
 }
