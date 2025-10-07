@@ -289,6 +289,7 @@ public class ServerPodcastManager: NSObject {
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.addLocalizationHeaders()
         let (data, response) = try await urlConnection.send(request: request)
 
         if (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.notModified {
@@ -311,6 +312,7 @@ public class ServerPodcastManager: NSObject {
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.addLocalizationHeaders()
         do {
             let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let data = responseData else { return nil }
