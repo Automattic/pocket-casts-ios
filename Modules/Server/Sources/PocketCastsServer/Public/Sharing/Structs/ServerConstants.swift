@@ -82,6 +82,8 @@ public enum ServerConstants {
         public static let cacheControl = "Cache-Control"
         public static let date = "Date"
         public static let etag = "ETag"
+        public static let userRegion = "User-Region"
+        public static let appLanguage = "App-Language"
     }
 
     public enum Timeouts {
