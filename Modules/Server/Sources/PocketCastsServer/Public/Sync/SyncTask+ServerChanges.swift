@@ -102,6 +102,12 @@ extension SyncTask {
     }
 
     private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
+        defer {
+            NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
+            NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
+            upToPodcast += 1
+        }
+
         let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
         if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
             if let podcast = existingPodcast {
@@ -140,9 +146,6 @@ extension SyncTask {
             _ = semaphore.wait(timeout: .distantFuture)
         }
 
-        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
-        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
-        upToPodcast += 1
     }
 
     private func importItem(podcastItem: Api_SyncUserPodcast, into podcast: Podcast, checkIsDeleted: Bool) {
