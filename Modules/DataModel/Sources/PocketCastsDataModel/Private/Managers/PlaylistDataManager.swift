@@ -70,11 +70,11 @@ class PlaylistDataManager {
         return count
     }
 
-    func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+    func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived)
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 

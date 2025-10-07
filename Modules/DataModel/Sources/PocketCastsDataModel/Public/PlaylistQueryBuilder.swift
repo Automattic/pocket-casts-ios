@@ -31,7 +31,8 @@ public class PlaylistQueryBuilder {
         for playlist: EpisodeFilter,
         episodeUuidToAdd: String? = nil,
         searchTerm: String? = nil,
-        limit: Int = 0
+        limit: Int = 0,
+        shouldShowArchived: Bool = false
     ) -> String {
 
         var queryString: String = ""
@@ -65,7 +66,6 @@ public class PlaylistQueryBuilder {
                   AND episode.rn = 1
                 LEFT JOIN \(DataManager.podcastTableName) podcast
                   ON episode.podcast_id = podcast.id
-                WHERE episode.archived = 0
                 """
 
             switch clause {
@@ -75,6 +75,7 @@ public class PlaylistQueryBuilder {
                     \(manualCTE)
                     SELECT episode.*
                     \(manualJoin)
+                    \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
             case .episodeCount:
                 queryString =
@@ -82,6 +83,7 @@ public class PlaylistQueryBuilder {
                     \(manualCTE)
                     SELECT COUNT(*)
                     \(manualJoin)
+                    WHERE episode.archived = \(shouldShowArchived ? "1" : "0")
                     """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)

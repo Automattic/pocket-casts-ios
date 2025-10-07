@@ -6,14 +6,17 @@ class PlaylistRefreshOperation: Operation {
     private let episodesDataManager: EpisodesDataManager
     private let playlist: EpisodeFilter
     private let completion: ([ListEpisode]) -> Void
+    private let shouldShowArchived: Bool
 
     init(
         episodesDataManager: EpisodesDataManager = .init(),
         playlist: EpisodeFilter,
+        shouldShowArchived: Bool = false,
         completion: @escaping (([ListEpisode]) -> Void)
     ) {
         self.episodesDataManager = episodesDataManager
         self.playlist = playlist
+        self.shouldShowArchived = shouldShowArchived
         self.completion = completion
 
         super.init()
@@ -25,7 +28,7 @@ class PlaylistRefreshOperation: Operation {
 
             let newData: [ListEpisode]
             if FeatureFlag.playlistsRebranding.enabled {
-                newData = episodesDataManager.playlistEpisodes(for: playlist)
+                newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
             } else {
                 newData = episodesDataManager.episodes(for: playlist)
             }

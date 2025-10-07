@@ -935,8 +935,8 @@ public class DataManager {
         playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
-    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool = false) -> Int {
+        playlistManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived, dbQueue: dbQueue)
     }
 
     public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {

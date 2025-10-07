@@ -144,9 +144,10 @@ class EpisodesDataManager {
     func playlistEpisodes(
         for playlist: EpisodeFilter,
         limit: Int = Constants.Limits.maxFilterItems,
+        shouldShowArchived: Bool = false,
         search: String? = nil
     ) -> [ListEpisode] {
-        let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), searchTerm: search, limit: limit)
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), searchTerm: search, limit: limit, shouldShowArchived: shouldShowArchived)
         return EpisodeTableHelper.loadPlaylistEpisodes(query: query)
     }
 

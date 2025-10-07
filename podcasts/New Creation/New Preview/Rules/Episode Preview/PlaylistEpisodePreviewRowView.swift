@@ -7,6 +7,11 @@ struct PlaylistEpisodePreviewRowView: View {
     let episode: BaseEpisode
     let hideSeparator: Bool
 
+    var subtitle: String {
+        let timeLeft = episode.displayableTimeLeft()
+        return episode.archived ? "\(L10n.podcastArchived) • \(timeLeft)" : timeLeft
+    }
+
     init(episode: BaseEpisode, hideSeparator: Bool = false) {
         self.episode = episode
         self.hideSeparator = hideSeparator
@@ -36,13 +41,24 @@ struct PlaylistEpisodePreviewRowView: View {
                     Text(episode.title ?? "")
                         .font(size: 15.0, style: .body, weight: .medium)
                         .foregroundStyle(theme.primaryText01)
-                    Text(episode.displayableTimeLeft())
-                        .font(size: 12.0, style: .body, weight: .semibold)
-                        .foregroundStyle(theme.primaryText02)
+                    HStack {
+                        if episode.archived {
+                            Image("list_archived")
+                                .renderingMode(.template)
+                                .resizable()
+                                .foregroundColor(theme.primaryText02)
+                                .frame(width: 12, height: 12)
+                        }
+                        Text(subtitle)
+                            .font(size: 12.0, style: .body, weight: .semibold)
+                            .foregroundStyle(theme.primaryText02)
+                        Spacer()
+                    }
                 }
                 Spacer()
             }
         }
+        .opacity(episode.archived ? 0.5 : 1.0)
     }
 }
 

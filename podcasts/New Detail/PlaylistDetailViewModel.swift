@@ -37,10 +37,12 @@ class PlaylistDetailViewModel: ObservableObject {
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
+    @Published var archivedEpisodesCount: Int = 0
     @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
+    private(set) var shouldShowArchived = false
     private(set) var firstTimeLoading = true
 
     private var searchTerm: String = ""
@@ -83,9 +85,11 @@ class PlaylistDetailViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let count = await self.getEpisodesCount()
+                let archivedCount = await self.getEpisodesCount(archived: true)
                 if self.isSearching {
                     await MainActor.run {
                         self.episodesCount = count
+                        self.archivedEpisodesCount = archivedCount
                         self.isLoadingData = false
                     }
                 } else {
@@ -94,6 +98,7 @@ class PlaylistDetailViewModel: ObservableObject {
                     await MainActor.run {
                         self.images = images
                         self.episodesCount = count
+                        self.archivedEpisodesCount = archivedCount
                         self.isLoadingData = false
                     }
                 }
@@ -134,7 +139,7 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         operationQueue.cancelAllOperations()
 
-        let refreshOperation = PlaylistRefreshOperation(playlist: playlist) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: playlist, shouldShowArchived: shouldShowArchived) { [weak self] newData in
             guard let self else { return }
             DispatchQueue.main.async {
                 if self.firstTimeLoading {
@@ -153,7 +158,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func unarchivedEpisodesCount() -> Int {
-        return 1 // TODO: query playlist unarchived episodes
+        return episodesCount
     }
 
     func delete(episodes uuids: [String]) {
@@ -185,11 +190,20 @@ class PlaylistDetailViewModel: ObservableObject {
                 PlaylistHeaderViewCellPlaceholder()
             ])
         )
-        if newData.isEmpty {
+        if newData.isEmpty, isSearching {
             finalData.append(ArraySection(
                 model: .episodes,
                 elements: [
                     NoSearchResultsPlaceholder()
+                ])
+            )
+        } else if newData.isEmpty, shouldShowArchived {
+            finalData.append(ArraySection(
+                model: .episodes,
+                elements: [
+                    AllArchivedPlaceholder(
+                        archived: 0,
+                        message: "All 4 episodes of this playlist have been archived")
                 ])
             )
         } else {
@@ -230,13 +244,14 @@ class PlaylistDetailViewModel: ObservableObject {
         }
     }
 
-    private func getEpisodesCount() async -> Int {
+    private func getEpisodesCount(archived: Bool = false) async -> Int {
         let playlist = self.playlist!
         let dataManager = self.dataManager
         return await Task.detached(priority: .userInitiated) {
             dataManager.playlistEpisodeCount(
                 for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
+                shouldShowArchived: archived
             )
         }.value
     }
