@@ -106,6 +106,7 @@ public class CacheServerHandler {
         if let lastUpdated = podcast.lastUpdatedAt, podcast.isSubscribed() {
             request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
         }
+        request.addLocalizationHeaders()
 
         tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             // podcast hasn't changed
