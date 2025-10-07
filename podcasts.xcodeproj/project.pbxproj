@@ -5544,23 +5544,6 @@
 			path = "Custom Order";
 			sourceTree = "<group>";
 		};
-		9A11FC942D91D04E00A1EF3E /* Newform AppsFlyer */ = {
-			isa = PBXGroup;
-			children = (
-				9A11FC952D91D05B00A1EF3E /* AppsFlyerAdapter.swift */,
-				9A11FC982D91D1C900A1EF3E /* AppsFlyerDataProvider.swift */,
-			);
-			path = "Newform AppsFlyer";
-			sourceTree = "<group>";
-		};
-		9A11FC9E2D92F3D600A1EF3E /* Apple ATT */ = {
-			isa = PBXGroup;
-			children = (
-				9A11FC9F2D92F3E100A1EF3E /* AppTrackingTransparencyController.swift */,
-			);
-			path = "Apple ATT";
-			sourceTree = "<group>";
-		};
 		9A11FCB92D95929F00A1EF3E /* PrivacySettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -9087,6 +9070,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BDBD540E17019B2A0048C8C5 /* Build configuration list for PBXNativeTarget "podcasts" */;
 			buildPhases = (
+				F5ABA8A02E94AD3B00987165 /* Check Xcode Version */,
 				BDBD53E817019B2A0048C8C5 /* Sources */,
 				3C5194112B716756006632DE /* ShellScript */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
@@ -10066,6 +10050,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/build-phases/post-build-update-plist.sh\n";
+		};
+		F5ABA8A02E94AD3B00987165 /* Check Xcode Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Check Xcode Version";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\n# Read the version from .xcode-version file\nEXPECTED_XCODE_VERSION=$(cat .xcode-version)\n\n# Compare the versions\nif [ \"$CURRENT_XCODE_VERSION\" != \"$EXPECTED_XCODE_VERSION\" ]; then\n    echo \"Error: Xcode version $XCODE_VERSION_ACTUAL does not match expected version $EXPECTED_XCODE_VERSION.\"\n    exit 1\nelse\n    echo \"Xcode version $XCODE_VERSION_ACTUAL matches expected version.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
