@@ -42,7 +42,8 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified"
+        "deselectedChaptersModified",
+        "wasDeleted"
     ]
 
     enum Constants {
@@ -193,7 +194,7 @@ class EpisodeDataManager {
     }
 
     func allEpisodesForPodcast(id: Int64, dbQueue: PCDBQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [id], dbQueue: dbQueue)
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0", values: [id], dbQueue: dbQueue)
     }
 
     func episodesWithListenHistory(limit: Int, dbQueue: PCDBQueue) -> [Episode] {
@@ -201,11 +202,11 @@ class EpisodeDataManager {
     }
 
     func findLatestEpisode(podcast: Podcast, dbQueue: PCDBQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
     }
 
     func findLatestEpisodes(podcast: Podcast, limit: Int, dbQueue: PCDBQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", values: [podcast.id, limit], dbQueue: dbQueue)
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", values: [podcast.id, limit], dbQueue: dbQueue)
     }
 
     func allUpNextEpisodes(dbQueue: PCDBQueue) -> [Episode] {
@@ -1093,6 +1094,7 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
+        values.append(episode.wasDeleted)
 
         if includeIdForWhere {
             values.append(episode.id)

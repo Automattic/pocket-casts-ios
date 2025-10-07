@@ -65,7 +65,6 @@ public class PlaylistQueryBuilder {
                   AND episode.rn = 1
                 LEFT JOIN \(DataManager.podcastTableName) podcast
                   ON episode.podcast_id = podcast.id
-                WHERE episode.archived = 0
                 """
 
             switch clause {
@@ -85,7 +84,7 @@ public class PlaylistQueryBuilder {
                     """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)
-                queryString = "\(select) WHERE episode.archived = 0"
+                queryString = "\(select) WHERE"
             }
         } else {
             let select = select(clause: clause)
