@@ -109,21 +109,26 @@ extension SyncTask {
         }
 
         let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
-        if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
-            if let podcast = existingPodcast {
-                podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-                podcast.isPushEnabled = false
-                podcast.autoArchiveEpisodeLimit = 0
-                podcast.subscribed = 0
-                podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
-                podcast.settings = PodcastSettings.defaults
-                if FeatureFlag.settingsSync.enabled {
-                    podcast.processSettings(podcastItem.settings)
-                }
+        let isDeleted = podcastItem.hasIsDeleted && podcastItem.isDeleted.value
 
-                DataManager.sharedManager.save(podcast: podcast)
+        if isDeleted {
+            guard let podcast = existingPodcast else { return }
+
+            podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
+            podcast.isPushEnabled = false
+            podcast.autoArchiveEpisodeLimit = 0
+            podcast.subscribed = 0
+            podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+            podcast.settings = PodcastSettings.defaults
+            if FeatureFlag.settingsSync.enabled {
+                podcast.processSettings(podcastItem.settings)
             }
-        } else if let podcast = existingPodcast {
+
+            DataManager.sharedManager.save(podcast: podcast)
+            return
+        }
+
+        if let podcast = existingPodcast {
             importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
             DataManager.sharedManager.save(podcast: podcast)
 
