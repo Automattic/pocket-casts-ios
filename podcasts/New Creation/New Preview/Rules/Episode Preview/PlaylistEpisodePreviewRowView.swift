@@ -58,7 +58,7 @@ struct PlaylistEpisodePreviewRowView: View {
                 Spacer()
             }
         }
-        .opacity(episode.archived ? 0.5 : 1.0)
+        .opacity(episode.played() || episode.archived || episode.wasDeleted ? 0.5 : 1.0)
     }
 }
 

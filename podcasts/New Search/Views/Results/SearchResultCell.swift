@@ -57,10 +57,24 @@ struct SearchResultCell: View {
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
-                                .font(style: .caption, weight: .semibold)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .lineLimit(1)
+                            HStack(spacing: 4) {
+                                switch episode.state {
+                                case .normal:
+                                    EmptyView()
+                                case .archived:
+                                    Image("list_archived")
+                                    Text(L10n.podcastArchived)
+                                    Text("•")
+                                case .unavailable:
+                                    Image(systemName: "option-cross-circle")
+                                    Text(L10n.podcastUnavailable)
+                                    Text("•")
+                                }
+                                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
+                            }
+                            .font(style: .caption, weight: .semibold)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .lineLimit(1)
                         } else if let result = model.podcastFolder {
                             Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
@@ -98,7 +112,7 @@ struct SearchResultCell: View {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
-                .opacity(played ? 0.5 : 1.0)
+                .opacity(played || model.episode?.state.isNormal == false ? 0.5 : 1.0)
                 if showDivider {
                     ThemedDivider()
                 }
