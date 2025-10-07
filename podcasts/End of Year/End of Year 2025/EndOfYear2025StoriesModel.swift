@@ -169,7 +169,7 @@ class EndOfYear2025StoriesModel: StoryModel {
 }
 
 
-/// An entity that holds data to present EoY 2024 stories
+/// An entity that holds data to present EoY 2025 stories
 class EndOfYear2025StoriesData {
     var topPodcasts: [TopPodcast] = []
 

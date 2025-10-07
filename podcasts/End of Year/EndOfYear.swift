@@ -122,7 +122,7 @@ struct EndOfYear {
         case .y2024:
             viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
         case .y2025:
-            viewModel = .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-featured")
+            viewModel = .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-2025-featured")
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController)
@@ -242,7 +242,7 @@ extension EndOfYear {
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         switch EndOfYear.currentYear {
-        case .y2024: return .darkContent
+        case .y2024, .y2025: return .darkContent
         default: return .lightContent
         }
     }
