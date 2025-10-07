@@ -237,16 +237,16 @@ fileprivate extension AVAssetWriterInput {
     func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
         try await withCheckedThrowingContinuation { continuation in
             requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
-                _unsafeWait {
-                    do {
-                        let finished = try await block()
-                        if finished {
-                            continuation.resume()
-                        }
-                    } catch {
-                        self.markAsFinished()
-                        continuation.resume(throwing: error)
+                do {
+                    let finished = try _unsafeWait {
+                        try await block()
                     }
+                    if finished {
+                        continuation.resume()
+                    }
+                } catch {
+                    self.markAsFinished()
+                    continuation.resume(throwing: error)
                 }
             }
         }
