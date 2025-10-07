@@ -362,7 +362,9 @@ extension SyncTask {
         }
 
         addedEpisodes.forEach { episode in
-            guard DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil else { return }
+            if DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil {
+                episode.wasDeleted = true
+            }
 
             if episode.addedDate == nil {
                 episode.addedDate = Date()

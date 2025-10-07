@@ -95,7 +95,7 @@ public class PlaylistQueryBuilder {
                     """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)
-                queryString = "\(select) WHERE episode.archived = 0"
+                queryString = "\(select) WHERE"
             }
         } else {
             let select = select(clause: clause)
