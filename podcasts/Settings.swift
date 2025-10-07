@@ -384,6 +384,8 @@ class Settings: NSObject {
         UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
+
+        LocalizationHelper.update(userRegion: region)
     }
 
     // MARK: - Auto Archiving

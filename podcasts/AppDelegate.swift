@@ -106,6 +106,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
+
         badgeHelper.setup()
         WatchManager.shared.setup()
         shortcutManager.listenForShortcutChanges()
