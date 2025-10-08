@@ -4,6 +4,11 @@ import XCTest
 
 final class LocalizationHelperTests: XCTestCase {
 
+    override class func tearDown() {
+        LocalizationHelper.provider = nil
+        super.tearDown()
+    }
+
     func testInternationalizationProvider() throws {
         let provider = InternationalizationProvider(
             userRegion: "en",

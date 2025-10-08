@@ -4,6 +4,11 @@ import XCTest
 
 class URLRequestTests: XCTestCase {
 
+    override class func tearDown() {
+        LocalizationHelper.provider = nil
+        super.tearDown()
+    }
+
     func testURLRequestLocalizationHeaders() throws {
         let provider = InternationalizationProvider(
             userRegion: "en",
