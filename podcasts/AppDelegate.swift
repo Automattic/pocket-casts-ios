@@ -106,7 +106,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
+        }
 
         badgeHelper.setup()
         WatchManager.shared.setup()

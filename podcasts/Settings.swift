@@ -385,7 +385,9 @@ class Settings: NSObject {
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
 
-        LocalizationHelper.update(userRegion: region)
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.update(userRegion: region)
+        }
     }
 
     // MARK: - Auto Archiving
