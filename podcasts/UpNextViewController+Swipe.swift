@@ -70,13 +70,21 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
 
             if FeatureFlag.playlistsRebranding.enabled,
                let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
-                let shareAction = SwipeAction(style: .default, title: nil) { _, indexPath in
-                    NavigationManager.sharedManager.navigateTo(
-                        NavigationManager.manualPlaylistsChooserKey,
-                        data: [
-                            NavigationManager.manualPlaylistsChooserEpisodeKey: episode
-                        ]
-                    )
+                let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
+                    guard let self else { return }
+                    let presentModal: () -> Void = {
+                        NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.manualPlaylistsChooserKey,
+                            data: [
+                                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+                            ]
+                        )
+                    }
+                    if self.presentingViewController != nil {
+                        self.dismiss(animated: true, completion: presentModal)
+                    } else {
+                        presentModal()
+                    }
                 }
                 shareAction.backgroundColor = ThemeColor.support02()
                 shareAction.image = UIImage(named: "playlist-add-episode")

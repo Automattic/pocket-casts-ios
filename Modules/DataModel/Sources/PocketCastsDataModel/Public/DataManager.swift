@@ -302,6 +302,10 @@ public class DataManager {
         podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
+    public func searchPodcasts(term: String) -> [Podcast] {
+        podcastManager.searchPodcasts(term: term, dbQueue: dbQueue)
+    }
+
     public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
@@ -503,8 +507,8 @@ public class DataManager {
         episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
 
-    public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
-        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
+    public func findEpisodesAndPodcastsWhere(customWhere: String, listenedTo: Bool) -> [Episode] {
+        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, listenedTo: listenedTo, dbQueue: dbQueue)
     }
 
     public func findLatestEpisode(podcast: Podcast) -> Episode? {

@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
+import PocketCastsUtils
 
 extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate
@@ -46,6 +47,12 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func actionPerformed(willBeRemoved: Bool) {
+        if FeatureFlag.playlistsRebranding.enabled {
+            if willBeRemoved {
+                reloadEpisodes()
+            }
+            return
+        }
         reloadEpisodes()
     }
 

@@ -122,15 +122,17 @@ class EpisodesDataManager {
         case .serial:
             sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
-        if let uuids = uuidsToFilter {
-            let inClause = "(\(uuids.map { "'\($0)'" }.joined(separator: ",")))"
-            return "podcast_id = \(podcast.id) AND uuid IN \(inClause) \(sortStr)"
-        }
-        if !podcast.shouldShowArchived {
-            return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
-        }
 
-        return "podcast_id = \(podcast.id) \(sortStr)"
+        var whereClauses = ["podcast_id = \(podcast.id)"]
+        if !podcast.shouldShowArchived {
+            whereClauses.append("archived = 0")
+        }
+        if let uuids = uuidsToFilter, !uuids.isEmpty { // ignore uuid filtering if uuid list is empty or nil
+            whereClauses.append("uuid IN (\(uuids.map { "'\($0)'" }.joined(separator: ",")))")
+        }
+        let whereStr = whereClauses.joined(separator: " AND ")
+
+        return "\(whereStr) \(sortStr)"
     }
 
     // MARK: - Playlists
@@ -174,8 +176,8 @@ class EpisodesDataManager {
         })
     }
 
-    func searchEpisodes(for search: String) -> [ArraySection<String, ListEpisode>] {
-        return EpisodeTableHelper.searchSectionedEpisodes(for: search, episodeShortKey: { episode -> String in
+    func searchEpisodes(for search: String, listenedTo: Bool = true) -> [ArraySection<String, ListEpisode>] {
+        return EpisodeTableHelper.searchSectionedEpisodes(for: search, listenedTo: listenedTo, episodeShortKey: { episode -> String in
             episode.shortLastPlaybackInteractionDate()
         })
     }

@@ -41,7 +41,9 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
     }
 
     func actionPerformed(willBeRemoved: Bool) {
-        viewModel.reloadEpisodeList()
+        if willBeRemoved {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one

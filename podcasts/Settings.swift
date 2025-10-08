@@ -1619,7 +1619,11 @@ class Settings: NSObject {
         }
 
         class func podcastSearchDebounceTime() -> TimeInterval {
-            remoteMsToTime(key: Constants.RemoteParams.podcastSearchDebounceMs)
+            if FeatureFlag.searchPredictive.enabled {
+                return 0.2
+            } else {
+                return remoteMsToTime(key: Constants.RemoteParams.podcastSearchDebounceMs)
+            }
         }
 
         class func episodeSearchDebounceTime() -> TimeInterval {
