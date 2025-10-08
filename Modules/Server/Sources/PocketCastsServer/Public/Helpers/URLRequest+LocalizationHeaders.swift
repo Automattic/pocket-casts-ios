@@ -3,14 +3,16 @@ import PocketCastsUtils
 
 extension URLRequest {
     public mutating func addLocalizationHeaders() {
-        guard FeatureFlag.enableLocalizationHeaders.enabled else {
+        guard
+            let provider = LocalizationHelper.provider,
+            let host = url?.host,
+            provider.allowedHosts.contains(host)
+        else {
             return
         }
-        if let userRegion = LocalizationHelper.provider?.userRegion {
+        if let userRegion = provider.userRegion {
             setValue(userRegion, forHTTPHeaderField: ServerConstants.HttpHeaders.userRegion)
         }
-        if let appLanguage = LocalizationHelper.provider?.appLanguage {
-            setValue(appLanguage, forHTTPHeaderField: ServerConstants.HttpHeaders.appLanguage)
-        }
+        setValue(provider.appLanguage, forHTTPHeaderField: ServerConstants.HttpHeaders.appLanguage)
     }
 }
