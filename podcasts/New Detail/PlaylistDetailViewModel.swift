@@ -23,6 +23,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     let onButtonTapped: (ButtonTag) -> Void
+    let dataManager: DataManager
 
     var episodes: [ListEpisode] {
         let index = index(for: .episodes)
@@ -41,22 +42,6 @@ class PlaylistDetailViewModel: ObservableObject {
         isManualPlaylist ? 3 : 2
     }
 
-    var shouldShowArchivePlaceholder: Bool {
-        archivedEpisodesCount > 0 && !shouldShowArchived
-    }
-
-    var shouldShowEmptyPlaceholder: Bool {
-        episodes.isEmpty && !shouldShowArchivePlaceholder
-    }
-
-    var archivedEpisodesCount: Int {
-        dataManager.playlistEpisodeCount(
-            for: playlist,
-            episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
-            shouldShowArchived: true
-        )
-    }
-
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var episodesCount: Int = 0
@@ -64,12 +49,10 @@ class PlaylistDetailViewModel: ObservableObject {
 
     private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
-    private(set) var shouldShowArchived = false
     private(set) var firstTimeLoading = true
 
     private var searchTerm: String = ""
     private var isLoadingData: Bool = false
-    private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
@@ -158,7 +141,7 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         operationQueue.cancelAllOperations()
 
-        let refreshOperation = PlaylistRefreshOperation(playlist: playlist, shouldShowArchived: shouldShowArchived) { [weak self] newData in
+        let refreshOperation = PlaylistRefreshOperation(playlist: playlist, shouldShowArchived: playlist.showArchivedEpisodes) { [weak self] newData in
             guard let self else { return }
             DispatchQueue.main.async {
                 if self.firstTimeLoading {
@@ -174,10 +157,6 @@ class PlaylistDetailViewModel: ObservableObject {
     func totalDuration() -> String {
         let totalDuration = episodes.map { $0.episode.duration - $0.episode.playedUpTo }.reduce(0, +)
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
-    }
-
-    func unarchivedEpisodesCount() -> Int {
-        return episodesCount
     }
 
     func delete(episodes uuids: [String]) {

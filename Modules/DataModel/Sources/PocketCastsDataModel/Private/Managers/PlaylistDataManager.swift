@@ -25,7 +25,8 @@ class PlaylistDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "manual"
+        "manual",
+        "showArchivedEpisodes"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -472,6 +473,7 @@ class PlaylistDataManager {
         playlist.longerThan = rs.int(forColumn: "longerThan")
         playlist.shorterThan = rs.int(forColumn: "shorterThan")
         playlist.manual = rs.bool(forColumn: "manual")
+        playlist.showArchivedEpisodes = rs.bool(forColumn: "showArchivedEpisodes")
 
         return playlist
     }
@@ -502,6 +504,7 @@ class PlaylistDataManager {
         values.append(playlist.longerThan)
         values.append(playlist.shorterThan)
         values.append(playlist.manual)
+        values.append(playlist.showArchivedEpisodes)
 
         if includeUuidForWhere {
             values.append(playlist.uuid)

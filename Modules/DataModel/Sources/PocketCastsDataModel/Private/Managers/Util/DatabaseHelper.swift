@@ -847,6 +847,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 69 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN showArchivedEpisodes BOOLEAN DEFAULT FALSE;", values: nil)
+                schemaVersion = 69
+            } catch {
+                failedAt(69)
+                return
+            }
+        }
+
         db.commit()
     }
 }

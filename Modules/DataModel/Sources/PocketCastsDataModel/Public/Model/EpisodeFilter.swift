@@ -29,6 +29,7 @@ public class EpisodeFilter: NSObject {
     @objc public var syncStatus = 0 as Int32
     @objc public var wasDeleted = false
     @objc public var manual: Bool = false
+    @objc public var showArchivedEpisodes: Bool = false
 
     // Internal tracking
     public var isNew: Bool = false
