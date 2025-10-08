@@ -32,7 +32,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                 }
             } catch {
                 // Log the error for debugging purposes
-                FileLog.shared.addMessage("NotificationViewController: Failed to load podcast image - \(error.localizedDescription)")
+                print("NotificationViewController: Failed to load podcast image - \(error.localizedDescription)")
             }
         } else {
             podcastImage.image = UIImage(named: "no-artwork")
