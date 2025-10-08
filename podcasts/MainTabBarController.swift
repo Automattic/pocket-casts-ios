@@ -426,7 +426,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.filter)
     }
 
-    func presentManualPlaylistsChooser(for episode: Episode) {
+    func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?) {
         guard let navController = selectedViewController as? UINavigationController else {
             return
         }
@@ -435,7 +435,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if presentedViewController is PlayerContainerViewController {
             presentedViewController?.present(navVC, animated: true, completion: nil)
         } else {
-            navController.topViewController?.present(navVC, animated: true, completion: nil)
+            let root = rootViewController ?? navController.topViewController
+            root?.present(navVC, animated: true, completion: nil)
         }
     }
 
