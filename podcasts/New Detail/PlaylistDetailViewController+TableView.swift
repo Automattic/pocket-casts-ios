@@ -59,8 +59,23 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         }
 
         if viewModel.isManualPlaylist, indexPath.section == viewModel.index(for: .archive) {
+            let onToggleChange: (Bool) -> Void = { [weak self] selected in
+                guard let self = self else { return }
+
+                self.viewModel.updateShowArchivedEpisodes(show: selected)
+                self.viewModel.reloadEpisodeList(animated: true)
+            }
+            let isSelected = Binding<Bool>(
+                get: { [weak self] in
+                    guard let self = self else { return false }
+                    return self.viewModel.shouldShowArchived
+                },
+                set: { newValue in
+                    onToggleChange(newValue)
+                }
+            )
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistArchiveViewCell.reuseIdentifier, for: indexPath) as! PlaylistArchiveViewCell
-            cell.configure(viewModel: viewModel)
+            cell.configure(viewModel: viewModel, isSelected: isSelected)
             return cell
         }
 

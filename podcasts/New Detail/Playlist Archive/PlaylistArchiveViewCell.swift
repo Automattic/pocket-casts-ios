@@ -38,11 +38,16 @@ class PlaylistArchiveViewCell: ThemeableCell {
         setClearBackground()
     }
 
-    func configure(viewModel: PlaylistDetailViewModel) {
+    func configure(
+        viewModel: PlaylistDetailViewModel,
+        isSelected: Binding<Bool>
+    ) {
         contentConfiguration = UIHostingConfiguration {
-            Rectangle()
-                .fill(.red)
-//                .environmentObject(Theme.sharedTheme)
+            PlaylistArchiveView(
+                episodesCount: viewModel.archivedEpisodesCount,
+                isSelected: isSelected
+            )
+                .environmentObject(Theme.sharedTheme)
                 .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
         }
         .margins(.horizontal, 0)
