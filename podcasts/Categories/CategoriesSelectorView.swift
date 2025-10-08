@@ -89,6 +89,7 @@ struct CategoriesPillsView: View {
 
     fileprivate enum Constants {
         static let buttonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
+        static let selectedButtonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 0, trailing: 16)
     }
 
     var body: some View {
@@ -99,7 +100,7 @@ struct CategoriesPillsView: View {
                 CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory, model: .init(region: region, index: 0, isSponsored: selectedCategoryItem?.isSponsored ?? false, visits: selectedCategoryItem?.visits ?? 0))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(Constants.buttonInsets)
+            .padding(Constants.selectedButtonInsets)
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
