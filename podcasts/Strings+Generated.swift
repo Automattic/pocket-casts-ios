@@ -3030,6 +3030,10 @@ internal enum L10n {
   internal static var saveBookmark: String { return L10n.tr("Localizable", "save_bookmark", fallback: "Save Bookmark") }
   /// A common string used throughout the app. Placeholder text used in search boxes.
   internal static var search: String { return L10n.tr("Localizable", "search", fallback: "Search") }
+  /// A placeholder used when searching bookmarks.
+  internal static var searchBookmarks: String { return L10n.tr("Localizable", "search_bookmarks", fallback: "Search bookmarks") }
+  /// A placeholder used when searchng episodes.
+  internal static var searchEpisodes: String { return L10n.tr("Localizable", "search_episodes", fallback: "Search episodes") }
   /// The label of the search button in Discover. Explaining the user can search or directly add a RSS URL.
   internal static var searchLabel: String { return L10n.tr("Localizable", "search_label", fallback: "Search podcasts or add RSS URL") }
   /// A common string used throughout the app when searching podcasts. Placeholder text used in search boxes.
