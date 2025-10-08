@@ -162,13 +162,18 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue)
     }
 
-    func findEpisodesAndPodcastsWhere(customWhere: String, dbQueue: PCDBQueue) -> [Episode] {
+    func findEpisodesAndPodcastsWhere(customWhere: String, listenedTo: Bool, dbQueue: PCDBQueue) -> [Episode] {
+        let listenedToQuery: String = """
+        lastPlaybackInteractionDate IS NOT NULL
+        AND lastPlaybackInteractionDate > 0
+        AND
+        """
         let query = """
         SELECT episode.* FROM \(DataManager.episodeTableName) episode
         LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
-        WHERE lastPlaybackInteractionDate IS NOT NULL
-        AND lastPlaybackInteractionDate > 0
-        AND (UPPER(episode.title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\'
+        WHERE
+        \(listenedTo ? listenedToQuery : "")
+        (UPPER(episode.title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\'
          OR UPPER(podcast.title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\')
         ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000
         """

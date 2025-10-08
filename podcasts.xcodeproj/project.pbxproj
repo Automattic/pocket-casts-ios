@@ -2074,6 +2074,11 @@
 		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
 		FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD5812B9F4B2D009B58B5 /* Kingfisher */; };
 		FF2EC0692E745DED00069C94 /* NewSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */; };
+		FF2EC0732E7461B900069C94 /* LocalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0722E7461B900069C94 /* LocalSearchView.swift */; };
+		FF2EC0AC2E74732700069C94 /* LocalSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0AB2E74732700069C94 /* LocalSearchViewModel.swift */; };
+		FF2EC0AE2E7475D800069C94 /* LocalSearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0AD2E7475D800069C94 /* LocalSearchCoordinator.swift */; };
+		FF2EC0A82E7471F900069C94 /* LocalSearchPodcastResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0A72E7471F900069C94 /* LocalSearchPodcastResultsView.swift */; };
+		FF2EC0AA2E74720F00069C94 /* LocalSearchEpisodeResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0A92E74720F00069C94 /* LocalSearchEpisodeResultsView.swift */; };
 		FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47245A2BA4749F00EA916B /* MenuRow.swift */; };
@@ -2094,6 +2099,7 @@
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */; };
+		FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
 		FF68E8BA2DF338A800114FC7 /* HorizontalCollectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */; };
@@ -4192,6 +4198,11 @@
 		FF267FBB2E16FB1D0004EF02 /* UpgradeProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeProductsView.swift; sourceTree = "<group>"; };
 		FF267FBD2E16FBD50004EF02 /* UpgradeAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeAccountViewModel.swift; sourceTree = "<group>"; };
 		FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSearchResultsView.swift; sourceTree = "<group>"; };
+		FF2EC0722E7461B900069C94 /* LocalSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchView.swift; sourceTree = "<group>"; };
+		FF2EC0AB2E74732700069C94 /* LocalSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchViewModel.swift; sourceTree = "<group>"; };
+		FF2EC0AD2E7475D800069C94 /* LocalSearchCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchCoordinator.swift; sourceTree = "<group>"; };
+		FF2EC0A72E7471F900069C94 /* LocalSearchPodcastResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchPodcastResultsView.swift; sourceTree = "<group>"; };
+		FF2EC0A92E74720F00069C94 /* LocalSearchEpisodeResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchEpisodeResultsView.swift; sourceTree = "<group>"; };
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -4213,6 +4224,7 @@
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoldersAnimationView.swift; sourceTree = "<group>"; };
+		FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictiveList.swift; sourceTree = "<group>"; };
 		FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceNavigationView.swift; sourceTree = "<group>"; };
 		FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsApp.swift; sourceTree = "<group>"; };
 		FF68E8B92DF3388500114FC7 /* HorizontalCollectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionList.swift; sourceTree = "<group>"; };
@@ -5264,9 +5276,16 @@
 		8B67A26129A7D58E0076886D /* Results */ = {
 			isa = PBXGroup;
 			children = (
+				FF5A1DCB2E8D4CE900F36486 /* PredictiveList.swift */,
 				8B99197629A686BA00A5C81C /* SearchResultsView.swift */,
 				FF2EC0682E745DED00069C94 /* NewSearchResultsView.swift */,
 				FF8660AC2E84380900731A87 /* PillSegmentControl.swift */,
+				FF2EC0722E7461B900069C94 /* UserEpisodesSearchView.swift */,
+				FF2EC0722E7461B900069C94 /* LocalSearchView.swift */,
+				FF2EC0AB2E74732700069C94 /* LocalSearchViewModel.swift */,
+				FF2EC0AD2E7475D800069C94 /* LocalSearchCoordinator.swift */,
+				FF2EC0A72E7471F900069C94 /* LocalSearchPodcastResultsView.swift */,
+				FF2EC0A92E74720F00069C94 /* LocalSearchEpisodeResultsView.swift */,
 				8B67A26629A7D80E0076886D /* SearchResultCell.swift */,
 				FF8660AA2E82E27200731A87 /* SearchResultCellModel.swift */,
 				8B67A26829A7D8690076886D /* PodcastCarouselView.swift */,
@@ -10661,6 +10680,7 @@
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
+				FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */,
 				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
@@ -10930,6 +10950,11 @@
 				8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */,
 				BD9324772398BC9D004F19A1 /* FeatureTour.swift in Sources */,
 				FF2EC0692E745DED00069C94 /* NewSearchResultsView.swift in Sources */,
+				FF2EC0732E7461B900069C94 /* LocalSearchView.swift in Sources */,
+				FF2EC0AC2E74732700069C94 /* LocalSearchViewModel.swift in Sources */,
+				FF2EC0AE2E7475D800069C94 /* LocalSearchCoordinator.swift in Sources */,
+				FF2EC0A82E7471F900069C94 /* LocalSearchPodcastResultsView.swift in Sources */,
+				FF2EC0AA2E74720F00069C94 /* LocalSearchEpisodeResultsView.swift in Sources */,
 				BDFB53C72362A2570001806E /* NowPlayingPlayerItemViewController.swift in Sources */,
 				F518BC6D2E71252300E84711 /* BookmarkActionFactory.swift in Sources */,
 				BD4DB9951CAB8CFF009E512F /* PCRefreshControl.swift in Sources */,

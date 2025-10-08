@@ -2297,6 +2297,10 @@ internal enum L10n {
   internal static var playerUserEpisodePlaybackError: String { return L10n.tr("Localizable", "player_user_episode_playback_error", fallback: "Playback Error") }
   /// Error title when there is an upload error.
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
+  /// Navigation title that appears when adding episodes to a playlist. %@ is the playlist name.
+  internal static func playlistAddToTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_add_to_title", String(describing: p1), fallback: "Add to \"%@\"")
+  }
   /// Used on the screen to create a new playlist. The description about why the list of filtered episodes is empty. The 
   ///  represent a new line
   internal static var playlistCreateNoEpisodesDescription: String { return L10n.tr("Localizable", "playlist_create_no_episodes_description", fallback: "None of the episodes in your podcasts match these rules.\n\nTry adjusting the rules, or save this playlist for future episodes that might fit.") }
@@ -2309,6 +2313,14 @@ internal enum L10n {
   /// Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time.
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
+  }
+  /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
+  internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
+  }
+  /// Navigation title shown after adding multiple episodes to a playlist. %1$@ is the episode count. %2$@ is the playlist name.
+  internal static func playlistEpisodesAddedTitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_added_title", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes added to \"%2$@\"")
   }
   /// Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player
   internal static func playlistEpisodesCount(_ p1: Any) -> String {
@@ -4076,6 +4088,8 @@ internal enum L10n {
   internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest", fallback: "Longest to shortest") }
   /// A duration (shortest to longest) sort option for uploaded files.
   internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest", fallback: "Shortest to longest") }
+  /// Title displayed above the user's subscribed podcasts list when no podcast is selected.
+  internal static var userEpisodesSearchPodcastsTitle: String { return L10n.tr("Localizable", "user_episodes_search_podcasts_title", fallback: "Your Podcasts") }
   /// An option to say "no" when when asked if the user enjoys the app.
   internal static var userSatisfactionSurveyNoResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_no_response", fallback: "Not really") }
   /// A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app
