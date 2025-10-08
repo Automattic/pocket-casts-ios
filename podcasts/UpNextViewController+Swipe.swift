@@ -80,7 +80,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                             ]
                         )
                     }
-                    if self.presentingViewController is PlayerContainerViewController {
+                    if self.presentingViewController != nil {
                         self.dismiss(animated: true, completion: presentModal)
                     } else {
                         presentModal()
