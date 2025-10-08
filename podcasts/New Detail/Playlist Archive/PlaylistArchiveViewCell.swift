@@ -1,6 +1,13 @@
 import SwiftUI
 
 class PlaylistArchiveViewCellPlaceholder: ListItem {
+    let archived: Int
+
+    init(archived: Int) {
+        self.archived = archived
+        super.init()
+    }
+
     override var differenceIdentifier: String {
         "playlistArchiveViewCellResult"
     }
@@ -10,7 +17,9 @@ class PlaylistArchiveViewCellPlaceholder: ListItem {
     }
 
     override func handleIsEqual(_ otherItem: ListItem) -> Bool {
-        otherItem is PlaylistArchiveViewCellPlaceholder
+        guard let rhs = otherItem as? PlaylistArchiveViewCellPlaceholder else { return false }
+
+        return archived == rhs.archived
     }
 }
 
@@ -39,12 +48,12 @@ class PlaylistArchiveViewCell: ThemeableCell {
     }
 
     func configure(
-        viewModel: PlaylistDetailViewModel,
+        archivedEpisodesCount: Int,
         isSelected: Binding<Bool>
     ) {
         contentConfiguration = UIHostingConfiguration {
             PlaylistArchiveView(
-                episodesCount: viewModel.archivedEpisodesCount,
+                episodesCount: archivedEpisodesCount,
                 isSelected: isSelected
             )
                 .environmentObject(Theme.sharedTheme)

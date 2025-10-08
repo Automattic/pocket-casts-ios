@@ -44,7 +44,7 @@ class PlaylistDetailViewModel: ObservableObject {
 
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
-    @Published var episodesCount: Int = 0
+    @Published var playlistEpisodesCount: Int = 0
     @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter!
@@ -89,10 +89,10 @@ class PlaylistDetailViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             do {
-                let count = await self.getEpisodesCount()
+                let count = await self.getPlaylistEpisodesCount()
                 if self.isSearching {
                     await MainActor.run {
-                        self.episodesCount = count
+                        self.playlistEpisodesCount = count
                         self.isLoadingData = false
                     }
                 } else {
@@ -100,7 +100,7 @@ class PlaylistDetailViewModel: ObservableObject {
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
-                        self.episodesCount = count
+                        self.playlistEpisodesCount = count
                         self.isLoadingData = false
                     }
                 }
@@ -203,7 +203,7 @@ class PlaylistDetailViewModel: ObservableObject {
             finalData.append(ArraySection(
                 model: .archive,
                 elements: [
-                    PlaylistArchiveViewCellPlaceholder()
+                    PlaylistArchiveViewCellPlaceholder(archived: archivedEpisodesCount)
                 ])
             )
         }
@@ -262,14 +262,13 @@ class PlaylistDetailViewModel: ObservableObject {
         }
     }
 
-    private func getEpisodesCount(archived: Bool = false) async -> Int {
+    private func getPlaylistEpisodesCount() async -> Int {
         let playlist = self.playlist!
         let dataManager = self.dataManager
         return await Task.detached(priority: .userInitiated) {
-            dataManager.playlistEpisodeCount(
+            dataManager.allPlaylistEpisodeCount(
                 for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
-                shouldShowArchived: archived
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
         }.value
     }

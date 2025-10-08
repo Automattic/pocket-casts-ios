@@ -158,7 +158,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             guard let self else { return }
             switch buttonTag {
             case .playAll:
-                PlaybackManager.shared.play(filter: self.viewModel.playlist)
+                PlaybackManager.shared.play(playlist: self.viewModel.playlist)
             case .smartRules:
                 self.editPlaylist()
             case .addEpisodes:
@@ -366,7 +366,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
-            tableView.reload(using: data, with: .none) { [weak self] newData in
+            tableView.reload(using: data, with: .fade) { [weak self] newData in
                 self?.viewModel.update(data: newData)
             }
         } else {

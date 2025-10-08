@@ -130,7 +130,7 @@ public class PlaylistQueryBuilder {
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount {
+        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount, clause != .allEpisodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }

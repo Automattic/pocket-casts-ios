@@ -4,6 +4,7 @@ struct PlaylistArchiveView: View {
     @EnvironmentObject var theme: Theme
 
     @Binding private var isSelected: Bool
+    @State private var refreshToken = UUID()
     private let episodesCount: Int
 
     init(
@@ -22,12 +23,14 @@ struct PlaylistArchiveView: View {
             Spacer()
             Button(action: {
                 isSelected.toggle()
+                refreshToken = UUID()
             }) {
                 Text(isSelected ? "Hide Archived" : "Show Archived")
                     .font(size: 14.0, style: .footnote, weight: .medium)
                     .foregroundStyle(theme.primaryIcon01)
             }
             .buttonStyle(.plain)
+            .id(refreshToken)
         }
         .background(theme.primaryUi02)
         .padding(.horizontal, 16.0)

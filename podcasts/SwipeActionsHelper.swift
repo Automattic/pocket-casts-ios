@@ -91,7 +91,7 @@ enum SwipeActionsHelper {
             })
             tableSwipeActions.addAction(deleteAction)
         } else if episode.archived {
-            let willBeRemoved = false
+            let willBeRemoved = FeatureFlag.playlistsRebranding.enabled
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
                     EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: false)

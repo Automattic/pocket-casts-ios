@@ -222,11 +222,13 @@ extension PlaylistDetailViewController {
     }
 
     private func archiveAllPlaylistEpisodes() {
-        //PCIOS-118
+        let episodes = viewModel.episodes.map { $0.episode }
+        EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
     }
 
     private func unarchiveAllPlaylistEpisodes() {
-        //PCIOS-118
+        let episodes = viewModel.episodes.map { $0.episode }
+        EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
     // MARK: - Edit

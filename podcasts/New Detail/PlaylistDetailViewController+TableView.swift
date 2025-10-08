@@ -58,7 +58,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return cell
         }
 
-        if viewModel.isManualPlaylist, indexPath.section == viewModel.index(for: .archive) {
+        guard let itemAtRow = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
+            FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+            return UITableViewCell()
+        }
+
+        if let placeholder = itemAtRow as? PlaylistArchiveViewCellPlaceholder,
+           viewModel.isManualPlaylist,
+           indexPath.section == viewModel.index(for: .archive) {
             let onToggleChange: (Bool) -> Void = { [weak self] selected in
                 guard let self = self else { return }
 
@@ -75,13 +82,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                 }
             )
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistArchiveViewCell.reuseIdentifier, for: indexPath) as! PlaylistArchiveViewCell
-            cell.configure(viewModel: viewModel, isSelected: isSelected)
+            cell.configure(archivedEpisodesCount: placeholder.archived, isSelected: isSelected)
             return cell
-        }
-
-        guard let itemAtRow = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
-            FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
-            return UITableViewCell()
         }
 
         if itemAtRow is NoSearchResultsPlaceholder {
