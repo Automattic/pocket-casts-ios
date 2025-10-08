@@ -9,6 +9,15 @@ extension PlaylistDetailViewController {
         case queueAll
     }
 
+    func playAll() {
+        Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
+        let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), viewModel.episodes.count)
+        OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: { [weak self] in
+            guard let self else { return }
+            PlaybackManager.shared.play(playlist: self.viewModel.playlist)
+        })
+    }
+
     @objc func moreTapped() {
         Analytics.track(.filterOptionsButtonTapped)
 

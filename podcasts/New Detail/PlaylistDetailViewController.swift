@@ -158,7 +158,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             guard let self else { return }
             switch buttonTag {
             case .playAll:
-                PlaybackManager.shared.play(playlist: self.viewModel.playlist)
+                self.playAll()
             case .smartRules:
                 self.editPlaylist()
             case .addEpisodes:
