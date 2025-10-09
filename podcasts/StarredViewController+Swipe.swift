@@ -37,6 +37,10 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
         "starred"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .starred
+    }
+
     func archivingRemovesFromList() -> Bool {
         false
     }
@@ -49,5 +53,14 @@ extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
 
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: starredTable, at: indexPath)
+    }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
+        NavigationManager.sharedManager.navigateTo(
+            NavigationManager.manualPlaylistsChooserKey,
+            data: [
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+            ]
+        )
     }
 }

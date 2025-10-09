@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import SwipeCellKit
+import PocketCastsUtils
 
 extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     // MARK: - SwipeTableViewCellDelegate
@@ -37,11 +38,21 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
         "downloads"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .downloads
+    }
+
     func archivingRemovesFromList() -> Bool {
         true
     }
 
     func actionPerformed(willBeRemoved: Bool) {
+        if FeatureFlag.playlistsRebranding.enabled {
+            if willBeRemoved {
+                reloadEpisodes()
+            }
+            return
+        }
         reloadEpisodes()
     }
 
@@ -49,5 +60,14 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
 
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: downloadsTable, at: indexPath)
+    }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
+        NavigationManager.sharedManager.navigateTo(
+            NavigationManager.manualPlaylistsChooserKey,
+            data: [
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+            ]
+        )
     }
 }
