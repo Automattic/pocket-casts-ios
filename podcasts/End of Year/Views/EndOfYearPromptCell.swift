@@ -11,9 +11,11 @@ class EndOfYearPromptCell: ThemeableCell {
         case .y2022:
             fatalError("Shouldn't reach this point")
         case .y2023:
-            viewModel = .init(title: L10n.eoyTitle, description: L10n.eoyCardDescription, imageName: "23_small", imagePadding: 20)
+            viewModel = .init(title: L10n.eoyTitle, description: L10n.eoyCardDescription, imageName: "23_small", imagePadding: 20, backgroundColor: nil)
         case .y2024:
-            viewModel = .init(title: L10n.playback2024FeatureTitle, description: L10n.playback2024FeatureDescription, imageName: "playback-24", imagePadding: 60)
+            viewModel = .init(title: L10n.playback2024FeatureTitle, description: L10n.playback2024FeatureDescription, imageName: "playback-24", imagePadding: 60, backgroundColor: nil)
+        case .y2025:
+            viewModel = .init(title: L10n.playback2025FeatureTitle, description: L10n.playback2025FeatureDescription, imageName: "playback-25", imagePadding: 60, backgroundColor: Color(hex: "28486A"))
         }
 
         let childView = UIHostingController(rootView: EndOfYearCard(viewModel: viewModel)

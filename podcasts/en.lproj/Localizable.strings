@@ -5462,8 +5462,14 @@
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
 
+/* Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player */
+"playlist_episodes_count" = "%1$@ episodes";
+
 /* Manual Playlist: header button title to add new episodes to the playlist */
 "playlist_manual_add_episodes" = "Add Episodes";
+
+/* Search placeholder used in the add episode to manual playlist search from podcast and player */
+"playlist_search" = "Find playlist";
 
 /* Navigation title that appears when adding episodes to a playlist. %@ is the playlist name. */
 "playlist_add_to_title" = "Add to \"%@\"";
@@ -5491,6 +5497,12 @@
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
 "playlist_manual_episodes_order_option" = "Reorder Episodes";
+
+/* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
+"playlist_manual_episode_add_to_playlist" = "Add to playlist";
+
+/* Toast message when the playlist is full */
+"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
@@ -5542,3 +5554,16 @@
 
 /* Search Results filter option */
 "all_results" = "All Results";
+
+/// A description of the Playback 2025 feature
+"playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/// Description for the Playback 2025 feature
+"playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/// Title for the Playback 2025 feature
+"playback_2025_feature_title" = "Playback 2025";
+
+/// Label of the Playback 2025 call to action buton
+"playback_2025_view_year" = "View My Playback 2025";
+

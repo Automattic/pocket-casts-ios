@@ -9,6 +9,10 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+#if DEBUG && !os(watchOS)
+    static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
+#endif
+
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)

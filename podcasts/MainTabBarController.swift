@@ -426,6 +426,20 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.filter)
     }
 
+    func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?) {
+        guard let navController = selectedViewController as? UINavigationController else {
+            return
+        }
+        let manualPlaylistsChooser = ManualPlaylistsChooserViewController(episode: episode)
+        let navVC = SJUIUtils.navController(for: manualPlaylistsChooser)
+        if presentedViewController is PlayerContainerViewController {
+            presentedViewController?.present(navVC, animated: true, completion: nil)
+        } else {
+            let root = rootViewController ?? navController.topViewController
+            root?.present(navVC, animated: true, completion: nil)
+        }
+    }
+
     func navigateToAddCustom(_ url: URL) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: {
             self.switchToTab(.profile)
@@ -699,7 +713,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func observersForEndOfYearStats() {
-        guard FeatureFlag.endOfYear.enabled || FeatureFlag.endOfYear2024.enabled else {
+        guard FeatureFlag.endOfYear.enabled || FeatureFlag.endOfYear2024.enabled || FeatureFlag.endOfYear2025.enabled else {
             return
         }
 

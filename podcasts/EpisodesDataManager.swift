@@ -175,8 +175,8 @@ class EpisodesDataManager {
         })
     }
 
-    func searchEpisodes(for search: String) -> [ArraySection<String, ListEpisode>] {
-        return EpisodeTableHelper.searchSectionedEpisodes(for: search, episodeShortKey: { episode -> String in
+    func searchEpisodes(for search: String, listenedTo: Bool = true) -> [ArraySection<String, ListEpisode>] {
+        return EpisodeTableHelper.searchSectionedEpisodes(for: search, listenedTo: listenedTo, episodeShortKey: { episode -> String in
             episode.shortLastPlaybackInteractionDate()
         })
     }

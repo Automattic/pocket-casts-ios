@@ -237,6 +237,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
 
+    /// Enable the End of Year 2025 recap
+    case endOfYear2025
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -399,6 +402,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .earlyReloadSubscriptionStatus:
             true
+        case .endOfYear2025:
+            false
         }
     }
 
