@@ -31,6 +31,10 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
         "files"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .uploaded
+    }
+
     func actionPerformed(willBeRemoved: Bool) {
         reloadLocalFiles()
     }
@@ -46,4 +50,6 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func share(episode: Episode, at: IndexPath) { }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
 }

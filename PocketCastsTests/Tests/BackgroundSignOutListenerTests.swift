@@ -63,7 +63,7 @@ private class MockNavigationManager: NavigationManager {
     var navigatedPlace: String?
     var navigatedData: NSDictionary?
 
-    override func navigateTo(_ place: String, data: NSDictionary?) {
+    override func navigateTo(_ place: String, data: NSDictionary?, animated: Bool) {
         navigatedPlace = place
         navigatedData = data
     }

@@ -240,6 +240,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable localization headers
     case enableLocalizationHeaders
 
+    /// Enable the End of Year 2025 recap
+    case endOfYear2025
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -404,6 +407,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .enableLocalizationHeaders:
             true
+        case .endOfYear2025:
+            false
         }
     }
 

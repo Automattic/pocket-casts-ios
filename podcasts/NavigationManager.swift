@@ -79,6 +79,10 @@ class NavigationManager {
     static let featurePageKey = "featurePageKey"
     static let featureKey = "featureKey"
 
+    static let manualPlaylistsChooserKey = "manualPlaylistsChooserKey"
+    static let manualPlaylistsChooserEpisodeKey = "manualPlaylistsChooserEpisodeKey"
+    static let manualPlaylistsChooserRootKey = "manualPlaylistsChooserRootKey"
+
     static let sharedManager = NavigationManager()
 
     private weak var mainController: NavigationProtocol?
@@ -97,8 +101,8 @@ class NavigationManager {
 
     // MARK: - Navigation
 
-    func navigateTo(_ place: String, data: NSDictionary? = nil) {
-        performNavigation(place, data: data, animated: true)
+    func navigateTo(_ place: String, data: NSDictionary? = nil, animated: Bool = true) {
+        performNavigation(place, data: data, animated: animated)
     }
 
     func mainViewControllerDidLoad(controller: NavigationProtocol) {
@@ -245,6 +249,11 @@ class NavigationManager {
             mainController?.showSettings(row: row)
         } else if place == NavigationManager.featurePageKey {
             navigateToFeature(data: data, animated: animated)
+        } else if place == NavigationManager.manualPlaylistsChooserKey {
+            if let episode = data?[NavigationManager.manualPlaylistsChooserEpisodeKey] as? Episode {
+                let root = data?[NavigationManager.manualPlaylistsChooserRootKey] as? UIViewController
+                mainController?.presentManualPlaylistsChooser(for: episode, rootViewController: root)
+            }
         }
     }
 
