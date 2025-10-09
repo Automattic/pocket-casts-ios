@@ -22,7 +22,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
-            HStack(spacing: RowConstants.padding) {
+            HStack(spacing: RowConstants.spacing) {
                 imageView
                 detailsView
                 playButtonView
@@ -33,7 +33,8 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
             }
         }
         .selectButtonStyle(tintColor: style.selectButton, checkColor: style.selectCheck, strokeColor: style.selectButtonStroke)
-        .padding(RowConstants.padding)
+        .padding(.horizontal, RowConstants.horizontalPadding)
+        .padding(.vertical, RowConstants.verticalPadding)
         .animation(.default, value: viewModel.isMultiSelecting)
 
         // Display a highlight when tapped, or the row is selected
@@ -118,7 +119,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                     .renderingMode(.template)
             }
             .foregroundStyle(style.playButtonText)
-            .padding(.horizontal, RowConstants.padding)
+            .padding(.horizontal, RowConstants.horizontalPadding)
             .padding(.vertical, RowConstants.playButtonVerticalPadding)
             .background(style.playButtonBackground)
             .cornerRadius(.infinity) // Always rounded
@@ -134,6 +135,8 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
 }
 
 private enum RowConstants {
-    static let padding = 16.0
+    static let horizontalPadding = 16.0
+    static let spacing = 12.0
+    static let verticalPadding = 12.0
     static let playButtonVerticalPadding = 8.0
 }

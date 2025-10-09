@@ -344,6 +344,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
+
+        if scrollView.isDragging || scrollView.isDecelerating {
+            dismissKeyboardForScrollIfNeeded()
+        }
         if FeatureFlag.podcastFeedUpdate.enabled {
             refreshControl?.scrollViewDidScroll(scrollView)
         }
@@ -529,7 +533,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        dismissKeyboardForScrollIfNeeded()
+    }
+
+    private func dismissKeyboardForScrollIfNeeded() {
         searchController?.hideKeyboard()
+        view.endEditing(true)
     }
 
     @objc private func searchRequested() {

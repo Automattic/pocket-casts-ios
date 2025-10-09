@@ -87,7 +87,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.textColor = ThemeColor.primaryText02()
-        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.search, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()])
+        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.searchEpisodes, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()])
         searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
         roundedBackgroundView.backgroundColor = ThemeColor.primaryField01()
         searchIcon.tintColor = ThemeColor.primaryIcon02()
