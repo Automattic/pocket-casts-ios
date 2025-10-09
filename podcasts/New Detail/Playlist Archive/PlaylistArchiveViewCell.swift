@@ -26,6 +26,9 @@ class PlaylistArchiveViewCellPlaceholder: ListItem {
 class PlaylistArchiveViewCell: ThemeableCell {
     static let reuseIdentifier = "PlaylistArchiveViewCellIdentifier"
 
+    var topSeparator: UIView!
+    var bottomSeparator: UIView!
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -33,6 +36,26 @@ class PlaylistArchiveViewCell: ThemeableCell {
         selectionStyle = .none
 
         setClearBackground()
+
+        separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
+        layoutMargins = .zero
+        preservesSuperviewLayoutMargins = false
+
+        topSeparator = separatorView()
+        bottomSeparator = separatorView()
+        addSubview(topSeparator)
+        addSubview(bottomSeparator)
+        NSLayoutConstraint.activate([
+            topSeparator.topAnchor.constraint(equalTo: topAnchor),
+            topSeparator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topSeparator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topSeparator.heightAnchor.constraint(equalToConstant: 1.0),
+
+            bottomSeparator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomSeparator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomSeparator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomSeparator.heightAnchor.constraint(equalToConstant: 1.0)
+        ])
     }
 
     @MainActor required init?(coder: NSCoder) {
@@ -62,10 +85,20 @@ class PlaylistArchiveViewCell: ThemeableCell {
         .margins(.horizontal, 0)
         .margins(.vertical, 0)
         .background(.clear)
+
+        topSeparator.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
+        bottomSeparator.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
     }
 
     private func setClearBackground() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
+    }
+
+    private func separatorView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
+        return view
     }
 }
