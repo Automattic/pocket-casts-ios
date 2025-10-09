@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
+import WebKit
 
 struct DeveloperMenu: View {
     @State var showingImporter = false
@@ -16,6 +17,7 @@ struct DeveloperMenu: View {
     @State var enableDebugPlaylistLimit = false
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
+    @State var showWebView = false
 
     var body: some View {
         List {
@@ -414,6 +416,30 @@ struct DeveloperMenu: View {
             }
 
             Section {
+                Button("Chat with us") {
+                    showWebView = true
+                }
+                .sheet(isPresented: $showWebView) {
+                    NavigationStack {
+                        WebView(url: URL(string: "https://support.pocketcasts.com/odie-test/")!)
+                            .navigationTitle("Chat with Us")
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Button {
+                                        showWebView = false
+                                    } label: {
+                                        Image(systemName: "xmark")
+                                    }
+                                }
+                            }
+                    }
+                }
+            } header: {
+                Text("Chat with us test")
+            }
+
+            Section {
                 Text(Bundle.main.identifier)
             } header: {
                 Text("Bundle ID")
@@ -444,5 +470,18 @@ extension Bundle {
 
         return identifier
 
+    }
+}
+
+fileprivate struct WebView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        uiView.load(request)
     }
 }
