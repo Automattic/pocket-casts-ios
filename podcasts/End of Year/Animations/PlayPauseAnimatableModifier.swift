@@ -48,7 +48,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
     private var finalValue: Double
 
     private var duration: TimeInterval
-    private let animationType: (TimeInterval) -> Animation    
+    private let animationType: (TimeInterval) -> Animation
 
     @State private var startTime: Date?
 
