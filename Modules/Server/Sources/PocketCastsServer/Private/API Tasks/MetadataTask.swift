@@ -26,6 +26,7 @@ class MetadataTask: Operation {
         request.httpMethod = "HEAD"
         request.timeoutInterval = 20.seconds
         request.setValue(ServerConstants.Values.appUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        request.addLocalizationHeaders()
 
         dispatchGroup.enter()
         let task = URLSession.shared.dataTask(with: request) { [weak self] _, response, error in

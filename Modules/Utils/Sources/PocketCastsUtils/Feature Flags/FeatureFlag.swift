@@ -237,6 +237,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
 
+    /// Enable localization headers
+    case enableLocalizationHeaders
+
     /// Enable the End of Year 2025 recap
     case endOfYear2025
 
@@ -401,6 +404,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
+            true
+        case .enableLocalizationHeaders:
             true
         case .endOfYear2025:
             false

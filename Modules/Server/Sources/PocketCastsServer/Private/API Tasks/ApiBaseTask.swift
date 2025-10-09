@@ -149,6 +149,7 @@ class ApiBaseTask: Operation {
         request.httpMethod = method
         request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+        request.addLocalizationHeaders()
         let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() ?? ""
         request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
         if let token = token {
