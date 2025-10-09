@@ -277,7 +277,8 @@ platform :ios do
   # - Enables the GitHub branch protection for the new branch
   # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
   #
-  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
+  # @param [String] version (optional) The version number for the release from the release tool. If not provided, uses the calculated version.
+  # @param [Boolean] skip_confirm If true, avoids any interactive prompt (default: false)
   #
   lane :code_freeze do |version: nil, skip_confirm: false|
     require_env_vars!('GITHUB_TOKEN')
