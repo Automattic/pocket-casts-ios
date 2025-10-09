@@ -3,6 +3,7 @@ import PocketCastsUtils
 
 extension DownloadManager {
     func logDownload(_ episode: BaseEpisode, failure: FailureReason, extraProperties: [String: Any?] = [:]) {
+        FileLog.shared.addMessage("[DownloadManager] Download failed for episode: \(episode.uuid) with reason: \(failure.localizedDescription)")
         let properties = ["reason": failure.localizedDescription].merging(extraProperties) { (current, _) in return current }
         AnalyticsEpisodeHelper.shared.downloadFailed(episodeUUID: episode.uuid,
                                                      podcastUUID: episode.parentIdentifier(),

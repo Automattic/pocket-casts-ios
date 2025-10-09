@@ -679,6 +679,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         if downloadTask?.currentRequest == nil {
             do { try fileManager.removeItem(atPath: tempFilePath) } catch {}
             downloadTask = session.downloadTask(with: request)
+            FileLog.shared.addMessage("resumeDownload: Creating new download task for \(taskId)")
             if estimatedBytes > 0 {
                 downloadTask?.countOfBytesClientExpectsToReceive = estimatedBytes
             } else {
@@ -690,6 +691,11 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         downloadTask?.taskDescription = taskId
+        if let downloadTask = downloadTask {
+            FileLog.shared.addMessage("DownloadManager resumeDownload: Resuming task \(taskId) with expected bytes: \(downloadTask.countOfBytesClientExpectsToReceive)")
+        } else {
+            FileLog.shared.addMessage("DownloadManager resumeDownload: Failed to create download task for \(taskId)")
+        }
 
         // Store retry information in tracking dictionary
         if let task = downloadTask, let url = request.url {

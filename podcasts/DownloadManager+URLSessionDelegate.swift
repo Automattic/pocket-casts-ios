@@ -75,6 +75,14 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
+    func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
+        FileLog.shared.addMessage("DownloadManager: Task is waiting for connectivity: \(task.taskDescription ?? "unknown task")")
+    }
+
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: (any Error)?) {
+        FileLog.shared.addMessage("DownloadManager: Session did become invalid with error: \(String(describing: error))")
+    }
+
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let downloadTask = task as? URLSessionDownloadTask else { return }
 
