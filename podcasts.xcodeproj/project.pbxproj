@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -4270,6 +4270,10 @@
 		FFFCD23E2C7768F900A345ED /* Referrals.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Referrals.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FFB74AE72E94037500F16857 /* End of Year 2025 */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "End of Year 2025"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		2F9099082A4F88B00044FC55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -5420,8 +5424,9 @@
 				8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */,
 				F5EA21F52CC1DC100043C780 /* End of Year 2023 */,
 				F5EA21F62CC1DC300043C780 /* End of Year 2024 */,
-				8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */,
+				FFB74AE72E94037500F16857 /* End of Year 2025 */,
 				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
+				8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */,
 				8B5AB48D2901A8BD0018C637 /* StoriesController.swift */,
 				8B6B68E628F74A010032BFFF /* StoriesModel.swift */,
 				8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */,
@@ -9120,6 +9125,9 @@
 				8B0845922A66C86500742C2F /* PBXTargetDependency */,
 				8B0845952A66C86D00742C2F /* PBXTargetDependency */,
 				9AB645122D51368300A842C8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FFB74AE72E94037500F16857 /* End of Year 2025 */,
 			);
 			name = podcasts;
 			packageProductDependencies = (
