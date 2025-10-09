@@ -400,7 +400,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .searchImprovements:
             false
         case .searchPredictive:
-            false
+            true
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
