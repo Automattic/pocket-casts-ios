@@ -25,7 +25,7 @@ struct PlaylistArchiveView: View {
                 isSelected.toggle()
                 refreshToken = UUID()
             }) {
-                Text(isSelected ? "Hide Archived" : "Show Archived")
+                Text(isSelected ? L10n.podcastHideArchived : L10n.podcastShowArchived)
                     .font(size: 14.0, style: .footnote, weight: .medium)
                     .foregroundStyle(theme.primaryIcon01)
             }

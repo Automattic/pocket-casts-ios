@@ -203,7 +203,10 @@ class PlaylistDetailViewModel: ObservableObject {
             finalData.append(ArraySection(
                 model: .archive,
                 elements: [
-                    PlaylistArchiveViewCellPlaceholder(archived: archivedEpisodesCount)
+                    PlaylistArchiveViewCellPlaceholder(
+                        archived: archivedEpisodesCount,
+                        showArchived: shouldShowArchived
+                    )
                 ])
             )
         }

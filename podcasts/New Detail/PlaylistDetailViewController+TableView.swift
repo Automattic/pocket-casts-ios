@@ -63,15 +63,16 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
+        let onToggleChange: (Bool) -> Void = { [weak self] selected in
+            guard let self = self else { return }
+
+            self.viewModel.updateShowArchivedEpisodes(show: selected)
+            self.viewModel.reloadEpisodeList(animated: true)
+        }
+
         if let placeholder = itemAtRow as? PlaylistArchiveViewCellPlaceholder,
            viewModel.isManualPlaylist,
            indexPath.section == viewModel.index(for: .archive) {
-            let onToggleChange: (Bool) -> Void = { [weak self] selected in
-                guard let self = self else { return }
-
-                self.viewModel.updateShowArchivedEpisodes(show: selected)
-                self.viewModel.reloadEpisodeList(animated: true)
-            }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
                     guard let self = self else { return false }
@@ -98,7 +99,12 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                 for: tableView,
                 at: indexPath,
                 title: L10n.episodeFilterNoEpisodesTitle,
-                message: archivedPlaceholder.message
+                message: archivedPlaceholder.message,
+                actions: [
+                    .init(title: L10n.podcastShowArchived, action: {
+                        onToggleChange(true)
+                    })
+                ]
             )
         }
 
@@ -120,15 +126,20 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         for tableView: UITableView,
         at indexPath: IndexPath,
         title: String,
-        message: String
+        message: String,
+        actions: [EmptyStateAction] = []
     ) -> EmptyStateCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: EmptyStateCell.reuseIdentifier,
             for: indexPath
         ) as! EmptyStateCell
-        cell.configure(title: title, message: message) {
-            Image(systemName: "info.circle")
-        }
+        cell.configure(
+            title: title,
+            message: message,
+            icon: {
+                Image(systemName: "info.circle")
+            },
+            actions: actions)
         return cell
     }
 }
