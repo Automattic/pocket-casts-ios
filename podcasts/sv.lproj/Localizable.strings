@@ -2812,9 +2812,9 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <key>settings_auto_downloads_on_follow</key>
     <string>Vid följande</string>
     <key>settings_auto_downloads_playlists_selected_format</key>
-    <string>%1$@ podcasts valda</string>
+    <string>%1$@ spellistor valda</string>
     <key>settings_auto_downloads_playlists_selected_singular</key>
-    <string>1 spellista vald</string>
+    <string>1 spellista vald</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts valda</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -3000,9 +3000,9 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <key>settings_in_menu</key>
     <string>I MENY</string>
     <key>settings_in_smart_playlist_singular</key>
-    <string>Inkluderat I 1 Smart Spellista</string>
+    <string>Ingår i 1 smart spellista</string>
     <key>settings_in_smart_playlists_plural_format</key>
-    <string>Inkluderat I %1$@ Smarta Spellistor</string>
+    <string>Ingår i %1$@ smarta spellistor</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktiva avsnitt är avsnitt som du inte har spelat upp eller laddat ner under den ovan angivna tidsperioden. Nedladdningar tas bort när avsnittet arkiveras.</string>
     <key>settings_next_action</key>
@@ -3010,7 +3010,7 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <key>settings_not_in_filters</key>
     <string>Ingår inte i några filter</string>
     <key>settings_not_in_smart_playlists</key>
-    <string>Ingår Inte I Några Smarta Spellistor</string>
+    <string>Ingår Inte I några smarta spellistor</string>
     <key>settings_notifications</key>
     <string>Aviseringar</string>
     <key>settings_notifications_filter_count</key>
