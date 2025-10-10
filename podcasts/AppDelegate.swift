@@ -8,6 +8,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import Combine
 import Sentry
+import EventHorizonSDK
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -31,11 +32,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var whatsNew: WhatsNew = WhatsNew()
 
+    // MARK: - EventHorizon
+
+    private lazy var eventHorizon: EventHorizon = {
+        return EventHorizon { eventName, properties in
+            print("📊 EventHorizon: \(eventName) - \(properties)")
+        }
+    }()
+
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
+
+        // EventHorizon sample usage
+        eventHorizon.track(ApplicationOpenedEvent())
 
         setupSecrets()
         addAnalyticsObservers()
