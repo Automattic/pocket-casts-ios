@@ -3,6 +3,7 @@ import PocketCastsUtils
 
 struct BetaMenu: View {
     @State private var searchText = ""
+    @State private var resetTrigger = false
 
     var body: some View {
         List {
@@ -27,9 +28,17 @@ struct BetaMenu: View {
                 }
             }
         }
+        .id(resetTrigger)
         .listStyle(.plain)
         .searchable(text: $searchText, prompt: L10n.search)
         .miniPlayerSafeAreaInset()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Reset") {
+                    resetOverrides()
+                }
+            }
+        }
     }
 
     private var filteredFeatures: [FeatureFlag] {
@@ -40,6 +49,12 @@ struct BetaMenu: View {
                 String(describing: feature).localizedCaseInsensitiveContains(searchText)
             }
         }
+    }
+
+    private func resetOverrides() {
+        FeatureFlagOverrideStore().resetOverrides()
+        resetTrigger.toggle()
+        Toast.show("Feature flag overrides reset")
     }
 }
 

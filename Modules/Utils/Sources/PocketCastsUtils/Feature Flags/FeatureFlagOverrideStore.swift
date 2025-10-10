@@ -12,13 +12,14 @@ public protocol OverrideableFlag: CustomStringConvertible {
 ///
 public struct FeatureFlagOverrideStore {
     private let store: UserDefaults
+    private let overrideKeyPrefix = "ff-override-"
 
     public init(store: UserDefaults = UserDefaults.standard) {
         self.store = store
     }
 
     private func key(for flag: OverrideableFlag) -> String {
-        return "ff-override-\(String(describing: flag))"
+        return "\(overrideKeyPrefix)\(String(describing: flag))"
     }
 
     /// - returns: True if the specified feature flag is overridden
@@ -54,6 +55,13 @@ public struct FeatureFlagOverrideStore {
         }
 
         return value
+    }
+
+    /// Clears all stored overrides for feature flags.
+    public func resetOverrides() {
+        for key in store.dictionaryRepresentation().keys where key.hasPrefix(overrideKeyPrefix) {
+            store.removeObject(forKey: key)
+        }
     }
 }
 
