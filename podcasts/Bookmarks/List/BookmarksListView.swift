@@ -68,12 +68,25 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            let searchTheme = PodcastSearchTheme()
             // Optional search bar shown when flagged and either searching or there are items
             if showSearchField, viewModel.isSearching || viewModel.numberOfItems > 0 {
-                SearchField(theme: PodcastSearchTheme(), text: $viewModel.searchText)
-                    .disabled(viewModel.isMultiSelecting)
-                    .padding(.horizontal, BookmarkListConstants.padding)
-                    .padding(.bottom, BookmarkListConstants.headerPadding)
+                HStack(spacing: BookmarkListConstants.padding) {
+                    SearchField(theme: searchTheme,
+                                text: $viewModel.searchText,
+                                showsCancelButton: false,
+                                placeholder: L10n.searchBookmarks)
+                        .disabled(viewModel.isMultiSelecting)
+                    Button(action: {
+                        viewModel.showMoreOptions()
+                    }) {
+                        Image("podcast-more-options")
+                            .padding(.trailing, 1) // Needed to nudge this over to match exactly. Not sure why.
+                    }
+                    .foregroundStyle(searchTheme.icon)
+                }
+                .padding(.horizontal, BookmarkListConstants.padding)
+                .padding(.bottom, BookmarkListConstants.searchFieldBottomPadding)
             }
 
             if !feature.isUnlocked || viewModel.bookmarks.isEmpty {
@@ -115,6 +128,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ViewBuilder
     private var listView: some View {
         if showHeader {
+            if showSearchField {
+                divider
+                    .padding(.bottom, BookmarkListConstants.headerPadding)
+            }
             headerView
             divider
         }
@@ -144,7 +161,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
                 Spacer()
 
-                if showMoreInHeader {
+                if showMoreInHeader && !showSearchField {
                     Image("more").foregroundStyle(style.primaryText).buttonize {
                         viewModel.showMoreOptions()
                     }
@@ -248,7 +265,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// Styled divider view
     @ViewBuilder
     private var divider: some View {
-        Divider().background(style.divider)
+        HairlineSeparator(color: style.divider)
     }
 }
 
@@ -281,9 +298,10 @@ struct BookmarkListMultiSelectHeaderView<HeaderStyle: BookmarksStyle>: View {
 enum BookmarkListConstants {
     static let shadowHeight = 20.0
     static let padding = 16.0
-    static let headerPadding = 12.0
+    static let headerPadding = 18.0
     static let headerTransitionOffset = 10.0
     static let multiSelectionBottomPadding = 70.0
+    static let searchFieldBottomPadding = 10.0
 }
 
 // Represents the current desired state for an externally presented action bar

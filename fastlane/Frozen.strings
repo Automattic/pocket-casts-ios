@@ -2189,6 +2189,12 @@
 /* A common string used throughout the app when searching podcasts. Placeholder text used in search boxes. */
 "search_podcasts" = "Search Podcasts";
 
+/* A placeholder used when searchng episodes. */
+"search_episodes" = "Search episodes";
+
+/* A placeholder used when searching bookmarks. */
+"search_bookmarks" = "Search bookmarks";
+
 /* A common string used throughout the app. Refers to the season a podcast episode is in. */
 "season" = "Season";
 

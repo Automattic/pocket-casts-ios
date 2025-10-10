@@ -2043,6 +2043,10 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Begin met het bouwen van je afspeellijst</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Afleveringen aan je afspeellijst toevoegen</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Afleveringen herschikken</string>
+    <key>playlist_options</key>
+    <string>Afspeellijstopties</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Slimme afspeellijst aanmaken</string>
     <key>playlist_preview_title</key>
@@ -2795,10 +2799,16 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>1 filter geselecteerd</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Geen filters geselecteerd</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Geen afspeellijsten geselecteerd</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Geen podcasts geselecteerd</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Volgend</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ afspeellijsten geselecteerd</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 afspeellijst geselecteerd</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts geselecteerd</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2807,6 +2817,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Download de bovenste afleveringen in een filter.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Download automatisch nieuwe afleveringen, sla afleveringen op van nieuwe shows die je volgt en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Download de bovenste afleveringen in een filter.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Download afleveringen die zijn toegevoegd aan Hierna.</string>
     <key>settings_badge_filter_header</key>
@@ -2981,12 +2993,18 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Toegevoegd aan 1 filter</string>
     <key>settings_in_menu</key>
     <string>IN MENU</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Inbegrepen in 1 slimme afspeellijst</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Inbegrepen in %1$@ slimme afspeellijsten</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inactieve afleveringen zijn afleveringen die je niet hebt afgespeeld of gedownload in de tijd die je hierboven aangeeft. Downloads worden verwijderd wanneer de aflevering gearchiveerd is.</string>
     <key>settings_next_action</key>
     <string>Nieuwe actie</string>
     <key>settings_not_in_filters</key>
     <string>Niet toegevoegd aan filters</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>Niet inbegrepen in slimme afspeellijsten</string>
     <key>settings_notifications</key>
     <string>Meldingen</string>
     <key>settings_notifications_filter_count</key>
@@ -3013,6 +3031,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Filter selecteren</string>
     <key>settings_select_filters_plural</key>
     <string>Filters selecteren</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Afspeellijsten selecteren</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Slimme afspeellijsten selecteren</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Filter openen</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
