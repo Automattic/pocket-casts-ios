@@ -9,6 +9,10 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+#if DEBUG && !os(watchOS)
+    static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
+#endif
+
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
@@ -384,6 +388,10 @@ class Settings: NSObject {
         UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
+
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.update(userRegion: region)
+        }
     }
 
     // MARK: - Auto Archiving

@@ -133,6 +133,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             episodesTable.estimatedRowHeight = 80.0
             episodesTable.allowsMultipleSelectionDuringEditing = true
             episodesTable.sectionHeaderTopPadding = 0
+            episodesTable.separatorStyle = .none
         }
     }
 

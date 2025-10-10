@@ -56,6 +56,7 @@ public class PredictiveSearchTask {
         }
         var request = URLRequest(url: searchURL)
         request.httpMethod = "GET"
+        request.addLocalizationHeaders()
 
         let (data, _) = try await session.data(for: request)
         let decoder = JSONDecoder()

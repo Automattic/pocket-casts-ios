@@ -1,6 +1,16 @@
 import PocketCastsUtils
 import Foundation
 
+extension Podcast: Sortable {
+    public var itemUUID: String {
+        uuid
+    }
+
+    public var itemTitle: String? {
+        title
+    }
+}
+
 class PodcastDataManager {
     private var cachedPodcasts = [String: Podcast]()
     private lazy var cachedPodcastsQueue: DispatchQueue = {
@@ -308,6 +318,34 @@ class PodcastDataManager {
 
             return podcast
         }
+    }
+
+    func searchPodcasts(term: String, dbQueue: PCDBQueue) -> [Podcast] {
+        let trimmedTerm = term.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTerm.isEmpty else { return [] }
+
+        let locale = Locale.current
+        let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
+
+        var matchingPodcasts = [Podcast]()
+        cachedPodcastsQueue.sync {
+            for podcast in cachedPodcasts.values {
+                guard podcast.isSubscribed() else { continue }
+
+                if podcast.title?.range(of: trimmedTerm, options: options, range: nil, locale: locale) != nil {
+                    matchingPodcasts.append(podcast)
+                    continue
+                }
+
+                if podcast.author?.range(of: trimmedTerm, options: options, range: nil, locale: locale) != nil {
+                    matchingPodcasts.append(podcast)
+                }
+            }
+        }
+
+        return matchingPodcasts.sorted(by: { lhs, rhs in
+            PodcastSorter.sortByNameAndUUID(item1: lhs, item2: rhs)
+        })
     }
 
     func count(dbQueue: PCDBQueue) -> Int {

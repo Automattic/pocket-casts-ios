@@ -322,12 +322,21 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 process: tapProcess
             )
 
+#if compiler(>=6.2)
+            var audioProcessingTap: MTAudioProcessingTap?
+            if noErr == MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks, kMTAudioProcessingTapCreationFlag_PreEffects, &audioProcessingTap) {
+                audioMixInputParameters.audioTapProcessor = audioProcessingTap
+                mutableMix.inputParameters = [audioMixInputParameters]
+                audioMix = mutableMix
+            }
+#else
             var audioProcessingTap: Unmanaged<MTAudioProcessingTap>?
             if noErr == MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks, kMTAudioProcessingTapCreationFlag_PreEffects, &audioProcessingTap) {
                 audioMixInputParameters.audioTapProcessor = audioProcessingTap?.takeRetainedValue()
                 mutableMix.inputParameters = [audioMixInputParameters]
                 audioMix = mutableMix
             }
+#endif
         }
 
         // MARK: - Tap Callbacks

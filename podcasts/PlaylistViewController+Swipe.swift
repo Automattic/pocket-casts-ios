@@ -37,6 +37,10 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
         "filters"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        .filter
+    }
+
     func actionPerformed(willBeRemoved: Bool) {
         refreshEpisodes(animated: true)
     }
@@ -50,4 +54,6 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: tableView, at: indexPath)
     }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { } // we don't support this one
 }

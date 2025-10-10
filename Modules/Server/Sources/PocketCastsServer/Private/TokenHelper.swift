@@ -161,6 +161,7 @@ class TokenHelper {
             request.httpMethod = "POST"
             request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
             request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
+            request.addLocalizationHeaders()
             if let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() {
                 request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
             }
