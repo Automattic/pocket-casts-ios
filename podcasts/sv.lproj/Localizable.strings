@@ -2047,6 +2047,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Börja bygga din spellista</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Lägg till avsnitt i din spellista</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Sortera om avsnitt</string>
+    <key>playlist_options</key>
+    <string>Spellistealternativ</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Skapa smart spellista</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>1 filter valt</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Inga filter valda</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Inga spellistor valda</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Inga podcasts valda</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Vid följande</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ podcasts valda</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 spellista vald</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts valda</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ladda ner de avsnitt som är överst i ett filter</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Ladda automatiskt ner nya avsnitt, spara avsnitt från shower du har börjar följa nyligen och hantera din lagring genom att sätta en gräns för hur många avsnitt som sparas.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Ladda ner de populäraste avsnitten i en spellista.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Ladda ner avsnitt tillagda i Nästa.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ingår i 1 filter</string>
     <key>settings_in_menu</key>
     <string>I MENY</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Inkluderat I 1 Smart Spellista</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Inkluderat I %1$@ Smarta Spellistor</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktiva avsnitt är avsnitt som du inte har spelat upp eller laddat ner under den ovan angivna tidsperioden. Nedladdningar tas bort när avsnittet arkiveras.</string>
     <key>settings_next_action</key>
     <string>Nästa åtgärd</string>
     <key>settings_not_in_filters</key>
     <string>Ingår inte i några filter</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>Ingår Inte I Några Smarta Spellistor</string>
     <key>settings_notifications</key>
     <string>Aviseringar</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Välj filter</string>
     <key>settings_select_filters_plural</key>
     <string>Välj filter</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Välj spellistor</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Välj smarta spellistor</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Öppna filter</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

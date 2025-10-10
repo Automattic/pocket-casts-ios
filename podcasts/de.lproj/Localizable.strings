@@ -2047,6 +2047,10 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>Deine Wiedergabeliste erstellen</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Folgen zu deiner Wiedergabeliste hinzufügen</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Folgen neu anordnen</string>
+    <key>playlist_options</key>
+    <string>Wiedergabelisten-Optionen</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Intelligente Wiedergabeliste erstellen</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>1 Filter ausgewählt</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Keine Filter ausgewählt</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Keine Wiedergabelisten ausgewählt</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Keine Podcasts ausgewählt</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Beim Folgen</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ Wiedergabelisten ausgewählt</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>Eine Wiedergabeliste ausgewählt</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ Podcasts ausgewählt</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Die obersten Folgen in einem Filter herunterladen.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Du kannst neue Folgen automatisch herunterladen und Folgen von Shows speichern, denen du seit Neuestem folgst. Zudem kannst du deinen Speicher verwalten, indem du festlegst, wie viele Folgen gespeichert werden sollen.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Lade die obersten Folgen in einer Wiedergabeliste herunter.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Zur Warteschlange hinzugefügte Folgen herunterladen.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>In 1 Filter enthalten</string>
     <key>settings_in_menu</key>
     <string>IM MENÜ</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>In einer intelligenten Wiedergabeliste enthalten</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>In %1$@ intelligenten Wiedergabelisten enthalten</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktive Folgen sind Folgen, die du in der oben angegebenen Zeit nicht angehört oder heruntergeladen hast. Downloads werden entfernt, wenn die Folge archiviert wird.</string>
     <key>settings_next_action</key>
     <string>Nächste Aktion</string>
     <key>settings_not_in_filters</key>
     <string>In keinem Filter enthalten</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>In keinen intelligenten Wiedergabelisten enthalten</string>
     <key>settings_notifications</key>
     <string>Benachrichtigungen</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Filter auswählen</string>
     <key>settings_select_filters_plural</key>
     <string>Filter auswählen</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Wiedergabelisten auswählen</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Intelligente Wiedergabelisten auswählen</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Filter öffnen</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
