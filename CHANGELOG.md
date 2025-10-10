@@ -1,6 +1,7 @@
 7.100
 -----
 - Keep Downloaded or Up Next episodes when unsubscribing from a podcast [#3538](https://github.com/Automattic/pocket-casts-ios/pull/3538)
+- Enable improved type-ahead search predictions.[#3568](https://github.com/Automattic/pocket-casts-ios/pull/3568)
 
 7.99
 -----
