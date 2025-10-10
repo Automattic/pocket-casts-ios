@@ -2213,6 +2213,9 @@ internal enum L10n {
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
   /// Playback 2025
   internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// Welcome to Playback!
+  ///  A celebration of your year in podcasts.
+  internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Welcome to Playback!\n A celebration of your year in podcasts.") }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel

@@ -5567,3 +5567,5 @@
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
 
+/// Label of the Playback 2025 call to action buton
+"playback_2025_intro_message" = "Welcome to Playback!\n A celebration of your year in podcasts.";
