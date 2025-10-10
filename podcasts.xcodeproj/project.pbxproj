@@ -653,6 +653,8 @@
 		8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9A2345678901BCDE00FG2345 /* EventHorizonSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 9A3456789012CDEF00GH3456 /* EventHorizonSDK */; };
+		9A4567890123DEFG00HI4567 /* EventHorizonSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A3456789012CDEF00GH3456 /* EventHorizonSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
@@ -2267,6 +2269,7 @@
 				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
+				9A4567890123DEFG00HI4567 /* EventHorizonSDK in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2987,6 +2990,7 @@
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
+		9A1234567890ABCD00EF1234 /* EventHorizon */ = {isa = PBXFileReference; lastKnownFileType = text; name = EventHorizon; path = eventhorizon; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
 		8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersHeader.swift; sourceTree = "<group>"; };
@@ -4384,6 +4388,7 @@
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */,
+				9A2345678901BCDE00FG2345 /* EventHorizonSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5505,6 +5510,7 @@
 				9A72B65E2E210E750078FC84 /* DependencyInjection */,
 				8BCB22AE28F47EFC001A0315 /* End of Year */,
 				8BE36DCA28734F7000E35313 /* DataModel */,
+				9A1234567890ABCD00EF1234 /* EventHorizon */,
 				8BE36DCC28734F7000E35313 /* Server */,
 				8BE36DCB28734F7000E35313 /* Utils */,
 				8B32953E2A5333B000BDFA11 /* Whats New */,
@@ -9151,6 +9157,7 @@
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
 				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
+				9A3456789012CDEF00GH3456 /* EventHorizonSDK */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -14296,6 +14303,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
 			productName = WrappingHStack;
+		};
+		9A3456789012CDEF00GH3456 /* EventHorizonSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EventHorizonSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
