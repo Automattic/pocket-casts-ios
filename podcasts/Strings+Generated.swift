@@ -2454,6 +2454,8 @@ internal enum L10n {
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description", fallback: "Create folders to organise your podcast collection.") }
   /// Pocket Casts Plus marketing page, title of the Folders feature
   internal static var plusMarketingFoldersTitle: String { return L10n.tr("Localizable", "plus_marketing_folders_title", fallback: "Folders") }
+  /// Pocket Casts Plus marketing page, description of generated transcriptsg
+  internal static var plusMarketingGeneratedTranscripts: String { return L10n.tr("Localizable", "plus_marketing_generated_transcripts", fallback: "Generated Transcripts") }
   /// Pocket Casts Plus marketing page, description of the hide ads feature
   internal static var plusMarketingHideAdsDescription: String { return L10n.tr("Localizable", "plus_marketing_hide_ads_description", fallback: "Ad-free experience which gives you more of what you love and less of what you don't") }
   /// Pocket Casts Plus marketing page, title of the hide ads feature
