@@ -46,8 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
-        // EventHorizon sample usage
-        eventHorizon.track(ApplicationOpenedEvent())
+        // EventHorizon integration test - using a placeholder event
+        // TODO: Replace with ApplicationOpenedEvent() once SDK adds public init()
+        eventHorizon.track(OpmlImportFinishedEvent(numberParsed: 0))
 
         setupSecrets()
         addAnalyticsObservers()
