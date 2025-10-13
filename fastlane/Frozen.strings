@@ -1643,6 +1643,9 @@
 /* Message displayed when teh user tap "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
+/* Pocket Casts Plus marketing page, description of generated transcriptsg */
+"plus_marketing_generated_transcripts" = "Generated Transcripts";
+
 /* Pocket Casts Plus marketing page, description of removing banner ads */
 "plus_marketing_no_banner_ads" = "No Banner Ads";
 

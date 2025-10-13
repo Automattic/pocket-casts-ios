@@ -362,9 +362,9 @@ public enum FeatureFlag: String, CaseIterable {
         case .episodeDetailTranscript:
             true
         case .bannerAdPodcasts:
-            true
+            false
         case .bannerAdPlayer:
-            true
+            false
         case .streamingCustomSessionConfiguration:
             true
         case .guestListsNetworkHighlightsRedesign:

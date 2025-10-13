@@ -2824,7 +2824,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Téléchargez automatiquement les nouveaux épisodes, enregistrez les épisodes des nouvelles émissions auxquelles vous vous abonnez et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
     <key>settings_auto_downloads_subtitle_playlists</key>
-    <string>Télécharger les meilleurs épisodes dans une liste de lecture.</string>
+    <string>Téléchargez les meilleurs épisodes dans une liste de lecture.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Télécharger les épisodes ajoutés à la file d'attente.</string>
     <key>settings_badge_filter_header</key>
