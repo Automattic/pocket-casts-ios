@@ -1821,6 +1821,9 @@
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
 
+/* Indicates that the episode is unavailable server side. */
+"podcast_unavailable" = "Unavailable";
+
 /* Label used to display the number or archived episodes in a podcast. '%1$@' is a placeholder for the archived episode number. */
 "podcast_archived_count_format" = "%1$@ archived";
 

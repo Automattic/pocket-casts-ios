@@ -38,6 +38,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     // UserEpisode's are never archived or starred
     public var archived = false
     public var keepEpisode = false
+    public var wasDeleted = false
 
     public var hasBookmarks: Bool {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0

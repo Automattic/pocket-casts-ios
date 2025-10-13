@@ -2766,6 +2766,8 @@ internal enum L10n {
   internal static var podcastTomorrow: String { return L10n.tr("Localizable", "podcast_tomorrow", fallback: "Tomorrow") }
   /// Prompt to unarchive all of the selected items.
   internal static var podcastUnarchiveAll: String { return L10n.tr("Localizable", "podcast_unarchive_all", fallback: "Unarchive All") }
+  /// Indicates that the episode is unavailable server side.
+  internal static var podcastUnavailable: String { return L10n.tr("Localizable", "podcast_unavailable", fallback: "Unavailable") }
   /// Indicates that the updates to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the updates ended.
   internal static func podcastUpdatesEnded(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_updates_ended", String(describing: p1), fallback: "Updates ended: %1$@")

@@ -9,7 +9,21 @@ struct PlaylistEpisodePreviewRowView: View {
 
     var subtitle: String {
         let timeLeft = episode.displayableTimeLeft()
-        return episode.archived ? "\(L10n.podcastArchived) • \(timeLeft)" : timeLeft
+        if episode.wasDeleted {
+            return "\(L10n.podcastUnavailable) • \(timeLeft)"
+        } else if episode.archived {
+            return "\(L10n.podcastArchived) • \(timeLeft)"
+        }
+        return timeLeft
+    }
+
+    var subtitleImage: String? {
+        if episode.wasDeleted {
+            return "option-cross-circle"
+        } else if episode.archived {
+            return "list_archived"
+        }
+        return nil
     }
 
     init(episode: BaseEpisode, hideSeparator: Bool = false) {
@@ -41,24 +55,23 @@ struct PlaylistEpisodePreviewRowView: View {
                     Text(episode.title ?? "")
                         .font(size: 15.0, style: .body, weight: .medium)
                         .foregroundStyle(theme.primaryText01)
-                    HStack {
-                        if episode.archived {
-                            Image("list_archived")
+                    HStack(spacing: 4) {
+                        if let subtitleImage {
+                            Image(subtitleImage)
                                 .renderingMode(.template)
                                 .resizable()
-                                .foregroundColor(theme.primaryText02)
                                 .frame(width: 12, height: 12)
                         }
                         Text(subtitle)
-                            .font(size: 12.0, style: .body, weight: .semibold)
-                            .foregroundStyle(theme.primaryText02)
                         Spacer()
                     }
+                    .font(size: 12.0, style: .body, weight: .semibold)
+                    .foregroundStyle(theme.primaryText02)
                 }
                 Spacer()
             }
         }
-        .opacity(episode.archived ? 0.5 : 1.0)
+        .opacity(episode.played() || episode.archived || episode.wasDeleted ? 0.5 : 1.0)
     }
 }
 
