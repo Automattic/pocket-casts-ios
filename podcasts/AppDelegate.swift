@@ -106,6 +106,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
+        }
+
         badgeHelper.setup()
         WatchManager.shared.setup()
         shortcutManager.listenForShortcutChanges()

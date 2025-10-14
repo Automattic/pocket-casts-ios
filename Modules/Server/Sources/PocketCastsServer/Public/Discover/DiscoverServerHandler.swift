@@ -156,7 +156,8 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         completion: @escaping (Data?, URLResponse?, Error?, Bool) -> Void
     ) {
         let url = ServerHelper.asUrl(path)
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.addLocalizationHeaders()
 
         if let cachedResponse = cachedResponse(for: path) {
             completion(cachedResponse.data, cachedResponse.response, nil, true)

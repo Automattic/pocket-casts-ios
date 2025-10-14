@@ -14,6 +14,7 @@ struct EndOfYear {
         case y2022
         case y2023
         case y2024
+        case y2025
 
         var modelType: StoryModel.Type? {
             switch self {
@@ -23,6 +24,8 @@ struct EndOfYear {
                 EndOfYear2023StoriesModel.self
             case .y2024:
                 EndOfYear2024StoriesModel.self
+            case .y2025:
+                EndOfYear2025StoriesModel.self
             }
         }
 
@@ -38,6 +41,8 @@ struct EndOfYear {
                 return "2023"
             case .y2024:
                 return "2024"
+            case .y2025:
+                return "2025"
             }
         }
     }
@@ -63,7 +68,9 @@ struct EndOfYear {
     private static var state: EndOfYearState = .showModalIfNeeded
 
     static var currentYear: Year {
-        if FeatureFlag.endOfYear2024.enabled {
+        if FeatureFlag.endOfYear2025.enabled {
+            return .y2025
+        } else if FeatureFlag.endOfYear2024.enabled {
             return .y2024
         } else if FeatureFlag.endOfYear.enabled {
             return .y2023
@@ -114,6 +121,8 @@ struct EndOfYear {
             viewModel = .init(buttonTitle: L10n.eoyViewYear, description: L10n.eoyDescription, backgroundImageName: "modal_cover")
         case .y2024:
             viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
+        case .y2025:
+            viewModel = .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-2025-featured")
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController)
@@ -233,7 +242,7 @@ extension EndOfYear {
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         switch EndOfYear.currentYear {
-        case .y2024: return .darkContent
+        case .y2024, .y2025: return .darkContent
         default: return .lightContent
         }
     }

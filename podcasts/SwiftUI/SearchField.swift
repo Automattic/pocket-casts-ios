@@ -48,8 +48,8 @@ struct SearchField: View {
     var body: some View {
         // We use 2 stacks here to have the cancel button appear outside the background
         HStack {
-            HStack(spacing: SearchFieldConstants.padding) {
-                Image("search")
+            HStack(spacing: SearchFieldConstants.horizontalPadding) {
+                Image("custom_search")
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -61,7 +61,7 @@ struct SearchField: View {
                 TextField(placeholder, text: $text, prompt: prompt)
                     .foregroundColor(theme.text)
                     .focused($isFocused)
-                    .padding(.vertical, SearchFieldConstants.padding)
+                    .padding(.vertical, SearchFieldConstants.verticalPadding)
 
                 if !text.isEmpty {
                     Image("search_cancel")
@@ -71,9 +71,9 @@ struct SearchField: View {
                         }
                 }
             }
-            .padding(.horizontal, SearchFieldConstants.padding)
+            .padding(.horizontal, SearchFieldConstants.horizontalPadding)
             .background(theme.background)
-            .cornerRadius(SearchFieldConstants.cornerRadius)
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: SearchFieldConstants.cornerRadius, height: SearchFieldConstants.cornerRadius), style: .continuous))
             .font(size: 15, style: .body)
 
             // Show the cancel button
@@ -134,7 +134,8 @@ struct SearchField: View {
 }
 
 private enum SearchFieldConstants {
-    static let padding = 8.0
+    static let horizontalPadding = 10.0
+    static let verticalPadding = 8.0
     static let cornerRadius = 8.0
 }
 

@@ -72,15 +72,16 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
                 let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
                     guard let self else { return }
-                    let presentModal: () -> Void = {
+                    let presentModal: () -> Void = { [weak self] in
                         NavigationManager.sharedManager.navigateTo(
                             NavigationManager.manualPlaylistsChooserKey,
                             data: [
-                                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+                                NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
+                                NavigationManager.manualPlaylistsChooserRootKey: self as Any
                             ]
                         )
                     }
-                    if self.presentingViewController != nil {
+                    if self.presentingViewController is PlayerContainerViewController {
                         self.dismiss(animated: true, completion: presentModal)
                     } else {
                         presentModal()

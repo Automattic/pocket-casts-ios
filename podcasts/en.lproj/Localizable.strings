@@ -1639,6 +1639,9 @@
 /* Message displayed when teh user tap "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
+/* Pocket Casts Plus marketing page, description of generated transcriptsg */
+"plus_marketing_generated_transcripts" = "Generated Transcripts";
+
 /* Pocket Casts Plus marketing page, description of removing banner ads */
 "plus_marketing_no_banner_ads" = "No Banner Ads";
 
@@ -2190,6 +2193,12 @@
 
 /* A common string used throughout the app when searching podcasts. Placeholder text used in search boxes. */
 "search_podcasts" = "Search Podcasts";
+
+/* A placeholder used when searchng episodes. */
+"search_episodes" = "Search episodes";
+
+/* A placeholder used when searching bookmarks. */
+"search_bookmarks" = "Search bookmarks";
 
 /* A common string used throughout the app. Refers to the season a podcast episode is in. */
 "season" = "Season";
@@ -5563,3 +5572,16 @@
 
 /* Search Results filter option */
 "all_results" = "All Results";
+
+/// A description of the Playback 2025 feature
+"playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/// Description for the Playback 2025 feature
+"playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/// Title for the Playback 2025 feature
+"playback_2025_feature_title" = "Playback 2025";
+
+/// Label of the Playback 2025 call to action buton
+"playback_2025_view_year" = "View My Playback 2025";
+

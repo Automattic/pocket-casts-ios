@@ -9,7 +9,7 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
-#if DEBUG && !os(watchOS)
+#if !os(watchOS)
     static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
 #endif
 
@@ -388,6 +388,10 @@ class Settings: NSObject {
         UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
+
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.update(userRegion: region)
+        }
     }
 
     // MARK: - Auto Archiving

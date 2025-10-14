@@ -50,6 +50,7 @@ public class EpisodeSearchTask {
         let searchURL = URL(string: "\(ServerConstants.Urls.cache())episode/search")!
         var request = URLRequest(url: searchURL)
         request.httpMethod = "POST"
+        request.addLocalizationHeaders()
 
         let json: [String: Any] = ["term": term]
 

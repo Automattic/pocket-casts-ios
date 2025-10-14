@@ -2047,6 +2047,10 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Inizia a creare la tua playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Aggiungi episodi alla playlist</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Riordina episodi</string>
+    <key>playlist_options</key>
+    <string>Opzioni della playlist</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crea playlist intelligente</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>1 filtro selezionato</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Nessun filtro selezionato</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Nessuna playlist selezionata</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Nessun podcast selezionato</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Seguiti</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ playlist selezionate</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 playlist selezionata</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcast selezionati</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Scarica i primi episodi in un filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Scarica automaticamente i nuovi episodi, salvali in base alle serie che segui e gestisci l'archivio impostando un limite sugli episodi salvati.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Scarica i primi episodi in una playlist.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Scarica gli episodi aggiunti a Successivo.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Incluso in 1 filtro</string>
     <key>settings_in_menu</key>
     <string>NEL MENU</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Incluso in 1 playlist intelligente</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Incluso in %1$@ playlist intelligenti </string>
     <key>settings_inactive_episodes_msg</key>
     <string>Gli episodi inattivi sono episodi che non hai riprodotto o scaricato nel periodo specificato sopra. I download vengono rimossi quando l'episodio viene archiviato.</string>
     <key>settings_next_action</key>
     <string>Azione successiva</string>
     <key>settings_not_in_filters</key>
     <string>Non incluso in alcun filtro</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>Non incluso in alcuna playlist intelligente</string>
     <key>settings_notifications</key>
     <string>Notifiche</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Seleziona filtro</string>
     <key>settings_select_filters_plural</key>
     <string>Apri filtri</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Seleziona playlist</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Seleziona playlist intelligenti</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Apri filtro</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
