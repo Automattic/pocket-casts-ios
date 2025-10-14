@@ -1,7 +1,7 @@
 
 import UIKit
-import PocketCastsUtils
 import UserNotifications
+import UserNotificationsUI
 
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
     @IBOutlet var podcastImage: UIImageView!
