@@ -2,7 +2,6 @@
 import UIKit
 import PocketCastsUtils
 import UserNotifications
-import UserNotificationsUI
 
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
     @IBOutlet var podcastImage: UIImageView!
@@ -31,10 +30,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                     podcastImage.image = UIImage(data: data)
                     attachment.url.stopAccessingSecurityScopedResource()
                 }
-            } catch {
-                // Log the error for debugging purposes
-                FileLog.shared.addMessage("NotificationViewController: Failed to load podcast image - \(error.localizedDescription)")
-            }
+            } catch {}
         } else {
             podcastImage.image = UIImage(named: "no-artwork")
         }
