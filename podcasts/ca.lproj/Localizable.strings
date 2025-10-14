@@ -2169,6 +2169,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Crea carpetes per a organitzar la teva col·lecció de pòdcasts.</string>
     <key>plus_marketing_folders_title</key>
     <string>Carpetes</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Transcripcions generades</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>L'experiència sense anuncis que et dona més del que t'encanta i menys del que et desagrada</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2658,6 +2660,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Desar marcador</string>
     <key>search</key>
     <string>Cercar</string>
+    <key>search_bookmarks</key>
+    <string>Cercar marcadors</string>
+    <key>search_episodes</key>
+    <string>Cercar episodis</string>
     <key>search_label</key>
     <string>Cerca pòdcasts o afegeix una adreça RSS</string>
     <key>search_podcasts</key>
