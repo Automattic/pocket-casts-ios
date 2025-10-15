@@ -264,7 +264,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             false
         case .endOfYear:
-            false
+            true
         case .errorLogoutHandling:
             false
         case .newSettingsStorage:
@@ -398,7 +398,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
-            false
+            true
         case .searchPredictive:
             true
         case .podcastBookmarksInline:
@@ -408,7 +408,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .enableLocalizationHeaders:
             true
         case .endOfYear2025:
-            false
+            true
         }
     }
 
