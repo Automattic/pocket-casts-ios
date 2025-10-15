@@ -67,6 +67,32 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             deleteAction.image = UIImage(named: "episode-removenext")
             deleteAction.backgroundColor = ThemeColor.support05(for: themeOverride)
             deleteAction.accessibilityLabel = L10n.removeFromUpNext
+
+            if FeatureFlag.playlistsRebranding.enabled,
+               let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
+                let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
+                    guard let self else { return }
+                    let presentModal: () -> Void = { [weak self] in
+                        NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.manualPlaylistsChooserKey,
+                            data: [
+                                NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
+                                NavigationManager.manualPlaylistsChooserRootKey: self as Any
+                            ]
+                        )
+                    }
+                    if self.presentingViewController is PlayerContainerViewController {
+                        self.dismiss(animated: true, completion: presentModal)
+                    } else {
+                        presentModal()
+                    }
+                }
+                shareAction.backgroundColor = ThemeColor.support02()
+                shareAction.image = UIImage(named: "playlist-add-episode")
+                shareAction.accessibilityLabel = L10n.playlistManualAddEpisodes
+                return [deleteAction, shareAction]
+            }
+
             return [deleteAction]
         }
     }

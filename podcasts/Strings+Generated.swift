@@ -158,6 +158,8 @@ internal enum L10n {
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next", fallback: "Add to Up Next") }
   /// A common string used throughout the app. Option that determines the behavior of the app after playing an item.
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing", fallback: "After Playing") }
+  /// Search Results filter option
+  internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "All Results") }
   /// Autoplay feature announcement description
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description", fallback: "If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.") }
   /// Autoplay feature announcement title
@@ -2205,6 +2207,14 @@ internal enum L10n {
   internal static func playback2024YearOverYearCompareTitleUpOver500(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_year_over_year_compare_title_up_over_500", String(describing: p1), fallback: "Compared to 2023, your listening time went up more than %1$@")
   }
+  /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
+  internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// See your listening stats, top podcasts, and more.
+  internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
+  /// Playback 2025
+  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// View My Playback 2025
+  internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts", fallback: "All podcasts") }
   /// Playback settings option in the Effects Player panel
@@ -2295,6 +2305,10 @@ internal enum L10n {
   internal static var playerUserEpisodePlaybackError: String { return L10n.tr("Localizable", "player_user_episode_playback_error", fallback: "Playback Error") }
   /// Error title when there is an upload error.
   internal static var playerUserEpisodeUploadError: String { return L10n.tr("Localizable", "player_user_episode_upload_error", fallback: "Upload Error") }
+  /// Navigation title that appears when adding episodes to a playlist. %@ is the playlist name.
+  internal static func playlistAddToTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_add_to_title", String(describing: p1), fallback: "Add to \"%@\"")
+  }
   /// Used on the screen to create a new playlist. The description about why the list of filtered episodes is empty. The 
   ///  represent a new line
   internal static var playlistCreateNoEpisodesDescription: String { return L10n.tr("Localizable", "playlist_create_no_episodes_description", fallback: "None of the episodes in your podcasts match these rules.\n\nTry adjusting the rules, or save this playlist for future episodes that might fit.") }
@@ -2308,6 +2322,20 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
+  internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
+  }
+  /// Navigation title shown after adding multiple episodes to a playlist. %1$@ is the episode count. %2$@ is the playlist name.
+  internal static func playlistEpisodesAddedTitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_added_title", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes added to \"%2$@\"")
+  }
+  /// Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player
+  internal static func playlistEpisodesCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_count", String(describing: p1), fallback: "%1$@ episodes")
+  }
+  /// Toast message when the playlist is full
+  internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "Playlist is full. Try creating a new one") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
@@ -2318,6 +2346,8 @@ internal enum L10n {
   internal static var playlistManualEmptyStateTitle: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title", fallback: "Start building your playlist") }
   /// Manual Playlist: empty state title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateTitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_title_no_podcasts", fallback: "Add episodes to your playlist") }
+  /// Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title
+  internal static var playlistManualEpisodeAddToPlaylist: String { return L10n.tr("Localizable", "playlist_manual_episode_add_to_playlist", fallback: "Add to playlist") }
   /// Manual Playlist: manual episodes order option that appears when showing the options sheet
   internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
@@ -2328,6 +2358,8 @@ internal enum L10n {
   internal static func playlistPreviewTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_preview_title", String(describing: p1), fallback: "Preview %@")
   }
+  /// Search placeholder used in the add episode to manual playlist search from podcast and player
+  internal static var playlistSearch: String { return L10n.tr("Localizable", "playlist_search", fallback: "Find playlist") }
   /// Message shown when you have no episodes in a playlist
   internal static var playlistSmartNoEpisodesMsg: String { return L10n.tr("Localizable", "playlist_smart_no_episodes_msg", fallback: "Either it’s time to celebrate completing this list, or edit your rules to get some more.") }
   /// Smart Playlist preview: description that appears when initially there are no rules set
@@ -2766,6 +2798,8 @@ internal enum L10n {
   internal static var podcastsBadgeLatestEpisode: String { return L10n.tr("Localizable", "podcasts_badge_latest_episode", fallback: "Only Latest Episode") }
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
+  /// Episodes will be displayed in custom order by drag and drop
+  internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Drag and Drop") }
   /// Episodes will be displayed in order from the longest to the shortest.
   internal static var podcastsEpisodeSortLongestToShortest: String { return L10n.tr("Localizable", "podcasts_episode_sort_longest_to_shortest", fallback: "Longest to Shortest") }
   /// Episodes will be displayed in order from the most resent to the oldest.
@@ -4068,6 +4102,8 @@ internal enum L10n {
   internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest", fallback: "Longest to shortest") }
   /// A duration (shortest to longest) sort option for uploaded files.
   internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest", fallback: "Shortest to longest") }
+  /// Title displayed above the user's subscribed podcasts list when no podcast is selected.
+  internal static var userEpisodesSearchPodcastsTitle: String { return L10n.tr("Localizable", "user_episodes_search_podcasts_title", fallback: "Your Podcasts") }
   /// An option to say "no" when when asked if the user enjoys the app.
   internal static var userSatisfactionSurveyNoResponse: String { return L10n.tr("Localizable", "user_satisfaction_survey_no_response", fallback: "Not really") }
   /// A subtitle shown for the user satisfaction survey to ask whether a user enjoys the app

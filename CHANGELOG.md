@@ -1,12 +1,22 @@
-7.100
+7.102
 -----
 
 7.99.1
 -----
 - Fix Filters selection from the podcast screen [#3580](https://github.com/Automattic/pocket-casts-ios/pull/3580)
 
+7.101
+-----
+
+
+7.100
+-----
+- Keep Downloaded or Up Next episodes when unsubscribing from a podcast [#3538](https://github.com/Automattic/pocket-casts-ios/pull/3538)
+- Enable improved type-ahead search predictions.[#3568](https://github.com/Automattic/pocket-casts-ios/pull/3568)
+
 7.99
 -----
+- Fix archive filter in episode search [#3526](https://github.com/Automattic/pocket-casts-ios/pull/3526)
 - Bookmarks tab opens inline in the Podcast page [#3532](https://github.com/Automattic/pocket-casts-ios/pull/3532)
 
 7.98

@@ -2,6 +2,24 @@ import UIKit
 import PocketCastsDataModel
 
 class NewPlaylistViewController: PCViewController {
+    enum CreationType: Equatable {
+        case `default`
+        case addEpisode(episode: Episode)
+
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            switch (lhs, rhs) {
+            case (.default, .default):
+                return true
+            case (.addEpisode(let lhsEpisode), .addEpisode(let rhsEpisode)):
+                return lhsEpisode.uuid == rhsEpisode.uuid
+            default:
+                return false
+            }
+        }
+    }
+
+    private let creationType: CreationType
+
     weak var delegate: FilterCreatedDelegate?
 
     private var playlistName: String = ""
@@ -46,11 +64,22 @@ class NewPlaylistViewController: PCViewController {
         }
     }
 
+    init(creationType: CreationType = .default) {
+        self.creationType = creationType
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavBar()
-        addCloseButton()
+        if creationType == .default {
+            addCloseButton()
+        }
         setupContent()
     }
 
@@ -63,6 +92,7 @@ class NewPlaylistViewController: PCViewController {
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
 
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = backgroundColor
@@ -88,16 +118,10 @@ class NewPlaylistViewController: PCViewController {
         playlistNameTextField = ThemeableTextField()
         view.addSubview(playlistNameTextField)
 
-        let creationView = SmartPlaylistCreationView() { [weak self] in
-            self?.createSmartPlaylist()
-        }.themedUIView
-        creationView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(creationView)
-
         saveButton = UIButton(type: .custom)
         view.addSubview(saveButton)
 
-        NSLayoutConstraint.activate([
+        var constraints = [
             textFieldBorderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10.0),
             textFieldBorderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
             textFieldBorderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
@@ -108,16 +132,32 @@ class NewPlaylistViewController: PCViewController {
             playlistNameTextField.trailingAnchor.constraint(equalTo: textFieldBorderView.trailingAnchor, constant: -16.0),
             playlistNameTextField.bottomAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor),
 
-            creationView.topAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor, constant: 16.0),
-            creationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
-            creationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
-            creationView.heightAnchor.constraint(equalToConstant: 59.0),
-
             saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            saveButton.topAnchor.constraint(equalTo: creationView.bottomAnchor, constant: 24),
             saveButton.heightAnchor.constraint(equalToConstant: 56.0)
-        ])
+        ]
+
+        if creationType == .default {
+            let creationView = SmartPlaylistCreationView() { [weak self] in
+                self?.createSmartPlaylist()
+            }.themedUIView
+            creationView.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(creationView, belowSubview: saveButton)
+
+            constraints.append(contentsOf: [
+                creationView.topAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor, constant: 16.0),
+                creationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
+                creationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
+                creationView.heightAnchor.constraint(equalToConstant: 59.0),
+                saveButton.topAnchor.constraint(equalTo: creationView.bottomAnchor, constant: 24)
+            ])
+        } else {
+            constraints.append(contentsOf: [
+                saveButton.topAnchor.constraint(equalTo: playlistNameTextField.bottomAnchor, constant: 24)
+            ])
+        }
+
+        NSLayoutConstraint.activate(constraints)
 
         view.layoutSubviews()
     }
@@ -142,17 +182,17 @@ class NewPlaylistViewController: PCViewController {
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
-
-        let episodes = DataManager.sharedManager.allUpNextEpisodes().compactMap { baseEpisode in
-            let episode = DataManager.sharedManager.findEpisode(uuid: baseEpisode.uuid)
-            return episode
-        }
-        DataManager.sharedManager.add(episodes: episodes, to: playlist)
-
+        playlist.sortType = PlaylistSort.dragAndDrop.rawValue
         DataManager.sharedManager.save(playlist: playlist)
-        UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
-        delegate?.filterCreated(newFilter: playlist)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
+        if creationType == .default {
+            UserDefaults.standard.set(playlist.uuid, forKey: Constants.UserDefaults.lastFilterShown)
+            delegate?.filterCreated(newFilter: playlist)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
+        } else if case let .addEpisode(episode) = creationType {
+            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
+            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
+        }
 
         //TODO: Add analytics for manual playlist creation
 

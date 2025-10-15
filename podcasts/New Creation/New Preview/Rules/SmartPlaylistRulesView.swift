@@ -159,7 +159,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
                     PlaylistEpisodePreviewRowView(
                         episode: episode.episode
                     )
-                        .frame(height: 80)
+                        .frame(minHeight: 80)
                         .listRowClearStyle()
                 }
                 .padding(.leading, 16.0)

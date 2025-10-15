@@ -64,7 +64,7 @@ public enum SyncStatus: Int32 {
 }
 
 public enum PlaylistSort: Int32 {
-    case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3
+    case newestToOldest = 0, oldestToNewest = 1, shortestToLongest = 2, longestToShortest = 3, dragAndDrop = 4
 }
 
 public struct EpisodeBasicData {
@@ -305,6 +305,7 @@ public enum PlayerAction: String, Codable, Equatable {
     case addBookmark = "bookmark"
     case transcript = "transcript"
     case download = "download"
+    case addToPlaylist = "playlist"
 }
 
 extension Array: @retroactive RawRepresentable where Element: RawRepresentable<String> {

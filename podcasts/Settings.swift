@@ -9,6 +9,10 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
+#if !os(watchOS)
+    static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
+#endif
+
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)
@@ -384,6 +388,10 @@ class Settings: NSObject {
         UserDefaults.standard.synchronize()
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
+
+        if FeatureFlag.enableLocalizationHeaders.enabled {
+            LocalizationHelper.update(userRegion: region)
+        }
     }
 
     // MARK: - Auto Archiving
@@ -1615,7 +1623,11 @@ class Settings: NSObject {
         }
 
         class func podcastSearchDebounceTime() -> TimeInterval {
-            remoteMsToTime(key: Constants.RemoteParams.podcastSearchDebounceMs)
+            if FeatureFlag.searchPredictive.enabled {
+                return 0.2
+            } else {
+                return remoteMsToTime(key: Constants.RemoteParams.podcastSearchDebounceMs)
+            }
         }
 
         class func episodeSearchDebounceTime() -> TimeInterval {

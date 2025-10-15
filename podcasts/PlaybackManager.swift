@@ -547,6 +547,13 @@ class PlaybackManager: ServerPlaybackDelegate {
             AnalyticsEpisodeHelper.shared.episodeAddedToUpNext(episode: episode, toTop: toTop)
         }
 
+        // If we don't have a current episode, reload the persisted queue to updated our cache just in case
+        // We're getting reports from users about Up Next being cleared where this line is indicated by the logs
+        if currentEpisode() == nil {
+            FileLog.shared.addMessage("PlaybackManager: Missing current episode, reloading queue")
+            queue.loadPersistedQueue()
+        }
+
         guard let playingEpisode = currentEpisode() else {
             // if there's nothing playing, just play this
             load(episode: episode, autoPlay: false, overrideUpNext: true)
@@ -576,19 +583,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // otherwise we don't have this item, so add it to the bottom of our future list
         queue.add(episode: episode, fireNotification: true, partOfBulkAdd: false, toTop: toTop)
-    }
-
-    func insertIntoUpNext(episode: Episode, position: Int) {
-        guard let playingEpisode = currentEpisode() else {
-            // if there's nothing playing, just play this
-            load(episode: episode, autoPlay: false, overrideUpNext: true)
-
-            return
-        }
-
-        if playingEpisode.uuid == episode.uuid { return }
-
-        queue.insert(episode: episode, position: position)
     }
 
     func removeIfPlayingOrQueued(episode: BaseEpisode?, fireNotification: Bool, saveCurrentEpisode: Bool = true, userInitiated: Bool = false) {

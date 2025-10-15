@@ -56,6 +56,7 @@ public class ServerHelper: NSObject {
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
         request.setValue(ServerConfig.shared.syncDelegate?.privateUserAgent(), forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        request.addLocalizationHeaders()
         request.httpBody = data
 
         return request
@@ -67,6 +68,7 @@ public class ServerHelper: NSObject {
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
         request.setValue(ServerConfig.shared.syncDelegate?.privateUserAgent(), forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        request.addLocalizationHeaders()
 
         do {
             let dataToSend = try JSONEncoder().encode(params)
@@ -92,6 +94,7 @@ public class ServerHelper: NSObject {
         request.addValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/octet-stream", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
         request.setValue(ServerConfig.shared.syncDelegate?.privateUserAgent(), forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
+        request.addLocalizationHeaders()
 
         return request
     }

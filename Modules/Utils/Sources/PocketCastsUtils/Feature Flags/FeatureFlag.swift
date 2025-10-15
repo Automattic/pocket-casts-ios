@@ -228,11 +228,20 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new search endpoint and new UI
     case searchImprovements
 
+    /// Use the new predictive endpoint and show predictions
+    case searchPredictive
+
     /// Render Bookmarks inline in PodcastViewController using SwiftUI BookmarksListView
     case podcastBookmarksInline
 
     /// Enable reloading the subscription status in App Delegate
     case earlyReloadSubscriptionStatus
+
+    /// Enable localization headers
+    case enableLocalizationHeaders
+
+    /// Enable the End of Year 2025 recap
+    case endOfYear2025
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -390,10 +399,16 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .searchImprovements:
             false
+        case .searchPredictive:
+            true
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
             true
+        case .enableLocalizationHeaders:
+            true
+        case .endOfYear2025:
+            false
         }
     }
 

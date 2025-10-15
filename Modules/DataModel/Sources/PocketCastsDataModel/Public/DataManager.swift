@@ -302,6 +302,10 @@ public class DataManager {
         podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
 
+    public func searchPodcasts(term: String) -> [Podcast] {
+        podcastManager.searchPodcasts(term: term, dbQueue: dbQueue)
+    }
+
     public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
         podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
     }
@@ -503,8 +507,8 @@ public class DataManager {
         episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
 
-    public func findEpisodesAndPodcastsWhere(customWhere: String) -> [Episode] {
-        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, dbQueue: dbQueue)
+    public func findEpisodesAndPodcastsWhere(customWhere: String, listenedTo: Bool) -> [Episode] {
+        episodeManager.findEpisodesAndPodcastsWhere(customWhere: customWhere, listenedTo: listenedTo, dbQueue: dbQueue)
     }
 
     public func findLatestEpisode(podcast: Podcast) -> Episode? {
@@ -907,31 +911,24 @@ public class DataManager {
         playlistManager.allSmartPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
+    public func allManualPlaylists(includeDeleted: Bool) -> [EpisodeFilter] {
+        playlistManager.allManualPlaylists(includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
+
     public func playlistsCount(includeDeleted: Bool) -> Int {
         playlistManager.count(includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
     public func playlistContainsEpisode(episodeUuid: String, includeDeleted: Bool = false) -> Bool {
-        var exists = false
-        dbQueue.read { db in
-            do {
-                let query: String
-                if includeDeleted {
-                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND playlist_uuid IS NOT NULL LIMIT 1"
-                } else {
-                    query = "SELECT 1 FROM \(Self.playlistEpisodeTableName) WHERE episodeUuid = ? AND wasDeleted = 0 AND playlist_uuid IS NOT NULL LIMIT 1"
-                }
+        playlistManager.playlistContainsEpisode(episodeUuid: episodeUuid, includeDeleted: includeDeleted, dbQueue: dbQueue)
+    }
 
-                let resultSet = try db.executeQuery(query, values: [episodeUuid])
-                defer { resultSet.close() }
+    public func manualPlaylistUUIDs(for episodeUUID: String) -> [String] {
+        playlistManager.manualPlaylistUUIDs(for: episodeUUID, dbQueue: dbQueue)
+    }
 
-                exists = resultSet.next()
-            } catch {
-                FileLog.shared.addMessage("DataManager.playlistContainsEpisode error: \(error)")
-            }
-        }
-
-        return exists
+    public func playlistContainsPodcast(podcastUuid: String, includeDeleted: Bool = false) -> Bool {
+        playlistManager.playlistContainsPodcast(podcastUuid: podcastUuid, includeDeleted: includeDeleted, dbQueue: dbQueue)
     }
 
     public func findPlaylist(uuid: String) -> EpisodeFilter? {
@@ -991,6 +988,23 @@ public class DataManager {
 
     public func updatePosition(playlist: EpisodeFilter, newPosition: Int32) {
         playlistManager.updatePosition(playlist: playlist, newPosition: newPosition, dbQueue: dbQueue)
+    }
+
+    // Manual Playlist episode management
+    public func moveEpisode(_ episodeUuid: String, in playlist: EpisodeFilter, to index: Int) {
+        playlistManager.moveEpisode(episodeUuid, in: playlist, to: index, dbQueue: dbQueue)
+    }
+
+    public func updateEpisodePosition(_ episodeUuid: String, in playlist: EpisodeFilter, to position: Int32) {
+        playlistManager.updateEpisodePosition(episodeUuid, in: playlist, to: position, dbQueue: dbQueue)
+    }
+
+    public func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
+        playlistManager.deleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
+    }
+
+    public func deleteAllEpisodes(in playlist: EpisodeFilter) {
+        playlistManager.deleteAllEpisodes(in: playlist, dbQueue: dbQueue)
     }
 
     // MARK: - Folders

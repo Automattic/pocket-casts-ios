@@ -119,13 +119,16 @@ public class PlaylistQueryBuilder {
             queryString += " AND (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if playlist.manual && clause == .episode {
-            queryString += " ORDER BY p.pos ASC"
-        } else if let sort = add(sortFor: playlist.sortType) {
+        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }
         return queryString
+    }
+
+    public class func podcastExistsInPlaylistEpisodesQuery(includeDeleted: Bool = false) -> String {
+        let deletedClause = includeDeleted ? "" : " AND wasDeleted = 0"
+        return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"
     }
 
     private static func select(clause: SelectClause) -> String {
@@ -170,6 +173,8 @@ public class PlaylistQueryBuilder {
             return "ORDER BY episode.duration ASC, episode.addedDate ASC"
         case .longestToShortest:
             return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        case .dragAndDrop:
+            return "ORDER BY p.pos ASC" // Only for manual playlist
         }
     }
 

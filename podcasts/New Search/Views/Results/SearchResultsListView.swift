@@ -2,12 +2,28 @@ import SwiftUI
 import PocketCastsServer
 
 struct SearchResultsListView: View {
-    enum DisplayMode: String, AnalyticsDescribable {
+    enum DisplayMode: String, AnalyticsDescribable, CaseIterable, Identifiable {
+        case allResults
         case podcasts
         case episodes
 
         var analyticsDescription: String {
             rawValue
+        }
+
+        var id: String {
+            rawValue
+        }
+
+        var localizedDescription: String {
+            switch self {
+                case .allResults:
+                    return L10n.allResults
+                case .podcasts:
+                    return L10n.podcastsPlural
+                case .episodes:
+                    return L10n.episodes
+            }
         }
     }
 
@@ -35,8 +51,14 @@ struct SearchResultsListView: View {
 
                             SearchResultCell(episode: episode, result: nil)
                         }
+                    case .allResults:
+                        ForEach(searchResults.podcasts, id: \.self) { podcast in
+                            SearchResultCell(episode: nil, result: podcast)
+                        }
+                        ForEach(searchResults.episodes, id: \.self) { episode in
+                            SearchResultCell(episode: episode, result: nil)
+                        }
                     }
-
                     if displayMode == .podcasts && searchResults.isSearchingForPodcasts || displayMode == .episodes && searchResults.isSearchingForEpisodes {
                         ProgressView()
                         .frame(maxWidth: .infinity)

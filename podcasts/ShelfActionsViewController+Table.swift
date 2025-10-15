@@ -118,6 +118,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
                 self.playerActionsDelegate?.transcriptTapped()
             case.download:
                 self.playerActionsDelegate?.downloadTapped()
+            case .addToPlaylist:
+                self.playerActionsDelegate?.presentManualPlaylistsChooser()
             }
         }
     }

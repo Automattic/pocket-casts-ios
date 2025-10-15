@@ -23,6 +23,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool)
     func navigateToEditFilter(_ filter: EpisodeFilter)
     func navigateToAddFilter()
+    func presentManualPlaylistsChooser(for episode: Episode, rootViewController: UIViewController?)
 
     func navigateToUpNext(_ animated: Bool)
 

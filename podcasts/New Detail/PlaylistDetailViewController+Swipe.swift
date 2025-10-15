@@ -36,8 +36,14 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
         "playlists"
     }
 
+    var swipeSourceType: SwipeSourceType {
+        viewModel.isManualPlaylist ? .manualPlaylistDetail : .smartPlaylistDetail
+    }
+
     func actionPerformed(willBeRemoved: Bool) {
-        viewModel.reloadEpisodeList()
+        if willBeRemoved {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one
@@ -48,5 +54,14 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
 
     func share(episode: Episode, at indexPath: IndexPath) {
         SharingHelper.shared.shareLinkTo(episode: episode, fromController: self, fromTableView: tableView, at: indexPath)
+    }
+
+    func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
+        NavigationManager.sharedManager.navigateTo(
+            NavigationManager.manualPlaylistsChooserKey,
+            data: [
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+            ]
+        )
     }
 }
