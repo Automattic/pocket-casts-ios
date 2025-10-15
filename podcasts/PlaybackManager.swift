@@ -1274,7 +1274,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             playerCleanupQueue.asyncAfter(deadline: .now() + 5.seconds) { [weak self] in
                 guard let self = self else { return }
-                
+
                 let index = self.playersToCleanUp.firstIndex(where: { listPlayer -> Bool in
                     listPlayer == player
                 })
