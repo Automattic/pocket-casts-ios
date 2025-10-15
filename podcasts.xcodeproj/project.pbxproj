@@ -1753,6 +1753,7 @@
 		F536B45B2DEA02830051A929 /* PCHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B432B27561EA8005E4017 /* PCHostingController.swift */; };
 		F53C3E832CC73549004F3581 /* TopSpotStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53C3E822CC73538004F3581 /* TopSpotStory2024.swift */; };
 		F53DDB682DD508CA00A1E890 /* HostingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DDB672DD508CA00A1E890 /* HostingConfiguration.swift */; };
+		F53E13622E97018700B11BB0 /* HairlineSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53E13612E97018700B11BB0 /* HairlineSeparator.swift */; };
 		F53EFEE82CD405DA00F4561B /* YearOverYearCompareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */; };
 		F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
@@ -4051,6 +4052,7 @@
 		F53481C52E21C07B00E80253 /* UserSatisfactionSurveyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSatisfactionSurveyManager.swift; sourceTree = "<group>"; };
 		F53C3E822CC73538004F3581 /* TopSpotStory2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSpotStory2024.swift; sourceTree = "<group>"; };
 		F53DDB672DD508CA00A1E890 /* HostingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingConfiguration.swift; sourceTree = "<group>"; };
+		F53E13612E97018700B11BB0 /* HairlineSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairlineSeparator.swift; sourceTree = "<group>"; };
 		F53EFEE72CD405DA00F4561B /* YearOverYearCompareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearCompareTests.swift; sourceTree = "<group>"; };
 		F53EFEE92CD42ADF00F4561B /* Ratings2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratings2024Story.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
@@ -8536,6 +8538,7 @@
 		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				F53E13612E97018700B11BB0 /* HairlineSeparator.swift */,
 				F5E63CAD2DEA0660000B9EBD /* NonEditableTextView.swift */,
 				F5A292152DE95F8C00C49AC4 /* BannerAdView.swift */,
 				F59F08122DF289C400668EA7 /* BannerAdReporter.swift */,
@@ -11068,6 +11071,7 @@
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
+				F53E13622E97018700B11BB0 /* HairlineSeparator.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
 				FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */,

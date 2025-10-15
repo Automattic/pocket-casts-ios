@@ -2047,6 +2047,10 @@ Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les f
     <string>Commencer à créer votre liste de lecture</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Ajouter des épisodes à votre liste de lecture</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Réorganiser les épisodes</string>
+    <key>playlist_options</key>
+    <string>Options de la liste de lecture</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Créer une liste de lecture intelligente</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>1 filtre sélectionné</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Aucun filtre sélectionné</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Aucune liste de lecture sélectionnée</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Aucun podcast sélectionné</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Lors de l’abonnement</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ listes de lecture sélectionnées</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 liste de lecture sélectionnée</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts sélectionnés</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Télécharger les premiers épisodes dans un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Téléchargez automatiquement les nouveaux épisodes, enregistrez les épisodes des nouvelles émissions auxquelles vous vous abonnez et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Téléchargez les meilleurs épisodes dans une liste de lecture.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Télécharger les épisodes ajoutés à la file d'attente.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Inclus dans 1 filtre</string>
     <key>settings_in_menu</key>
     <string>DANS LE MENU</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Inclus dans 1 liste de lecture intelligente</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Inclus dans %1$@ listes de lecture intelligentes</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Les épisodes inactifs sont des épisodes que vous n’avez pas lus ou téléchargés dans la période que vous avez indiquée ci-dessus. Les téléchargements sont supprimés lorsque l’épisode est archivé.</string>
     <key>settings_next_action</key>
     <string>Action suivante</string>
     <key>settings_not_in_filters</key>
     <string>Inclus dans aucun filtre</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>Inclus dans aucune liste de lecture intelligente</string>
     <key>settings_notifications</key>
     <string>Notifications</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Sélectionner le filtre</string>
     <key>settings_select_filters_plural</key>
     <string>Sélectionner les filtres</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Sélectionner des listes de lecture</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Sélectionner des listes de lecture intelligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Ouvrir le filtre</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

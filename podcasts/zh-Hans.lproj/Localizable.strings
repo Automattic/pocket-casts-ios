@@ -2047,6 +2047,10 @@ Pocket Casts。</string>
     <string>开始构建您的播放列表</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>将剧集添加到您的播放列表</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>重新排序剧集</string>
+    <key>playlist_options</key>
+    <string>播放列表选项</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>创建智能播放列表</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Pocket Casts。</string>
     <string>已选择 1 个过滤器</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>未选择过滤器</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>未选择播放列表</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>未选择播客</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>关注时</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>已选择 %1$@ 个播放列表</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>已选择 1 个播放列表</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>已选择 %1$@ 个播客</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Pocket Casts。</string>
     <string>下载过滤器中的顶部剧集。</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>自动下载新剧集、保存新关注节目的剧集，并通过设置保存剧集的数量限制来管理您的存储空间。</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>下载播放列表中的热门剧集。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下载已添加到“接下来播放”的剧集。</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Pocket Casts。</string>
     <string>包含在 1 个过滤器中</string>
     <key>settings_in_menu</key>
     <string>在菜单中</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>包含在 1 个智能播放列表中</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>包含在 %1$@ 个智能播放列表中</string>
     <key>settings_inactive_episodes_msg</key>
     <string>非活动剧集是指您在上述指定时间内尚未播放或下载的剧集。 系统将在剧集存档后删除下载。</string>
     <key>settings_next_action</key>
     <string>下一步操作</string>
     <key>settings_not_in_filters</key>
     <string>不包括在任何过滤器中</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>未包含在任何智能播放列表中</string>
     <key>settings_notifications</key>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Pocket Casts。</string>
     <string>选择过滤器</string>
     <key>settings_select_filters_plural</key>
     <string>选择过滤器</string>
+    <key>settings_select_playlists_plural</key>
+    <string>选择播放列表</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>选择智能播放列表</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>打开过滤器</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

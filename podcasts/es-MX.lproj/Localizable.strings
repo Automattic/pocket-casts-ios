@@ -2047,6 +2047,10 @@ Intenta ajustar las reglas, o guarda esta lista de reproducción para futuros ep
     <string>Empieza a crear tu lista de reproducción</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Añade episodios a tu lista de reproducción</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Reordenar episodios</string>
+    <key>playlist_options</key>
+    <string>Opciones de la lista de reproducción</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crear lista de reproducción inteligente</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>1 filtro seleccionado</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Ningún filtro seleccionado</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>No hay listas de reproducción seleccionadas</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Ningún podcast seleccionado</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Siguiendo</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ listas de reproducción seleccionadas</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 lista de reproducción seleccionada</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts seleccionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Descargar los primeros episodios de un filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Descarga automáticamente nuevos episodios, guarda episodios de programas que hayas seguido recientemente y gestiona tu almacenamiento estableciendo un límite en el número de episodios guardados.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Descarga los mejores episodios en una lista de reproducción.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descargar episodios agregados a A continuación.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Incluido en 1 filtro</string>
     <key>settings_in_menu</key>
     <string>EN EL MENÚ</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Incluido en 1 lista de reproducción inteligente</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Incluido en %1$@ listas de reproducción inteligentes</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Los episodios inactivos son episodios que no has reproducido o que no has descargado en el momento que especificaste más arriba. Las descargas se eliminan al archivar el episodio.</string>
     <key>settings_next_action</key>
     <string>Acción siguiente</string>
     <key>settings_not_in_filters</key>
     <string>No incluido en ningún filtro</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>No incluido en ninguna lista de reproducción inteligente</string>
     <key>settings_notifications</key>
     <string>Notificaciones</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Seleccionar filtro</string>
     <key>settings_select_filters_plural</key>
     <string>Seleccionar filtros</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Seleccionar listas de reproducción</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Seleccionar listas de reproducción inteligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Abrir filtro</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

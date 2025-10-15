@@ -9,7 +9,7 @@ import PocketCastsUtils
 
 class Settings: NSObject {
 
-#if DEBUG && !os(watchOS)
+#if !os(watchOS)
     static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
 #endif
 
