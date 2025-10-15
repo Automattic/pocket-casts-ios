@@ -4,7 +4,7 @@
 # to set up some variables that will be interpolated in the `.yml` pipeline before uploading it.
 
 # 🎗️ If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
-XCODE_VERSION="16.4"
+XCODE_VERSION="26.0"
 CI_TOOLKIT_PLUGIN_VERSION="5.3.1"
 
 export IMAGE_ID="xcode-$XCODE_VERSION"
