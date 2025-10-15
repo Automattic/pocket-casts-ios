@@ -100,7 +100,7 @@ class PlaylistDataManager {
     }
 
     func allSmartPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 AND rawPlaylistType = 0 ORDER BY sortPosition ASC"
+        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
         return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 
