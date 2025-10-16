@@ -50,6 +50,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
     private(set) var firstTimeLoading = true
+    private(set) var archivedEpisodesCount: Int = 0
 
     private var searchTerm: String = ""
     private var isLoadingData: Bool = false
@@ -141,9 +142,15 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         operationQueue.cancelAllOperations()
 
-        let refreshOperation = PlaylistRefreshOperation(playlist: playlist, shouldShowArchived: playlist.showArchivedEpisodes) { [weak self] newData in
+        let refreshOperation = PlaylistDetailFetchOperation(
+            dataManager: dataManager,
+            episodesDataManager: episodesDataManager,
+            playlist: playlist,
+            shouldShowArchived: playlist.showArchivedEpisodes
+        ) { [weak self] newData, archivedEpisodeCount in
             guard let self else { return }
             DispatchQueue.main.async {
+                self.archivedEpisodesCount = archivedEpisodeCount
                 if self.firstTimeLoading {
                     self.firstTimeLoading.toggle()
                 }
@@ -161,6 +168,15 @@ class PlaylistDetailViewModel: ObservableObject {
 
     func delete(episodes uuids: [String]) {
         dataManager.deleteEpisodes(uuids, from: playlist)
+    }
+
+    func remove(episode uuid: String, at index: Int) {
+        var newData = episodes
+        newData.remove(at: index)
+        let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
+        onChange(changeSetTuple.1, true, changeSetTuple.0)
+
+        delete(episodes: [uuid])
     }
 
     func move(episode: ListEpisode, toIndex index: Int) {
