@@ -21,7 +21,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: tableView)
-            guard let indexPath = tableView.indexPathForRow(at: touchPoint), indexPath.section == 1 else { return }
+            let section = viewModel.index(for: .episodes)
+            guard let indexPath = tableView.indexPathForRow(at: touchPoint), indexPath.section == section else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
                 let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
