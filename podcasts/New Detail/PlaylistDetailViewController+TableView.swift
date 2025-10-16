@@ -74,6 +74,9 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         if let placeholder = itemAtRow as? PlaylistArchiveViewCellPlaceholder,
            viewModel.isManualPlaylist,
            indexPath.section == viewModel.index(for: .archive) {
+            if viewModel.archivedEpisodesCount == 0 {
+                return tableView.dequeueReusableCell(withIdentifier: DummyEmptyCell.reuseIdentifier, for: indexPath) as! DummyEmptyCell
+            }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
                     guard let self = self else { return false }
@@ -147,6 +150,9 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if viewModel.isManualPlaylist, viewModel.archivedEpisodesCount == 0, indexPath.section == viewModel.index(for: .archive) {
+            return 1
+        }
         return UITableView.automaticDimension
     }
 
