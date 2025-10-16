@@ -52,4 +52,6 @@ extension UploadedViewController: SwipeTableViewCellDelegate, SwipeHandler {
     func share(episode: Episode, at: IndexPath) { }
 
     func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
 }
