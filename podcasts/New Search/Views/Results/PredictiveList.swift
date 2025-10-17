@@ -98,6 +98,7 @@ struct PredictiveList: View {
             searchAnalyticsHelper.trackPredictiveTermTapped()
             searchResults.search(term: term)
             searchHistory.add(searchTerm: term)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: term)
         }, label: {
             HStack(spacing: 0) {
                 Image("search")
