@@ -11,14 +11,6 @@ extension PlaylistDetailViewModel {
         episodes.isEmpty && !shouldShowArchivePlaceholder
     }
 
-    var archivedEpisodesCount: Int {
-        dataManager.playlistEpisodeCount(
-            for: playlist,
-            episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
-            shouldShowArchived: true
-        )
-    }
-
     func unarchivedEpisodesCount() -> Int {
         dataManager.playlistEpisodeCount(
             for: playlist,
