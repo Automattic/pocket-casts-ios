@@ -1,5 +1,6 @@
 import IntentsUI
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class FiltersShortcutsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -10,7 +11,7 @@ class FiltersShortcutsViewController: PCViewController, UITableViewDelegate, UIT
     let addCellId = "siriAddCellId"
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.settingsSelectFilterSingular
+        title = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectPlaylistSingular : L10n.settingsSelectFilterSingular
         tableView.register(UINib(nibName: "SiriShortcutAddCell", bundle: nil), forCellReuseIdentifier: addCellId)
     }
 

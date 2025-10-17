@@ -100,7 +100,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                 case .playTopEpisode:
                     cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayTopEpisode
                 case .openFilter:
-                    cell.titleLabel?.text = L10n.settingsShortcutsFilterOpenFilter
+                    cell.titleLabel?.text = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsShortcutsFilterOpenPlaylist : L10n.settingsShortcutsFilterOpenFilter
                 }
             }
             return cell
