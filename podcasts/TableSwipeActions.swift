@@ -8,6 +8,10 @@ class TableSwipeActions {
         actions.append(action)
     }
 
+    func addAction(_ action: TableSwipeAction, at index: Int) {
+        actions.insert(action, at: index)
+    }
+
     func swipeActions() -> UISwipeActionsConfiguration? {
         var swipeActions = [UIContextualAction]()
         for tableAction in actions {
