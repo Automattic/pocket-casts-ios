@@ -2348,6 +2348,8 @@ internal enum L10n {
   internal static var playlistManualEpisodeAddToPlaylist: String { return L10n.tr("Localizable", "playlist_manual_episode_add_to_playlist", fallback: "Add to playlist") }
   /// Manual Playlist: manual episodes order option that appears when showing the options sheet
   internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
+  /// Toast message displayed when a user tries to play all archived episodes in a manual playlist
+  internal static var playlistManualPlayAllEmptyList: String { return L10n.tr("Localizable", "playlist_manual_play_all_empty_list", fallback: "All episodes archived. Add or unarchive to play.") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Button title used to create a new smart playlist
