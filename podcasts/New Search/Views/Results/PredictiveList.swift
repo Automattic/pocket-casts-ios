@@ -9,33 +9,74 @@ struct PredictiveList: View {
     @EnvironmentObject var searchResults: SearchResultsModel
     @EnvironmentObject var searchHistory: SearchHistoryModel
 
+    var termsResults: [PredictiveSearchResult] {
+        searchResults.predictive.filter { result in
+            if case .term = result.type {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
+    var nonTermsResults: [PredictiveSearchResult] {
+        let podcastsUuids = searchResults.podcasts.map({ result in
+            result.uuid
+        })
+        return searchResults.predictive.filter { result in
+            switch result.type {
+                case .podcast(let podcast):
+                    return !podcastsUuids.contains { uuid in
+                        uuid == podcast.uuid
+                    }
+                default:
+                    return false
+            }
+        }
+    }
+
     var body: some View {
-        ForEach(searchResults.predictive, id: \.self) { predictiveSearch in
-            switch predictiveSearch.type {
-                case .term(let searchTerm):
-                    VStack {
-                        termRow(term: searchTerm)
-                        if !FeatureFlag.searchImprovements.enabled {
-                            ThemedDivider()
-                        }
+        ForEach(termsResults, id: \.self) { predictiveSearch in
+            predictiveRow(for: predictiveSearch)
+        }
+        ForEach(searchResults.podcasts, id: \.self) { localPodcast in
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                .listRowBackground(theme.primaryUi01)
+                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    return 0
+                }
+        }
+        ForEach(nonTermsResults, id: \.self) { predictiveSearch in
+            predictiveRow(for: predictiveSearch)
+        }
+    }
+
+    @ViewBuilder
+    func predictiveRow(for predictiveSearch: PredictiveSearchResult) -> some View {
+        switch predictiveSearch.type {
+            case .term(let searchTerm):
+                VStack {
+                    termRow(term: searchTerm)
+                    if !FeatureFlag.searchImprovements.enabled {
+                        ThemedDivider()
                     }
-                    .if(!FeatureFlag.searchImprovements.enabled) { content in
-                        content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
-                    }
+                }
+                .if(!FeatureFlag.searchImprovements.enabled) { content in
+                    content.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+                }
+                .listRowBackground(theme.primaryUi01)
+                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    return 0
+                }
+                .background(theme.primaryUi01)
+            case .podcast:
+                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                     .listRowBackground(theme.primaryUi01)
                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                         return 0
                     }
-                    .background(theme.primaryUi01)
-                case .podcast:
-                    SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                        .listRowBackground(theme.primaryUi01)
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                            return 0
-                        }
-                default:
-                    EmptyView()
-            }
+            default:
+                EmptyView()
         }
     }
 

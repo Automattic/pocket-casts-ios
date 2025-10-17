@@ -65,7 +65,7 @@ class SearchResultsModel: ObservableObject {
         Task {
             isSearchingPredictive = true
             do {
-                let results = try await predictiveSearch.search(term: term)
+                let results = try await predictiveSearch.search(term: term)                
                 show(predictiveResults: results)
                 currentPredictiveSearchTerm = term
             } catch {
