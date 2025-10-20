@@ -14,16 +14,17 @@ struct NumberListened2025: ShareableStory {
     @State var topRowXOffset: Double = 0
     @State var bottomRowXOffset: Double = 0
 
-    private let foregroundColor = Color.black
+    private let foregroundColor = Color.white
     private let backgroundColor = Color.endOfYear2025Background
     let identifier: String = "number_of_shows"
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .center) {
+            headerView()
             Spacer()
             podcastMarquees()
             Spacer()
-            footerView()
+
         }
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
@@ -66,9 +67,8 @@ struct NumberListened2025: ShareableStory {
         }
     }
 
-    @ViewBuilder func footerView() -> some View {
-        StoryFooter2024(title: L10n.eoyStoryListenedToNumbers(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes),
-                        description: L10n.eoyStoryListenedToNumbersSubtitle)
+    @ViewBuilder func headerView() -> some View {
+        StoryHeader2025(title: L10n.playback2025ListenedToNumbers(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
     }
 
     @ViewBuilder
