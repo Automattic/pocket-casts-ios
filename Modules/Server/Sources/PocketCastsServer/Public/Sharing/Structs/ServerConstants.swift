@@ -57,7 +57,6 @@ public enum ServerConstants {
 
     private static func production() -> Bool {
         guard let delegate = ServerConfig.shared.syncDelegate else {
-            assertionFailure("ServerConfig.syncDelegate was nil at call time")
             return true
         }
         return delegate.production()
