@@ -13,9 +13,8 @@ struct PredictiveList: View {
         searchResults.predictive.filter { result in
             if case .term = result.type {
                 return true
-            } else {
-                return false
             }
+            return false
         }
     }
 
