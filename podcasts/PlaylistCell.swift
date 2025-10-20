@@ -65,7 +65,13 @@ class PlaylistCell: ThemeableCell {
         isSelected: Binding<Bool> = .constant(false),
         canBeDisabled: Bool = false
     ) {
-        accessoryType = cellType == .count ? .disclosureIndicator : .none
+        switch cellType {
+        case .count, .plain:
+            accessoryType = .disclosureIndicator
+        default:
+            accessoryType = .none
+            
+        }
 
         contentConfiguration = UIHostingConfiguration {
             PlaylistCellView(
