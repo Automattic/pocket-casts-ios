@@ -55,7 +55,7 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let singleFilterVC = FilterShortcutsViewController(filter: playlists[indexPath.row])
+        let singleFilterVC = PlaylistShortcutsViewController(playlist: playlists[indexPath.row])
         navigationController?.pushViewController(singleFilterVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)
     }

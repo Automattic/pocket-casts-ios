@@ -3,11 +3,11 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
-class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, INUIAddVoiceShortcutViewControllerDelegate, INUIEditVoiceShortcutViewControllerDelegate {
+class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, INUIAddVoiceShortcutViewControllerDelegate, INUIEditVoiceShortcutViewControllerDelegate {
     @IBOutlet var tableView: ThemeableTable!
     @IBOutlet var errorView: UIStackView!
 
-    var filter: EpisodeFilter!
+    var playlist: EpisodeFilter!
     weak var delegate: SiriSettingsViewController?
 
     let enabledCellId = "siriEnabledCellId"
@@ -15,16 +15,16 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
 
     enum sections { case enabledSection, availableSection }
     var tableData: [sections] = []
-    enum tableRow { case playTopEpisode, playAll, openFilter }
-    var availableRows: [tableRow] = [.playTopEpisode, .playAll, .openFilter]
+    enum tableRow { case playTopEpisode, playAll, openPlaylist }
+    var availableRows: [tableRow] = [.playTopEpisode, .playAll, .openPlaylist]
 
     var enabledShortcuts: [INVoiceShortcut]!
 
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
 
-    init(filter: EpisodeFilter) {
-        self.filter = filter
-        super.init(nibName: "FilterShortcutsViewController", bundle: nil)
+    init(playlist: EpisodeFilter) {
+        self.playlist = playlist
+        super.init(nibName: "PlaylistShortcutsViewController", bundle: nil)
     }
 
     @available(*, unavailable)
@@ -99,7 +99,7 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                     cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayAllEpisodes
                 case .playTopEpisode:
                     cell.titleLabel?.text = L10n.settingsShortcutsFilterPlayTopEpisode
-                case .openFilter:
+                case .openPlaylist:
                     cell.titleLabel?.text = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsShortcutsFilterOpenPlaylist : L10n.settingsShortcutsFilterOpenFilter
                 }
             }
@@ -126,11 +126,11 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
             var newShortcut: INShortcut
             switch thisRow {
             case .playTopEpisode:
-                newShortcut = SiriShortcutsManager.shared.playPlaylistShortcut(playlist: filter)
+                newShortcut = SiriShortcutsManager.shared.playPlaylistShortcut(playlist: playlist)
             case .playAll:
-                newShortcut = SiriShortcutsManager.shared.playAllPlaylistShortcut(playlist: filter)
-            case .openFilter:
-                newShortcut = SiriShortcutsManager.shared.openPlaylistShortcut(playlist: filter)
+                newShortcut = SiriShortcutsManager.shared.playAllPlaylistShortcut(playlist: playlist)
+            case .openPlaylist:
+                newShortcut = SiriShortcutsManager.shared.openPlaylistShortcut(playlist: playlist)
             }
 
             let viewController = INUIAddVoiceShortcutViewController(shortcut: newShortcut)
@@ -149,12 +149,12 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
         activityIndicator.startAnimating()
         INVoiceShortcutCenter.shared.getAllVoiceShortcuts { allVoiceShortcuts, error in
             self.enabledShortcuts = []
-            self.availableRows = [.playTopEpisode, .playAll, .openFilter]
+            self.availableRows = [.playTopEpisode, .playAll, .openPlaylist]
 
             if let allVoiceShortcuts = allVoiceShortcuts {
                 for voiceShortcut in allVoiceShortcuts {
                     if let playIntent = voiceShortcut.shortcut.intent as? INPlayMediaIntent {
-                        if playIntent.mediaContainer?.identifier == self.filter.uuid {
+                        if playIntent.mediaContainer?.identifier == self.playlist.uuid {
                             self.enabledShortcuts.append(voiceShortcut)
                             if let mediaItem = playIntent.mediaItems?.first {
                                 if mediaItem.identifier == Constants.SiriActions.playFilterId {
@@ -169,9 +169,9 @@ class FilterShortcutsViewController: PCViewController, UITableViewDelegate, UITa
                             }
                         }
                     } else if let openFilterIntent = voiceShortcut.shortcut.intent as? SJOpenFilterIntent {
-                        if openFilterIntent.filterUuid == self.filter.uuid {
+                        if openFilterIntent.filterUuid == self.playlist.uuid {
                             self.enabledShortcuts.append(voiceShortcut)
-                            if let removeIndex = self.availableRows.firstIndex(of: .openFilter) {
+                            if let removeIndex = self.availableRows.firstIndex(of: .openPlaylist) {
                                 self.availableRows.remove(at: removeIndex)
                             }
                         }
