@@ -88,7 +88,7 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if model.episode != nil {
+                    if model.episode != nil && model.episode?.state != .unavailable {
                         if played {
                             Image("list_played", bundle: nil)
                                 .resizable()
