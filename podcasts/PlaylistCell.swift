@@ -70,7 +70,6 @@ class PlaylistCell: ThemeableCell {
             accessoryType = .disclosureIndicator
         default:
             accessoryType = .none
-            
         }
 
         contentConfiguration = UIHostingConfiguration {
