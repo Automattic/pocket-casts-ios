@@ -1,5 +1,3 @@
-import PocketCastsUtils
-
 class ThreadSafeDictionary<Key: Hashable, Value> {
 
     private let queue: DispatchQueue
@@ -7,14 +5,6 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
 
     init(label: String = "au.com.shiftyjelly.podcasts.SyncHashTable") {
         queue = DispatchQueue(label: label, attributes: .concurrent)
-    }
-
-    deinit {
-        //ensure that all work is done before releasing the table
-        queue.async(flags: .barrier) { [table] in
-            //Last work item
-            FileLog.shared.console("Dealocating table with \(table.count) elements")
-        }
     }
 
     func value(forKey key: Key) -> Value? {
