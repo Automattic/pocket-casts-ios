@@ -61,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.shouldShowPodcastFeeReloadTip = false
                 Settings.shouldShowPodcastViewChangesTip = false
                 Settings.shouldShowRecentlyPlayedSortingTip = false
-                Settings.shouldShowPlaylistsOnboarding = false
+                if FeatureFlag.playlistsRebranding.enabled {
+                    Settings.shouldShowPlaylistsOnboarding = false
+                }
             case .sameVersion:
                 break
             }
