@@ -20,14 +20,16 @@ struct StoryHeader2025: View {
             }
             Text(title)
                 .font(size: 25, style: .title, weight: .semibold)
+                .multilineTextAlignment(.center)
             if let description {
                 Text(description)
                     .font(.system(size: 16, weight: .medium))
                     .lineSpacing(UIFont.systemFont(ofSize: 16, weight: .medium).lineHeight*1.09)
+                    .multilineTextAlignment(.center)
             }
         }
         .minimumScaleFactor(0.9)
         .padding(.horizontal, 24)
-        .padding(.vertical, 24)
+        .padding(.top, 48)
     }
 }
