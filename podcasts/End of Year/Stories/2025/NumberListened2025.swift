@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import Lottie
 
 struct NumberListened2025: ShareableStory {
 
@@ -19,14 +20,29 @@ struct NumberListened2025: ShareableStory {
     let identifier: String = "number_of_shows"
 
     var body: some View {
-        VStack(alignment: .center) {
-            headerView()
-            Spacer()
-            podcastMarquees()
-            Spacer()
-
+        ZStack {
+            VStack(alignment: .center) {
+                headerView()
+                Spacer()
+                podcastMarquees()
+                Spacer()
+            }
+            .foregroundStyle(foregroundColor)
         }
-        .foregroundStyle(foregroundColor)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            LottieView(animation: .named("playback_2025_listened"))
+                .animationDidFinish({ completed in
+                })
+                .configure({ animationView in
+                    animationView.contentMode = .scaleToFill
+                })
+                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                .scaledToFill()
+                .scaleEffect(1.5)
+                .ignoresSafeArea()
+        )
+        .ignoresSafeArea()
         .background(backgroundColor)
     }
 
