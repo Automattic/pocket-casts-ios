@@ -2047,6 +2047,10 @@ Pocket Casts Plus</string>
     <string>著手建立自己的播放清單</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>將單集新增至播放清單</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>重新排序單集</string>
+    <key>playlist_options</key>
+    <string>播放清單選項</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>建立智慧播放清單</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Pocket Casts Plus</string>
     <string>已選取 1 個篩選器</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>沒有選取任何篩選器</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>未選取任何播放清單</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>沒有選取任何 Podcast節目</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>追蹤中</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>已選取 %1$@ 個播放清單</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>已選取 1 個播放清單</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>已選取 %1$@ 個 Podcast 節目</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Pocket Casts Plus</string>
     <string>下載篩選器中最上方的單集。</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>自動下載新集數、儲存最近追蹤節目的單集數，並設定儲存集數的上限，嚴加管理你的儲存空間。</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>下載播放清單中的熱門單集。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>下載新增到「接下來播放」的單集。</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Pocket Casts Plus</string>
     <string>包含在 1 個篩選器中</string>
     <key>settings_in_menu</key>
     <string>在選單中</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>包含於 1 個智慧播放清單中</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>包含於 %1$@ 個智慧播放清單中</string>
     <key>settings_inactive_episodes_msg</key>
     <string>未收聽單集是指：在上方指定時間內未播放或下載的單集。單集封存後，就會移除下載項目。</string>
     <key>settings_next_action</key>
     <string>下一個動作</string>
     <key>settings_not_in_filters</key>
     <string>未包含在任何篩選器中</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>未包含於任何智慧播放清單中</string>
     <key>settings_notifications</key>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Pocket Casts Plus</string>
     <string>選取篩選器</string>
     <key>settings_select_filters_plural</key>
     <string>選取篩選器</string>
+    <key>settings_select_playlists_plural</key>
+    <string>選取播放清單</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>選取智慧播放清單</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>開啟篩選器</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

@@ -170,7 +170,7 @@ extension LoginCoordinator {
                     Analytics.track(.userSignedIn, properties: ["source": provider])
                 }
 
-                if FeatureFlag.endOfYear2024.enabled {
+                if FeatureFlag.endOfYear2024.enabled || FeatureFlag.endOfYear2025.enabled {
                     NotificationCenter.postOnMainThread(notification: .userSignedIn)
                 }
 

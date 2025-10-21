@@ -2207,6 +2207,14 @@ internal enum L10n {
   internal static func playback2024YearOverYearCompareTitleUpOver500(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_year_over_year_compare_title_up_over_500", String(describing: p1), fallback: "Compared to 2023, your listening time went up more than %1$@")
   }
+  /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
+  internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// See your listening stats, top podcasts, and more.
+  internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
+  /// Playback 2025
+  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// View My Playback 2025
+  internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts", fallback: "All podcasts") }
   /// Playback settings option in the Effects Player panel
@@ -2486,6 +2494,8 @@ internal enum L10n {
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description", fallback: "Create folders to organise your podcast collection.") }
   /// Pocket Casts Plus marketing page, title of the Folders feature
   internal static var plusMarketingFoldersTitle: String { return L10n.tr("Localizable", "plus_marketing_folders_title", fallback: "Folders") }
+  /// Pocket Casts Plus marketing page, description of generated transcriptsg
+  internal static var plusMarketingGeneratedTranscripts: String { return L10n.tr("Localizable", "plus_marketing_generated_transcripts", fallback: "Generated Transcripts") }
   /// Pocket Casts Plus marketing page, description of the hide ads feature
   internal static var plusMarketingHideAdsDescription: String { return L10n.tr("Localizable", "plus_marketing_hide_ads_description", fallback: "Ad-free experience which gives you more of what you love and less of what you don't") }
   /// Pocket Casts Plus marketing page, title of the hide ads feature
@@ -3064,6 +3074,10 @@ internal enum L10n {
   internal static var saveBookmark: String { return L10n.tr("Localizable", "save_bookmark", fallback: "Save Bookmark") }
   /// A common string used throughout the app. Placeholder text used in search boxes.
   internal static var search: String { return L10n.tr("Localizable", "search", fallback: "Search") }
+  /// A placeholder used when searching bookmarks.
+  internal static var searchBookmarks: String { return L10n.tr("Localizable", "search_bookmarks", fallback: "Search bookmarks") }
+  /// A placeholder used when searchng episodes.
+  internal static var searchEpisodes: String { return L10n.tr("Localizable", "search_episodes", fallback: "Search episodes") }
   /// The label of the search button in Discover. Explaining the user can search or directly add a RSS URL.
   internal static var searchLabel: String { return L10n.tr("Localizable", "search_label", fallback: "Search podcasts or add RSS URL") }
   /// A common string used throughout the app when searching podcasts. Placeholder text used in search boxes.

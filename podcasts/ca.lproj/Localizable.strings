@@ -143,6 +143,8 @@
     <string>Afegir a la llista «Tot seguit»</string>
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
+    <key>all_results</key>
+    <string>Tots els resultats</string>
     <key>announcement_autoplay_description</key>
     <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
     <key>announcement_autoplay_title</key>
@@ -1939,6 +1941,12 @@ ACTUALITZACIONS</string>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat un impressionant %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat més d'un %1$@</string>
+    <key>playback_2025_feature_description</key>
+    <string>Consulta les teves estadístiques d'escolta, els millors pòdcasts i molt més.</string>
+    <key>playback_2025_feature_title</key>
+    <string>El que has escoltat al 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Veure el meu historial de reproducció de 2025</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tots els pòdcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2019,6 +2027,8 @@ ACTUALITZACIONS</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>playlist_add_to_title</key>
+    <string>Afegir a "%@" </string>
     <key>playlist_create_no_episodes_description</key>
     <string>Cap dels episodis dels teus pòdcasts coincideix amb aquestes regles.
 
@@ -2031,6 +2041,14 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Fes-ho en una llista de reproducció intel·ligent</string>
     <key>playlist_detail_description</key>
     <string>%1$@ episodis • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 episodi afegit a "%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ episodis afegits a "%2$@"</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ episodis</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>La llista de reproducció està plena. Prova a crear-ne una de nova.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afegir episodis</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2041,10 +2059,18 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Comença a crear la teva llista de reproducció</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Afegeix episodis a la teva llista de reproducció</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Afegir a la llista de reproducció</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Reordenar els episodis</string>
+    <key>playlist_options</key>
+    <string>Opcions de la llista de reproducció</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crear una llista de reproducció intel·ligent</string>
     <key>playlist_preview_title</key>
     <string>Previsualitzar %@</string>
+    <key>playlist_search</key>
+    <string>Cercar llista de reproducció</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Arribats aquí, pots celebrar que la llista s'ha acabat o modificar la configuració dels filtres per trobar més episodis.</string>
     <key>playlist_smart_preview_description</key>
@@ -2165,6 +2191,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Crea carpetes per a organitzar la teva col·lecció de pòdcasts.</string>
     <key>plus_marketing_folders_title</key>
     <string>Carpetes</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Transcripcions generades</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>L'experiència sense anuncis que et dona més del que t'encanta i menys del que et desagrada</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2429,6 +2457,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
     <string>Insígnia</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Arrossegar i deixar anar</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Del més llarg al més curt</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2654,6 +2684,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Desar marcador</string>
     <key>search</key>
     <string>Cercar</string>
+    <key>search_bookmarks</key>
+    <string>Cercar marcadors</string>
+    <key>search_episodes</key>
+    <string>Cercar episodis</string>
     <key>search_label</key>
     <string>Cerca pòdcasts o afegeix una adreça RSS</string>
     <key>search_podcasts</key>
@@ -2794,10 +2828,16 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>1 filtre seleccionat</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Cap filtre seleccionat</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>No s'han seleccionat llistes de reproducció</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Cap pòdcast seleccionat</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>En subscriure's</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ llistes de reproducció seleccionades</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 llista de reproducció seleccionada</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ pòdcasts seleccionats</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2806,6 +2846,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Descarregar els primers episodis d'un filtre.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Descarrega automàticament episodis nous, desa episodis de pòdcasts que segueixes des de fa poc i gestiona l'emmagatzematge establint un límit de quants episodis es guarden.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Descarregar els primers episodis de la llista de reproducció.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Descarrega els episodis afegits a la cua</string>
     <key>settings_badge_filter_header</key>
@@ -2980,12 +3022,18 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Inclòs en 1 filtre</string>
     <key>settings_in_menu</key>
     <string>AL MENÚ</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Inclòs en 1 llista de reproducció intel·ligent</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Inclòs en %1$@ llistes de reproducció intel·ligents</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Els episodis inactius són aquells que no has reproduït o descarregat en el temps que vas especificar anteriorment. Les descàrregues s'eliminen quan l'episodi s'arxiva.</string>
     <key>settings_next_action</key>
     <string>Acció següent</string>
     <key>settings_not_in_filters</key>
     <string>No està inclòs a cap filtre</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>No s'ha inclòs en cap llista de reproducció intel·ligent</string>
     <key>settings_notifications</key>
     <string>Notificacions</string>
     <key>settings_notifications_filter_count</key>
@@ -3012,6 +3060,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Seleccionar filtre</string>
     <key>settings_select_filters_plural</key>
     <string>Seleccionar filtres</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Seleccionar llistes de reproducció</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Seleccionar llistes de reproducció intel·ligents</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Obrir el filtre</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
@@ -3579,6 +3631,8 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>De més llarg a més curt</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De més curt a més llarg</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Els teus pòdcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Realment no</string>
     <key>user_satisfaction_survey_subtitle</key>

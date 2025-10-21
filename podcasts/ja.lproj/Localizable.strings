@@ -2047,6 +2047,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>プレイリストの作成を開始</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>プレイリストにエピソードを追加</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>エピソードを並べ替え</string>
+    <key>playlist_options</key>
+    <string>プレイリストのオプション</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>スマートプレイリストを作成</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1件のフィルターを選択済み</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>選択済みフィルターなし</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>プレイリストが選択されていません</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>選択済みポッドキャストなし</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>フォロー中</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@件のプレイリストを選択済み</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1件のプレイリストを選択済み</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@件のポッドキャストを選択済み</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フィルターの上位エピソードをダウンロードします。</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>新しいエピソードを自動でダウンロードしたり、新しくフォローした番組からエピソードを保存したり、保存するエピソード数に制限を設定してストレージを管理したりできます。</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>プレイリストの上位エピソードをダウンロードします。</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>次のエピソードに追加された項目をダウンロードします。</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1件のフィルターに含まれます</string>
     <key>settings_in_menu</key>
     <string>メニューに表示</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>1件のスマートプレイリストに含まれる</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>%1$@件のスマートプレイリストに含まれる</string>
     <key>settings_inactive_episodes_msg</key>
     <string>非アクティブエピソードとは上記指定時間に再生またはダウンロードされていないエピソードです。 エピソードがアーカイブされるとダウンロードファイルは削除されます。</string>
     <key>settings_next_action</key>
     <string>次のアクション</string>
     <key>settings_not_in_filters</key>
     <string>どのフィルターにも含まれていません</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>どのスマートプレイリストにも含まれない</string>
     <key>settings_notifications</key>
     <string>通知</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フィルターを選択</string>
     <key>settings_select_filters_plural</key>
     <string>フィルターを選択</string>
+    <key>settings_select_playlists_plural</key>
+    <string>プレイリストを選択</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>スマートプレイリストを選択</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>フィルターを開く</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

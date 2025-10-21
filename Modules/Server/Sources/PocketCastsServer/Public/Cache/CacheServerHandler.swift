@@ -66,7 +66,8 @@ public class CacheServerHandler {
 
     public func loadPodcastInfo(podcastUuid: String, completion: @escaping (([String: Any]?, String?) -> Void)) {
         let url = urlForPodcast(uuid: podcastUuid)
-        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
+        request.addLocalizationHeaders()
 
         tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             guard let strongSelf = self else { return }
@@ -87,7 +88,8 @@ public class CacheServerHandler {
 
     public func loadEpisodeUrl(episodeUuid: String, podcastUuid: String, completion: @escaping ((String?) -> Void)) {
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/url/\(podcastUuid)/\(episodeUuid)")
-        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
+        request.addLocalizationHeaders()
 
         tokenHelper.callSecureUrl(request: request) { response, data, _ in
             if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let url = String(data: data, encoding: .utf8) {
@@ -106,6 +108,7 @@ public class CacheServerHandler {
         if let lastUpdated = podcast.lastUpdatedAt, podcast.isSubscribed() {
             request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
         }
+        request.addLocalizationHeaders()
 
         tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             // podcast hasn't changed

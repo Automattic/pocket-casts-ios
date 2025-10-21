@@ -1643,6 +1643,9 @@
 /* Message displayed when teh user tap "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
+/* Pocket Casts Plus marketing page, description of generated transcriptsg */
+"plus_marketing_generated_transcripts" = "Generated Transcripts";
+
 /* Pocket Casts Plus marketing page, description of removing banner ads */
 "plus_marketing_no_banner_ads" = "No Banner Ads";
 
@@ -2032,6 +2035,9 @@
 /* Episodes will be displayed in order from the shortest to the longest. */
 "podcasts_episode_sort_shortest_to_longest" = "Shortest to Longest";
 
+/* Episodes will be displayed in custom order by drag and drop */
+"podcasts_episode_sort_drag_and_drop" = "Drag and Drop";
+
 /* Presents the podcasts with large podcast artwork tiles. */
 "podcasts_large_grid" = "Large Grid";
 
@@ -2188,6 +2194,12 @@
 
 /* A common string used throughout the app when searching podcasts. Placeholder text used in search boxes. */
 "search_podcasts" = "Search Podcasts";
+
+/* A placeholder used when searchng episodes. */
+"search_episodes" = "Search episodes";
+
+/* A placeholder used when searching bookmarks. */
+"search_bookmarks" = "Search bookmarks";
 
 /* A common string used throughout the app. Refers to the season a podcast episode is in. */
 "season" = "Season";
@@ -5463,8 +5475,26 @@
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
 
+/* Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player */
+"playlist_episodes_count" = "%1$@ episodes";
+
 /* Manual Playlist: header button title to add new episodes to the playlist */
 "playlist_manual_add_episodes" = "Add Episodes";
+
+/* Search placeholder used in the add episode to manual playlist search from podcast and player */
+"playlist_search" = "Find playlist";
+
+/* Navigation title that appears when adding episodes to a playlist. %@ is the playlist name. */
+"playlist_add_to_title" = "Add to \"%@\"";
+
+/* Navigation title shown after adding a single episode to a playlist. %@ is the playlist name. */
+"playlist_episode_added_title" = "1 episode added to \"%@\"";
+
+/* Navigation title shown after adding multiple episodes to a playlist. %1$@ is the episode count. %2$@ is the playlist name. */
+"playlist_episodes_added_title" = "%1$@ episodes added to \"%2$@\"";
+
+/* Title displayed above the user's subscribed podcasts list when no podcast is selected. */
+"user_episodes_search_podcasts_title" = "Your Podcasts";
 
 /* Manual Playlist: empty state title when no episodes are added */
 "playlist_manual_empty_state_title" = "Start building your playlist";
@@ -5480,6 +5510,12 @@
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
 "playlist_manual_episodes_order_option" = "Reorder Episodes";
+
+/* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
+"playlist_manual_episode_add_to_playlist" = "Add to playlist";
+
+/* Toast message when the playlist is full */
+"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
@@ -5528,6 +5564,21 @@
 
 /* Interests screen button title for interests confirmation. The %1$@ argument is the minimum number of interests you need to select. Ex: Select at least 3*/
 "interests_select_at_least" = "Select at least %1$@";
+
+/* Search Results filter option */
+"all_results" = "All Results";
+
+/// A description of the Playback 2025 feature
+"playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/// Description for the Playback 2025 feature
+"playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/// Title for the Playback 2025 feature
+"playback_2025_feature_title" = "Playback 2025";
+
+/// Label of the Playback 2025 call to action buton
+"playback_2025_view_year" = "View My Playback 2025";
 
 
 /* MARK: - InfoPlist.strings */

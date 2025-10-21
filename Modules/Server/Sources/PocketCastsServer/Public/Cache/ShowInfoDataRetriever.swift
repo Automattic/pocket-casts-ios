@@ -38,6 +38,7 @@ public actor ShowInfoDataRetriever {
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+        request.addLocalizationHeaders()
 
         if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
             if let etag = cachedResponse.response.etag {

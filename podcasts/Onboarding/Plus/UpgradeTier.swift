@@ -42,6 +42,7 @@ extension UpgradeTier {
         if FeatureFlag.newOnboardingUpgrade.enabled {
             return [
                 bannerAdsFeature,
+                generatedTranscriptsFeature,
                 foldersFeature,
                 upNextShuffleFeature,
                 bookmarksFeature,
@@ -55,6 +56,7 @@ extension UpgradeTier {
         else {
             return [
                 bannerAdsFeature,
+                generatedTranscriptsFeature,
                 foldersFeature,
                 upNextShuffleFeature,
                 bookmarksFeature,
@@ -71,6 +73,7 @@ extension UpgradeTier {
         if FeatureFlag.newOnboardingUpgrade.enabled {
             return [
                 bannerAdsFeature,
+                generatedTranscriptsFeature,
                 foldersFeature,
                 upNextShuffleFeature,
                 bookmarksFeature,
@@ -85,6 +88,7 @@ extension UpgradeTier {
         else {
             return [
                 bannerAdsFeature,
+                generatedTranscriptsFeature,
                 foldersFeature,
                 upNextShuffleFeature,
                 bookmarksFeature,
@@ -112,6 +116,10 @@ extension UpgradeTier {
 
     static var bannerAdsFeature: UpgradeTier.TierFeature? {
         (FeatureFlag.bannerAdPodcasts.enabled || FeatureFlag.bannerAdPlayer.enabled) ? .init(iconName: "unsubscribe", title: L10n.plusMarketingNoBannerAds) : nil
+    }
+
+    static var generatedTranscriptsFeature: UpgradeTier.TierFeature? {
+        (FeatureFlag.generatedTranscripts.enabled) ? .init(iconName: "transcript", title: L10n.plusMarketingGeneratedTranscripts) : nil
     }
 
     static var foldersFeature: UpgradeTier.TierFeature {

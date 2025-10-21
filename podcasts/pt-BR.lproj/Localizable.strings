@@ -2047,6 +2047,10 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <string>Comece a criar sua lista de reprodução</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Adicione episódios à sua lista de reprodução</string>
+    <key>playlist_manual_episodes_order_option</key>
+    <string>Reorganizar episódios</string>
+    <key>playlist_options</key>
+    <string>Opções da lista de reprodução</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Criar lista de reprodução inteligente</string>
     <key>playlist_preview_title</key>
@@ -2801,10 +2805,16 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>1 filtro selecionado</string>
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Nenhum filtro selecionado</string>
+    <key>settings_auto_downloads_no_playlists_selected</key>
+    <string>Nenhuma lista de reprodução selecionada</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Nenhum podcast selecionado</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Ao seguir</string>
+    <key>settings_auto_downloads_playlists_selected_format</key>
+    <string>%1$@ listas de reprodução selecionadas</string>
+    <key>settings_auto_downloads_playlists_selected_singular</key>
+    <string>1 lista de reprodução selecionada</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts selecionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2813,6 +2823,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Faça download dos primeiros episódios de um filtro.</string>
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Faça download automático de novos episódios, salve episódios de programas que você acabou de seguir, e gerencie seu armazenamento ao definir um limite de episódios salvos.</string>
+    <key>settings_auto_downloads_subtitle_playlists</key>
+    <string>Faça download dos primeiros episódios de uma lista de reprodução.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Faça download de episódios adicionados aos Próximos.</string>
     <key>settings_badge_filter_header</key>
@@ -2987,12 +2999,18 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Incluído em 1 filtro</string>
     <key>settings_in_menu</key>
     <string>NO MENU</string>
+    <key>settings_in_smart_playlist_singular</key>
+    <string>Incluso em uma lista de reprodução inteligente</string>
+    <key>settings_in_smart_playlists_plural_format</key>
+    <string>Incluso em %1$@ listas de reprodução inteligentes</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Episódios inativos são aqueles dos quais você não fez download nem reproduziu no tempo especificado acima. O download é removido quando o episódio é arquivado.</string>
     <key>settings_next_action</key>
     <string>Próxima ação</string>
     <key>settings_not_in_filters</key>
     <string>Não incluso em nenhum filtro</string>
+    <key>settings_not_in_smart_playlists</key>
+    <string>Não incluso em nenhuma lista de reprodução inteligente</string>
     <key>settings_notifications</key>
     <string>Notificações</string>
     <key>settings_notifications_filter_count</key>
@@ -3019,6 +3037,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Selecionar filtro</string>
     <key>settings_select_filters_plural</key>
     <string>Selecionar filtros</string>
+    <key>settings_select_playlists_plural</key>
+    <string>Selecione listas de reprodução</string>
+    <key>settings_select_smart_playlists_plural</key>
+    <string>Selecione listas de reprodução inteligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Abrir filtro</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>

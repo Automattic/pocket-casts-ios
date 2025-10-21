@@ -104,6 +104,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if FeatureFlag.downloadFixes.enabled {
                 DownloadManager.shared.startAllQueued()
             }
+
+            if FeatureFlag.enableLocalizationHeaders.enabled {
+                LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
+            }
         }
 
         badgeHelper.setup()
