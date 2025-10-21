@@ -48,6 +48,10 @@ enum SwipeActionsHelper {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
 
+        if episode.wasDeleted {
+            return tableSwipeActions // Should be empty
+        }
+
         if PlaybackManager.shared.inUpNext(episode: episode) {
             let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
@@ -93,13 +97,16 @@ enum SwipeActionsHelper {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
 
-        if episode is UserEpisode {
+        if episode.wasDeleted {
+            return tableSwipeActions // Should include remove added in future merge
+        } else if episode is UserEpisode {
             let deleteAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
                 swipeHandler.deleteRequested(uuid: storedUuid)
                 Self.performAction(.delete, handler: swipeHandler, willBeRemoved: true)
                 return true
             })
             tableSwipeActions.addAction(deleteAction)
+            return tableSwipeActions
         } else if episode.archived {
             let willBeRemoved = FeatureFlag.playlistsRebranding.enabled
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
