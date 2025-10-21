@@ -38,7 +38,7 @@ struct IntroStory2025: StoryView {
                 withAnimation(.easeInOut(duration: 0.005)) {
                     self.opacity = 1
                 }
-                withAnimation(.easeInOut(duration: 0.5)) {
+                withAnimation(.easeInOut(duration: 1)) {
                     self.scale = 10
                 }
             }
