@@ -2680,6 +2680,9 @@
 /* Prompt to select a filter */
 "settings_select_filter_singular" = "Select Filter";
 
+/* Prompt to select a playlist */
+"settings_select_playlist_singular" = "Select Playlist";
+
 /* Prompt to select filters */
 "settings_select_filters_plural" = "Select Filters";
 
@@ -2691,6 +2694,9 @@
 
 /* Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered. */
 "settings_shortcuts_filter_open_filter" = "Open Filter";
+
+/* Option for the filter Siri Shortcut. This sets the app to open the playlist when the shortcut is triggered. */
+"settings_shortcuts_filter_open_playlist" = "Open Playlist";
 
 /* Option for the filter Siri Shortcut. This sets the filter to play all episodes in the filter when the shortcut is triggered. */
 "settings_shortcuts_filter_play_all_episodes" = "Play all episodes";
@@ -2715,6 +2721,9 @@
 
 /* Option to create a Siri Shortcut to a specific filter. */
 "settings_siri_shortcuts_specific_filter" = "Shortcut to a specific filter";
+
+/* Option to create a Siri Shortcut to a specific playlist. */
+"settings_siri_shortcuts_specific_playlist" = "Shortcut to a specific playlist";
 
 /* Option to create a Siri Shortcut to a specific podcast. */
 "settings_siri_shortcuts_specific_podcast" = "Shortcut to a specific podcast";

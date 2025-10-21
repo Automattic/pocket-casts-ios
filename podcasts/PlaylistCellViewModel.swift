@@ -7,6 +7,7 @@ class PlaylistCellViewModel: ObservableObject {
         case toggle
         case check
         case addNew
+        case plain
     }
 
     @Published var episodesCount: Int = 0
@@ -61,7 +62,7 @@ class PlaylistCellViewModel: ObservableObject {
         case .count, .check:
             loadCount()
             loadImages()
-        case .toggle:
+        case .toggle, .plain:
             loadImages()
         case .addNew:
             return
