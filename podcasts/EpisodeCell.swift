@@ -150,8 +150,11 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             selectView.isHidden = !isMultiSelectEnabled
             setNeedsLayout()
         }
-        if actionButton.isHidden == !isMultiSelectEnabled {
-            actionButton.isHidden = isMultiSelectEnabled
+        let wasDeleted = episode?.wasDeleted ?? false
+        let shouldHide = isMultiSelectEnabled || wasDeleted
+
+        if actionButton.isHidden != shouldHide {
+            actionButton.isHidden = shouldHide
             setNeedsLayout()
         }
     }
@@ -293,7 +296,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             uploadProgressIndicator.isHidden = true
         }
 
-        actionButton.populateFrom(episode: episode)
+        if episode.wasDeleted {
+            actionButton.isHidden = true
+        } else {
+            actionButton.isHidden = false
+            actionButton.populateFrom(episode: episode)
+        }
 
         isAccessibilityElement = true
         accessibilityLabel = labelForAccessibility(episode: episode)
