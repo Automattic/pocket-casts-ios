@@ -22,9 +22,8 @@ struct NumberListened2025: ShareableStory {
     var body: some View {
         ZStack {
             VStack(alignment: .center) {
-                headerView()
-                Spacer()
-                podcastMarquees()
+                headerView
+                podcastsAnimation
                 Spacer()
             }
             .foregroundStyle(foregroundColor)
@@ -46,52 +45,34 @@ struct NumberListened2025: ShareableStory {
         .background(backgroundColor)
     }
 
-    @ViewBuilder func podcastMarquees() -> some View {
-        GeometryReader { geometry in
-            PodcastCoverContainer(geometry: geometry, alignment: .center) {
-                VStack(spacing: -28) {
-                    let scale = 0.48
-                    let marqueeItemsCount = 4
-                    let topIndices = (0..<4*2).map { ($0 % marqueeItemsCount) % podcasts.endIndex }
-                    let bottomIndices = (0..<4*2).map { (($0 + marqueeItemsCount) % (marqueeItemsCount + marqueeItemsCount)) % podcasts.endIndex }
-                    podcastMarquee(size: geometry.size, shadow: false, scale: scale * 0.8, indices: topIndices)
-                        .offset(x: topRowXOffset)
-                        .modifier(animationViewModel.animate($topRowXOffset, to: -300))
-                    podcastMarquee(size: geometry.size, shadow: true, scale: scale, indices: bottomIndices)
-                        .padding(.leading, geometry.size.width * 0.35)
-                        .offset(x: bottomRowXOffset)
-                        .modifier(animationViewModel.animate($bottomRowXOffset, to: 300))
-                }
-                .rotationEffect(Angle(degrees: -15))
-            }
-            .onAppear {
-                if animated {
-                    animationViewModel.play()
-                }
-            }
-        }
-    }
-
-    @ViewBuilder func podcastMarquee(size: CGSize, shadow: Bool, scale: Double, indices: [Int]) -> some View {
-        HStack(spacing: 16) {
-            Group {
-                ForEach(indices, id: \.self) { index in
-                    podcastCover(index, shadow: shadow)
-                }
-            }
-            .frame(width: size.width * scale, height: size.width * scale)
-        }
-    }
-
-    @ViewBuilder func headerView() -> some View {
+    @ViewBuilder var headerView: some View {
         StoryHeader2025(title: L10n.playback2025ListenedToNumbers(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
+    }
+
+    @ViewBuilder var podcastsAnimation: some View {
+        ZStack() {
+            let itemsCount = 7
+            let indices = (0..<itemsCount).map { ($0 % itemsCount) % podcasts.endIndex }
+            ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
+                podcastCover(pos, shadow: false)
+                    .frame(width: 260 - CGFloat(index * 20), height: 260 - CGFloat(index * 20))
+                    .offset(x: 0, y: ((index % 2) == 0 ? 1 : -1) * CGFloat(index * 20))
+                    .zIndex(Double(itemsCount - index))
+            }
+        }
+        .background(.red)
+        .onAppear {
+            if animated {
+                animationViewModel.play()
+            }
+        }
     }
 
     @ViewBuilder
     func podcastCover(_ index: Int, shadow: Bool) -> some View {
         let podcast = podcasts[safe: index] ?? podcasts[safe: index % 2 == 0 ? 0 : 1] ?? podcasts[0]
         PodcastImage(uuid: podcast.uuid, size: .grid)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
             .modify {
                 if shadow {
                     $0.shadow(color: Color.black.opacity(0.2), radius: 75, x: 0, y: 2.5)
@@ -112,7 +93,7 @@ struct NumberListened2025: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes), year: .y2024)
+            StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes), year: .y2025)
         ]
     }
 }
