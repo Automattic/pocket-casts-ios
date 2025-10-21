@@ -54,10 +54,12 @@ struct NumberListened2025: ShareableStory {
             let itemsCount = 7
             let indices = (0..<itemsCount).map { ($0 % itemsCount) % podcasts.endIndex }
             ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
+                let size = 260 - CGFloat(abs(index - 3) * 20)
+                let offset = CGFloat((index - 3) * 20)
                 podcastCover(pos, shadow: false)
-                    .frame(width: 260 - CGFloat(index * 20), height: 260 - CGFloat(index * 20))
-                    .offset(x: 0, y: ((index % 2) == 0 ? 1 : -1) * CGFloat(index * 20))
-                    .zIndex(Double(itemsCount - index))
+                    .frame(width: size, height: size)
+                    .offset(x: 0, y: offset)
+                    .zIndex(Double(itemsCount - abs(index - 3)))
             }
         }
         .background(.red)
