@@ -57,7 +57,7 @@ struct NewSearchResultsView: View {
                 .listRowSeparatorTint(theme.primaryUi05)
                 .scrollContentBackground(.hidden)
             } else {
-                VStack {
+                VStack(spacing: 0) {
                     filterPicker
                     List {
                         if displayMode == .allResults || displayMode == .podcasts {
