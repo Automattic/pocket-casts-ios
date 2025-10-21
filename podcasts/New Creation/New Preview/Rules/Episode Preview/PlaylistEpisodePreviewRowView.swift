@@ -49,9 +49,20 @@ struct PlaylistEpisodePreviewRowView: View {
                                 .foregroundColor(theme.primaryText02)
                                 .frame(width: 12, height: 12)
                         }
-                        Text(subtitle)
-                            .font(size: 12.0, style: .body, weight: .semibold)
-                            .foregroundStyle(theme.primaryText02)
+                        if episode.wasDeleted {
+                            Image("option-cross-circle")
+                                .renderingMode(.template)
+                                .resizable()
+                                .foregroundColor(theme.primaryText02)
+                                .frame(width: 12, height: 12)
+                            Text(L10n.podcastUnavailable)
+                                .font(size: 12.0, style: .body, weight: .semibold)
+                                .foregroundStyle(theme.primaryText02)
+                        } else {
+                            Text(subtitle)
+                                .font(size: 12.0, style: .body, weight: .semibold)
+                                .foregroundStyle(theme.primaryText02)
+                        }
                         Spacer()
                     }
                 }

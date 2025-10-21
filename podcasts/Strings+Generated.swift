@@ -1206,6 +1206,10 @@ internal enum L10n {
   internal static func episodeShorthandFormatShort(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_shorthand_format_short", String(describing: p1), fallback: "EP %1$@")
   }
+  /// Message indicating that the episode is unavailable server side but will remain in your manual playlist until removed.
+  internal static var episodeUnavailableMessage: String { return L10n.tr("Localizable", "episode_unavailable_message", fallback: "The podcast creator deleted this episode. It will stay in your playlist until you remove it.") }
+  /// Title indicating that the episode is unavailable server side
+  internal static var episodeUnavailableTitle: String { return L10n.tr("Localizable", "episode_unavailable_title", fallback: "Episode Unavailable") }
   /// Refers to an Episode in the plural form.
   internal static var episodes: String { return L10n.tr("Localizable", "episodes", fallback: "Episodes") }
   /// A common string used throughout the app. Generic title informing the user of an Error. Accompanied with an error message.
@@ -3052,6 +3056,8 @@ internal enum L10n {
   internal static var removeAll: String { return L10n.tr("Localizable", "remove_all", fallback: "Remove All") }
   /// A common string used throughout the app. Prompt to delete the selected item(s) local file download.
   internal static var removeDownload: String { return L10n.tr("Localizable", "remove_download", fallback: "Remove Download") }
+  /// A title used for an action to remove an episode from a playlist
+  internal static var removeFromPlaylist: String { return L10n.tr("Localizable", "remove_from_playlist", fallback: "Remove from playlist") }
   /// A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue.
   internal static var removeFromUpNext: String { return L10n.tr("Localizable", "remove_from_up_next", fallback: "Remove From Up Next") }
   /// A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue. Shorter form of 'Remove From Up Next' to conserve space on the Apple Watch.

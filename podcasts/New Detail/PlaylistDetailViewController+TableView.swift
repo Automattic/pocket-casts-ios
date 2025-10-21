@@ -204,6 +204,16 @@ extension PlaylistDetailViewController: UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
 
+            if selectedEpisode.wasDeleted {
+                let episodeUuid = selectedEpisode.uuid
+                let viewController = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
+                    guard let self else { return }
+                    self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
+                }
+                present(viewController, animated: true)
+                return
+            }
+
             let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters, playlist: .filter(uuid: viewModel.playlist.uuid))
             episodeController.modalPresentationStyle = .formSheet
             present(episodeController, animated: true, completion: nil)
