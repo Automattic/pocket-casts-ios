@@ -12,12 +12,21 @@ enum SwipeSourceType {
     case listeningHistory
     case uploaded
 
-    var canAddToManualPlaylist: Bool {
+    var canAddEpisodeToManualPlaylist: Bool {
         switch self {
         case .filter, .uploaded, .manualPlaylistDetail:
             false
         default:
             true
+        }
+    }
+
+    var canRemoveEpisodeFromManualPlaylist: Bool {
+        switch self {
+        case .manualPlaylistDetail:
+            true
+        default:
+            false
         }
     }
 }
@@ -31,6 +40,7 @@ protocol SwipeHandler: AnyObject {
     func deleteRequested(uuid: String)
     func share(episode: Episode, at: IndexPath)
     func addToManualPlaylist(episode: Episode, at: IndexPath)
+    func removeFromManualPlaylist(episode: Episode, at: IndexPath)
 }
 
 enum SwipeActionsHelper {
@@ -122,13 +132,24 @@ enum SwipeActionsHelper {
             })
             tableSwipeActions.addAction(shareAction)
 
-            if FeatureFlag.playlistsRebranding.enabled, swipeHandler.swipeSourceType.canAddToManualPlaylist {
-                let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
+            if FeatureFlag.playlistsRebranding.enabled {
+                if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
+                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
                         swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
                         Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
-                    return true
-                })
-                tableSwipeActions.addAction(shareAction)
+                        return true
+                    })
+                    tableSwipeActions.addAction(shareAction)
+                }
+
+                if swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
+                    let removeAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: true, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
+                        swipeHandler.removeFromManualPlaylist(episode: episode, at: indexPath)
+                        Self.performAction(.removeFromManualPlaylist, handler: swipeHandler, willBeRemoved: false)
+                        return true
+                    })
+                    tableSwipeActions.addAction(removeAction, at: 0)
+                }
             }
         }
 
@@ -155,6 +176,7 @@ enum SwipeActionsHelper {
         case archive
         case share
         case addToManualPlaylist
+        case removeFromManualPlaylist
 
         var analyticsDescription: String {
             switch self {
@@ -174,6 +196,8 @@ enum SwipeActionsHelper {
                 return "share"
             case .addToManualPlaylist:
                 return "add_to_manual_playlist"
+            case .removeFromManualPlaylist:
+                return "remove_from_manual_playlist"
             }
         }
     }
