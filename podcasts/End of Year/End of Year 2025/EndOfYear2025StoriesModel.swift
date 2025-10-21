@@ -8,11 +8,11 @@ class EndOfYear2025StoriesModel: StoryModel {
     var data = EndOfYear2025StoriesData()
 
     var indicatorColor: Color {
-        .black
+        .white
     }
 
     var primaryBackgroundColor: Color {
-        Color(hex: "EE661C")
+        .endOfYear2025Background
     }
 
     required init() { }
@@ -77,7 +77,7 @@ class EndOfYear2025StoriesModel: StoryModel {
     func story(for storyNumber: Int) -> any StoryView {
         switch stories[storyNumber] {
             case .intro:
-                return IntroStory2024()
+                return IntroStory2025()
             case .numberOfPodcastsAndEpisodesListened:
                 return NumberListened2024(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
             case .topSpot:

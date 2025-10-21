@@ -58,8 +58,8 @@ struct NumberListened2024: ShareableStory {
     @ViewBuilder func podcastMarquee(size: CGSize, shadow: Bool, scale: Double, indices: [Int]) -> some View {
         HStack(spacing: 16) {
             Group {
-                ForEach(indices, id: \.self) { index in
-                    podcastCover(index, shadow: shadow)
+                ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
+                    podcastCover(pos, shadow: shadow)
                 }
             }
             .frame(width: size.width * scale, height: size.width * scale)
