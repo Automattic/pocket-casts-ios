@@ -51,11 +51,17 @@ class PlaylistDetailViewModel: ObservableObject {
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private var tempEpisodes: [ListEpisode] = []
 
+    private var updateTask: Task<Void, Never>?
+
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
         return queue
     }()
+
+    deinit {
+        updateTask?.cancel()
+    }
 
     init(
         playlist: EpisodeFilter,
@@ -79,7 +85,9 @@ class PlaylistDetailViewModel: ObservableObject {
         if isLoadingData { return }
         isLoadingData = true
 
-        Task { [weak self] in
+        updateTask?.cancel()
+
+        updateTask = Task { [weak self] in
             guard let self else { return }
             do {
                 let count = await self.getEpisodesCount()

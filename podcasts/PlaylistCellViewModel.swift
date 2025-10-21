@@ -29,7 +29,15 @@ class PlaylistCellViewModel: ObservableObject {
     private let episodesDataManager: EpisodesDataManager
     private let episodeArtWork: EpisodeArtwork
 
+    private var countTask: Task<Void, Never>?
+    private var imagesTask: Task<Void, Never>?
+
     let displayType: DisplayType
+
+    deinit {
+        countTask?.cancel()
+        imagesTask?.cancel()
+    }
 
     init(
         playlist: EpisodeFilter,
@@ -71,7 +79,7 @@ class PlaylistCellViewModel: ObservableObject {
     private func loadCount() {
         if isLoadingCount { return }
         isLoadingCount = true
-        Task { [weak self] in
+        countTask = Task { [weak self] in
             guard let self else { return }
             let count = await self.getEpisodesCount()
             await MainActor.run {
@@ -84,7 +92,7 @@ class PlaylistCellViewModel: ObservableObject {
     private func loadImages() {
         if isLoadingImages { return }
         isLoadingImages = true
-        Task { [weak self] in
+        imagesTask = Task { [weak self] in
             guard let self else { return }
             do {
                 let list = await self.loadListEpisodes()
