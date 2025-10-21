@@ -13,6 +13,13 @@ struct IntroStory2025: StoryView {
 
     @State private var opacity = CGFloat(0)
     @State private var scale = CGFloat(0.5)
+    @State private var animationProgress: AnimationProgressTime = .zero
+
+    @State private var openCircle: Bool = false
+
+    enum KeyFrames {
+        static var circleOpen = CGFloat(110)
+    }
 
     var body: some View {
         ZStack {
@@ -25,23 +32,25 @@ struct IntroStory2025: StoryView {
                 )
                 .opacity(opacity)
         }
-        .onAppear() {
-            withAnimation(.easeInOut(duration: 0.005).delay(3.85)) {
-                self.opacity = 1
-            }
-            withAnimation(.easeInOut(duration: 0.3).delay(3.9)) {
-                self.scale = 9
+        .onChange(of: animationProgress) { position in
+            if position > KeyFrames.circleOpen, !openCircle {
+                openCircle = true
+                withAnimation(.easeInOut(duration: 0.005)) {
+                    self.opacity = 1
+                }
+                withAnimation(.easeInOut(duration: 1)) {
+                    self.scale = 10
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             LottieView(animation: .named("end_of_year_2025_intro"))
-                .animationDidFinish({ completed in
-                })
                 .configure({ animationView in
                     animationView.contentMode = .scaleAspectFill
                 })
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                .getRealtimeAnimationFrame($animationProgress)
                 .scaledToFill()
                 .ignoresSafeArea()
         )
