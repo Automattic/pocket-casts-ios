@@ -34,10 +34,13 @@ class SearchResultsModel: ObservableObject {
     private(set) var playedEpisodesUUIDs = Set<String>()
     private let dataMangager: DataManager
 
-    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown),
+    let showLocalResults: Bool
+
+    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown), showLocalResults: Bool = false,
          dataManager: DataManager = DataManager.sharedManager) {
         self.analyticsHelper = analyticsHelper
         self.dataMangager = dataManager
+        self.showLocalResults = showLocalResults
     }
 
     var noResults: Bool {

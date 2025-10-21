@@ -55,7 +55,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     var searchController: PCSearchBarController!
 
-    lazy var searchResultsController = SearchResultsViewController(source: .podcastsList)
+    lazy var searchResultsController = SearchResultsViewController(source: .podcastsList, showLocalResults: true)
 
     var resultsControllerDelegate: SearchResultsDelegate {
         searchResultsController
