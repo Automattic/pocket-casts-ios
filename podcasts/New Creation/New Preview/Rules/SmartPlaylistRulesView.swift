@@ -37,6 +37,13 @@ struct SmartPlaylistRulesView: View {
                     availableRules: viewModel.availableRules,
                     action: viewModel.action
                 )
+
+                if viewModel.newPlaylistHasChanged {
+                    SmartPlaylistRulesEpisodesSection(
+                        episodes: viewModel.episodes,
+                        playlistName: viewModel.newPlaylist.playlistName
+                    )
+                }
             }
         }
         .listStyle(.plain)
@@ -73,6 +80,7 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
                 action: action
             )
             .padding(.top, 24.0)
+            .padding(.bottom, 16.0)
             .listRowClearStyle()
         }
         .padding(.horizontal, 16.0)

@@ -5,7 +5,7 @@ struct PredictiveSearchEnvelope: Decodable {
 }
 
 public struct PredictivePodcastSearchResult: Codable, Hashable {
-    let uuid: String
+    public let uuid: String
     let title: String
     let author: String
 }

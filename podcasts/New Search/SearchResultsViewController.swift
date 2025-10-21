@@ -19,9 +19,9 @@ class SearchResultsViewController: UIHostingController<AnyView> {
     private let searchResults: SearchResultsModel
     private let searchAnalyticsHelper: SearchAnalyticsHelper
 
-    init(source: AnalyticsSource) {
+    init(source: AnalyticsSource, showLocalResults: Bool = false) {
         searchAnalyticsHelper = SearchAnalyticsHelper(source: source)
-        self.searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
+        self.searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper, showLocalResults: showLocalResults)
         super.init(rootView: AnyView(
             SearchView()
             .setupDefaultEnvironment()

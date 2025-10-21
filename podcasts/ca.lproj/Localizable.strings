@@ -143,6 +143,8 @@
     <string>Afegir a la llista «Tot seguit»</string>
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
+    <key>all_results</key>
+    <string>Tots els resultats</string>
     <key>announcement_autoplay_description</key>
     <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
     <key>announcement_autoplay_title</key>
@@ -1939,6 +1941,12 @@ ACTUALITZACIONS</string>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat un impressionant %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat més d'un %1$@</string>
+    <key>playback_2025_feature_description</key>
+    <string>Consulta les teves estadístiques d'escolta, els millors pòdcasts i molt més.</string>
+    <key>playback_2025_feature_title</key>
+    <string>El que has escoltat al 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Veure el meu historial de reproducció de 2025</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tots els pòdcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2019,6 +2027,8 @@ ACTUALITZACIONS</string>
     <string>Error de reproducció</string>
     <key>player_user_episode_upload_error</key>
     <string>Error a la càrrega</string>
+    <key>playlist_add_to_title</key>
+    <string>Afegir a "%@" </string>
     <key>playlist_create_no_episodes_description</key>
     <string>Cap dels episodis dels teus pòdcasts coincideix amb aquestes regles.
 
@@ -2031,6 +2041,14 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Fes-ho en una llista de reproducció intel·ligent</string>
     <key>playlist_detail_description</key>
     <string>%1$@ episodis • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 episodi afegit a "%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ episodis afegits a "%2$@"</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ episodis</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>La llista de reproducció està plena. Prova a crear-ne una de nova.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afegir episodis</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2041,6 +2059,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Comença a crear la teva llista de reproducció</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Afegeix episodis a la teva llista de reproducció</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Afegir a la llista de reproducció</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Reordenar els episodis</string>
     <key>playlist_options</key>
@@ -2049,6 +2069,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Crear una llista de reproducció intel·ligent</string>
     <key>playlist_preview_title</key>
     <string>Previsualitzar %@</string>
+    <key>playlist_search</key>
+    <string>Cercar llista de reproducció</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Arribats aquí, pots celebrar que la llista s'ha acabat o modificar la configuració dels filtres per trobar més episodis.</string>
     <key>playlist_smart_preview_description</key>
@@ -2435,6 +2457,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
     <string>Insígnia</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Arrossegar i deixar anar</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Del més llarg al més curt</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -3607,6 +3631,8 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>De més llarg a més curt</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>De més curt a més llarg</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Els teus pòdcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Realment no</string>
     <key>user_satisfaction_survey_subtitle</key>
