@@ -318,8 +318,8 @@
 		40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D9A4B0240746C30019E469 /* SignOutHelper.swift */; };
 		40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DD88EB215DB18300277A4E /* PlaylistIconChooserCell.swift */; };
 		40DD88EE215DB18300277A4E /* PlaylistIconChooserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40DD88EC215DB18300277A4E /* PlaylistIconChooserCell.xib */; };
-		40E1B4CA2255856C006C96CE /* FiltersShortcutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1B4C82255856C006C96CE /* FiltersShortcutsViewController.swift */; };
-		40E1B4CB2255856C006C96CE /* FiltersShortcutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40E1B4C92255856C006C96CE /* FiltersShortcutsViewController.xib */; };
+		40E1B4CA2255856C006C96CE /* PlaylistsShortcutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E1B4C82255856C006C96CE /* PlaylistsShortcutsViewController.swift */; };
+		40E1B4CB2255856C006C96CE /* PlaylistsShortcutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40E1B4C92255856C006C96CE /* PlaylistsShortcutsViewController.xib */; };
 		40E1B4D1225C2A4F006C96CE /* Subscription.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */; };
 		40E8036F23FE9E9200B4E1F8 /* ExtendSleepTimerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */; };
 		40E8037023FE9E9200B4E1F8 /* OpenFilterIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E8036A23FE9E9100B4E1F8 /* OpenFilterIntentHandler.swift */; };
@@ -332,8 +332,8 @@
 		40F0DE8A22E42AD2001DAA52 /* PlusLockedInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F0DE8822E42AD1001DAA52 /* PlusLockedInfoView.xib */; };
 		40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F0DE8B22E45236001DAA52 /* PlusLockedInfoCell.swift */; };
 		40F0DE8E22E45236001DAA52 /* PlusLockedInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F0DE8C22E45236001DAA52 /* PlusLockedInfoCell.xib */; };
-		40F1492C218BCC4F008F54EA /* FilterShortcutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F1492A218BCC4F008F54EA /* FilterShortcutsViewController.swift */; };
-		40F1492D218BCC4F008F54EA /* FilterShortcutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F1492B218BCC4F008F54EA /* FilterShortcutsViewController.xib */; };
+		40F1492C218BCC4F008F54EA /* PlaylistShortcutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F1492A218BCC4F008F54EA /* PlaylistShortcutsViewController.swift */; };
+		40F1492D218BCC4F008F54EA /* PlaylistShortcutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F1492B218BCC4F008F54EA /* PlaylistShortcutsViewController.xib */; };
 		40F8344C245028BE009FF284 /* WatchSyncManager+Autodownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */; };
 		40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */; };
 		40FFAD8A2147831400024FCF /* PlaylistViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FFAD892147831400024FCF /* PlaylistViewController+CollectionView.swift */; };
@@ -2669,8 +2669,8 @@
 		40D9A4B0240746C30019E469 /* SignOutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutHelper.swift; sourceTree = "<group>"; };
 		40DD88EB215DB18300277A4E /* PlaylistIconChooserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistIconChooserCell.swift; sourceTree = "<group>"; };
 		40DD88EC215DB18300277A4E /* PlaylistIconChooserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaylistIconChooserCell.xib; sourceTree = "<group>"; };
-		40E1B4C82255856C006C96CE /* FiltersShortcutsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersShortcutsViewController.swift; sourceTree = "<group>"; };
-		40E1B4C92255856C006C96CE /* FiltersShortcutsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FiltersShortcutsViewController.xib; sourceTree = "<group>"; };
+		40E1B4C82255856C006C96CE /* PlaylistsShortcutsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsShortcutsViewController.swift; sourceTree = "<group>"; };
+		40E1B4C92255856C006C96CE /* PlaylistsShortcutsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaylistsShortcutsViewController.xib; sourceTree = "<group>"; };
 		40E1B4D0225C2A4F006C96CE /* Subscription.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Subscription.xcassets; sourceTree = "<group>"; };
 		40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSleepTimerIntentHandler.swift; sourceTree = "<group>"; };
 		40E8036A23FE9E9100B4E1F8 /* OpenFilterIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenFilterIntentHandler.swift; sourceTree = "<group>"; };
@@ -2683,8 +2683,8 @@
 		40F0DE8822E42AD1001DAA52 /* PlusLockedInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlusLockedInfoView.xib; sourceTree = "<group>"; };
 		40F0DE8B22E45236001DAA52 /* PlusLockedInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLockedInfoCell.swift; sourceTree = "<group>"; };
 		40F0DE8C22E45236001DAA52 /* PlusLockedInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlusLockedInfoCell.xib; sourceTree = "<group>"; };
-		40F1492A218BCC4F008F54EA /* FilterShortcutsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterShortcutsViewController.swift; sourceTree = "<group>"; };
-		40F1492B218BCC4F008F54EA /* FilterShortcutsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterShortcutsViewController.xib; sourceTree = "<group>"; };
+		40F1492A218BCC4F008F54EA /* PlaylistShortcutsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistShortcutsViewController.swift; sourceTree = "<group>"; };
+		40F1492B218BCC4F008F54EA /* PlaylistShortcutsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaylistShortcutsViewController.xib; sourceTree = "<group>"; };
 		40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchSyncManager+Autodownload.swift"; sourceTree = "<group>"; };
 		40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEpisode+Formatting.swift"; sourceTree = "<group>"; };
 		40FFAD892147831400024FCF /* PlaylistViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistViewController+CollectionView.swift"; sourceTree = "<group>"; };
@@ -6529,10 +6529,10 @@
 				BD907DAD21537B51004D7C02 /* SiriSettingsViewController.xib */,
 				4041FE9B218AA4310089D4A1 /* PodcastShortcutsViewController.swift */,
 				4041FE9C218AA4310089D4A1 /* PodcastShortcutsViewController.xib */,
-				40E1B4C82255856C006C96CE /* FiltersShortcutsViewController.swift */,
-				40E1B4C92255856C006C96CE /* FiltersShortcutsViewController.xib */,
-				40F1492A218BCC4F008F54EA /* FilterShortcutsViewController.swift */,
-				40F1492B218BCC4F008F54EA /* FilterShortcutsViewController.xib */,
+				40E1B4C82255856C006C96CE /* PlaylistsShortcutsViewController.swift */,
+				40E1B4C92255856C006C96CE /* PlaylistsShortcutsViewController.xib */,
+				40F1492A218BCC4F008F54EA /* PlaylistShortcutsViewController.swift */,
+				40F1492B218BCC4F008F54EA /* PlaylistShortcutsViewController.xib */,
 				405553D5244AD7A70048FE7A /* WatchSettingsViewController.swift */,
 				405553D6244AD7A70048FE7A /* WatchSettingsViewController.xib */,
 				BDADFA042574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift */,
@@ -9697,7 +9697,7 @@
 				BDB1E4FF1B8C5C2B009AD30F /* CategorySummaryViewController.xib in Resources */,
 				BDEED1541EB06E26003FE87D /* Carplay.xcassets in Resources */,
 				F5F884632CC9EAA6002BED2C /* Humane-Bold.otf in Resources */,
-				40F1492D218BCC4F008F54EA /* FilterShortcutsViewController.xib in Resources */,
+				40F1492D218BCC4F008F54EA /* PlaylistShortcutsViewController.xib in Resources */,
 				BDBCE6C6244E7755004FFE13 /* AppIcon-Radioactive29x29@3x.png in Resources */,
 				BDA002F51F7B318B00DCB4AE /* AppIcon-Round76x76@2x~ipad.png in Resources */,
 				BDA003021F7B318B00DCB4AE /* AppIcon-Default40x40@2x~ipad.png in Resources */,
@@ -9895,7 +9895,7 @@
 				BD6B6699245BC28800CF5245 /* AppIcon-Red-Velvet40x40@2x.png in Resources */,
 				40AE73B221F00AFD00F77ACE /* SubscribeButton.xib in Resources */,
 				BD95ED6B1BAFA532004335B0 /* CountryChooserViewController.xib in Resources */,
-				40E1B4CB2255856C006C96CE /* FiltersShortcutsViewController.xib in Resources */,
+				40E1B4CB2255856C006C96CE /* PlaylistsShortcutsViewController.xib in Resources */,
 				407CD72A2266DF510033C18E /* CancelInfoViewController.xib in Resources */,
 				BD1292E922F7D066004608A6 /* AppIcon-Classic40x40@3x.png in Resources */,
 				4086511C23B1CE8400D7585A /* CreateSiriShortcutCell.xib in Resources */,
@@ -11182,7 +11182,7 @@
 				FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */,
 				BD4BBFA21D221FDA001BEE4D /* Queue.swift in Sources */,
 				8B99197729A686BA00A5C81C /* SearchResultsView.swift in Sources */,
-				40E1B4CA2255856C006C96CE /* FiltersShortcutsViewController.swift in Sources */,
+				40E1B4CA2255856C006C96CE /* PlaylistsShortcutsViewController.swift in Sources */,
 				BDED9312251DD5EB000BF622 /* CarPlayImageHelper.swift in Sources */,
 				FF0753842D69088E00BE8B3B /* GridFoldersView.swift in Sources */,
 				BDB206AA2191734D00C1E456 /* NowPlayingHelper.swift in Sources */,
@@ -11280,7 +11280,7 @@
 				BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */,
 				F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */,
 				BDF7BDCE1CA2247F0045AB6D /* StatsCell.swift in Sources */,
-				40F1492C218BCC4F008F54EA /* FilterShortcutsViewController.swift in Sources */,
+				40F1492C218BCC4F008F54EA /* PlaylistShortcutsViewController.swift in Sources */,
 				FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */,
 				BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */,
 				40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */,

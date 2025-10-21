@@ -2356,6 +2356,8 @@ internal enum L10n {
   internal static var playlistManualEpisodeAddToPlaylist: String { return L10n.tr("Localizable", "playlist_manual_episode_add_to_playlist", fallback: "Add to playlist") }
   /// Manual Playlist: manual episodes order option that appears when showing the options sheet
   internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
+  /// Toast message displayed when a user tries to play all archived episodes in a manual playlist
+  internal static var playlistManualPlayAllEmptyList: String { return L10n.tr("Localizable", "playlist_manual_play_all_empty_list", fallback: "All episodes archived. Add or unarchive to play.") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Button title used to create a new smart playlist
@@ -3486,12 +3488,16 @@ internal enum L10n {
   internal static var settingsSelectFilterSingular: String { return L10n.tr("Localizable", "settings_select_filter_singular", fallback: "Select Filter") }
   /// Prompt to select filters
   internal static var settingsSelectFiltersPlural: String { return L10n.tr("Localizable", "settings_select_filters_plural", fallback: "Select Filters") }
+  /// Prompt to select a playlist
+  internal static var settingsSelectPlaylistSingular: String { return L10n.tr("Localizable", "settings_select_playlist_singular", fallback: "Select Playlist") }
   /// Prompt to select playlists
   internal static var settingsSelectPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_playlists_plural", fallback: "Select Playlists") }
   /// Prompt to select smart playlists
   internal static var settingsSelectSmartPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_smart_playlists_plural", fallback: "Select Smart Playlists") }
   /// Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered.
   internal static var settingsShortcutsFilterOpenFilter: String { return L10n.tr("Localizable", "settings_shortcuts_filter_open_filter", fallback: "Open Filter") }
+  /// Option for the filter Siri Shortcut. This sets the app to open the playlist when the shortcut is triggered.
+  internal static var settingsShortcutsFilterOpenPlaylist: String { return L10n.tr("Localizable", "settings_shortcuts_filter_open_playlist", fallback: "Open Playlist") }
   /// Option for the filter Siri Shortcut. This sets the filter to play all episodes in the filter when the shortcut is triggered.
   internal static var settingsShortcutsFilterPlayAllEpisodes: String { return L10n.tr("Localizable", "settings_shortcuts_filter_play_all_episodes", fallback: "Play all episodes") }
   /// Option for the filter Siri Shortcut. This sets the filter to play the top episode in the filter when the shortcut is triggered.
@@ -3510,6 +3516,8 @@ internal enum L10n {
   internal static var settingsSiriShortcutsEnabled: String { return L10n.tr("Localizable", "settings_siri_shortcuts_enabled", fallback: "Enabled shortcuts") }
   /// Option to create a Siri Shortcut to a specific filter.
   internal static var settingsSiriShortcutsSpecificFilter: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_filter", fallback: "Shortcut to a specific filter") }
+  /// Option to create a Siri Shortcut to a specific playlist.
+  internal static var settingsSiriShortcutsSpecificPlaylist: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_playlist", fallback: "Shortcut to a specific playlist") }
   /// Option to create a Siri Shortcut to a specific podcast.
   internal static var settingsSiriShortcutsSpecificPodcast: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_podcast", fallback: "Shortcut to a specific podcast") }
   /// Prompt to open the configurable options to have the podcast skip an initial portion of the selected podcast.

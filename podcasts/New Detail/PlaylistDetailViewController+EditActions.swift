@@ -10,6 +10,11 @@ extension PlaylistDetailViewController {
     }
 
     func playAll() {
+        if viewModel.episodes.isEmpty {
+            Toast.show(L10n.playlistManualPlayAllEmptyList)
+            return
+        }
+
         Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
         let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), viewModel.episodes.count)
         OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: { [weak self] in

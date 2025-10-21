@@ -124,30 +124,37 @@ class PlaylistPreviewViewModel: ObservableObject {
         }
         newPlaylist = playlist
 
-        if playlistMode == .edit {
+        switch playlistMode {
+        case .creation:
+            newPlaylist.isNew = true
+            isInPreview = true
+
+            enabledRules.removeAll()
+            availableRules.removeAll()
+
+            for rule in SmartPlaylistRule.allCases {
+                if smartRuleIsApplied(for: rule) {
+                    let ruleText = ruleText(for: rule)
+                    enabledRules.append(SmartPlaylistRuleInfo(type: rule, description: ruleText))
+                } else {
+                    availableRules.append(SmartPlaylistRuleInfo(type: rule))
+                }
+            }
+        case .edit:
             availableRules = SmartPlaylistRule.allCases.map {
                 let ruleText = ruleText(for: $0)
                 return SmartPlaylistRuleInfo(type: $0, description: ruleText)
             }
-            newPlaylistHasChanged = true
-            return
         }
 
-        newPlaylist.isNew = true
-        isInPreview = true
+        startOperation()
+    }
 
-        enabledRules.removeAll()
-        availableRules.removeAll()
+    func removeObserver() {
+        NotificationCenter.default.removeObserver(self)
+    }
 
-        for rule in SmartPlaylistRule.allCases {
-            if smartRuleIsApplied(for: rule) {
-                let ruleText = ruleText(for: rule)
-                enabledRules.append(SmartPlaylistRuleInfo(type: rule, description: ruleText))
-            } else {
-                availableRules.append(SmartPlaylistRuleInfo(type: rule))
-            }
-        }
-
+    private func startOperation() {
         if operationQueue.operationCount > 0 {
             operationQueue.cancelAllOperations()
             episodes.removeAll()
@@ -159,9 +166,5 @@ class PlaylistPreviewViewModel: ObservableObject {
             }
         }
         operationQueue.addOperation(refreshOperation)
-    }
-
-    func removeObserver() {
-        NotificationCenter.default.removeObserver(self)
     }
 }

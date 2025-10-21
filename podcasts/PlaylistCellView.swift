@@ -22,7 +22,7 @@ struct PlaylistCellView: View {
         switch viewModel.displayType {
         case .check:
             return L10n.playlistEpisodesCount(viewModel.episodesCount)
-        case .toggle, .count:
+        case .toggle, .count, .plain:
             if viewModel.isSmartPlaylist() {
                 return L10n.smartPlaylist
             }
@@ -132,7 +132,7 @@ struct PlaylistCellView: View {
             }
             .padding(.trailing, 16.0)
             .id(refreshToken)
-        case .addNew:
+        case .addNew, .plain:
             EmptyView()
         }
     }
@@ -144,6 +144,17 @@ struct PlaylistCellView: View {
 
         var body: some View {
             List {
+                PlaylistCellView(
+                    viewModel: PlaylistCellViewModel(
+                        playlist: model(),
+                        displayType: .plain
+                    ),
+                    isSelected: .constant(true)
+                )
+                .frame(width: 350, height: 81)
+                .background(.white)
+                .listRowSeparator(.hidden)
+
                 PlaylistCellView(
                     viewModel: PlaylistCellViewModel(
                         playlist: model(),

@@ -56,7 +56,10 @@ public enum ServerConstants {
     }
 
     private static func production() -> Bool {
-        ServerConfig.shared.syncDelegate?.production() ?? true
+        guard let delegate = ServerConfig.shared.syncDelegate else {
+            return true
+        }
+        return delegate.production()
     }
 
     public enum HttpConstants {
