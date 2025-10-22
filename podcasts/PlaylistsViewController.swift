@@ -230,9 +230,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func showOnboardingScreenIfNeeded() {
+        guard FeatureFlag.playlistsRebranding.enabled else { return }
+
         let userIsLoggedIn = SyncManager.isUserLoggedIn()
         let appInstallStateUpdated = (UIApplication.shared.delegate as? AppDelegate)?.appInstallState == .updated
-        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && FeatureFlag.playlistsRebranding.enabled && userIsLoggedIn
+        let shouldDisplayOnboarding = appInstallStateUpdated && Settings.shouldShowPlaylistsOnboarding && userIsLoggedIn
         guard shouldDisplayOnboarding else { return }
         let vc = ThemedHostingController(
             rootView: PlaylistsOnboardingView(
