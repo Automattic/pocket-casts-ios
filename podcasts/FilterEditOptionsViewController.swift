@@ -18,7 +18,8 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
     private let settingsCellId = "SettingsCell"
-    private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit, siriShortcut }
+    private let deleteCellId = "DettingsCell"
+    private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit, siriShortcut, deletePlaylist }
     private static let playlistRebrandingIsEnabled = FeatureFlag.playlistsRebranding.enabled
     private static let tableDataAutoDownloadDisabled: [[TableRow]] = {
         if playlistRebrandingIsEnabled {
@@ -58,6 +59,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         tableView.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
         tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
         tableView.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
+        if Self.playlistRebrandingIsEnabled {
+            tableView.register(UINib(nibName: "AccountActionCell", bundle: nil), forCellReuseIdentifier: deleteCellId)
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(colorChanged), name: Constants.Notifications.playlistTempChange, object: nil)
 
         updateExistingSortcutData()
@@ -156,6 +160,14 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             cell.settingsImage.image = UIImage(named: "settings_shortcuts")
             cell.settingsImage.tintColor = Self.playlistRebrandingIsEnabled ? AppTheme.colorForStyle(.primaryIcon01) : filterToEdit.playlistColor()
             return cell
+        case .deletePlaylist:
+            let cell = tableView.dequeueReusableCell(withIdentifier: deleteCellId, for: indexPath) as! AccountActionCell
+            cell.cellLabel.text = L10n.playlistsDelete
+            cell.cellImage.image = UIImage(named: "delete")
+            cell.iconStyle = .support05
+            cell.counterView.isHidden = true
+            cell.showsDisclosureIndicator = false
+            return cell
         }
     }
 
@@ -181,6 +193,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             let singleFilterVC = FilterShortcutsViewController(filter: filterToEdit)
             navigationController?.pushViewController(singleFilterVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: false)
+        case .deletePlaylist:
+            showAlert()
+
+            tableView.deselectRow(at: indexPath, animated: true)
         default:
             tableView.deselectRow(at: indexPath, animated: false)
             return
@@ -248,6 +264,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         data.append([.siriShortcut])
 
+        if Self.playlistRebrandingIsEnabled {
+            data.append([.deletePlaylist])
+        }
+
         return data
     }
 
@@ -270,5 +290,27 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
                 self.tableView.reloadData()
             }
         })
+    }
+
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: L10n.playlistsDeleteAlertTitle,
+            message: L10n.playlistsDeleteAlertMessage,
+            preferredStyle: .alert
+        )
+        let deleteAction = UIAlertAction(
+            title: L10n.delete,
+            style: .destructive
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            PlaylistManager.delete(playlist: self.filterToEdit, fireEvent: true)
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        alert.addAction(deleteAction)
+
+        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true, completion: nil)
     }
 }
