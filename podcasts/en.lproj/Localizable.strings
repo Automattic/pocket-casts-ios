@@ -5477,6 +5477,9 @@
 /* Message shown when you have no episodes in a playlist */
 "playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
 
+/* Playlist detail description when the playlist has one single episode. %1$@ represent the total time. */
+"playlist_detail_description_one_episode" = "1 episode • %1$@";
+
 /* Playlist detail description. %1$@ represent the number of total episodes. %2$@ represents the total time. */
 "playlist_detail_description" = "%1$@ episodes • %2$@";
 

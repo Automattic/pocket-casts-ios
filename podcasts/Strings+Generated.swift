@@ -2322,6 +2322,10 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Playlist detail description when the playlist has one single episode. %1$@ represent the total time.
+  internal static func playlistDetailDescriptionOneEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_detail_description_one_episode", String(describing: p1), fallback: "1 episode • %1$@")
+  }
   /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
   internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
