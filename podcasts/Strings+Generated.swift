@@ -2403,6 +2403,10 @@ internal enum L10n {
   internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
   /// Playlists Onboarding screen: title for the smart playlist card
   internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
+  /// The description shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropDescription: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_description", fallback: "Press and hold a playlist to move it.") }
+  /// The title shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropTitle: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_title", fallback: "Reorder your playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.

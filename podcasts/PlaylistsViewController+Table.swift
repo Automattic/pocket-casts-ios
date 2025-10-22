@@ -164,10 +164,10 @@ extension PlaylistsViewController {
             return
         }
 
-        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
+//        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
             return
-        }
+//        }
     }
 
     private func filtersTip() -> UIHostingController<AnyView>? {
@@ -195,8 +195,8 @@ extension PlaylistsViewController {
             !playlists.isEmpty
         else { return }
         let tip = tip(
-            title: "Reorder your playlists",
-            message: "Press and hold a playlist to move it.",
+            title: L10n.playlistsTipDragAndDropTitle,
+            message: L10n.playlistsTipDragAndDropDescription,
             sourceView: filtersTable,
             sourceRect: filtersTable.rectForRow(at: indexPath)
         )
