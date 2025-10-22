@@ -202,6 +202,10 @@ class PlaylistPreviewViewController: PCViewController {
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)
 
+        if !Settings.shouldShowDragAndDropTip {
+            Settings.shouldShowDragAndDropTip = true
+        }
+
         Analytics.track(.filterCreated, properties: [
             "all_podcasts": viewModel.newPlaylist.filterAllPodcasts,
             "media_type": AudioVideoFilter(rawValue: viewModel.newPlaylist.filterAudioVideoType) ?? .all,

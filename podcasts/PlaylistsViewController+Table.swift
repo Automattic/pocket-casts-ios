@@ -152,18 +152,22 @@ extension PlaylistsViewController {
     }
 
     private func dismissTipView() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) { [weak self] in
+            self?.newFilterTip = nil
+        }
         Analytics.track(.filterTooltipClosed)
     }
 
-    func showNewFilterTipIfNeeded() {
-        guard
-            Settings.shouldShowNewFilterTip,
-            newFilterTip == nil
-        else {
+    func showPlaylistsTipIfNeeded() {
+        if Settings.shouldShowNewFilterTip, newFilterTip == nil {
+            showNewFilterTip()
             return
         }
-        showNewFilterTip()
+
+        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
+            presentPlaylistsDragAndDropTip()
+            return
+        }
     }
 
     private func filtersTip() -> UIHostingController<AnyView>? {
@@ -183,6 +187,25 @@ extension PlaylistsViewController {
             sourceView: filtersTable,
             sourceRect: filtersTable.rectForRow(at: indexPath)
         )
+    }
+
+    private func presentPlaylistsDragAndDropTip() {
+        guard
+            let indexPath = filtersTable.indexPathsForVisibleRows?.first,
+            !playlists.isEmpty
+        else { return }
+        let tip = tip(
+            title: "Reorder your playlists",
+            message: "Press and hold a playlist to move it.",
+            sourceView: filtersTable,
+            sourceRect: filtersTable.rectForRow(at: indexPath)
+        )
+        guard let tip = tip else { return }
+        newFilterTip = tip
+
+        //TODO: Add analytics
+
+        present(tip, animated: true)
     }
 
     private func tip(

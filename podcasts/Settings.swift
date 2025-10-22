@@ -1494,7 +1494,7 @@ class Settings: NSObject {
         }
     }
 
-    // MARK: - New Filter Tip
+    // MARK: - Playlists
 
     static var shouldShowNewFilterTip: Bool {
         get {
@@ -1505,7 +1505,14 @@ class Settings: NSObject {
         }
     }
 
-    // MARK: - New Filter Tip
+    static var shouldShowDragAndDropTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.playlistDragAndDropTip) as? Bool ?? false
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.playlistDragAndDropTip)
+        }
+    }
 
     static var shouldShowPlaylistsOnboarding: Bool {
         get {
