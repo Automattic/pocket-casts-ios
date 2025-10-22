@@ -94,6 +94,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     private var episode: BaseEpisode?
 
+    private var isSelectableForMultiSelect: Bool {
+        !(episode?.wasDeleted ?? false)
+    }
+
     // MARK: - Setup
 
     override func awakeFromNib() {
@@ -302,6 +306,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             actionButton.isHidden = false
             actionButton.populateFrom(episode: episode)
         }
+
+        updateMultiSelectAppearance()
 
         isAccessibilityElement = true
         accessibilityLabel = labelForAccessibility(episode: episode)
@@ -521,19 +527,32 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var shouldShowSelect = false {
         didSet {
-            selectView.isHidden = !shouldShowSelect
-            actionButton.isHidden = shouldShowSelect
+            updateMultiSelectAppearance()
         }
     }
 
     var showTick = false {
         didSet {
+            guard isSelectableForMultiSelect else {
+                selectTickImageView.isHidden = true
+                selectCircleView.layer.borderWidth = 2
+                return
+            }
+
             selectTickImageView.isHidden = !showTick
             selectCircleView.layer.borderWidth = showTick ? 0 : 2
             selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
             accessibilityLabel = labelForAccessibility(episode: episode)
             style = showTick ? .primaryUi02Selected : .primaryUi02
             updateColor()
+        }
+    }
+
+    private func updateMultiSelectAppearance() {
+        let isSelectable = isSelectableForMultiSelect
+        selectView.isHidden = !shouldShowSelect || !isSelectable
+        if isSelectable {
+            actionButton.isHidden = shouldShowSelect
         }
     }
 
