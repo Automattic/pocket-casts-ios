@@ -536,7 +536,7 @@ extension AppDelegate {
     }
 
     private func setupTestFlightIAPRoutes() {
-        if BuildEnvironment.current == .appStore {
+        if BuildEnvironment.current != .testFlight {
             return
         }
         JLRoutes.global().addRoute("/iap/:enabled") {[weak self] parameters -> Bool in
