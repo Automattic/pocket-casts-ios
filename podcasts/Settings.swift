@@ -1516,6 +1516,10 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - New Filter Tip
+
+    static var shouldEnableIAPInTestFlightBuilds: Bool = false
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {
