@@ -217,11 +217,16 @@ extension PlaylistDetailViewController: UITableViewDelegate {
 
             if selectedEpisode.wasDeleted {
                 let episodeUuid = selectedEpisode.uuid
-                let viewController = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
+                let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
                     guard let self else { return }
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
-                present(viewController, animated: true)
+                BottomSheetSwiftUIWrapper.present(
+                    view.environmentObject(Theme.sharedTheme),
+                    autoSize: true,
+                    showingGrabber: true,
+                    in: self
+                )
                 return
             }
 
