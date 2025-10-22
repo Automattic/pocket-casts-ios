@@ -1,6 +1,7 @@
 import CarPlay
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 // MARK: - Podcasts
 extension CarPlaySceneDelegate {
@@ -68,7 +69,8 @@ extension CarPlaySceneDelegate {
     }
 
     func createFiltersTab() -> CPListTemplate {
-        return CarPlayListData.template(title: L10n.filters, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
+        let title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
+        return CarPlayListData.template(title: title, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
             guard let self else { return nil }
             return self.filterTabSections
         }
