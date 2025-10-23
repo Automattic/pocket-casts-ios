@@ -458,6 +458,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        guard playlistsRebrandingEnabled else {
+            return
+        }
+
         let keyBoardHeight = isSearching ? keyBoardHeight - 110 : 0
         podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
         podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
