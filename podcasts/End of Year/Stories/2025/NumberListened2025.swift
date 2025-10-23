@@ -21,17 +21,21 @@ class StepCounter: ObservableObject {
 
 struct NumberListened2025: ShareableStory {
 
+    static let speed: Double = 1
+
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: EndOfYear.defaultDuration)
 
-    @StateObject private var stepCounter: StepCounter = .init(interval: 2)
+    @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
 
     let listenedNumbers: ListenedNumbers
     let podcasts: [Podcast]
 
     @State var progress = CGFloat(0)
+
+    @State var zChange: Double = 0
 
     private let foregroundColor = Color.white
     private let backgroundColor = Color.endOfYear2025Background
@@ -75,30 +79,46 @@ struct NumberListened2025: ShareableStory {
         return indices
     }
 
+    func calculateDimensions(for index: Int) -> (CGFloat, CGFloat, Double, CGFloat) {
+        let shift: CGFloat = CGFloat(index - 3)
+        let direction: CGFloat = shift <= 0 ? -1 : 1
+        let size: CGFloat = CGFloat(260.0) - CGFloat(abs(shift) * CGFloat(20.0))
+        let offset: CGFloat = CGFloat(shift * 30)
+        let zOffset: Double = Double(CGFloat(itemsCount) - abs(shift))
+        return (size, offset, zOffset, direction)
+    }
+
     @ViewBuilder var podcastsAnimation: some View {
         ZStack() {
             ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
-                let shift = index - 3
-                let size = 260 - CGFloat(abs(shift) * 30)
-                let offset = CGFloat(shift * 30)
-                podcastCover(pos, shadow: false)
-                    .frame(width: size * (1.0 - (0.1 * progress)), height: size * (1.0 - (0.1 * progress)))
-                    .offset(x: 0, y: offset - (5.0 * progress))
-                    .zIndex(Double(itemsCount - abs(shift)))                    
+                let result = calculateDimensions(for: index)
+                podcastCover(pos, shadow: true)
+                    .frame(width: result.0 + (20.0 * result.3 * progress), height: result.0 + (20.0 * result.3 * progress))
+                    .offset(x: 0, y: result.1 - (10.0 * progress))
+                    .zIndex(result.2 + (index == 4 ? zChange : 0))
             }
         }
-        .frame(width: 320, height: 320)
-        .background(.red)
+        .frame(width: 340, height: 340)
         .onAppear {
             if animated {
                 animationViewModel.play()
+                startCoverAnimation()
             }
         }
         .onChange(of: stepCounter.counter) { value in
-            progress = 0
-            withAnimation {
-                progress = 1
-            }
+            startCoverAnimation()
+        }
+    }
+
+    func startCoverAnimation() {
+        progress = 0
+        zChange = 0
+        withAnimation(.bouncy(duration: Self.speed)) {
+            progress = 1
+        }
+        // ZIndex changes cannot be animated so we are using this dispach to cause a change of Z index at the middle of the animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.speed / 2.0) {
+            zChange = 2
         }
     }
 
