@@ -54,6 +54,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private var loadingIndicator: ThemeLoadingIndicator! {
         didSet {
+            loadingIndicator.hidesWhenStopped = true
             view.addSubview(loadingIndicator)
             loadingIndicator.center = view.center
         }
@@ -157,7 +158,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             guard let self else { return }
             switch buttonTag {
             case .playAll:
-                PlaybackManager.shared.play(filter: self.viewModel.playlist)
+                self.playAll()
             case .smartRules:
                 self.editPlaylist()
             case .addEpisodes:
@@ -179,6 +180,10 @@ class PlaylistDetailViewController: FakeNavViewController {
         setupContent()
         setupNavigation()
         setupRefreshControl()
+
+        if viewModel.firstTimeLoading {
+            loadingIndicator.startAnimating()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -358,17 +363,19 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
         refreshControl?.endRefreshing()
+        loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
-            tableView.reload(using: data, with: .none) { [weak self] newData in
+            tableView.reload(using: data, with: .fade) { [weak self] newData in
                 self?.viewModel.update(data: newData)
             }
         } else {
-            if let data = data.last?.data, contentChanged {
+            if let data = data.last?.data {
                 viewModel.update(data: data)
             }
             tableView.reloadData()
         }
+        blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
     }
@@ -378,9 +385,6 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        if viewModel.firstTimeLoading {
-            loadingIndicator.startAnimating()
-        }
         reloadNavTitle()
         viewModel.reloadPlaylistAndEpisodes()
     }

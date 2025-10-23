@@ -65,4 +65,6 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
             ]
         )
     }
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
 }

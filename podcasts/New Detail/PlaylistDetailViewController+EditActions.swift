@@ -9,6 +9,20 @@ extension PlaylistDetailViewController {
         case queueAll
     }
 
+    func playAll() {
+        if viewModel.episodes.isEmpty {
+            Toast.show(L10n.playlistManualPlayAllEmptyList)
+            return
+        }
+
+        Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
+        let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), viewModel.episodes.count)
+        OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: { [weak self] in
+            guard let self else { return }
+            PlaybackManager.shared.play(playlist: self.viewModel.playlist)
+        })
+    }
+
     @objc func moreTapped() {
         Analytics.track(.filterOptionsButtonTapped)
 
@@ -222,11 +236,13 @@ extension PlaylistDetailViewController {
     }
 
     private func archiveAllPlaylistEpisodes() {
-        //PCIOS-118
+        let episodes = viewModel.episodes.map { $0.episode }
+        EpisodeManager.bulkArchive(episodes: episodes, updateSyncFlag: true)
     }
 
     private func unarchiveAllPlaylistEpisodes() {
-        //PCIOS-118
+        let episodes = viewModel.episodes.map { $0.episode }
+        EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
     // MARK: - Edit

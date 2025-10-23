@@ -70,4 +70,6 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
             ]
         )
     }
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
 }

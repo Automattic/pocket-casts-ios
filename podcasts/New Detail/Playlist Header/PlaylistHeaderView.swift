@@ -4,6 +4,13 @@ struct PlaylistHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
+    var description: String {
+        if viewModel.playlistEpisodesCount > 1 {
+            return L10n.playlistDetailDescription(viewModel.playlistEpisodesCount, viewModel.totalDuration())
+        }
+        return L10n.playlistDetailDescriptionOneEpisode(viewModel.totalDuration())
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             VStack {
@@ -22,7 +29,7 @@ struct PlaylistHeaderView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
-                    Text(L10n.playlistDetailDescription(viewModel.episodesCount, viewModel.totalDuration()))
+                    Text(description)
                         .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.secondaryText02)

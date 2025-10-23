@@ -8,12 +8,14 @@ class PlaylistDetailViewModel: ObservableObject {
 
     enum Section: String, ContentEquatable, ContentIdentifiable {
         case header
+        case archive
         case episodes
 
-        func isContentEqual(to source: PlaylistDetailViewModel.Section) -> Bool {
+        func isContentEqual(to source: Section) -> Bool {
             self == source
         }
     }
+
     enum ButtonTag {
         case smartRules
         case addEpisodes
@@ -21,9 +23,11 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     let onButtonTapped: (ButtonTag) -> Void
+    let dataManager: DataManager
 
     var episodes: [ListEpisode] {
-        dataSource[safe: 1]?.elements as? [ListEpisode] ?? []
+        let index = index(for: .episodes)
+        return dataSource[safe: index]?.elements as? [ListEpisode] ?? []
     }
 
     var isManualPlaylist: Bool {
@@ -34,18 +38,22 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.podcastCount() > 0
     }
 
+    var numberOfSection: Int {
+        isManualPlaylist ? 3 : 2
+    }
+
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
-    @Published var episodesCount: Int = 0
+    @Published var playlistEpisodesCount: Int = 0
     @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter!
     private(set) var isSearching = false
     private(set) var firstTimeLoading = true
+    private(set) var archivedEpisodesCount: Int = 0
 
     private var searchTerm: String = ""
     private var isLoadingData: Bool = false
-    private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
@@ -82,10 +90,10 @@ class PlaylistDetailViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             do {
-                let count = await self.getEpisodesCount()
+                let count = await self.getPlaylistEpisodesCount()
                 if self.isSearching {
                     await MainActor.run {
-                        self.episodesCount = count
+                        self.playlistEpisodesCount = count
                         self.isLoadingData = false
                     }
                 } else {
@@ -93,7 +101,7 @@ class PlaylistDetailViewModel: ObservableObject {
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
-                        self.episodesCount = count
+                        self.playlistEpisodesCount = count
                         self.isLoadingData = false
                     }
                 }
@@ -134,9 +142,15 @@ class PlaylistDetailViewModel: ObservableObject {
         }
         operationQueue.cancelAllOperations()
 
-        let refreshOperation = PlaylistRefreshOperation(playlist: playlist) { [weak self] newData in
+        let refreshOperation = PlaylistDetailFetchOperation(
+            dataManager: dataManager,
+            episodesDataManager: episodesDataManager,
+            playlist: playlist,
+            shouldShowArchived: playlist.showArchivedEpisodes
+        ) { [weak self] newData, archivedEpisodeCount in
             guard let self else { return }
             DispatchQueue.main.async {
+                self.archivedEpisodesCount = archivedEpisodeCount
                 if self.firstTimeLoading {
                     self.firstTimeLoading.toggle()
                 }
@@ -152,12 +166,17 @@ class PlaylistDetailViewModel: ObservableObject {
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
     }
 
-    func unarchivedEpisodesCount() -> Int {
-        return 1 // TODO: query playlist unarchived episodes
-    }
-
     func delete(episodes uuids: [String]) {
         dataManager.deleteEpisodes(uuids, from: playlist)
+    }
+
+    func remove(episode uuid: String, at index: Int) {
+        var newData = episodes
+        newData.remove(at: index)
+        let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
+        onChange(changeSetTuple.1, true, changeSetTuple.0)
+
+        delete(episodes: [uuid])
     }
 
     func move(episode: ListEpisode, toIndex index: Int) {
@@ -169,6 +188,17 @@ class PlaylistDetailViewModel: ObservableObject {
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.sortType = type.rawValue
         dataManager.save(playlist: playlist)
+    }
+
+    func index(for section: Section) -> Int {
+        switch section {
+        case .header:
+            return 0
+        case .archive:
+            return 1
+        case .episodes:
+            return isManualPlaylist ? 2 : 1
+        }
     }
 
     private func buildChangeSet(
@@ -185,11 +215,32 @@ class PlaylistDetailViewModel: ObservableObject {
                 PlaylistHeaderViewCellPlaceholder()
             ])
         )
-        if newData.isEmpty {
+        if isManualPlaylist {
+            finalData.append(ArraySection(
+                model: .archive,
+                elements: [
+                    PlaylistArchiveViewCellPlaceholder(
+                        archived: archivedEpisodesCount,
+                        showArchived: shouldShowArchived
+                    )
+                ])
+            )
+        }
+        if newData.isEmpty, isSearching {
             finalData.append(ArraySection(
                 model: .episodes,
                 elements: [
                     NoSearchResultsPlaceholder()
+                ])
+            )
+        } else if newData.isEmpty, !shouldShowArchived {
+            finalData.append(ArraySection(
+                model: .episodes,
+                elements: [
+                    AllArchivedPlaceholder(
+                        archived: archivedEpisodesCount,
+                        message: archivedEpisodesCount == 1 ? L10n.playlistManualArchivedEpisodePlaceholder : L10n.playlistManualArchivedEpisodesPlaceholder(archivedEpisodesCount)
+                    )
                 ])
             )
         } else {
@@ -230,11 +281,11 @@ class PlaylistDetailViewModel: ObservableObject {
         }
     }
 
-    private func getEpisodesCount() async -> Int {
+    private func getPlaylistEpisodesCount() async -> Int {
         let playlist = self.playlist!
         let dataManager = self.dataManager
         return await Task.detached(priority: .userInitiated) {
-            dataManager.playlistEpisodeCount(
+            dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
@@ -260,17 +311,21 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        dataSource[1] = ArraySection(
+        let index = index(for: .episodes)
+        dataSource[index] = ArraySection(
             model: .episodes,
-            elements: tempEpisodes)
+            elements: tempEpisodes
+        )
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        dataSource[1] = ArraySection(
+        let index = index(for: .episodes)
+        dataSource[index] = ArraySection(
             model: .episodes,
-            elements: tempEpisodes)
+            elements: tempEpisodes
+        )
         tempEpisodes.removeAll()
 
         reloadPlaylistAndEpisodes()
@@ -290,7 +345,7 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, search: escapedSearch)
+        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)

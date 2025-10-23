@@ -670,12 +670,23 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
     }
 
-    func play(filter: EpisodeFilter) {
-        let playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit()), arguments: nil)
+    func play(playlist: EpisodeFilter) {
+        let playlistEpisodes: [Episode]
+        if FeatureFlag.playlistsRebranding.enabled {
+            let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
+            playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+            if playlist.manual {
+                let archivedEpisodes = playlistEpisodes.filter(\.archived)
+                EpisodeManager.bulkUnarchive(episodes: archivedEpisodes)
+            }
+        } else {
+            let query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit())
+            playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
         populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
-        uuidOfPlayingList = filter.uuid
+        uuidOfPlayingList = playlist.uuid
     }
 
     func internalPlayerForVideoPlayback() -> AVPlayer? {

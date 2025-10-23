@@ -31,9 +31,11 @@ extension PlaylistDetailViewController {
 
         var config: UIContentConfiguration?
 
-        tableView.isHidden = viewModel.episodes.isEmpty
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.isHidden = self.viewModel.shouldShowEmptyPlaceholder
+        }
 
-        if viewModel.episodes.isEmpty {
+        if viewModel.shouldShowEmptyPlaceholder {
             // Empty State when playlists is empty
             config = ContentUnavailableConfiguration.emptyState(
                 title: emptyStateTitle,

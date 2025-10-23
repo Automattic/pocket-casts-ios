@@ -57,4 +57,6 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
             ]
         )
     }
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }
 }
