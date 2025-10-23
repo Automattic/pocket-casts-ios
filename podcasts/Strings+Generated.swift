@@ -2342,7 +2342,7 @@ internal enum L10n {
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
-  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added
@@ -2403,6 +2403,8 @@ internal enum L10n {
   internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
   /// Playlists Onboarding screen: title for the smart playlist card
   internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
+  /// Playlist Play all button
+  internal static var playlistsPlayAll: String { return L10n.tr("Localizable", "playlists_play_all", fallback: "Play all") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.

@@ -5393,6 +5393,9 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* Playlist Play all button */
+"playlists_play_all" = "Play all";
+
 /* A common string used throughout the app. Often refers to the Smart Playlist. */
 "smart_playlist" = "Smart Playlist";
 
@@ -5502,7 +5505,7 @@
 "playlist_manual_empty_state_subtitle_no_podcasts" = "Swipe left on an episode to add it your playlist.";
 
 /* Manual Playlist: title when no episodes are added and there are nosubscribed podcasts */
-"playlist_manual_browse_shows_title" = "Browse Shows";
+"playlist_manual_browse_shows_title" = "Browse podcasts";
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
 "playlist_manual_episodes_order_option" = "Reorder Episodes";

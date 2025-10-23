@@ -46,7 +46,7 @@ struct PlaylistHeaderView: View {
                         type: .playAll,
                         color: theme.primaryUi02,
                         image: Image("filter_play"),
-                        title: L10n.playAll,
+                        title: L10n.playlistsPlayAll,
                         background: theme.primaryText01) { type in
                             viewModel.onButtonTapped(type)
                     }
