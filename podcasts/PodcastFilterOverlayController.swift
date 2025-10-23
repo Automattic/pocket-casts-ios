@@ -16,6 +16,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     let podcastsSmartRuleHeaderCellId = "PodcastsSmartRuleHeaderCellId"
     var saveButton: UIButton!
 
+    private var keyBoardHeight: CGFloat = .zero
     private var tempPodcasts: [Podcast] = []
     private var isSearching = false
     private var searchController: PCSearchBarController?
@@ -73,6 +74,8 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
             podcastTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
             podcastTable.backgroundColor = AppTheme.viewBackgroundColor()
+            addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
+            addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
         }
         podcastTable.sectionHeaderTopPadding = 0
 
@@ -450,6 +453,35 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let keyBoardHeight = isSearching ? keyBoardHeight - 110 : 0
+        podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
+        podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: true)
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    private func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        keyBoardHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
+
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 
