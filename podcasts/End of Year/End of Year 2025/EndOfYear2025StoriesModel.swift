@@ -159,10 +159,20 @@ class EndOfYear2025StoriesModel: StoryModel {
     }
 
     @ViewBuilder func shareView() -> some View {
-        Button(L10n.eoyShare) {
+        Button(action: {
             StoriesController.shared.share()
-        }
-        .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+        }, label: {
+            HStack(alignment: .center, spacing: 8) {
+                Image("podcast-share")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.white)
+            }
+            .padding(0)
+            .frame(width: 34, height: 34, alignment: .center)
+            .background(.black.opacity(0.44))
+            .cornerRadius(90)
+        })
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
     }
