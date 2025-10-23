@@ -64,4 +64,9 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
             ]
         )
     }
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) {
+        viewModel.delete(episodes: [episode.uuid])
+        viewModel.reloadEpisodeList()
+    }
 }

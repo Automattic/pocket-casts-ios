@@ -2325,6 +2325,10 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Playlist detail description when the playlist has one single episode. %1$@ represent the total time.
+  internal static func playlistDetailDescriptionOneEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_detail_description_one_episode", String(describing: p1), fallback: "1 episode • %1$@")
+  }
   /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
   internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
@@ -2341,8 +2345,14 @@ internal enum L10n {
   internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "Playlist is full. Try creating a new one") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
+  /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
+  internal static var playlistManualArchivedEpisodePlaceholder: String { return L10n.tr("Localizable", "playlist_manual_archived_episode_placeholder", fallback: "Your episode in this playlist has been archived") }
+  /// Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes
+  internal static func playlistManualArchivedEpisodesPlaceholder(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_manual_archived_episodes_placeholder", String(describing: p1), fallback: "All %1$@ episodes of this playlist have been archived")
+  }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
-  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added
@@ -2353,6 +2363,8 @@ internal enum L10n {
   internal static var playlistManualEpisodeAddToPlaylist: String { return L10n.tr("Localizable", "playlist_manual_episode_add_to_playlist", fallback: "Add to playlist") }
   /// Manual Playlist: manual episodes order option that appears when showing the options sheet
   internal static var playlistManualEpisodesOrderOption: String { return L10n.tr("Localizable", "playlist_manual_episodes_order_option", fallback: "Reorder Episodes") }
+  /// Toast message displayed when a user tries to play all archived episodes in a manual playlist
+  internal static var playlistManualPlayAllEmptyList: String { return L10n.tr("Localizable", "playlist_manual_play_all_empty_list", fallback: "All episodes archived. Add or unarchive to play.") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Button title used to create a new smart playlist
@@ -2409,6 +2421,8 @@ internal enum L10n {
   internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
   /// Playlists Onboarding screen: title for the smart playlist card
   internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
+  /// Playlist Play all button
+  internal static var playlistsPlayAll: String { return L10n.tr("Localizable", "playlists_play_all", fallback: "Play all") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.
@@ -3487,12 +3501,16 @@ internal enum L10n {
   internal static var settingsSelectFilterSingular: String { return L10n.tr("Localizable", "settings_select_filter_singular", fallback: "Select Filter") }
   /// Prompt to select filters
   internal static var settingsSelectFiltersPlural: String { return L10n.tr("Localizable", "settings_select_filters_plural", fallback: "Select Filters") }
+  /// Prompt to select a playlist
+  internal static var settingsSelectPlaylistSingular: String { return L10n.tr("Localizable", "settings_select_playlist_singular", fallback: "Select Playlist") }
   /// Prompt to select playlists
   internal static var settingsSelectPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_playlists_plural", fallback: "Select Playlists") }
   /// Prompt to select smart playlists
   internal static var settingsSelectSmartPlaylistsPlural: String { return L10n.tr("Localizable", "settings_select_smart_playlists_plural", fallback: "Select Smart Playlists") }
   /// Option for the filter Siri Shortcut. This sets the app to open the filter when the shortcut is triggered.
   internal static var settingsShortcutsFilterOpenFilter: String { return L10n.tr("Localizable", "settings_shortcuts_filter_open_filter", fallback: "Open Filter") }
+  /// Option for the filter Siri Shortcut. This sets the app to open the playlist when the shortcut is triggered.
+  internal static var settingsShortcutsFilterOpenPlaylist: String { return L10n.tr("Localizable", "settings_shortcuts_filter_open_playlist", fallback: "Open Playlist") }
   /// Option for the filter Siri Shortcut. This sets the filter to play all episodes in the filter when the shortcut is triggered.
   internal static var settingsShortcutsFilterPlayAllEpisodes: String { return L10n.tr("Localizable", "settings_shortcuts_filter_play_all_episodes", fallback: "Play all episodes") }
   /// Option for the filter Siri Shortcut. This sets the filter to play the top episode in the filter when the shortcut is triggered.
@@ -3511,6 +3529,8 @@ internal enum L10n {
   internal static var settingsSiriShortcutsEnabled: String { return L10n.tr("Localizable", "settings_siri_shortcuts_enabled", fallback: "Enabled shortcuts") }
   /// Option to create a Siri Shortcut to a specific filter.
   internal static var settingsSiriShortcutsSpecificFilter: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_filter", fallback: "Shortcut to a specific filter") }
+  /// Option to create a Siri Shortcut to a specific playlist.
+  internal static var settingsSiriShortcutsSpecificPlaylist: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_playlist", fallback: "Shortcut to a specific playlist") }
   /// Option to create a Siri Shortcut to a specific podcast.
   internal static var settingsSiriShortcutsSpecificPodcast: String { return L10n.tr("Localizable", "settings_siri_shortcuts_specific_podcast", fallback: "Shortcut to a specific podcast") }
   /// Prompt to open the configurable options to have the podcast skip an initial portion of the selected podcast.

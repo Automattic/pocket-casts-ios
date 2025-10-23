@@ -27,10 +27,11 @@ struct PlaylistArtworkView: View {
                 Rectangle()
                     .foregroundColor(theme.primaryUi05)
                 if items.isEmpty {
-                    Image("playlists_tab")
+                    Image("playlist_list_icon")
+                        .resizable()
                         .renderingMode(.template)
                         .foregroundColor(theme.primaryIcon03)
-                        .frame(width: size.width, height: size.height)
+                        .frame(width: size.width * 0.4, height: size.height * 0.4)
                 } else {
                     switch items.count {
                     case 4:

@@ -1,19 +1,23 @@
 import Foundation
 import PocketCastsDataModel
-import PocketCastsUtils
 
-class PlaylistRefreshOperation: Operation {
+class PlaylistDetailFetchOperation: Operation {
+    typealias CompletionHandler = ([ListEpisode], Int) -> Void
+
     private let episodesDataManager: EpisodesDataManager
+    private let dataManager: DataManager
     private let playlist: EpisodeFilter
-    private let completion: ([ListEpisode]) -> Void
+    private let completion: CompletionHandler
     private let shouldShowArchived: Bool
 
     init(
+        dataManager: DataManager = .sharedManager,
         episodesDataManager: EpisodesDataManager = .init(),
         playlist: EpisodeFilter,
         shouldShowArchived: Bool = false,
-        completion: @escaping (([ListEpisode]) -> Void)
+        completion: @escaping CompletionHandler
     ) {
+        self.dataManager = dataManager
         self.episodesDataManager = episodesDataManager
         self.playlist = playlist
         self.shouldShowArchived = shouldShowArchived
@@ -26,17 +30,17 @@ class PlaylistRefreshOperation: Operation {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let newData: [ListEpisode]
-            if FeatureFlag.playlistsRebranding.enabled {
-                newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
-            } else {
-                newData = episodesDataManager.episodes(for: playlist)
-            }
+            let newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
+
+            let archivedEpisodesCount = dataManager.playlistEpisodeCount(
+                for: playlist,
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
+                shouldShowArchived: true
+            )
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }
-
-                strongSelf.completion(newData)
+                strongSelf.completion(newData, archivedEpisodesCount)
             }
         }
     }

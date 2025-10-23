@@ -190,7 +190,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             options.show(statusBarStyle: preferredStatusBarStyle)
         case .siriShortcut:
             isViewingShortcuts = true
-            let singleFilterVC = FilterShortcutsViewController(filter: filterToEdit)
+            let singleFilterVC = PlaylistShortcutsViewController(playlist: filterToEdit)
             navigationController?.pushViewController(singleFilterVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: false)
         case .deletePlaylist:

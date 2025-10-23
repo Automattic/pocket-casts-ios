@@ -56,4 +56,6 @@ extension PlaylistViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func addToManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { } // we don't support this one
+
+    func removeFromManualPlaylist(episode: PocketCastsDataModel.Episode, at: IndexPath) { }  // we don't support this one
 }

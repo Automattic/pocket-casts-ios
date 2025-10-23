@@ -7,6 +7,7 @@ class PlaylistCellViewModel: ObservableObject {
         case toggle
         case check
         case addNew
+        case plain
     }
 
     @Published var episodesCount: Int = 0
@@ -61,7 +62,7 @@ class PlaylistCellViewModel: ObservableObject {
         case .count, .check:
             loadCount()
             loadImages()
-        case .toggle:
+        case .toggle, .plain:
             loadImages()
         case .addNew:
             return
@@ -105,7 +106,7 @@ class PlaylistCellViewModel: ObservableObject {
     private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit) ?? []
+            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
         }.value
     }
 
@@ -143,7 +144,7 @@ class PlaylistCellViewModel: ObservableObject {
         let dataManager = self.dataManager
 
         return await Task.detached(priority: .userInitiated) {
-            dataManager.playlistEpisodeCount(
+            dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )

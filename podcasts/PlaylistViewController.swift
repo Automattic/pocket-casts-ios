@@ -332,7 +332,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
             let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
             OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: {
-                PlaybackManager.shared.play(filter: self.filter)
+                PlaybackManager.shared.play(playlist: self.filter)
             })
         }
 
