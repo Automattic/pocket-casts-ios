@@ -125,8 +125,10 @@ struct SearchResultCell: View {
                             }) {
                                 Image("plus-circle")
                                     .resizable()
+                                    .renderingMode(.template)
                             }
                             .frame(width: 32, height: 32)
+                            .foregroundColor(theme.primaryInteractive01)
                         }
                     } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
