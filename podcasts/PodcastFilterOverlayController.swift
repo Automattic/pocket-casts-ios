@@ -277,8 +277,14 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     @objc func selectAllSwitchValueChanged() {
         selectedUuids.removeAll()
         if switchIsOn {
-            for podcast in allPodcasts {
-                selectedUuids.append(podcast.uuid)
+            if playlistsRebrandingEnabled, isSearching {
+                for podcast in tempPodcasts {
+                    selectedUuids.append(podcast.uuid)
+                }
+            } else {
+                for podcast in allPodcasts {
+                    selectedUuids.append(podcast.uuid)
+                }
             }
         }
         Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": switchIsOn, "source": analyticsSource])
@@ -308,6 +314,13 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func didChangePodcasts(numberSelected: Int) {}
+
+    override func currentPodcastsSource() -> [Podcast] {
+        if playlistsRebrandingEnabled {
+            return isSearching ? tempPodcasts : allPodcasts
+        }
+        return allPodcasts
+    }
 
     // MARK: - TableView data source and delegate
 
