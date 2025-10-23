@@ -2403,6 +2403,12 @@ internal enum L10n {
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
   /// A placeholder title for a new playlist.
   internal static var playlistsDefaultNewPlaylist: String { return L10n.tr("Localizable", "playlists_default_new_playlist", fallback: "New Playlist") }
+  /// Option to delete the playlist. It appears in the edit panel from the playlist detail.
+  internal static var playlistsDelete: String { return L10n.tr("Localizable", "playlists_delete", fallback: "Delete Playlist") }
+  /// Alert message used when a user taps on the delete option to cancel a playlist
+  internal static var playlistsDeleteAlertMessage: String { return L10n.tr("Localizable", "playlists_delete_alert_message", fallback: "Are you sure you want to delete your playlist? There's no way to undo this.") }
+  /// Alert title used when a user taps on the delete option to cancel a playlist
+  internal static var playlistsDeleteAlertTitle: String { return L10n.tr("Localizable", "playlists_delete_alert_title", fallback: "Delete Playlist?") }
   /// Playlists Empty State: description for the empty state visible when no playlists are displayed
   internal static var playlistsEmptyStateDescription: String { return L10n.tr("Localizable", "playlists_empty_state_description", fallback: "Playlists let you organize episodes manually or automatically with Smart Rules.") }
   /// Playlists Empty State: title for the empty state visible when no playlists are displayed

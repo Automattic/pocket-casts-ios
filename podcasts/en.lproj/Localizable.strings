@@ -5402,6 +5402,15 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* Option to delete the playlist. It appears in the edit panel from the playlist detail. */
+"playlists_delete" = "Delete Playlist";
+
+/* Alert title used when a user taps on the delete option to cancel a playlist */
+"playlists_delete_alert_title" = "Delete Playlist?";
+
+/* Alert message used when a user taps on the delete option to cancel a playlist */
+"playlists_delete_alert_message" = "Are you sure you want to delete your playlist? There's no way to undo this.";
+
 /* Playlist Play all button */
 "playlists_play_all" = "Play all";
 
