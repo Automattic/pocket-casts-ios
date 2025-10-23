@@ -44,7 +44,7 @@ struct LocalSearchPodcastResultsView: View {
                 })
                 .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                 .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .listRowBackground(theme.primaryUi01)
             }
         }
         .listStyle(.plain)
@@ -59,7 +59,7 @@ struct LocalSearchPodcastResultsView: View {
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                 .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
                 .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .listRowBackground(theme.primaryUi01)
         }
     }
 
