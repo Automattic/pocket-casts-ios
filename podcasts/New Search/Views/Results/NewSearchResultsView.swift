@@ -37,9 +37,20 @@ struct NewSearchResultsView: View {
                     .tint(AppTheme.loadingActivityColor().color)
             } else if searchResults.noResults {
                 HStack(alignment: .center) {
-                    EmptyStateView(title: L10n.discoverNoPodcastsFound,
-                                   message: L10n.discoverNoPodcastsFoundMsg,
-                                   icon: { Image(systemName: "info.circle") })
+                    EmptyStateView(title: L10n.searchResultsEmptyTitle,
+                                   message: L10n.searchResultsEmptyMessage,
+                                   icon: { Image("search") },
+                                   actions: [.init(title: L10n.searchResultsEmptyAction,
+                                                   style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01),
+                                                   action: {
+                        guard let source = SceneHelper.rootViewController() else {
+                            assertionFailure("WARNING: Root View Controller not found so survey was not presented")
+                            FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
+                            return
+                        }
+                        EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
+                    })]
+                    )
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
