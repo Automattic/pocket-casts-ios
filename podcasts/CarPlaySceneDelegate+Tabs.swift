@@ -61,7 +61,8 @@ extension CarPlaySceneDelegate {
                     detail = L10n.smartPlaylist
                 }
             }
-            let item = CPListItem(text: filter.playlistName, detailText: detail, image: UIImage(named: filter.iconImageNameCarPlay()))
+            let image = FeatureFlag.playlistsRebranding.enabled ? filter.grid() : UIImage(named: filter.iconImageNameCarPlay())
+            let item = CPListItem(text: filter.playlistName, detailText: detail, image: image)
             item.accessoryType = .disclosureIndicator
             item.handler = { [weak self] _, completion in
                 self?.filterTapped(filter)

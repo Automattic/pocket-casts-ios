@@ -1,3 +1,6 @@
+#if canImport(UIKit)
+import UIKit
+#endif
 import Foundation
 import PocketCastsDataModel
 
@@ -62,6 +65,19 @@ extension EpisodeFilter {
 
             return name
         }
+    #endif
+
+    #if !os(watchOS) && !APPCLIP
+    @MainActor func grid() -> UIImage {
+        let episodes = DataManager.sharedManager.playlistEpisodes(for: self)
+
+        let items = PlaylistCellViewModel.gridArtworkItems(from: episodes, limit: 4) { $0.podcastUuid }
+
+        return PlaylistArtworkView(items: items, imageSize: 168)
+            .frame(width: 56.0, height: 56.0)
+            .environmentObject(Theme(previewTheme: .light)) //TODO: Change based on CarPlay theme
+            .snapshot()
+    }
     #endif
 
     class func imageForPlaylistIcon(icon: PlaylistIcon) -> UIImage? {
