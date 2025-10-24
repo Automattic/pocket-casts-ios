@@ -60,6 +60,9 @@ struct NewSearchResultsView: View {
                 VStack(spacing: 0) {
                     filterPicker
                     List {
+                        if displayMode != .episodes {
+                            localResults
+                        }
                         combinedList
                     }
                     .scrollDismissesKeyboard(.immediately)
@@ -85,9 +88,19 @@ struct NewSearchResultsView: View {
     }
 
     var filteredResults: [CombinedSearchResultType] {
+        let podcastsUuids = searchResults.podcasts.map({ result in
+            result.uuid
+        })
         switch displayMode {
             case .allResults:
-                    return searchResults.combinedResults
+                return searchResults.combinedResults.filter { result in
+                    switch result {
+                        case .podcast(let podcast):
+                            return !podcastsUuids.contains(podcast.uuid)
+                        default:
+                            return true
+                    }
+                }
             case .episodes:
                 return searchResults.combinedResults.filter { result in
                     if case .episode = result {
@@ -98,16 +111,16 @@ struct NewSearchResultsView: View {
                 }
             case .podcasts:
                 return searchResults.combinedResults.filter { result in
-                    if case .podcast = result {
-                        return true
+                    if case let .podcast(podcast) = result {
+                        return !podcastsUuids.contains(podcast.uuid)
                     } else {
                         return false
                     }
                 }
         }
     }
-    @ViewBuilder var combinedList: some View {
 
+    @ViewBuilder var combinedList: some View {
         ForEach(filteredResults, id: \.self) { result in
             switch result {
                 case .podcast(let podcast):
@@ -125,6 +138,16 @@ struct NewSearchResultsView: View {
                         }
             }
 
+        }
+    }
+
+    @ViewBuilder var localResults: some View {
+        ForEach(searchResults.podcasts, id: \.self) { localPodcast in
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                .listRowBackground(theme.primaryUi01)
+                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    return 0
+                }
         }
     }
 
