@@ -433,7 +433,7 @@ class SiriShortcutsManager: CustomObserver {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
-        PlaybackManager.shared.play(filter: filter)
+        PlaybackManager.shared.play(playlist: filter)
         return INPlayMediaIntentResponseCode.success
     }
 

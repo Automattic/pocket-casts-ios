@@ -95,7 +95,7 @@ class CustomSegmentedControl: UIControl {
     private func indexDidChange(previousValue: Int) {
         // if we animate this in a future version, we should be able to do it here
         updateColors()
-        updateAccessibilityTraits()
+        updateAccessibilityValue()
     }
 
     private func setup(actions: [SegmentedAction]) {
@@ -110,7 +110,7 @@ class CustomSegmentedControl: UIControl {
             let actionView = UIView()
             actionView.translatesAutoresizingMaskIntoConstraints = false
             actionView.accessibilityLabel = action.accessibilityLabel
-            actionView.isAccessibilityElement = true
+            actionView.isAccessibilityElement = false // Disable individual segment accessibility
             actionView.isUserInteractionEnabled = true
             addSubview(actionView)
 
@@ -171,17 +171,17 @@ class CustomSegmentedControl: UIControl {
         }
 
         updateColors()
-        updateAccessibilityTraits()
+        setupAccessibility()
     }
 
-    private func updateAccessibilityTraits() {
-        for (index, actionView) in actionViews.enumerated() {
-            if index == selectedIndex {
-                actionView.accessibilityTraits = [.button, .selected]
-            } else {
-                actionView.accessibilityTraits = [.button]
-            }
-        }
+    private func setupAccessibility() {
+        // Make the entire control accessible as one element
+        isAccessibilityElement = true
+        accessibilityTraits = .adjustable
+        updateAccessibilityValue()
+
+        // Ensure individual segments are not accessible
+        actionViews.forEach { $0.isAccessibilityElement = false }
     }
 
     private func updateColors() {
@@ -219,5 +219,46 @@ class CustomSegmentedControl: UIControl {
 
         selectedIndex = segmentTapped
         sendActions(for: .valueChanged)
+    }
+
+    // MARK: - Accessibility Support
+
+    private var actions: [SegmentedAction] = []
+
+    func setActionsWithAccessibility(_ actions: [SegmentedAction]) {
+        self.actions = actions
+        setActions(actions)
+        setupAccessibility()
+    }
+
+    private func updateAccessibilityValue() {
+        if selectedIndex < actions.count {
+            accessibilityValue = actions[selectedIndex].accessibilityLabel
+        }
+    }
+
+    override func accessibilityIncrement() {
+        let newIndex = min(selectedIndex + 1, actions.count - 1)
+        if newIndex != selectedIndex {
+            selectedIndex = newIndex
+            updateAccessibilityValue()
+            sendActions(for: .valueChanged)
+            UIAccessibility.post(notification: .announcement, argument: accessibilityValue)
+        }
+    }
+
+    override func accessibilityDecrement() {
+        let newIndex = max(selectedIndex - 1, 0)
+        if newIndex != selectedIndex {
+            selectedIndex = newIndex
+            updateAccessibilityValue()
+            sendActions(for: .valueChanged)
+            UIAccessibility.post(notification: .announcement, argument: accessibilityValue)
+        }
+    }
+
+    private func indexDidChangeAccessibility(previousValue: Int) {
+        updateColors()
+        updateAccessibilityValue()
     }
 }

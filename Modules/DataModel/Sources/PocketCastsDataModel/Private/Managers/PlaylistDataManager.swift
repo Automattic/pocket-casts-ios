@@ -25,7 +25,8 @@ class PlaylistDataManager {
         "filterDuration",
         "longerThan",
         "shorterThan",
-        "manual"
+        "manual",
+        "showArchivedEpisodes"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -70,11 +71,11 @@ class PlaylistDataManager {
         return count
     }
 
-    func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
+    func playlistEpisodeCount(clause: PlaylistQueryBuilder.SelectClause, playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool, dbQueue: PCDBQueue) -> Int {
         var count = 0
         dbQueue.read { db in
             do {
-                let query = PlaylistQueryBuilder.query(clause: .episodeCount, for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+                let query = PlaylistQueryBuilder.query(clause: clause, for: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived)
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -472,6 +473,7 @@ class PlaylistDataManager {
         playlist.longerThan = rs.int(forColumn: "longerThan")
         playlist.shorterThan = rs.int(forColumn: "shorterThan")
         playlist.manual = rs.bool(forColumn: "manual")
+        playlist.showArchivedEpisodes = rs.bool(forColumn: "showArchivedEpisodes")
 
         return playlist
     }
@@ -502,6 +504,7 @@ class PlaylistDataManager {
         values.append(playlist.longerThan)
         values.append(playlist.shorterThan)
         values.append(playlist.manual)
+        values.append(playlist.showArchivedEpisodes)
 
         if includeUuidForWhere {
             values.append(playlist.uuid)
