@@ -164,10 +164,10 @@ extension PlaylistsViewController {
             return
         }
 
-//        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
+        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
             return
-//        }
+        }
     }
 
     private func filtersTip() -> UIHostingController<AnyView>? {
