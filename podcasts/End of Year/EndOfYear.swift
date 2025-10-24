@@ -233,7 +233,7 @@ struct EndOfYear {
 extension EndOfYear {
     static var defaultDuration: TimeInterval {
         switch currentYear {
-        case .y2025: return 30.seconds
+        case .y2025: return 7.seconds
         case .y2024: return 10.seconds
         default: return 7.seconds
         }
