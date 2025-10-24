@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsUtils
 
 struct FilterEpisodeListView: View {
     private static let filterUUIDKey = "filterUUID"
@@ -31,7 +32,7 @@ struct FilterEpisodeListView: View {
                 EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .filter(uuid: viewModel.filter.uuid))
             }
         }
-        .navigationTitle(L10n.filters.prefixSourceUnicode)
+        .navigationTitle(FeatureFlag.playlistsRebranding.enabled ? L10n.playlists.prefixSourceUnicode : L10n.filters.prefixSourceUnicode)
         .onAppear {
             viewModel.loadFilterEpisodes()
         }
