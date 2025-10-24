@@ -60,16 +60,7 @@ struct NewSearchResultsView: View {
                 VStack(spacing: 0) {
                     filterPicker
                     List {
-                        if displayMode == .allResults || displayMode == .podcasts {
-                            Section {
-                                podcastList
-                            }
-                        }
-                        if displayMode == .allResults || displayMode == .episodes {
-                            Section {
-                                episodeList
-                            }
-                        }
+                        combinedList
                     }
                     .scrollDismissesKeyboard(.immediately)
                     .listStyle(.plain)
@@ -93,24 +84,24 @@ struct NewSearchResultsView: View {
         }
     }
 
-    @ViewBuilder var podcastList: some View {
-        ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
-            SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
-                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                    return 0
-                }
-        }
-    }
+    @ViewBuilder var combinedList: some View {
+        ForEach(searchResults.combinedResults, id: \.self) { result in
+            switch result {
+                case .podcast(let podcast):
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                        .listRowBackground(theme.primaryUi01)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+                case .episode(let episode):
+                    let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
+                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                        .listRowBackground(theme.primaryUi01)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+            }
 
-    @ViewBuilder var episodeList: some View {
-        ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-            let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-            SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
-                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                    return 0
-                }
         }
     }
 
