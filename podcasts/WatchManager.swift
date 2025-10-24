@@ -471,6 +471,10 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         var applicationDict = [String: Any]()
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion
+        let featureFlags: [String: Bool] = FeatureFlag.allCases.reduce(into: [:]) { dict, feature in
+            dict[feature.rawValue] = feature.enabled
+        }
+        applicationDict[WatchConstants.Keys.featureFlags] = featureFlags
 
         applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
         applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
