@@ -202,7 +202,7 @@ class PlaylistPreviewViewController: PCViewController {
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)
 
-        if !Settings.shouldShowDragAndDropTip {
+        if Settings.firstTimePlaylistCreated {
             Settings.shouldShowDragAndDropTip = true
         }
 

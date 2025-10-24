@@ -1523,6 +1523,15 @@ class Settings: NSObject {
         }
     }
 
+    static var firstTimePlaylistCreated: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.firstTimePlaylistCreated) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.firstTimePlaylistCreated)
+        }
+    }
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {

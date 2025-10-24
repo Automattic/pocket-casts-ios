@@ -196,7 +196,7 @@ class NewPlaylistViewController: PCViewController {
 
         //TODO: Add analytics for manual playlist creation
 
-        if !Settings.shouldShowDragAndDropTip {
+        if Settings.firstTimePlaylistCreated {
             Settings.shouldShowDragAndDropTip = true
         }
 

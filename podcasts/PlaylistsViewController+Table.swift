@@ -164,7 +164,9 @@ extension PlaylistsViewController {
             return
         }
 
-        if Settings.shouldShowDragAndDropTip, newFilterTip == nil {
+        if Settings.firstTimePlaylistCreated,
+           Settings.shouldShowDragAndDropTip,
+           newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
             return
         }
@@ -205,7 +207,10 @@ extension PlaylistsViewController {
 
         //TODO: Add analytics
 
-        present(tip, animated: true)
+        present(tip, animated: true) {
+            Settings.firstTimePlaylistCreated = false
+            Settings.shouldShowDragAndDropTip = false
+        }
     }
 
     private func tip(
