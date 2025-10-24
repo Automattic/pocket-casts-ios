@@ -84,8 +84,31 @@ struct NewSearchResultsView: View {
         }
     }
 
+    var filteredResults: [CombinedSearchResultType] {
+        switch displayMode {
+            case .allResults:
+                    return searchResults.combinedResults
+            case .episodes:
+                return searchResults.combinedResults.filter { result in
+                    if case .episode = result {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            case .podcasts:
+                return searchResults.combinedResults.filter { result in
+                    if case .podcast = result {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+        }
+    }
     @ViewBuilder var combinedList: some View {
-        ForEach(searchResults.combinedResults, id: \.self) { result in
+
+        ForEach(filteredResults, id: \.self) { result in
             switch result {
                 case .podcast(let podcast):
                     SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
