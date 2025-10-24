@@ -1,11 +1,13 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let episodeSearch = EpisodeSearchTask()
     private let predictiveSearch = PredictiveSearchTask()
+    private let combinedSearch = CombinedSearchTask()
 
     private let analyticsHelper: SearchAnalyticsHelper
 
@@ -22,6 +24,7 @@ class SearchResultsModel: ObservableObject {
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
     @Published var predictive: [PredictiveSearchResult] = []
+    @Published var combinedResults: [CombinedSearchResultType] = []
 
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
@@ -50,6 +53,7 @@ class SearchResultsModel: ObservableObject {
     func clearSearch() {
         podcasts = []
         episodes = []
+        combinedResults = []
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
@@ -81,6 +85,11 @@ class SearchResultsModel: ObservableObject {
 
     @MainActor
     func search(term: String) {
+        if FeatureFlag.searchImprovements.enabled {
+            combinedSearch(term: term)
+            return
+        }
+
         currentSearchTerm = term
         episodeSearchError = nil
         podcastSearchError = nil
@@ -119,6 +128,32 @@ class SearchResultsModel: ObservableObject {
             }
         } else {
             hideEpisodes = true
+        }
+
+        analyticsHelper.trackSearchPerformed()
+    }
+
+    @MainActor
+    func combinedSearch(term: String) {
+        currentSearchTerm = term
+        episodeSearchError = nil
+        podcastSearchError = nil
+
+        if !isShowingLocalResultsOnly {
+            clearSearch()
+        }
+
+        Task {
+            isSearchingForPodcasts = true
+            do {
+                let results = try await combinedSearch.search(term: term)
+                showCombinedResults(results)
+            } catch {
+                podcastSearchError = error
+                analyticsHelper.trackFailed(error)
+            }
+
+            isSearchingForPodcasts = false
         }
 
         analyticsHelper.trackSearchPerformed()
@@ -182,5 +217,10 @@ class SearchResultsModel: ObservableObject {
     private func show(predictiveResults: [PredictiveSearchResult]) {
         isShowingPredictiveSearch = true
         predictive = predictiveResults
+    }
+
+    private func showCombinedResults(_ results: [CombinedSearchResultType]) {
+        isShowingPredictiveSearch = false
+        combinedResults = results
     }
 }
