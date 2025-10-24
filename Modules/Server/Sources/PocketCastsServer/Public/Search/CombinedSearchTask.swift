@@ -27,7 +27,7 @@ public struct CombinedSearchResult: Decodable, Hashable {
                 }
                 return .podcast(podcast)
             case "episode":
-                let episode = EpisodeSearchResult(uuid: self.uuid, title: self.title, publishedDate: self.publishedDate ?? Date.now, podcastUuid: self.podcastUuid ?? "", podcastTitle: self.podcastTitle ?? "")
+                let episode = EpisodeSearchResult(uuid: self.uuid, title: self.title, publishedDate: self.publishedDate ?? Date.now, duration: duration, podcastUuid: self.podcastUuid ?? "", podcastTitle: self.podcastTitle ?? "")
                 return .episode(episode)
             default:
                 return nil
