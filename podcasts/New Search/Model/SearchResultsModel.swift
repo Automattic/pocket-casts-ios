@@ -47,7 +47,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty
+        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty && combinedResults.isEmpty
     }
 
     func clearSearch() {
