@@ -143,6 +143,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>
     <string>Nach der Wiedergabe</string>
+    <key>all_results</key>
+    <string>Alle Ergebnisse</string>
     <key>announcement_autoplay_description</key>
     <string>Wenn deine „Als Nächstes“-Warteschlange leer ist und du anfängst, eine Folge zu hören, spielt Autoplay weiter Folgen aus dieser Show oder Liste ab.</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Im Vergleich zu 2023 ist deine Audiozeit um ganze %1$@ gestiegen</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Im Vergleich zu 2023 ist deine Audiozeit um mehr als %1$@ gestiegen</string>
+    <key>playback_2025_feature_description</key>
+    <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Wiedergabeliste 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Meine Wiedergabeliste 2025 anzeigen</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle Podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wiedergabefehler</string>
     <key>player_user_episode_upload_error</key>
     <string>Fehler beim Upload</string>
+    <key>playlist_add_to_title</key>
+    <string>Zu „%@“ hinzufügen</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Keine der Folgen in deinen Podcasts entspricht diesen Regeln.
 
@@ -2037,6 +2047,14 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>In eine intelligente Wiedergabeliste umwandeln</string>
     <key>playlist_detail_description</key>
     <string>%1$@ Folgen • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 Folge zu „%@“ hinzugefügt</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ Folgen zu „%2$@“ hinzugefügt</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ Folgen</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Wiedergabeliste ist voll. Versuche, eine neue zu erstellen</string>
     <key>playlist_manual_add_episodes</key>
     <string>Folgen hinzufügen</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2047,6 +2065,8 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>Deine Wiedergabeliste erstellen</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Folgen zu deiner Wiedergabeliste hinzufügen</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Zur Wiedergabeliste hinzufügen</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Folgen neu anordnen</string>
     <key>playlist_options</key>
@@ -2055,6 +2075,8 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>Intelligente Wiedergabeliste erstellen</string>
     <key>playlist_preview_title</key>
     <string>Vorschau von %@ anzeigen</string>
+    <key>playlist_search</key>
+    <string>Wiedergabeliste suchen</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Jetzt kannst du entweder stolz darauf sein, deine Liste durchgehört zu haben, oder deine Regeln bearbeiten, um dir noch mehr Podcasts vorzuknöpfen.</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2197,8 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <string>Erstelle Ordner, um deine Podcast-Sammlung zu organisieren.</string>
     <key>plus_marketing_folders_title</key>
     <string>Ordner</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Generierte Transkripte</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Werbefreies Erlebnis – für mehr Inhalte, die du magst, und weniger Ablenkung</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2464,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Neue Folge</string>
     <key>podcasts_badges</key>
     <string>Kennzeichnung</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Drag-and-drop</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Lang nach kurz</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2691,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Lesezeichen speichern</string>
     <key>search</key>
     <string>Suche</string>
+    <key>search_bookmarks</key>
+    <string>Lesezeichen suchen</string>
+    <key>search_episodes</key>
+    <string>Folgen suchen</string>
     <key>search_label</key>
     <string>Podcasts suchen oder RSS-URL hinzufügen</string>
     <key>search_podcasts</key>
@@ -3609,6 +3639,8 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <string>Lang nach kurz</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kurz nach lang</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Deine Podcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Nicht wirklich</string>
     <key>user_satisfaction_survey_subtitle</key>

@@ -1532,6 +1532,10 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Debug IAP in TF builds
+
+    static var shouldEnableIAPInTestFlightBuilds: Bool = false
+
     // MARK: - Informational Banner
 #if !os(watchOS) && !APPCLIP
     static func dismissBanner(for type: InformationalBannerType) {
