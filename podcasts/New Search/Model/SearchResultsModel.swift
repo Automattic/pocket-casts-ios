@@ -65,7 +65,7 @@ class SearchResultsModel: ObservableObject {
         episodeSearchError = nil
         podcastSearchError = nil
 
-        guard !term.startsWith(string: "http:"), term.count > 1 else {
+        guard term.count > 1, !isTermAnURL(term) else {
             return
         }
 
@@ -83,9 +83,13 @@ class SearchResultsModel: ObservableObject {
         }
     }
 
+    private func isTermAnURL(_ term: String) -> Bool {
+        return term.lowercased().startsWith(string: "http://") || term.lowercased().startsWith(string: "https://")
+    }
+
     @MainActor
     func search(term: String) {
-        if FeatureFlag.searchImprovements.enabled {
+        if FeatureFlag.searchImprovements.enabled, !isTermAnURL(term) {
             combinedSearch(term: term)
             return
         }
@@ -111,7 +115,7 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = false
         }
 
-        if !term.startsWith(string: "http") {
+        if !isTermAnURL(term) {
             hideEpisodes = false
             Task {
                 isSearchingForEpisodes = true
