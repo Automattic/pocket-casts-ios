@@ -15,6 +15,7 @@ final class SettingsTests: XCTestCase {
                                                         .sleepTimer,
                                                         .routePicker,
                                                         .shareEpisode,
+                                                        .addToPlaylist,
                                                         .download,
                                                         .transcript,
                                                         .goToPodcast,
