@@ -72,7 +72,9 @@ class CustomSegmentedControl: UIControl {
     public func setActions(_ actions: [SegmentedAction]) {
         clearCurrentActions()
 
+        self.actions = actions
         actionCount = actions.count
+        clampSelectedIndexIfNeeded()
         setup(actions: actions)
 
         layoutIfNeeded()
@@ -231,13 +233,33 @@ class CustomSegmentedControl: UIControl {
         setupAccessibility()
     }
 
-    private func updateAccessibilityValue() {
-        if selectedIndex < actions.count {
-            accessibilityValue = actions[selectedIndex].accessibilityLabel
+    private func clampSelectedIndexIfNeeded() {
+        if actions.isEmpty {
+            if selectedIndex != 0 {
+                selectedIndex = 0
+            }
+            return
+        }
+
+        let validRange = 0...(actions.count - 1)
+        let clampedValue = (selectedIndex...selectedIndex).clamped(to: validRange).lowerBound
+        if clampedValue != selectedIndex {
+            selectedIndex = clampedValue
         }
     }
 
+    private func updateAccessibilityValue() {
+        guard selectedIndex >= 0, selectedIndex < actions.count else {
+            accessibilityValue = nil
+            return
+        }
+
+        accessibilityValue = actions[selectedIndex].accessibilityLabel
+    }
+
     override func accessibilityIncrement() {
+        guard !actions.isEmpty else { return }
+
         let newIndex = min(selectedIndex + 1, actions.count - 1)
         if newIndex != selectedIndex {
             selectedIndex = newIndex
@@ -248,6 +270,8 @@ class CustomSegmentedControl: UIControl {
     }
 
     override func accessibilityDecrement() {
+        guard !actions.isEmpty else { return }
+
         let newIndex = max(selectedIndex - 1, 0)
         if newIndex != selectedIndex {
             selectedIndex = newIndex
