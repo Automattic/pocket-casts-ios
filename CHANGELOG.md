@@ -4,6 +4,7 @@
 7.101
 -----
 - Fix voiceover for playback effects [#3604](https://github.com/Automattic/pocket-casts-ios/pull/3604)
+- Search improvements, new UI and combined search of podcasts and episode [#3609](https://github.com/Automattic/pocket-casts-ios/pull/3609)
 
 7.100
 -----

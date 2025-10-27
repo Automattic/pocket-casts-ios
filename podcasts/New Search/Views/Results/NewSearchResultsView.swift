@@ -37,9 +37,20 @@ struct NewSearchResultsView: View {
                     .tint(AppTheme.loadingActivityColor().color)
             } else if searchResults.noResults {
                 HStack(alignment: .center) {
-                    EmptyStateView(title: L10n.discoverNoPodcastsFound,
-                                   message: L10n.discoverNoPodcastsFoundMsg,
-                                   icon: { Image(systemName: "info.circle") })
+                    EmptyStateView(title: L10n.searchResultsEmptyTitle,
+                                   message: L10n.searchResultsEmptyMessage,
+                                   icon: { Image("search") },
+                                   actions: [.init(title: L10n.searchResultsEmptyAction,
+                                                   style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01),
+                                                   action: {
+                        guard let source = SceneHelper.rootViewController() else {
+                            assertionFailure("WARNING: Root View Controller not found so survey was not presented")
+                            FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
+                            return
+                        }
+                        EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
+                    })]
+                    )
                 }
                 .frame(maxHeight: .infinity)
                 .background(Theme.sharedTheme.primaryUi01)
@@ -60,16 +71,10 @@ struct NewSearchResultsView: View {
                 VStack(spacing: 0) {
                     filterPicker
                     List {
-                        if displayMode == .allResults || displayMode == .podcasts {
-                            Section {
-                                podcastList
-                            }
+                        if displayMode != .episodes {
+                            localResults
                         }
-                        if displayMode == .allResults || displayMode == .episodes {
-                            Section {
-                                episodeList
-                            }
-                        }
+                        combinedList
                     }
                     .scrollDismissesKeyboard(.immediately)
                     .listStyle(.plain)
@@ -93,20 +98,63 @@ struct NewSearchResultsView: View {
         }
     }
 
-    @ViewBuilder var podcastList: some View {
-        ForEach(searchResults.podcasts.prefix(Constants.maxNumberOfEpisodes), id: \.self) { podcast in
-            SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
-                .listRowBackground(theme.primaryUi01)
-                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                    return 0
+    var filteredResults: [CombinedSearchResultType] {
+        let podcastsUuids = searchResults.podcasts.map({ result in
+            result.uuid
+        })
+        switch displayMode {
+            case .allResults:
+                return searchResults.combinedResults.filter { result in
+                    switch result {
+                        case .podcast(let podcast):
+                            return !podcastsUuids.contains(podcast.uuid)
+                        default:
+                            return true
+                    }
+                }
+            case .episodes:
+                return searchResults.combinedResults.filter { result in
+                    if case .episode = result {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            case .podcasts:
+                return searchResults.combinedResults.filter { result in
+                    if case let .podcast(podcast) = result {
+                        return !podcastsUuids.contains(podcast.uuid)
+                    } else {
+                        return false
+                    }
                 }
         }
     }
 
-    @ViewBuilder var episodeList: some View {
-        ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-            let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-            SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+    @ViewBuilder var combinedList: some View {
+        ForEach(filteredResults, id: \.self) { result in
+            switch result {
+                case .podcast(let podcast):
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                        .listRowBackground(theme.primaryUi01)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+                case .episode(let episode):
+                    let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
+                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                        .listRowBackground(theme.primaryUi01)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return 0
+                        }
+            }
+
+        }
+    }
+
+    @ViewBuilder var localResults: some View {
+        ForEach(searchResults.podcasts, id: \.self) { localPodcast in
+            SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                 .listRowBackground(theme.primaryUi01)
                 .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                     return 0

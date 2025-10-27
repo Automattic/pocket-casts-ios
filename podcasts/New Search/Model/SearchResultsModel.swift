@@ -1,11 +1,13 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class SearchResultsModel: ObservableObject {
     private let podcastSearch = PodcastSearchTask()
     private let episodeSearch = EpisodeSearchTask()
     private let predictiveSearch = PredictiveSearchTask()
+    private let combinedSearch = CombinedSearchTask()
 
     private let analyticsHelper: SearchAnalyticsHelper
 
@@ -22,6 +24,7 @@ class SearchResultsModel: ObservableObject {
     @Published var podcasts: [PodcastFolderSearchResult] = []
     @Published var episodes: [EpisodeSearchResult] = []
     @Published var predictive: [PredictiveSearchResult] = []
+    @Published var combinedResults: [CombinedSearchResultType] = []
 
     @Published var isShowingLocalResultsOnly = false
     @Published var resultsContainLocalPodcasts = false
@@ -44,12 +47,13 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
-        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty
+        return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty && combinedResults.isEmpty
     }
 
     func clearSearch() {
         podcasts = []
         episodes = []
+        combinedResults = []
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
@@ -61,7 +65,7 @@ class SearchResultsModel: ObservableObject {
         episodeSearchError = nil
         podcastSearchError = nil
 
-        guard !term.startsWith(string: "http:"), term.count > 1 else {
+        guard term.count > 1, !isTermAnURL(term) else {
             return
         }
 
@@ -79,8 +83,17 @@ class SearchResultsModel: ObservableObject {
         }
     }
 
+    private func isTermAnURL(_ term: String) -> Bool {
+        return term.lowercased().startsWith(string: "http://") || term.lowercased().startsWith(string: "https://")
+    }
+
     @MainActor
     func search(term: String) {
+        if FeatureFlag.searchImprovements.enabled, !isTermAnURL(term) {
+            combinedSearch(term: term)
+            return
+        }
+
         currentSearchTerm = term
         episodeSearchError = nil
         podcastSearchError = nil
@@ -102,7 +115,7 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = false
         }
 
-        if !term.startsWith(string: "http") {
+        if !isTermAnURL(term) {
             hideEpisodes = false
             Task {
                 isSearchingForEpisodes = true
@@ -119,6 +132,32 @@ class SearchResultsModel: ObservableObject {
             }
         } else {
             hideEpisodes = true
+        }
+
+        analyticsHelper.trackSearchPerformed()
+    }
+
+    @MainActor
+    func combinedSearch(term: String) {
+        currentSearchTerm = term
+        episodeSearchError = nil
+        podcastSearchError = nil
+
+        if !isShowingLocalResultsOnly {
+            clearSearch()
+        }
+
+        Task {
+            isSearchingForPodcasts = true
+            do {
+                let results = try await combinedSearch.search(term: term)
+                showCombinedResults(results)
+            } catch {
+                podcastSearchError = error
+                analyticsHelper.trackFailed(error)
+            }
+
+            isSearchingForPodcasts = false
         }
 
         analyticsHelper.trackSearchPerformed()
@@ -182,5 +221,10 @@ class SearchResultsModel: ObservableObject {
     private func show(predictiveResults: [PredictiveSearchResult]) {
         isShowingPredictiveSearch = true
         predictive = predictiveResults
+    }
+
+    private func showCombinedResults(_ results: [CombinedSearchResultType]) {
+        isShowingPredictiveSearch = false
+        combinedResults = results
     }
 }
