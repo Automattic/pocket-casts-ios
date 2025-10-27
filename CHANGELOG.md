@@ -1,18 +1,18 @@
 7.102
 -----
 
-7.99.1
------
-- Fix Filters selection from the podcast screen [#3580](https://github.com/Automattic/pocket-casts-ios/pull/3580)
-
 7.101
 -----
-
+- Fix voiceover for playback effects [#3604](https://github.com/Automattic/pocket-casts-ios/pull/3604)
 
 7.100
 -----
 - Keep Downloaded or Up Next episodes when unsubscribing from a podcast [#3538](https://github.com/Automattic/pocket-casts-ios/pull/3538)
 - Enable improved type-ahead search predictions.[#3568](https://github.com/Automattic/pocket-casts-ios/pull/3568)
+
+7.99.1
+-----
+- Fix Filters selection from the podcast screen [#3580](https://github.com/Automattic/pocket-casts-ios/pull/3580)
 
 7.99
 -----

@@ -400,7 +400,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .searchImprovements:
             false
         case .searchPredictive:
-            true
+            #if DEBUG
+                true
+            #else
+                BuildEnvironment.current == .testFlight
+            #endif
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
@@ -440,7 +444,12 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        true
+        switch self {
+            case .searchPredictive:
+                !Self.isTestFlight
+            default:
+                true
+        }
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"

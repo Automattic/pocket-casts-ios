@@ -143,6 +143,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>
     <string>Na het afspelen</string>
+    <key>all_results</key>
+    <string>Alle resultaten</string>
     <key>announcement_autoplay_description</key>
     <string>Als je Wachtrij Hierna leeg is en je begint naar een aflevering te luisteren, zal Automatisch afspelen afleveringen van die serie of lijst blijven afspelen.</string>
     <key>announcement_autoplay_title</key>
@@ -1943,6 +1945,12 @@ UPDATES</string>
     <string>Ten opzichte van 2023 is je luistertijd met maar liefst %1$@ gestegen</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Ten opzichte van 2023 is je luistertijd gestegen met meer %1$@</string>
+    <key>playback_2025_feature_description</key>
+    <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Afspelen 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Mijn Playback van 2025 bekijken</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2023,6 +2031,8 @@ UPDATES</string>
     <string>Afspeelfout</string>
     <key>player_user_episode_upload_error</key>
     <string>Uploadfout</string>
+    <key>playlist_add_to_title</key>
+    <string>Toevoegen aan "%@"</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Geen van de afleveringen in je podcasts komen overeen met deze regels.
 
@@ -2033,6 +2043,14 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Afleveringen automatisch toevoegen op basis van regels.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
     <string>Maak een slimme afspeellijst</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 aflevering toegevoegd aan "%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ afleveringen toegevoegd aan "%2$@"</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ afleveringen</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Afspeellijst is vol. Probeer een nieuwe aan te maken</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2043,6 +2061,8 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Begin met het bouwen van je afspeellijst</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Afleveringen aan je afspeellijst toevoegen</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Toevoegen aan afspeellijst</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Afleveringen herschikken</string>
     <key>playlist_options</key>
@@ -2051,6 +2071,8 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Slimme afspeellijst aanmaken</string>
     <key>playlist_preview_title</key>
     <string>Voorbeeld %@</string>
+    <key>playlist_search</key>
+    <string>Afspeellijst zoeken</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Het wordt ofwel tijd om te vieren dat je deze lijst hebt afgerond of om je regels te bewerken om er meer te krijgen.</string>
     <key>playlist_smart_preview_description</key>
@@ -2171,6 +2193,8 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <string>Maak mappen aan om je podcastverzameling te sorteren.</string>
     <key>plus_marketing_folders_title</key>
     <string>Mappen</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Gegenereerde transcripties</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Een advertentievrije ervaring die je meer biedt van wat je leuk vindt en minder van wat je niet leuk vindt</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2436,6 +2460,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen nieuwste aflevering</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Verslepen</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Langste naar kortste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2659,6 +2685,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Bladwijzer opslaan</string>
     <key>search</key>
     <string>Zoeken</string>
+    <key>search_bookmarks</key>
+    <string>Bladwijzers zoeken</string>
+    <key>search_episodes</key>
+    <string>Afleveringen zoeken</string>
     <key>search_label</key>
     <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
@@ -3603,6 +3633,8 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Langste naar kortste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortste naar langste</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Jouw podcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Niet echt</string>
     <key>user_satisfaction_survey_subtitle</key>
