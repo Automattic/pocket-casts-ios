@@ -164,10 +164,6 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
-    public func allUpNextEpisodesExludingUserEpisodes() -> [Episode] {
-        episodeManager.allUpNextEpisodes(dbQueue: dbQueue)
-    }
-
     public func allUpNextEpisodes(from uuids: [String]) -> [Episode] {
         episodeManager.allUpNextEpisodes(from: uuids, dbQueue: dbQueue)
     }

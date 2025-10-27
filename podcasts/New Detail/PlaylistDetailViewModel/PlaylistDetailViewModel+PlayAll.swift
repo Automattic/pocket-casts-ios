@@ -60,7 +60,7 @@ extension PlaylistDetailViewModel {
     }
 
     private func newManualPlaylist(index: Int) -> EpisodeFilter {
-        var playlistName = "Up Next - \(Date().monthDayString())"
+        var playlistName = "\(L10n.upNext) - \(Date().monthDayString())"
         if index > 1 {
             playlistName += " (\(index))"
         }
