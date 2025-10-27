@@ -75,8 +75,23 @@ extension EpisodeFilter {
 
         return PlaylistArtworkView(items: items, imageSize: 168)
             .frame(width: 56.0, height: 56.0)
-            .environmentObject(Theme(previewTheme: .light)) //TODO: Change based on CarPlay theme
+            .environmentObject(Theme(previewTheme: carPlayPreviewTheme()))
             .snapshot()
+    }
+
+    private func carPlayPreviewTheme() -> Theme.ThemeType {
+        guard let interfaceStyle = CarPlayImageHelper.carTraitCollection?.userInterfaceStyle else {
+            return Theme.sharedTheme.activeTheme
+        }
+
+        switch interfaceStyle {
+        case .dark:
+            return .dark
+        case .light:
+            return .light
+        default:
+            return Theme.sharedTheme.activeTheme
+        }
     }
     #endif
 
