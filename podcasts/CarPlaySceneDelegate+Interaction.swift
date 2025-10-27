@@ -13,7 +13,7 @@ extension CarPlaySceneDelegate {
     func filterTapped(_ filter: EpisodeFilter) {
         pushEpisodeList(title: filter.playlistName, emptyTitle: L10n.episodeFilterNoEpisodesTitle, showArtwork: true, playlist: .filter(uuid: filter.uuid)) { () -> [BaseEpisode] in
             if FeatureFlag.playlistsRebranding.enabled {
-                return DataManager.sharedManager.playlistEpisodes(for: filter)
+                return DataManager.sharedManager.playlistEpisodes(for: filter, limit: Constants.Limits.maxCarplayItems)
             } else {
                 let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxCarplayItems)
                 return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
