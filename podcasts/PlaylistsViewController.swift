@@ -119,7 +119,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
 
-        showNewFilterTipIfNeeded()
+        showPlaylistsTipIfNeeded()
         showOnboardingScreenIfNeeded()
     }
 

@@ -5423,6 +5423,12 @@
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
 
+/* The title shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_title" = "Reorder your playlists";
+
+/* The description shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_description" = "Press and hold a playlist to move it.";
+
 /* Playlists Onboarding screen: title for the smart playlist card */
 "playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
 
