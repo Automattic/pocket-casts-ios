@@ -215,6 +215,24 @@ class EpisodeDataManager {
         return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
     }
 
+    func allUpNextEpisodes(from uuids: [String], dbQueue: PCDBQueue) -> [Episode] {
+        let placeholders = uuids.map { "'\($0)'" }.joined(separator: ", ")
+        let upNextTableName = DataManager.playlistEpisodeTableName
+        let episodeTableName = DataManager.episodeTableName
+        return loadMultiple(
+            query: """
+            SELECT DISTINCT \(episodeTableName).*
+            FROM \(upNextTableName)
+            JOIN \(episodeTableName)
+            ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid
+            WHERE \(episodeTableName).uuid IN (\(placeholders))
+            ORDER BY \(upNextTableName).episodePosition ASC
+            """,
+            values: nil,
+            dbQueue: dbQueue
+        )
+    }
+
     private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> Episode? {
         var episode: Episode?
         dbQueue.read { db in

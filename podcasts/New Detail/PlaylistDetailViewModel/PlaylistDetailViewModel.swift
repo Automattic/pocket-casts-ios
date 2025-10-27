@@ -24,6 +24,7 @@ class PlaylistDetailViewModel: ObservableObject {
 
     let onButtonTapped: (ButtonTag) -> Void
     let dataManager: DataManager
+    let episodesDataManager: EpisodesDataManager
 
     var episodes: [ListEpisode] {
         let index = index(for: .episodes)
@@ -55,7 +56,6 @@ class PlaylistDetailViewModel: ObservableObject {
     private var searchTerm: String = ""
     private var isLoadingData: Bool = false
     private let imageManager: ImageManager
-    private let episodesDataManager: EpisodesDataManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private var tempEpisodes: [ListEpisode] = []
 

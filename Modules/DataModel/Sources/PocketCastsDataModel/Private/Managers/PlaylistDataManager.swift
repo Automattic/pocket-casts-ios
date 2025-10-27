@@ -283,7 +283,7 @@ class PlaylistDataManager {
                 playlist.syncStatus = SyncStatus.notSynced.rawValue
                 try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
             } catch {
-                FileLog.shared.addMessage("EpisodeFilterDataManager.deleteEpisodes error: \(error)")
+                FileLog.shared.addMessage("PlaylistDataManager.deleteEpisodes error: \(error)")
             }
         }
     }
@@ -300,7 +300,7 @@ class PlaylistDataManager {
                     try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
                 }
             } catch {
-                FileLog.shared.addMessage("EpisodeFilterDataManager.deleteAllEpisodes error: \(error)")
+                FileLog.shared.addMessage("PlaylistDataManager.deleteAllEpisodes error: \(error)")
             }
         }
     }
