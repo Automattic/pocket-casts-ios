@@ -52,17 +52,24 @@ struct NumberListened2025: ShareableStory {
             .foregroundStyle(foregroundColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            LottieView(animation: .named("playback_2025_listened"))
-                .animationDidFinish({ completed in
-                })
-                .configure({ animationView in
-                    animationView.contentMode = .scaleToFill
-                })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                .scaledToFill()
-                .scaleEffect(1.5)
-                .ignoresSafeArea()
+        .background(content: {
+            if renderForSharing {
+                Image("listened_numbers_2025_back")
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                LottieView(animation: .named("playback_2025_listened"))
+                    .animationDidFinish({ completed in
+                    })
+                    .configure({ animationView in
+                        animationView.contentMode = .scaleToFill
+                    })
+                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                    .scaledToFill()
+                    .scaleEffect(1.5)
+                    .ignoresSafeArea()
+            }
+        }
         )
         .ignoresSafeArea()
         .background(backgroundColor)
