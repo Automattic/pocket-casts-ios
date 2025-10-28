@@ -143,6 +143,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Adicionar aos Próximos</string>
     <key>after_playing</key>
     <string>Depois de reproduzir</string>
+    <key>all_results</key>
+    <string>Todos os resultados</string>
     <key>announcement_autoplay_description</key>
     <string>Se você começar a ouvir um episódio e a fila de Próximos estiver vazia, os episódios desse programa ou lista vão ser reproduzidos automaticamente.</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ ATUALIZAÇÕES</string>
     <string>Em comparação com 2023, seu tempo de streaming teve um aumento brusco de %1$@%</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Em comparação com 2023, seu tempo de streaming aumentou em mais de %1$@</string>
+    <key>playback_2025_feature_description</key>
+    <string>Veja suas estatísticas, principais podcasts e muito mais.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Retrospectiva de 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Ver minha retrospectiva de 2025</string>
     <key>playback_effect_all_podcasts</key>
     <string>Todos os podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ ATUALIZAÇÕES</string>
     <string>Erro na reprodução</string>
     <key>player_user_episode_upload_error</key>
     <string>Erro no upload</string>
+    <key>playlist_add_to_title</key>
+    <string>Adicionar a "%@"</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Nenhum dos episódios nos seus podcasts corresponde a estas regras.
 
@@ -2037,6 +2047,14 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <string>Crie uma lista de reprodução inteligente</string>
     <key>playlist_detail_description</key>
     <string>%1$@ episódios • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 episódio adicionado a "%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ episódios adicionados a "%2$@"</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ episódios</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>A lista de reprodução está cheia. Tente criar outra.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Adicionar episódios</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2047,6 +2065,8 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <string>Comece a criar sua lista de reprodução</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Adicione episódios à sua lista de reprodução</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Adicionar à lista de reprodução</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Reorganizar episódios</string>
     <key>playlist_options</key>
@@ -2055,6 +2075,8 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <string>Criar lista de reprodução inteligente</string>
     <key>playlist_preview_title</key>
     <string>Visualizar %@</string>
+    <key>playlist_search</key>
+    <string>Encontrar lista de reprodução</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>É hora de comemorar porque você completou a lista ou editar as regras para ouvir mais.</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2197,8 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <string>Crie pastas para organizar sua coleção de podcasts.</string>
     <key>plus_marketing_folders_title</key>
     <string>Pastas</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Transcrições geradas</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Experiência sem publicidade, que se alinha mais ao seu gosto</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2464,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Só episódios mais recentes</string>
     <key>podcasts_badges</key>
     <string>Selos</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Arrastar e soltar</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Mais longo para mais curto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2691,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Salvar favorito</string>
     <key>search</key>
     <string>Pesquisar</string>
+    <key>search_bookmarks</key>
+    <string>Pesquisar favoritos</string>
+    <key>search_episodes</key>
+    <string>Pesquisar episódios</string>
     <key>search_label</key>
     <string>Pesquise podcasts ou adicione URL de RSS</string>
     <key>search_podcasts</key>
@@ -3609,6 +3639,8 @@ Dá para personalizar o aplicativo como você quiser. Então, você pode optar p
     <string>Mais longo para o mais curto</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Mais curto para o mais longo</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Seus podcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Não muito</string>
     <key>user_satisfaction_survey_subtitle</key>

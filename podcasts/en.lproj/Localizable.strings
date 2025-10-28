@@ -5402,6 +5402,15 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* Option to delete the playlist. It appears in the edit panel from the playlist detail. */
+"playlists_delete" = "Delete Playlist";
+
+/* Alert title used when a user taps on the delete option to cancel a playlist */
+"playlists_delete_alert_title" = "Delete Playlist?";
+
+/* Alert message used when a user taps on the delete option to cancel a playlist */
+"playlists_delete_alert_message" = "Are you sure you want to delete your playlist? There's no way to undo this.";
+
 /* Playlist Play all button */
 "playlists_play_all" = "Play all";
 
@@ -5413,6 +5422,12 @@
 
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
+
+/* The title shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_title" = "Reorder your playlists";
+
+/* The description shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_description" = "Press and hold a playlist to move it.";
 
 /* Playlists Onboarding screen: title for the smart playlist card */
 "playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
@@ -5601,4 +5616,7 @@
 "playback_2025_view_year" = "View My Playback 2025";
 
 /// Label of the Playback 2025 call to action buton
-"playback_2025_intro_message" = "Welcome to Playback!\n A celebration of your year in podcasts.";
+"playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";
+
+/// Text for playback 2025 listened to numbers story
+"playback_2025_listened_to_numbers" = "You tuned in to %1$@ podcasts and %2$@ episodes";

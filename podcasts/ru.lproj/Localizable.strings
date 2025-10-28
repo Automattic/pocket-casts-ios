@@ -143,6 +143,8 @@
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
     <string>После прослушивания</string>
+    <key>all_results</key>
+    <string>Все результаты</string>
     <key>announcement_autoplay_description</key>
     <string>Если в очереди «Следующие» ничего нет, после выпуска, который вы слушаете, автоматически запустится другой из этого шоу или списка.</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ Pocket Casts на полную мощность.</string>
     <string>По сравнению с 2023 годом ваше время прослушивания возросло сразу на %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>В сравнении с 2023 годом вы провели на %1$@ больше времени, слушая подкасты.</string>
+    <key>playback_2025_feature_description</key>
+    <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
+    <key>playback_2025_feature_title</key>
+    <string>История прослушиваний — 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Просмотреть мою историю прослушиваний за 2025 год</string>
     <key>playback_effect_all_podcasts</key>
     <string>Все подкасты</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ Pocket Casts на полную мощность.</string>
     <string>Ошибка воспроизведения</string>
     <key>player_user_episode_upload_error</key>
     <string>Ошибка загрузки</string>
+    <key>playlist_add_to_title</key>
+    <string>Добавить в плейлист «%@»</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Ни один выпуск ваших подкастов не соответствует этим правилам.
 
@@ -2037,6 +2047,14 @@ Pocket Casts на полную мощность.</string>
     <string>Преобразовать в умный плейлист</string>
     <key>playlist_detail_description</key>
     <string>Выпусков: %1$@ • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 выпуск добавлен в плейлист «%@»</string>
+    <key>playlist_episodes_added_title</key>
+    <string>Выпуски (%1$@) добавлены в плейлист «%2$@»</string>
+    <key>playlist_episodes_count</key>
+    <string>Выпусков: %1$@</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Плейлист заполнен. Создайте новый</string>
     <key>playlist_manual_add_episodes</key>
     <string>Добавить выпуски</string>
     <key>playlist_manual_browse_shows_title</key>
@@ -2047,6 +2065,8 @@ Pocket Casts на полную мощность.</string>
     <string>Начните создавать плей-лист</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Добавить выпуски в плейлист</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Добавить в плейлист</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Изменение порядка выпусков</string>
     <key>playlist_options</key>
@@ -2055,6 +2075,8 @@ Pocket Casts на полную мощность.</string>
     <string>Создать умный плейлист</string>
     <key>playlist_preview_title</key>
     <string>Предварительный просмотр %@</string>
+    <key>playlist_search</key>
+    <string>Найти плейлист</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>У вас два варианта: порадоваться завершению этого списка или изменить правила, чтобы его расширить.</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2197,8 @@ Pocket Casts на полную мощность.</string>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
     <key>plus_marketing_folders_title</key>
     <string>Папки</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Автоматические расшифровки</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Без рекламы у вас будет больше того, что вам нравится, и меньше того, что вам не нравится.</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2464,8 @@ Pocket Casts на полную мощность.</string>
     <string>Только последний выпуск</string>
     <key>podcasts_badges</key>
     <string>Значки</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>По выбору пользователя</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>От длинных к коротким</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2691,10 @@ Pocket Casts на полную мощность.</string>
     <string>Сохранить закладку</string>
     <key>search</key>
     <string>Поиск</string>
+    <key>search_bookmarks</key>
+    <string>Поиск в закладках</string>
+    <key>search_episodes</key>
+    <string>Поиск выпусков</string>
     <key>search_label</key>
     <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
@@ -3609,6 +3639,8 @@ Pocket Casts на полную мощность.</string>
     <string>От длинных к коротким</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>От коротких к длинным</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Ваши подкасты</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Пожалуй, нет</string>
     <key>user_satisfaction_survey_subtitle</key>
