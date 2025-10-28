@@ -98,10 +98,6 @@ private final class CapturingDataManager: DataManager {
         addedEpisodes.removeValue(forKey: playlist.uuid)
     }
 
-    override func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        stubbedPlaylistEpisodes[playlist.uuid] ?? []
-    }
-
     override func save(playlist: EpisodeFilter) {
         storedPlaylists[playlist.uuid] = playlist
     }
