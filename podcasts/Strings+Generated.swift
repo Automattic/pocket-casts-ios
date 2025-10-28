@@ -4174,6 +4174,8 @@ internal enum L10n {
   internal static var watchNoEpisodes: String { return L10n.tr("Localizable", "watch_no_episodes", fallback: "No Episodes") }
   /// Label in the Apple Watch app informing the user that they haven't configured any of their filters.
   internal static var watchNoFilters: String { return L10n.tr("Localizable", "watch_no_filters", fallback: "No Filters") }
+  /// Label in the Apple Watch app informing the user that they haven't configured any playlists.
+  internal static var watchNoPlaylists: String { return L10n.tr("Localizable", "watch_no_playlists", fallback: "No Playlists") }
   /// Label in the Apple Watch app informing the user that they haven't subscribed to podcasts.
   internal static var watchNoPodcasts: String { return L10n.tr("Localizable", "watch_no_podcasts", fallback: "No Podcasts") }
   /// Subtitle text used on the now playing screen in the Watch App. Indicates there is nothing palying or paused in the app. Please leave the "\

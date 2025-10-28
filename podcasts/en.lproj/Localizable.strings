@@ -3343,6 +3343,9 @@
 /* Label in the Apple Watch app informing the user that they haven't configured any of their filters. */
 "watch_no_filters" = "No Filters";
 
+/* Label in the Apple Watch app informing the user that they haven't configured any playlists. */
+"watch_no_playlists" = "No Playlists";
+
 /* Label in the Apple Watch app informing the user that they haven't subscribed to podcasts. */
 "watch_no_podcasts" = "No Podcasts";
 

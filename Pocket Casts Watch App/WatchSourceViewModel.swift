@@ -193,9 +193,14 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func fetchFilterEpisodes(_ filter: EpisodeFilter) -> AnyPublisher<[BaseEpisode], PlaySourceError> {
-        let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.watchListItems)
-        let filterEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
-        return Just(filterEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+        if FeatureFlag.playlistsRebranding.enabled {
+            let playlistEpisodes = DataManager.sharedManager.playlistEpisodes(for: filter)
+            return Just(playlistEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+        } else {
+            let query = PlaylistQueryBuilder.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.watchListItems)
+            let filterEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+            return Just(filterEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+        }
     }
 
     func fetchPlaylists() -> AnyPublisher<[PlaylistRepresentable], PlaySourceError> {
