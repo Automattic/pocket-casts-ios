@@ -5,10 +5,21 @@ struct PlaylistHeaderView: View {
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
     var description: String {
-        if viewModel.playlistEpisodesCount > 1 {
-            return L10n.playlistDetailDescription(viewModel.playlistEpisodesCount, viewModel.totalDuration())
+        let duration = viewModel.totalDuration()
+        switch viewModel.playlistEpisodesCount {
+        case let count where count > 1:
+            if let duration {
+                return L10n.playlistDetailDescription(count, duration)
+            }
+            return L10n.playlistEpisodesCount(count)
+        case 1:
+            if let duration {
+                return L10n.playlistDetailDescriptionOneEpisode(duration)
+            }
+            return L10n.podcastEpisodeCountSingular
+        default:
+            return L10n.playlistEpisodesCount(viewModel.playlistEpisodesCount)
         }
-        return L10n.playlistDetailDescriptionOneEpisode(viewModel.totalDuration())
     }
 
     var body: some View {

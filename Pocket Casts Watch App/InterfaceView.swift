@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import WatchKit
 
 struct InterfaceView: View {
@@ -58,7 +59,7 @@ struct InterfaceView: View {
                     }
                 case .filters:
                     NavigationLink(destination: PlaylistsListView(), tag: WatchInterfaceType.filterList.indexPosition, selection: $navigationModel.currentInterface) {
-                        MenuRow(label: L10n.filters, icon: "filters")
+                        MenuRow(label: FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters, icon: "filters")
                     }
                 case .nowPlaying:
                     NavigationLink(destination: NowPlayingContainerView(), tag: WatchInterfaceType.nowPlaying.indexPosition, selection: $navigationModel.currentInterface) {
