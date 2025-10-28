@@ -182,7 +182,9 @@ struct Constants {
         static let shouldShowRecentlyPlayedSortingTip = "ShouldShowRecentlyPlayedSortingTip"
 
         static let newFilterTip = "NewFilterTip"
-        static let playlistsOnboarding = "PlaylistsOnboarding"
+        static let playlistDragAndDropTip = "PlaylistDragAndDropTip"
+        static let playlistsOnboarding = "NewPlaylistsOnboarding"
+        static let firstTimePlaylistCreated = "FirstTimePlaylistCreated"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",

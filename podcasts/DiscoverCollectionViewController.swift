@@ -29,7 +29,7 @@ class DiscoverCollectionViewController: PCViewController {
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
     }()
-    lazy var searchResultsController = SearchResultsViewController(source: .discover)
+    lazy var searchResultsController = SearchResultsViewController(source: .discover, showLocalResults: false)
 
     var resultsControllerDelegate: SearchResultsDelegate {
         searchResultsController
@@ -62,11 +62,16 @@ class DiscoverCollectionViewController: PCViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        searchController.viewDidAppear(animated)
         AnalyticsHelper.navigatedToDiscover()
         Analytics.track(.discoverShown)
 
         miniPlayerStatusDidChange()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchController.viewDidDisappear(animated)
     }
 
     func reloadData(completion: (() -> Void)? = nil) {

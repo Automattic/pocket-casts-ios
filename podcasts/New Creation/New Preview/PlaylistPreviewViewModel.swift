@@ -105,14 +105,14 @@ class PlaylistPreviewViewModel: ObservableObject {
         case .releaseDate:
             return ReleaseDateFilterOption(rawValue: newPlaylist.filterHours)?.description
         case .starred:
-            return newPlaylist.filterStarred ? "\(episodes.count)" : nil
+            return newPlaylist.filterStarred ? "\(episodes.count)" : L10n.off
         case .duration:
             if newPlaylist.filterDuration {
                 let shortTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(newPlaylist.shorterThan * 60))
                 let longTime = TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(newPlaylist.longerThan * 60))
                 return "\(longTime) - \(shortTime)"
             }
-            return nil
+            return L10n.off
         }
     }
 

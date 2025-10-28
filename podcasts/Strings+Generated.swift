@@ -2213,6 +2213,12 @@ internal enum L10n {
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
   /// Playback 2025
   internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// Your year in podcasts, wrapped and ready to relive
+  internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Your year in podcasts, wrapped and ready to relive") }
+  /// You tuned in to %1$@ podcasts and %2$@ episodes
+  internal static func playback2025ListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_listened_to_numbers", String(describing: p1), String(describing: p2), fallback: "You tuned in to %1$@ podcasts and %2$@ episodes")
+  }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
@@ -2322,6 +2328,10 @@ internal enum L10n {
   internal static func playlistDetailDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_detail_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes • %2$@")
   }
+  /// Playlist detail description when the playlist has one single episode. %1$@ represent the total time.
+  internal static func playlistDetailDescriptionOneEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_detail_description_one_episode", String(describing: p1), fallback: "1 episode • %1$@")
+  }
   /// Navigation title shown after adding a single episode to a playlist. %@ is the playlist name.
   internal static func playlistEpisodeAddedTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_episode_added_title", String(describing: p1), fallback: "1 episode added to \"%@\"")
@@ -2345,7 +2355,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "playlist_manual_archived_episodes_placeholder", String(describing: p1), fallback: "All %1$@ episodes of this playlist have been archived")
   }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
-  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse Shows") }
+  internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added
@@ -2396,6 +2406,12 @@ internal enum L10n {
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
   /// A placeholder title for a new playlist.
   internal static var playlistsDefaultNewPlaylist: String { return L10n.tr("Localizable", "playlists_default_new_playlist", fallback: "New Playlist") }
+  /// Option to delete the playlist. It appears in the edit panel from the playlist detail.
+  internal static var playlistsDelete: String { return L10n.tr("Localizable", "playlists_delete", fallback: "Delete Playlist") }
+  /// Alert message used when a user taps on the delete option to cancel a playlist
+  internal static var playlistsDeleteAlertMessage: String { return L10n.tr("Localizable", "playlists_delete_alert_message", fallback: "Are you sure you want to delete your playlist? There's no way to undo this.") }
+  /// Alert title used when a user taps on the delete option to cancel a playlist
+  internal static var playlistsDeleteAlertTitle: String { return L10n.tr("Localizable", "playlists_delete_alert_title", fallback: "Delete Playlist?") }
   /// Playlists Empty State: description for the empty state visible when no playlists are displayed
   internal static var playlistsEmptyStateDescription: String { return L10n.tr("Localizable", "playlists_empty_state_description", fallback: "Playlists let you organize episodes manually or automatically with Smart Rules.") }
   /// Playlists Empty State: title for the empty state visible when no playlists are displayed
@@ -2408,6 +2424,12 @@ internal enum L10n {
   internal static var playlistsOnboardingSmartDescription: String { return L10n.tr("Localizable", "playlists_onboarding_smart_description", fallback: "They still work exactly the same, using rules to auto-add your episodes. All your existing Filters are right here, nothing’s changed but the name.") }
   /// Playlists Onboarding screen: title for the smart playlist card
   internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
+  /// Playlist Play all button
+  internal static var playlistsPlayAll: String { return L10n.tr("Localizable", "playlists_play_all", fallback: "Play all") }
+  /// The description shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropDescription: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_description", fallback: "Press and hold a playlist to move it.") }
+  /// The title shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropTitle: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_title", fallback: "Reorder your playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.
