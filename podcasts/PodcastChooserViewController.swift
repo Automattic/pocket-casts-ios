@@ -133,8 +133,9 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
 
     @objc private func selectBtnTapped() {
         if shouldSelectAll() {
+            let podcasts = currentPodcastsSource()
             Analytics.track(.settingsSelectPodcastsSelectAllTapped, properties: ["source": analyticsSource])
-            selectedUuids = allPodcasts.map(\.uuid)
+            selectedUuids = podcasts.map(\.uuid)
             delegate?.bulkSelectionChange(selected: true)
         } else {
             Analytics.track(.settingsSelectPodcastsSelectNoneTapped, properties: ["source": analyticsSource])
