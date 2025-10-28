@@ -77,6 +77,8 @@ class SearchResultsModel: ObservableObject {
                 currentPredictiveSearchTerm = term
             } catch {
                 predictiveSearchError = error
+                isShowingPredictiveSearch = true
+                predictive = []
                 analyticsHelper.trackPredictiveFailed(error)
             }
             isSearchingPredictive = false
