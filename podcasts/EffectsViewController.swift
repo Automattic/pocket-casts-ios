@@ -387,6 +387,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         let isEnabled = effects.trimSilence.isEnabled()
 
         trimSilenceSpeedsToLabelConstraint.isActive = isEnabled
+        let wasHidden = trimSilenceAmountControl.isHidden
         UIView.animate(withDuration: 0.3) {
             self.trimSilenceAmountControl.alpha = isEnabled ? 1 : 0
             self.view.layoutIfNeeded()
@@ -394,12 +395,16 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         // Hide from accessibility when not enabled to prevent VoiceOver getting stuck
         trimSilenceAmountControl.isAccessibilityElement = isEnabled
+        trimSilenceAmountControl.accessibilityElementsHidden = !isEnabled
         trimSilenceAmountControl.isHidden = !isEnabled
 
         trimSilenceAmountControl.selectedIndex = trimSilenceAmountToIndex(effects.trimSilence)
 
         // Update accessibility order when trim silence state changes
-        setupAccessibilityOrder()
+        setupAccessibilityOrder(trimSilenceEnabled: isEnabled)
+        if isEnabled && wasHidden {
+            UIAccessibility.post(notification: .layoutChanged, argument: trimSilenceAmountControl)
+        }
 
         let timeSaved = StatsManager.shared.timeSavedDynamicSpeedInclusive()
         if timeSaved < 60 {
@@ -525,7 +530,8 @@ class EffectsViewController: SimpleNotificationsViewController {
         setupAccessibilityOrder()
     }
 
-    private func setupAccessibilityOrder() {
+    private func setupAccessibilityOrder(trimSilenceEnabled: Bool? = nil) {
+        let isTrimSilenceEnabled = trimSilenceEnabled ?? trimSilenceSwitch.isOn
         // Create explicit accessibility navigation order
         var accessibilityElements: [Any] = []
 
@@ -540,7 +546,7 @@ class EffectsViewController: SimpleNotificationsViewController {
         accessibilityElements.append(trimSilenceSwitch!)
 
         // Only include trim silence amount control when it's enabled and visible
-        if trimSilenceSwitch.isOn && !trimSilenceAmountControl.isHidden {
+        if isTrimSilenceEnabled && !trimSilenceAmountControl.isHidden {
             accessibilityElements.append(trimSilenceAmountControl!)
         }
 
