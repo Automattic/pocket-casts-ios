@@ -156,6 +156,9 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = true
             do {
                 let results = try await combinedSearch.search(term: term)
+                if results.isEmpty {
+                    analyticsHelper.trackEmptyResults(for: term)
+                }
                 showCombinedResults(results)
             } catch {
                 isShowingPredictiveSearch = false
