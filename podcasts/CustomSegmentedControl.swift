@@ -62,12 +62,50 @@ class CustomSegmentedControl: UIControl {
         }
     }
 
-    private var actionViews = [UIView]()
+    override var isAccessibilityElement: Bool {
+        get { false }
+        set { }
+    }
+
+    private var actionViews = [SegmentView]()
     private var separatorViews = [UIView]()
     private var itemViews = [UIView]()
 
     private var actionCount = 0
     private var titleFont = UIFont.systemFont(ofSize: 15, weight: .bold)
+    private let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+
+    private final class SegmentView: UIView {
+        let index: Int
+        private let selectHandler: (Int) -> Void
+
+        init(index: Int, accessibilityLabel: String, selectHandler: @escaping (Int) -> Void) {
+            self.index = index
+            self.selectHandler = selectHandler
+            super.init(frame: .zero)
+            isAccessibilityElement = true
+            accessibilityTraits = [.button]
+            self.accessibilityLabel = accessibilityLabel
+        }
+
+        @available(*, unavailable)
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        override func accessibilityActivate() -> Bool {
+            selectHandler(index)
+            return true
+        }
+
+        func updateSelectionState(isSelected: Bool) {
+            if isSelected {
+                accessibilityTraits.insert(.selected)
+            } else {
+                accessibilityTraits.remove(.selected)
+            }
+        }
+    }
 
     public func setActions(_ actions: [SegmentedAction]) {
         clearCurrentActions()
@@ -81,23 +119,20 @@ class CustomSegmentedControl: UIControl {
     }
 
     private func clearCurrentActions() {
-        actionViews.forEach { view in
-            view.removeFromSuperview()
-        }
+        actionViews.forEach { $0.removeFromSuperview() }
         actionViews.removeAll()
 
-        separatorViews.forEach { view in
-            view.removeFromSuperview()
-        }
+        separatorViews.forEach { $0.removeFromSuperview() }
         separatorViews.removeAll()
 
         itemViews.removeAll()
     }
 
     private func indexDidChange(previousValue: Int) {
-        // if we animate this in a future version, we should be able to do it here
         updateColors()
-        updateAccessibilityValue()
+        updateSegmentAccessibilityStates()
+        announceAccessibilitySelection()
+        provideSelectionFeedbackIfNeeded()
     }
 
     private func setup(actions: [SegmentedAction]) {
@@ -109,35 +144,35 @@ class CustomSegmentedControl: UIControl {
 
         var previousSeparator: UIView?
         for (index, action) in actions.enumerated() {
-            let actionView = UIView()
-            actionView.translatesAutoresizingMaskIntoConstraints = false
-            actionView.accessibilityLabel = action.accessibilityLabel
-            actionView.isAccessibilityElement = false // Disable individual segment accessibility
-            actionView.isUserInteractionEnabled = true
-            addSubview(actionView)
+            let segmentView = SegmentView(index: index, accessibilityLabel: action.accessibilityLabel, selectHandler: { [weak self] index in
+                self?.selectSegment(at: index)
+            })
+            segmentView.translatesAutoresizingMaskIntoConstraints = false
+            segmentView.isUserInteractionEnabled = true
+            addSubview(segmentView)
 
             let widthMultiplier = (1.0 / CGFloat(actionCount))
             let willHaveTrailingSeperator = (index < actions.count - 1)
             NSLayoutConstraint.activate([
-                actionView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: widthMultiplier),
-                actionView.topAnchor.constraint(equalTo: topAnchor),
-                actionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                actionView.leadingAnchor.constraint(equalTo: previousSeparator?.trailingAnchor ?? leadingAnchor)
+                segmentView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: widthMultiplier),
+                segmentView.topAnchor.constraint(equalTo: topAnchor),
+                segmentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                segmentView.leadingAnchor.constraint(equalTo: previousSeparator?.trailingAnchor ?? leadingAnchor)
             ])
             if index == actions.count - 1 {
-                actionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+                segmentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
             }
 
             // set up touch handling
             let touchHandler = UITapGestureRecognizer(target: self, action: #selector(segmentTapped(_:)))
-            actionView.addGestureRecognizer(touchHandler)
+            segmentView.addGestureRecognizer(touchHandler)
 
             // add icon or text
             if let icon = action.icon {
                 let iconView = TintableImageView(image: icon)
                 iconView.contentMode = .center
-                actionView.addSubview(iconView)
-                iconView.anchorToAllSidesOf(view: actionView)
+                segmentView.addSubview(iconView)
+                iconView.anchorToAllSidesOf(view: segmentView)
 
                 itemViews.append(iconView)
             } else {
@@ -147,12 +182,12 @@ class CustomSegmentedControl: UIControl {
                 label.font = titleFont
                 label.adjustsFontSizeToFitWidth = true
                 label.minimumScaleFactor = 0.7
-                actionView.addSubview(label)
-                label.anchorToAllSidesOf(view: actionView, padding: 4)
+                segmentView.addSubview(label)
+                label.anchorToAllSidesOf(view: segmentView, padding: 4)
 
                 itemViews.append(label)
             }
-            actionViews.append(actionView)
+            actionViews.append(segmentView)
 
             // add seperator if required
             if willHaveTrailingSeperator {
@@ -164,7 +199,7 @@ class CustomSegmentedControl: UIControl {
                     separator.widthAnchor.constraint(equalToConstant: CustomSegmentedControl.separatorWidth),
                     separator.topAnchor.constraint(equalTo: topAnchor, constant: 2),
                     separator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
-                    separator.leadingAnchor.constraint(equalTo: actionView.trailingAnchor)
+                    separator.leadingAnchor.constraint(equalTo: segmentView.trailingAnchor)
                 ])
                 separatorViews.append(separator)
 
@@ -176,19 +211,23 @@ class CustomSegmentedControl: UIControl {
         setupAccessibility()
     }
 
-    private func setupAccessibility() {
-        // Make the entire control accessible as one element
-        isAccessibilityElement = true
-        accessibilityTraits = .adjustable
-        updateAccessibilityValue()
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil {
+            selectionFeedbackGenerator.prepare()
+        }
+    }
 
-        // Ensure individual segments are not accessible
-        actionViews.forEach { $0.isAccessibilityElement = false }
+    private func setupAccessibility() {
+        isAccessibilityElement = false
+        accessibilityTraits = []
+        updateSegmentAccessibilityStates()
     }
 
     private func updateColors() {
         for (index, view) in actionViews.enumerated() {
-            view.backgroundColor = selectedIndex == index ? selectedBgColor : unselectedBgColor
+            let isSelected = selectedIndex == index
+            view.backgroundColor = isSelected ? selectedBgColor : unselectedBgColor
         }
 
         separatorViews.forEach { $0.backgroundColor = lineColor }
@@ -215,12 +254,41 @@ class CustomSegmentedControl: UIControl {
         layer.borderColor = lineColor.cgColor
     }
 
+    private func updateSegmentAccessibilityStates() {
+        for (index, segment) in actionViews.enumerated() {
+            segment.updateSelectionState(isSelected: index == selectedIndex)
+        }
+    }
+
+    private func announceAccessibilitySelection() {
+        guard UIAccessibility.isVoiceOverRunning,
+              window != nil,
+              !isHidden,
+              alpha > 0,
+              !accessibilityElementsHidden,
+              selectedIndex >= 0,
+              selectedIndex < actions.count else {
+            return
+        }
+
+        let label = actions[selectedIndex].accessibilityLabel
+        guard !label.isEmpty else { return }
+
+        DispatchQueue.main.async {
+            UIAccessibility.post(notification: .announcement, argument: label)
+        }
+    }
+
+    private func provideSelectionFeedbackIfNeeded() {
+        guard window != nil else { return }
+
+        selectionFeedbackGenerator.selectionChanged()
+        selectionFeedbackGenerator.prepare()
+    }
+
     @objc private func segmentTapped(_ recognizer: UITapGestureRecognizer) {
         let locationTapped = recognizer.location(in: self)
-        let segmentTapped = Int(locationTapped.x / (bounds.width / CGFloat(actionCount)))
-
-        selectedIndex = segmentTapped
-        sendActions(for: .valueChanged)
+        selectSegment(atLocation: locationTapped)
     }
 
     // MARK: - Accessibility Support
@@ -228,9 +296,7 @@ class CustomSegmentedControl: UIControl {
     private var actions: [SegmentedAction] = []
 
     func setActionsWithAccessibility(_ actions: [SegmentedAction]) {
-        self.actions = actions
         setActions(actions)
-        setupAccessibility()
     }
 
     private func clampSelectedIndexIfNeeded() {
@@ -248,41 +314,23 @@ class CustomSegmentedControl: UIControl {
         }
     }
 
-    private func updateAccessibilityValue() {
-        guard selectedIndex >= 0, selectedIndex < actions.count else {
-            accessibilityValue = nil
-            return
-        }
+    private func selectSegment(atLocation point: CGPoint) {
+        guard actionCount > 0, bounds.width > 0 else { return }
 
-        accessibilityValue = actions[selectedIndex].accessibilityLabel
+        let segmentWidth = bounds.width / CGFloat(actionCount)
+        guard segmentWidth > 0 else { return }
+
+        let rawIndex = Int(point.x / segmentWidth)
+        selectSegment(at: rawIndex)
     }
 
-    override func accessibilityIncrement() {
-        guard !actions.isEmpty else { return }
+    private func selectSegment(at index: Int) {
+        guard actionCount > 0 else { return }
 
-        let newIndex = min(selectedIndex + 1, actions.count - 1)
-        if newIndex != selectedIndex {
-            selectedIndex = newIndex
-            updateAccessibilityValue()
-            sendActions(for: .valueChanged)
-            UIAccessibility.post(notification: .announcement, argument: accessibilityValue)
-        }
-    }
+        let clampedIndex = max(0, min(actionCount - 1, index))
+        guard clampedIndex != selectedIndex else { return }
 
-    override func accessibilityDecrement() {
-        guard !actions.isEmpty else { return }
-
-        let newIndex = max(selectedIndex - 1, 0)
-        if newIndex != selectedIndex {
-            selectedIndex = newIndex
-            updateAccessibilityValue()
-            sendActions(for: .valueChanged)
-            UIAccessibility.post(notification: .announcement, argument: accessibilityValue)
-        }
-    }
-
-    private func indexDidChangeAccessibility(previousValue: Int) {
-        updateColors()
-        updateAccessibilityValue()
+        selectedIndex = clampedIndex
+        sendActions(for: .valueChanged)
     }
 }
