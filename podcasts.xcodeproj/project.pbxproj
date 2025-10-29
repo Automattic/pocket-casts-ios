@@ -24,6 +24,8 @@
 
 /* Begin PBXBuildFile section */
 		07FCE4132EB21CF3001E08F5 /* EventHorizonSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 07FCE4122EB21CF3001E08F5 /* EventHorizonSDK */; };
+		07FCE4192EB2203C001E08F5 /* EventHorizonSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 07FCE4182EB2203C001E08F5 /* EventHorizonSDK */; };
+		07FCE41D2EB24667001E08F5 /* EventHorizonSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 07FCE41C2EB24667001E08F5 /* EventHorizonSDK */; };
 		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */; };
 		102141132C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102141122C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift */; };
@@ -4365,6 +4367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
+				07FCE41D2EB24667001E08F5 /* EventHorizonSDK in Frameworks */,
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
@@ -4378,6 +4381,7 @@
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
+				07FCE4192EB2203C001E08F5 /* EventHorizonSDK in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
@@ -9158,6 +9162,8 @@
 				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
 				9A3456789012CDEF00GH3456 /* EventHorizonSDK */,
 				07FCE4122EB21CF3001E08F5 /* EventHorizonSDK */,
+				07FCE4182EB2203C001E08F5 /* EventHorizonSDK */,
+				07FCE41C2EB24667001E08F5 /* EventHorizonSDK */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -9348,7 +9354,7 @@
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
-				07FCE4112EB21CF3001E08F5 /* XCLocalSwiftPackageReference "eventhorizon" */,
+				07FCE41B2EB24667001E08F5 /* XCLocalSwiftPackageReference "eventhorizon" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -13980,7 +13986,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		07FCE4112EB21CF3001E08F5 /* XCLocalSwiftPackageReference "eventhorizon" */ = {
+		07FCE41B2EB24667001E08F5 /* XCLocalSwiftPackageReference "eventhorizon" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = eventhorizon;
 		};
@@ -14103,6 +14109,14 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		07FCE4122EB21CF3001E08F5 /* EventHorizonSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EventHorizonSDK;
+		};
+		07FCE4182EB2203C001E08F5 /* EventHorizonSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EventHorizonSDK;
+		};
+		07FCE41C2EB24667001E08F5 /* EventHorizonSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = EventHorizonSDK;
 		};

@@ -13,8 +13,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "EventHorizonSDK",
-            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocketcasts-2025-10-28-15-27-35/EventHorizon-pocketcasts-2025-10-28-15-27-35.xcframework.zip",
-            checksum: "d7ed9ae9a85430c2e1840c4e6b116c5e965a9dff38488ea57f2a73dd56dbdc19"
+            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocketcasts-2025-10-29-13-17-22/EventHorizon-pocketcasts-2025-10-29-13-17-22.xcframework.zip",
+            checksum: "c38257013511e179d8534a2a30337f5abdf16b3901fc15a6aca5498bdc90d6e2"
         )
     ]
 )
