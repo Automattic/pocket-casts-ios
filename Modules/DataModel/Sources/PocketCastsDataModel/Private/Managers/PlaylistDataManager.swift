@@ -90,6 +90,69 @@ class PlaylistDataManager {
         return count
     }
 
+    func distinctPodcasts(
+        for playlist: EpisodeFilter,
+        limit: Int,
+        shouldShowArchived: Bool,
+        dbQueue: PCDBQueue
+    ) -> [Episode] {
+        var episodes: [Episode] = []
+        if playlist.manual {
+            let query = PlaylistQueryBuilder.distinctPodcastsQuery(
+                for: playlist,
+                limit: limit,
+                shouldShowArchived: shouldShowArchived
+            )
+
+            dbQueue.read { db in
+                do {
+                    let resultSet = try db.executeQuery(query, values: nil)
+                    defer { resultSet.close() }
+
+                    while resultSet.next() {
+                        guard let episode = Episode.from(resultSet: resultSet) else { continue }
+                        episodes.append(episode)
+                        if limit > 0, episodes.count == limit {
+                            break
+                        }
+                    }
+                } catch {
+                    FileLog.shared.addMessage("PlaylistDataManager.distinctPodcasts error: \(error)")
+                }
+            }
+        } else {
+            let query = PlaylistQueryBuilder.query(
+                clause: .episode,
+                for: playlist,
+                episodeUuidToAdd: nil,
+                limit: 0,
+                shouldShowArchived: shouldShowArchived
+            )
+
+            dbQueue.read { db in
+                do {
+                    let resultSet = try db.executeQuery(query, values: nil)
+                    defer { resultSet.close() }
+
+                    var seenPodcasts = Set<String>()
+                    while resultSet.next() {
+                        guard let episode = Episode.from(resultSet: resultSet) else { continue }
+                        if seenPodcasts.insert(episode.podcastUuid).inserted {
+                            episodes.append(episode)
+                            if limit > 0, episodes.count == limit {
+                                break
+                            }
+                        }
+                    }
+                } catch {
+                    FileLog.shared.addMessage("PlaylistDataManager.distinctPodcasts error: \(error)")
+                }
+            }
+        }
+
+        return episodes
+    }
+
     func playlistContainsPodcast(podcastUuid: String, includeDeleted: Bool = false, dbQueue: PCDBQueue) -> Bool {
         var exists = false
         dbQueue.read { db in

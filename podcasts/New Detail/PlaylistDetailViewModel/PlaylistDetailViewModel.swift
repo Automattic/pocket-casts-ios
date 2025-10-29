@@ -97,7 +97,8 @@ class PlaylistDetailViewModel: ObservableObject {
                         self.isLoadingData = false
                     }
                 } else {
-                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: 4)
+                    let distinctEpisodes = DataManager.sharedManager.distinctPodcasts(for: playlist, limit: 4)
+                    let firstFourDistinct = distinctEpisodes.toListEpisodes()
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
@@ -294,21 +295,6 @@ class PlaylistDetailViewModel: ObservableObject {
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
         }.value
-    }
-
-    private func firstDistinctPodcasts(from episodes: [ListEpisode], limit: Int) -> [ListEpisode] {
-        var seen = Set<String>()
-        var list: [ListEpisode] = []
-
-        for episode in episodes {
-            if seen.insert(episode.episode.podcastUuid).inserted {
-                list.append(episode)
-                if list.count == limit {
-                    break
-                }
-            }
-        }
-        return list
     }
 }
 

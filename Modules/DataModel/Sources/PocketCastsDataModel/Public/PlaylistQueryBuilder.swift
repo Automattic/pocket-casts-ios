@@ -137,6 +137,36 @@ public class PlaylistQueryBuilder {
         return queryString
     }
 
+    public class func distinctPodcastsQuery(
+        for playlist: EpisodeFilter,
+        limit: Int,
+        shouldShowArchived: Bool = false
+    ) -> String {
+        let limitClause = limit > 0 ? "\nLIMIT \(limit)" : ""
+        let archivedClause = shouldShowArchived ? "" : "\n            AND episode.archived = 0"
+
+        return """
+        WITH ranked_episodes AS (
+          SELECT
+            episode.*,
+            playlistEpisode.episodePosition AS playlistPosition,
+            ROW_NUMBER() OVER (
+              PARTITION BY episode.podcastUuid
+              ORDER BY playlistEpisode.episodePosition ASC, episode.id ASC
+            ) AS rn
+          FROM \(DataManager.playlistEpisodeTableName) playlistEpisode
+          JOIN \(DataManager.episodeTableName) episode
+            ON episode.uuid = playlistEpisode.episodeUuid
+          WHERE playlistEpisode.playlist_uuid = '\(playlist.uuid)'
+            AND playlistEpisode.wasDeleted = 0\(archivedClause)
+        )
+        SELECT *
+        FROM ranked_episodes
+        WHERE rn = 1
+        ORDER BY playlistPosition ASC\(limitClause)
+        """
+    }
+
     public class func podcastExistsInPlaylistEpisodesQuery(includeDeleted: Bool = false) -> String {
         let deletedClause = includeDeleted ? "" : " AND wasDeleted = 0"
         return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"

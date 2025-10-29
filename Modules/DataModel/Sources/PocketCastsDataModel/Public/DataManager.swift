@@ -962,6 +962,19 @@ public class DataManager {
         return episodeManager.findPlaylistEpisodesWhere(query: query, arguments: nil, dbQueue: dbQueue)
     }
 
+    public func distinctPodcasts(
+        for playlist: EpisodeFilter,
+        limit: Int,
+        shouldShowArchived: Bool? = nil
+    ) -> [Episode] {
+        playlistManager.distinctPodcasts(
+            for: playlist,
+            limit: limit,
+            shouldShowArchived: shouldShowArchived ?? playlist.showArchivedEpisodes,
+            dbQueue: dbQueue
+        )
+    }
+
     public func deleteDeletedPlaylists() {
         playlistManager.deleteDeletedPlaylists(dbQueue: dbQueue)
     }
