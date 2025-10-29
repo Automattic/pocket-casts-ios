@@ -56,12 +56,21 @@ struct NewSearchResultsView: View {
                 .background(Theme.sharedTheme.primaryUi01)
             } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
                 List {
-                    Section {
+                    Section(content: {
                         PredictiveList()
                             .onAppear {
                                 self.searchAnalyticsHelper.trackPredictiveShown()
                             }
-                    }
+                    }, footer: {
+                        Button(action: {
+                            searchResults.search(term: searchResults.currentSearchTerm)
+                        }, label: {
+                            Text(L10n.searchResultsViewAll(searchResults.currentSearchTerm))
+                                .font(style: .subheadline, weight: .medium)
+                                .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
+                        })
+                    })
+                    .listSectionSeparator(.hidden, edges: .bottom)
                 }
                 .scrollDismissesKeyboard(.immediately)
                 .listStyle(.plain)
