@@ -56,7 +56,7 @@
     <key>accessibility_player_effects_playback_speed</key>
     <string>%1$@-fache Wiedergabegeschwindigkeit</string>
     <key>accessibility_playlist_color</key>
-    <string>Wiedergabelistenfarbe %1$@</string>
+    <string>Playlist-Farbe %1$@</string>
     <key>accessibility_plus_only</key>
     <string>Gesperrt, Plus-Feature</string>
     <key>accessibility_profile_settings</key>
@@ -870,11 +870,11 @@ Lass uns dir zuerst helfen</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Überblick über wiedergegebene Titel behalten</string>
     <key>eac_informational_banner_playlists_description</key>
-    <string>Erstelle ein kostenloses Konto, um deine Wiedergabelisten auf jedem Gerät synchronisieren zu können.</string>
+    <string>Erstelle ein kostenloses Konto, um deine Playlists auf jedem Gerät zu synchronisieren.</string>
     <key>eac_informational_banner_playlists_icon_accessibility</key>
-    <string>Wiedergabelisten-Icon</string>
+    <string>Playlist-Icon</string>
     <key>eac_informational_banner_playlists_title</key>
-    <string>Synchronisiere deine Wiedergabelisten</string>
+    <string>Synchronisiere deine Playlists</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Erstelle ein kostenloses Konto, um deine Shows zu synchronisieren und von überall aus hören zu können.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1167,7 +1167,7 @@ Folge dauerte
     <key>filter_create_filter_by</key>
     <string>FILTERN NACH</string>
     <key>filter_create_instructions</key>
-    <string>Wähle deine Filterkriterien mit diesen Buttons aus, um eine aktuelle intelligente Wiedergabeliste mit Folgen zu erstellen.</string>
+    <string>Wähle deine Filterkriterien mit diesen Buttons aus, um eine aktuelle intelligente Playlist mit Folgen zu erstellen.</string>
     <key>filter_create_no_episodes</key>
     <string>Keine passenden Folgen</string>
     <key>filter_create_no_episodes_description_explanation</key>
@@ -2036,15 +2036,15 @@ UM UPDATES ZU ERHALTEN</string>
     <key>playlist_add_to_title</key>
     <string>Zu „%@“ hinzufügen</string>
     <key>playlist_create_no_episodes_description</key>
-    <string>Keine der Folgen in deinen Podcasts entspricht diesen Regeln.
+    <string>Keine der Folgen in deinen Podcasts entspricht diesen Regeln. 
 
-Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünftige Folgen.</string>
+Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folgen.</string>
     <key>playlist_creation_create_playlist_button</key>
-    <string>Wiedergabeliste erstellen</string>
+    <string>Playlist erstellen</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Füge Folgen basierend auf Regeln automatisch hinzu.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
-    <string>In eine intelligente Wiedergabeliste umwandeln</string>
+    <string>In intelligente Playlist umwandeln</string>
     <key>playlist_detail_description</key>
     <string>%1$@ Folgen • %2$@</string>
     <key>playlist_episode_added_title</key>
@@ -2054,33 +2054,31 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <key>playlist_episodes_count</key>
     <string>%1$@ Folgen</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Wiedergabeliste ist voll. Versuche, eine neue zu erstellen</string>
+    <string>Playlist ist voll. Versuche, eine neue zu erstellen.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Folgen hinzufügen</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Shows durchsuchen</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Wische bei einer Folge nach links, um sie zu deiner Wiedergabeliste hinzuzufügen.</string>
+    <string>Wische bei einer Folge nach links, um sie zu deiner Playlist hinzuzufügen.</string>
     <key>playlist_manual_empty_state_title</key>
-    <string>Deine Wiedergabeliste erstellen</string>
+    <string>Erstelle deine Playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
-    <string>Folgen zu deiner Wiedergabeliste hinzufügen</string>
+    <string>Füge Folgen zu deiner Playlist hinzu</string>
     <key>playlist_manual_episode_add_to_playlist</key>
-    <string>Zur Wiedergabeliste hinzufügen</string>
+    <string>Zu Playlist hinzufügen</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Folgen neu anordnen</string>
     <key>playlist_options</key>
-    <string>Wiedergabelisten-Optionen</string>
+    <string>Playlist-Optionen</string>
     <key>playlist_preview_create_smart_playlist</key>
-    <string>Intelligente Wiedergabeliste erstellen</string>
+    <string>Intelligente Playlist erstellen</string>
     <key>playlist_preview_title</key>
     <string>Vorschau von %@ anzeigen</string>
     <key>playlist_search</key>
-    <string>Wiedergabeliste suchen</string>
+    <string>Playlist suchen</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Jetzt kannst du entweder stolz darauf sein, deine Liste durchgehört zu haben, oder deine Regeln bearbeiten, um dir noch mehr Podcasts vorzuknöpfen.</string>
     <key>playlist_smart_preview_description</key>
-    <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Wiedergabeliste hinzuzufügen.</string>
+    <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Playlist hinzuzufügen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Aktivierte Regeln</string>
     <key>playlist_smart_preview_other_rules</key>
@@ -2102,21 +2100,21 @@ Passe die Regeln an oder speichere diese Wiedergabeliste für passende zukünfti
     <key>playlist_smart_rules_title</key>
     <string>Intelligente Regeln</string>
     <key>playlists</key>
-    <string>Wiedergabelisten</string>
+    <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
-    <string>Neue Wiedergabeliste</string>
+    <string>Neue Playlist</string>
     <key>playlists_empty_state_description</key>
-    <string>Mit Wiedergabelisten kannst du Folgen manuell oder automatisch mit intelligenten Regeln organisieren.</string>
+    <string>Mit Playlists kannst du Folgen manuell oder automatisch mit intelligenten Regeln organisieren.</string>
     <key>playlists_empty_state_title</key>
     <string>Deine Folgen, nach deinen Wünschen</string>
     <key>playlists_onboarding_manual_description</key>
-    <string>Übernimm die Kontrolle über dein Audioerlebnis. Erstelle individuelle Wiedergabelisten für Reisen, Themes oder was auch immer du gerade magst. Ob intelligent oder individuell: Wiedergabelisten passen perfekt zu deinen Audiogewohnheiten.</string>
+    <string>Übernimm die Kontrolle über dein Audioerlebnis. Erstelle individuelle Playlists für Reisen, Themen oder welche Stimmung du auch hast. Ob intelligent oder individuell: Playlists passen perfekt zu deinen Hörgewohnheiten.</string>
     <key>playlists_onboarding_manual_title</key>
-    <string>Neu: Wiedergabelisten</string>
+    <string>Neu: Playlists</string>
     <key>playlists_onboarding_smart_description</key>
     <string>Unsere neuen Wiedergabelisten funktionieren wie gewohnt und verwenden Regeln, damit neue Folgen deiner Lieblingspodcasts automatisch hinzugefügt werden. Du hast auch immer noch Zugriff auf alle deine bereits vorhandenen Filter. Außer dem Namen hat sich also nichts geändert.</string>
     <key>playlists_onboarding_smart_title</key>
-    <string>Filter sind jetzt intelligente Wiedergabelisten</string>
+    <string>Filter sind jetzt intelligente Playlists</string>
     <key>please_try_again</key>
     <string>Versuche es bitte noch einmal</string>
     <key>please_try_again_later</key>
@@ -2836,15 +2834,15 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Keine Filter ausgewählt</string>
     <key>settings_auto_downloads_no_playlists_selected</key>
-    <string>Keine Wiedergabelisten ausgewählt</string>
+    <string>Keine Playlists ausgewählt</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Keine Podcasts ausgewählt</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Beim Folgen</string>
     <key>settings_auto_downloads_playlists_selected_format</key>
-    <string>%1$@ Wiedergabelisten ausgewählt</string>
+    <string>%1$@ Playlists ausgewählt</string>
     <key>settings_auto_downloads_playlists_selected_singular</key>
-    <string>Eine Wiedergabeliste ausgewählt</string>
+    <string>Eine Playlist ausgewählt</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ Podcasts ausgewählt</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2854,7 +2852,7 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Du kannst neue Folgen automatisch herunterladen und Folgen von Shows speichern, denen du seit Neuestem folgst. Zudem kannst du deinen Speicher verwalten, indem du festlegst, wie viele Folgen gespeichert werden sollen.</string>
     <key>settings_auto_downloads_subtitle_playlists</key>
-    <string>Lade die obersten Folgen in einer Wiedergabeliste herunter.</string>
+    <string>Lade die obersten Folgen in einer Playlist herunter.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Zur Warteschlange hinzugefügte Folgen herunterladen.</string>
     <key>settings_badge_filter_header</key>
@@ -2862,7 +2860,7 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_badge_new_since_opened</key>
     <string>Neu seit Öffnen der App</string>
     <key>settings_badge_smart_playlist_header</key>
-    <string>ANZAHL DER FOLGEN IN INTELLIGENTEN WIEDERGABELISTEN</string>
+    <string>ANZAHL DER FOLGEN IN INTELLIGENTEN PLAYLISTS</string>
     <key>settings_badge_total_unplayed</key>
     <string>Anzahl nicht angehörter Titel</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -3030,9 +3028,9 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_in_menu</key>
     <string>IM MENÜ</string>
     <key>settings_in_smart_playlist_singular</key>
-    <string>In einer intelligenten Wiedergabeliste enthalten</string>
+    <string>In einer intelligenten Playlist enthalten</string>
     <key>settings_in_smart_playlists_plural_format</key>
-    <string>In %1$@ intelligenten Wiedergabelisten enthalten</string>
+    <string>In %1$@ intelligenten Playlists enthalten</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inaktive Folgen sind Folgen, die du in der oben angegebenen Zeit nicht angehört oder heruntergeladen hast. Downloads werden entfernt, wenn die Folge archiviert wird.</string>
     <key>settings_next_action</key>
@@ -3040,13 +3038,13 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_not_in_filters</key>
     <string>In keinem Filter enthalten</string>
     <key>settings_not_in_smart_playlists</key>
-    <string>In keinen intelligenten Wiedergabelisten enthalten</string>
+    <string>In keinen intelligenten Playlists enthalten</string>
     <key>settings_notifications</key>
     <string>Benachrichtigungen</string>
     <key>settings_notifications_filter_count</key>
     <string>Filteranzahl</string>
     <key>settings_notifications_smart_playlist_count</key>
-    <string>Anzahl intelligenter Wiedergabelisten</string>
+    <string>Anzahl intelligenter Playlists</string>
     <key>settings_notifications_subtitle</key>
     <string>Du wirst über neue Folgen benachrichtigt. Hilft dir auch, die Zuverlässigkeit von automatischen Downloads zu verbessern.</string>
     <key>settings_opml</key>
@@ -3068,9 +3066,9 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>settings_select_filters_plural</key>
     <string>Filter auswählen</string>
     <key>settings_select_playlists_plural</key>
-    <string>Wiedergabelisten auswählen</string>
+    <string>Playlists auswählen</string>
     <key>settings_select_smart_playlists_plural</key>
-    <string>Intelligente Wiedergabelisten auswählen</string>
+    <string>Intelligente Playlists auswählen</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Filter öffnen</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
@@ -3326,11 +3324,11 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
     <key>smart_playlist</key>
-    <string>Intelligente Wiedergabeliste</string>
+    <string>Intelligente Playlist</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Wir haben diese vorgefertigten Wiedergabelisten erstellt, um dir den Einstieg zu erleichtern. Sie werden automatisch basierend auf deinem Hörverlauf aktualisiert.</string>
     <key>smart_playlists_tip_view_title</key>
-    <string>Intelligente Wiedergabelisten, sofort einsatzbereit</string>
+    <string>Intelligente Playlists, sofort einsatzbereit</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Weiter mit Apple</string>
     <key>social_sign_in_continue_with_google</key>

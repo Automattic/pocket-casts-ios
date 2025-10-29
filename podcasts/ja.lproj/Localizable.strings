@@ -2057,8 +2057,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>プレイリストがいっぱいです。 新しいプレイリストを作成してみてください</string>
     <key>playlist_manual_add_episodes</key>
     <string>すべてのエピソード</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>ショーを閲覧</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>エピソードを左にスワイプしてプレイリストに追加します。</string>
     <key>playlist_manual_empty_state_title</key>
