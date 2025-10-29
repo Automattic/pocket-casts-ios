@@ -4,6 +4,24 @@ struct PlaylistHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
+    var description: String {
+        let duration = viewModel.totalDuration()
+        switch viewModel.playlistEpisodesCount {
+        case let count where count > 1:
+            if let duration {
+                return L10n.playlistDetailDescription(count, duration)
+            }
+            return L10n.playlistEpisodesCount(count)
+        case 1:
+            if let duration {
+                return L10n.playlistDetailDescriptionOneEpisode(duration)
+            }
+            return L10n.podcastEpisodeCountSingular
+        default:
+            return L10n.playlistEpisodesCount(viewModel.playlistEpisodesCount)
+        }
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             VStack {
@@ -22,7 +40,7 @@ struct PlaylistHeaderView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
-                    Text(L10n.playlistDetailDescription(viewModel.playlistEpisodesCount, viewModel.totalDuration()))
+                    Text(description)
                         .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.secondaryText02)
@@ -46,7 +64,7 @@ struct PlaylistHeaderView: View {
                         type: .playAll,
                         color: theme.primaryUi02,
                         image: Image("filter_play"),
-                        title: L10n.playAll,
+                        title: L10n.playlistsPlayAll,
                         background: theme.primaryText01) { type in
                             viewModel.onButtonTapped(type)
                     }

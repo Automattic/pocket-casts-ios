@@ -16,15 +16,49 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     let podcastsSmartRuleHeaderCellId = "PodcastsSmartRuleHeaderCellId"
     var saveButton: UIButton!
 
+    private var keyBoardHeight: CGFloat = .zero
+    private var tempPodcasts: [Podcast] = []
+    private var isSearching = false
+    private var searchController: PCSearchBarController?
     private var cancellables = Set<AnyCancellable>()
     private var viewModel: SmartRuleToggleViewModel!
+    private let playlistsRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
     private var switchIsOn: Bool {
-        FeatureFlag.playlistsRebranding.enabled ? viewModel.toggleIsOn : selectAllSwitch.isOn
+        playlistsRebrandingEnabled ? viewModel.toggleIsOn : selectAllSwitch.isOn
     }
+    private lazy var searchBar: UIView? = {
+        let view = UIView()
+        view.backgroundColor = .clear
+
+        searchController = PCSearchBarController()
+        searchController?.searchDebounce = 0.2
+
+        guard let searchController else {
+            return nil
+        }
+
+        searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
+        view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        NSLayoutConstraint.activate([
+            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            searchController.view.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
+
+        searchController.placeholderText = L10n.search
+        searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+        searchController.searchDelegate = self
+
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
         }
 
@@ -36,13 +70,18 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.dataSource = self
         podcastTable.separatorStyle = .none
         podcastTable.register(UINib(nibName: "PodcastFilterSelectionCell", bundle: nil), forCellReuseIdentifier: podcastFilterCellId)
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
+            podcastTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
+            podcastTable.backgroundColor = AppTheme.viewBackgroundColor()
+            addCustomObserver(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow(_:)))
+            addCustomObserver(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide(_:)))
         }
+        podcastTable.sectionHeaderTopPadding = 0
 
         setupNavBar()
         navigationController?.navigationBar.sizeToFit()
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             viewModel = SmartRuleToggleViewModel(
                 toggleIsOn: filterToEdit.filterAllPodcasts,
                 title: L10n.playlistSmartRulePodcastsHeaderTitle,
@@ -68,7 +107,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             let allPodcastUuids = allPodcasts.map(\.uuid)
             selectedUuids = filterToEdit.podcastUuids.components(separatedBy: ",").compactMap { allPodcastUuids.contains($0) ? $0 : nil }
         }
-        if !FeatureFlag.playlistsRebranding.enabled {
+        if !playlistsRebrandingEnabled {
             updateSwitchStatus()
         }
         updateRightBarBtn()
@@ -76,7 +115,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func setupNavBar() {
         let backgroundColor: UIColor
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             backgroundColor = AppTheme.viewBackgroundColor()
             changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
         } else {
@@ -86,7 +125,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         }
         title = L10n.filterChoosePodcasts
         navigationController?.navigationBar.prefersLargeTitles = true
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             navigationItem.largeTitleDisplayMode = .always
         }
 
@@ -112,7 +151,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func setupHeader() {
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             return
         }
         headerView = PodcastSelectionHeaderView()
@@ -130,7 +169,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         footerView = ThemeableView()
         footerView.backgroundColor = AppTheme.viewBackgroundColor()
         saveButton = UIButton(type: .custom)
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
         } else {
             saveButton.backgroundColor = filterToEdit.playlistColor()
@@ -165,13 +204,13 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     private func setupSaveButtonTitle() {
-        let title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlistSmartRuleSaveButton : L10n.filterUpdate
+        let title = playlistsRebrandingEnabled ? L10n.playlistSmartRuleSaveButton : L10n.filterUpdate
         let attributedTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 
     private func updateSaveButtonEnabledState() {
-        guard FeatureFlag.playlistsRebranding.enabled else {
+        guard playlistsRebrandingEnabled else {
             saveButton.isEnabled = true
             saveButton.alpha = 1.0
             return
@@ -195,14 +234,14 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             filterToEdit.filterAllPodcasts = false
         }
 
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             filterToEdit.podcastSmartRuleApplied = true
         }
 
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             navigationController?.popViewController(animated: true)
         } else {
             dismiss(animated: true, completion: nil)
@@ -241,12 +280,18 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     @objc func selectAllSwitchValueChanged() {
         selectedUuids.removeAll()
         if switchIsOn {
-            for podcast in allPodcasts {
-                selectedUuids.append(podcast.uuid)
+            if playlistsRebrandingEnabled, isSearching {
+                for podcast in tempPodcasts {
+                    selectedUuids.append(podcast.uuid)
+                }
+            } else {
+                for podcast in allPodcasts {
+                    selectedUuids.append(podcast.uuid)
+                }
             }
         }
         Analytics.track(.settingsSelectPodcastsSelectAllPodcastsToggled, properties: ["enabled": switchIsOn, "source": analyticsSource])
-        if !FeatureFlag.playlistsRebranding.enabled {
+        if !playlistsRebrandingEnabled {
             setSwitchSubtitle()
         }
         updateRightBarBtn()
@@ -273,35 +318,62 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     func didChangePodcasts(numberSelected: Int) {}
 
+    override func currentPodcastsSource() -> [Podcast] {
+        if playlistsRebrandingEnabled {
+            return isSearching ? tempPodcasts : allPodcasts
+        }
+        return allPodcasts
+    }
+
     // MARK: - TableView data source and delegate
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return FeatureFlag.playlistsRebranding.enabled ? 2 : 1
+        return playlistsRebrandingEnabled ? 2 : 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if FeatureFlag.playlistsRebranding.enabled, section == 0 {
-            return 1
+        if playlistsRebrandingEnabled {
+            switch section {
+            case 0:
+                return 1
+            default:
+                return allPodcasts.isEmpty ? 1 : allPodcasts.count
+            }
         }
         return allPodcasts.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastsSmartRuleHeaderCellId)!
-            cell.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-            cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-            cell.contentConfiguration = UIHostingConfiguration {
-                SmartRuleToggleHeaderView(viewModel: viewModel)
-                    .environmentObject(Theme.sharedTheme)
-                    .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 {
+                let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastsSmartRuleHeaderCellId)!
+                cell.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+                cell.contentView.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+                cell.contentConfiguration = UIHostingConfiguration {
+                    SmartRuleToggleHeaderView(viewModel: viewModel)
+                        .environmentObject(Theme.sharedTheme)
+                        .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
+                }
+                .margins(.horizontal, 0)
+                .margins(.vertical, 0)
+                return cell
+            } else if allPodcasts.isEmpty {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptyStateCell.reuseIdentifier,
+                    for: indexPath
+                ) as! EmptyStateCell
+                cell.configure(
+                    title: L10n.discoverNoPodcastsFound,
+                    message: L10n.discoverNoPodcastsFoundMsg,
+                    icon: {
+                        Image(systemName: "info.circle")
+                    }
+                )
+                return cell
             }
-            .margins(.horizontal, 0)
-            .margins(.vertical, 0)
-            return cell
         }
         let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastFilterCellId) as! PodcastFilterSelectionCell
-        if FeatureFlag.playlistsRebranding.enabled {
+        if playlistsRebrandingEnabled {
             cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
         } else {
             cell.setTintColor(color: filterToEdit.playlistColor())
@@ -310,15 +382,19 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            return
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
+                return
+            }
         }
         super.tableView(tableView, didSelectRowAt: indexPath)
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            return
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
+                return
+            }
         }
         let podcastCell = cell as! PodcastFilterSelectionCell
 
@@ -329,15 +405,19 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            return UITableView.automaticDimension
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
+                return UITableView.automaticDimension
+            }
         }
         return 72
     }
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            return false
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
+                return false
+            }
         }
         if switchIsOn {
             return false
@@ -346,8 +426,10 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if FeatureFlag.playlistsRebranding.enabled, indexPath.section == 0 {
-            return nil
+        if playlistsRebrandingEnabled {
+            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
+                return nil
+            }
         }
         if switchIsOn {
             return nil
@@ -371,5 +453,89 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard playlistsRebrandingEnabled else {
+            return
+        }
+
+        let keyBoardHeight = isSearching ? keyBoardHeight - 110 : 0
+        podcastTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardHeight, right: 0)
+        podcastTable.verticalScrollIndicatorInsets = podcastTable.contentInset
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: true)
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    private func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        keyBoardHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
+
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+    }
+}
+
+extension PodcastFilterOverlayController: PCSearchBarDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if playlistsRebrandingEnabled, section == 1 {
+            return searchBar
+        }
+        return nil
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if playlistsRebrandingEnabled, section == 1 {
+            return PCSearchBarController.defaultHeight
+        }
+        return .leastNormalMagnitude
+    }
+
+    func searchDidBegin() {
+        if isSearching {
+            return
+        }
+        isSearching = true
+        tempPodcasts = allPodcasts
+    }
+
+    func searchDidEnd() {
+        isSearching = false
+        allPodcasts = tempPodcasts
+        podcastTable.reloadData()
+        tempPodcasts.removeAll()
+    }
+
+    func searchWasCleared() {
+        allPodcasts = tempPodcasts
+        podcastTable.reloadData()
+    }
+
+    func searchTermChanged(_ searchTerm: String) { }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        allPodcasts = tempPodcasts.filter {
+            guard let title = $0.title else {
+                return false
+            }
+            return title.localizedCaseInsensitiveContains(searchTerm)
+        }
+
+        podcastTable.reloadData()
+
+        completion()
     }
 }

@@ -143,6 +143,8 @@
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
     <string>再生後</string>
+    <key>all_results</key>
+    <string>すべての結果</string>
     <key>announcement_autoplay_description</key>
     <string>「次のエピソード」の待機リストが空の場合にエピソードの視聴を開始すると、自動再生機能により表示またはリストされているエピソードの再生が続行します。</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>2023年と比較して、聴取時間が%1$@急増しました</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>2023年と比較して、聴取時間が%1$@以上増加しました</string>
+    <key>playback_2025_feature_description</key>
+    <string>聴取統計、人気のポッドキャストなどをご覧ください。</string>
+    <key>playback_2025_feature_title</key>
+    <string>プレイバック2025</string>
+    <key>playback_2025_view_year</key>
+    <string>マイプレイバック2025を表示</string>
     <key>playback_effect_all_podcasts</key>
     <string>すべてのポッドキャスト</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エラー</string>
     <key>player_user_episode_upload_error</key>
     <string>アップロードエラー</string>
+    <key>playlist_add_to_title</key>
+    <string>「%@」に追加</string>
     <key>playlist_create_no_episodes_description</key>
     <string>これらのルールに一致するポッドキャストのエピソードはありません。
 
@@ -2037,16 +2047,24 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートプレイリストを作成</string>
     <key>playlist_detail_description</key>
     <string>%1$@件のエピソード • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1件のエピソードを「%@」に追加しました</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@件のエピソードを「%2$@」に追加しました</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@件のエピソード</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>プレイリストがいっぱいです。 新しいプレイリストを作成してみてください</string>
     <key>playlist_manual_add_episodes</key>
     <string>すべてのエピソード</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>ショーを閲覧</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>エピソードを左にスワイプしてプレイリストに追加します。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>プレイリストの作成を開始</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>プレイリストにエピソードを追加</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>プレイリストに追加</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>エピソードを並べ替え</string>
     <key>playlist_options</key>
@@ -2055,6 +2073,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートプレイリストを作成</string>
     <key>playlist_preview_title</key>
     <string>%@ をプレビュー</string>
+    <key>playlist_search</key>
+    <string>プレイリストを検索</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>リストにあるすべてのエピソードを再生しました。ルールを編集してさらに追加しますか ?</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2195,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
     <key>plus_marketing_folders_title</key>
     <string>フォルダー</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>生成されたトランスクリプト</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>広告非表示の操作環境では気に入ったコンテンツを増やし、気に入らないコンテンツは減らすことができます</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2462,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードのみ</string>
     <key>podcasts_badges</key>
     <string>バッジ</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>ドラッグ &amp; ドロップ</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>長い順</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2689,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ブックマークを保存</string>
     <key>search</key>
     <string>検索</string>
+    <key>search_bookmarks</key>
+    <string>ブックマークを検索</string>
+    <key>search_episodes</key>
+    <string>エピソードを検索</string>
     <key>search_label</key>
     <string>ポッドキャストを検索または RSS の URL を追加</string>
     <key>search_podcasts</key>
@@ -3605,6 +3633,8 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>長い順</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>短い順</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>あなたのポッドキャスト</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>そこまででない</string>
     <key>user_satisfaction_survey_subtitle</key>

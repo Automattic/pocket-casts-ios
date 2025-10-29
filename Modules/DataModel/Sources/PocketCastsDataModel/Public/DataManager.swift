@@ -936,7 +936,11 @@ public class DataManager {
     }
 
     public func episodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+        if FeatureFlag.playlistsRebranding.enabled {
+            playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+        } else {
+            playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+        }
     }
 
     public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool = false) -> Int {
@@ -947,8 +951,8 @@ public class DataManager {
         playlistManager.playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: true, dbQueue: dbQueue)
     }
 
-    public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        let limit = EpisodeDataManager.Constants.Limits.maxPlaylistItems
+    public func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil) -> [Episode] {
+        let limit = limit ?? EpisodeDataManager.Constants.Limits.maxPlaylistItems
         let query = PlaylistQueryBuilder.query(
             clause: .episode,
             for: playlist,

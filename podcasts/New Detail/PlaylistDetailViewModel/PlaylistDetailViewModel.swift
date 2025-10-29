@@ -161,9 +161,13 @@ class PlaylistDetailViewModel: ObservableObject {
         operationQueue.addOperation(refreshOperation)
     }
 
-    func totalDuration() -> String {
+    func totalDuration() -> String? {
         let totalDuration = episodes.map { $0.episode.duration - $0.episode.playedUpTo }.reduce(0, +)
-        return TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+        if totalDuration <= 0 {
+            return nil
+        }
+        let formattedDuration = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
+        return formattedDuration.isEmpty ? nil : formattedDuration
     }
 
     func delete(episodes uuids: [String]) {

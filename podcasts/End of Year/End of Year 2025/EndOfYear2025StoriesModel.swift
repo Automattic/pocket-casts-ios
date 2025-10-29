@@ -8,11 +8,11 @@ class EndOfYear2025StoriesModel: StoryModel {
     var data = EndOfYear2025StoriesData()
 
     var indicatorColor: Color {
-        .black
+        .white
     }
 
     var primaryBackgroundColor: Color {
-        Color(hex: "EE661C")
+        .endOfYear2025Background
     }
 
     required init() { }
@@ -77,9 +77,9 @@ class EndOfYear2025StoriesModel: StoryModel {
     func story(for storyNumber: Int) -> any StoryView {
         switch stories[storyNumber] {
             case .intro:
-                return IntroStory2024()
+                return IntroStory2025()
             case .numberOfPodcastsAndEpisodesListened:
-                return NumberListened2024(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
+                return NumberListened2025(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
             case .topSpot:
                 return TopSpotStory2024(topPodcast: data.topPodcasts.first!)
             case .top5Podcasts:
@@ -159,10 +159,20 @@ class EndOfYear2025StoriesModel: StoryModel {
     }
 
     @ViewBuilder func shareView() -> some View {
-        Button(L10n.eoyShare) {
+        Button(action: {
             StoriesController.shared.share()
-        }
-        .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+        }, label: {
+            HStack(alignment: .center, spacing: 8) {
+                Image("podcast-share")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.white)
+            }
+            .padding(0)
+            .frame(width: 34, height: 34, alignment: .center)
+            .background(.black.opacity(0.44))
+            .cornerRadius(90)
+        })
         .padding(.horizontal, 24)
         .padding(.vertical, 6)
     }

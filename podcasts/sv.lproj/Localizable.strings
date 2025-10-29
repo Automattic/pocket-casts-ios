@@ -143,6 +143,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Lägg till i Nästa</string>
     <key>after_playing</key>
     <string>Efter uppspelning</string>
+    <key>all_results</key>
+    <string>Alla resultat</string>
     <key>announcement_autoplay_description</key>
     <string>Om din Nästa-kö är tom och du börjar lyssna på ett avsnitt kommer Spela upp automatiskt att fortsätta spela upp avsnitt från den aktuella showen eller listan.</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ UPPDATERINGAR</string>
     <string>Jämfört med 2023 ökade din lyssningstid med hisnande %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Jämfört med 2023 ökade din lyssningstid med över %1$@</string>
+    <key>playback_2025_feature_description</key>
+    <string>Se din lyssningsstatistik, dina favoritpodcasts och mycket mer.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Uppspelning 2025</string>
+    <key>playback_2025_view_year</key>
+    <string>Visa Min uppspelning 2025</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alla podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ UPPDATERINGAR</string>
     <string>Uppspelningsfel</string>
     <key>player_user_episode_upload_error</key>
     <string>Uppladdningsfel</string>
+    <key>playlist_add_to_title</key>
+    <string>Lägg till i ”%@”</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Inget av avsnitten i dina podcasts matchar dessa regler.
 
@@ -2037,16 +2047,24 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Gör till smart spellista</string>
     <key>playlist_detail_description</key>
     <string>%1$@ avsnitt • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 avsnitt tillagt i "%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ avsnitt tillagda i ”%2$@”</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ avsnitt</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Spellistan är full. Prova att skapa en ny</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Bläddra bland shower</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Börja bygga din spellista</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>Lägg till avsnitt i din spellista</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>Lägg till i spellista</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Sortera om avsnitt</string>
     <key>playlist_options</key>
@@ -2055,6 +2073,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Skapa smart spellista</string>
     <key>playlist_preview_title</key>
     <string>Förhandsgranska %@</string>
+    <key>playlist_search</key>
+    <string>Hitta spellista</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Det är antingen dags att fira att den här listan är slutförd eller att redigera dina regler för att hitta mer.</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2195,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Skapa mappar för att organisera din podcastsamling.</string>
     <key>plus_marketing_folders_title</key>
     <string>Mappar</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>Genererade transkriptioner</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>Annonsfri upplevelse som ger dig mer av det du gillar och mindre av det du inte gillar</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2462,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bara senaste avsnittet</string>
     <key>podcasts_badges</key>
     <string>Märken</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Dra och släpp</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Längsta till kortaste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2689,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Spara bokmärke</string>
     <key>search</key>
     <string>Sök</string>
+    <key>search_bookmarks</key>
+    <string>Sök bokmärken</string>
+    <key>search_episodes</key>
+    <string>Sök avsnitt</string>
     <key>search_label</key>
     <string>Sök efter podcasts eller lägg till RSS-URL</string>
     <key>search_podcasts</key>
@@ -3609,6 +3637,8 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Längsta till kortaste</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>Dina podcasts</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>Inte direkt</string>
     <key>user_satisfaction_survey_subtitle</key>

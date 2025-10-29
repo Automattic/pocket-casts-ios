@@ -143,6 +143,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>
     <string>播放後</string>
+    <key>all_results</key>
+    <string>所有結果</string>
     <key>announcement_autoplay_description</key>
     <string>如果「接下來播放」佇列是空的，而你開始聆聽某一單集，自動播放功能會繼續播放同一個節目或清單的單集。</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ Pocket Casts Plus</string>
     <string>比起 2023 年，你的收聽時間大幅上升了 %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>比起 2023 年，你的聆聽時間增加了 %1$@ 以上</string>
+    <key>playback_2025_feature_description</key>
+    <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
+    <key>playback_2025_feature_title</key>
+    <string>2025 年度播放回顧</string>
+    <key>playback_2025_view_year</key>
+    <string>檢視我的 2025 年度播放回顧</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有 Podcast</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ Pocket Casts Plus</string>
     <string>播放錯誤</string>
     <key>player_user_episode_upload_error</key>
     <string>上傳錯誤</string>
+    <key>playlist_add_to_title</key>
+    <string>新增至「%@」</string>
     <key>playlist_create_no_episodes_description</key>
     <string>你的 Podcast 中沒有符合這些規則的單集。
 
@@ -2037,16 +2047,24 @@ Pocket Casts Plus</string>
     <string>彙整成智慧播放清單</string>
     <key>playlist_detail_description</key>
     <string>%1$@ 個單集 • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>已新增 1 個單集至「%@」</string>
+    <key>playlist_episodes_added_title</key>
+    <string>已新增 %1$@ 個單集至「%2$@」</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ 個單集</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>播放清單已滿。 嘗試建立新單集</string>
     <key>playlist_manual_add_episodes</key>
     <string>新增單集</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>瀏覽節目</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>對單集左滑，即可新增至播放清單。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>著手建立自己的播放清單</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>將單集新增至播放清單</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>新增至播放清單</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>重新排序單集</string>
     <key>playlist_options</key>
@@ -2055,6 +2073,8 @@ Pocket Casts Plus</string>
     <string>建立智慧播放清單</string>
     <key>playlist_preview_title</key>
     <string>預覽「%@」</string>
+    <key>playlist_search</key>
+    <string>尋找播放清單</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>恭喜你聽完這份清單了，或者你可以編輯篩選規則以獲得更多內容。</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2195,8 @@ Pocket Casts Plus</string>
     <string>你可以建立資料夾來整理你的 Podcast 收藏。</string>
     <key>plus_marketing_folders_title</key>
     <string>資料夾</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>生成逐字稿</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>無廣告體驗，讓系統更常顯示你喜歡的內容，並減少顯示不喜歡的內容</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2462,8 @@ Pocket Casts Plus</string>
     <string>僅最新單集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>拖放</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>從最長到最短</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2689,10 @@ Pocket Casts Plus</string>
     <string>儲存書籤</string>
     <key>search</key>
     <string>搜尋</string>
+    <key>search_bookmarks</key>
+    <string>搜尋書籤</string>
+    <key>search_episodes</key>
+    <string>搜尋單集</string>
     <key>search_label</key>
     <string>搜尋 Podcast 或新增 RSS URL</string>
     <key>search_podcasts</key>
@@ -3609,6 +3637,8 @@ Pocket Casts Plus</string>
     <string>最長到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最長</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>你的 Podcast</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>不太想</string>
     <key>user_satisfaction_survey_subtitle</key>

@@ -143,6 +143,8 @@
     <string>添加到“接下来播放”</string>
     <key>after_playing</key>
     <string>播放后</string>
+    <key>all_results</key>
+    <string>所有结果</string>
     <key>announcement_autoplay_description</key>
     <string>如果您的“接下来播放”队列为空，在您开始听节目时，自动播放会继续播放该节目或列表中的剧集。</string>
     <key>announcement_autoplay_title</key>
@@ -1945,6 +1947,12 @@ Pocket Casts。</string>
     <string>与 2023 年相比，您的收听时长激增了 %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>与 2023 年相比，您的收听时长增加了 %1$@ 以上</string>
+    <key>playback_2025_feature_description</key>
+    <string>查看您的收听统计数据、热门播客等。</string>
+    <key>playback_2025_feature_title</key>
+    <string>2025 年播放记录</string>
+    <key>playback_2025_view_year</key>
+    <string>查看我的 2025 年播放记录</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有播客</string>
     <key>playback_effect_this_podcast</key>
@@ -2025,6 +2033,8 @@ Pocket Casts。</string>
     <string>播放错误</string>
     <key>player_user_episode_upload_error</key>
     <string>上传错误</string>
+    <key>playlist_add_to_title</key>
+    <string>添加至“%@”</string>
     <key>playlist_create_no_episodes_description</key>
     <string>您的播客中没有符合这些规则的剧集。
 
@@ -2037,16 +2047,24 @@ Pocket Casts。</string>
     <string>生成智能播放列表</string>
     <key>playlist_detail_description</key>
     <string>%1$@ 集 • %2$@</string>
+    <key>playlist_episode_added_title</key>
+    <string>1 集已添加至"%@"</string>
+    <key>playlist_episodes_added_title</key>
+    <string>%1$@ 集已添加至“%2$@”</string>
+    <key>playlist_episodes_count</key>
+    <string>%1$@ 集</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>播放列表已满。 尝试创建一个新播放列表</string>
     <key>playlist_manual_add_episodes</key>
     <string>添加剧集</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>浏览节目</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>向左滑动剧集即可将其添加到您的播放列表。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>开始构建您的播放列表</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
     <string>将剧集添加到您的播放列表</string>
+    <key>playlist_manual_episode_add_to_playlist</key>
+    <string>添加至播放列表</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>重新排序剧集</string>
     <key>playlist_options</key>
@@ -2055,6 +2073,8 @@ Pocket Casts。</string>
     <string>创建智能播放列表</string>
     <key>playlist_preview_title</key>
     <string>预览 %@</string>
+    <key>playlist_search</key>
+    <string>查找播放列表</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>您已完成此列表，但还可以编辑规则以获取更多内容。</string>
     <key>playlist_smart_preview_description</key>
@@ -2175,6 +2195,8 @@ Pocket Casts。</string>
     <string>创建文件夹以整理您的播客集。</string>
     <key>plus_marketing_folders_title</key>
     <string>文件夹</string>
+    <key>plus_marketing_generated_transcripts</key>
+    <string>生成的文字转录稿</string>
     <key>plus_marketing_hide_ads_description</key>
     <string>无广告体验，提供更多您喜欢的内容，并减少您不喜欢内容</string>
     <key>plus_marketing_hide_ads_title</key>
@@ -2440,6 +2462,8 @@ Pocket Casts。</string>
     <string>仅最新剧集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>拖放</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>最长到最短</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -2665,6 +2689,10 @@ Pocket Casts。</string>
     <string>保存书签</string>
     <key>search</key>
     <string>搜索</string>
+    <key>search_bookmarks</key>
+    <string>搜索书签</string>
+    <key>search_episodes</key>
+    <string>搜索剧集</string>
     <key>search_label</key>
     <string>搜索播客或添加 RSS URL</string>
     <key>search_podcasts</key>
@@ -3609,6 +3637,8 @@ Pocket Casts。</string>
     <string>最长到最短</string>
     <key>upload_sort_shortest_to_longest</key>
     <string>最短到最长</string>
+    <key>user_episodes_search_podcasts_title</key>
+    <string>您的播客</string>
     <key>user_satisfaction_survey_no_response</key>
     <string>不太喜欢</string>
     <key>user_satisfaction_survey_subtitle</key>

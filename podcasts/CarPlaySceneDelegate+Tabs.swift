@@ -1,6 +1,7 @@
 import CarPlay
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 // MARK: - Podcasts
 extension CarPlaySceneDelegate {
@@ -54,7 +55,14 @@ extension CarPlaySceneDelegate {
     private var filterTabSections: [CPListSection] {
         var filterItems = [CPListItem]()
         for filter in DataManager.sharedManager.allPlaylists(includeDeleted: false) {
-            let item = CPListItem(text: filter.playlistName, detailText: nil, image: UIImage(named: filter.iconImageNameCarPlay()))
+            var detail: String? = nil
+            if FeatureFlag.playlistsRebranding.enabled {
+                if filter.manual == false {
+                    detail = L10n.smartPlaylist
+                }
+            }
+            let image = FeatureFlag.playlistsRebranding.enabled ? filter.grid() : UIImage(named: filter.iconImageNameCarPlay())
+            let item = CPListItem(text: filter.playlistName, detailText: detail, image: image)
             item.accessoryType = .disclosureIndicator
             item.handler = { [weak self] _, completion in
                 self?.filterTapped(filter)
@@ -68,7 +76,8 @@ extension CarPlaySceneDelegate {
     }
 
     func createFiltersTab() -> CPListTemplate {
-        return CarPlayListData.template(title: L10n.filters, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
+        let title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
+        return CarPlayListData.template(title: title, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
             guard let self else { return nil }
             return self.filterTabSections
         }

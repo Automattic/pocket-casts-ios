@@ -36,6 +36,9 @@ struct SearchHistoryCell: View {
                     podcast.navigateTo()
                 } else if let searchTerm = entry.searchTerm {
                     displaySearch.isSearching = true
+                    if searchResults.showLocalResults {
+                        searchResults.searchLocally(term: searchTerm)
+                    }
                     searchResults.search(term: searchTerm)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: searchTerm)
                 }
