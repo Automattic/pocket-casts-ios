@@ -3343,6 +3343,9 @@
 /* Label in the Apple Watch app informing the user that they haven't configured any of their filters. */
 "watch_no_filters" = "No Filters";
 
+/* Label in the Apple Watch app informing the user that they haven't configured any playlists. */
+"watch_no_playlists" = "No Playlists";
+
 /* Label in the Apple Watch app informing the user that they haven't subscribed to podcasts. */
 "watch_no_podcasts" = "No Podcasts";
 
@@ -5423,6 +5426,12 @@
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
 
+/* The title shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_title" = "Reorder your playlists";
+
+/* The description shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_description" = "Press and hold a playlist to move it.";
+
 /* Playlists Onboarding screen: title for the smart playlist card */
 "playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
 
@@ -5610,7 +5619,10 @@
 "playback_2025_view_year" = "View My Playback 2025";
 
 /// Label of the Playback 2025 call to action buton
-"playback_2025_intro_message" = "Welcome to Playback!\n A celebration of your year in podcasts.";
+"playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";
+
+/// Text for playback 2025 listened to numbers story
+"playback_2025_listened_to_numbers" = "You tuned in to %1$@ podcasts and %2$@ episodes";
 
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
@@ -5620,4 +5632,3 @@
 
 /// Search results screen: action for sending feedback when no results found
 "search_results_empty_action" = "Send Us Feedback";
-
