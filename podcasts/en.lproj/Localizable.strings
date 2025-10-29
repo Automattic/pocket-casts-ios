@@ -1824,6 +1824,18 @@
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
 
+/* Indicates that the episode is unavailable server side. */
+"podcast_unavailable" = "Unavailable";
+
+/* Title indicating that the episode is unavailable server side */
+"episode_unavailable_title" = "Episode Unavailable";
+
+/* Message indicating that the episode is unavailable server side but will remain in your manual playlist until removed. */
+"episode_unavailable_message" = "The podcast creator deleted this episode. It will stay in your playlist until you remove it.";
+
+/* A title used for an action to remove an episode from a playlist */
+"remove_from_playlist" = "Remove from playlist";
+
 /* Label used to display the number or archived episodes in a podcast. '%1$@' is a placeholder for the archived episode number. */
 "podcast_archived_count_format" = "%1$@ archived";
 

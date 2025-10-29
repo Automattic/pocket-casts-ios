@@ -27,6 +27,30 @@ struct SearchResultCell: View {
         self.action = action
     }
 
+    var episodeStateIcon: String? {
+        guard let episode = model.episode else { return nil }
+        switch episode.state {
+        case .normal:
+            return nil
+        case .archived:
+            return "list_archived"
+        case .unavailable:
+            return "option-cross-circle"
+        }
+    }
+
+    var episodeStateText: String? {
+        guard let episode = model.episode else { return nil }
+        switch episode.state {
+        case .normal:
+            return nil
+        case .archived:
+            return L10n.podcastArchived
+        case .unavailable:
+            return L10n.podcastUnavailable
+        }
+    }
+
     var body: some View {
         ZStack {
             Button(action: {
@@ -57,10 +81,20 @@ struct SearchResultCell: View {
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
-                                .font(style: .caption, weight: .semibold)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .lineLimit(1)
+                            HStack(spacing: 4) {
+                                if let icon = episodeStateIcon {
+                                    Image(icon)
+                                        .renderingMode(.template)
+                                }
+                                if let stateText = episodeStateText {
+                                    Text(stateText)
+                                    Text("•")
+                                }
+                                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
+                            }
+                            .font(style: .caption, weight: .semibold)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .lineLimit(1)
                         } else if let result = model.podcastFolder {
                             Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
@@ -74,14 +108,14 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
                     Spacer()
-                    if model.episode != nil {
+                    if model.episode != nil && model.episode?.state != .unavailable {
                         if played {
                             Image("list_played", bundle: nil)
                                 .resizable()
                                 .renderingMode(.template)
                                 .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
                                 .frame(width: 48, height: 48)
-                        } else if FeatureFlag.searchImprovements.enabled {
+                        } else if FeatureFlag.searchImprovements.enabled && !showEpisodeAddButton {
                             EpisodeActionButton(model: self.model)
                                 .frame(width: 48, height: 48)
                         }
@@ -98,7 +132,7 @@ struct SearchResultCell: View {
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
-                .opacity(played ? 0.5 : 1.0)
+                .opacity(played || model.episode?.state.isNormal == false ? 0.5 : 1.0)
                 if showDivider {
                     ThemedDivider()
                 }
