@@ -16,7 +16,7 @@ struct NewSearchResultsView: View {
 
     var body: some View {
         Group {
-            if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
+            if (searchResults.podcastSearchError != nil || searchResults.predictiveSearchError != nil) && !searchResults.resultsContainLocalPodcasts {
                 HStack(alignment: .center) {
                     EmptyStateView(
                         title: L10n.discoverSearchFailed,

@@ -59,11 +59,16 @@ class SearchResultsModel: ObservableObject {
         currentSearchTerm = ""
     }
 
+    func clearErrors() {
+        episodeSearchError = nil
+        podcastSearchError = nil
+        predictiveSearchError = nil
+    }
+
     @MainActor
     func predictiveSearch(term: String) {
         currentSearchTerm = term
-        episodeSearchError = nil
-        podcastSearchError = nil
+        clearErrors()
 
         guard term.count > 1, !isTermAnURL(term) else {
             return
@@ -77,6 +82,8 @@ class SearchResultsModel: ObservableObject {
                 currentPredictiveSearchTerm = term
             } catch {
                 predictiveSearchError = error
+                isShowingPredictiveSearch = true
+                predictive = []
                 analyticsHelper.trackPredictiveFailed(error)
             }
             isSearchingPredictive = false
@@ -95,8 +102,7 @@ class SearchResultsModel: ObservableObject {
         }
 
         currentSearchTerm = term
-        episodeSearchError = nil
-        podcastSearchError = nil
+        clearErrors()
 
         if !isShowingLocalResultsOnly {
             clearSearch()
@@ -140,8 +146,7 @@ class SearchResultsModel: ObservableObject {
     @MainActor
     func combinedSearch(term: String) {
         currentSearchTerm = term
-        episodeSearchError = nil
-        podcastSearchError = nil
+        clearErrors()
 
         if !isShowingLocalResultsOnly {
             clearSearch()
@@ -151,8 +156,12 @@ class SearchResultsModel: ObservableObject {
             isSearchingForPodcasts = true
             do {
                 let results = try await combinedSearch.search(term: term)
+                if results.isEmpty {
+                    analyticsHelper.trackEmptyResults(for: term)
+                }
                 showCombinedResults(results)
             } catch {
+                isShowingPredictiveSearch = false
                 podcastSearchError = error
                 analyticsHelper.trackFailed(error)
             }
