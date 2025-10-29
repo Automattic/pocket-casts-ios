@@ -2057,8 +2057,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Playlist piena. Prova a crearne una nuova</string>
     <key>playlist_manual_add_episodes</key>
     <string>Aggiungi episodi</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Esplora gli show</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Scorri verso sinistra su un episodio per aggiungerlo alla tua playlist.</string>
     <key>playlist_manual_empty_state_title</key>

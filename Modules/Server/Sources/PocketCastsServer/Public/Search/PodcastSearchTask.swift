@@ -64,6 +64,17 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
 
     }
 
+    public init?(from combinedResult: CombinedSearchResult) {
+        guard combinedResult.type == "podcast" else {
+            return nil
+        }
+        self.uuid = combinedResult.uuid
+        self.author = combinedResult.author
+        self.title = combinedResult.title
+        self.kind = .podcast
+        self.isLocal = false
+    }
+
     public enum Kind: Codable {
         case podcast, folder
     }

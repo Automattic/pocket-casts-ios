@@ -3110,6 +3110,12 @@ internal enum L10n {
   internal static func searchResults(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "search_results", String(describing: p1), String(describing: p2), fallback: "%1$@ of %2$@")
   }
+  /// Send Us Feedback
+  internal static var searchResultsEmptyAction: String { return L10n.tr("Localizable", "search_results_empty_action", fallback: "Send Us Feedback") }
+  /// Try a new search, or by adding a podcast feed URL
+  internal static var searchResultsEmptyMessage: String { return L10n.tr("Localizable", "search_results_empty_message", fallback: "Try a new search, or by adding a podcast feed URL") }
+  /// No Results
+  internal static var searchResultsEmptyTitle: String { return L10n.tr("Localizable", "search_results_empty_title", fallback: "No Results") }
   /// A common string used throughout the app. Refers to the season a podcast episode is in.
   internal static var season: String { return L10n.tr("Localizable", "season", fallback: "Season") }
   /// Shorthand format used to show the Season and the Episode number of a podcast. 'S' is short for Season. '%1$@' is a placeholder for the season number. 'E' is short for Episode. '%2$@' is a placeholder for the episode number.

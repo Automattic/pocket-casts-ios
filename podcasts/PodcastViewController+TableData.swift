@@ -323,6 +323,10 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 if indexPath.section == PodcastViewController.allEpisodesSection {
                     guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
+                    if searchController?.searchBarActive() == true {
+                        hideSearchKeyboard()
+                    }
+
                     let episodeController = EpisodeDetailViewController(episode: episode, podcast: podcast, source: .podcastScreen, playlist: .podcast(uuid: podcast.uuid))
                     episodeController.modalPresentationStyle = .formSheet
                     present(episodeController, animated: true, completion: nil)

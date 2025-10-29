@@ -5616,6 +5616,16 @@
 /// Label of the Playback 2025 call to action buton
 "playback_2025_intro_message" = "Welcome to Playback!\n A celebration of your year in podcasts.";
 
+/// Search results screen: title for no results found
+"search_results_empty_title" = "No Results";
+
+/// Search results screen: message for no results found
+"search_results_empty_message" = "Try a new search, or by adding a podcast feed URL";
+
+/// Search results screen: action for sending feedback when no results found
+"search_results_empty_action" = "Send Us Feedback";
+
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */

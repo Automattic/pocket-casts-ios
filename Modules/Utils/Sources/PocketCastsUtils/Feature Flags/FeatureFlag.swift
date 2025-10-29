@@ -398,7 +398,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
-            false
+            #if DEBUG
+                true
+            #else
+                BuildEnvironment.current == .testFlight
+            #endif
         case .searchPredictive:
             #if DEBUG
                 true
@@ -445,7 +449,7 @@ extension FeatureFlag: OverrideableFlag {
 
     public var canOverride: Bool {
         switch self {
-            case .searchPredictive:
+            case .searchPredictive, .searchImprovements:
                 !Self.isTestFlight
             default:
                 true

@@ -870,11 +870,11 @@ Laissez-nous d’abord vous aider</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Garder une trace de ce que vous avez écouté</string>
     <key>eac_informational_banner_playlists_description</key>
-    <string>Créez un compte gratuit pour synchroniser vos listes de lecture sur tous vos appareils.</string>
+    <string>Créez un compte gratuit pour synchroniser vos playlists sur tous vos appareils.</string>
     <key>eac_informational_banner_playlists_icon_accessibility</key>
-    <string>Icône Listes de lecture</string>
+    <string>Icône Playlists</string>
     <key>eac_informational_banner_playlists_title</key>
-    <string>Synchronisez vos listes de lecture</string>
+    <string>Synchronisez vos playlists</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Créez un compte gratuit pour synchroniser vos émissions et les écouter où que vous soyez.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -2038,13 +2038,13 @@ MISES À JOUR</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Aucun des épisodes de vos podcasts ne correspond à ces règles.
 
-Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les futurs épisodes qui pourraient convenir.</string>
+Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs épisodes qui pourraient convenir.</string>
     <key>playlist_creation_create_playlist_button</key>
-    <string>Créer une liste de lecture</string>
+    <string>Créer une playlist</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Ajoutez automatiquement des épisodes en fonction des règles.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
-    <string>Transformer en liste de lecture intelligente</string>
+    <string>Transformer en playlist intelligente</string>
     <key>playlist_detail_description</key>
     <string>%1$@ épisodes • %2$@</string>
     <key>playlist_episode_added_title</key>
@@ -2054,33 +2054,31 @@ Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les f
     <key>playlist_episodes_count</key>
     <string>%1$@ épisodes</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>La liste de lecture est pleine. Essayer d’en créer une nouvelle</string>
+    <string>La playlist est pleine. Essayer d’en créer une nouvelle</string>
     <key>playlist_manual_add_episodes</key>
     <string>Ajouter des épisodes</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Parcourir les émissions</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre liste de lecture.</string>
+    <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre playlist.</string>
     <key>playlist_manual_empty_state_title</key>
-    <string>Commencer à créer votre liste de lecture</string>
+    <string>Commencer à créer votre playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
-    <string>Ajouter des épisodes à votre liste de lecture</string>
+    <string>Ajouter des épisodes à votre playlist</string>
     <key>playlist_manual_episode_add_to_playlist</key>
-    <string>Ajouter à la liste de lecture</string>
+    <string>Ajouter à la playlist</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Réorganiser les épisodes</string>
     <key>playlist_options</key>
-    <string>Options de la liste de lecture</string>
+    <string>Options de la playlist</string>
     <key>playlist_preview_create_smart_playlist</key>
-    <string>Créer une liste de lecture intelligente</string>
+    <string>Créer une playlist intelligente</string>
     <key>playlist_preview_title</key>
     <string>Prévisualiser %@</string>
     <key>playlist_search</key>
-    <string>Trouver une liste de lecture</string>
+    <string>Trouver une playlist</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Il est temps de fêter le fait d’avoir terminé cette liste ou de modifier vos règles afin d’en obtenir d’autres.</string>
     <key>playlist_smart_preview_description</key>
-    <string>Configurez des règles intelligentes pour ajouter automatiquement des épisodes à votre liste de lecture intelligente.</string>
+    <string>Configurez des règles intelligentes pour ajouter automatiquement des épisodes à votre playlist intelligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Règles activées</string>
     <key>playlist_smart_preview_other_rules</key>
@@ -2102,21 +2100,21 @@ Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les f
     <key>playlist_smart_rules_title</key>
     <string>Règles intelligentes</string>
     <key>playlists</key>
-    <string>Listes de lecture</string>
+    <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
-    <string>Nouvelle liste de lecture</string>
+    <string>Nouvelle playlist</string>
     <key>playlists_empty_state_description</key>
-    <string>Les listes de lecture permettent d’organiser les épisodes manuellement ou automatiquement avec les règles intelligentes.</string>
+    <string>Les playlists permettent d’organiser les épisodes manuellement ou automatiquement avec les règles intelligentes.</string>
     <key>playlists_empty_state_title</key>
     <string>Organiser vos épisodes comme vous le souhaitez</string>
     <key>playlists_onboarding_manual_description</key>
-    <string>Maîtrisez votre écoute. Créez des listes de lecture personnalisées pour vos voyages, vos thèmes ou toute autre atmosphère que vous souhaitez créer. Qu’elles soient intelligentes ou personnalisées, les listes de lecture s’adaptent à votre écoute.</string>
+    <string>Maîtrisez votre écoute. Créez des listes de lecture personnalisées pour vos voyages, vos thèmes ou toute autre atmosphère que vous souhaitez créer. Qu’elles soient intelligentes ou personnalisées, les playlists s’adaptent à votre écoute.</string>
     <key>playlists_onboarding_manual_title</key>
-    <string>Présentation des listes de lecture</string>
+    <string>Présentation des playlists</string>
     <key>playlists_onboarding_smart_description</key>
     <string>Ils fonctionnent toujours exactement de la même manière, en utilisant des règles pour ajouter automatiquement vos épisodes. Tous vos filtres existants sont juste ici, rien n’a changé hormis le nom.</string>
     <key>playlists_onboarding_smart_title</key>
-    <string>Les filtres sont désormais des listes de lecture intelligentes</string>
+    <string>Les filtres sont désormais des playlists intelligentes</string>
     <key>please_try_again</key>
     <string>Veuillez réessayer</string>
     <key>please_try_again_later</key>
@@ -2310,7 +2308,7 @@ Essayez d’ajuster les règles ou enregistrez cette liste de lecture pour les f
     <key>podcast_archived</key>
     <string>Archivé</string>
     <key>podcast_archived_count_format</key>
-    <string>%1$@ épisodes archivés</string>
+    <string>%1$@ archivés</string>
     <key>podcast_archived_msg</key>
     <string>Les %1$@ épisodes de ce podcast ont tous été archivés.</string>
     <key>podcast_count_plural_format</key>
@@ -2836,15 +2834,15 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Aucun filtre sélectionné</string>
     <key>settings_auto_downloads_no_playlists_selected</key>
-    <string>Aucune liste de lecture sélectionnée</string>
+    <string>Aucune playlist sélectionnée</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Aucun podcast sélectionné</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Lors de l’abonnement</string>
     <key>settings_auto_downloads_playlists_selected_format</key>
-    <string>%1$@ listes de lecture sélectionnées</string>
+    <string>%1$@ playlists sélectionnées</string>
     <key>settings_auto_downloads_playlists_selected_singular</key>
-    <string>1 liste de lecture sélectionnée</string>
+    <string>1 playlist sélectionnée</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts sélectionnés</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2854,7 +2852,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Téléchargez automatiquement les nouveaux épisodes, enregistrez les épisodes des nouvelles émissions auxquelles vous vous abonnez et gérez votre espace de stockage en limitant le nombre d’épisodes enregistrés.</string>
     <key>settings_auto_downloads_subtitle_playlists</key>
-    <string>Téléchargez les meilleurs épisodes dans une liste de lecture.</string>
+    <string>Téléchargez les meilleurs épisodes dans une playlist.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Télécharger les épisodes ajoutés à la file d'attente.</string>
     <key>settings_badge_filter_header</key>
@@ -2862,7 +2860,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_badge_new_since_opened</key>
     <string>Nouveaux épisodes depuis l’ouverture de l’application</string>
     <key>settings_badge_smart_playlist_header</key>
-    <string>COMPTEUR D’ÉPISODES DE LISTE DE LECTURE INTELLIGENT</string>
+    <string>COMPTEUR D’ÉPISODES DE PLAYLIST INTELLIGENTE</string>
     <key>settings_badge_total_unplayed</key>
     <string>Nombre total d’épisodes non lus</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -3030,9 +3028,9 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_in_menu</key>
     <string>DANS LE MENU</string>
     <key>settings_in_smart_playlist_singular</key>
-    <string>Inclus dans 1 liste de lecture intelligente</string>
+    <string>Inclus dans 1 playlist intelligente</string>
     <key>settings_in_smart_playlists_plural_format</key>
-    <string>Inclus dans %1$@ listes de lecture intelligentes</string>
+    <string>Inclus dans %1$@ playlists intelligentes</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Les épisodes inactifs sont des épisodes que vous n’avez pas lus ou téléchargés dans la période que vous avez indiquée ci-dessus. Les téléchargements sont supprimés lorsque l’épisode est archivé.</string>
     <key>settings_next_action</key>
@@ -3040,13 +3038,13 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_not_in_filters</key>
     <string>Inclus dans aucun filtre</string>
     <key>settings_not_in_smart_playlists</key>
-    <string>Inclus dans aucune liste de lecture intelligente</string>
+    <string>Inclus dans aucune playlist intelligente</string>
     <key>settings_notifications</key>
     <string>Notifications</string>
     <key>settings_notifications_filter_count</key>
     <string>Nombre de filtres</string>
     <key>settings_notifications_smart_playlist_count</key>
-    <string>Compteur de liste de lecture intelligent</string>
+    <string>Compteur de playlist intelligente</string>
     <key>settings_notifications_subtitle</key>
     <string>Vous avertit lorsqu’un nouvel épisode est disponible. Également utile pour améliorer la fiabilité des téléchargements automatiques.</string>
     <key>settings_opml</key>
@@ -3068,9 +3066,9 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_select_filters_plural</key>
     <string>Sélectionner les filtres</string>
     <key>settings_select_playlists_plural</key>
-    <string>Sélectionner des listes de lecture</string>
+    <string>Sélectionner des playlists</string>
     <key>settings_select_smart_playlists_plural</key>
-    <string>Sélectionner des listes de lecture intelligentes</string>
+    <string>Sélectionner des playlists intelligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Ouvrir le filtre</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
@@ -3326,11 +3324,11 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>sleep_timer_time_remaining</key>
     <string>Mise en veille activée, temps restant : %1$@</string>
     <key>smart_playlist</key>
-    <string>Liste de lecture intelligente</string>
+    <string>Playlist intelligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Nous les avons créés pour vous aider à vous lancer. Elles se mettent à jour automatiquement en fonction de votre écoute.</string>
     <key>smart_playlists_tip_view_title</key>
-    <string>Listes de lecture intelligentes, prêtes à l’emploi</string>
+    <string>Playlists intelligentes, prêtes à l’emploi</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continuer avec Apple</string>
     <key>social_sign_in_continue_with_google</key>
