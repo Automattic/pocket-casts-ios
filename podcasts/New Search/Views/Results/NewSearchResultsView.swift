@@ -69,7 +69,9 @@ struct NewSearchResultsView: View {
                 .scrollContentBackground(.hidden)
             } else {
                 VStack(spacing: 0) {
-                    filterPicker
+                    if searchResults.combinedResults.count > 1 {
+                        filterPicker
+                    }
                     List {
                         if displayMode != .episodes {
                             localResults
