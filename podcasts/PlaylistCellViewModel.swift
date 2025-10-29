@@ -1,6 +1,10 @@
 import SwiftUI
 import PocketCastsDataModel
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 class PlaylistCellViewModel: ObservableObject {
     enum DisplayType {
         case count
@@ -19,6 +23,42 @@ class PlaylistCellViewModel: ObservableObject {
 #else
         episodesCount < Constants.Limits.maxFilterItems
 #endif
+    }
+
+    static func distinctPodcasts<T>(
+        from episodes: [T],
+        limit: Int,
+        podcastUuid: (T) -> String
+    ) -> [T] {
+        var seen = Set<String>()
+        var results: [T] = []
+
+        for episode in episodes {
+            if seen.insert(podcastUuid(episode)).inserted {
+                results.append(episode)
+
+                if results.count == limit {
+                    break
+                }
+            }
+        }
+
+        return results
+    }
+
+    static func gridArtworkItems<T>(
+        from episodes: [T],
+        limit: Int,
+        imageManager: ImageManager = .sharedManager,
+        podcastUuid: (T) -> String
+    ) -> [PlaylistArtworkView.ImageItem] {
+        let distinctEpisodes = distinctPodcasts(from: episodes, limit: limit, podcastUuid: podcastUuid)
+
+        return distinctEpisodes.map { episode in
+            let uuid = podcastUuid(episode)
+            let url = imageManager.podcastUrl(imageSize: .grid, uuid: uuid)
+            return PlaylistArtworkView.ImageItem(id: uuid, url: url)
+        }
     }
 
     private var playlist: EpisodeFilter
@@ -152,18 +192,6 @@ class PlaylistCellViewModel: ObservableObject {
     }
 
     private func firstDistinctPodcasts(from episodes: [ListEpisode], limit: Int) -> [ListEpisode] {
-        var seen = Set<String>()
-        var list: [ListEpisode] = []
-
-        for episode in episodes {
-            if seen.insert(episode.episode.podcastUuid).inserted {
-                list.append(episode)
-
-                if list.count == limit {
-                    break
-                }
-            }
-        }
-        return list
+        Self.distinctPodcasts(from: episodes, limit: limit) { $0.episode.podcastUuid }
     }
 }

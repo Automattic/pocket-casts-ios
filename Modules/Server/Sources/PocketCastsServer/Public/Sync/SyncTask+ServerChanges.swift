@@ -355,10 +355,11 @@ extension SyncTask {
         let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
         let missingEpisodes = serverSet.subtracting(matchedEpisodes)
 
-        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode in
+        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
             let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
             guard let playlistEpisode else { return nil }
-            return Episode(playlistEpisode)
+            let episode = DataManager.sharedManager.findEpisode(uuid: playlistEpisode.episode)
+            return episode ?? Episode(playlistEpisode)
         }
 
         addedEpisodes.forEach { episode in
