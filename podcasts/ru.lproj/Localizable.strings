@@ -2057,8 +2057,6 @@ Pocket Casts на полную мощность.</string>
     <string>Плейлист заполнен. Создайте новый</string>
     <key>playlist_manual_add_episodes</key>
     <string>Добавить выпуски</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Просмотр шоу</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Смахните выпуск влево, чтобы добавить его в плейлист.</string>
     <key>playlist_manual_empty_state_title</key>

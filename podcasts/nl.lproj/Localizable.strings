@@ -56,7 +56,7 @@
     <key>accessibility_player_effects_playback_speed</key>
     <string>Afspeelsnelheid %1$@ keer</string>
     <key>accessibility_playlist_color</key>
-    <string>Kleur van afspeellijst %1$@</string>
+    <string>Kleur van playlist %1$@</string>
     <key>accessibility_plus_only</key>
     <string>Vergrendeld, functie voor Plus</string>
     <key>accessibility_profile_settings</key>
@@ -868,11 +868,11 @@ Laat ons eerst helpen</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Houd bij wat je hebt afgespeeld</string>
     <key>eac_informational_banner_playlists_description</key>
-    <string>Maak een gratis account aan om je afspeellijsten op elk apparaat te synchroniseren.</string>
+    <string>aak een gratis account aan om je playlists op elk apparaat te synchroniseren.</string>
     <key>eac_informational_banner_playlists_icon_accessibility</key>
-    <string>Pictogram afspeellijsten</string>
+    <string>Playlist-pictogram</string>
     <key>eac_informational_banner_playlists_title</key>
-    <string>Houd je afspeellijsten gesynchroniseerd</string>
+    <string>Houd je playlists gesynchroniseerd</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Maak een gratis account aan om je shows te synchroniseren en overal te luisteren.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -1165,7 +1165,7 @@ waar je naar hebt geluisterd was
     <key>filter_create_filter_by</key>
     <string>FILTEREN OP</string>
     <key>filter_create_instructions</key>
-    <string>Selecteer je filtercriteria met deze knoppen om een bijgewerkte slimme afspeellijst met afleveringen te maken.</string>
+    <string>Selecteer je filtercriteria met deze knoppen om een bijgewerkte intelligente playlist met afleveringen te maken.</string>
     <key>filter_create_no_episodes</key>
     <string>Geen overeenkomende afleveringen</string>
     <key>filter_create_no_episodes_description_explanation</key>
@@ -2034,15 +2034,15 @@ UPDATES</string>
     <key>playlist_add_to_title</key>
     <string>Toevoegen aan "%@"</string>
     <key>playlist_create_no_episodes_description</key>
-    <string>Geen van de afleveringen in je podcasts komen overeen met deze regels.
+    <string>Geen van de afleveringen in je podcasts komt overeen met deze regels.
 
-Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige afleveringen die mogelijk hieraan voldoen.</string>
+Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string>
     <key>playlist_creation_create_playlist_button</key>
-    <string>Afspeellijst aanmaken</string>
+    <string>Playlist aanmaken</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Afleveringen automatisch toevoegen op basis van regels.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
-    <string>Maak een slimme afspeellijst</string>
+    <string>Omzetten naar intelligente playlist</string>
     <key>playlist_episode_added_title</key>
     <string>1 aflevering toegevoegd aan "%@"</string>
     <key>playlist_episodes_added_title</key>
@@ -2050,33 +2050,31 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <key>playlist_episodes_count</key>
     <string>%1$@ afleveringen</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Afspeellijst is vol. Probeer een nieuwe aan te maken</string>
+    <string>Playlist is vol. Probeer een nieuwe aan te maken.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Door shows bladeren</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Swipe en aflevering naar links om deze aan je afspeellijst toe te voegen.</string>
+    <string>Veeg een aflevering naar links om deze aan je playlist toe te voegen.</string>
     <key>playlist_manual_empty_state_title</key>
-    <string>Begin met het bouwen van je afspeellijst</string>
+    <string>Begin met het bouwen van je playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
-    <string>Afleveringen aan je afspeellijst toevoegen</string>
+    <string>Afleveringen toevoegen aan je playlist</string>
     <key>playlist_manual_episode_add_to_playlist</key>
-    <string>Toevoegen aan afspeellijst</string>
+    <string>Toevoegen aan playlist</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Afleveringen herschikken</string>
     <key>playlist_options</key>
-    <string>Afspeellijstopties</string>
+    <string>Opties voor playlists</string>
     <key>playlist_preview_create_smart_playlist</key>
-    <string>Slimme afspeellijst aanmaken</string>
+    <string>Intelligente playlist aanmaken</string>
     <key>playlist_preview_title</key>
     <string>Voorbeeld %@</string>
     <key>playlist_search</key>
-    <string>Afspeellijst zoeken</string>
+    <string>Playlist zoeken</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>Het wordt ofwel tijd om te vieren dat je deze lijst hebt afgerond of om je regels te bewerken om er meer te krijgen.</string>
     <key>playlist_smart_preview_description</key>
-    <string>Stel slimme regels in om automatisch afleveringen toe te voegen aan je slimme afspeellijst.</string>
+    <string>Stel slimme regels in om automatisch afleveringen aan je intelligente playlist toe te voegen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Ingeschakelde regels</string>
     <key>playlist_smart_preview_other_rules</key>
@@ -2098,21 +2096,21 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <key>playlist_smart_rules_title</key>
     <string>Slimme regels</string>
     <key>playlists</key>
-    <string>Afspeellijsten</string>
+    <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
-    <string>Nieuwe afspeellijst</string>
+    <string>Nieuwe playlist</string>
     <key>playlists_empty_state_description</key>
-    <string>Met afspeellijsten kan je afleveringen handmatig of automatisch organiseren met slimme regels.</string>
+    <string>Met playlists kun je afleveringen handmatig of automatisch organiseren met slimme regels.</string>
     <key>playlists_empty_state_title</key>
     <string>Organiseer afleveringen zoals jij dat wil</string>
     <key>playlists_onboarding_manual_description</key>
-    <string>Neem de controle over je luistergedrag. Bouw aangepaste afspeellijsten voor trips, thema's of welke vibe je ook in zit. Of je afspeellijst nou slim of aangepast is, ze passen bij de manier waarop je luistert.</string>
+    <string>Neem de controle over je luistergedrag. Bouw aangepaste playlists voor trips, thema’s of gewoon je huidige vibe. Of je nu slimme of aangepaste playlists gebruikt: playlists passen bij de manier waarop jij luistert.</string>
     <key>playlists_onboarding_manual_title</key>
-    <string>Maak kennis met afspeellijsten</string>
+    <string>Maak kennis met playlists</string>
     <key>playlists_onboarding_smart_description</key>
     <string>Ze werken nog precies hetzelfde en gebruiken regels om je afleveringen automatisch toe te voegen. Al je bestaande filters staan hier, er is niets veranderd, behalve de naam.</string>
     <key>playlists_onboarding_smart_title</key>
-    <string>Filters zijn nu slimme afspeellijsten</string>
+    <string>Filters zijn nu intelligente playlists</string>
     <key>please_try_again</key>
     <string>Probeer het nog eens</string>
     <key>please_try_again_later</key>
@@ -2280,7 +2278,7 @@ Probeer de regels aan te passen, of sla deze afspeellijst op voor toekomstige af
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nieuwsbrief</string>
     <key>pocket_casts_newsletter_description</key>
-    <string>Ontvang nieuws, app-updates, thematische afspeellijsten, interviews en meer.</string>
+    <string>Ontvang nieuws, app-updates, themaplaylists, interviews en meer.</string>
     <key>pocket_casts_plus</key>
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
@@ -2830,15 +2828,15 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Geen filters geselecteerd</string>
     <key>settings_auto_downloads_no_playlists_selected</key>
-    <string>Geen afspeellijsten geselecteerd</string>
+    <string>Geen playlists geselecteerd</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Geen podcasts geselecteerd</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Volgend</string>
     <key>settings_auto_downloads_playlists_selected_format</key>
-    <string>%1$@ afspeellijsten geselecteerd</string>
+    <string>%1$@ playlists geselecteerd</string>
     <key>settings_auto_downloads_playlists_selected_singular</key>
-    <string>1 afspeellijst geselecteerd</string>
+    <string>1 playlist geselecteerd</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts geselecteerd</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2848,7 +2846,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Download automatisch nieuwe afleveringen, sla afleveringen op van nieuwe shows die je volgt en beheer je opslag door een limiet in te stellen voor hoeveel afleveringen er tegelijkertijd kunnen worden opgeslagen.</string>
     <key>settings_auto_downloads_subtitle_playlists</key>
-    <string>Download de bovenste afleveringen in een filter.</string>
+    <string>Download de bovenste afleveringen in een playlist.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Download afleveringen die zijn toegevoegd aan Hierna.</string>
     <key>settings_badge_filter_header</key>
@@ -2856,7 +2854,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_badge_new_since_opened</key>
     <string>Nieuwe sinds de app werd geopend</string>
     <key>settings_badge_smart_playlist_header</key>
-    <string>AANTAL AFLEVERINGEN IN DE SLIMME AFSPEELLIJST</string>
+    <string>AANTAL AFLEVERINGEN IN INTELLIGENTE PLAYLISTS</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totaal niet-afgespeeld</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -3024,9 +3022,9 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_in_menu</key>
     <string>IN MENU</string>
     <key>settings_in_smart_playlist_singular</key>
-    <string>Inbegrepen in 1 slimme afspeellijst</string>
+    <string>Inbegrepen in 1 intelligente playlist</string>
     <key>settings_in_smart_playlists_plural_format</key>
-    <string>Inbegrepen in %1$@ slimme afspeellijsten</string>
+    <string>Inbegrepen in %1$@ intelligente playlists</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inactieve afleveringen zijn afleveringen die je niet hebt afgespeeld of gedownload in de tijd die je hierboven aangeeft. Downloads worden verwijderd wanneer de aflevering gearchiveerd is.</string>
     <key>settings_next_action</key>
@@ -3034,13 +3032,13 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_not_in_filters</key>
     <string>Niet toegevoegd aan filters</string>
     <key>settings_not_in_smart_playlists</key>
-    <string>Niet inbegrepen in slimme afspeellijsten</string>
+    <string>Niet inbegrepen in intelligente playlists</string>
     <key>settings_notifications</key>
     <string>Meldingen</string>
     <key>settings_notifications_filter_count</key>
     <string>Aantal filters</string>
     <key>settings_notifications_smart_playlist_count</key>
-    <string>Aantal slimme afspeellijsten</string>
+    <string>Aantal intelligente playlists</string>
     <key>settings_notifications_subtitle</key>
     <string>Geeft je een melding wanneer een nieuwe aflevering beschikbaar is. Ook nuttig voor het verbeteren van de betrouwbaarheid van automatische downloads.</string>
     <key>settings_opml</key>
@@ -3062,9 +3060,9 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_select_filters_plural</key>
     <string>Filters selecteren</string>
     <key>settings_select_playlists_plural</key>
-    <string>Afspeellijsten selecteren</string>
+    <string>Playlists selecteren</string>
     <key>settings_select_smart_playlists_plural</key>
-    <string>Slimme afspeellijsten selecteren</string>
+    <string>Intelligente playlists selecteren</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Filter openen</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
@@ -3320,11 +3318,11 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>sleep_timer_time_remaining</key>
     <string>Slaaptimer aan, %1$@ resterend</string>
     <key>smart_playlist</key>
-    <string>Slimme afspeellijst</string>
+    <string>Intelligente playlist</string>
     <key>smart_playlists_tip_view_description</key>
     <string>We hebben deze gemaakt om je op weg te helpen. Ze worden automatisch bijgewerkt op basis van je luistergedrag.</string>
     <key>smart_playlists_tip_view_title</key>
-    <string>Slimme afspeellijsten, klaar voor gebruik</string>
+    <string>Intelligente playlists, klaar voor gebruik</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Doorgaan met Apple</string>
     <key>social_sign_in_continue_with_google</key>

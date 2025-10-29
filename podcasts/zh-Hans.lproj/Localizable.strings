@@ -2057,8 +2057,6 @@ Pocket Casts。</string>
     <string>播放列表已满。 尝试创建一个新播放列表</string>
     <key>playlist_manual_add_episodes</key>
     <string>添加剧集</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>浏览节目</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>向左滑动剧集即可将其添加到您的播放列表。</string>
     <key>playlist_manual_empty_state_title</key>

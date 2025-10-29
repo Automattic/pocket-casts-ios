@@ -2057,8 +2057,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Spellistan är full. Prova att skapa en ny</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Bläddra bland shower</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
     <key>playlist_manual_empty_state_title</key>

@@ -870,11 +870,11 @@ Deixe a gente ajudar você primeiro</string>
     <key>eac_informational_banner_listening_history_title</key>
     <string>Veja o que você já escutou</string>
     <key>eac_informational_banner_playlists_description</key>
-    <string>Crie uma conta gratuita para sincronizar suas listas de reprodução em qualquer dispositivo.</string>
+    <string>Crie uma conta gratuita para sincronizar suas playlists em qualquer dispositivo.</string>
     <key>eac_informational_banner_playlists_icon_accessibility</key>
-    <string>Ícone de listas de reprodução</string>
+    <string>Ícone de playlist</string>
     <key>eac_informational_banner_playlists_title</key>
-    <string>Mantenha suas listas de reprodução sincronizadas</string>
+    <string>Mantenha suas playlists sincronizadas</string>
     <key>eac_informational_banner_profile_description</key>
     <string>Crie uma conta gratuita para sincronizar seus programas e ouvir em qualquer lugar.</string>
     <key>eac_informational_banner_profile_icon_accessibility</key>
@@ -2038,13 +2038,13 @@ ATUALIZAÇÕES</string>
     <key>playlist_create_no_episodes_description</key>
     <string>Nenhum dos episódios nos seus podcasts corresponde a estas regras.
 
-Tente ajustá-las ou salve esta lista de reprodução para futuros episódios correspondentes.</string>
+Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes.</string>
     <key>playlist_creation_create_playlist_button</key>
-    <string>Criar lista de reprodução</string>
+    <string>Criar playlist</string>
     <key>playlist_creation_create_smart_playlist_button_subtitle</key>
     <string>Adicione episódios automaticamente com base em regras.</string>
     <key>playlist_creation_create_smart_playlist_button_title</key>
-    <string>Crie uma lista de reprodução inteligente</string>
+    <string>Crie uma playlist inteligente</string>
     <key>playlist_detail_description</key>
     <string>%1$@ episódios • %2$@</string>
     <key>playlist_episode_added_title</key>
@@ -2054,33 +2054,31 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <key>playlist_episodes_count</key>
     <string>%1$@ episódios</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>A lista de reprodução está cheia. Tente criar outra.</string>
+    <string>A playlist está cheia. Tente criar outra.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Adicionar episódios</string>
-    <key>playlist_manual_browse_shows_title</key>
-    <string>Procurar programas</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Passe o dedo para a esquerda em um episódio para adicioná-lo à sua lista de reprodução.</string>
+    <string>Passe o dedo para a esquerda em um episódio para adicioná-lo à sua playlist.</string>
     <key>playlist_manual_empty_state_title</key>
-    <string>Comece a criar sua lista de reprodução</string>
+    <string>Comece a criar sua playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
-    <string>Adicione episódios à sua lista de reprodução</string>
+    <string>Adicione episódios à sua playlist</string>
     <key>playlist_manual_episode_add_to_playlist</key>
-    <string>Adicionar à lista de reprodução</string>
+    <string>Adicionar à playlist</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Reorganizar episódios</string>
     <key>playlist_options</key>
-    <string>Opções da lista de reprodução</string>
+    <string>Opções da playlist</string>
     <key>playlist_preview_create_smart_playlist</key>
-    <string>Criar lista de reprodução inteligente</string>
+    <string>Criar playlist inteligente</string>
     <key>playlist_preview_title</key>
     <string>Visualizar %@</string>
     <key>playlist_search</key>
-    <string>Encontrar lista de reprodução</string>
+    <string>Encontrar playlist</string>
     <key>playlist_smart_no_episodes_msg</key>
     <string>É hora de comemorar porque você completou a lista ou editar as regras para ouvir mais.</string>
     <key>playlist_smart_preview_description</key>
-    <string>Configure regras Inteligentes para adicionar episódios automaticamente à sua lista de reprodução inteligente.</string>
+    <string>Configure regras Inteligentes para adicionar episódios automaticamente à sua playlist inteligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regras ativadas</string>
     <key>playlist_smart_preview_other_rules</key>
@@ -2102,21 +2100,21 @@ Tente ajustá-las ou salve esta lista de reprodução para futuros episódios co
     <key>playlist_smart_rules_title</key>
     <string>Regras inteligentes</string>
     <key>playlists</key>
-    <string>Listas de reprodução</string>
+    <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
-    <string>Nova lista de reprodução</string>
+    <string>Nova playlist</string>
     <key>playlists_empty_state_description</key>
-    <string>As listas de reprodução permitem que você organize episódios manual ou automaticamente com regras inteligentes.</string>
+    <string>As playlists permitem que você organize episódios manual ou automaticamente com regras inteligentes.</string>
     <key>playlists_empty_state_title</key>
     <string>Organize episódios do seu jeito</string>
     <key>playlists_onboarding_manual_description</key>
-    <string>Controle o que você ouve. Crie listas de reprodução personalizadas para viagens, momentos ou como preferir. Tanto as listas de reprodução inteligentes quanto as personalizadas se ajustam aos seus hábitos de escuta.</string>
+    <string>Controle o que você ouve. Crie playlists personalizadas para viagens, momentos ou como preferir. Tanto as playlists inteligentes quanto as personalizadas se ajustam aos seus hábitos de escuta.</string>
     <key>playlists_onboarding_manual_title</key>
-    <string>Apresentamos as listas de reprodução</string>
+    <string>Apresentamos as playlists</string>
     <key>playlists_onboarding_smart_description</key>
     <string>Elas ainda funcionam da mesma forma, usando regras para adicionar seus episódios automaticamente. Todos os filtros existentes estão bem aqui, nada mudou além do nome.</string>
     <key>playlists_onboarding_smart_title</key>
-    <string>Agora os filtros são listas de reprodução inteligentes</string>
+    <string>Agora os filtros são playlists inteligentes</string>
     <key>please_try_again</key>
     <string>Tente novamente</string>
     <key>please_try_again_later</key>
@@ -2836,15 +2834,15 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_auto_downloads_no_filters_selected</key>
     <string>Nenhum filtro selecionado</string>
     <key>settings_auto_downloads_no_playlists_selected</key>
-    <string>Nenhuma lista de reprodução selecionada</string>
+    <string>Nenhuma playlist selecionada</string>
     <key>settings_auto_downloads_no_podcasts_selected</key>
     <string>Nenhum podcast selecionado</string>
     <key>settings_auto_downloads_on_follow</key>
     <string>Ao seguir</string>
     <key>settings_auto_downloads_playlists_selected_format</key>
-    <string>%1$@ listas de reprodução selecionadas</string>
+    <string>%1$@ playlists selecionadas</string>
     <key>settings_auto_downloads_playlists_selected_singular</key>
-    <string>1 lista de reprodução selecionada</string>
+    <string>1 playlist selecionada</string>
     <key>settings_auto_downloads_podcasts_selected_format</key>
     <string>%1$@ podcasts selecionados</string>
     <key>settings_auto_downloads_podcasts_selected_singular</key>
@@ -2854,7 +2852,7 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_auto_downloads_subtitle_new_episodes</key>
     <string>Faça download automático de novos episódios, salve episódios de programas que você acabou de seguir, e gerencie seu armazenamento ao definir um limite de episódios salvos.</string>
     <key>settings_auto_downloads_subtitle_playlists</key>
-    <string>Faça download dos primeiros episódios de uma lista de reprodução.</string>
+    <string>Faça download dos primeiros episódios de uma playlist.</string>
     <key>settings_auto_downloads_subtitle_up_next</key>
     <string>Faça download de episódios adicionados aos Próximos.</string>
     <key>settings_badge_filter_header</key>
@@ -2862,7 +2860,7 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_badge_new_since_opened</key>
     <string>Novo desde que o app foi aberto</string>
     <key>settings_badge_smart_playlist_header</key>
-    <string>CONTAGEM DE EPISÓDIOS DA LISTA DE REPRODUÇÃO INTELIGENTE</string>
+    <string>CONTAGEM DE EPISÓDIOS DA PLAYLIST INTELIGENTE</string>
     <key>settings_badge_total_unplayed</key>
     <string>Total não reproduzido</string>
     <key>settings_bookmark_confirmation_sound</key>
@@ -3030,9 +3028,9 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_in_menu</key>
     <string>NO MENU</string>
     <key>settings_in_smart_playlist_singular</key>
-    <string>Incluso em uma lista de reprodução inteligente</string>
+    <string>Incluso em uma playlist inteligente</string>
     <key>settings_in_smart_playlists_plural_format</key>
-    <string>Incluso em %1$@ listas de reprodução inteligentes</string>
+    <string>Incluso em %1$@ playlists inteligentes</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Episódios inativos são aqueles dos quais você não fez download nem reproduziu no tempo especificado acima. O download é removido quando o episódio é arquivado.</string>
     <key>settings_next_action</key>
@@ -3040,13 +3038,13 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_not_in_filters</key>
     <string>Não incluso em nenhum filtro</string>
     <key>settings_not_in_smart_playlists</key>
-    <string>Não incluso em nenhuma lista de reprodução inteligente</string>
+    <string>Não incluso em nenhuma playlist inteligente</string>
     <key>settings_notifications</key>
     <string>Notificações</string>
     <key>settings_notifications_filter_count</key>
     <string>Contagem de filtros</string>
     <key>settings_notifications_smart_playlist_count</key>
-    <string>Contagem de lista de reprodução inteligente</string>
+    <string>Contagem de playlist inteligente</string>
     <key>settings_notifications_subtitle</key>
     <string>Notifica você quando um novo episódio está disponível. Útil também para melhorar a confiabilidade dos downloads automáticos.</string>
     <key>settings_opml</key>
@@ -3068,9 +3066,9 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_select_filters_plural</key>
     <string>Selecionar filtros</string>
     <key>settings_select_playlists_plural</key>
-    <string>Selecione listas de reprodução</string>
+    <string>Selecione playlist</string>
     <key>settings_select_smart_playlists_plural</key>
-    <string>Selecione listas de reprodução inteligentes</string>
+    <string>Selecione playlists inteligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Abrir filtro</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
@@ -3326,11 +3324,11 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
     <key>smart_playlist</key>
-    <string>Lista de reprodução inteligente</string>
+    <string>Playlist inteligente</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Nós as criamos para ajudar você a começar. Elas são atualizadas automaticamente com base no que você ouve.</string>
     <key>smart_playlists_tip_view_title</key>
-    <string>Listas de reprodução inteligentes prontas para uso</string>
+    <string>Playlists inteligentes prontas para uso</string>
     <key>social_sign_in_continue_with_apple</key>
     <string>Continuar com a Apple</string>
     <key>social_sign_in_continue_with_google</key>

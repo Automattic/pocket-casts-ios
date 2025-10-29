@@ -3346,6 +3346,9 @@
 /* Label in the Apple Watch app informing the user that they haven't configured any of their filters. */
 "watch_no_filters" = "No Filters";
 
+/* Label in the Apple Watch app informing the user that they haven't configured any playlists. */
+"watch_no_playlists" = "No Playlists";
+
 /* Label in the Apple Watch app informing the user that they haven't subscribed to podcasts. */
 "watch_no_podcasts" = "No Podcasts";
 
@@ -5623,3 +5626,12 @@
 
 /// Text for playback 2025 listened to numbers story
 "playback_2025_listened_to_numbers" = "You tuned in to %1$@ podcasts and %2$@ episodes";
+
+/// Search results screen: title for no results found
+"search_results_empty_title" = "No Results";
+
+/// Search results screen: message for no results found
+"search_results_empty_message" = "Try a new search, or by adding a podcast feed URL";
+
+/// Search results screen: action for sending feedback when no results found
+"search_results_empty_action" = "Send Us Feedback";

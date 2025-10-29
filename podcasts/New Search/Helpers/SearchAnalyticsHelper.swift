@@ -26,6 +26,10 @@ class SearchAnalyticsHelper: ObservableObject {
         Analytics.track(.searchFailed, properties: ["source": source, "error_code": (error as NSError).code])
     }
 
+    func trackEmptyResults(for term: String) {
+        Analytics.track(.searchEmptyResults, properties: ["source": source, "term": term])
+    }
+
     func trackPredictiveShown() {
         Analytics.track(.searchPredictiveShown, properties: ["source": source])
     }
