@@ -36,32 +36,46 @@ struct NewSearchResultsView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(AppTheme.loadingActivityColor().color)
             } else if searchResults.noResults {
-                HStack(alignment: .center) {
-                    EmptyStateView(title: L10n.searchResultsEmptyTitle,
-                                   message: L10n.searchResultsEmptyMessage,
-                                   icon: { Image("search") },
-                                   actions: [.init(title: L10n.searchResultsEmptyAction,
-                                                   style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01),
-                                                   action: {
-                        guard let source = SceneHelper.rootViewController() else {
-                            assertionFailure("WARNING: Root View Controller not found so survey was not presented")
-                            FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
-                            return
+                if searchResults.isShowingPredictiveSearch {
+                    VStack {
+                        HStack {
+                            showFullResultsButton
+                            Spacer()
                         }
-                        EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
-                    })]
-                    )
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                } else {
+                    HStack(alignment: .center) {
+                        EmptyStateView(title: L10n.searchResultsEmptyTitle,
+                                       message: L10n.searchResultsEmptyMessage,
+                                       icon: { Image("search") },
+                                       actions: [.init(title: L10n.searchResultsEmptyAction,
+                                                       style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01),
+                                                       action: {
+                            guard let source = SceneHelper.rootViewController() else {
+                                assertionFailure("WARNING: Root View Controller not found so survey was not presented")
+                                FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
+                                return
+                            }
+                            EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
+                        })]
+                        )
+                    }
+                    .frame(maxHeight: .infinity)
+                    .background(Theme.sharedTheme.primaryUi01)
                 }
-                .frame(maxHeight: .infinity)
-                .background(Theme.sharedTheme.primaryUi01)
             } else if searchResults.isShowingPredictiveSearch || (searchResults.isSearchingPredictive && !searchResults.predictive.isEmpty) {
                 List {
-                    Section {
+                    Section(content: {
                         PredictiveList()
                             .onAppear {
                                 self.searchAnalyticsHelper.trackPredictiveShown()
                             }
-                    }
+                    }, footer: {
+                        showFullResultsButton
+                    })
+                    .listSectionSeparator(.hidden, edges: .bottom)
                 }
                 .scrollDismissesKeyboard(.immediately)
                 .listStyle(.plain)
@@ -69,7 +83,9 @@ struct NewSearchResultsView: View {
                 .scrollContentBackground(.hidden)
             } else {
                 VStack(spacing: 0) {
-                    filterPicker
+                    if searchResults.combinedResults.count > 1 {
+                        filterPicker
+                    }
                     List {
                         if displayMode != .episodes {
                             localResults
@@ -85,6 +101,16 @@ struct NewSearchResultsView: View {
             }
         }
         .background(theme.primaryUi01.ignoresSafeArea())
+    }
+
+    @ViewBuilder var showFullResultsButton: some View {
+        Button(action: {
+            searchResults.search(term: searchResults.currentSearchTerm)
+        }, label: {
+            Text(L10n.searchResultsViewAll(searchResults.currentSearchTerm))
+                .font(style: .subheadline, weight: .medium)
+                .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
+        })
     }
 
     @ViewBuilder var filterPicker: some View {

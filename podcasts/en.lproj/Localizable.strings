@@ -5621,3 +5621,6 @@
 /// Search results screen: action for sending feedback when no results found
 "search_results_empty_action" = "Send Us Feedback";
 
+/// Search results screen: action for doing full search on term. %1$@ argument is the term being searched. Ex: "View all results for "cautionary" "
+"search_results_view_all" = "View all results for \"%1$@\"";
+
