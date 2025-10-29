@@ -15,9 +15,9 @@ struct LocalSearchEpisodeResultsView: View {
 
     var body: some View {
         ZStack {
-            resultsList
-                .opacity(episodes.isEmpty ? 0 : 1)
-                .allowsHitTesting(!episodes.isEmpty)
+            if !episodes.isEmpty {
+                resultsList
+            }
 
             if isLoading {
                 loadingOverlay
