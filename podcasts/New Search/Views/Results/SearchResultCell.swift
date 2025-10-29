@@ -14,14 +14,18 @@ struct SearchResultCell: View {
     let showDivider: Bool
     let showPodcastSubscribeButton: Bool
     let showEpisodeAddButton: Bool
+    let isSelectionEnabled: Bool
+    let episodeAddAction: (() -> Void)?
     let cellStyle: ListCellButtonStyle
     let action: (() -> Void)?
 
-    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, showPodcastSubscribeButton: Bool = true, showEpisodeAddButton: Bool = false, cellStyle: ListCellButtonStyle = .init(), action: (() -> Void)? = nil) {
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false, showDivider: Bool = true, showPodcastSubscribeButton: Bool = true, showEpisodeAddButton: Bool = false, episodeAddAction: (() -> Void)? = nil, isSelectionEnabled: Bool = true, cellStyle: ListCellButtonStyle = .init(), action: (() -> Void)? = nil) {
         self.played = episode != nil && played
         self.showDivider = showDivider
         self.showPodcastSubscribeButton = showPodcastSubscribeButton
         self.showEpisodeAddButton = showEpisodeAddButton
+        self.isSelectionEnabled = isSelectionEnabled
+        self.episodeAddAction = episodeAddAction
         self.cellStyle = cellStyle
         self._model = StateObject<SearchResultCellModel>(wrappedValue: SearchResultCellModel(episode: episode, podcastFolder: result))
         self.action = action
@@ -52,94 +56,16 @@ struct SearchResultCell: View {
     }
 
     var body: some View {
-        ZStack {
-            Button(action: {
-                if let action {
-                    action()
-                } else {
-                    performDefaultAction()
+        Group {
+            if isSelectionEnabled {
+                Button(action: triggerSelectionAction) {
+                    cellContent
                 }
-            }) {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .buttonStyle(cellStyle)
+            } else {
+                cellContent
+                    .background(disabledBackgroundColor)
             }
-            .buttonStyle(cellStyle)
-
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 12) {
-                    (model.episode?.podcastUuid ?? model.podcastFolder?.uuid).map {
-                        SearchEntryImage(uuid: $0, kind: model.podcastFolder?.kind)
-                    }
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        if let episode = model.episode {
-                            Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
-                                .font(style: .footnote, weight: .bold)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                            Text(episode.title)
-                                .font(style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                                .lineLimit(2)
-                            HStack(spacing: 4) {
-                                if let icon = episodeStateIcon {
-                                    Image(icon)
-                                        .renderingMode(.template)
-                                }
-                                if let stateText = episodeStateText {
-                                    Text(stateText)
-                                    Text("•")
-                                }
-                                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
-                            }
-                            .font(style: .caption, weight: .semibold)
-                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                            .lineLimit(1)
-                        } else if let result = model.podcastFolder {
-                            Text(result.titleToDisplay)
-                                .font(style: .subheadline, weight: .medium)
-                                .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-                                .lineLimit(2)
-                            Text(subtitle(for: result))
-                                .font(style: .caption, weight: .semibold)
-                                .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .lineLimit(1)
-                        }
-                    }
-                    .allowsHitTesting(false)
-                    Spacer()
-                    if model.episode != nil && model.episode?.state != .unavailable {
-                        if played {
-                            Image("list_played", bundle: nil)
-                                .resizable()
-                                .renderingMode(.template)
-                                .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
-                                .frame(width: 48, height: 48)
-                        } else if FeatureFlag.searchImprovements.enabled && !showEpisodeAddButton {
-                            EpisodeActionButton(model: self.model)
-                                .frame(width: 48, height: 48)
-                        }
-                        if showEpisodeAddButton {
-                            Button(action: {
-                                action?()
-                            }) {
-                                Image("plus-circle")
-                                    .resizable()
-                                    .renderingMode(.template)
-                            }
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(theme.primaryInteractive01)
-                        }
-                    } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
-                        SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
-                    }
-                }
-                .opacity(played || model.episode?.state.isNormal == false ? 0.5 : 1.0)
-                if showDivider {
-                    ThemedDivider()
-                }
-            }
-            .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
         }
     }
 
@@ -157,6 +83,96 @@ struct SearchResultCell: View {
 }
 
 private extension SearchResultCell {
+    var cellContent: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                (model.episode?.podcastUuid ?? model.podcastFolder?.uuid).map {
+                    SearchEntryImage(uuid: $0, kind: model.podcastFolder?.kind)
+                }
+
+                VStack(alignment: .leading, spacing: 2) {
+                    if let episode = model.episode {
+                        Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
+                            .font(style: .footnote, weight: .bold)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                        Text(episode.title)
+                            .font(style: .subheadline, weight: .medium)
+                            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                            .lineLimit(2)
+                        HStack(spacing: 4) {
+                            if let icon = episodeStateIcon {
+                                Image(icon)
+                                    .renderingMode(.template)
+                            }
+                            if let stateText = episodeStateText {
+                                Text(stateText)
+                                Text("•")
+                            }
+                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
+                        }
+                        .font(style: .caption, weight: .semibold)
+                        .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                        .lineLimit(1)
+                    } else if let result = model.podcastFolder {
+                        Text(result.titleToDisplay)
+                            .font(style: .subheadline, weight: .medium)
+                            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
+                            .lineLimit(2)
+                        Text(subtitle(for: result))
+                            .font(style: .caption, weight: .semibold)
+                            .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
+                            .lineLimit(1)
+                    }
+                }
+                .allowsHitTesting(false)
+                Spacer()
+                if model.episode != nil && model.episode?.state != .unavailable {
+                    if played {
+                        Image("list_played", bundle: nil)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                            .frame(width: 48, height: 48)
+                    } else if FeatureFlag.searchImprovements.enabled && !showEpisodeAddButton {
+                        EpisodeActionButton(model: self.model)
+                            .frame(width: 48, height: 48)
+                    }
+                    if showEpisodeAddButton {
+                        Button(action: {
+                            (episodeAddAction ?? action)?()
+                        }) {
+                            Image("plus-circle")
+                                .resizable()
+                                .renderingMode(.template)
+                        }
+                        .buttonStyle(.plain)
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(theme.primaryInteractive01)
+                    }
+                } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
+                    SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
+                }
+            }
+            .opacity(played || model.episode?.state.isNormal == false ? 0.5 : 1.0)
+            if showDivider {
+                ThemedDivider()
+            }
+        }
+        .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+    }
+
+    func triggerSelectionAction() {
+        if let action {
+            action()
+        } else {
+            performDefaultAction()
+        }
+    }
+
+    var disabledBackgroundColor: Color {
+        AppTheme.colorForStyle(cellStyle.backgroundStyle, themeOverride: theme.activeTheme).color
+    }
+
     func subtitle(for result: PodcastFolderSearchResult) -> String {
         if result.kind == .folder {
             guard let folder = DataManager.sharedManager.findFolder(uuid: result.uuid) else {
