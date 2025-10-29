@@ -67,7 +67,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
         addCloseButton()
         setupContent()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
