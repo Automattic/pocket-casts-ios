@@ -19,6 +19,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private let creationType: CreationType
+    private let analyticsSource: String?
 
     weak var delegate: FilterCreatedDelegate?
 
@@ -64,8 +65,9 @@ class NewPlaylistViewController: PCViewController {
         }
     }
 
-    init(creationType: CreationType = .default) {
+    init(creationType: CreationType = .default, analyticsSource: String? = nil) {
         self.creationType = creationType
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -190,6 +192,7 @@ class NewPlaylistViewController: PCViewController {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
             DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
