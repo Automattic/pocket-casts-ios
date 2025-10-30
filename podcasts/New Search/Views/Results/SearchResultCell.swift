@@ -102,7 +102,7 @@ private extension SearchResultCell {
 
     var baseContentPadding: EdgeInsets {
         if FeatureFlag.searchImprovements.enabled {
-            return EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+            return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         }
         return EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8)
     }

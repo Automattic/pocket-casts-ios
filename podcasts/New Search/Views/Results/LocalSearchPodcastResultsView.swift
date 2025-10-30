@@ -42,7 +42,6 @@ struct LocalSearchPodcastResultsView: View {
                     action: {
                     onSelectResult(result)
                 })
-                .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                 .listRowSeparator(.hidden)
                 .listRowBackground(theme.primaryUi01)
             }
