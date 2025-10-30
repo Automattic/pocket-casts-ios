@@ -85,7 +85,7 @@ class NewPlaylistViewController: PCViewController {
         }
         setupContent()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
