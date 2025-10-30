@@ -2151,6 +2151,7 @@
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
+		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF17EC42B97930700E116C8 /* BookmarksProfileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */; };
@@ -4285,6 +4286,7 @@
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClipAppDelegate.swift; sourceTree = "<group>"; };
 		FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCoordinator.swift; sourceTree = "<group>"; };
+		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 		FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListController.swift; sourceTree = "<group>"; };
 		FFF17EC52B979B5500E116C8 /* BookmarksProfileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListView.swift; sourceTree = "<group>"; };
@@ -4889,6 +4891,7 @@
 			children = (
 				F5F884622CC9EAA6002BED2C /* Humane-Bold.otf */,
 				F51E3B512CC70A4A00AFAD05 /* Humane-Medium.otf */,
+				FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */,
 				8B15E7212AD050EE0077F45A /* DMSans.ttf */,
 				8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */,
 				C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */,
@@ -9557,6 +9560,7 @@
 				BDBCE6C7244E7755004FFE13 /* AppIcon-Radioactive60x60@2x.png in Resources */,
 				BD400DB3170BF22600C43083 /* PodcastListViewController.xib in Resources */,
 				40256C34223486DA0091EFC6 /* UploadedStorageHeaderView.xib in Resources */,
+				FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */,
 				BD1C46DA27B9DD8C00B1D8BB /* FolderGridCell.xib in Resources */,
 				BD400DB8170BFC4C00C43083 /* PodcastGridCell.xib in Resources */,
 				BDA002CF1F7B318B00DCB4AE /* AppIcon-Dark60x60@2x.png in Resources */,
