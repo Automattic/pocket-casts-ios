@@ -32,8 +32,8 @@ struct SearchResultCell: View {
     }
 
     var episodeStateIcon: String? {
-        guard let episode = model.episode else { return nil }
-        switch episode.state {
+        guard let episode = model.episode, let state = episode.state else { return nil }
+        switch state {
         case .normal:
             return nil
         case .archived:
@@ -44,8 +44,8 @@ struct SearchResultCell: View {
     }
 
     var episodeStateText: String? {
-        guard let episode = model.episode else { return nil }
-        switch episode.state {
+        guard let episode = model.episode, let state = episode.state else { return nil }
+        switch state {
         case .normal:
             return nil
         case .archived:
@@ -212,7 +212,7 @@ private extension SearchResultCell {
                 SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
             }
         }
-        .opacity(played || model.episode?.state.isNormal == false ? 0.5 : 1.0)
+        .opacity(played || model.episode?.state?.isNormal == false ? 0.5 : 1.0)
         .padding(.top, contentPadding.top)
         .padding(.leading, contentPadding.leading)
         .padding(.trailing, contentPadding.trailing)
