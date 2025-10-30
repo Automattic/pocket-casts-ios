@@ -31,19 +31,23 @@ struct LocalSearchPodcastResultsView: View {
     private var resultsList: some View {
         List {
             listHeader
-            ForEach(Array(currentResults.enumerated()), id: \.element.id) { index, result in
-                SearchResultCell(
-                    episode: nil,
-                    result: result,
-                    played: false,
-                    showDivider: index < currentResults.count - 1,
-                    showPodcastSubscribeButton: false,
-                    cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
-                    action: {
-                    onSelectResult(result)
-                })
-                .listRowSeparator(.hidden)
-                .listRowBackground(theme.primaryUi01)
+            Section {
+                ForEach(Array(currentResults.enumerated()), id: \.element.id) { index, result in
+                    SearchResultCell(
+                        episode: nil,
+                        result: result,
+                        played: false,
+                        showDivider: false,
+                        showPodcastSubscribeButton: false,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
+                        action: {
+                        onSelectResult(result)
+                    })
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
+                }
             }
         }
         .listStyle(.plain)

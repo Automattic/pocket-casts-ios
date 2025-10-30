@@ -29,21 +29,25 @@ struct LocalSearchEpisodeResultsView: View {
 
     private var resultsList: some View {
         List {
-            ForEach(episodes, id: \.uuid) { searchResult in
-                SearchResultCell(
-                    episode: searchResult,
-                    result: nil,
-                    played: false,
-                    showDivider: searchResult.uuid != episodes.last?.uuid,
-                    showEpisodeAddButton: true,
-                    episodeAddAction: {
-                        onAddEpisode(searchResult)
-                    },
-                    isSelectionEnabled: false,
-                    cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(theme.primaryUi01)
+            Section {
+                ForEach(episodes, id: \.uuid) { searchResult in
+                    SearchResultCell(
+                        episode: searchResult,
+                        result: nil,
+                        played: false,
+                        showDivider: false,
+                        showEpisodeAddButton: true,
+                        episodeAddAction: {
+                            onAddEpisode(searchResult)
+                        },
+                        isSelectionEnabled: false,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
+                    )
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
+                }
             }
         }
         .listStyle(.plain)
