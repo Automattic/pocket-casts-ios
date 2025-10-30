@@ -235,7 +235,7 @@ final class LocalSearchViewModel: ObservableObject {
     private func configureSearchResultsIfNeeded(_ searchResultsModel: SearchResultsModel) {
         guard self.searchResultsModel !== searchResultsModel else { return }
         self.searchResultsModel = searchResultsModel
-        configureEpisodeCoordinatorIfNeeded(using: searchResultsModel)
+        configureEpisodeCoordinatorIfNeeded()
 
         searchResultsModel.$podcasts
             .receive(on: DispatchQueue.main)
@@ -246,28 +246,13 @@ final class LocalSearchViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-
-        searchResultsModel.$episodes
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] results in
-                self?.updateEpisodesFromSearchResults(results)
-            }
-            .store(in: &cancellables)
-
-        searchResultsModel.$episodeSearchError
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] error in
-                self?.handleEpisodeSearchError(error)
-            }
-            .store(in: &cancellables)
     }
 
-    private func configureEpisodeCoordinatorIfNeeded(using searchResultsModel: SearchResultsModel) {
+    private func configureEpisodeCoordinatorIfNeeded() {
         guard episodeCoordinator == nil else { return }
 
         let coordinator = LocalSearchCoordinator(
-            playlist: playlist,
-            searchResultsModel: searchResultsModel
+            playlist: playlist
         )
 
         coordinator.$episodes
@@ -367,22 +352,6 @@ final class LocalSearchViewModel: ObservableObject {
         }
 
         coordinator.scheduleSearch(for: trimmed, podcastUuid: podcastUuid)
-    }
-
-    private func updateEpisodesFromSearchResults(_ results: [EpisodeSearchResult]) {
-        episodeCoordinator?.updateEpisodesFromSearchResults(
-            results,
-            selectedPodcastUUID: selectedPodcast?.uuid,
-            trimmedSearchText: trimmedSearchText
-        )
-    }
-
-    private func handleEpisodeSearchError(_ error: Error?) {
-        episodeCoordinator?.handleSearchError(
-            error,
-            selectedPodcastUUID: selectedPodcast?.uuid,
-            trimmedSearchText: trimmedSearchText
-        )
     }
 }
 

@@ -11,7 +11,6 @@ final class LocalSearchCoordinator {
     @Published private(set) var addedEpisodeCount = 0
 
     private let playlist: EpisodeFilter
-    private let searchResultsModel: SearchResultsModel
     private let dataManager: DataManager
 
     private var playlistEpisodeUUIDs = Set<String>()
@@ -22,11 +21,9 @@ final class LocalSearchCoordinator {
 
     init(
         playlist: EpisodeFilter,
-        searchResultsModel: SearchResultsModel,
         dataManager: DataManager = DataManager.sharedManager
     ) {
         self.playlist = playlist
-        self.searchResultsModel = searchResultsModel
         self.dataManager = dataManager
     }
 
@@ -126,30 +123,6 @@ final class LocalSearchCoordinator {
         preloadTask = nil
     }
 
-    func updateEpisodesFromSearchResults(
-        _ results: [EpisodeSearchResult],
-        selectedPodcastUUID: String?,
-        trimmedSearchText: String
-    ) {
-        guard shouldApplySearchResults(selectedPodcastUUID: selectedPodcastUUID, trimmedSearchText: trimmedSearchText),
-              let selectedPodcastUUID else {
-            return
-        }
-
-        let filtered = results.filter { $0.podcastUuid == selectedPodcastUUID }
-        let available = filtered.filter { !playlistEpisodeUUIDs.contains($0.uuid) }
-        episodes = available
-        isSearchInFlight = false
-    }
-
-    func handleSearchError(_ error: Error?, selectedPodcastUUID: String?, trimmedSearchText: String) {
-        guard error != nil,
-              shouldApplySearchResults(selectedPodcastUUID: selectedPodcastUUID, trimmedSearchText: trimmedSearchText) else {
-            return
-        }
-        isSearchInFlight = false
-    }
-
     func handleAddEpisode(_ searchResult: EpisodeSearchResult) {
         guard let episode = dataManager.findEpisode(uuid: searchResult.uuid) else {
             assertionFailure("Episode should exist")
@@ -162,24 +135,25 @@ final class LocalSearchCoordinator {
         addedEpisodeCount += 1
     }
 
-    private func shouldApplySearchResults(selectedPodcastUUID: String?, trimmedSearchText: String) -> Bool {
-        guard let selectedPodcastUUID,
-              let currentSearchPodcastUUID,
-              currentSearchPodcastUUID == selectedPodcastUUID else {
-            return false
-        }
-
-        guard trimmedSearchText.count >= 2 else {
-            return false
-        }
-
-        return trimmedSearchText == currentEpisodeSearchTerm
-    }
-
     private func performSearch(term: String, podcastUuid: String) async {
         currentEpisodeSearchTerm = term
         currentSearchPodcastUUID = podcastUuid
         episodes = []
-        searchResultsModel.search(term: term)
+        let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+
+        guard !Task.isCancelled else {
+            if currentEpisodeSearchTerm == term, currentSearchPodcastUUID == podcastUuid {
+                isSearchInFlight = false
+            }
+            return
+        }
+
+        guard currentEpisodeSearchTerm == term,
+              currentSearchPodcastUUID == podcastUuid else {
+            return
+        }
+
+        episodes = matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
+        isSearchInFlight = false
     }
 }
