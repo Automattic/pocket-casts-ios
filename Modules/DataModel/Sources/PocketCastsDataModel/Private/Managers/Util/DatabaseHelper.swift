@@ -17,6 +17,7 @@ class DatabaseHelper {
                     try db.executeUpdate("PRAGMA user_version = \(newSchemaVersion)", values: nil)
                 }
             } catch {
+                assertionFailure("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
                 FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
         }
