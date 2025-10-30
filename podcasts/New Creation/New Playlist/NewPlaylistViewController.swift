@@ -191,7 +191,8 @@ class NewPlaylistViewController: PCViewController {
         } else if case let .addEpisode(episode) = creationType {
             let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
             guard didAdd else {
-                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                 return
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)

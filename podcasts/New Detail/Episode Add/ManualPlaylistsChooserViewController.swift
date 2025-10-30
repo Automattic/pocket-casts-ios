@@ -154,7 +154,8 @@ class ManualPlaylistsChooserViewController: PCViewController {
             if added.contains(playlist.uuid) {
                 let didAdd = dataManager.add(episodes: [episode], to: playlist)
                 guard didAdd else {
-                    Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                    let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                    Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                     return
                 }
             }
