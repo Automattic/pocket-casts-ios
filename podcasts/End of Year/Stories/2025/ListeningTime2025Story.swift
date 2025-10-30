@@ -23,7 +23,7 @@ struct ListeningTime2025Story: ShareableStory {
 
         GeometryReader { geometry in
             ZStack {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     Spacer()
                     let sizingFactor = 0.25
                     let font = UIFont(name: "Humane-SemiBold", size: geometry.size.height * sizingFactor) ?? UIFont.systemFont(ofSize: geometry.size.height * sizingFactor)
@@ -31,13 +31,11 @@ struct ListeningTime2025Story: ShareableStory {
                         .lineLimit(1)
                         .font(Font(font as CTFont))
                         .minimumScaleFactor(0.5)
-                        .offset(x: 0, y: font.lineHeight - font.capHeight)
                     HStack {
-                        Text("minutes listened")
+                        Text(L10n.playback2025ListeningTime)
                             .font(.system(size: 18))
                             .fontWeight(.semibold)
                             .kerning(0.54)
-                            .padding(.vertical, (listeningTime < 60 * 1000) ? -font.descender / 2  : -font.descender)
                         Spacer()
                     }
                 }

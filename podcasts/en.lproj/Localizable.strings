@@ -5650,3 +5650,6 @@
 
 /// Search results screen: action for sending feedback when no results found
 "search_results_empty_action" = "Send Us Feedback";
+
+/// Text for playback 2025 listening time in minutes
+"playback_2025_listening_time" = "minutes listened";
