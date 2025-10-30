@@ -5438,6 +5438,12 @@
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
 
+/* The title shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_title" = "Build your own playlist or let us help";
+
+/* The description shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_description" = "Pick episodes yourself, or let Smart Playlist fill it automatically based on your Smart Rules.";
+
 /* The title shown in a Tip View when the user creates the first playlist */
 "playlists_tip_drag_and_drop_title" = "Reorder your playlists";
 
