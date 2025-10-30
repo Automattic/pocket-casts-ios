@@ -156,7 +156,17 @@ final class LocalSearchCoordinator {
             return
         }
 
-        dataManager.add(episodes: [episode], to: playlist)
+
+        let didAdd = dataManager.add(episodes: [episode], to: playlist)
+        let isFull = !didAdd
+
+        Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": isFull])
+
+        guard didAdd else {
+            Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+            return
+        }
+
         playlistEpisodeUUIDs.insert(searchResult.uuid)
         episodes.removeAll { $0.uuid == searchResult.uuid }
         addedEpisodeCount += 1

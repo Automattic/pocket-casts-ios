@@ -152,7 +152,11 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
-                dataManager.add(episodes: [episode], to: playlist)
+                let didAdd = dataManager.add(episodes: [episode], to: playlist)
+                guard didAdd else {
+                    Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                    return
+                }
             }
             if removed.contains(playlist.uuid) {
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)

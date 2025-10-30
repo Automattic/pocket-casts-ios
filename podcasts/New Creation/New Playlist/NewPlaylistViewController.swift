@@ -189,7 +189,11 @@ class NewPlaylistViewController: PCViewController {
             delegate?.filterCreated(newFilter: playlist)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
-            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            guard didAdd else {
+                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                return
+            }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
