@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 if FeatureFlag.playlistsRebranding.enabled {
                     Settings.shouldShowNewFilterTip = false
+                    Settings.shouldShowNewFilterTipInCreationView = false
                 }
             case .installed:
                 //Never show the podcast feed reload tooltip for fresh install

@@ -33,6 +33,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
+    var previouslyDisplayedDetail = false
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -77,6 +78,23 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
+        if FeatureFlag.playlistsRebranding.enabled {
+            if !previouslyDisplayedDetail {
+                autoPushPlaylist()
+            }
+        } else {
+            autoPushPlaylist()
+        }
+
+        loadingIndicator = ThemeLoadingIndicator()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
+        if !FeatureFlag.playlistsRebranding.enabled {
+            setupNewFilterButton()
+        }
+        handleThemeChanged()
+    }
+
+    func autoPushPlaylist() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
@@ -86,13 +104,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 }
             }
         }
-
-        loadingIndicator = ThemeLoadingIndicator()
-        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        if !FeatureFlag.playlistsRebranding.enabled {
-            setupNewFilterButton()
-        }
-        handleThemeChanged()
     }
 
     func setupNewFilterButton() {
@@ -183,6 +194,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
+        previouslyDisplayedDetail = true
+
         let viewController: UIViewController
         if FeatureFlag.playlistsRebranding.enabled {
             viewController = PlaylistDetailViewController(playlist: filter)
