@@ -69,7 +69,7 @@ struct PredictiveList: View {
                 }
                 .background(theme.primaryUi01)
             case .podcast:
-                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: !FeatureFlag.searchImprovements.enabled, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01, hightlightStyle: .primaryUi01))
                     .listRowBackground(theme.primaryUi01)
                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                         return 0

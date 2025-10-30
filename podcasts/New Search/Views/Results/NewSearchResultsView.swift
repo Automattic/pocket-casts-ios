@@ -75,6 +75,7 @@ struct NewSearchResultsView: View {
                     }, footer: {
                         showFullResultsButton
                     })
+                    .listRowBackground(theme.primaryUi01)
                     .listSectionSeparator(.hidden, edges: .bottom)
                 }
                 .scrollDismissesKeyboard(.immediately)
@@ -111,6 +112,7 @@ struct NewSearchResultsView: View {
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
         })
+        .background(theme.primaryUi01)
     }
 
     @ViewBuilder var filterPicker: some View {
@@ -161,14 +163,14 @@ struct NewSearchResultsView: View {
         ForEach(filteredResults, id: \.self) { result in
             switch result {
                 case .podcast(let podcast):
-                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01, hightlightStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
                         .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                             return 0
                         }
                 case .episode(let episode):
                     let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
-                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
+                    SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01, hightlightStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
                         .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
                             return 0
