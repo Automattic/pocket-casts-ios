@@ -403,7 +403,7 @@ class PlaylistDataManager {
 
         // Check that the current episode count + new episodes wouldn't overflow, otherwise bail.
         // Callers should generally
-        let playlistCount = playlistEpisodeCount(clause: .episodeCount, playlist: playlist, episodeUuidToAdd: nil, shouldShowArchived: true, dbQueue: dbQueue)
+        let playlistCount = playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: nil, shouldShowArchived: true, dbQueue: dbQueue)
         let isFull = playlistCount + episodes.count > EpisodeDataManager.Constants.Limits.maxPlaylistItems
 
         guard episodes.count > 0 && !isFull else { return false }
