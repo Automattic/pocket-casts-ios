@@ -2,7 +2,9 @@ import SwiftUI
 import Lottie
 
 struct ListeningTime2025Story: ShareableStory {
+
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @Environment(\.animated) var animated: Bool
 
     let listeningTime: Double
 
@@ -11,23 +13,36 @@ struct ListeningTime2025Story: ShareableStory {
 
     let identifier: String = "total_time"
 
+    private let startTime: Double
+    private let endTime: Double
+
+    private static let speed: Double = 0.01
+
+    @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
+    @State private var currentTime: Double
+
+    init(listeningTime: Double) {
+        self.listeningTime = listeningTime
+        startTime = listeningTime - (listeningTime * 0.1)
+        endTime = listeningTime
+        _currentTime = .init(initialValue: startTime)
+    }
+
     var formattedMinutes: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
-        return formatter.string(for: Int(listeningTime / 60.0)) ?? ""
+        return formatter.string(for: Int(currentTime / 60.0)) ?? ""
     }
 
     var body: some View {
-        let bigNumber = formattedMinutes
-
         GeometryReader { geometry in
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
                     let sizingFactor = 0.25
                     let font = UIFont(name: "Humane-SemiBold", size: geometry.size.height * sizingFactor) ?? UIFont.systemFont(ofSize: geometry.size.height * sizingFactor)
-                    Text("\(bigNumber)")
+                    Text(formattedMinutes)
                         .lineLimit(1)
                         .font(Font(font as CTFont))
                         .minimumScaleFactor(0.5)
@@ -64,6 +79,19 @@ struct ListeningTime2025Story: ShareableStory {
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .enableProportionalValueScaling()
+        .onChange(of: stepCounter.counter) { value in
+            stepNumberAnimation(value)
+        }
+    }
+
+    func stepNumberAnimation(_ value: Int) {
+        if currentTime < endTime {
+            withAnimation(.easeIn(duration: Self.speed)) {
+                currentTime = listeningTime * 0.01 * Double(value)
+            }
+        } else {
+            currentTime = endTime
+        }
     }
 
     func onAppear() {
