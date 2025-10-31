@@ -102,47 +102,65 @@ extension SyncTask {
     }
 
     private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
-        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
-        if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
-            if let podcast = existingPodcast {
-                podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-                podcast.isPushEnabled = false
-                podcast.autoArchiveEpisodeLimit = 0
-                podcast.subscribed = 0
-                podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
-                podcast.settings = PodcastSettings.defaults
-                if FeatureFlag.settingsSync.enabled {
-                    podcast.processSettings(podcastItem.settings)
-                }
+        defer {
+            NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
+            NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
+            upToPodcast += 1
+        }
 
-                DataManager.sharedManager.save(podcast: podcast)
+        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
+        let isDeleted = podcastItem.hasIsDeleted && podcastItem.isDeleted.value
+        let shouldSubscribe: Bool = {
+            if podcastItem.hasIsDeleted {
+                return !podcastItem.isDeleted.value
             }
-        } else if let podcast = existingPodcast {
+            if podcastItem.hasSubscribed {
+                return podcastItem.subscribed.value
+            }
+            return true
+        }()
+
+        if isDeleted {
+            guard let podcast = existingPodcast else { return }
+
+            podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
+            podcast.isPushEnabled = false
+            podcast.autoArchiveEpisodeLimit = 0
+            podcast.subscribed = 0
+            podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+            podcast.settings = PodcastSettings.defaults
+            if FeatureFlag.settingsSync.enabled {
+                podcast.processSettings(podcastItem.settings)
+            }
+
+            DataManager.sharedManager.save(podcast: podcast)
+            return
+        }
+
+        if let podcast = existingPodcast {
             importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
             DataManager.sharedManager.save(podcast: podcast)
 
             ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
-        } else {
-            let semaphore = DispatchSemaphore(value: 0)
-
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
-                if success {
-                    if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
-                        podcast.syncStatus = SyncStatus.synced.rawValue
-                        self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
-
-                        DataManager.sharedManager.save(podcast: podcast)
-                    }
-                }
-
-                semaphore.signal()
-            })
-            _ = semaphore.wait(timeout: .distantFuture)
+            return
         }
 
-        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
-        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
-        upToPodcast += 1
+        let semaphore = DispatchSemaphore(value: 0)
+
+        serverPodcastManager.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: shouldSubscribe, autoDownloads: 0, completion: { success in
+            if success {
+                if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
+                    podcast.syncStatus = SyncStatus.synced.rawValue
+                    self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
+
+                    DataManager.sharedManager.save(podcast: podcast)
+                }
+            }
+
+            semaphore.signal()
+        })
+        _ = semaphore.wait(timeout: .distantFuture)
+
     }
 
     private func importItem(podcastItem: Api_SyncUserPodcast, into podcast: Podcast, checkIsDeleted: Bool) {
@@ -166,8 +184,12 @@ extension SyncTask {
             podcast.sortOrder = podcastItem.sortPosition.value
         }
 
-        if checkIsDeleted, podcastItem.hasIsDeleted {
-            podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
+        if checkIsDeleted {
+            if podcastItem.hasIsDeleted {
+                podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
+            } else if podcastItem.hasSubscribed {
+                podcast.subscribed = podcastItem.subscribed.value ? 1 : 0
+            }
         }
 
         if FeatureFlag.settingsSync.enabled {
@@ -181,7 +203,7 @@ extension SyncTask {
         if existingEpisode == nil {
             // we don't have this episode so try and find it
             FileLog.shared.addMessage("Trying to find missing episode as part of a sync \(episodeItem.uuid)")
-            existingEpisode = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
+            existingEpisode = serverPodcastManager.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
         }
 
         guard let episode = existingEpisode else { return }
@@ -389,7 +411,7 @@ extension SyncTask {
         DataManager.sharedManager.save(playlist: playlist)
 
         addedEpisodes.forEach { addedEpisode in
-            ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+            serverPodcastManager.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true, completion: nil)
         }
     }
 
