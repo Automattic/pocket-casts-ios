@@ -30,6 +30,6 @@ struct StoryHeader2025: View {
         }
         .minimumScaleFactor(0.9)
         .padding(.horizontal, 24)
-        .padding(.top, 48)
+        .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
     }
 }
