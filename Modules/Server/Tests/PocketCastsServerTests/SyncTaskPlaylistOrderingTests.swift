@@ -111,7 +111,8 @@ private final class CapturingDataManager: DataManager {
         storedPlaylists[playlist.uuid] = playlist
     }
 
-    override func add(episodes: [Episode], to playlist: EpisodeFilter) {
+    override func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         addedEpisodes[playlist.uuid] = episodes
+        return true
     }
 }
