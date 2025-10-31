@@ -16,6 +16,7 @@ extension PlaylistDetailViewController {
         }
 
         Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
+
         let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), viewModel.episodes.count)
         OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: { [weak self] in
             guard let self else { return }

@@ -161,7 +161,21 @@ enum SwipeActionsHelper {
 
     fileprivate static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
         let source = handler.swipeSource
-        Analytics.track(.episodeSwipeActionPerformed, properties: ["action": action, "source": source])
+        var properties = ["action": action, "source": source] as [String: Any]
+        if FeatureFlag.playlistsRebranding.enabled {
+            let playlistSourceType = switch handler.swipeSourceType {
+            case .manualPlaylistDetail:
+                "manual"
+            case .smartPlaylistDetail:
+                "smart"
+            default:
+                ""
+            }
+            if !playlistSourceType.isEmpty {
+                properties["filter_type"] = playlistSourceType
+            }
+        }
+        Analytics.track(.episodeSwipeActionPerformed, properties: properties)
 
         guard action != .delete else {
             return

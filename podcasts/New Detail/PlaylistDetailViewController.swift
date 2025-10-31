@@ -184,6 +184,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
+
+        track(.filterShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -422,11 +424,5 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
-    }
-}
-
-extension PlaylistDetailViewController: AnalyticsSourceProvider {
-    var analyticsSource: AnalyticsSource {
-        .filters
     }
 }
