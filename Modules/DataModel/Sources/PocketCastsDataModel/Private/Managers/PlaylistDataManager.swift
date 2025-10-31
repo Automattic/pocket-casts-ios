@@ -389,13 +389,24 @@ class PlaylistDataManager {
         return highestPosition + 1
     }
 
-    func add(episodes: [Episode], to playlist: EpisodeFilter, dbQueue: PCDBQueue) {
+    /// Returns a value indicating whether the episodes were added. If `false`, the playlist is full.
+    func add(episodes: [Episode], to playlist: EpisodeFilter, dbQueue: PCDBQueue) -> Bool {
+        // If the episodes are already larger than our max size, bail
+        guard episodes.count < EpisodeDataManager.Constants.Limits.maxPlaylistItems else {
+            return false
+        }
+
         // Ensure the filter exists and has a valid id before inserting playlist items
         if playlist.id == 0 {
             save(playlist: playlist, dbQueue: dbQueue)
         }
 
-        guard episodes.count > 0 else { return }
+        // Check that the current episode count + new episodes wouldn't overflow, otherwise bail.
+        // Callers should generally
+        let playlistCount = playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: nil, shouldShowArchived: true, dbQueue: dbQueue)
+        let isFull = playlistCount + episodes.count > EpisodeDataManager.Constants.Limits.maxPlaylistItems
+
+        guard episodes.count > 0 && !isFull else { return false }
 
         dbQueue.write { db in
             do {
@@ -443,6 +454,8 @@ class PlaylistDataManager {
                 FileLog.shared.addMessage("EpisodeFilterDataManager.addEpisodes error: \(error)")
             }
         }
+
+        return true
     }
 
     // MARK: - Conversion

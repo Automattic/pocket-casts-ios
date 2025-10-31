@@ -28,6 +28,7 @@ struct LocalSearchView: View {
                     .background(theme.secondaryUi01)
             }
             .onAppear {
+                Analytics.track(.filterAddEpisodesShown)
                 viewModel.onAppear(searchResultsModel: searchResults)
                 previousNavigationPath = navigationPath
             }
@@ -72,6 +73,7 @@ struct LocalSearchView: View {
     private func handleSelection(for result: PodcastFolderSearchResult) {
         switch result.kind {
         case .folder:
+            Analytics.track(.filterAddEpisodesFolderTapped)
             viewModel.selectFolder(result)
             let route = LocalSearchRoute.folder(result.uuid)
             if navigationPath.last != route {
@@ -80,6 +82,7 @@ struct LocalSearchView: View {
                 }
             }
         case .podcast:
+            Analytics.track(.filterAddEpisodesPodcastTapped)
             if navigationPath.last?.isPodcast == true {
                 withAnimation(navigationAnimation) {
                     navigationPath.removeLast()
@@ -216,6 +219,7 @@ private extension LocalSearchView {
                 searchText: viewModel.searchText,
                 selectedPodcastTitle: viewModel.selectedPodcast?.title,
                 onAddEpisode: { result in
+                    let isFull = false
                     if reduceMotion {
                         viewModel.handleAddEpisode(result)
                     } else {

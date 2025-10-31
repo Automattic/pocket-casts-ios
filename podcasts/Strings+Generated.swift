@@ -2349,7 +2349,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "playlist_episodes_count", String(describing: p1), fallback: "%1$@ episodes")
   }
   /// Toast message when the playlist is full
-  internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "Playlist is full. Try creating a new one") }
+  internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "This playlist is full. Remove a few episodes or start a new one.") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
