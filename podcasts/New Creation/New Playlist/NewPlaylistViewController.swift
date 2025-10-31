@@ -210,7 +210,12 @@ class NewPlaylistViewController: PCViewController {
             delegate?.filterCreated(newFilter: playlist)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
-            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            guard didAdd else {
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+                return
+            }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }

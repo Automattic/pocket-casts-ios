@@ -87,7 +87,8 @@ struct PlaylistCellView: View {
                         isSelected.toggle()
                         refreshToken = UUID()
                     } else {
-                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                        let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                     }
                 }
         }

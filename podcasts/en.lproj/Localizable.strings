@@ -5562,7 +5562,7 @@
 "playlist_manual_episode_add_to_playlist" = "Add to playlist";
 
 /* Toast message when the playlist is full */
-"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
+"playlist_manual_add_episode_full_playlist_toast" = "This playlist is full. Remove a few episodes or start a new one.";
 
 /* Text of the placeholder used in the manual playlist detail screen when one episode is archived. */
 "playlist_manual_archived_episode_placeholder" = "Your episode in this playlist has been archived";
@@ -5572,6 +5572,30 @@
 
 /* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
 "playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived";
+
+/* Picker option showed when tapping Play all */
+"playlist_play_all_option_save_queue" = "Save current queue";
+
+/* Picker option showed when tapping Play all */
+"playlist_play_all_option_replace_queue" = "Replace and play";
+
+/* Picker title showed when tapping Play all */
+"playlist_play_all_picker_title" = "Save your Up Next queue?";
+
+/* Picker message showed when tapping Play all */
+"playlist_play_all_picker_message" = "Your current Up Next will be replaced when you play this playlist. Save it first to keep it.";
+
+/* Picker title showed when tapping replace after showing the first Play all picker */
+"playlist_play_all_replace_picker_title" = "Replace current Up Next?";
+
+/* Picker message showed when tapping replace after showing the first Play all picker */
+"playlist_play_all_replace_picker_message" = "This will clear your current Up Next queue and start playing this playlist.";
+
+/* Toast message displayed when the current Up Next is saved */
+"playlist_play_all_up_next_saved" = "Up Next saved as playlist";
+
+/* Toast message displayed when the current Up Next is saved in more than one playlists */
+"playlist_play_all_up_next_saved_plural" = "Up Next saved as playlists";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
