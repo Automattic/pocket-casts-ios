@@ -1951,6 +1951,9 @@ Pocket Casts Plus</string>
     <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
     <key>playback_2025_feature_title</key>
     <string>2025 年度播放回顧</string>
+    <key>playback_2025_intro_message</key>
+    <string>歡迎瀏覽年度播放回顧
+回顧這一年的 Podcast 聆聽點滴。</string>
     <key>playback_2025_view_year</key>
     <string>檢視我的 2025 年度播放回顧</string>
     <key>playback_effect_all_podcasts</key>
@@ -2047,6 +2050,8 @@ Pocket Casts Plus</string>
     <string>彙整成智慧播放清單</string>
     <key>playlist_detail_description</key>
     <string>%1$@ 個單集 • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 集 • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>已新增 1 個單集至「%@」</string>
     <key>playlist_episodes_added_title</key>
@@ -2057,6 +2062,12 @@ Pocket Casts Plus</string>
     <string>播放清單已滿。 嘗試建立新單集</string>
     <key>playlist_manual_add_episodes</key>
     <string>新增單集</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>系統已封存你在此播放清單中的單集</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>已封存此播放清單內容，一共 %1$@ 集</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>瀏覽 Podcast</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>對單集左滑，即可新增至播放清單。</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2078,8 @@ Pocket Casts Plus</string>
     <string>新增至播放清單</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>重新排序單集</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>已封存所有單集 新增或取消封存以播放。</string>
     <key>playlist_options</key>
     <string>播放清單選項</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2116,12 @@ Pocket Casts Plus</string>
     <string>播放清單</string>
     <key>playlists_default_new_playlist</key>
     <string>新播放清單</string>
+    <key>playlists_delete</key>
+    <string>刪除播放清單</string>
+    <key>playlists_delete_alert_message</key>
+    <string>你確定要刪除播放清單？ 此動作無法復原。</string>
+    <key>playlists_delete_alert_title</key>
+    <string>要刪除播放清單嗎？</string>
     <key>playlists_empty_state_description</key>
     <string>有了播放清單，你就能透過「智慧規則」手動或自動整理節目內容。</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2134,8 @@ Pocket Casts Plus</string>
     <string>播放清單的運作方式不變：可依據你設定的規則，自動加入單集。 你原有的「篩選」都還在，只是名稱有所調整。</string>
     <key>playlists_onboarding_smart_title</key>
     <string>「篩選」現在改名為「智慧播放清單」</string>
+    <key>playlists_play_all</key>
+    <string>全部播放</string>
     <key>please_try_again</key>
     <string>請再試一次</string>
     <key>please_try_again_later</key>
@@ -3065,12 +3086,16 @@ Pocket Casts Plus</string>
     <string>選取篩選器</string>
     <key>settings_select_filters_plural</key>
     <string>選取篩選器</string>
+    <key>settings_select_playlist_singular</key>
+    <string>選取播放清單</string>
     <key>settings_select_playlists_plural</key>
     <string>選取播放清單</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>選取智慧播放清單</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>開啟篩選器</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>開啟播放清單</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>播放所有單集</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3112,8 @@ Pocket Casts Plus</string>
     <string>已啟用的捷徑</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>特定篩選器的捷徑</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>特定播放清單的捷徑</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>特定 Podcast 節目的捷徑</string>
     <key>settings_skip_first</key>

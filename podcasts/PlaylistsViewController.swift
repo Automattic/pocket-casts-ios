@@ -34,6 +34,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
     var previouslyDisplayedDetail = false
+    var presentingPlaylistDetail: Bool = false
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -194,10 +195,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
         previouslyDisplayedDetail = true
+        presentingPlaylistDetail = true
 
         let viewController: UIViewController
         if FeatureFlag.playlistsRebranding.enabled {
-            viewController = PlaylistDetailViewController(playlist: filter)
+            viewController = PlaylistDetailViewController(playlist: filter, delegate: self)
         } else {
             let playlistViewController = PlaylistViewController(filter: filter)
             playlistViewController.isNewFilter = isNew ?? false

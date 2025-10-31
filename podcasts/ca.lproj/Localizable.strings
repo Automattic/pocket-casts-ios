@@ -2715,6 +2715,12 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Darreres cerques</string>
     <key>search_results</key>
     <string>%1$@ de %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Envia'ns els teus comentaris</string>
+    <key>search_results_empty_message</key>
+    <string>Prova una cerca nova, o afegint una URL del feed del pòdcast</string>
+    <key>search_results_empty_title</key>
+    <string>Cap resultat</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
