@@ -951,8 +951,8 @@ public class DataManager {
         playlistManager.playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: true, dbQueue: dbQueue)
     }
 
-    public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        let limit = EpisodeDataManager.Constants.Limits.maxPlaylistItems
+    public func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil) -> [Episode] {
+        let limit = limit ?? EpisodeDataManager.Constants.Limits.maxPlaylistItems
         let query = PlaylistQueryBuilder.query(
             clause: .episode,
             for: playlist,
@@ -974,7 +974,7 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
-    public func add(episodes: [Episode], to playlist: EpisodeFilter) {
+    public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
 

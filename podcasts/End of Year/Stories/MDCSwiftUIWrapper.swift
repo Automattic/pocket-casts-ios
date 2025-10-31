@@ -98,15 +98,15 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     }
 
     /// Present a SwiftUI view as a bottom sheet in the given VC. If `autoSize` is `true`, a custom detent will be calculated based on the view size
-    static func present(_ content: ContentView, autoSize: Bool = false, in viewController: UIViewController) {
+    static func present(_ content: ContentView, autoSize: Bool = false, showingGrabber: Bool = false, in viewController: UIViewController) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content)
         if autoSize {
             let customDetent = UISheetPresentationController.Detent.custom { _ in
                 return wrapperController.customDetentHeight
             }
-            wrapperController.presentModally(in: viewController, detents: [customDetent])
+            wrapperController.presentModally(in: viewController, detents: [customDetent], showingGrabber: showingGrabber)
         } else {
-            wrapperController.presentModally(in: viewController)
+            wrapperController.presentModally(in: viewController, showingGrabber: showingGrabber)
         }
     }
 }

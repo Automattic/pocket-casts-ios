@@ -27,6 +27,16 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         XCTAssertFalse(query.contains("WITH playlist AS"))
     }
 
+    func testManualPodcastQuery() {
+        let filter = EpisodeFilter()
+        filter.manual = true
+        filter.uuid = "manual-podcast"
+
+        let query = PlaylistQueryBuilder.query(clause: .podcast, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+    }
+
     func testEmptyManualPlaylistDoesNotProduceInvalidInClause() {
         let filter = EpisodeFilter()
         filter.manual = true

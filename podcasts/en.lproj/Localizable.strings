@@ -1824,6 +1824,18 @@
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
 
+/* Indicates that the episode is unavailable server side. */
+"podcast_unavailable" = "Unavailable";
+
+/* Title indicating that the episode is unavailable server side */
+"episode_unavailable_title" = "Episode Unavailable";
+
+/* Message indicating that the episode is unavailable server side but will remain in your manual playlist until removed. */
+"episode_unavailable_message" = "The podcast creator deleted this episode. It will stay in your playlist until you remove it.";
+
+/* A title used for an action to remove an episode from a playlist */
+"remove_from_playlist" = "Remove from playlist";
+
 /* Label used to display the number or archived episodes in a podcast. '%1$@' is a placeholder for the archived episode number. */
 "podcast_archived_count_format" = "%1$@ archived";
 
@@ -5426,6 +5438,12 @@
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
 
+/* The title shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_title" = "Build your own playlist or let us help";
+
+/* The description shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_description" = "Pick episodes yourself, or let Smart Playlist fill it automatically based on your Smart Rules.";
+
 /* The title shown in a Tip View when the user creates the first playlist */
 "playlists_tip_drag_and_drop_title" = "Reorder your playlists";
 
@@ -5544,7 +5562,7 @@
 "playlist_manual_episode_add_to_playlist" = "Add to playlist";
 
 /* Toast message when the playlist is full */
-"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
+"playlist_manual_add_episode_full_playlist_toast" = "This playlist is full. Remove a few episodes or start a new one.";
 
 /* Text of the placeholder used in the manual playlist detail screen when one episode is archived. */
 "playlist_manual_archived_episode_placeholder" = "Your episode in this playlist has been archived";

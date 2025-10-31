@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import PocketCastsDataModel
 
 class NewPlaylistViewController: PCViewController {
@@ -20,6 +21,9 @@ class NewPlaylistViewController: PCViewController {
 
     private let creationType: CreationType
     private let analyticsSource: String?
+
+    private var creationView: UIView?
+    private var smartPlaylistsTip: UIViewController? = nil
 
     weak var delegate: FilterCreatedDelegate?
 
@@ -85,6 +89,12 @@ class NewPlaylistViewController: PCViewController {
         setupContent()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        showSmartPlaylistTooltip()
+    }
+
     private func setupNavBar() {
         let backgroundColor = AppTheme.viewBackgroundColor()
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
@@ -146,6 +156,8 @@ class NewPlaylistViewController: PCViewController {
             creationView.translatesAutoresizingMaskIntoConstraints = false
             view.insertSubview(creationView, belowSubview: saveButton)
 
+            self.creationView = creationView
+
             constraints.append(contentsOf: [
                 creationView.topAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor, constant: 16.0),
                 creationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
@@ -191,8 +203,15 @@ class NewPlaylistViewController: PCViewController {
             delegate?.filterCreated(newFilter: playlist)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
-            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            guard didAdd else {
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+                return
+            }
+
             Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
+
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
@@ -221,11 +240,82 @@ class NewPlaylistViewController: PCViewController {
     @objc private func textFieldDidChange() {
         playlistName = playlistNameTextField.text ?? ""
     }
+
+    private func showSmartPlaylistTooltip() {
+        if creationType != .default || !Settings.shouldShowNewFilterTipInCreationView {
+            return
+        }
+
+        guard
+            let source = creationView,
+            let vc = tip(
+                title: L10n.smartPlaylistsTipViewCreationTitle,
+                message: L10n.smartPlaylistsTipViewCreationDescription,
+                sourceView: source,
+                sourceRect: source.bounds
+            )
+        else {
+            return
+        }
+        smartPlaylistsTip = vc
+
+        present(vc, animated: true) {
+            Settings.shouldShowNewFilterTipInCreationView = false
+        }
+    }
+
+    private func dismissTipView() {
+        dismiss(animated: true) { [weak self] in
+            self?.smartPlaylistsTip = nil
+        }
+    }
+
+    private func tip(
+        idealSize: CGSize = CGSizeMake(290, 100),
+        title: String,
+        message: String,
+        sourceView: UIView?,
+        sourceRect: CGRect
+    ) -> UIHostingController<AnyView>? {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipViewStatic(title: title,
+                                    message: message,
+                              onTap: { [weak self] in
+            self?.dismissTipView()
+        })
+            .frame(idealWidth: idealSize.width, minHeight: idealSize.height)
+            .setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.sizingOptions = [.preferredContentSize]
+        guard let popoverPresentationController = vc.popoverPresentationController else {
+            return nil
+        }
+        popoverPresentationController.delegate = self
+        popoverPresentationController.permittedArrowDirections = [.up]
+        popoverPresentationController.sourceView = sourceView
+        popoverPresentationController.sourceRect = sourceRect
+        popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+        return vc
+    }
 }
 
 extension NewPlaylistViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         playlistName = ""
         return true
+    }
+}
+
+extension NewPlaylistViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        dismissTipView()
     }
 }
