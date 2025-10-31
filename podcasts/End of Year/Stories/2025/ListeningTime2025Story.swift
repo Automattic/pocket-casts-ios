@@ -45,7 +45,7 @@ struct ListeningTime2025Story: ShareableStory {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(content: {
                 if renderForSharing {
-                    Image("listened_numbers_2025_back")
+                    Image("playback_2025_listening_time_back")
                         .resizable()
                         .scaledToFit()
                 } else {
