@@ -203,7 +203,7 @@ class NewPlaylistViewController: PCViewController {
             let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
             guard didAdd else {
                 let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
-                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+                Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
