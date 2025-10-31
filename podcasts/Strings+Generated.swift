@@ -2360,6 +2360,8 @@ internal enum L10n {
   }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
+  /// Toast message displayed in case something goes wrong with the manual creation
+  internal static var playlistManualCreateErrorMessage: String { return L10n.tr("Localizable", "playlist_manual_create_error_message", fallback: "Sorry, something went wrong while creating your playlist.") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added

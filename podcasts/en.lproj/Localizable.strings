@@ -5573,6 +5573,9 @@
 /* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
 "playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived";
 
+/* Toast message displayed in case something goes wrong with the manual creation */
+"playlist_manual_create_error_message" = "Sorry, something went wrong while creating your playlist.";
+
 /* Picker option showed when tapping Play all */
 "playlist_play_all_option_save_queue" = "Save current queue";
 

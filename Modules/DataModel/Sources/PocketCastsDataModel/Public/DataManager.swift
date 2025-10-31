@@ -978,6 +978,7 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
+    @discardableResult
     public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
