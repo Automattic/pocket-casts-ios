@@ -164,6 +164,10 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    public func allUpNextEpisodes(from uuids: [String]) -> [Episode] {
+        episodeManager.allUpNextEpisodes(from: uuids, dbQueue: dbQueue)
+    }
+
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
@@ -936,7 +940,11 @@ public class DataManager {
     }
 
     public func episodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+        if FeatureFlag.playlistsRebranding.enabled {
+            playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd)
+        } else {
+            playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
+        }
     }
 
     public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool = false) -> Int {
@@ -947,8 +955,8 @@ public class DataManager {
         playlistManager.playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: true, dbQueue: dbQueue)
     }
 
-    public func playlistEpisodes(for playlist: EpisodeFilter) -> [Episode] {
-        let limit = EpisodeDataManager.Constants.Limits.maxPlaylistItems
+    public func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil) -> [Episode] {
+        let limit = limit ?? EpisodeDataManager.Constants.Limits.maxPlaylistItems
         let query = PlaylistQueryBuilder.query(
             clause: .episode,
             for: playlist,
@@ -970,7 +978,8 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
-    public func add(episodes: [Episode], to playlist: EpisodeFilter) {
+    @discardableResult
+    public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
 

@@ -35,7 +35,24 @@ class SessionManager: NSObject, WCSessionDelegate {
         if let messageId = applicationContext[WatchConstants.Keys.messageVersion] as? String, messageId == WatchConstants.Values.messageVersion {
             UserDefaults.standard.set(applicationContext, forKey: WatchConstants.UserDefaults.data)
             UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
+            updateFeatureFlags(applicationContext)
             NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
+        }
+    }
+
+    func updateFeatureFlags(_ applicationContext: [String: Any]) {
+        guard let flags = applicationContext[WatchConstants.Keys.featureFlags] as? [String: Bool] else {
+            assertionFailure("Failed to receive FeatureFlags to Watch")
+            return
+        }
+
+        FeatureFlag.allCases.forEach { flag in
+            let value = flags[flag.rawValue] ?? flag.default
+            do {
+                try FeatureFlagOverrideStore().override(flag, withValue: value)
+            } catch let error {
+                assertionFailure("Failed to override \(flag.rawValue) with \(value): \(error)")
+            }
         }
     }
 

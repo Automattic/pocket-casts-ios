@@ -202,6 +202,10 @@ class PlaylistPreviewViewController: PCViewController {
         delegate?.filterCreated(newFilter: viewModel.newPlaylist)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.newPlaylist)
 
+        if Settings.firstTimePlaylistCreated {
+            Settings.shouldShowDragAndDropTip = true
+        }
+
         Analytics.track(.filterCreated, properties: [
             "all_podcasts": viewModel.newPlaylist.filterAllPodcasts,
             "media_type": AudioVideoFilter(rawValue: viewModel.newPlaylist.filterAudioVideoType) ?? .all,
@@ -218,6 +222,8 @@ class PlaylistPreviewViewController: PCViewController {
             "color": viewModel.newPlaylist.playlistColor().hexString(),
             "icon_name": viewModel.newPlaylist.iconImageName() ?? "unknown"
         ])
+
+        delegate?.presentingPlaylistDetail = true
 
         dismiss()
     }

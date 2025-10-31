@@ -685,7 +685,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
-        populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
+        if FeatureFlag.playlistsRebranding.enabled {
+            populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
+        } else {
+            populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
+        }
         uuidOfPlayingList = playlist.uuid
     }
 
@@ -1191,6 +1195,25 @@ class PlaybackManager: ServerPlaybackDelegate {
                 }
             }
             queue.bulkOperationDidComplete()
+        }
+    }
+
+    private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
+        if episodes == nil, queue.upNextCount() > 0 {
+            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
+            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
+        } else {
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                // there's a new list of episodes to play, so clear what's currently playing and play that
+                self?.load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+
+                let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
+                if filteredEpisodes.isEmpty {
+                    return
+                }
+                self?.queue.bulkAdd(filteredEpisodes)
+            }
         }
     }
 

@@ -2,6 +2,7 @@ public enum WatchConstants {
     public enum Keys {
         public static let messageVersion = "id"
         public static let loginChanged = "loginChanged"
+        public static let featureFlags = "featureFlags"
 
         public static let filters = "filters"
         public static let nowPlayingInfo = "nowPlaying"

@@ -22,7 +22,10 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         if sender.state == .began {
             let touchPoint = sender.location(in: tableView)
             let section = viewModel.index(for: .episodes)
-            guard let indexPath = tableView.indexPathForRow(at: touchPoint), indexPath.section == section else { return }
+            guard let indexPath = tableView.indexPathForRow(at: touchPoint),
+                  indexPath.section == section,
+                  let episode = viewModel.episodes[safe: indexPath.row]?.episode,
+                  episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
                 let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
@@ -174,6 +177,11 @@ extension PlaylistDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if indexPath.section != viewModel.index(for: .episodes) { return nil }
+        if tableView.isEditing,
+           let episode = viewModel.episodes[safe: indexPath.row]?.episode,
+           episode.wasDeleted {
+            return nil
+        }
         guard tableView.isEditing, !multiSelectGestureInProgress else { return indexPath }
         if let selectedEpisode = viewModel.episodes[safe: indexPath.row], selectedEpisodes.contains(selectedEpisode) {
             tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
@@ -188,6 +196,9 @@ extension PlaylistDetailViewController: UITableViewDelegate {
 
         if isMultiSelectEnabled {
             let listEpisode = viewModel.episodes[indexPath.row]
+            if listEpisode.episode.wasDeleted {
+                return
+            }
 
             if !multiSelectGestureInProgress {
                 // If the episode is already selected move to the end of the array
@@ -203,6 +214,21 @@ extension PlaylistDetailViewController: UITableViewDelegate {
             }
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
+
+            if selectedEpisode.wasDeleted {
+                let episodeUuid = selectedEpisode.uuid
+                let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
+                    guard let self else { return }
+                    self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
+                }
+                BottomSheetSwiftUIWrapper.present(
+                    view.environmentObject(Theme.sharedTheme),
+                    autoSize: true,
+                    showingGrabber: true,
+                    in: self
+                )
+                return
+            }
 
             let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters, playlist: .filter(uuid: viewModel.playlist.uuid))
             episodeController.modalPresentationStyle = .formSheet
@@ -225,6 +251,9 @@ extension PlaylistDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
         if indexPath.section != viewModel.index(for: .episodes) { return false }
+        if let episode = viewModel.episodes[safe: indexPath.row]?.episode, episode.wasDeleted {
+            return false
+        }
         return Settings.multiSelectGestureEnabled()
     }
 

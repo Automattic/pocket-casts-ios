@@ -15,9 +15,9 @@ struct LocalSearchEpisodeResultsView: View {
 
     var body: some View {
         ZStack {
-            resultsList
-                .opacity(episodes.isEmpty ? 0 : 1)
-                .allowsHitTesting(!episodes.isEmpty)
+            if !episodes.isEmpty {
+                resultsList
+            }
 
             if isLoading {
                 loadingOverlay
@@ -29,20 +29,25 @@ struct LocalSearchEpisodeResultsView: View {
 
     private var resultsList: some View {
         List {
-            ForEach(episodes, id: \.uuid) { searchResult in
-                SearchResultCell(
-                    episode: searchResult,
-                    result: nil,
-                    played: false,
-                    showDivider: searchResult.uuid != episodes.last?.uuid,
-                    showEpisodeAddButton: true,
-                    cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
-                ) {
-                    onAddEpisode(searchResult)
+            Section {
+                ForEach(episodes, id: \.uuid) { searchResult in
+                    SearchResultCell(
+                        episode: searchResult,
+                        result: nil,
+                        played: false,
+                        showDivider: false,
+                        showEpisodeAddButton: true,
+                        episodeAddAction: {
+                            onAddEpisode(searchResult)
+                        },
+                        isSelectionEnabled: false,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
+                    )
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
             }
         }
         .listStyle(.plain)

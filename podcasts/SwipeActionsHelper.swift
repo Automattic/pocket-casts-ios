@@ -48,6 +48,10 @@ enum SwipeActionsHelper {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
 
+        if episode.wasDeleted {
+            return tableSwipeActions // Should be empty
+        }
+
         if PlaybackManager.shared.inUpNext(episode: episode) {
             let removeFromUpNextAction = TableSwipeAction(indexPath: indexPath, title: L10n.removeFromUpNext, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "episode-removenext"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findBaseEpisode(uuid: storedUuid) {
@@ -93,13 +97,17 @@ enum SwipeActionsHelper {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
 
-        if episode is UserEpisode {
+        if let episode = episode as? Episode, FeatureFlag.playlistsRebranding.enabled && episode.wasDeleted && swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
+            tableSwipeActions.addAction(TableSwipeAction.removeAction(indexPath: indexPath, tableView: tableView, swipeHandler: swipeHandler, episode: episode), at: 0)
+            return tableSwipeActions // Only include delete
+        } else if episode is UserEpisode {
             let deleteAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: false, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
                 swipeHandler.deleteRequested(uuid: storedUuid)
                 Self.performAction(.delete, handler: swipeHandler, willBeRemoved: true)
                 return true
             })
             tableSwipeActions.addAction(deleteAction)
+            return tableSwipeActions
         } else if episode.archived {
             let willBeRemoved = FeatureFlag.playlistsRebranding.enabled
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
@@ -143,12 +151,7 @@ enum SwipeActionsHelper {
                 }
 
                 if swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
-                    let removeAction = TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: true, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
-                        swipeHandler.removeFromManualPlaylist(episode: episode, at: indexPath)
-                        Self.performAction(.removeFromManualPlaylist, handler: swipeHandler, willBeRemoved: false)
-                        return true
-                    })
-                    tableSwipeActions.addAction(removeAction, at: 0)
+                    tableSwipeActions.addAction(TableSwipeAction.removeAction(indexPath: indexPath, tableView: tableView, swipeHandler: swipeHandler, episode: episode), at: 0)
                 }
             }
         }
@@ -156,7 +159,7 @@ enum SwipeActionsHelper {
         return tableSwipeActions
     }
 
-    private static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
+    fileprivate static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
         let source = handler.swipeSource
         Analytics.track(.episodeSwipeActionPerformed, properties: ["action": action, "source": source])
 
@@ -167,7 +170,7 @@ enum SwipeActionsHelper {
         handler.actionPerformed(willBeRemoved: willBeRemoved)
     }
 
-    private enum SwipeActions: String, AnalyticsDescribable {
+    fileprivate enum SwipeActions: String, AnalyticsDescribable {
         case upNextRemove
         case upNextAddTop
         case upNextAddBottom
@@ -200,5 +203,15 @@ enum SwipeActionsHelper {
                 return "remove_from_manual_playlist"
             }
         }
+    }
+}
+
+fileprivate extension TableSwipeAction {
+    static func removeAction(indexPath: IndexPath, tableView: UITableView, swipeHandler: SwipeHandler, episode: Episode) -> TableSwipeAction {
+        return TableSwipeAction(indexPath: indexPath, title: L10n.delete, removesFromList: true, backgroundColor: ThemeColor.support05(), icon: UIImage(named: "delete"), tableView: tableView, handler: { _ -> Bool in
+            swipeHandler.removeFromManualPlaylist(episode: episode, at: indexPath)
+            SwipeActionsHelper.performAction(.removeFromManualPlaylist, handler: swipeHandler, willBeRemoved: false)
+            return true
+        })
     }
 }

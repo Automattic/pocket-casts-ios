@@ -1,3 +1,4 @@
+import PocketCastsDataModel
 import UIKit
 
 extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
@@ -104,6 +105,22 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
+
+            if selectedEpisode.wasDeleted {
+                let episodeUuid = selectedEpisode.uuid
+                let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
+                    guard let self = self else { return }
+                    DataManager.sharedManager.deleteEpisodes([episodeUuid], from: self.filter)
+                    self.refreshEpisodes(animated: true)
+                }
+                BottomSheetSwiftUIWrapper.present(
+                    view.environmentObject(Theme.sharedTheme),
+                    autoSize: true,
+                    showingGrabber: true,
+                    in: self
+                )
+                return
+            }
 
             let episodeController = EpisodeDetailViewController(episode: selectedEpisode, podcast: parentPodcast, source: .filters, playlist: .filter(uuid: filter.uuid))
             episodeController.modalPresentationStyle = .formSheet
