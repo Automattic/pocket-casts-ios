@@ -50,16 +50,7 @@ struct NewSearchResultsView: View {
                         EmptyStateView(title: L10n.searchResultsEmptyTitle,
                                        message: L10n.searchResultsEmptyMessage,
                                        icon: { Image("search") },
-                                       actions: [.init(title: L10n.searchResultsEmptyAction,
-                                                       style: SimpleTextButtonStyle(theme: .sharedTheme, textColor: .primaryInteractive01),
-                                                       action: {
-                            guard let source = SceneHelper.rootViewController() else {
-                                assertionFailure("WARNING: Root View Controller not found so survey was not presented")
-                                FileLog.shared.addMessage("UserSatisfactionSurveyManager: Root View Controller not found so survey was not presented")
-                                return
-                            }
-                            EmailHelper().presentSupportDialog(source, type: .satisfactionSurvey)
-                        })]
+                                       actions: []
                         )
                     }
                     .frame(maxHeight: .infinity)
