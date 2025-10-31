@@ -75,6 +75,7 @@ struct NewSearchResultsView: View {
                     }, footer: {
                         showFullResultsButton
                     })
+                    .listRowBackground(theme.primaryUi01)
                     .listSectionSeparator(.hidden, edges: .bottom)
                 }
                 .scrollDismissesKeyboard(.immediately)
@@ -111,6 +112,7 @@ struct NewSearchResultsView: View {
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(AppTheme.color(for: .primaryInteractive01, theme: theme))
         })
+        .background(theme.primaryUi01)
     }
 
     @ViewBuilder var filterPicker: some View {
