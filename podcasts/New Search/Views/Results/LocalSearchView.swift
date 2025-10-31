@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 struct LocalSearchView: View {
     @EnvironmentObject var theme: Theme
@@ -56,6 +57,7 @@ struct LocalSearchView: View {
                 }
             })
             .onChange(of: navigationPath) { newValue in
+                UIApplication.shared.endEditing(true) // Dismiss the keyboard and end editing any time we navigate between sections.
                 handleNavigationPathChange(newValue, previousPath: previousNavigationPath)
                 previousNavigationPath = newValue
             }
