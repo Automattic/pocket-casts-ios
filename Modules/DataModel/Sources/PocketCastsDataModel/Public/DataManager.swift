@@ -164,6 +164,10 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    public func allUpNextEpisodes(from uuids: [String]) -> [Episode] {
+        episodeManager.allUpNextEpisodes(from: uuids, dbQueue: dbQueue)
+    }
+
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
