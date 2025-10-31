@@ -34,6 +34,7 @@ struct LocalSearchView: View {
                 previousNavigationPath = navigationPath
             }
             .onDisappear { viewModel.onDisappear() }
+            .scrollDismissesKeyboard(.immediately)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     if navigationPath.isEmpty {
