@@ -2360,6 +2360,8 @@ internal enum L10n {
   }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
+  /// Toast message displayed in case something goes wrong with the manual creation
+  internal static var playlistManualCreateErrorMessage: String { return L10n.tr("Localizable", "playlist_manual_create_error_message", fallback: "Sorry, something went wrong while creating your playlist.") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added
@@ -3140,6 +3142,10 @@ internal enum L10n {
   internal static var searchResultsEmptyMessage: String { return L10n.tr("Localizable", "search_results_empty_message", fallback: "Try a new search, or by adding a podcast feed URL") }
   /// No Results
   internal static var searchResultsEmptyTitle: String { return L10n.tr("Localizable", "search_results_empty_title", fallback: "No Results") }
+  /// View all results for "%1$@"
+  internal static func searchResultsViewAll(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "search_results_view_all", String(describing: p1), fallback: "View all results for \"%1$@\"")
+  }
   /// A common string used throughout the app. Refers to the season a podcast episode is in.
   internal static var season: String { return L10n.tr("Localizable", "season", fallback: "Season") }
   /// Shorthand format used to show the Season and the Episode number of a podcast. 'S' is short for Season. '%1$@' is a placeholder for the season number. 'E' is short for Episode. '%2$@' is a placeholder for the episode number.

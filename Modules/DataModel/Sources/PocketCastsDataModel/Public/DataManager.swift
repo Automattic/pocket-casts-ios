@@ -507,6 +507,10 @@ public class DataManager {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
     }
 
+    public func findEpisodes(with term: String, podcastUUID: String) -> [Episode] {
+        episodeManager.findEpisodes(with: term, podcastUUID: podcastUUID, dbQueue: dbQueue)
+    }
+
     public func findPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
         episodeManager.findPlaylistEpisodesWhere(query: query, arguments: arguments, dbQueue: dbQueue)
     }
@@ -978,6 +982,7 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
+    @discardableResult
     public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }

@@ -223,6 +223,8 @@ class PlaylistPreviewViewController: PCViewController {
             "icon_name": viewModel.newPlaylist.iconImageName() ?? "unknown"
         ])
 
+        delegate?.presentingPlaylistDetail = true
+
         dismiss()
     }
 

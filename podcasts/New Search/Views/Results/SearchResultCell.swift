@@ -60,6 +60,7 @@ struct SearchResultCell: View {
             tappableContent
             dividerContent
         }
+        .listRowInsets(showDivider ? nil : EdgeInsets()) // Clears out edge insets when dividers are not shown. Otherwise selection state is too small
     }
 
     private func performDefaultAction() {
@@ -102,7 +103,8 @@ private extension SearchResultCell {
 
     var baseContentPadding: EdgeInsets {
         if !showDivider {
-            return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            // We need to re-add padding, especially in the case where showDivider is false since EdgeInsets are cleared.
+            return EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
         }
         return EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8)
     }

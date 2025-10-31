@@ -1951,6 +1951,9 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
     <key>playback_2025_feature_title</key>
     <string>Wiedergabeliste 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>Willkommen bei der Wiedergabe!
+ Eine Feier deines Jahres in Podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Meine Wiedergabeliste 2025 anzeigen</string>
     <key>playback_effect_all_podcasts</key>
@@ -2047,6 +2050,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>In intelligente Playlist umwandeln</string>
     <key>playlist_detail_description</key>
     <string>%1$@ Folgen • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 Folge • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 Folge zu „%@“ hinzugefügt</string>
     <key>playlist_episodes_added_title</key>
@@ -2057,6 +2062,12 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Playlist ist voll. Versuche, eine neue zu erstellen.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Folgen hinzufügen</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>Deine Folge in dieser Playlist wurde archiviert</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>Alle %1$@ Folgen dieser Playlist wurden archiviert</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Podcasts durchsuchen</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Wische bei einer Folge nach links, um sie zu deiner Playlist hinzuzufügen.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2078,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Zu Playlist hinzufügen</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Folgen neu anordnen</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>Alle Folgen archiviert. Zum Abspielen hinzufügen oder wiederherstellen.</string>
     <key>playlist_options</key>
     <string>Playlist-Optionen</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2116,12 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
     <string>Neue Playlist</string>
+    <key>playlists_delete</key>
+    <string>Playlist löschen</string>
+    <key>playlists_delete_alert_message</key>
+    <string>Bist du sicher, dass du deine Playlist löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <key>playlists_delete_alert_title</key>
+    <string>Playlist löschen?</string>
     <key>playlists_empty_state_description</key>
     <string>Mit Playlists kannst du Folgen manuell oder automatisch mit intelligenten Regeln organisieren.</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2134,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Unsere neuen Wiedergabelisten funktionieren wie gewohnt und verwenden Regeln, damit neue Folgen deiner Lieblingspodcasts automatisch hinzugefügt werden. Du hast auch immer noch Zugriff auf alle deine bereits vorhandenen Filter. Außer dem Namen hat sich also nichts geändert.</string>
     <key>playlists_onboarding_smart_title</key>
     <string>Filter sind jetzt intelligente Playlists</string>
+    <key>playlists_play_all</key>
+    <string>Alle abspielen</string>
     <key>please_try_again</key>
     <string>Versuche es bitte noch einmal</string>
     <key>please_try_again_later</key>
@@ -3065,12 +3086,16 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Filter auswählen</string>
     <key>settings_select_filters_plural</key>
     <string>Filter auswählen</string>
+    <key>settings_select_playlist_singular</key>
+    <string>Playlist auswählen</string>
     <key>settings_select_playlists_plural</key>
     <string>Playlists auswählen</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>Intelligente Playlists auswählen</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Filter öffnen</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>Playlist öffnen</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>Alle Folgen abspielen</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3112,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Aktivierte Shortcuts</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>Shortcut zu einem bestimmten Filter</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>Shortcut zu einer bestimmten Playlist</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>Shortcut zu einem bestimmten Podcast</string>
     <key>settings_skip_first</key>

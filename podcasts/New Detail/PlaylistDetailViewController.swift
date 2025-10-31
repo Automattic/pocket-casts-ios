@@ -150,7 +150,10 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
 
-    init(playlist: EpisodeFilter) {
+    private weak var delegate: FilterCreatedDelegate?
+
+    init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
         self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated, contentChanged in
             self?.reload(data: newSet, animated: animated, contentChanged: contentChanged)
@@ -203,6 +206,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
         refreshControl?.parentViewControllerDidAppear()
+        delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
