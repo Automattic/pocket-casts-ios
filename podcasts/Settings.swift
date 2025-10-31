@@ -1505,6 +1505,15 @@ class Settings: NSObject {
         }
     }
 
+    static var shouldShowNewFilterTipInCreationView: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.newFilterTipCreationView) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.newFilterTipCreationView)
+        }
+    }
+
     static var shouldShowDragAndDropTip: Bool {
         get {
             UserDefaults.standard.value(forKey: Constants.UserDefaults.playlistDragAndDropTip) as? Bool ?? false

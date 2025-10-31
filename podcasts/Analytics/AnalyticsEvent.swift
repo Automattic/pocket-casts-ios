@@ -310,6 +310,11 @@ enum AnalyticsEvent: String {
     case filterAutoDownloadUpdated
     case filterAutoDownloadLimitUpdated
 
+    case filterAddEpisodesShown
+    case filterAddEpisodesFolderTapped
+    case filterAddEpisodesPodcastTapped
+    case filterAddEpisodesEpisodeTapped
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
