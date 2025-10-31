@@ -105,6 +105,7 @@ struct SearchResultCell: View {
             }
             .padding(FeatureFlag.searchImprovements.enabled ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
         }
+        .listRowInsets(showDivider ? nil : EdgeInsets()) // Clears out edge insets when dividers are not shown. Otherwise selection state is too small
     }
 
     private func performDefaultAction() {
