@@ -5653,3 +5653,13 @@
 
 /// Text for playback 2025 listening time in minutes
 "playback_2025_listening_time" = "minutes listened";
+
+/// Text for playback 2025 top stop title
+"playback_2025_top_spot_title" = "Your top podcast of 2025";
+
+/// Text for playback 2025 top stop subtitle
+"playback_2025_top_spot_subtitle" = "It doesn’t get more “you” than this";
+
+/// Text for playback 2025 top description. %1$@ is the number of episodes and %1 is the listening time. Ex: 66 episodes, 2 days, and 3 hours. That’s commitment!
+
+"playback_2025_top_spot_description" = "%1$@ episodes, %2$@.\nThat’s commitment!";
