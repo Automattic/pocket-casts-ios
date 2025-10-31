@@ -9,20 +9,6 @@ extension PlaylistDetailViewController {
         case queueAll
     }
 
-    func playAll() {
-        if viewModel.episodes.isEmpty {
-            Toast.show(L10n.playlistManualPlayAllEmptyList)
-            return
-        }
-
-        Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
-        let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), viewModel.episodes.count)
-        OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: { [weak self] in
-            guard let self else { return }
-            PlaybackManager.shared.play(playlist: self.viewModel.playlist)
-        })
-    }
-
     @objc func moreTapped() {
         Analytics.track(.filterOptionsButtonTapped)
 
@@ -54,6 +40,45 @@ extension PlaylistDetailViewController {
         optionsPicker.addAction(action: editAction)
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    // MARK: - Play all
+
+    func playAll() {
+        if viewModel.episodes.isEmpty {
+            Toast.show(L10n.playlistManualPlayAllEmptyList)
+            return
+        }
+
+        Task { [weak self] in
+            guard let self else { return }
+            let hasDifferencesWithUpNext = await self.checkDifferencesWithUpNext()
+            if hasDifferencesWithUpNext {
+                await MainActor.run {
+                    Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
+                    PlaylistPlayAllHelper.playAll { [weak self] action in
+                        guard let self else { return }
+                        switch action {
+                        case .saveAndPlay:
+                            self.viewModel.saveUpNextAndPlay()
+                        case .replaceAndPlay:
+                            self.viewModel.playAllEpisodes()
+                        case .close:
+                            break
+                        }
+                    }
+                }
+            } else if !PlaybackManager.shared.playing() {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
+                PlaybackManager.shared.play()
+            }
+        }
+    }
+
+    private func checkDifferencesWithUpNext() async -> Bool {
+        let episodesToPlay = viewModel.episodes.map { $0.episode.uuid }
+        let uuids = viewModel.dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
+        return Set(episodesToPlay) != Set(uuids)
     }
 
     // MARK: - Multiselect
