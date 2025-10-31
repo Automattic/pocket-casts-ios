@@ -164,8 +164,10 @@ extension PlaylistsViewController {
             return
         }
 
-        if Settings.firstTimePlaylistCreated,
+        if FeatureFlag.playlistsRebranding.enabled,
+           Settings.firstTimePlaylistCreated,
            Settings.shouldShowDragAndDropTip,
+           !presentingPlaylistDetail,
            newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
             return

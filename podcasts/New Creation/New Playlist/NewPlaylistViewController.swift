@@ -187,6 +187,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func createManualPlaylist() {
+        delegate?.presentingPlaylistDetail = true
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
@@ -228,6 +230,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func closeTapped(_ sender: Any) {
+        delegate?.presentingPlaylistDetail = false
         dismiss(animated: true, completion: nil)
     }
 
@@ -259,7 +262,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func dismissTipView() {
-        dismiss(animated: true) { [weak self] in
+        smartPlaylistsTip?.dismiss(animated: true) { [weak self] in
             self?.smartPlaylistsTip = nil
         }
     }
