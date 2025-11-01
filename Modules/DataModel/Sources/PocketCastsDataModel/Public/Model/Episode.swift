@@ -49,7 +49,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var wasDeleted = false
 
     public var hasBookmarks: Bool {
-        // This wil cause a regression in which the bookmarks won't be displayed
+        // This will cause a regression in which the bookmarks won't be displayed
         // for episodes with bookmarks.
         // However, this call is happening on the main thread and can block the whole app.
         // We will re-add this again in a way that's not a blocker

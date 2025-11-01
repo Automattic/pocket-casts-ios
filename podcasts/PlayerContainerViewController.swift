@@ -128,7 +128,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
 
-        // To avoid weird animations when apearing, we add the transcript view here
+        // To avoid weird animations when appearing, we add the transcript view here
         #if !APPCLIP
         configureTranscriptView()
         #endif

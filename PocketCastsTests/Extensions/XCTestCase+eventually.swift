@@ -30,7 +30,7 @@ extension XCTestCase {
 extension XCTestExpectation {
     /// Call `fulfill()` after some time.
     ///
-    /// - Parameter time: amout of time after which `fulfill()` will be called.
+    /// - Parameter time: amount of time after which `fulfill()` will be called.
     func fulfillAfter(_ time: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now() + time) {
             self.fulfill()

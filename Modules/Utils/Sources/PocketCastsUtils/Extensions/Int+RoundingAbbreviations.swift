@@ -2,7 +2,7 @@ import Foundation
 
 extension Int {
 
-    /// Converts a number to a short abreviated version (1234 = 1.2k, 1234567 1.2M)
+    /// Converts a number to a short abbreviated version (1234 = 1.2k, 1234567 1.2M)
     public var abbreviated: String {
         let number = Double(self)
 

@@ -15,7 +15,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     }
 
     func setup() {
-        // Empty method just to ensure that sigleton is initialized
+        // Empty method just to ensure that singleton is initialized
     }
 
     // MARK: - Star

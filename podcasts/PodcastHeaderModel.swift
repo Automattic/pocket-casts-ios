@@ -116,7 +116,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
 
         if podcast.isSubscribed() || isSubscribed {
             delegate.unsubscribe()
-            // do not switch variable here because there is still a confimation screen
+            // do not switch variable here because there is still a confirmation screen
         } else {
             delegate.subscribe()
             // switching state immediately so animation is triggered at press

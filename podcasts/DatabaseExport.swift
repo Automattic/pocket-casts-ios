@@ -15,7 +15,7 @@ class DatabaseExport {
 
     private let fileManager = FileManager.default
 
-    /// Create a zip of the database and prefrences
+    /// Create a zip of the database and preferences
     func export() async -> URL? {
         guard let exportFolder = await self.prepareFiles() else {
             return nil

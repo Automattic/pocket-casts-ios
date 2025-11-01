@@ -1049,7 +1049,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             cancelSleepTimer()
             return
         }
-        // once playback is over iOS can be agressive about killing off our app, so start a short lived background task to let it know we're doing stuff
+        // once playback is over iOS can be aggressive about killing off our app, so start a short lived background task to let it know we're doing stuff
         startBackgroundTask()
         defer {
             endBackgroundTask()

@@ -365,7 +365,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     private func updateClearView() {
-        // We don't need a clear view if the FF is enbaled
+        // We don't need a clear view if the FF is enabled
         if isCustomPlaybackSettingsEnabled {
             return
         }

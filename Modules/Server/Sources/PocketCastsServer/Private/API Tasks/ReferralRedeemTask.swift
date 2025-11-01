@@ -29,7 +29,7 @@ class ReferralRedeemTask: ApiBaseTask, @unchecked Sendable {
             }
 
             if httpStatus == ServerConstants.HttpConstants.ok {
-                FileLog.shared.addMessage("Referral redeem successfull for code \(code)")
+                FileLog.shared.addMessage("Referral redeem successfully for code \(code)")
             } else {
                 FileLog.shared.addMessage("Referral failed to redeem code \(code), http status \(httpStatus)")
             }

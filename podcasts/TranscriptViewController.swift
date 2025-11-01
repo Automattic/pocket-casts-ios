@@ -209,9 +209,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
     }
 
-    // Only return the searchView as the input acessory view
+    // Only return the searchView as the input accessory view
     // if search has been enabled.
-    // This prevents the input acessory view from appearing
+    // This prevents the input accessory view from appearing
     // when selecting text
     override var inputAccessoryView: UIView? {
         isSearching ? searchView : nil

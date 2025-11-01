@@ -2,7 +2,7 @@ import SwiftUI
 
 
 /// This is a helper view that allows you to run code inline of SwiftUI without needing to move logic into .onAppear
-/// It works by creating a completely empty view, waiting for .onAppear, and then trigering the action. Once the action
+/// It works by creating a completely empty view, waiting for .onAppear, and then trigerring the action. Once the action
 /// has been triggered, the emptyview is replaced with a Group to prevent any possible layout issues
 /// Example Usage:
 ///

@@ -337,7 +337,7 @@ class UpNextSyncTask: ApiBaseTask {
     }
 
     private func convertToProto(action: UpNextChanges) -> Api_UpNextChanges.Change? {
-        // a replace involves multiple episodes and a slightly different format, so handle that seperately
+        // a replace involves multiple episodes and a slightly different format, so handle that separately
         if action.type == UpNextChanges.Actions.replace.rawValue {
             guard let uuids = action.uuids else { return nil }
 

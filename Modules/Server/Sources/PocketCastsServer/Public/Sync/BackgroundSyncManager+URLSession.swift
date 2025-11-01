@@ -45,7 +45,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     }
 
     public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        FileLog.shared.addMessage("BackgroundSyncManager urlSessionDidFinishEvents called, queing completion")
+        FileLog.shared.addMessage("BackgroundSyncManager urlSessionDidFinishEvents called, queuing completion")
         syncProcessQueue.addOperation {
             FileLog.shared.addMessage("Processing queue complete, firing sync completed and completing task")
             ServerNotificationsHelper.shared.fireSyncCompleted()

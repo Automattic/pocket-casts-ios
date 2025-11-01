@@ -16,7 +16,7 @@ public class RefreshManager {
         return queue
     }()
 
-    // the watch has less resources than a phone, so be a bit more agressive about not refreshing constantly
+    // the watch has less resources than a phone, so be a bit more aggressive about not refreshing constantly
     #if os(watchOS)
         private static let minTimeBetweenRefreshes = 1.minute
     #else
