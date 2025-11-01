@@ -351,39 +351,41 @@ extension SyncTask {
             playlist.podcastUuids = ""
         }
 
-        let serverSet = Set(playlistItem.episodeOrder)
-        let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
-        let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+        if FeatureFlag.playlistsRebranding.enabled {
+            let serverSet = Set(playlistItem.episodeOrder)
+            let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+            let missingEpisodes = serverSet.subtracting(matchedEpisodes)
 
-        let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
-            let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
-            guard let playlistEpisode else { return nil }
-            let episode = DataManager.sharedManager.findEpisode(uuid: playlistEpisode.episode)
-            return episode ?? Episode(playlistEpisode)
-        }
-
-        addedEpisodes.forEach { episode in
-            if DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil {
-                episode.wasDeleted = true
+            let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
+                let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
+                guard let playlistEpisode else { return nil }
+                let episode = DataManager.sharedManager.findEpisode(uuid: playlistEpisode.episode)
+                return episode ?? Episode(playlistEpisode)
             }
 
-            if episode.addedDate == nil {
-                episode.addedDate = Date()
+            addedEpisodes.forEach { episode in
+                if DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil {
+                    episode.wasDeleted = true
+                }
+
+                if episode.addedDate == nil {
+                    episode.addedDate = Date()
+                }
+                if episode.podcast_id == 0 {
+                    episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+                }
+
+                DataManager.sharedManager.save(episode: episode)
             }
-            if episode.podcast_id == 0 {
-                episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+
+            let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+            if !didAdd {
+                let playlistCount = DataManager.sharedManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: nil, shouldShowArchived: true)
+                FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
             }
 
-            DataManager.sharedManager.save(episode: episode)
+            updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
         }
-
-        let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
-        if !didAdd {
-            let playlistCount = DataManager.sharedManager.playlistEpisodeCount(for: playlist, episodeUuidToAdd: nil, shouldShowArchived: true)
-            FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
-        }
-
-        updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
 
         playlist.syncStatus = SyncStatus.synced.rawValue
         DataManager.sharedManager.save(playlist: playlist)
