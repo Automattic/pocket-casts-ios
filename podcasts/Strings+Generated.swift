@@ -2225,6 +2225,15 @@ internal enum L10n {
   }
   /// minutes listened
   internal static var playback2025ListeningTime: String { return L10n.tr("Localizable", "playback_2025_listening_time", fallback: "minutes listened") }
+  /// %1$@ episodes, %2$@.
+  /// That’s commitment!
+  internal static func playback2025TopSpotDescription(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_top_spot_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes, %2$@.\nThat’s commitment!")
+  }
+  /// It doesn’t get more “you” than this
+  internal static var playback2025TopSpotSubtitle: String { return L10n.tr("Localizable", "playback_2025_top_spot_subtitle", fallback: "It doesn’t get more “you” than this") }
+  /// Your top podcast of 2025
+  internal static var playback2025TopSpotTitle: String { return L10n.tr("Localizable", "playback_2025_top_spot_title", fallback: "Your top podcast of 2025") }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
