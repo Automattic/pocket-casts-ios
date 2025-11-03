@@ -50,20 +50,26 @@ extension PlaylistDetailViewController {
             return
         }
 
+        track(.filterPlayAllTapped)
+
         Task { [weak self] in
             guard let self else { return }
             let hasDifferencesWithUpNext = await self.checkDifferencesWithUpNext()
             if hasDifferencesWithUpNext {
                 await MainActor.run {
-                    Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
                     PlaylistPlayAllHelper.playAll { [weak self] action in
                         guard let self else { return }
                         switch action {
                         case .saveAndPlay:
+                            self.track(.filterPlayAllSaveUpNextTapped)
                             self.viewModel.saveUpNextAndPlay()
+                        case .showSecondPicker:
+                            self.track(.filterPlayAllReplaceAndPlayTapped)
                         case .replaceAndPlay:
+                            self.track(.filterPlayAllReplaceAndPlayConfirmTapped)
                             self.viewModel.playAllEpisodes()
-                        case .close:
+                        case .dismiss, .close:
+                            self.track(.filterPlayAllDismissed)
                             break
                         }
                     }
