@@ -706,6 +706,7 @@
 		9A57236F2EAF8E4400E0A733 /* PlaylistPlayAllHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */; };
 		9A5723712EAFBC5600E0A733 /* PlaylistDetailViewModel+PlayAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */; };
 		9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */; };
+		9A5D6B7E2EB8DB25006DA7D7 /* Top5Podcasts2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */; };
 		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
 		9A66BE612E96879A007516A5 /* PlaylistDetailViewModel+Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BE602E968794007516A5 /* PlaylistDetailViewModel+Archive.swift */; };
 		9A72B6602E2115120078FC84 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B65F2E2115120078FC84 /* PlaylistCell.swift */; };
@@ -3049,6 +3050,7 @@
 		9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllHelper.swift; sourceTree = "<group>"; };
 		9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewModel+PlayAll.swift"; sourceTree = "<group>"; };
 		9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArchiveView.swift; sourceTree = "<group>"; };
+		9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top5Podcasts2025Story.swift; sourceTree = "<group>"; };
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A66BE602E968794007516A5 /* PlaylistDetailViewModel+Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewModel+Archive.swift"; sourceTree = "<group>"; };
 		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
@@ -8963,6 +8965,7 @@
 				FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */,
 				FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */,
 				FFB74B0B2E99366700F16857 /* IntroStory2025.swift */,
+				9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */,
 			);
 			path = 2025;
 			sourceTree = "<group>";
@@ -11088,6 +11091,7 @@
 				BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */,
 				BDDA72D61C9BA7E2003A3BEB /* Theme.swift in Sources */,
 				BDA75074213684FC00AD859C /* NowPlayingAnimationView.swift in Sources */,
+				9A5D6B7E2EB8DB25006DA7D7 /* Top5Podcasts2025Story.swift in Sources */,
 				F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */,
 				8B3654172926C13000FD7216 /* CircularProgressView.swift in Sources */,
 				BD74F15327F28F6F00222785 /* HomeGridItem.swift in Sources */,
