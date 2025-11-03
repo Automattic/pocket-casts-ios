@@ -410,7 +410,11 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func addEpisodes() {
-        if viewModel.isPlaylistFull {
+        let isPlaylistFull = viewModel.isPlaylistFull
+
+        track(.filterAddEpisodesTapped, properties: ["is_playlist_full": isPlaylistFull])
+
+        if isPlaylistFull {
             let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
             Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
             return
