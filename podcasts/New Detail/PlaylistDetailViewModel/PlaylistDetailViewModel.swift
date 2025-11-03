@@ -43,6 +43,14 @@ class PlaylistDetailViewModel: ObservableObject {
         isManualPlaylist ? 3 : 2
     }
 
+    var isPlaylistFull: Bool {
+#if DEBUG
+        playlistEpisodesCount >= Settings.debugPlaylistsLimit
+#else
+        playlistEpisodesCount >= Constants.Limits.maxFilterItems
+#endif
+    }
+
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var playlistEpisodesCount: Int = 0

@@ -406,6 +406,12 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func addEpisodes() {
+        if viewModel.isPlaylistFull {
+            let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+            Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+            return
+        }
+
         let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
         let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
         let vc = PCHostingController(rootView: LocalSearchView(
