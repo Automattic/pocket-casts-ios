@@ -72,6 +72,13 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
                 let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
                     guard let self else { return }
+                    Analytics.track(
+                        .episodeSwipeActionPerformed,
+                        properties: [
+                            "action": "add_to_playlist",
+                            "source": "up_next"
+                        ]
+                    )
                     let presentModal: () -> Void = { [weak self] in
                         NavigationManager.sharedManager.navigateTo(
                             NavigationManager.manualPlaylistsChooserKey,

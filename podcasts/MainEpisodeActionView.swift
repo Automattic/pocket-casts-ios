@@ -384,8 +384,11 @@ extension MainEpisodeActionView {
         context.setLineWidth(2)
         context.setStrokeColor(color.cgColor)
 
-        let x = 15.64 - rightPadding
-        let y = 12 + (bottomPadding / 2.0)
+        // Center the arrow relative to circleCenter like other drawing methods
+        let arrowWidth: CGFloat = 12.72
+        let arrowHeight: CGFloat = 16.07
+        let x = circleCenter.x - (arrowWidth / 2.0)
+        let y = circleCenter.y - (arrowHeight / 2.0)
         // arrow, taken from Paint Code
         let bezier2Path = UIBezierPath()
         bezier2Path.move(to: CGPoint(x: x + 12.72, y: y + 9.71))

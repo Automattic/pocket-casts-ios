@@ -15,6 +15,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
     private let episode: Episode
+    private let analyticsSource: String
     private let dataManager = DataManager.sharedManager
 
     private var tableView: ThemeableTable! {
@@ -49,8 +50,9 @@ class ManualPlaylistsChooserViewController: PCViewController {
         }
     }
 
-    init(episode: Episode) {
+    init(episode: Episode, analyticsSource: String) {
         self.episode = episode
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,6 +66,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
         setupNavBar()
         addCloseButton()
         setupContent()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Analytics.track(.addToPlaylistsShown, properties: ["source": analyticsSource])
     }
 
     private func setupNavBar() {
@@ -208,7 +216,8 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 playlist: playlist,
                 isLastRow: indexPath.row == manualPlaylists.count - 1,
                 isSelected: isSelected,
-                canBeDisabled: !episodeIsInPlaylist
+                canBeDisabled: !episodeIsInPlaylist,
+                analyticsSource: analyticsSource
             )
         }
         return cell
@@ -223,7 +232,9 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode))
+        Analytics.track(.addToPlaylistsNewPlaylistTapped, properties: ["source": analyticsSource])
+
+        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode), analyticsSource: analyticsSource)
         navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }

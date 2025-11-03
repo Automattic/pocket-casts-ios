@@ -212,9 +212,9 @@ enum SwipeActionsHelper {
             case .share:
                 return "share"
             case .addToManualPlaylist:
-                return "add_to_manual_playlist"
+                return "add_to_playlist"
             case .removeFromManualPlaylist:
-                return "remove_from_manual_playlist"
+                return "remove_from_playlist"
             }
         }
     }
