@@ -92,7 +92,17 @@ class NewPlaylistViewController: PCViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        Analytics.track(.filterCreateShown)
+
         showSmartPlaylistTooltip()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isMovingFromParent {
+            Analytics.track(.filterCreateCancelled)
+        }
     }
 
     private func setupNavBar() {
@@ -218,7 +228,7 @@ class NewPlaylistViewController: PCViewController {
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
 
-        //TODO: Add analytics for manual playlist creation
+        Analytics.track(.filterCreateAsManualPlaylistTapped)
 
         if Settings.firstTimePlaylistCreated {
             Settings.shouldShowDragAndDropTip = true
@@ -228,6 +238,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func createSmartPlaylist() {
+        Analytics.track(.filterCreateAsSmartPlaylistTapped)
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let createPlaylistVC = PlaylistPreviewViewController(playlistName: playlistName)
         createPlaylistVC.delegate = delegate
@@ -236,6 +248,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func closeTapped(_ sender: Any) {
+        Analytics.track(.filterCreateCancelled)
         delegate?.presentingPlaylistDetail = false
         dismiss(animated: true, completion: nil)
     }

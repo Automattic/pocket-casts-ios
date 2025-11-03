@@ -287,6 +287,10 @@ enum AnalyticsEvent: String {
     case filterDeleted
     case filterUpdated
     case filterCreated
+    case filterCreateShown
+    case filterCreateAsManualPlaylistTapped
+    case filterCreateAsSmartPlaylistTapped
+    case filterCreateCancelled
 
     case filterShown
     case filterTooltipShown
