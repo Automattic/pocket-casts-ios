@@ -20,6 +20,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private let creationType: CreationType
+    private let analyticsSource: String?
+
     private var creationView: UIView?
     private var smartPlaylistsTip: UIViewController? = nil
 
@@ -67,8 +69,9 @@ class NewPlaylistViewController: PCViewController {
         }
     }
 
-    init(creationType: CreationType = .default) {
+    init(creationType: CreationType = .default, analyticsSource: String? = nil) {
         self.creationType = creationType
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -208,6 +211,9 @@ class NewPlaylistViewController: PCViewController {
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
+
+            Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
+
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }

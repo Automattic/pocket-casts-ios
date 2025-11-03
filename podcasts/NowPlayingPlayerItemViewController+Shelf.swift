@@ -437,7 +437,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         NavigationManager.sharedManager.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
-                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
+                NavigationManager.manualPlaylistsChooserSourceKey: "shelf"
             ]
         )
 #endif

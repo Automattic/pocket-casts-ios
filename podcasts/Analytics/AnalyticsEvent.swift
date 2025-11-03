@@ -318,6 +318,12 @@ enum AnalyticsEvent: String {
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
+    case addToPlaylistsShown
+    case addToPlaylistsEpisodeAddTapped
+    case addToPlaylistsRemoveTapped
+    case addToPlaylistsNewPlaylistTapped
+    case addToPlaylistsCreateNewPlaylistTapped
+
     // MARK: - Podcast screen
 
     case podcastScreenShown
