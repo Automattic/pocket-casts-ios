@@ -23,6 +23,12 @@ struct TestStory2025: ShareableStory {
                 })
                 .configure({ animationView in
                     animationView.contentMode = .scaleToFill
+                    animationView.logHierarchyKeypaths()
+                    animationView.textProvider = MyLottieTextProvider2(text: currentText)
+                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
+                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
+                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
+                    animationView.fontProvider = MyFontProvider()
                 })
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
                 .scaledToFill()
@@ -47,7 +53,8 @@ struct TestStory2025: ShareableStory {
 
     var customView: LottieView<EmptyView> {
         let view = LottieView(animation: .named("test_animation"))
-        return view.textProvider(MyLottieTextProvider2(text: currentText))
+//        return view.textProvider(MyLottieTextProvider2(text: currentText))
+        return view
     }
 }
 
@@ -78,10 +85,18 @@ final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
     }
 
     func textFor(keypathName: String, sourceText: String) -> String {
+        print("AAAA \(keypathName), \(sourceText)")
         return s
     }
 
     static func == (lhs: MyLottieTextProvider2, rhs: MyLottieTextProvider2) -> Bool {
         lhs.s == rhs.s
+    }
+}
+
+class MyFontProvider: AnimationFontProvider {
+    func fontFor(family: String, size: CGFloat) -> CTFont? {
+        print("AAAA font \(family)")
+        return CTFontCreateWithName("Humane-Medium" as CFString, 100, nil)
     }
 }
