@@ -10,7 +10,7 @@ extension PlaylistDetailViewController {
     }
 
     @objc func moreTapped() {
-        Analytics.track(.filterOptionsButtonTapped)
+        track(.filterOptionsTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
 
@@ -50,20 +50,26 @@ extension PlaylistDetailViewController {
             return
         }
 
+        track(.filterPlayAllTapped)
+
         Task { [weak self] in
             guard let self else { return }
             let hasDifferencesWithUpNext = await self.checkDifferencesWithUpNext()
             if hasDifferencesWithUpNext {
                 await MainActor.run {
-                    Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
                     PlaylistPlayAllHelper.playAll { [weak self] action in
                         guard let self else { return }
                         switch action {
                         case .saveAndPlay:
+                            self.track(.filterPlayAllSaveUpNextTapped)
                             self.viewModel.saveUpNextAndPlay()
+                        case .showSecondPicker:
+                            self.track(.filterPlayAllReplaceAndPlayTapped)
                         case .replaceAndPlay:
+                            self.track(.filterPlayAllReplaceAndPlayConfirmTapped)
                             self.viewModel.playAllEpisodes()
-                        case .close:
+                        case .dismiss, .close:
+                            self.track(.filterPlayAllDismissed)
                             break
                         }
                     }
@@ -85,7 +91,7 @@ extension PlaylistDetailViewController {
 
     private func multiSelectAction() -> OptionAction {
         OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "select_episodes"])
+            self?.track(.filterSelectEpisodesTapped)
             self?.isMultiSelectEnabled = true
         }
     }
@@ -93,9 +99,9 @@ extension PlaylistDetailViewController {
     // MARK: - Chromecast
 
     private func chromecastAction() -> OptionAction {
-        OptionAction(label: "Chromecast", icon: "nav_cast_off") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "chromecast"])
-            self.castButtonTapped()
+        OptionAction(label: "Chromecast", icon: "nav_cast_off") { [weak self] in
+            self?.track(.filterChromeCastTapped)
+            self?.castButtonTapped()
         }
     }
 
@@ -103,9 +109,9 @@ extension PlaylistDetailViewController {
 
     private func sortAction() -> OptionAction {
         let currentSort = PlaylistSort(rawValue: viewModel.playlist.sortType)?.description ?? ""
-        return OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "sort_by"])
-            self.showSortByPicker()
+        return OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
+            self?.track(.filterSortByTapped)
+            self?.showSortByPicker()
         }
     }
 
@@ -125,8 +131,9 @@ extension PlaylistDetailViewController {
     }
 
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
-        let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) {
-            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
+        let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) { [weak self] in
+            guard let self else { return }
+            self.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
             let playlist = self.viewModel.playlist!
             playlist.sortType = sortOrder.rawValue
             self.viewModel.update(playlist: playlist)
@@ -147,8 +154,8 @@ extension PlaylistDetailViewController {
 
     private func reorderEpisodesAction() -> OptionAction {
         OptionAction(label: L10n.playlistManualEpisodesOrderOption, icon: "filter_manual_episode_order") { [weak self] in
-            //TODO: Add analytics
             guard let self = self else { return }
+            self.track(.filterRearrangeEpisodesTapped)
             self.showCustomOrderList()
         }
     }
@@ -163,7 +170,7 @@ extension PlaylistDetailViewController {
     private func downloadAllOption() -> OptionAction {
         OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "download_all"])
+            self.track(.filterDownloadAllTapped)
 
             let downloadableCount = self.downloadableCount(listEpisodes: self.viewModel.episodes)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
@@ -250,12 +257,12 @@ extension PlaylistDetailViewController {
 
         if unarchivedCount > 0 {
             return OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") { [weak self] in
-                //TODO: Add Analytics
+                self?.track(.filterArchiveAllTapped)
                 self?.archiveAllPlaylistEpisodes()
             }
         }
         return OptionAction(label: L10n.podcastUnarchiveAll, icon: "list_unarchive") { [weak self] in
-            //TODO: Add Analytics
+            self?.track(.filterUnarchiveAllTapped)
             self?.unarchiveAllPlaylistEpisodes()
         }
     }
@@ -266,16 +273,20 @@ extension PlaylistDetailViewController {
     }
 
     private func unarchiveAllPlaylistEpisodes() {
-        let episodes = viewModel.episodes.map { $0.episode }
-        EpisodeManager.bulkUnarchive(episodes: episodes)
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            let newData = viewModel.episodesDataManager.playlistEpisodes(for: viewModel.playlist, shouldShowArchived: true)
+            let episodes = newData.map { $0.episode }
+            EpisodeManager.bulkUnarchive(episodes: episodes)
+        }
     }
 
     // MARK: - Edit
 
     private func editAction() -> OptionAction {
-        OptionAction(label: L10n.playlistOptions, icon: "profile-settings") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
-            self.playlistOptionsTapped()
+        OptionAction(label: L10n.playlistOptions, icon: "profile-settings") { [weak self] in
+            self?.track(.filterOptionsButtonTapped)
+            self?.playlistOptionsTapped()
         }
     }
 

@@ -187,6 +187,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
+
+        track(.filterShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -398,6 +400,8 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func editPlaylist() {
+        track(.filterEditRulesTapped)
+
         let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
             self?.viewModel.reloadPlaylistAndEpisodes()
         }
@@ -406,7 +410,11 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func addEpisodes() {
-        if viewModel.isPlaylistFull {
+        let isPlaylistFull = viewModel.isPlaylistFull
+
+        track(.filterAddEpisodesTapped, properties: ["is_playlist_full": isPlaylistFull])
+
+        if isPlaylistFull {
             let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
             Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
             return
@@ -432,11 +440,5 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
-    }
-}
-
-extension PlaylistDetailViewController: AnalyticsSourceProvider {
-    var analyticsSource: AnalyticsSource {
-        .filters
     }
 }
