@@ -5,6 +5,8 @@ struct TestStory2025: ShareableStory {
     private let foregroundColor = Color.white
     private let backgroundColor = Color.endOfYear2025Background
     let identifier: String = "test_animation"
+    
+    @State private var currentText: String = "0"
 
     var body: some View {
         ZStack {
@@ -30,6 +32,13 @@ struct TestStory2025: ShareableStory {
         )
         .ignoresSafeArea()
         .background(backgroundColor)
+        .onAppear {
+            for i in 0..<100 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
+                    currentText = "\(i)"
+                }
+            }
+        }
     }
 
     @ViewBuilder var headerView: some View {
@@ -38,7 +47,7 @@ struct TestStory2025: ShareableStory {
 
     var customView: LottieView<EmptyView> {
         let view = LottieView(animation: .named("test_animation"))
-        return view.textProvider(MyLottieTextProvider())
+        return view.textProvider(MyLottieTextProvider2(text: currentText))
     }
 }
 
@@ -58,5 +67,21 @@ final class MyLottieTextProvider: AnimationTextProvider, Equatable {
     
     static func == (lhs: MyLottieTextProvider, rhs: MyLottieTextProvider) -> Bool {
         lhs.dict == rhs.dict
+    }
+}
+
+final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
+    let s: String
+    
+    init(text: String) {
+        self.s = text
+    }
+
+    func textFor(keypathName: String, sourceText: String) -> String {
+        return s
+    }
+
+    static func == (lhs: MyLottieTextProvider2, rhs: MyLottieTextProvider2) -> Bool {
+        lhs.s == rhs.s
     }
 }
