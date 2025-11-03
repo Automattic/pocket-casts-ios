@@ -20,6 +20,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private let creationType: CreationType
+    private let analyticsSource: String?
+
     private var creationView: UIView?
     private var smartPlaylistsTip: UIViewController? = nil
 
@@ -67,8 +69,9 @@ class NewPlaylistViewController: PCViewController {
         }
     }
 
-    init(creationType: CreationType = .default) {
+    init(creationType: CreationType = .default, analyticsSource: String? = nil) {
         self.creationType = creationType
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -197,6 +200,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func createManualPlaylist() {
+        delegate?.presentingPlaylistDetail = true
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
@@ -213,9 +218,12 @@ class NewPlaylistViewController: PCViewController {
             let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
             guard didAdd else {
                 let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
-                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+                Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
                 return
             }
+
+            Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
+
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
@@ -241,6 +249,7 @@ class NewPlaylistViewController: PCViewController {
 
     @objc private func closeTapped(_ sender: Any) {
         Analytics.track(.filterCreateCancelled)
+        delegate?.presentingPlaylistDetail = false
         dismiss(animated: true, completion: nil)
     }
 
@@ -272,7 +281,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func dismissTipView() {
-        dismiss(animated: true) { [weak self] in
+        smartPlaylistsTip?.dismiss(animated: true) { [weak self] in
             self?.smartPlaylistsTip = nil
         }
     }

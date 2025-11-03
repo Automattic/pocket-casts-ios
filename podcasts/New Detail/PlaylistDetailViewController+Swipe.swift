@@ -33,7 +33,7 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
-        "playlists"
+        "filters"
     }
 
     var swipeSourceType: SwipeSourceType {

@@ -1951,6 +1951,9 @@ MISES À JOUR</string>
     <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
     <key>playback_2025_feature_title</key>
     <string>Rétrospective 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>Bienvenue dans la rétrospective !
+ Une célébration de votre année en podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Voir ma rétrospective 2025</string>
     <key>playback_effect_all_podcasts</key>
@@ -2047,6 +2050,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Transformer en playlist intelligente</string>
     <key>playlist_detail_description</key>
     <string>%1$@ épisodes • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 épisode • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 épisode ajouté à « %@ »</string>
     <key>playlist_episodes_added_title</key>
@@ -2057,6 +2062,12 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>La playlist est pleine. Essayer d’en créer une nouvelle</string>
     <key>playlist_manual_add_episodes</key>
     <string>Ajouter des épisodes</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>Votre épisode dans cette playlist a été archivé</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>Les %1$@ épisodes de cette playlist ont tous été archivés.</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Parcourir les podcasts</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre playlist.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2078,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Ajouter à la playlist</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Réorganiser les épisodes</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>Tous les épisodes archivés. Ajoutez ou désarchivez pour lire.</string>
     <key>playlist_options</key>
     <string>Options de la playlist</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2116,12 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Playlists</string>
     <key>playlists_default_new_playlist</key>
     <string>Nouvelle playlist</string>
+    <key>playlists_delete</key>
+    <string>Supprimer la playlist</string>
+    <key>playlists_delete_alert_message</key>
+    <string>Voulez-vous vraiment supprimer votre playlist ? Il n’est pas possible d’annuler cette action.</string>
+    <key>playlists_delete_alert_title</key>
+    <string>Supprimer la playlist ?</string>
     <key>playlists_empty_state_description</key>
     <string>Les playlists permettent d’organiser les épisodes manuellement ou automatiquement avec les règles intelligentes.</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2134,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Ils fonctionnent toujours exactement de la même manière, en utilisant des règles pour ajouter automatiquement vos épisodes. Tous vos filtres existants sont juste ici, rien n’a changé hormis le nom.</string>
     <key>playlists_onboarding_smart_title</key>
     <string>Les filtres sont désormais des playlists intelligentes</string>
+    <key>playlists_play_all</key>
+    <string>Tout lire</string>
     <key>please_try_again</key>
     <string>Veuillez réessayer</string>
     <key>please_try_again_later</key>
@@ -3065,12 +3086,16 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Sélectionner le filtre</string>
     <key>settings_select_filters_plural</key>
     <string>Sélectionner les filtres</string>
+    <key>settings_select_playlist_singular</key>
+    <string>Sélectionner la playlist</string>
     <key>settings_select_playlists_plural</key>
     <string>Sélectionner des playlists</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>Sélectionner des playlists intelligentes</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Ouvrir le filtre</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>Ouvrir la playlist</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>Lire tous les épisodes</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3112,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Raccourcis activés</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>Raccourci vers un filtre spécifique</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>Raccourci vers une playlist spécifique</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>Raccourci vers un podcast spécifique</string>
     <key>settings_skip_first</key>
