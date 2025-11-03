@@ -28,6 +28,7 @@ struct TopSpotStory2025: ShareableStory {
                 GeometryReader { proxy in
                     ZStack {
                         if renderForSharing {
+                            //TODO: Add correct background image for sharing
                             Image("playback_2025_listening_time_back")
                                 .resizable()
                                 .scaledToFit()
@@ -45,6 +46,7 @@ struct TopSpotStory2025: ShareableStory {
                         PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                             .frame(width: proxy.size.width * scaleFactor, height: proxy.size.width * scaleFactor)
                             .cornerRadius(8)
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                     }
                     .frame(width: proxy.size.width * 1.25, height: proxy.size.width * 1.25)
                     .offset(x: -proxy.size.width * 0.125, y: 0)
