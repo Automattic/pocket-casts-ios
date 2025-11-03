@@ -400,6 +400,8 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func editPlaylist() {
+        track(.filterEditRulesTapped)
+
         let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
             self?.viewModel.reloadPlaylistAndEpisodes()
         }

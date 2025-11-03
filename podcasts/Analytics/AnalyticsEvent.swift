@@ -315,6 +315,9 @@ enum AnalyticsEvent: String {
     case filterAddEpisodesPodcastTapped
     case filterAddEpisodesEpisodeTapped
 
+    case filterEditRulesTapped
+    case filterAddEpisodesTapped
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
