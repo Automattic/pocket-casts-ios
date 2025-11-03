@@ -706,6 +706,9 @@
 		9A57236F2EAF8E4400E0A733 /* PlaylistPlayAllHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */; };
 		9A5723712EAFBC5600E0A733 /* PlaylistDetailViewModel+PlayAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */; };
 		9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */; };
+		9A5D6B712EB8D25D006DA7D7 /* TestStory2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D6B702EB8D258006DA7D7 /* TestStory2025.swift */; };
+		9A5D6B732EB8D399006DA7D7 /* test_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A5D6B722EB8D399006DA7D7 /* test_animation.json */; };
+		9A5D6B742EB8D399006DA7D7 /* test_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A5D6B722EB8D399006DA7D7 /* test_animation.json */; };
 		9A6620BC2DD53AC100342910 /* View+ScaleFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */; };
 		9A66BE612E96879A007516A5 /* PlaylistDetailViewModel+Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BE602E968794007516A5 /* PlaylistDetailViewModel+Archive.swift */; };
 		9A72B6602E2115120078FC84 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B65F2E2115120078FC84 /* PlaylistCell.swift */; };
@@ -3049,6 +3052,8 @@
 		9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllHelper.swift; sourceTree = "<group>"; };
 		9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewModel+PlayAll.swift"; sourceTree = "<group>"; };
 		9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArchiveView.swift; sourceTree = "<group>"; };
+		9A5D6B702EB8D258006DA7D7 /* TestStory2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStory2025.swift; sourceTree = "<group>"; };
+		9A5D6B722EB8D399006DA7D7 /* test_animation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_animation.json; sourceTree = "<group>"; };
 		9A6620BB2DD53ABA00342910 /* View+ScaleFactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScaleFactor.swift"; sourceTree = "<group>"; };
 		9A66BE602E968794007516A5 /* PlaylistDetailViewModel+Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewModel+Archive.swift"; sourceTree = "<group>"; };
 		9A72B65E2E210E750078FC84 /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DependencyInjection; path = Modules/DependencyInjection; sourceTree = SOURCE_ROOT; };
@@ -6803,6 +6808,7 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				9A5D6B722EB8D399006DA7D7 /* test_animation.json */,
 				FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */,
 				FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */,
 				F50D723B2E29F17800764D9B /* heart-eyes.json */,
@@ -8961,6 +8967,7 @@
 			isa = PBXGroup;
 			children = (
 				FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */,
+				9A5D6B702EB8D258006DA7D7 /* TestStory2025.swift */,
 				FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */,
 				FFB74B0B2E99366700F16857 /* IntroStory2025.swift */,
 			);
@@ -9606,6 +9613,7 @@
 				1021411D2C7F77BB0065D34A /* appStoreInfo.json in Resources */,
 				BD1292C422F7CD83004608A6 /* AppIcon-Plus76x76@2x~ipad.png in Resources */,
 				C7D813982A0D4BC0007F715F /* AppIcon-Patron-Glow-iphone@3x.png in Resources */,
+				9A5D6B742EB8D399006DA7D7 /* test_animation.json in Resources */,
 				BD1292EC22F7D066004608A6 /* AppIcon-Classic20x20~ipad.png in Resources */,
 				400AB2FE220BA3050003EE21 /* UploadedViewController.xib in Resources */,
 				BD12930E22F809F8004608A6 /* AppIcon-Electric-Pink20x20@3x.png in Resources */,
@@ -10062,6 +10070,7 @@
 				F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */,
 				F5F509782CEBFA71007D6E39 /* NowPlayingPlayerItemViewController.xib in Resources */,
 				F5F509412CEBF280007D6E39 /* PlayerContainerViewController.xib in Resources */,
+				9A5D6B732EB8D399006DA7D7 /* test_animation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11099,6 +11108,7 @@
 				BDAE72D82138FB32002810A2 /* ActionIconButton.swift in Sources */,
 				BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */,
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
+				9A5D6B712EB8D25D006DA7D7 /* TestStory2025.swift in Sources */,
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
 				10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
