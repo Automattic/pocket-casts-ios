@@ -378,7 +378,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingVariant:
             true
         case .playlistsRebranding:
-            false
+            true
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
@@ -450,7 +450,11 @@ extension FeatureFlag: OverrideableFlag {
     public var canOverride: Bool {
         switch self {
             case .searchPredictive, .searchImprovements:
-                !Self.isTestFlight
+#if DEBUG
+            true
+#else
+            !Self.isTestFlight
+#endif
             default:
                 true
         }
