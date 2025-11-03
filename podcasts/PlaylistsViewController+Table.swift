@@ -139,6 +139,9 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PlaylistsViewController {
     fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
+        let playlistType = playlist.manual ? "manual" : "smart"
+        let analyticsProperties = ["filter_type": playlistType]
+        Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
         let delete = OptionAction(
             label: L10n.delete,
             icon: nil,
@@ -157,9 +160,10 @@ extension PlaylistsViewController {
                 delete
             ]
         )
+        picker.setNoActionCallback {
+            Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+        }
         picker.show(statusBarStyle: .default)
-
-        Analytics.track(.filterDeleteTapped)
     }
 
     fileprivate func delete(playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
@@ -169,7 +173,13 @@ extension PlaylistsViewController {
         tableView.deleteRows(at: [indexPath], with: .top)
         tableView.endUpdates()
 
-        Analytics.track(.filterDeleted)
+        var properties: [AnyHashable: Any]? = [:]
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        }
+
+        Analytics.track(.filterDeleted, properties: properties)
     }
 }
 
