@@ -19,7 +19,7 @@ struct Top5Podcasts2025Story: ShareableStory {
 
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.spring(_:))
 
-    @State private var itemScale: Double = 1 // This will be set in `setInitialAnimationValues`
+    @State private var itemScale: Double = 0.7 // This will be set in `setInitialAnimationValues`
     @State private var itemOpacity: Double = 1 // This will be set in `setInitialAnimationValues`
 
     var body: some View {
@@ -28,8 +28,9 @@ struct Top5Podcasts2025Story: ShareableStory {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading) {
                     podcastList()
-                        .modifier(animationViewModel.animate($itemOpacity, to: 1, after: 0.1))
-                        .modifier(animationViewModel.animate($itemScale, to: 1))
+                        .animation(.timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.8), value: itemScale)
+//                        .modifier(animationViewModel.animate($itemOpacity, to: 1, after: 0.1))
+//                        .modifier(animationViewModel.animate($itemScale, to: 1))
                 }
                 .modify { view in
                     if renderForSharing {
@@ -77,21 +78,24 @@ struct Top5Podcasts2025Story: ShareableStory {
 
     @ViewBuilder func listCell(index: Int, item: TopPodcast) -> some View {
         HStack {
-            let imageSize: Double = 72
+            let imageSize: Double = index == 0 ? 100 : 77
             let textAnimationOffset = imageSize/2
             Text("#\(index + 1)")
                 .font(.system(size: 22, weight: .semibold))
-                .opacity(itemOpacity)
-                .offset(x: (1 - itemScale) * textAnimationOffset)
+//                .opacity(itemOpacity)
+//                .offset(x: (1 - itemScale) * textAnimationOffset)
 
-            ZStack {
-                Image(shapeImages[index % shapeImages.count])
-                    .foregroundStyle(shapeColor)
-                PodcastImage(uuid: item.podcast.uuid, size: .grid)
-                    .frame(width: imageSize, height: imageSize)
-                    .clipShape(RoundedRectangle(cornerRadius: 4))
-            }
-            .scaleEffect(itemScale)
+//            ZStack {
+//                Image(shapeImages[index % shapeImages.count])
+//                    .foregroundStyle(shapeColor)
+//                PodcastImage(uuid: item.podcast.uuid, size: .grid)
+//                    .frame(width: imageSize, height: imageSize)
+//                    .clipShape(RoundedRectangle(cornerRadius: 4))
+//            }
+//            .scaleEffect(itemScale)
+            PodcastImage(uuid: item.podcast.uuid, size: .grid)
+                .frame(width: imageSize, height: imageSize)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
 
             VStack(alignment: .leading) {
                 if let author = item.podcast.author {
@@ -103,9 +107,10 @@ struct Top5Podcasts2025Story: ShareableStory {
                         .font(.system(size: 18, weight: .medium))
                 }
             }
-            .opacity(itemOpacity)
-            .offset(x: (1 - itemScale) * -textAnimationOffset)
+//            .opacity(itemOpacity)
+//            .offset(x: (1 - itemScale) * -textAnimationOffset)
         }
+        .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
     }
 
     func onAppear() {
@@ -125,8 +130,8 @@ struct Top5Podcasts2025Story: ShareableStory {
     }
 
     private func setInitialAnimationValues() {
-        itemScale = 0
-        itemOpacity = 0
+        itemScale = 1
+        itemOpacity = 1
     }
 
     func sharingAssets() -> [Any] {
