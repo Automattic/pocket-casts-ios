@@ -9,19 +9,30 @@ final class SettingsTests: XCTestCase {
     private let userDefaultsSuiteName = "PocketCasts-SettingsTests"
 
     private var overriddenFlags = [FeatureFlag: Bool]()
-    private let defaultPlayerActions: [PlayerAction] = [.addBookmark,
-                                                        .markPlayed,
-                                                        .effects,
-                                                        .sleepTimer,
-                                                        .routePicker,
-                                                        .shareEpisode,
-                                                        .addToPlaylist,
-                                                        .download,
-                                                        .transcript,
-                                                        .goToPodcast,
-                                                        .starEpisode,
-                                                        .chromecast,
-                                                        .archive]
+    private lazy var defaultPlayerActions: [PlayerAction] = {
+        var actions: [PlayerAction] = [
+            .addBookmark,
+            .markPlayed,
+            .effects,
+            .sleepTimer,
+            .routePicker,
+            .shareEpisode
+        ]
+        if FeatureFlag.playlistsRebranding.enabled {
+            actions.append(.addToPlaylist)
+        }
+        actions.append(
+            contentsOf: [
+                .download,
+                .transcript,
+                .goToPodcast,
+                .starEpisode,
+                .chromecast,
+                .archive
+            ]
+        )
+        return actions
+    }()
 
     override func setUp() {
         super.setUp()
