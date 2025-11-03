@@ -46,7 +46,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = L10n.filterOptions
+        title = Self.playlistRebrandingIsEnabled ? L10n.playlistOptions : L10n.filterOptions
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:)))
         tapRecognizer.cancelsTouchesInView = false
