@@ -1,5 +1,6 @@
 @testable import PocketCastsServer
 @testable import PocketCastsDataModel
+@testable import PocketCastsUtils
 import XCTest
 import GRDB
 import SwiftProtobuf
@@ -9,11 +10,17 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
+        FeatureFlagMock().set(.playlistsRebranding, value: true)
+
         dataManager = DataManager(dbQueue: GRDBQueue(dbPool: try! DatabasePool(path: NSTemporaryDirectory().appending("\(UUID().uuidString).sqlite"))))
         syncTask = SyncTask(dataManager: dataManager)
 
         // Ensure any static usage reads from this DB
         DataManager.sharedManager = dataManager
+    }
+
+    override func tearDown() {
+        FeatureFlagMock().reset()
     }
 
     func testChangedFiltersIncludesManualEpisodesAndFlag() {
