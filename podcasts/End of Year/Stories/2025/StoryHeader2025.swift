@@ -15,7 +15,7 @@ struct StoryHeader2025: View {
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 16) {
+        VStack(alignment: .center, spacing: 8) {
             HStack { Spacer() }
             if let subscriptionTier {
                 SubscriptionBadge2024(subscriptionTier: subscriptionTier)

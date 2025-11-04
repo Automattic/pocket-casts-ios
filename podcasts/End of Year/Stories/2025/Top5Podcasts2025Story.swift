@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import Lottie
 
 struct Top5Podcasts2025Story: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
@@ -12,25 +13,20 @@ struct Top5Podcasts2025Story: ShareableStory {
     private let shapeColor = Color.green
 
     private let foregroundColor = Color.black
-    private let backgroundColor = Color(hex: "#E0EFAD")
-    private let shapeImages = ["playback-2024-shape-pentagon",
-                               "playback-2024-shape-two-ovals",
-                               "playback-2024-shape-wavy-circle"]
+    private let backgroundColor = Color(hex: "#96BCD1")
 
-    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.spring(_:))
-
-    @State private var itemScale: Double = 0.7 // This will be set in `setInitialAnimationValues`
-    @State private var itemOpacity: Double = 1 // This will be set in `setInitialAnimationValues`
+    @State private var itemScale: Double = 0.8
 
     var body: some View {
         GeometryReader { geometry in
             let isSmallScreen = geometry.size.height <= 700
             VStack(alignment: .leading) {
-                VStack(alignment: .leading) {
+                headerView
+                Spacer()
+                    .frame(height: 30)
+                VStack(alignment: .leading, spacing: 0) {
                     podcastList()
-                        .animation(.timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.8), value: itemScale)
-//                        .modifier(animationViewModel.animate($itemOpacity, to: 1, after: 0.1))
-//                        .modifier(animationViewModel.animate($itemScale, to: 1))
+                        .animation(.timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.9), value: itemScale)
                 }
                 .modify { view in
                     if renderForSharing {
@@ -46,11 +42,10 @@ struct Top5Podcasts2025Story: ShareableStory {
                         }
                     }
                 }
-                .padding(.horizontal, 24)
                 .disabled(!isSmallScreen) // Disable scrolling on larger where we shouldn't be clipping.
                 .frame(height: geometry.size.height * 0.65)
-                StoryFooter2024(title: L10n.eoyStoryTopPodcastsTitle, description: nil)
                 .padding(.bottom, 2)
+                Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -64,74 +59,29 @@ struct Top5Podcasts2025Story: ShareableStory {
         )
         .onAppear {
             if animated {
-                setInitialAnimationValues()
-                animationViewModel.play()
+                itemScale = 1.0
             }
         }
+    }
+
+    @ViewBuilder var headerView: some View {
+        StoryHeader2025(title: "Your other go-to's", description: "More favorites, more play, more you")
     }
 
     @ViewBuilder func podcastList() -> some View {
         ForEach(Array(zip(top5Podcasts.indices, top5Podcasts)), id: \.1.podcast.uuid) { index, item in
-            listCell(index: index, item: item)
+            PodcastCellView(index: index, item: item, itemScale: itemScale)
+                .frame(height: 100)
+                .padding(.bottom, index == 0 ? 21 : 14)
         }
-    }
-
-    @ViewBuilder func listCell(index: Int, item: TopPodcast) -> some View {
-        HStack {
-            let imageSize: Double = index == 0 ? 100 : 77
-            let textAnimationOffset = imageSize/2
-            Text("#\(index + 1)")
-                .font(.system(size: 22, weight: .semibold))
-//                .opacity(itemOpacity)
-//                .offset(x: (1 - itemScale) * textAnimationOffset)
-
-//            ZStack {
-//                Image(shapeImages[index % shapeImages.count])
-//                    .foregroundStyle(shapeColor)
-//                PodcastImage(uuid: item.podcast.uuid, size: .grid)
-//                    .frame(width: imageSize, height: imageSize)
-//                    .clipShape(RoundedRectangle(cornerRadius: 4))
-//            }
-//            .scaleEffect(itemScale)
-            PodcastImage(uuid: item.podcast.uuid, size: .grid)
-                .frame(width: imageSize, height: imageSize)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-
-            VStack(alignment: .leading) {
-                if let author = item.podcast.author {
-                    Text(author)
-                        .font(.system(size: 15))
-                }
-                if let title = item.podcast.title {
-                    Text(title)
-                        .font(.system(size: 18, weight: .medium))
-                }
-            }
-//            .opacity(itemOpacity)
-//            .offset(x: (1 - itemScale) * -textAnimationOffset)
-        }
-        .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
     }
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
-    func onPause() {
-        animationViewModel.pause()
-    }
-
-    func onResume() {
-        animationViewModel.play()
-    }
-
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: identifier)
-    }
-
-    private func setInitialAnimationValues() {
-        itemScale = 1
-        itemOpacity = 1
     }
 
     func sharingAssets() -> [Any] {
@@ -139,5 +89,59 @@ struct Top5Podcasts2025Story: ShareableStory {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: top5Podcasts.map { $0.podcast }, year: .y2025)
         ]
+    }
+}
+
+fileprivate struct PodcastCellView: View {
+    let index: Int
+    let item: TopPodcast
+    let itemScale: Double
+
+    private var animationName: String {
+        index%2 == 0 ? "2025_top_5_podcasts_a" : "2025_top_5_podcasts_b"
+    }
+
+    var body: some View {
+        ZStack {
+            HStack(spacing: 0) {
+                LottieView(animation: .named(animationName))
+                    .animationDidFinish({ completed in
+                    })
+                    .configure({ animationView in
+                        animationView.contentMode = .scaleToFill
+                    })
+                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                    .frame(width: 75, height: 100)
+                    .offset(x: -10)
+                    .ignoresSafeArea()
+                Spacer()
+            }
+            .opacity(0.4)
+            HStack(spacing: 0) {
+                let imageSize: Double = index == 0 ? 100 : 77
+                Text("#\(index + 1)")
+                    .font(.system(size: 22, weight: .semibold))
+                    .padding(.horizontal, 16.0)
+                PodcastImage(uuid: item.podcast.uuid, size: .grid)
+                    .frame(width: imageSize, height: imageSize)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+
+                VStack(alignment: .leading, spacing: 0) {
+                    if let author = item.podcast.author {
+                        Text(author)
+                            .font(.system(size: 15))
+                    }
+                    if let title = item.podcast.title {
+                        Text(title)
+                            .font(.system(size: 18, weight: .medium))
+                    }
+                }
+                Spacer()
+            }
+        }
+        .background {
+            Color.yellow
+        }
+        .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
     }
 }
