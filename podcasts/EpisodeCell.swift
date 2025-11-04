@@ -94,6 +94,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     private var episode: BaseEpisode?
 
+    private var isSelectableForMultiSelect: Bool {
+        !(episode?.wasDeleted ?? false)
+    }
+
     // MARK: - Setup
 
     override func awakeFromNib() {
@@ -150,8 +154,11 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             selectView.isHidden = !isMultiSelectEnabled
             setNeedsLayout()
         }
-        if actionButton.isHidden == !isMultiSelectEnabled {
-            actionButton.isHidden = isMultiSelectEnabled
+        let wasDeleted = episode?.wasDeleted ?? false
+        let shouldHide = isMultiSelectEnabled || wasDeleted
+
+        if actionButton.isHidden != shouldHide {
+            actionButton.isHidden = shouldHide
             setNeedsLayout()
         }
     }
@@ -202,7 +209,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             bookmarkIcon.tintColor = mainTintColor
             bookmarkIcon.isHidden = !showBookmarksIcon
 
-            let hideStatus = !episode.archived && !episode.downloaded(pathFinder: DownloadManager.shared) && !episode.downloadFailed() && !uploadFailed && !episode.playbackError()
+            let hideStatus = !episode.archived && !episode.wasDeleted && !episode.downloaded(pathFinder: DownloadManager.shared) && !episode.downloadFailed() && !uploadFailed && !episode.playbackError()
             if !hideStatus {
                 let statusImage: UIImage?
                 if episode.downloadFailed() || uploadFailed || episode.playbackError() {
@@ -215,8 +222,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                     if showBookmarksIcon {
                         statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
                         bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
-                    } else {
+                    } else if episode.wasDeleted {
+                        statusImage = UIImage(named: "option-cross-circle")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else if episode.archived {
                         statusImage = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
+                    } else {
+                        statusImage = nil
                     }
                 }
                 statusIndicator.image = statusImage
@@ -242,7 +253,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 }
             }
 
-            if episode.played() || episode.archived {
+            if episode.played() || episode.archived || episode.wasDeleted {
                 episodeImage.alpha = EpisodeCell.playedAlpha
                 contentStackView.alpha = EpisodeCell.playedAlpha
             } else {
@@ -255,7 +266,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
         EpisodeDateHelper.setDate(episode: episode, on: dayName, tintColor: mainTintColor)
 
-        if episode.archived {
+        if episode.wasDeleted {
+            informationLabel.text = L10n.podcastUnavailable + " • " + episode.displayableInfo(includeSize: false)
+        }
+        else if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
             informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
@@ -286,7 +300,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             uploadProgressIndicator.isHidden = true
         }
 
-        actionButton.populateFrom(episode: episode)
+        if episode.wasDeleted {
+            actionButton.isHidden = true
+        } else {
+            actionButton.isHidden = false
+            actionButton.populateFrom(episode: episode)
+        }
+
+        updateMultiSelectAppearance()
 
         isAccessibilityElement = true
         accessibilityLabel = labelForAccessibility(episode: episode)
@@ -506,19 +527,32 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var shouldShowSelect = false {
         didSet {
-            selectView.isHidden = !shouldShowSelect
-            actionButton.isHidden = shouldShowSelect
+            updateMultiSelectAppearance()
         }
     }
 
     var showTick = false {
         didSet {
+            guard isSelectableForMultiSelect else {
+                selectTickImageView.isHidden = true
+                selectCircleView.layer.borderWidth = 2
+                return
+            }
+
             selectTickImageView.isHidden = !showTick
             selectCircleView.layer.borderWidth = showTick ? 0 : 2
             selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
             accessibilityLabel = labelForAccessibility(episode: episode)
             style = showTick ? .primaryUi02Selected : .primaryUi02
             updateColor()
+        }
+    }
+
+    private func updateMultiSelectAppearance() {
+        let isSelectable = isSelectableForMultiSelect
+        selectView.isHidden = !shouldShowSelect || !isSelectable
+        if isSelectable {
+            actionButton.isHidden = shouldShowSelect
         }
     }
 

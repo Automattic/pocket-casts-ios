@@ -22,6 +22,7 @@ import Foundation
 
     var archived: Bool { get set }
     var keepEpisode: Bool { get set }
+    var wasDeleted: Bool { get set }
 
     var episodeStatus: Int32 { get set }
     var playingStatus: Int32 { get set }

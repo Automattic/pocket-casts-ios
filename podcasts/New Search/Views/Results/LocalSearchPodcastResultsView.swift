@@ -31,20 +31,23 @@ struct LocalSearchPodcastResultsView: View {
     private var resultsList: some View {
         List {
             listHeader
-            ForEach(Array(currentResults.enumerated()), id: \.element.id) { index, result in
-                SearchResultCell(
-                    episode: nil,
-                    result: result,
-                    played: false,
-                    showDivider: index < currentResults.count - 1,
-                    showPodcastSubscribeButton: false,
-                    cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
-                    action: {
-                    onSelectResult(result)
-                })
-                .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+            Section {
+                ForEach(Array(currentResults.enumerated()), id: \.element.id) { index, result in
+                    SearchResultCell(
+                        episode: nil,
+                        result: result,
+                        played: false,
+                        showDivider: false,
+                        showPodcastSubscribeButton: false,
+                        cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01),
+                        action: {
+                        onSelectResult(result)
+                    })
+                    .listRowBackground(theme.primaryUi01)
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return 0
+                    }
+                }
             }
         }
         .listStyle(.plain)
@@ -59,7 +62,7 @@ struct LocalSearchPodcastResultsView: View {
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                 .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))
                 .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .listRowBackground(theme.primaryUi01)
         }
     }
 

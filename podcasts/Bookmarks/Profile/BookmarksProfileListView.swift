@@ -36,23 +36,26 @@ struct BookmarksProfileListView: View {
                 .tint(style.theme.secondaryIcon01)
             }
         }
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                if viewModel.isMultiSelecting {
-                    viewModel.toggleMultiSelection()
-                } else {
-                    viewModel.showMoreOptions()
+
+        if viewModel.bookmarks.isEmpty == false {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    if viewModel.isMultiSelecting {
+                        viewModel.toggleMultiSelection()
+                    } else {
+                        viewModel.showMoreOptions()
+                    }
+                } label: {
+                    if viewModel.isMultiSelecting {
+                        Text(L10n.cancel)
+                    } else {
+                        Image("more")
+                    }
                 }
-            } label: {
-                if viewModel.isMultiSelecting {
-                    Text(L10n.cancel)
-                } else {
-                    Image("more")
-                }
+                .disabled(!viewModel.feature.isUnlocked)
+                .opacity(viewModel.feature.isUnlocked ? 1 : 0)
+                .tint(style.theme.secondaryIcon01)
             }
-            .disabled(!viewModel.feature.isUnlocked)
-            .opacity(viewModel.feature.isUnlocked ? 1 : 0)
-            .tint(style.theme.secondaryIcon01)
         }
     }
 

@@ -287,6 +287,12 @@ enum AnalyticsEvent: String {
     case filterDeleted
     case filterUpdated
     case filterCreated
+    case filterCreateShown
+    case filterCreateAsManualPlaylistTapped
+    case filterCreateAsSmartPlaylistTapped
+    case filterCreateCancelled
+    case filterDeleteTriggered
+    case filterDeleteDismissed
 
     case filterShown
     case filterTooltipShown
@@ -310,8 +316,19 @@ enum AnalyticsEvent: String {
     case filterAutoDownloadUpdated
     case filterAutoDownloadLimitUpdated
 
+    case filterAddEpisodesShown
+    case filterAddEpisodesFolderTapped
+    case filterAddEpisodesPodcastTapped
+    case filterAddEpisodesEpisodeTapped
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
+
+    case addToPlaylistsShown
+    case addToPlaylistsEpisodeAddTapped
+    case addToPlaylistsRemoveTapped
+    case addToPlaylistsNewPlaylistTapped
+    case addToPlaylistsCreateNewPlaylistTapped
 
     // MARK: - Podcast screen
 

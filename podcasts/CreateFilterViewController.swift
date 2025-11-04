@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import UIKit
 protocol FilterCreatedDelegate: AnyObject {
     func filterCreated(newFilter: EpisodeFilter)
+    var presentingPlaylistDetail: Bool { get set }
 }
 
 class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {

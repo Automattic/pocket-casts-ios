@@ -123,7 +123,7 @@ class EpisodesDataManager {
             sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
 
-        var whereClauses = ["podcast_id = \(podcast.id)"]
+        var whereClauses = ["podcast_id = \(podcast.id)", "wasDeleted = 0"]
         if !podcast.shouldShowArchived {
             whereClauses.append("archived = 0")
         }

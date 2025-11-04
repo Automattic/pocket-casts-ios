@@ -127,10 +127,15 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         selectBtn.title = shouldSelectAll() ? L10n.selectAll : L10n.deselectAll
     }
 
+    func currentPodcastsSource() -> [Podcast] {
+        allPodcasts
+    }
+
     @objc private func selectBtnTapped() {
         if shouldSelectAll() {
+            let podcasts = currentPodcastsSource()
             Analytics.track(.settingsSelectPodcastsSelectAllTapped, properties: ["source": analyticsSource])
-            selectedUuids = allPodcasts.map(\.uuid)
+            selectedUuids = podcasts.map(\.uuid)
             delegate?.bulkSelectionChange(selected: true)
         } else {
             Analytics.track(.settingsSelectPodcastsSelectNoneTapped, properties: ["source": analyticsSource])
@@ -145,7 +150,8 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
 
     private func shouldSelectAll() -> Bool {
         let onCount = selectedUuids.count
-        let offCount = allPodcasts.count - onCount
+        let podcasts = currentPodcastsSource()
+        let offCount = podcasts.count - onCount
 
         return onCount < offCount
     }

@@ -1206,6 +1206,10 @@ internal enum L10n {
   internal static func episodeShorthandFormatShort(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_shorthand_format_short", String(describing: p1), fallback: "EP %1$@")
   }
+  /// Message indicating that the episode is unavailable server side but will remain in your manual playlist until removed.
+  internal static var episodeUnavailableMessage: String { return L10n.tr("Localizable", "episode_unavailable_message", fallback: "The podcast creator deleted this episode. It will stay in your playlist until you remove it.") }
+  /// Title indicating that the episode is unavailable server side
+  internal static var episodeUnavailableTitle: String { return L10n.tr("Localizable", "episode_unavailable_title", fallback: "Episode Unavailable") }
   /// Refers to an Episode in the plural form.
   internal static var episodes: String { return L10n.tr("Localizable", "episodes", fallback: "Episodes") }
   /// A common string used throughout the app. Generic title informing the user of an Error. Accompanied with an error message.
@@ -2209,13 +2213,20 @@ internal enum L10n {
   }
   /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
   internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// Playback 2025: Description for the last story
+  internal static var playback2025EndStoryDescription: String { return L10n.tr("Localizable", "playback_2025_end_story_description", fallback: "Share your Playback with friends and show some love to the podcasters who kept you company all year") }
+  /// Playback 2025: Title for the last story
+  internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
   /// Playback 2025
   internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
-  /// Welcome to Playback!
-  ///  A celebration of your year in podcasts.
-  internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Welcome to Playback!\n A celebration of your year in podcasts.") }
+  /// Your year in podcasts, wrapped and ready to relive
+  internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Your year in podcasts, wrapped and ready to relive") }
+  /// You tuned in to %1$@ podcasts and %2$@ episodes
+  internal static func playback2025ListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_listened_to_numbers", String(describing: p1), String(describing: p2), fallback: "You tuned in to %1$@ podcasts and %2$@ episodes")
+  }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel
@@ -2342,7 +2353,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "playlist_episodes_count", String(describing: p1), fallback: "%1$@ episodes")
   }
   /// Toast message when the playlist is full
-  internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "Playlist is full. Try creating a new one") }
+  internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "This playlist is full. Remove a few episodes or start a new one.") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add Episodes") }
   /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
@@ -2353,6 +2364,8 @@ internal enum L10n {
   }
   /// Manual Playlist: title when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualBrowseShowsTitle: String { return L10n.tr("Localizable", "playlist_manual_browse_shows_title", fallback: "Browse podcasts") }
+  /// Toast message displayed in case something goes wrong with the manual creation
+  internal static var playlistManualCreateErrorMessage: String { return L10n.tr("Localizable", "playlist_manual_create_error_message", fallback: "Sorry, something went wrong while creating your playlist.") }
   /// Manual Playlist: empty state subtitle when no episodes are added and there are nosubscribed podcasts
   internal static var playlistManualEmptyStateSubtitleNoPodcasts: String { return L10n.tr("Localizable", "playlist_manual_empty_state_subtitle_no_podcasts", fallback: "Swipe left on an episode to add it your playlist.") }
   /// Manual Playlist: empty state title when no episodes are added
@@ -2367,6 +2380,22 @@ internal enum L10n {
   internal static var playlistManualPlayAllEmptyList: String { return L10n.tr("Localizable", "playlist_manual_play_all_empty_list", fallback: "All episodes archived. Add or unarchive to play.") }
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
+  /// Picker option showed when tapping Play all
+  internal static var playlistPlayAllOptionReplaceQueue: String { return L10n.tr("Localizable", "playlist_play_all_option_replace_queue", fallback: "Replace and play") }
+  /// Picker option showed when tapping Play all
+  internal static var playlistPlayAllOptionSaveQueue: String { return L10n.tr("Localizable", "playlist_play_all_option_save_queue", fallback: "Save current queue") }
+  /// Picker message showed when tapping Play all
+  internal static var playlistPlayAllPickerMessage: String { return L10n.tr("Localizable", "playlist_play_all_picker_message", fallback: "Your current Up Next will be replaced when you play this playlist. Save it first to keep it.") }
+  /// Picker title showed when tapping Play all
+  internal static var playlistPlayAllPickerTitle: String { return L10n.tr("Localizable", "playlist_play_all_picker_title", fallback: "Save your Up Next queue?") }
+  /// Picker message showed when tapping replace after showing the first Play all picker
+  internal static var playlistPlayAllReplacePickerMessage: String { return L10n.tr("Localizable", "playlist_play_all_replace_picker_message", fallback: "This will clear your current Up Next queue and start playing this playlist.") }
+  /// Picker title showed when tapping replace after showing the first Play all picker
+  internal static var playlistPlayAllReplacePickerTitle: String { return L10n.tr("Localizable", "playlist_play_all_replace_picker_title", fallback: "Replace current Up Next?") }
+  /// Toast message displayed when the current Up Next is saved
+  internal static var playlistPlayAllUpNextSaved: String { return L10n.tr("Localizable", "playlist_play_all_up_next_saved", fallback: "Up Next saved as playlist") }
+  /// Toast message displayed when the current Up Next is saved in more than one playlists
+  internal static var playlistPlayAllUpNextSavedPlural: String { return L10n.tr("Localizable", "playlist_play_all_up_next_saved_plural", fallback: "Up Next saved as playlists") }
   /// Button title used to create a new smart playlist
   internal static var playlistPreviewCreateSmartPlaylist: String { return L10n.tr("Localizable", "playlist_preview_create_smart_playlist", fallback: "Create Smart Playlist") }
   /// Used on the screen to create a new playlist. The %@ represent the placeholder for the playlist name.
@@ -2423,6 +2452,10 @@ internal enum L10n {
   internal static var playlistsOnboardingSmartTitle: String { return L10n.tr("Localizable", "playlists_onboarding_smart_title", fallback: "Filters are now Smart Playlists") }
   /// Playlist Play all button
   internal static var playlistsPlayAll: String { return L10n.tr("Localizable", "playlists_play_all", fallback: "Play all") }
+  /// The description shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropDescription: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_description", fallback: "Press and hold a playlist to move it.") }
+  /// The title shown in a Tip View when the user creates the first playlist
+  internal static var playlistsTipDragAndDropTitle: String { return L10n.tr("Localizable", "playlists_tip_drag_and_drop_title", fallback: "Reorder your playlists") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again.
   internal static var pleaseTryAgain: String { return L10n.tr("Localizable", "please_try_again", fallback: "Please try again") }
   /// A common string used throughout the app. Catch all prompt to suggest to the user to try the task again later.
@@ -2793,6 +2826,8 @@ internal enum L10n {
   internal static var podcastTomorrow: String { return L10n.tr("Localizable", "podcast_tomorrow", fallback: "Tomorrow") }
   /// Prompt to unarchive all of the selected items.
   internal static var podcastUnarchiveAll: String { return L10n.tr("Localizable", "podcast_unarchive_all", fallback: "Unarchive All") }
+  /// Indicates that the episode is unavailable server side.
+  internal static var podcastUnavailable: String { return L10n.tr("Localizable", "podcast_unavailable", fallback: "Unavailable") }
   /// Indicates that the updates to the podcast has ended on the specified date. '%1$@' is a placeholder for date that the updates ended.
   internal static func podcastUpdatesEnded(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_updates_ended", String(describing: p1), fallback: "Updates ended: %1$@")
@@ -3065,6 +3100,8 @@ internal enum L10n {
   internal static var removeAll: String { return L10n.tr("Localizable", "remove_all", fallback: "Remove All") }
   /// A common string used throughout the app. Prompt to delete the selected item(s) local file download.
   internal static var removeDownload: String { return L10n.tr("Localizable", "remove_download", fallback: "Remove Download") }
+  /// A title used for an action to remove an episode from a playlist
+  internal static var removeFromPlaylist: String { return L10n.tr("Localizable", "remove_from_playlist", fallback: "Remove from playlist") }
   /// A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue.
   internal static var removeFromUpNext: String { return L10n.tr("Localizable", "remove_from_up_next", fallback: "Remove From Up Next") }
   /// A common string used throughout the app. Prompt to remove the selected item(s) from the up next queue. Shorter form of 'Remove From Up Next' to conserve space on the Apple Watch.
@@ -3809,6 +3846,10 @@ internal enum L10n {
   }
   /// A common string used throughout the app. Often refers to the Smart Playlist.
   internal static var smartPlaylist: String { return L10n.tr("Localizable", "smart_playlist", fallback: "Smart Playlist") }
+  /// The description shown in a Tip View when the user opens the new Playlist creation view for the first time
+  internal static var smartPlaylistsTipViewCreationDescription: String { return L10n.tr("Localizable", "smart_playlists_tip_view_creation_description", fallback: "Pick episodes yourself, or let Smart Playlist fill it automatically based on your Smart Rules.") }
+  /// The title shown in a Tip View when the user opens the new Playlist creation view for the first time
+  internal static var smartPlaylistsTipViewCreationTitle: String { return L10n.tr("Localizable", "smart_playlists_tip_view_creation_title", fallback: "Build your own playlist or let us help") }
   /// The description shown in a Tip View when the user hasn't yet added a smart playlist
   internal static var smartPlaylistsTipViewDescription: String { return L10n.tr("Localizable", "smart_playlists_tip_view_description", fallback: "We made these to help you get started. They auto-update based on your listening.") }
   /// The title shown in a Tip View when the user hasn't yet added a smart playlist
@@ -4177,6 +4218,8 @@ internal enum L10n {
   internal static var watchNoEpisodes: String { return L10n.tr("Localizable", "watch_no_episodes", fallback: "No Episodes") }
   /// Label in the Apple Watch app informing the user that they haven't configured any of their filters.
   internal static var watchNoFilters: String { return L10n.tr("Localizable", "watch_no_filters", fallback: "No Filters") }
+  /// Label in the Apple Watch app informing the user that they haven't configured any playlists.
+  internal static var watchNoPlaylists: String { return L10n.tr("Localizable", "watch_no_playlists", fallback: "No Playlists") }
   /// Label in the Apple Watch app informing the user that they haven't subscribed to podcasts.
   internal static var watchNoPodcasts: String { return L10n.tr("Localizable", "watch_no_podcasts", fallback: "No Podcasts") }
   /// Subtitle text used on the now playing screen in the Watch App. Indicates there is nothing palying or paused in the app. Please leave the "\

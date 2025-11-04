@@ -94,6 +94,10 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
     }
 
     func testProcessServerDataAddsMissingEpisodesFromPlaylist() {
+        FailingURLProtocol.requestCount = 0
+        URLProtocol.registerClass(FailingURLProtocol.self)
+        defer { URLProtocol.unregisterClass(FailingURLProtocol.self) }
+
         // One existing episode, one missing
         let existing = Episode()
         existing.uuid = "exist-1"
@@ -144,5 +148,31 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         XCTAssertEqual(added?.title, "Missing from DB")
         XCTAssertEqual(added?.downloadUrl, "http://example.com/missing.mp3")
         XCTAssertEqual(added?.addedDate?.timeIntervalSince1970, 456_000)
+        XCTAssertTrue(added?.wasDeleted ?? false)
+
+        let persistedExisting = dataManager.findEpisode(uuid: existing.uuid)
+        XCTAssertNotNil(persistedExisting)
+        XCTAssertFalse(persistedExisting?.wasDeleted ?? true)
+
+        XCTAssertGreaterThanOrEqual(FailingURLProtocol.requestCount, 1)
     }
+}
+
+private final class FailingURLProtocol: URLProtocol {
+    static var requestCount = 0
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        FailingURLProtocol.requestCount += 1
+        client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
+    }
+
+    override func stopLoading() {}
 }
