@@ -24,7 +24,7 @@ struct Top5Podcasts2025Story: ShareableStory {
                     .frame(height: 30)
                 VStack(alignment: .leading, spacing: 0) {
                     podcastList()
-                        .animation(.timingCurve(0.25, 0.1, 0.25, 1.0, duration: 0.9), value: itemScale)
+                        .animation(.timingCurve(0.25, 1.0, 0.5, 1.0, duration: 1.2), value: itemScale)
                 }
                 .modify { view in
                     if renderForSharing {
