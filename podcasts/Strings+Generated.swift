@@ -2227,6 +2227,10 @@ internal enum L10n {
   internal static func playback2025ListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_listened_to_numbers", String(describing: p1), String(describing: p2), fallback: "You tuned in to %1$@ podcasts and %2$@ episodes")
   }
+  /// Playback 2025: Description for the top 5 podcasts story
+  internal static var playback2025Top5PodcastsMessage: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_message", fallback: "More favorites, more play, more you") }
+  /// Playback 2025: Title for the top 5 podcasts story
+  internal static var playback2025Top5PodcastsTitle: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_title", fallback: "Your other go-to's") }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel

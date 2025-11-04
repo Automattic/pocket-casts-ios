@@ -61,7 +61,7 @@ struct Top5Podcasts2025Story: ShareableStory {
     }
 
     @ViewBuilder var headerView: some View {
-        StoryHeader2025(title: "Your other go-to's", description: "More favorites, more play, more you")
+        StoryHeader2025(title: L10n.playback2025Top5PodcastsTitle, description: L10n.playback2025Top5PodcastsMessage)
     }
 
     @ViewBuilder func podcastList() -> some View {
