@@ -5675,6 +5675,12 @@
 /* Playback 2025: Description for the last story */
 "playback_2025_end_story_description" = "Share your Playback with friends and show some love to the podcasters who kept you company all year";
 
+/* Playback 2025: Title for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_title" = "Your other go-to's";
+
+/* Playback 2025: Description for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_message" = "More favorites, more play, more you";
+
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
 

@@ -66,7 +66,7 @@ struct NumberListened2025: ShareableStory {
                     })
                     .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
                     .scaledToFill()
-                    .scaleEffect(1.5)
+                    .scaleEffect(1.1)
                     .ignoresSafeArea()
             }
         }
