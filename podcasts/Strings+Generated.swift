@@ -2229,6 +2229,16 @@ internal enum L10n {
   }
   /// minutes listened
   internal static var playback2025ListeningTime: String { return L10n.tr("Localizable", "playback_2025_listening_time", fallback: "minutes listened") }
+  /// Playback 2025: Footer description for longest episode story: %1$@ represent the episode title and %2$@ the podcast title
+  internal static func playback2025LongestEpisodeFooter(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_longest_episode_footer", String(describing: p1), String(describing: p2), fallback: "The longest episode was “%1$@” from “%2$@”")
+  }
+  /// Playback 2025: Description for the longest episode story
+  internal static var playback2025LongestEpisodeMessage: String { return L10n.tr("Localizable", "playback_2025_longest_episode_message", fallback: "Hope you stretched first!") }
+  /// Playback 2025: Title for the longest episode story: %1$@ represent the time
+  internal static func playback2025LongestEpisodeTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_longest_episode_title", String(describing: p1), fallback: "Your marathon listen: %1$@")
+  }
   /// Playback 2025: Description for the top 5 podcasts story
   internal static var playback2025Top5PodcastsMessage: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_message", fallback: "More favorites, more play, more you") }
   /// Playback 2025: Title for the top 5 podcasts story

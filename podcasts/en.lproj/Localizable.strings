@@ -5693,6 +5693,15 @@
 /* Playback 2025: Description for the top 5 podcasts story */
 "playback_2025_top_5_podcasts_message" = "More favorites, more play, more you";
 
+/* Playback 2025: Title for the longest episode story: %1$@ represent the time */
+"playback_2025_longest_episode_title" = "Your marathon listen: %1$@";
+
+/* Playback 2025: Description for the longest episode story */
+"playback_2025_longest_episode_message" = "Hope you stretched first!";
+
+/* Playback 2025: Footer description for longest episode story: %1$@ represent the episode title and %2$@ the podcast title*/
+"playback_2025_longest_episode_footer" = "The longest episode was “%1$@” from “%2$@”";
+
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
 

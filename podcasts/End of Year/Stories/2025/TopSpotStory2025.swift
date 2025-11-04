@@ -55,7 +55,7 @@ struct TopSpotStory2025: ShareableStory {
                     Spacer()
                     let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
                     let numberPlayed = topPodcast.numberOfPlayedEpisodes
-                    StoryHeader2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
+                    StoryFooter2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
                     Spacer()
                 }
             }
