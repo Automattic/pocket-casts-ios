@@ -10,8 +10,6 @@ struct Top5Podcasts2025Story: ShareableStory {
 
     let identifier: String = "top_5_shows"
 
-    private let shapeColor = Color.green
-
     private let foregroundColor = Color.black
     private let backgroundColor = Color(hex: "#96BCD1")
 
@@ -43,8 +41,6 @@ struct Top5Podcasts2025Story: ShareableStory {
                     }
                 }
                 .disabled(!isSmallScreen) // Disable scrolling on larger where we shouldn't be clipping.
-                .frame(height: geometry.size.height * 0.65)
-                .padding(.bottom, 2)
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -100,6 +96,9 @@ fileprivate struct PodcastCellView: View {
     private var animationName: String {
         index%2 == 0 ? "2025_top_5_podcasts_a" : "2025_top_5_podcasts_b"
     }
+    private var imageSize: Double {
+        index == 0 ? 100 : 77
+    }
 
     var body: some View {
         ZStack {
@@ -116,18 +115,19 @@ fileprivate struct PodcastCellView: View {
                     .ignoresSafeArea()
                 Spacer()
             }
-            .opacity(0.4)
+            .opacity(0.5)
+
             HStack(spacing: 0) {
-                let imageSize: Double = index == 0 ? 100 : 77
                 Text("#\(index + 1)")
                     .font(.system(size: 22, weight: .semibold))
                     .padding(.horizontal, 16.0)
+
                 PodcastImage(uuid: item.podcast.uuid, size: .grid)
                     .frame(width: imageSize, height: imageSize)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
 
                 VStack(alignment: .leading, spacing: 0) {
-                    if let author = item.podcast.author {
+                    if let author = item.podcast.author, !author.isEmpty {
                         Text(author)
                             .font(.system(size: 15))
                     }
@@ -136,11 +136,9 @@ fileprivate struct PodcastCellView: View {
                             .font(.system(size: 18, weight: .medium))
                     }
                 }
+                .padding(.horizontal, 16.0)
                 Spacer()
             }
-        }
-        .background {
-            Color.yellow
         }
         .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
     }
