@@ -5687,6 +5687,12 @@
 /// Text for playback 2025 top description. %1$@ is the number of episodes and %1 is the listening time. Ex: 66 episodes, 2 days, and 3 hours. That’s commitment!
 "playback_2025_top_spot_description" = "%1$@ episodes, %2$@.\nThat’s commitment!";
 
+/* Playback 2025: Title for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_title" = "Your other go-to's";
+
+/* Playback 2025: Description for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_message" = "More favorites, more play, more you";
+
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
 
