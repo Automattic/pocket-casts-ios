@@ -749,6 +749,7 @@
 		9AF3558F2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3558E2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift */; };
 		9AF355922E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355912E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift */; };
 		9AF415042EB8FED8003D3677 /* EpilogueStory2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF415032EB8FED5003D3677 /* EpilogueStory2025.swift */; };
+		9AF415402EBA2AB3003D3677 /* LongestEpisode2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */; };
 		9AF646822E58B52900627836 /* PlaylistDetailViewController+Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */; };
 		9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */; };
 		9AF646862E58B83200627836 /* PlaylistDetailViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */; };
@@ -3085,6 +3086,7 @@
 		9AF3558E2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesContainerView.swift; sourceTree = "<group>"; };
 		9AF355912E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistEpisodePreviewRowView.swift; sourceTree = "<group>"; };
 		9AF415032EB8FED5003D3677 /* EpilogueStory2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpilogueStory2025.swift; sourceTree = "<group>"; };
+		9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestEpisode2025Story.swift; sourceTree = "<group>"; };
 		9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Observers.swift"; sourceTree = "<group>"; };
 		9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EmptyState.swift"; sourceTree = "<group>"; };
 		9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Swipe.swift"; sourceTree = "<group>"; };
@@ -8966,6 +8968,7 @@
 				FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */,
 				FFB74B0B2E99366700F16857 /* IntroStory2025.swift */,
 				9AF415032EB8FED5003D3677 /* EpilogueStory2025.swift */,
+				9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */,
 			);
 			path = 2025;
 			sourceTree = "<group>";
@@ -10854,6 +10857,7 @@
 				9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
 				FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */,
+				9AF415402EBA2AB3003D3677 /* LongestEpisode2025Story.swift in Sources */,
 				F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */,
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
 				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,

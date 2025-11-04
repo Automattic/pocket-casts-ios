@@ -89,7 +89,7 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .listeningTime:
                 return ListeningTime2024Story(listeningTime: data.listeningTime)
             case .longestEpisode:
-                return LongestEpisode2024Story(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+                return LongestEpisode2025Story(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
             case .yearOverYearListeningTime:
                 return YearOverYearCompare2024Story(subscriptionTier: SubscriptionHelper.activeTier, listeningTime: data.yearOverYearListeningTime)
             case .completionRate:
