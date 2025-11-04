@@ -63,7 +63,8 @@ class PlaylistCell: ThemeableCell {
         playlist: EpisodeFilter,
         isLastRow: Bool,
         isSelected: Binding<Bool> = .constant(false),
-        canBeDisabled: Bool = false
+        canBeDisabled: Bool = false,
+        analyticsSource: String? = nil
     ) {
         switch cellType {
         case .count, .plain:
@@ -79,7 +80,8 @@ class PlaylistCell: ThemeableCell {
                     displayType: cellType
                 ),
                 isSelected: isSelected,
-                canBeDisabled: canBeDisabled
+                canBeDisabled: canBeDisabled,
+                analyticsSource: analyticsSource
             )
             .environmentObject(Theme.sharedTheme)
             .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)

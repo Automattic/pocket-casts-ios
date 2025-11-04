@@ -95,7 +95,7 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .completionRate:
                 return CompletionRate2024Story(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
             case .epilogue:
-                return EpilogueStory2024()
+                return EpilogueStory2025()
         }
     }
 

@@ -1951,6 +1951,9 @@ Pocket Casts。</string>
     <string>查看您的收听统计数据、热门播客等。</string>
     <key>playback_2025_feature_title</key>
     <string>2025 年播放记录</string>
+    <key>playback_2025_intro_message</key>
+    <string>欢迎使用播放功能！
+致敬您这一年的播客时光。</string>
     <key>playback_2025_view_year</key>
     <string>查看我的 2025 年播放记录</string>
     <key>playback_effect_all_podcasts</key>
@@ -2047,6 +2050,8 @@ Pocket Casts。</string>
     <string>生成智能播放列表</string>
     <key>playlist_detail_description</key>
     <string>%1$@ 集 • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 集 • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 集已添加至"%@"</string>
     <key>playlist_episodes_added_title</key>
@@ -2057,6 +2062,12 @@ Pocket Casts。</string>
     <string>播放列表已满。 尝试创建一个新播放列表</string>
     <key>playlist_manual_add_episodes</key>
     <string>添加剧集</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>您在此播放列表中的剧集已存档</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>此播放列表中的所有 %1$@ 集剧集均已存档</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>浏览播客</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>向左滑动剧集即可将其添加到您的播放列表。</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2078,8 @@ Pocket Casts。</string>
     <string>添加至播放列表</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>重新排序剧集</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>所有剧集已存档。 添加或取消存档即可播放。</string>
     <key>playlist_options</key>
     <string>播放列表选项</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2116,12 @@ Pocket Casts。</string>
     <string>播放列表</string>
     <key>playlists_default_new_playlist</key>
     <string>新播放列表</string>
+    <key>playlists_delete</key>
+    <string>删除播放列表</string>
+    <key>playlists_delete_alert_message</key>
+    <string>是否确定要删除您的播放列表？ 一经删除，将无法撤销。</string>
+    <key>playlists_delete_alert_title</key>
+    <string>删除播放列表？</string>
     <key>playlists_empty_state_description</key>
     <string>播放列表支持手动整理剧集，也可通过智能规则实现自动管理。</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2134,8 @@ Pocket Casts。</string>
     <string>功能依旧，体验不变，通过规则自动添加剧集。 您现有的所有筛选器仍保留在此，除名称外没有任何变化。</string>
     <key>playlists_onboarding_smart_title</key>
     <string>筛选器现已变更为智能播放列表</string>
+    <key>playlists_play_all</key>
+    <string>播放全部</string>
     <key>please_try_again</key>
     <string>请重试</string>
     <key>please_try_again_later</key>
@@ -3065,12 +3086,16 @@ Pocket Casts。</string>
     <string>选择过滤器</string>
     <key>settings_select_filters_plural</key>
     <string>选择过滤器</string>
+    <key>settings_select_playlist_singular</key>
+    <string>选择播放列表</string>
     <key>settings_select_playlists_plural</key>
     <string>选择播放列表</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>选择智能播放列表</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>打开过滤器</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>打开播放列表</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>播放所有剧集</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3112,8 @@ Pocket Casts。</string>
     <string>已启用的快捷方式</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>特定过滤器的快捷方式</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>特定播放列表的快捷访问方式</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>特定播客的快捷方式</string>
     <key>settings_skip_first</key>

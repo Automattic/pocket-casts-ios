@@ -179,7 +179,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             button.isPointerInteractionEnabled = true
             button.imageView?.tintColor = ThemeColor.playerContrast02()
             button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
-            button.addTarget(self, action: #selector(presentManualPlaylistsChooser), for: .touchUpInside)
+            button.addTarget(self, action: #selector(presentManualPlaylistsChooser(_:)), for: .touchUpInside)
             button.accessibilityLabel = L10n.playlistManualEpisodeAddToPlaylist
 
             addToShelf(on: button)
@@ -423,6 +423,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     // MARK: - Manual Playlists
 
+    @objc func presentManualPlaylistsChooser(_ sender: UIButton) {
+#if !APPCLIP
+        shelfButtonTapped(.addToPlaylist)
+        presentManualPlaylistsChooser()
+#endif
+    }
+
     @objc func presentManualPlaylistsChooser() {
 #if !APPCLIP
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
@@ -430,7 +437,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         NavigationManager.sharedManager.navigateTo(
             NavigationManager.manualPlaylistsChooserKey,
             data: [
-                NavigationManager.manualPlaylistsChooserEpisodeKey: episode
+                NavigationManager.manualPlaylistsChooserEpisodeKey: episode,
+                NavigationManager.manualPlaylistsChooserSourceKey: "shelf"
             ]
         )
 #endif

@@ -185,6 +185,17 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
     }
 
+    func findEpisodes(with term: String, podcastUUID: String, dbQueue: PCDBQueue) -> [Episode] {
+        let escapedSearch = term.escapeLike(escapeChar: "\\")
+        let query = """
+        (UPPER(title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\' AND
+        podcastUuid = ? AND wasDeleted = 0)
+        ORDER BY publishedDate DESC, addedDate DESC
+        """
+
+        return findEpisodesWhere(customWhere: query, arguments: [escapedSearch, podcastUUID], dbQueue: dbQueue)
+    }
+
     func findPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: PCDBQueue) -> [Episode] {
         loadMultiple(query: query, values: arguments, dbQueue: dbQueue)
     }
@@ -214,6 +225,24 @@ class EpisodeDataManager {
         let episodeTableName = DataManager.episodeTableName
 
         return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+    }
+
+    func allUpNextEpisodes(from uuids: [String], dbQueue: PCDBQueue) -> [Episode] {
+        let placeholders = uuids.map { "'\($0)'" }.joined(separator: ", ")
+        let upNextTableName = DataManager.playlistEpisodeTableName
+        let episodeTableName = DataManager.episodeTableName
+        return loadMultiple(
+            query: """
+            SELECT DISTINCT \(episodeTableName).*
+            FROM \(upNextTableName)
+            JOIN \(episodeTableName)
+            ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid
+            WHERE \(episodeTableName).uuid IN (\(placeholders))
+            ORDER BY \(upNextTableName).episodePosition ASC
+            """,
+            values: nil,
+            dbQueue: dbQueue
+        )
     }
 
     private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> Episode? {

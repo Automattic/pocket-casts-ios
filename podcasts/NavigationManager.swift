@@ -82,6 +82,7 @@ class NavigationManager {
     static let manualPlaylistsChooserKey = "manualPlaylistsChooserKey"
     static let manualPlaylistsChooserEpisodeKey = "manualPlaylistsChooserEpisodeKey"
     static let manualPlaylistsChooserRootKey = "manualPlaylistsChooserRootKey"
+    static let manualPlaylistsChooserSourceKey = "manualPlaylistsChooserSourceKey"
 
     static let sharedManager = NavigationManager()
 
@@ -252,7 +253,8 @@ class NavigationManager {
         } else if place == NavigationManager.manualPlaylistsChooserKey {
             if let episode = data?[NavigationManager.manualPlaylistsChooserEpisodeKey] as? Episode {
                 let root = data?[NavigationManager.manualPlaylistsChooserRootKey] as? UIViewController
-                mainController?.presentManualPlaylistsChooser(for: episode, rootViewController: root)
+                let source = data?[NavigationManager.manualPlaylistsChooserSourceKey] as? String ?? "swipe"
+                mainController?.presentManualPlaylistsChooser(for: episode, rootViewController: root, source: source)
             }
         }
     }

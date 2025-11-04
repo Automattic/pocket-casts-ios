@@ -164,6 +164,10 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    public func allUpNextEpisodes(from uuids: [String]) -> [Episode] {
+        episodeManager.allUpNextEpisodes(from: uuids, dbQueue: dbQueue)
+    }
+
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
@@ -501,6 +505,10 @@ public class DataManager {
 
     public func findEpisodesWhere(customWhere: String, arguments: [Any]?) -> [Episode] {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
+    }
+
+    public func findEpisodes(with term: String, podcastUUID: String) -> [Episode] {
+        episodeManager.findEpisodes(with: term, podcastUUID: podcastUUID, dbQueue: dbQueue)
     }
 
     public func findPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
@@ -974,7 +982,8 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
-    public func add(episodes: [Episode], to playlist: EpisodeFilter) {
+    @discardableResult
+    public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
 

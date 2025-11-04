@@ -34,6 +34,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
     var previouslyDisplayedDetail = false
+    var presentingPlaylistDetail: Bool = false
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -60,9 +61,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
         let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
-        let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
+        let viewModel = InformationalBannerViewModel(bannerType: .filters, invertedColor: invertedColor)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
@@ -195,10 +195,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
         previouslyDisplayedDetail = true
+        presentingPlaylistDetail = true
 
         let viewController: UIViewController
         if FeatureFlag.playlistsRebranding.enabled {
-            viewController = PlaylistDetailViewController(playlist: filter)
+            viewController = PlaylistDetailViewController(playlist: filter, delegate: self)
         } else {
             let playlistViewController = PlaylistViewController(filter: filter)
             playlistViewController.isNewFilter = isNew ?? false
