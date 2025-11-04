@@ -13,7 +13,7 @@ struct Top5Podcasts2025Story: ShareableStory {
     private let foregroundColor = Color.black
     private let backgroundColor = Color(hex: "#96BCD1")
 
-    @State private var itemScale: Double = 0.8
+    @State private var itemScale: Double = 0.9
 
     var body: some View {
         GeometryReader { geometry in
@@ -24,7 +24,7 @@ struct Top5Podcasts2025Story: ShareableStory {
                     .frame(height: 30)
                 VStack(alignment: .leading, spacing: 0) {
                     podcastList()
-                        .animation(.timingCurve(0.25, 1.0, 0.5, 1.0, duration: 1.2), value: itemScale)
+                        .animation(.timingCurve(0.12, 0.49, 0.38, 1.0, duration: 1), value: itemScale)
                 }
                 .modify { view in
                     if renderForSharing {
@@ -139,7 +139,7 @@ fileprivate struct PodcastCellView: View {
                 .padding(.horizontal, 16.0)
                 Spacer()
             }
+            .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
         }
-        .scaleEffect(x: itemScale, y: itemScale, anchor: .leading)
     }
 }
