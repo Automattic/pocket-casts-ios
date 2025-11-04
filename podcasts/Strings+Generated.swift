@@ -2213,6 +2213,10 @@ internal enum L10n {
   }
   /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
   internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// Playback 2025: Description for the last story
+  internal static var playback2025EndStoryDescription: String { return L10n.tr("Localizable", "playback_2025_end_story_description", fallback: "Share your Playback with friends and show some love to the podcasters who kept you company all year") }
+  /// Playback 2025: Title for the last story
+  internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
   /// Playback 2025
