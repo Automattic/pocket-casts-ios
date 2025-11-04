@@ -2211,6 +2211,14 @@ internal enum L10n {
   internal static func playback2024YearOverYearCompareTitleUpOver500(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_year_over_year_compare_title_up_over_500", String(describing: p1), fallback: "Compared to 2023, your listening time went up more than %1$@")
   }
+  /// Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count
+  internal static func playback2025CompletionRateMessage(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_completion_rate_message", String(describing: p1), String(describing: p2), fallback: "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships")
+  }
+  /// Playback 2025: Title for the completion rate story: %1$@ represent the percentage of completion rate, like 10%
+  internal static func playback2025CompletionRateTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_completion_rate_title", String(describing: p1), fallback: "Your completion rate was %1$@")
+  }
   /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
   internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
   /// Playback 2025: Description for the last story
@@ -2227,7 +2235,7 @@ internal enum L10n {
   internal static func playback2025ListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_listened_to_numbers", String(describing: p1), String(describing: p2), fallback: "You tuned in to %1$@ podcasts and %2$@ episodes")
   }
-  /// Playback 2025: Footer description for longest episode story: %1$@ represent the episode title and %2$@ the podcast title
+  /// Playback 2025: Footer description for the longest episode story: %1$@ represent the episode title and %2$@ the podcast title
   internal static func playback2025LongestEpisodeFooter(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_longest_episode_footer", String(describing: p1), String(describing: p2), fallback: "The longest episode was “%1$@” from “%2$@”")
   }
