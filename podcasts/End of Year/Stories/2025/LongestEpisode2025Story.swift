@@ -22,10 +22,11 @@ struct LongestEpisode2025Story: ShareableStory {
                 .frame(height: 80)
             PodcastCover(podcastUuid: podcast.uuid)
                 .frame(width: 196, height: 196)
-            Spacer()
-            footerView
-            Spacer()
-                .frame(height: 87)
+            VStack {
+                Spacer()
+                footerView
+                Spacer()
+            }
         }
         .background {
             LottieView(animation: .named("2025_longest_episode"))
