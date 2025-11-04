@@ -5,17 +5,15 @@ struct StoryHeader2025: View {
     let title: String?
     let description: String?
     let subscriptionTier: SubscriptionTier?
-    let addTopPadding: Bool
 
-    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil, addTopPadding: Bool = true) {
+    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil) {
         self.title = title
         self.description = description
         self.subscriptionTier = subscriptionTier
-        self.addTopPadding = addTopPadding
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 8) {
+        VStack(spacing: 8) {
             HStack { Spacer() }
             if let subscriptionTier {
                 SubscriptionBadge2024(subscriptionTier: subscriptionTier)
@@ -33,8 +31,6 @@ struct StoryHeader2025: View {
         }
         .minimumScaleFactor(0.9)
         .padding(.horizontal, 24)
-        .if(addTopPadding) { content in
-            content.padding(.top, UIScreen.isSmallScreen ? 80 : 110)
-        }
+        .padding(.top, 110)
     }
 }
