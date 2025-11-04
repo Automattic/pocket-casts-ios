@@ -23,9 +23,9 @@ struct LongestEpisode2025Story: ShareableStory {
             PodcastCover(podcastUuid: podcast.uuid)
                 .frame(width: 196, height: 196)
             Spacer()
-            StoryFooter2025(description: L10n.playback2024LongestEpisodeDescription(episode.title ?? "unknown", podcast.title ?? "unknown"))
+            footerView
             Spacer()
-                .frame(height: 40)
+                .frame(height: 87)
         }
         .background {
             LottieView(animation: .named("2025_longest_episode"))
@@ -44,8 +44,16 @@ struct LongestEpisode2025Story: ShareableStory {
     @ViewBuilder var headerView: some View {
         let timeString = episode.playedUpTo.storyTimeDescriptionForSharing
         StoryHeader2025(
-            title: "Your marathon listen: \(timeString)",
-            description: "Hope you stretched first!"
+            title: L10n.playback2025LongestEpisodeTitle(timeString),
+            description: L10n.playback2025LongestEpisodeMessage
+        )
+    }
+
+    @ViewBuilder var footerView: some View {
+        let episode = episode.title ?? "unknown"
+        let podcast = podcast.title ?? "unknown"
+        StoryFooter2025(
+            description: L10n.playback2025LongestEpisodeFooter(episode, podcast)
         )
     }
 
