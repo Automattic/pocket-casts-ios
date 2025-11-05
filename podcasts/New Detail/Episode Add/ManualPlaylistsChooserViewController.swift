@@ -167,7 +167,6 @@ class ManualPlaylistsChooserViewController: PCViewController {
             }
             if removed.contains(playlist.uuid) {
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
-                changedPlaylists.insert(playlist)
             }
         }
 
