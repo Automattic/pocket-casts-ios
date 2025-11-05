@@ -131,6 +131,9 @@ final class LocalSearchCoordinator {
 
 
         let didAdd = dataManager.add(episodes: [episode], to: playlist)
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        dataManager.save(playlist: playlist)
+
         let isFull = !didAdd
 
         Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": isFull])
