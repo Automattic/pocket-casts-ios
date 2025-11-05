@@ -220,6 +220,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
                 let episodeUuid = selectedEpisode.uuid
                 let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
                     guard let self else { return }
+                    self.track(.filterRemoveFromPlaylistTapped)
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
                 BottomSheetSwiftUIWrapper.present(

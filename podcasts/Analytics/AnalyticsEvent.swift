@@ -342,6 +342,8 @@ enum AnalyticsEvent: String {
     case filterShowArchivedTapped
     case filterHideArchivedTapped
 
+    case filterRemoveFromPlaylistTapped
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
