@@ -27,7 +27,7 @@ struct PlaylistHeaderView: View {
             VStack {
                 HStack {
                     Spacer()
-                    PlaylistArtworkView(items: viewModel.images, imageSize: 192)
+                    PlaylistArtworkView(items: viewModel.images, cornerRadius: 8)
                         .frame(width: 192.0, height: 192.0)
                         .padding(.top, 5.0)
                         .shadow(color: .black.opacity(0.2), radius: 30, x: 0, y: 2)
@@ -43,7 +43,7 @@ struct PlaylistHeaderView: View {
                     Text(description)
                         .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(theme.secondaryText02)
+                        .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.center)
                 }
                 .padding(.top, 20.0)
