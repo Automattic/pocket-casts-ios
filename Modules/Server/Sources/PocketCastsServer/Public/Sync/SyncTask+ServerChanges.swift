@@ -355,6 +355,7 @@ extension SyncTask {
             let serverSet = Set(playlistItem.episodeOrder)
             let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
             let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+            let episodesToDelete = Set(matchedEpisodes).subtracting(serverSet)
 
             let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
                 let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
@@ -377,6 +378,10 @@ extension SyncTask {
                 }
 
                 DataManager.sharedManager.save(episode: episode)
+            }
+
+            if episodesToDelete.count > 0 {
+                DataManager.sharedManager.rawDeleteEpisodes(Array(episodesToDelete), from: playlist)
             }
 
             let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
