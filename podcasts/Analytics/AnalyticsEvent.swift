@@ -298,6 +298,8 @@ enum AnalyticsEvent: String {
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
+    case filterSelectAll
+    case filterDeselectAll
     case filterSelectAllAbove
     case filterSelectAllBelow
     case filterMultiSelectExited

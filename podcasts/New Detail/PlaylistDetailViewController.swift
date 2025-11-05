@@ -76,7 +76,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     if self.viewModel.isSearching {
                         self.searchController.searchTextField.resignFirstResponder()
                     }
-                    Analytics.track(.filterMultiSelectEntered)
+                    self.track(.filterMultiSelectEntered)
                     if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                         self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
                     }
@@ -96,7 +96,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     // Adjusts multiSelectHeaderView based on screen width
                     self.setMultiSelectHeaderViewConstraint()
                 } else {
-                    Analytics.track(.filterMultiSelectExited)
+                    self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true
                     self.multiSelectHeaderView.isHidden = true
                     self.selectedEpisodes.removeAll()

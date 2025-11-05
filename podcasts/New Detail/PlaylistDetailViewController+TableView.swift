@@ -28,14 +28,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    Analytics.track(.filterSelectAllAbove)
-                    self.tableView.selectAllAbove(indexPath: indexPath)
+                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [weak self] in
+                    self?.track(.filterSelectAllAbove)
+                    self?.tableView.selectAllAbove(indexPath: indexPath)
                 })
 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    Analytics.track(.filterSelectAllBelow)
-                    self.tableView.selectAllBelow(indexPath: indexPath)
+                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [weak self] in
+                    self?.track(.filterSelectAllBelow)
+                    self?.tableView.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
