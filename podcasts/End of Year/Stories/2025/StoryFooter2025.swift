@@ -13,10 +13,10 @@ struct StoryFooter2025: View {
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 16) {
+        VStack(spacing: 16) {
             HStack { Spacer() }
             if let subscriptionTier {
-                SubscriptionBadge2024(subscriptionTier: subscriptionTier)
+                SubscriptionBadge2025(subscriptionTier: subscriptionTier)
             }
             if let title {
                 Text(title)

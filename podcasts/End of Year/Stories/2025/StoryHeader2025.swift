@@ -14,9 +14,9 @@ struct StoryHeader2025: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack { Spacer() }
             if let subscriptionTier {
-                SubscriptionBadge2024(subscriptionTier: subscriptionTier)
+                SubscriptionBadge2025(subscriptionTier: subscriptionTier)
+                    .padding(.bottom, 8)
             }
             if let title {
                 Text(title)
@@ -29,8 +29,20 @@ struct StoryHeader2025: View {
                     .multilineTextAlignment(.center)
             }
         }
-        .minimumScaleFactor(0.9)
         .padding(.horizontal, 24)
-        .padding(.top, 110)
+        .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
+    }
+}
+
+struct StoryHeader2025_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            StoryHeader2025(title: "This is the title")
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", subscriptionTier: .plus)
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", subscriptionTier: .patron)
+            Spacer()
+        }
+        .padding(.horizontal, 24)
     }
 }

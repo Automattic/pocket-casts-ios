@@ -18,7 +18,7 @@ struct Top5Podcasts2025Story: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             let isSmallScreen = geometry.size.height <= 700
-            VStack(alignment: .leading) {
+            VStack {
                 headerView
                 Spacer()
                     .frame(height: 30)
