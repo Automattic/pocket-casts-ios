@@ -158,13 +158,22 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         FileLog.shared.console("Added \(added), removed \(removed)")
 
+        var changedPlaylists: Set<EpisodeFilter> = []
+
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
                 dataManager.add(episodes: [episode], to: playlist)
+                changedPlaylists.insert(playlist)
             }
             if removed.contains(playlist.uuid) {
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
+                changedPlaylists.insert(playlist)
             }
+        }
+
+        changedPlaylists.forEach { playlist in
+            playlist.syncStatus = SyncStatus.notSynced.rawValue
+            DataManager.sharedManager.save(playlist: playlist)
         }
 
         dismiss(animated: true, completion: nil)
