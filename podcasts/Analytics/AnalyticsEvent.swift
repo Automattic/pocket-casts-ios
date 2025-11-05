@@ -339,6 +339,9 @@ enum AnalyticsEvent: String {
     case filterUnarchiveAllTapped
     case filterRearrangeEpisodesTapped
 
+    case filterShowArchivedTapped
+    case filterHideArchivedTapped
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 

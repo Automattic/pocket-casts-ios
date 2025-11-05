@@ -70,6 +70,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
             guard let self = self else { return }
 
+            self.track(selected ? .filterShowArchivedTapped : .filterHideArchivedTapped)
             self.viewModel.updateShowArchivedEpisodes(show: selected)
             self.viewModel.reloadEpisodeList(animated: true)
         }
