@@ -43,7 +43,7 @@ struct PlaylistHeaderView: View {
                     Text(description)
                         .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(theme.secondaryText02)
+                        .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.center)
                 }
                 .padding(.top, 20.0)
