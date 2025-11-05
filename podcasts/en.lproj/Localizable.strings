@@ -5699,8 +5699,14 @@
 /* Playback 2025: Description for the longest episode story */
 "playback_2025_longest_episode_message" = "Hope you stretched first!";
 
-/* Playback 2025: Footer description for longest episode story: %1$@ represent the episode title and %2$@ the podcast title*/
+/* Playback 2025: Footer description for the longest episode story: %1$@ represent the episode title and %2$@ the podcast title */
 "playback_2025_longest_episode_footer" = "The longest episode was “%1$@” from “%2$@”";
+
+/* Playback 2025: Title for the completion rate story: %1$@ represent the percentage of completion rate, like 10% */
+"playback_2025_completion_rate_title" = "Your completion rate was %1$@";
+
+/* Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count */
+"playback_2025_completion_rate_message" = "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships";
 
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";

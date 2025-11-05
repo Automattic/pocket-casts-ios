@@ -755,6 +755,13 @@
 		9AF415402EBA2AB3003D3677 /* LongestEpisode2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */; };
 		9AF415462EBA2E23003D3677 /* StoryFooter2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF415452EBA2E20003D3677 /* StoryFooter2025.swift */; };
 		9AF4154C2EBA301E003D3677 /* 2025_longest_episode.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF4154B2EBA301E003D3677 /* 2025_longest_episode.json */; };
+		9AF4157E2EBA6623003D3677 /* SubscriptionBadge2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */; };
+		9AF415802EBA67B1003D3677 /* CompletionRate2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4157F2EBA67AD003D3677 /* CompletionRate2025Story.swift */; };
+		9AF415862EBA69B3003D3677 /* 2025_completion_rate_20.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF415812EBA69B3003D3677 /* 2025_completion_rate_20.json */; };
+		9AF415872EBA69B3003D3677 /* 2025_completion_rate_100.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF415852EBA69B3003D3677 /* 2025_completion_rate_100.json */; };
+		9AF415882EBA69B3003D3677 /* 2025_completion_rate_40.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF415822EBA69B3003D3677 /* 2025_completion_rate_40.json */; };
+		9AF415892EBA69B3003D3677 /* 2025_completion_rate_60.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF415832EBA69B3003D3677 /* 2025_completion_rate_60.json */; };
+		9AF4158A2EBA69B3003D3677 /* 2025_completion_rate_80.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF415842EBA69B3003D3677 /* 2025_completion_rate_80.json */; };
 		9AF646822E58B52900627836 /* PlaylistDetailViewController+Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */; };
 		9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */; };
 		9AF646862E58B83200627836 /* PlaylistDetailViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */; };
@@ -3102,6 +3109,13 @@
 		9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongestEpisode2025Story.swift; sourceTree = "<group>"; };
 		9AF415452EBA2E20003D3677 /* StoryFooter2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFooter2025.swift; sourceTree = "<group>"; };
 		9AF4154B2EBA301E003D3677 /* 2025_longest_episode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_longest_episode.json; sourceTree = "<group>"; };
+		9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionBadge2025.swift; sourceTree = "<group>"; };
+		9AF4157F2EBA67AD003D3677 /* CompletionRate2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionRate2025Story.swift; sourceTree = "<group>"; };
+		9AF415812EBA69B3003D3677 /* 2025_completion_rate_20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_completion_rate_20.json; sourceTree = "<group>"; };
+		9AF415822EBA69B3003D3677 /* 2025_completion_rate_40.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_completion_rate_40.json; sourceTree = "<group>"; };
+		9AF415832EBA69B3003D3677 /* 2025_completion_rate_60.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_completion_rate_60.json; sourceTree = "<group>"; };
+		9AF415842EBA69B3003D3677 /* 2025_completion_rate_80.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_completion_rate_80.json; sourceTree = "<group>"; };
+		9AF415852EBA69B3003D3677 /* 2025_completion_rate_100.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_completion_rate_100.json; sourceTree = "<group>"; };
 		9AF646812E58B52300627836 /* PlaylistDetailViewController+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Observers.swift"; sourceTree = "<group>"; };
 		9AF646832E58B5C200627836 /* PlaylistDetailViewController+EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+EmptyState.swift"; sourceTree = "<group>"; };
 		9AF646852E58B82C00627836 /* PlaylistDetailViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Swipe.swift"; sourceTree = "<group>"; };
@@ -6828,6 +6842,11 @@
 			isa = PBXGroup;
 			children = (
 				FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */,
+				9AF415812EBA69B3003D3677 /* 2025_completion_rate_20.json */,
+				9AF415822EBA69B3003D3677 /* 2025_completion_rate_40.json */,
+				9AF415832EBA69B3003D3677 /* 2025_completion_rate_60.json */,
+				9AF415842EBA69B3003D3677 /* 2025_completion_rate_80.json */,
+				9AF415852EBA69B3003D3677 /* 2025_completion_rate_100.json */,
 				9AF4154B2EBA301E003D3677 /* 2025_longest_episode.json */,
 				9AF4152B2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json */,
 				9AF4152C2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json */,
@@ -8990,6 +9009,7 @@
 			isa = PBXGroup;
 			children = (
 				FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */,
+				9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */,
 				FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */,
 				9AF415452EBA2E20003D3677 /* StoryFooter2025.swift */,
 				FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */,
@@ -8997,6 +9017,7 @@
 				9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */,
 				9AF415032EB8FED5003D3677 /* EpilogueStory2025.swift */,
 				9AF4153F2EBA2AAE003D3677 /* LongestEpisode2025Story.swift */,
+				9AF4157F2EBA67AD003D3677 /* CompletionRate2025Story.swift */,
 			);
 			path = 2025;
 			sourceTree = "<group>";
@@ -9749,6 +9770,11 @@
 				C7D8137E2A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@2x.png in Resources */,
 				40A4FCD1221938A700252170 /* SinglePodcastViewController.xib in Resources */,
 				BD1292CE22F7CD83004608A6 /* AppIcon-Plus40x40@2x.png in Resources */,
+				9AF415862EBA69B3003D3677 /* 2025_completion_rate_20.json in Resources */,
+				9AF415872EBA69B3003D3677 /* 2025_completion_rate_100.json in Resources */,
+				9AF415882EBA69B3003D3677 /* 2025_completion_rate_40.json in Resources */,
+				9AF415892EBA69B3003D3677 /* 2025_completion_rate_60.json in Resources */,
+				9AF4158A2EBA69B3003D3677 /* 2025_completion_rate_80.json in Resources */,
 				FFFCD23F2C7768F900A345ED /* Referrals.xcassets in Resources */,
 				BD1292E722F7D066004608A6 /* AppIcon-Classic60x60@3x.png in Resources */,
 				BD12927C22F7CCC9004608A6 /* AppIcon-Electric-Blue40x40@2x.png in Resources */,
@@ -10989,6 +11015,7 @@
 				FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */,
 				8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */,
 				FF267FBA2E16E1990004EF02 /* UpgradeFeaturesView.swift in Sources */,
+				9AF415802EBA67B1003D3677 /* CompletionRate2025Story.swift in Sources */,
 				C76400552A0EDFB90092A74B /* UserInfo.swift in Sources */,
 				F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */,
 				46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */,
@@ -11439,6 +11466,7 @@
 				40A0A91124B5FE5300C29362 /* UITableView+MultiSelect.swift in Sources */,
 				BDC6DEBC1CBCD6C80030491D /* ReorderableFlowLayout.swift in Sources */,
 				F59503B42C93590A007FB3C8 /* ActivityItemSourceItem.swift in Sources */,
+				9AF4157E2EBA6623003D3677 /* SubscriptionBadge2025.swift in Sources */,
 				BD4098821B9EFF6E007F36BD /* PlayBufferManager.swift in Sources */,
 				4051A5812281B38100C13C12 /* NewsletterCell.swift in Sources */,
 				408426352134CBE60076D82E /* SmallListCell.swift in Sources */,

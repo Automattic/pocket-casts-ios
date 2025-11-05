@@ -43,6 +43,14 @@ class PlaylistDetailViewModel: ObservableObject {
         isManualPlaylist ? 3 : 2
     }
 
+    var isPlaylistFull: Bool {
+#if DEBUG
+        playlistEpisodesCount >= Settings.debugPlaylistsLimit
+#else
+        playlistEpisodesCount >= Constants.Limits.maxFilterItems
+#endif
+    }
+
     @Published private(set) var dataSource: DataSourceValue = []
     @Published var images: [PlaylistArtworkView.ImageItem] = []
     @Published var playlistEpisodesCount: Int = 0
@@ -58,6 +66,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private let imageManager: ImageManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private var tempEpisodes: [ListEpisode] = []
+    private let artworkImagesLimit = 4
 
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -97,7 +106,7 @@ class PlaylistDetailViewModel: ObservableObject {
                         self.isLoadingData = false
                     }
                 } else {
-                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: 4)
+                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: self.artworkImagesLimit)
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
@@ -265,7 +274,7 @@ class PlaylistDetailViewModel: ObservableObject {
                        let url = URL(string: imageUrl) {
                         return PlaylistArtworkView.ImageItem(id: episode.episode.uuid, url: url)
                     }
-                    let url = self.imageManager.podcastUrl(imageSize: .grid, uuid: episode.episode.podcastUuid)
+                    let url = self.imageManager.podcastUrl(imageSize: .detail, uuid: episode.episode.podcastUuid)
                     return PlaylistArtworkView.ImageItem(id: episode.episode.podcastUuid, url: url)
                 }
             }
@@ -307,6 +316,10 @@ class PlaylistDetailViewModel: ObservableObject {
                     break
                 }
             }
+        }
+
+        if !list.isEmpty, list.count < limit {
+            return Array(list.prefix(1))
         }
         return list
     }

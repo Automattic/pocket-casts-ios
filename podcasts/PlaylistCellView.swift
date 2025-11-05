@@ -66,7 +66,7 @@ struct PlaylistCellView: View {
                 .frame(width: 56.0, height: 56.0)
                 .padding(.leading, 16.0)
             } else {
-                PlaylistArtworkView(items: viewModel.images, imageSize: 168)
+                PlaylistArtworkView(items: viewModel.images)
                     .frame(width: 56.0, height: 56.0)
                     .padding(.leading, 16.0)
             }
