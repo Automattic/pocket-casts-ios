@@ -109,7 +109,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                 title: L10n.episodeFilterNoEpisodesTitle,
                 message: archivedPlaceholder.message,
                 actions: [
-                    .init(title: L10n.podcastShowArchived, action: {
+                    .init(title: L10n.podcastShowArchived, action: { [weak self] in
+                        self?.track(.filterShowArchivedCtaEmptyTapped)
                         onToggleChange(true)
                     })
                 ]
