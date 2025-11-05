@@ -172,7 +172,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         changedPlaylists.forEach { playlist in
             playlist.syncStatus = SyncStatus.notSynced.rawValue
-            DataManager.sharedManager.save(playlist: playlist)
+            dataManager.save(playlist: playlist)
         }
 
         dismiss(animated: true, completion: nil)
