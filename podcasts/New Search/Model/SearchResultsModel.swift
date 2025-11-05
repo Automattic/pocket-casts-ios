@@ -228,7 +228,7 @@ class SearchResultsModel: ObservableObject {
     }
 
     private func show(predictiveResults: [PredictiveSearchResult]) {
-        isShowingPredictiveSearch = true
+        isShowingPredictiveSearch = !predictiveResults.isEmpty
         predictive = predictiveResults
     }
 
