@@ -73,7 +73,7 @@ extension EpisodeFilter {
 
         let items = PlaylistCellViewModel.gridArtworkItems(from: episodes, limit: 4) { $0.podcastUuid }
 
-        return PlaylistArtworkView(items: items, imageSize: 168)
+        return PlaylistArtworkView(items: items)
             .frame(width: 56.0, height: 56.0)
             .environmentObject(Theme(previewTheme: carPlayPreviewTheme()))
             .snapshot()
