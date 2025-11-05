@@ -78,11 +78,14 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filterToEdit)
 
         if isViewingShortcuts == false {
-            Analytics.track(.filterEditDismissed, properties: ["did_change_name": didChangeName,
-                                                               "did_change_color": didChangeColor,
-                                                               "did_change_icon": didChangeIcon,
-                                                               "did_change_auto_download": didChangeAutoDownload,
-                                                               "did_change_episode_count": didChangeEpisodeCount])
+            var properties = ["did_change_name": didChangeName,
+                              "did_change_auto_download": didChangeAutoDownload,
+                              "did_change_episode_count": didChangeEpisodeCount]
+            if !Self.playlistRebrandingIsEnabled {
+                properties["did_change_color"] = didChangeColor
+                properties["did_change_icon"] = didChangeIcon
+            }
+            track(.filterEditDismissed, properties: properties)
         }
     }
 
@@ -223,7 +226,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     @objc private func switchChanged(_ sender: UISwitch) {
-        Analytics.track(.filterAutoDownloadUpdated, properties: ["enabled": sender.isOn, "source": AnalyticsSource.filters])
+        track(.filterAutoDownloadUpdated, properties: ["enabled": sender.isOn, "source": AnalyticsSource.filters])
         filterToEdit.autoDownloadEpisodes = sender.isOn
         didChangeAutoDownload = true
         tableView.reloadData()
@@ -239,6 +242,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         textField.resignFirstResponder()
+        track(.filterNameUpdated)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -275,7 +279,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
     private func addAutoLimitOption(optionPicker: OptionsPicker, limit: Int32, currentLimit: Int32) {
         let action = OptionAction(label: L10n.episodeCountPluralFormat(limit.localized()), selected: currentLimit == limit) { [weak self] in
-            Analytics.track(.filterAutoDownloadLimitUpdated, properties: ["limit": limit])
+            self?.track(.filterAutoDownloadLimitUpdated, properties: ["limit": limit])
             self?.didChangeEpisodeCount = true
             self?.filterToEdit.autoDownloadLimit = limit
             self?.tableView.reloadData()
@@ -312,5 +316,11 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         alert.addAction(cancelAction)
 
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
+    var analyticsSourceType: String {
+        filterToEdit.manual ? "manual" : "smart"
     }
 }

@@ -346,6 +346,15 @@ enum AnalyticsEvent: String {
 
     case filterRemoveFromPlaylistTapped
 
+    case filterNameUpdated
+
+//    case filterAutoDownloadUpdated
+//    case filterAutoDownloadLimitUpdated
+
+    //    case filterSiriShortcutsShown
+//    case filterSiriShortcutAdded
+//    case filterSiriShortcutRemoved
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 

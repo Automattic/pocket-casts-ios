@@ -1,18 +1,27 @@
 import Foundation
+import PocketCastsUtils
 
-extension PlaylistDetailViewController: AnalyticsSourceProvider {
+protocol PlaylistTypeTrackerProvider {
+    var analyticsSourceType: String { get }
+    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]?)
+}
+
+extension PlaylistTypeTrackerProvider {
+    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        var playlistEventProperties = properties ?? [:]
+        if FeatureFlag.playlistsRebranding.enabled {
+            playlistEventProperties["filter_type"] = analyticsSourceType
+        }
+        Analytics.track(event, properties: playlistEventProperties)
+    }
+}
+
+extension PlaylistDetailViewController: AnalyticsSourceProvider, PlaylistTypeTrackerProvider {
     var analyticsSource: AnalyticsSource {
         .filters
     }
 
     var analyticsSourceType: String {
         viewModel.isManualPlaylist ? "manual" : "smart"
-    }
-
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
-        var playlistEventProperties = properties ?? [:]
-        playlistEventProperties["filter_type"] = analyticsSourceType
-
-        Analytics.track(event, properties: playlistEventProperties)
     }
 }
