@@ -4,7 +4,6 @@ import Kingfisher
 struct AsyncImageView: View {
     private let url: URL
     private let cacheKey: String?
-    private let size: Int
     private let cache: ImageCache
     private let placeholder: Image?
     private let contentMode: SwiftUI.ContentMode
@@ -13,7 +12,6 @@ struct AsyncImageView: View {
     init(
         url: URL,
         cacheKey: String? = nil,
-        size: Int = ImageManager.sharedManager.biggestPodcastImageSize,
         cache: ImageCache = ImageManager.sharedManager.subscribedPodcastsCache,
         placeholder: Image? = nil,
         aspectRatio: CGFloat? = 1,
@@ -21,7 +19,6 @@ struct AsyncImageView: View {
     ) {
         self.url = url
         self.cacheKey = cacheKey
-        self.size = size
         self.cache = cache
         self.placeholder = placeholder
         self.contentMode = contentMode
@@ -29,7 +26,6 @@ struct AsyncImageView: View {
     }
 
     var body: some View {
-        let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
         let resource = KF.ImageResource(downloadURL: url, cacheKey: cacheKey)
 
         KFImage.resource(resource)
@@ -40,7 +36,6 @@ struct AsyncImageView: View {
                 }
             }
             .resizable()
-            .setProcessor(resizeProcessor)
             .targetCache(cache)
             .fade(duration: 0.25)
             .aspectRatio(aspectRatio, contentMode: contentMode)

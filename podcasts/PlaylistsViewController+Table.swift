@@ -107,13 +107,11 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let playlist = playlists[safe: indexPath.row] {
-            PlaylistManager.delete(playlist: playlist, fireEvent: false)
-            playlists.remove(at: indexPath.row)
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [indexPath], with: .top)
-            tableView.endUpdates()
-
-            Analytics.track(.filterDeleted)
+            if FeatureFlag.playlistsRebranding.enabled {
+                showDeleteOptionPicker(for: playlist, at: indexPath, in: tableView)
+            } else {
+                delete(playlist: playlist, at: indexPath, in: tableView)
+            }
         }
     }
 
@@ -136,6 +134,56 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         Analytics.track(.filterListReordered)
     }
 }
+
+// MARK: - Delete
+
+extension PlaylistsViewController {
+    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
+        let playlistType = playlist.manual ? "manual" : "smart"
+        let analyticsProperties = ["filter_type": playlistType]
+        Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
+        let delete = OptionAction(
+            label: L10n.delete,
+            icon: nil,
+            action: { [weak self] in
+                self?.delete(playlist: playlist, at: indexPath, in: tableView)
+            }
+        )
+        delete.destructive = true
+
+        let picker = OptionsPicker(title: "")
+        picker.addDescriptiveActions(
+            title: L10n.playlistsDeleteAlertTitle,
+            message: L10n.playlistsDeleteAlertMessage,
+            icon: "option-alert",
+            actions: [
+                delete
+            ]
+        )
+        picker.setNoActionCallback {
+            Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+        }
+        picker.show(statusBarStyle: .default)
+    }
+
+    fileprivate func delete(playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
+        PlaylistManager.delete(playlist: playlist, fireEvent: false)
+        playlists.remove(at: indexPath.row)
+        tableView.beginUpdates()
+        tableView.deleteRows(at: [indexPath], with: .top)
+        tableView.endUpdates()
+
+        var properties: [AnyHashable: Any]? = [:]
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        }
+
+        Analytics.track(.filterDeleted, properties: properties)
+    }
+}
+
+// MARK: - Tip
 
 extension PlaylistsViewController {
     func showNewFilterTip() {

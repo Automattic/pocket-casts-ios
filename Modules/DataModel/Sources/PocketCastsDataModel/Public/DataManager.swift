@@ -1020,6 +1020,10 @@ public class DataManager {
         playlistManager.deleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
     }
 
+    public func rawDeleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
+        playlistManager.rawDeleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
+    }
+
     public func deleteAllEpisodes(in playlist: EpisodeFilter) {
         playlistManager.deleteAllEpisodes(in: playlist, dbQueue: dbQueue)
     }

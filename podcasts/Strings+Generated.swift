@@ -2211,8 +2211,20 @@ internal enum L10n {
   internal static func playback2024YearOverYearCompareTitleUpOver500(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_year_over_year_compare_title_up_over_500", String(describing: p1), fallback: "Compared to 2023, your listening time went up more than %1$@")
   }
+  /// Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count
+  internal static func playback2025CompletionRateMessage(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_completion_rate_message", String(describing: p1), String(describing: p2), fallback: "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships")
+  }
+  /// Playback 2025: Title for the completion rate story: %1$@ represent the percentage of completion rate, like 10%
+  internal static func playback2025CompletionRateTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_completion_rate_title", String(describing: p1), fallback: "Your completion rate was %1$@")
+  }
   /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
   internal static var playback2025Description: String { return L10n.tr("Localizable", "playback_2025_description", fallback: "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!") }
+  /// Playback 2025: Description for the last story
+  internal static var playback2025EndStoryDescription: String { return L10n.tr("Localizable", "playback_2025_end_story_description", fallback: "Share your Playback with friends and show some love to the podcasters who kept you company all year") }
+  /// Playback 2025: Title for the last story
+  internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
   /// Playback 2025
@@ -2223,6 +2235,31 @@ internal enum L10n {
   internal static func playback2025ListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_listened_to_numbers", String(describing: p1), String(describing: p2), fallback: "You tuned in to %1$@ podcasts and %2$@ episodes")
   }
+  /// minutes listened
+  internal static var playback2025ListeningTime: String { return L10n.tr("Localizable", "playback_2025_listening_time", fallback: "minutes listened") }
+  /// Playback 2025: Footer description for the longest episode story: %1$@ represent the episode title and %2$@ the podcast title
+  internal static func playback2025LongestEpisodeFooter(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_longest_episode_footer", String(describing: p1), String(describing: p2), fallback: "The longest episode was “%1$@” from “%2$@”")
+  }
+  /// Playback 2025: Description for the longest episode story
+  internal static var playback2025LongestEpisodeMessage: String { return L10n.tr("Localizable", "playback_2025_longest_episode_message", fallback: "Hope you stretched first!") }
+  /// Playback 2025: Title for the longest episode story: %1$@ represent the time
+  internal static func playback2025LongestEpisodeTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_longest_episode_title", String(describing: p1), fallback: "Your marathon listen: %1$@")
+  }
+  /// Playback 2025: Description for the top 5 podcasts story
+  internal static var playback2025Top5PodcastsMessage: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_message", fallback: "More favorites, more play, more you") }
+  /// Playback 2025: Title for the top 5 podcasts story
+  internal static var playback2025Top5PodcastsTitle: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_title", fallback: "Your other go-to's") }
+  /// %1$@ episodes, %2$@.
+  /// That’s commitment!
+  internal static func playback2025TopSpotDescription(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_top_spot_description", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes, %2$@.\nThat’s commitment!")
+  }
+  /// It doesn’t get more “you” than this
+  internal static var playback2025TopSpotSubtitle: String { return L10n.tr("Localizable", "playback_2025_top_spot_subtitle", fallback: "It doesn’t get more “you” than this") }
+  /// Your top podcast of 2025
+  internal static var playback2025TopSpotTitle: String { return L10n.tr("Localizable", "playback_2025_top_spot_title", fallback: "Your top podcast of 2025") }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
   /// Playback settings option in the Effects Player panel

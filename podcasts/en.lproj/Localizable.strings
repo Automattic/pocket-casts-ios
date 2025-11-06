@@ -5669,6 +5669,45 @@
 /// Text for playback 2025 listened to numbers story
 "playback_2025_listened_to_numbers" = "You tuned in to %1$@ podcasts and %2$@ episodes";
 
+/* Playback 2025: Title for the last story */
+"playback_2025_end_story_title" = "Thanks for spending your year with Pocket Casts";
+
+/* Playback 2025: Description for the last story */
+"playback_2025_end_story_description" = "Share your Playback with friends and show some love to the podcasters who kept you company all year";
+
+/// Text for playback 2025 listening time in minutes
+"playback_2025_listening_time" = "minutes listened";
+
+/// Text for playback 2025 top stop title
+"playback_2025_top_spot_title" = "Your top podcast of 2025";
+
+/// Text for playback 2025 top stop subtitle
+"playback_2025_top_spot_subtitle" = "It doesn’t get more “you” than this";
+
+/// Text for playback 2025 top description. %1$@ is the number of episodes and %1 is the listening time. Ex: 66 episodes, 2 days, and 3 hours. That’s commitment!
+"playback_2025_top_spot_description" = "%1$@ episodes, %2$@.\nThat’s commitment!";
+
+/* Playback 2025: Title for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_title" = "Your other go-to's";
+
+/* Playback 2025: Description for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_message" = "More favorites, more play, more you";
+
+/* Playback 2025: Title for the longest episode story: %1$@ represent the time */
+"playback_2025_longest_episode_title" = "Your marathon listen: %1$@";
+
+/* Playback 2025: Description for the longest episode story */
+"playback_2025_longest_episode_message" = "Hope you stretched first!";
+
+/* Playback 2025: Footer description for the longest episode story: %1$@ represent the episode title and %2$@ the podcast title */
+"playback_2025_longest_episode_footer" = "The longest episode was “%1$@” from “%2$@”";
+
+/* Playback 2025: Title for the completion rate story: %1$@ represent the percentage of completion rate, like 10% */
+"playback_2025_completion_rate_title" = "Your completion rate was %1$@";
+
+/* Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count */
+"playback_2025_completion_rate_message" = "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships";
+
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
 
@@ -5680,4 +5719,3 @@
 
 /// Search results screen: action for doing full search on term. %1$@ argument is the term being searched. Ex: "View all results for "cautionary" "
 "search_results_view_all" = "View all results for \"%1$@\"";
-
