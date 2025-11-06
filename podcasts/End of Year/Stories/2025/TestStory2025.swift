@@ -24,16 +24,17 @@ struct TestStory2025: ShareableStory {
                 .configure({ animationView in
                     animationView.contentMode = .scaleToFill
                     animationView.logHierarchyKeypaths()
-                    animationView.textProvider = MyLottieTextProvider2(text: currentText)
-                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
-                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
-                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
+                    animationView.textProvider = MyLottieTextProvider()
+//                    animationView.textProvider = MyLottieTextProvider2(text: currentText)
+//                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
+//                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
+//                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
                     animationView.fontProvider = MyFontProvider()
                 })
-//                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                .playbackMode(.playing(.marker("marker_9", loopMode: .playOnce)))
+                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+//                .playbackMode(.playing(.marker("marker_9", loopMode: .playOnce)))
                 .scaledToFill()
-                .scaleEffect(0.5)
+//                .scaleEffect(0.5)
                 .ignoresSafeArea()
         }
         )
@@ -53,7 +54,8 @@ struct TestStory2025: ShareableStory {
     }
 
     var customView: LottieView<EmptyView> {
-        let view = LottieView(animation: .named("test_animation"))
+//        let view = LottieView(animation: .named("test_animation"))
+        let view = LottieView(animation: .named("test_animation_2"))
 //        return view.textProvider(MyLottieTextProvider2(text: currentText))
         return view
     }
@@ -64,7 +66,8 @@ final class MyLottieTextProvider: AnimationTextProvider, Equatable {
 
     init() {
         dict = [
-            "1": "100",
+            "2024": "2000",
+            "150 hours": "300 ore",
         ]
     }
 
