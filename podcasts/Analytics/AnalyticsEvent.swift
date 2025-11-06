@@ -353,6 +353,9 @@ enum AnalyticsEvent: String {
     case filterBrowseShowsCtaEmptyTapped
     case filterShowArchivedCtaEmptyTapped
 
+    case filterManualEpisodesRearranged
+    case filterManualEpisodeDeleted
+
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
