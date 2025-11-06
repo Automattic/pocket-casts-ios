@@ -29,6 +29,12 @@ struct TestStory2025: ShareableStory {
 //                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
 //                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
+                    let colorKeypath = AnimationKeypath(keypath: "2025.Animator 1.Fill Color")
+                    let colorKeypath2 = AnimationKeypath(keypath: "150 hours.Animator 1.Fill Color")
+                    let colorProvider = ColorValueProvider(LottieColor(r: 0, g: 1, b: 1, a: 1))
+                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
+                    let colorProvider2 = ColorValueProvider(LottieColor(r: 1, g: 1, b: 0, a: 1))
+                    animationView.setValueProvider(colorProvider2, keypath: colorKeypath2)
                     animationView.fontProvider = MyFontProvider()
                 })
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
@@ -101,6 +107,6 @@ final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
 class MyFontProvider: AnimationFontProvider {
     func fontFor(family: String, size: CGFloat) -> CTFont? {
         print("AAAA font \(family)")
-        return CTFontCreateWithName("Humane-Medium" as CFString, 100, nil)
+        return CTFontCreateWithName("Humane-Medium" as CFString, 80, nil)
     }
 }

@@ -669,7 +669,6 @@
 		91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */; };
 		9A01DDDA2E82EC4C0016E9D1 /* PlaylistDetailCustomOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */; };
 		9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A01DDDB2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift */; };
-		9A06C29F2EBCC24D00623589 /* test_animation_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A06C29E2EBCC24D00623589 /* test_animation_2.json */; };
 		9A0E6C662D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */; };
 		9A11FCB22D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
 		9A11FCB32D94171B00A1EF3E /* AnonymousIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */; };
@@ -727,6 +726,7 @@
 		9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */; };
 		9A9004D32E2FF2A4005879CB /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D22E2FF29B005879CB /* AsyncImageView.swift */; };
+		9A905A4D2EBCC7CB00437309 /* test_animation_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A905A4C2EBCC7CB00437309 /* test_animation_2.json */; };
 		9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A991F832DB1362000B39FB8 /* BannerView.swift */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
 		9A9B83BC2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */; };
@@ -3018,7 +3018,6 @@
 		91319B0A2C171F69000220A4 /* GravatarSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravatarSafariViewController.swift; sourceTree = "<group>"; };
 		9A01DDD92E82EC430016E9D1 /* PlaylistDetailCustomOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailCustomOrderViewController.swift; sourceTree = "<group>"; };
 		9A01DDDB2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistEpisodePreviewCell.swift; sourceTree = "<group>"; };
-		9A06C29E2EBCC24D00623589 /* test_animation_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_animation_2.json; sourceTree = "<group>"; };
 		9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedTranscriptsPremiumOverlay.swift; sourceTree = "<group>"; };
 		9A11FCB12D94171700A1EF3E /* AnonymousIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiable.swift; sourceTree = "<group>"; };
 		9A11FCB52D94626E00A1EF3E /* AnonymousIdentifiableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousIdentifiableTests.swift; sourceTree = "<group>"; };
@@ -3067,6 +3066,7 @@
 		9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArtworkView.swift; sourceTree = "<group>"; };
 		9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCellViewModel.swift; sourceTree = "<group>"; };
 		9A9004D22E2FF29B005879CB /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		9A905A4C2EBCC7CB00437309 /* test_animation_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_animation_2.json; sourceTree = "<group>"; };
 		9A991F832DB1362000B39FB8 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyView.swift; sourceTree = "<group>"; };
 		9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionSurveyViewModel.swift; sourceTree = "<group>"; };
@@ -6809,7 +6809,7 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				9A06C29E2EBCC24D00623589 /* test_animation_2.json */,
+				9A905A4C2EBCC7CB00437309 /* test_animation_2.json */,
 				9A8F5C682EBBCE8E00C37BCA /* test_animation.json */,
 				FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */,
 				FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */,
@@ -9550,7 +9550,6 @@
 				46C3D554275EA19B00DDE116 /* SingleEpisodeViewController.xib in Resources */,
 				8BD5A50A2A1F96C200F473C6 /* AppIcon-Pride40x40@3x.png in Resources */,
 				BDE954EA236684E300CEB6DA /* ChaptersViewController.xib in Resources */,
-				9A06C29F2EBCC24D00623589 /* test_animation_2.json in Resources */,
 				F50D723E2E29F17F00764D9B /* pensive.json in Resources */,
 				BDBCE6D2244E7755004FFE13 /* AppIcon-Radioactive76x76~ipad.png in Resources */,
 				BD056F0F1F6F8BE300AF8260 /* Main.storyboard in Resources */,
@@ -9720,6 +9719,7 @@
 				4011B93C2164546E00661A7D /* FilterEditOptionsViewController.xib in Resources */,
 				C7D8137E2A0D4B8A007F715F /* AppIcon-Patron-Chrome-iphone@2x.png in Resources */,
 				40A4FCD1221938A700252170 /* SinglePodcastViewController.xib in Resources */,
+				9A905A4D2EBCC7CB00437309 /* test_animation_2.json in Resources */,
 				BD1292CE22F7CD83004608A6 /* AppIcon-Plus40x40@2x.png in Resources */,
 				FFFCD23F2C7768F900A345ED /* Referrals.xcassets in Resources */,
 				BD1292E722F7D066004608A6 /* AppIcon-Classic60x60@3x.png in Resources */,
