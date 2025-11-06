@@ -288,6 +288,19 @@ class PlaylistDataManager {
         }
     }
 
+    /// Just delete episodes from a playlist and nothing more
+    func rawDeleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter, dbQueue: PCDBQueue) {
+        guard !episodeUuids.isEmpty else { return }
+        dbQueue.write { db in
+            do {
+                let inClause = DataHelper.convertArrayToInString(episodeUuids)
+                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? AND episodeUuid IN (\(inClause))", values: [playlist.uuid])
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.rawDeleteEpisodes error: \(error)")
+            }
+        }
+    }
+
     /// Delete all playlist-episode relationships for the given playlist
     func deleteAllEpisodes(in playlist: EpisodeFilter, dbQueue: PCDBQueue) {
         dbQueue.write { db in
