@@ -121,7 +121,8 @@ class MyFontProvider: AnimationFontProvider {
         print("AAAA font \(family)")
         switch family {
         case "Inter-Medium":
-            return CTFontCreateWithName("Humane-Medium" as CFString, size, nil)
+            let uiFont = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            return CTFontCreateWithName(uiFont.fontName as CFString, uiFont.pointSize, nil)
         default:
             return CTFontCreateWithName("Humane-Medium" as CFString, 80, nil)
         }
