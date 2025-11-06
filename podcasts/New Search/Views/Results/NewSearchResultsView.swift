@@ -38,13 +38,9 @@ struct NewSearchResultsView: View {
             } else if searchResults.noResults {
                 if searchResults.isShowingPredictiveSearch {
                     VStack {
-                        HStack {
-                            showFullResultsButton
-                            Spacer()
-                        }
                         Spacer()
                     }
-                    .padding(.horizontal, 16)
+                    .background(Theme.sharedTheme.primaryUi01)
                 } else {
                     HStack(alignment: .center) {
                         EmptyStateView(title: L10n.searchResultsEmptyTitle,
