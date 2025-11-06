@@ -5675,6 +5675,18 @@
 /* Playback 2025: Description for the last story */
 "playback_2025_end_story_description" = "Share your Playback with friends and show some love to the podcasters who kept you company all year";
 
+/// Text for playback 2025 listening time in minutes
+"playback_2025_listening_time" = "minutes listened";
+
+/// Text for playback 2025 top stop title
+"playback_2025_top_spot_title" = "Your top podcast of 2025";
+
+/// Text for playback 2025 top stop subtitle
+"playback_2025_top_spot_subtitle" = "It doesn’t get more “you” than this";
+
+/// Text for playback 2025 top description. %1$@ is the number of episodes and %1 is the listening time. Ex: 66 episodes, 2 days, and 3 hours. That’s commitment!
+"playback_2025_top_spot_description" = "%1$@ episodes, %2$@.\nThat’s commitment!";
+
 /* Playback 2025: Title for the top 5 podcasts story */
 "playback_2025_top_5_podcasts_title" = "Your other go-to's";
 
@@ -5707,4 +5719,3 @@
 
 /// Search results screen: action for doing full search on term. %1$@ argument is the term being searched. Ex: "View all results for "cautionary" "
 "search_results_view_all" = "View all results for \"%1$@\"";
-

@@ -2166,6 +2166,12 @@
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
+		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
+		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
+		FFEE59C42EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
+		FFEE59FE2EB5111700D4B145 /* TopSpotStory2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */; };
+		FFEE5A022EB514C100D4B145 /* playback_2025_top_spot_story.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */; };
+		FFEE5A032EB514C100D4B145 /* playback_2025_top_spot_story.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF17EC42B97930700E116C8 /* BookmarksProfileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */; };
@@ -4316,6 +4322,10 @@
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClipAppDelegate.swift; sourceTree = "<group>"; };
 		FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCoordinator.swift; sourceTree = "<group>"; };
+		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
+		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
+		FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSpotStory2025.swift; sourceTree = "<group>"; };
+		FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback_2025_top_spot_story.json; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 		FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListController.swift; sourceTree = "<group>"; };
 		FFF17EC52B979B5500E116C8 /* BookmarksProfileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListView.swift; sourceTree = "<group>"; };
@@ -4920,6 +4930,7 @@
 			children = (
 				F5F884622CC9EAA6002BED2C /* Humane-Bold.otf */,
 				F51E3B512CC70A4A00AFAD05 /* Humane-Medium.otf */,
+				FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */,
 				8B15E7212AD050EE0077F45A /* DMSans.ttf */,
 				8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */,
 				C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */,
@@ -6830,6 +6841,7 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */,
 				9AF415812EBA69B3003D3677 /* 2025_completion_rate_20.json */,
 				9AF415822EBA69B3003D3677 /* 2025_completion_rate_40.json */,
 				9AF415832EBA69B3003D3677 /* 2025_completion_rate_60.json */,
@@ -6839,6 +6851,7 @@
 				9AF4152B2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json */,
 				9AF4152C2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json */,
 				FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */,
+				FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */,
 				FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */,
 				F50D723B2E29F17800764D9B /* heart-eyes.json */,
 				F50D723D2E29F17F00764D9B /* pensive.json */,
@@ -8995,6 +9008,7 @@
 		FFB74B0A2E99363F00F16857 /* 2025 */ = {
 			isa = PBXGroup;
 			children = (
+				FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */,
 				9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */,
 				FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */,
 				9AF415452EBA2E20003D3677 /* StoryFooter2025.swift */,
@@ -9612,6 +9626,7 @@
 				BDBCE6C7244E7755004FFE13 /* AppIcon-Radioactive60x60@2x.png in Resources */,
 				BD400DB3170BF22600C43083 /* PodcastListViewController.xib in Resources */,
 				40256C34223486DA0091EFC6 /* UploadedStorageHeaderView.xib in Resources */,
+				FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */,
 				BD1C46DA27B9DD8C00B1D8BB /* FolderGridCell.xib in Resources */,
 				BD400DB8170BFC4C00C43083 /* PodcastGridCell.xib in Resources */,
 				BDA002CF1F7B318B00DCB4AE /* AppIcon-Dark60x60@2x.png in Resources */,
@@ -10016,6 +10031,7 @@
 				BD1292D122F7CD83004608A6 /* AppIcon-Plus20x20@3x.png in Resources */,
 				4041FEA2218AA5EC0089D4A1 /* SiriShortcutAddCell.xib in Resources */,
 				40888F052563792300887D9A /* AppIcon-Round-Pink76x76@2x~ipad.png in Resources */,
+				FFEE5A032EB514C100D4B145 /* playback_2025_top_spot_story.json in Resources */,
 				BD12928A22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@3x.png in Resources */,
 				BD3311A2202171EF00863A15 /* EpisodeListSearchController.xib in Resources */,
 				BDD3579127BCD33D0000D155 /* FolderViewController.xib in Resources */,
@@ -10025,6 +10041,7 @@
 				BDA002CD1F7B318B00DCB4AE /* AppIcon-Dark40x40@3x.png in Resources */,
 				BD6B666F245BC25B00CF5245 /* AppIcon-Indigo83.5x83.5@2x~ipad.png in Resources */,
 				F51E3B522CC70A4A00AFAD05 /* Humane-Medium.otf in Resources */,
+				FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */,
 				40888F0F2563792300887D9A /* AppIcon-Round-Pink76x76~ipad.png in Resources */,
 				BDF0507D1FBA65ED00194D68 /* ListeningHistoryViewController.xib in Resources */,
 				460C375326D831E3008B3609 /* Localizable.strings in Resources */,
@@ -10096,10 +10113,12 @@
 			files = (
 				F553A1622CECF985006581A1 /* SleepTimerViewController.xib in Resources */,
 				F553A1652CECF99D006581A1 /* EffectsViewController.xib in Resources */,
+				FFEE59C42EB37F4300D4B145 /* playback2025_listening_time.json in Resources */,
 				F5F5097B2CEBFDDA007D6E39 /* effects_button.json in Resources */,
 				F5F5097E2CEBFDE6007D6E39 /* skip.json in Resources */,
 				F5D5F7B82CEBE7CE001F492D /* Preview Assets.xcassets in Resources */,
 				F5C1FA212D1283F5007CFDF2 /* AppIcon.xcassets in Resources */,
+				FFEE5A022EB514C100D4B145 /* playback_2025_top_spot_story.json in Resources */,
 				F5F5097D2CEBFDE2007D6E39 /* skip_button.json in Resources */,
 				F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */,
 				F55566FF2D14E3D000231367 /* VideoViewController.xib in Resources */,
@@ -11439,6 +11458,7 @@
 				8BAD2EB42AEE9620006264B3 /* PaidStoryWallView.swift in Sources */,
 				40FFCDBD2304E7ED00395CA5 /* ThemeableImageView.swift in Sources */,
 				BD98C54F1BA8058800E85D3B /* PodcastHeaderListViewController.swift in Sources */,
+				FFEE59FE2EB5111700D4B145 /* TopSpotStory2025.swift in Sources */,
 				BDB4E7D4240E3C7A005770E3 /* DefaultPlayer.swift in Sources */,
 				46CD3C9F2715E38E00F5EB8F /* SupportLogsViewModel.swift in Sources */,
 				C750EF7F28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift in Sources */,
