@@ -2722,6 +2722,14 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Búsquedas recientes</string>
     <key>search_results</key>
     <string>%1$@ de %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Envíanos comentarios</string>
+    <key>search_results_empty_message</key>
+    <string>Prueba una nueva búsqueda o añade una URL de feed de podcast</string>
+    <key>search_results_empty_title</key>
+    <string>Sin resultados</string>
+    <key>search_results_view_all</key>
+    <string>Ver todos los resultados para "%1$@"</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>

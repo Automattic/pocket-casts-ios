@@ -2722,6 +2722,14 @@ Pocket Casts。</string>
     <string>最近搜索</string>
     <key>search_results</key>
     <string>第 %1$@ 个，共 %2$@ 个</string>
+    <key>search_results_empty_action</key>
+    <string>向我们发送反馈</string>
+    <key>search_results_empty_message</key>
+    <string>尝试新的搜索，或添加播客源 URL</string>
+    <key>search_results_empty_title</key>
+    <string>无结果</string>
+    <key>search_results_view_all</key>
+    <string>查看“%1$@”的所有结果</string>
     <key>season</key>
     <string>季</string>
     <key>season_episode_shorthand_format</key>

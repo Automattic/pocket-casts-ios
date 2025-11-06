@@ -2722,6 +2722,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最近の検索</string>
     <key>search_results</key>
     <string>%1$@ / %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>フィードバックを送信</string>
+    <key>search_results_empty_message</key>
+    <string>新しい検索を試すか、ポッドキャストフィードの URL を追加してください</string>
+    <key>search_results_empty_title</key>
+    <string>結果はありません</string>
+    <key>search_results_view_all</key>
+    <string>「%1$@」のすべての結果を表示</string>
     <key>season</key>
     <string>シーズン</string>
     <key>season_episode_shorthand_format</key>

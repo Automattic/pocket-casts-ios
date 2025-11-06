@@ -2722,6 +2722,14 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Ricerche recenti</string>
     <key>search_results</key>
     <string>%1$@ di %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Inviaci un feedback</string>
+    <key>search_results_empty_message</key>
+    <string>Prova una nuova ricerca o aggiungi un URL di feed del podcast</string>
+    <key>search_results_empty_title</key>
+    <string>Nessun risultato</string>
+    <key>search_results_view_all</key>
+    <string>Visualizza tutti i risultati per "%1$@"</string>
     <key>season</key>
     <string>Stagione</string>
     <key>season_episode_shorthand_format</key>
