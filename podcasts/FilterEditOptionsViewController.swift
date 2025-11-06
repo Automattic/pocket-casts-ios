@@ -42,6 +42,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     private var didChangeAutoDownload = false
     private var didChangeEpisodeCount = false
     private var isViewingShortcuts = false
+    private var didChangeName: Bool {
+        filterToEdit.playlistName != filterNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -239,10 +242,13 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if Self.playlistRebrandingIsEnabled, didChangeName {
+            track(.filterNameUpdated)
+        }
+
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.textEditingDidEnd)
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         textField.resignFirstResponder()
-        track(.filterNameUpdated)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
