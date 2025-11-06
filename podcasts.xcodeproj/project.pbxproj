@@ -744,6 +744,8 @@
 		9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9AD809AF2EA12D940050649B /* PlaylistDetailFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */; };
+		9ADAC6A32EBCFA3B001BA714 /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAC6A22EBCFA3B001BA714 /* Inter.ttf */; };
+		9ADAC6A52EBD06BC001BA714 /* test_animation_06.json in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAC6A42EBD06BC001BA714 /* test_animation_06.json */; };
 		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
 		9AE5043E2DEDF5590027A4AE /* TranscriptPlaybackManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */; };
 		9AF355712E4B57750083ECA7 /* SmartPlaylistCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */; };
@@ -3104,6 +3106,8 @@
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
 		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
 		9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailFetchOperation.swift; sourceTree = "<group>"; };
+		9ADAC6A22EBCFA3B001BA714 /* Inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inter.ttf; sourceTree = "<group>"; };
+		9ADAC6A42EBD06BC001BA714 /* test_animation_06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_animation_06.json; sourceTree = "<group>"; };
 		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
 		9AE5043D2DEDF54F0027A4AE /* TranscriptPlaybackManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptPlaybackManaging.swift; sourceTree = "<group>"; };
 		9AF355702E4B57750083ECA7 /* SmartPlaylistCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistCreationView.swift; sourceTree = "<group>"; };
@@ -4940,6 +4944,7 @@
 		460C375026D83171008B3609 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9ADAC6A22EBCFA3B001BA714 /* Inter.ttf */,
 				F5F884622CC9EAA6002BED2C /* Humane-Bold.otf */,
 				F51E3B512CC70A4A00AFAD05 /* Humane-Medium.otf */,
 				FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */,
@@ -6853,6 +6858,7 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				9ADAC6A42EBD06BC001BA714 /* test_animation_06.json */,
 				9A3704A62EBCF53500AB9D0C /* test_animation_05.json */,
 				9A37049C2EBCF08C00AB9D0C /* test_animation_3.json */,
 				9A37049A2EBCED2200AB9D0C /* test_animation_copy.json */,
@@ -9802,6 +9808,7 @@
 				4051A5772281A9DD00C13C12 /* AccountActionCell.xib in Resources */,
 				409C7918220D33E500386495 /* AddCustomViewController.xib in Resources */,
 				BD6B6650245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@2x.png in Resources */,
+				9ADAC6A32EBCFA3B001BA714 /* Inter.ttf in Resources */,
 				BD1C46DE27B9DD9C00B1D8BB /* FolderListCell.xib in Resources */,
 				BD6B665B245BC24C00CF5245 /* AppIcon-Pocket-Cats60x60@3x.png in Resources */,
 				BDA002C31F7B318B00DCB4AE /* AppIcon-Dark20x20@2x.png in Resources */,
@@ -10010,6 +10017,7 @@
 				404D74AE24809BC9009DF761 /* SupporterGratitudeViewController.xib in Resources */,
 				BD1EBD6F1CB7770B004F83D6 /* AppearanceViewController.xib in Resources */,
 				BDAA3CFD2122A2DA00649F81 /* effects_button.json in Resources */,
+				9ADAC6A52EBD06BC001BA714 /* test_animation_06.json in Resources */,
 				40484F0222F26911007DBD55 /* ChangeEmailViewController.xib in Resources */,
 				4006E31823AC935700174DEB /* DescriptiveCollectionCell.xib in Resources */,
 				BD1BA41B1D07F366001383F0 /* pc.aiff in Resources */,

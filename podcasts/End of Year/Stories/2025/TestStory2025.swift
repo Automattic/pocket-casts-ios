@@ -7,9 +7,30 @@ struct TestStory2025: ShareableStory {
     let identifier: String = "test_animation"
     
     @State private var currentText: String = "0"
-    
+
     @State private var animationProgress: AnimationProgressTime = .zero
-    @State private var animationViewRef: LottieAnimationView?
+    
+    let listeningTime: Double
+    private let startTime: Double
+    private let endTime: Double
+    private static let speed: Double = 0.01
+    
+    @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
+    @State private var currentTime: Double
+
+    var formattedMinutes: String {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.groupingSeparator = ","
+            return formatter.string(for: Int(currentTime / 60.0)) ?? ""
+        }
+    
+    init(listeningTime: Double) {
+            self.listeningTime = listeningTime
+            startTime = listeningTime - (listeningTime * 0.1)
+            endTime = listeningTime
+            _currentTime = .init(initialValue: startTime)
+        }
 
     var body: some View {
         ZStack {
@@ -20,6 +41,9 @@ struct TestStory2025: ShareableStory {
             .foregroundStyle(foregroundColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .onChange(of: animationProgress) { position in
+//            
+//        }
         .background(content: {
                 customView
                 .animationDidFinish({ completed in
@@ -27,8 +51,8 @@ struct TestStory2025: ShareableStory {
                 .configure({ animationView in
 //                    animationViewRef = animationView
                     animationView.contentMode = .scaleToFill
-                    animationView.logHierarchyKeypaths()
-//                    animationView.textProvider = MyLottieTextProvider2(text: currentText)
+//                    animationView.logHierarchyKeypaths()
+                    animationView.textProvider = MyLottieTextProvider2(text: formattedMinutes)
 //                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
 //                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
@@ -43,7 +67,7 @@ struct TestStory2025: ShareableStory {
 
                     animationView.fontProvider = MyFontProvider()
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
 //                .getRealtimeAnimationFrame($animationProgress)
 //                .playbackMode(.playing(.marker("marker_9", loopMode: .playOnce)))
 //                .playbackMode(.paused)
@@ -54,24 +78,36 @@ struct TestStory2025: ShareableStory {
         )
         .ignoresSafeArea()
         .background(backgroundColor)
-//        .onChange(of: currentText) { newValue in
-//            animationViewRef?.textProvider = MyLottieTextProvider2(text: newValue)
-//        }
-        .onAppear {
-            for i in 0..<100 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
-                    currentText = "\(i)"
+//        .enableProportionalValueScaling()
+        .onChange(of: stepCounter.counter) { value in
+                    stepNumberAnimation(value)
                 }
+//        .onAppear {
+//            for i in 0..<100 {
+//                DispatchQueue.global().asyncAfter(deadline: .now() + Double(i) * 0.01) {
+//                    currentText = "\(i)"
+//                    stepNumberAnimation(i)
+//                }
+//            }
+//        }
+    }
+    
+    func stepNumberAnimation(_ value: Int) {
+            if currentTime < endTime {
+                withAnimation(.easeIn(duration: Self.speed)) {
+                    currentTime = listeningTime * 0.01 * Double(value)
+                }
+            } else {
+                currentTime = endTime
             }
         }
-    }
-
+    
     @ViewBuilder var headerView: some View {
         StoryHeader2025(title: "Test Animation")
     }
 
     var customView: LottieView<EmptyView> {
-        let view = LottieView(animation: .named("test_animation_05"))
+        let view = LottieView(animation: .named("test_animation_06"))
 //        let view = LottieView(animation: .named("test_animation_3"))
 //        let view = LottieView(animation: .named("test_animation_2"))
 //        return view.textProvider(MyLottieTextProvider2(text: currentText))
@@ -101,14 +137,17 @@ final class MyLottieTextProvider: AnimationTextProvider, Equatable {
 
 final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
     let s: String
-    
+
     init(text: String) {
         self.s = text
     }
 
     func textFor(keypathName: String, sourceText: String) -> String {
-        print("AAAA \(keypathName), \(sourceText)")
-        return s
+//        print("AAAA Text \(keypathName), \(sourceText)")
+        if keypathName == "content.MAIN NUMBER.40,456" {
+            return s
+        }
+        return "minutes listened"
     }
 
     static func == (lhs: MyLottieTextProvider2, rhs: MyLottieTextProvider2) -> Bool {
@@ -118,13 +157,14 @@ final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
 
 class MyFontProvider: AnimationFontProvider {
     func fontFor(family: String, size: CGFloat) -> CTFont? {
-        print("AAAA font \(family)")
+//        print("AAAA font \(family)")
         switch family {
         case "Inter-Medium":
-            let uiFont = UIFont.systemFont(ofSize: 18, weight: .semibold)
-            return CTFontCreateWithName(uiFont.fontName as CFString, uiFont.pointSize, nil)
+            let font = UIFont(name: "Inter-Regular", size: 30)!
+            return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
         default:
-            return CTFontCreateWithName("Humane-Medium" as CFString, 80, nil)
+            let font = UIFont(name: "Humane-SemiBold", size: 300)!
+            return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
         }
     }
 }

@@ -1023,7 +1023,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This allows you to add custom images to your files</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.</string>
+	<string>Pocket Casts uses this to find Google Cast devices on your network. If you don&apos;t use this feature feel free to say no.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -1047,6 +1047,7 @@
 		<string>Humane-Medium.otf</string>
 		<string>Humane-Bold.otf</string>
 		<string>Humane-SemiBold.otf</string>
+		<string>Inter.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
