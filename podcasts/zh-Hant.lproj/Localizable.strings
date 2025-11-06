@@ -2722,6 +2722,14 @@ Pocket Casts Plus</string>
     <string>最近搜尋的內容</string>
     <key>search_results</key>
     <string>已顯示 %1$@ 筆，共 %2$@ 筆</string>
+    <key>search_results_empty_action</key>
+    <string>傳送意見回饋</string>
+    <key>search_results_empty_message</key>
+    <string>嘗試新的搜尋，或新增 Podcast 摘要 URL</string>
+    <key>search_results_empty_title</key>
+    <string>沒有結果</string>
+    <key>search_results_view_all</key>
+    <string>檢視「%1$@」的所有結果</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>
