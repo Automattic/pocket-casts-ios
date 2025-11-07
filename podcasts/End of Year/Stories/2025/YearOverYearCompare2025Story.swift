@@ -38,6 +38,15 @@ struct YearOverYearCompare2025Story: ShareableStory {
         .ignoresSafeArea()
         .background(backgroundColor)
         .foregroundStyle(foregroundColor)
+        .onAppear {
+            for family in UIFont.familyNames.sorted() {
+                print("Family: \(family)")
+                for name in UIFont.fontNames(forFamilyName: family) {
+                    print("    Font \(name)")
+                }
+                print("---")
+            }
+        }
     }
 
     @ViewBuilder var headerView: some View {
@@ -174,11 +183,8 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
         self.prevYear = Int(prevYear)
         self.currentYear = Int(currentYear)
         dict = [
-            "0 hours": "\(self.prevYear) hours",
-            "150 hours": "\(self.prevYear) hours",
-            "180 hours": "\(self.prevYear) hours",
-            "155 hours": "\(self.currentYear) hours",
-            "160 hours": "\(self.currentYear) hours"
+            "hours_2024": "\(self.prevYear) hours",
+            "hours_2025": "\(self.currentYear) hours",
         ]
     }
 
@@ -195,7 +201,7 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
 class MyFontProvider: AnimationFontProvider {
     func fontFor(family: String, size: CGFloat) -> CTFont? {
         let font = UIFont(name: family, size: size)!
-        return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
+        return CTFontCreateWithName("Inter-Regular_Medium" as CFString, font.pointSize, nil)
     }
 }
 
