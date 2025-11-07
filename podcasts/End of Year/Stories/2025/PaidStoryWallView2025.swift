@@ -8,11 +8,8 @@ struct PaidStoryWallView2025: View {
 
     let subscriptionTier: SubscriptionTier
 
-    private let separator = Image("playback-24-union")
-
     private let foregroundColor = Color.black
-    private let backgroundColor = Color(hex: "#96BCD1")
-    private let marqueeColor = Color(hex: "#F9BC48")
+    private let backgroundColor = Color(hex: "#9CB6CF")// Using video background color instead of the one defined in Figma: Color(hex: "#96BCD1")
     @State private var player = AVPlayer(url: Bundle.main.url(forResource: "playback_2025_plus", withExtension: "mp4")!)
     @State private var isPlaying: Bool = false
 
@@ -20,31 +17,36 @@ struct PaidStoryWallView2025: View {
 
     var body: some View {
         GeometryReader { geometry in
-                VStack(spacing: 0) {
-                    Spacer()
-                        .background() {
-                            VideoPlayer(player: player)
-                                .frame(width: geometry.size.width - 48.0,
-                                       height: (geometry.size.width - 48.0) * 1.777)
-                                .clipped()
-                                .allowsHitTesting(false)
-                        }
-                    VStack(alignment: .leading, spacing: 16) {
-                        StoryHeader2025(title: L10n.playback2025PlusUpsellTitle, description: L10n.playback2025PlusUpsellDescription, subscriptionTier: .plus)
-                        Button(L10n.playback2025PlusUpsellButtonTitle) {
-                            guard let storiesViewController = SceneHelper.rootViewController() else {
-                                return
+            VStack(spacing: 0) {
+                Spacer()
+                    .frame(width: geometry.size.width)
+                    .aspectRatio(contentMode: .fill)
+                    .background() {
+                        GeometryReader { geometry in
+                            HStack {
+                                Spacer()
+                                VideoPlayer(player: player)
+                                    .frame(width: geometry.size.height / 1.777,
+                                           height: geometry.size.height)
+                                    .allowsHitTesting(false)
+                                Spacer()
                             }
-
-                            NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                         }
-                        .allowsHitTesting(true)
-                        .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 6)
                     }
+                StoryHeader2025(title: L10n.playback2025PlusUpsellTitle, description: L10n.playback2025PlusUpsellDescription, subscriptionTier: .plus, topPadding: 0)
+                Button(L10n.playback2025PlusUpsellButtonTitle) {
+                    guard let storiesViewController = SceneHelper.rootViewController() else {
+                        return
+                    }
+
+                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                 }
+                .allowsHitTesting(true)
+                .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+                .padding(.horizontal, 24)
+                .padding(.vertical, 6)
             }
+        }
         .foregroundStyle(foregroundColor)
         .background {
             backgroundColor
