@@ -6,13 +6,25 @@ on:
 
 jobs:
   review-with-tracking:
+    # Run only when:
+    # - The comment is on a PR
+    # - The comment contains "@claude"
+    # - The commenter is trusted (owner, member, collaborator)
     if: |
-      github.event.issue.pull_request && contains(github.event.comment.body, '@claude')
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@claude') &&
+      (
+        github.event.comment.author_association == 'OWNER' ||
+        github.event.comment.author_association == 'MEMBER' ||
+        github.event.comment.author_association == 'COLLABORATOR'
+      )
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
       id-token: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
