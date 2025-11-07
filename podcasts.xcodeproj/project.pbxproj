@@ -690,6 +690,9 @@
 		9A1F6F482DB7D10600ADF727 /* PodcastListViewController+Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */; };
 		9A1F6F502DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */; };
 		9A24DA842EBE272700772CB1 /* 04_stats_i16.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA832EBE272700772CB1 /* 04_stats_i16.json */; };
+		9A24DA962EBE484D00772CB1 /* 05_(with hidden text)_i1.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */; };
+		9A24DA982EBE4CF000772CB1 /* 05_(with hidden text)_i4.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */; };
+		9A24DA9A2EBE4D8600772CB1 /* 05_(with hidden text)_i2.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */; };
 		9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */; };
 		9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */; };
 		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
@@ -3062,6 +3065,9 @@
 		9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastListViewController+Tip.swift"; sourceTree = "<group>"; };
 		9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionWinbackOfferView.swift; sourceTree = "<group>"; };
 		9A24DA832EBE272700772CB1 /* 04_stats_i16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 04_stats_i16.json; sourceTree = "<group>"; };
+		9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i1.json"; sourceTree = "<group>"; };
+		9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i4.json"; sourceTree = "<group>"; };
+		9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i2.json"; sourceTree = "<group>"; };
 		9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModelTests.swift; sourceTree = "<group>"; };
 		9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalProfileBannerCell.swift; sourceTree = "<group>"; };
 		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
@@ -6862,6 +6868,9 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */,
+				9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */,
+				9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */,
 				9A24DA832EBE272700772CB1 /* 04_stats_i16.json */,
 				9A30503C2EBDF7D7002E64A1 /* 04_stats_i14.json */,
 				9ADAC6A42EBD06BC001BA714 /* test_animation_06.json */,
@@ -9728,6 +9737,7 @@
 				BDE43413231759060045D0CB /* Files.xcassets in Resources */,
 				40FFCDA822FA756300395CA5 /* Appearance.xcassets in Resources */,
 				BD6B6679245BC25C00CF5245 /* AppIcon-Indigo20x20~ipad.png in Resources */,
+				9A24DA962EBE484D00772CB1 /* 05_(with hidden text)_i1.json in Resources */,
 				BD12931822F809F8004608A6 /* AppIcon-Electric-Pink20x20~ipad.png in Resources */,
 				BDD71CF51BA935E8006D2CE3 /* NetworkViewController.xib in Resources */,
 				BD6B6673245BC25B00CF5245 /* AppIcon-Indigo29x29@2x.png in Resources */,
@@ -9922,6 +9932,7 @@
 				4053CE0A2159E477001C92B1 /* CreateFilterViewController.xib in Resources */,
 				4030D466249653B000BEC7D9 /* MultiSelectActionCell.xib in Resources */,
 				8BD5A5022A1F96C200F473C6 /* AppIcon-Pride29x29~ipad.png in Resources */,
+				9A24DA9A2EBE4D8600772CB1 /* 05_(with hidden text)_i2.json in Resources */,
 				C7D8138B2A0D4BAA007F715F /* AppIcon-Patron-Round-iphone@2x.png in Resources */,
 				BD6B6678245BC25C00CF5245 /* AppIcon-Indigo76x76@2x~ipad.png in Resources */,
 				BDA002DD1F7B318B00DCB4AE /* AppIcon-Round-Dark40x40@2x.png in Resources */,
@@ -10019,6 +10030,7 @@
 				BD1292C922F7CD83004608A6 /* AppIcon-Plus40x40~ipad.png in Resources */,
 				9A37048F2EBCD60E00AB9D0C /* test_animation_2.json in Resources */,
 				40888F122563792300887D9A /* AppIcon-Round-Pink29x29@2x~ipad.png in Resources */,
+				9A24DA982EBE4CF000772CB1 /* 05_(with hidden text)_i4.json in Resources */,
 				BDBCE6CF244E7755004FFE13 /* AppIcon-Radioactive29x29@2x.png in Resources */,
 				BD6B6654245BC24C00CF5245 /* AppIcon-Pocket-Cats40x40@2x~ipad.png in Resources */,
 				BDA002E71F7B318B00DCB4AE /* AppIcon-Round20x20@2x.png in Resources */,

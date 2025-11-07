@@ -5,11 +5,29 @@ struct TestStory2025: ShareableStory {
     private let foregroundColor = Color.white
     private let backgroundColor = Color.endOfYear2025Background
     let identifier: String = "test_animation"
-    
+
     @State private var currentText: String = "0"
 
     @State private var animationProgress: AnimationProgressTime = .zero
-
+    
+    @State private var currentTime: Double
+    
+    let listeningTime: Double = 4.day + 5.hour + 20.minutes
+    var formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ","
+        return formatter
+    }()
+    
+    var formattedMinutes: String {
+        return formatter.string(for: Int(currentTime / 60.0)) ?? ""
+    }
+    
+    init() {
+        self.currentTime = listeningTime - listeningTime.truncatingRemainder(dividingBy: 1000)
+    }
+    
     var body: some View {
         ZStack {
             VStack(alignment: .center) {
@@ -26,13 +44,13 @@ struct TestStory2025: ShareableStory {
                 .configure({ animationView in
 //                    animationViewRef = animationView
                     animationView.contentMode = .scaleToFill
-                    animationView.logHierarchyKeypaths()
-//                    animationView.textProvider = MyLottieTextProvider2(text: formattedMinutes)
+//                    animationView.logHierarchyKeypaths()
+                    animationView.textProvider = MyLottieTextProvider2(text: formattedMinutes)
 //                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
 //                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
 
-                    animationView.textProvider = MyLottieTextProvider()
+//                    animationView.textProvider = MyLottieTextProvider()
 //                    let colorKeypath = AnimationKeypath(keypath: "2025.Animator 1.Fill Color")
 //                    let colorKeypath2 = AnimationKeypath(keypath: "150 hours.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 0, g: 1, b: 1, a: 1))
@@ -42,18 +60,21 @@ struct TestStory2025: ShareableStory {
 
                     animationView.fontProvider = MyFontProvider()
                 })
-//                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
 //                .getRealtimeAnimationFrame($animationProgress)
-                .playbackMode(.playing(.marker("marker_4", loopMode: .playOnce)))
+//                .playbackMode(.playing(.marker("marker_4", loopMode: .playOnce)))
 //                .playbackMode(.playing(.fromFrame(675, toFrame: (675+150), loopMode: .playOnce)))
 //                .playbackMode(.paused)
                 .scaledToFill()
-                .scaleEffect(0.5)
+//                .scaleEffect(0.5)
                 .ignoresSafeArea()
         }
         )
         .ignoresSafeArea()
         .background(backgroundColor)
+        .onAppear {
+            animateToListeningTime()
+        }
 //        .enableProportionalValueScaling()
 //        .onChange(of: stepCounter.counter) { value in
 //                    stepNumberAnimation(value)
@@ -68,12 +89,27 @@ struct TestStory2025: ShareableStory {
 //        }
     }
     
+    func animateToListeningTime() {
+        let duration: Double = 2.0
+        let steps: Int = 60 // smooth enough (≈60 FPS)
+        let interval = duration / Double(steps)
+        let increment = (listeningTime - currentTime) / Double(steps)
+
+        for i in 0...steps {
+            DispatchQueue.main.asyncAfter(deadline: .now() + interval * Double(i)) {
+                withAnimation(.linear(duration: interval)) {
+                    self.currentTime = min(self.currentTime + increment, listeningTime)
+                }
+            }
+        }
+    }
+    
     @ViewBuilder var headerView: some View {
         StoryHeader2025(title: "Test Animation")
     }
 
     var customView: LottieView<EmptyView> {
-        let view = LottieView(animation: .named("04_stats_i16"))
+        let view = LottieView(animation: .named("05_(with hidden text)_i2"))
 //        let view = LottieView(animation: .named("test_animation_3"))
 //        let view = LottieView(animation: .named("test_animation"))
 //        return view.textProvider(MyLottieTextProvider2(text: currentText))
@@ -135,4 +171,8 @@ class MyFontProvider: AnimationFontProvider {
             return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
         }
     }
+}
+
+#Preview() {
+    TestStory2025()
 }
