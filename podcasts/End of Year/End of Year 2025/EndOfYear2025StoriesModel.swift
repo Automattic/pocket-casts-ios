@@ -80,7 +80,7 @@ class EndOfYear2025StoriesModel: StoryModel {
                 return IntroStory2025()
             case .numberOfPodcastsAndEpisodesListened:
 //            return NumberListened2025(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
-            return TestStory2025()
+            return TestStory2025(listeningTime: 150.day + 5.hour + 20.minutes)
             case .topSpot:
                 return TopSpotStory2025(topPodcast: data.topPodcasts.first!)
             case .top5Podcasts:

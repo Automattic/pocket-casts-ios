@@ -51,14 +51,14 @@ class IntroCarouselDataSource: StoriesDataSource {
         theme.primaryText01
     }
 
-    var indicatorStyle: StoryIndicatorStyle {
-        StoryIndicatorStyle(
-            height: 4,
-            borderRadius: 0, // Square corners for intro
-            backgroundColor: theme.primaryField03,
-            foregroundColor: theme.primaryText01
-        )
-    }
+//    var indicatorStyle: StoryIndicatorStyle {
+//        StoryIndicatorStyle(
+//            height: 4,
+//            borderRadius: 0, // Square corners for intro
+//            backgroundColor: theme.primaryField03,
+//            foregroundColor: theme.primaryText01
+//        )
+//    }
 
     var primaryBackgroundColor: Color {
         theme.primaryUi01

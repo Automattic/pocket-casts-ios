@@ -693,6 +693,8 @@
 		9A24DA962EBE484D00772CB1 /* 05_(with hidden text)_i1.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */; };
 		9A24DA982EBE4CF000772CB1 /* 05_(with hidden text)_i4.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */; };
 		9A24DA9A2EBE4D8600772CB1 /* 05_(with hidden text)_i2.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */; };
+		9A24DAAE2EBE66E600772CB1 /* 05-numbers-only_i1.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DAAC2EBE66E600772CB1 /* 05-numbers-only_i1.json */; };
+		9A24DAB02EBE70ED00772CB1 /* 05-background-only_i1.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DAAF2EBE70ED00772CB1 /* 05-background-only_i1.json */; };
 		9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */; };
 		9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */; };
 		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
@@ -3068,6 +3070,8 @@
 		9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i1.json"; sourceTree = "<group>"; };
 		9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i4.json"; sourceTree = "<group>"; };
 		9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05_(with hidden text)_i2.json"; sourceTree = "<group>"; };
+		9A24DAAC2EBE66E600772CB1 /* 05-numbers-only_i1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05-numbers-only_i1.json"; sourceTree = "<group>"; };
+		9A24DAAF2EBE70ED00772CB1 /* 05-background-only_i1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "05-background-only_i1.json"; sourceTree = "<group>"; };
 		9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModelTests.swift; sourceTree = "<group>"; };
 		9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalProfileBannerCell.swift; sourceTree = "<group>"; };
 		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
@@ -6868,6 +6872,8 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				9A24DAAF2EBE70ED00772CB1 /* 05-background-only_i1.json */,
+				9A24DAAC2EBE66E600772CB1 /* 05-numbers-only_i1.json */,
 				9A24DA992EBE4D8600772CB1 /* 05_(with hidden text)_i2.json */,
 				9A24DA972EBE4CF000772CB1 /* 05_(with hidden text)_i4.json */,
 				9A24DA952EBE484D00772CB1 /* 05_(with hidden text)_i1.json */,
@@ -9841,6 +9847,7 @@
 				40888F112563792300887D9A /* AppIcon-Round-Pink20x20@2x.png in Resources */,
 				404A080824E215A200308722 /* CheckboxSubtitleCell.xib in Resources */,
 				9A37049D2EBCF08C00AB9D0C /* test_animation_3.json in Resources */,
+				9A24DAAE2EBE66E600772CB1 /* 05-numbers-only_i1.json in Resources */,
 				8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */,
 				BD96F4761CC9FEB900AB09B0 /* ForgotPasswordViewController.xib in Resources */,
 				BDBCE6D5244E7755004FFE13 /* AppIcon-Radioactive20x20~ipad.png in Resources */,
@@ -9966,6 +9973,7 @@
 				FF9BCB342EA659C900A25F12 /* playback_2025_listened.json in Resources */,
 				BD1292EB22F7D066004608A6 /* AppIcon-Classic83.5x83.5@2x~ipad.png in Resources */,
 				BDD71CF91BA93A6D006D2CE3 /* PodcastGroupCell.xib in Resources */,
+				9A24DAB02EBE70ED00772CB1 /* 05-background-only_i1.json in Resources */,
 				BD1292F522F7D066004608A6 /* AppIcon-Classic29x29@2x~ipad.png in Resources */,
 				BD9FF61D1B8EDDBB009F075E /* NetworkCell.xib in Resources */,
 				409C792A222369C800386495 /* UserEpisodeDetailViewController.xib in Resources */,
