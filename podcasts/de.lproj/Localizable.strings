@@ -2722,6 +2722,14 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Aktuelle Suchen</string>
     <key>search_results</key>
     <string>%1$@ von %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Feedback einsenden</string>
+    <key>search_results_empty_message</key>
+    <string>Versuche es mit einer neuen Suche oder füge eine Podcast-Feed-URL hinzu</string>
+    <key>search_results_empty_title</key>
+    <string>Keine Ergebnisse</string>
+    <key>search_results_view_all</key>
+    <string>Alle Ergebnisse für „%1$@“ anzeigen</string>
     <key>season</key>
     <string>Staffel</string>
     <key>season_episode_shorthand_format</key>
