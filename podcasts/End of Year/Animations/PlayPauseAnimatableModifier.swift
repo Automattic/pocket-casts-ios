@@ -50,6 +50,8 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
     private var duration: TimeInterval
     private let animationType: (TimeInterval) -> Animation
 
+    @State private var paused: Bool = true
+
     @State private var startTime: Date?
 
     @State private var remainingTime: TimeInterval = 0
@@ -76,18 +78,19 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     func body(content: Content) -> some View {
         content
-            .onChange(of: viewModel.paused) { _ in
+            .onReceive(viewModel.$paused) {
+                paused = $0
                 playOrPause()
             }
     }
 
     private func playOrPause() {
         if timer?.isValid == true || after > 0 {
-            viewModel.paused ? pauseTimer() : startTimer()
+            paused ? pauseTimer() : startTimer()
             return
         }
 
-        viewModel.paused ? pause() : play()
+        paused ? pause() : play()
     }
 
     private func pause() {

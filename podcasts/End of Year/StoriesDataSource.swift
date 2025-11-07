@@ -41,9 +41,6 @@ protocol StoriesDataSource {
     /// Color of the top Story progress indicator
     var indicatorColor: Color { get }
 
-    /// Style configuration for the story indicators
-    var indicatorStyle: StoryIndicatorStyle { get }
-
     /// Color of the primary background
     var primaryBackgroundColor: Color { get }
 
@@ -60,12 +57,6 @@ extension StoriesDataSource {
 
     func isInteractiveView(for: Int) -> Bool {
         return false
-    }
-
-    var indicatorHeight: CGFloat { 2 }
-
-    var indicatorStyle: StoryIndicatorStyle {
-        StoryIndicatorStyle(height: indicatorHeight)
     }
 }
 

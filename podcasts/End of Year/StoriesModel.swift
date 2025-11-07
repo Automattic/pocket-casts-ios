@@ -4,7 +4,7 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    @Published var progress: Double
+    var progress: Double
 
     @Published var currentStoryIndex: Int = 0
 
@@ -41,14 +41,6 @@ class StoriesModel: ObservableObject {
 
     var numberOfStoriesToPreload: Int {
         configuration.storiesToPreload
-    }
-
-    var indicatorHeight: CGFloat {
-        configuration.indicatorHeight
-    }
-
-    var indicatorSpacing: CGFloat {
-        configuration.indicatorSpacing
     }
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration, activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier) {
@@ -259,20 +251,12 @@ class StoriesModel: ObservableObject {
         dataSource.indicatorColor
     }
 
-    var indicatorStyle: StoryIndicatorStyle {
-        dataSource.indicatorStyle
-    }
-
     var primaryBackgroundColor: Color {
         dataSource.primaryBackgroundColor
     }
 
     func sharingSnapshotModifier(_ view: AnyView) -> AnyView {
         dataSource.sharingSnapshotModifier(view)
-    }
-
-    func shouldShowDismissButton() -> Bool {
-        configuration.shouldShowDismissButton
     }
 }
 
