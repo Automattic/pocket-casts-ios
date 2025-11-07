@@ -229,12 +229,14 @@ class EpisodeManager: NSObject {
         }
     }
 
-    class func bulkUnarchive(episodes: [Episode]) {
+    class func bulkUnarchive(episodes: [Episode], trackEvent: Bool = true) {
         DataManager.sharedManager.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
 
-        analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+        if trackEvent {
+            analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
+        }
     }
 
     class func removeListeningHistory(episodes: [BaseEpisode]) {

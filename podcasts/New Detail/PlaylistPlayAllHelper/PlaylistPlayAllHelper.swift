@@ -4,13 +4,16 @@ import PocketCastsUtils
 class PlaylistPlayAllHelper {
     enum Action {
         case close
+        case showSecondPicker
         case replaceAndPlay
+        case play
         case saveAndPlay
+        case dismiss
     }
     class func playAll(confirmAction: @escaping (Action) -> Void) {
         if PlaybackManager.shared.queue.upNextCount() == 0 {
             // there's nothing to over-write, so nothing to confirm either
-            confirmAction(.replaceAndPlay)
+            confirmAction(.play)
             return
         }
 
@@ -26,6 +29,7 @@ class PlaylistPlayAllHelper {
             label: L10n.playlistPlayAllOptionReplaceQueue,
             icon: nil,
             action: {
+                confirmAction(.showSecondPicker)
                 displayOverridePicker(confirmAction: confirmAction)
             }
         )
@@ -41,6 +45,9 @@ class PlaylistPlayAllHelper {
                 replace
             ]
         )
+        picker.setNoActionCallback {
+            confirmAction(.dismiss)
+        }
         picker.show(statusBarStyle: .default)
     }
 
@@ -73,6 +80,9 @@ class PlaylistPlayAllHelper {
                 close
             ]
         )
+        picker.setNoActionCallback {
+            confirmAction(.dismiss)
+        }
         picker.show(statusBarStyle: .default)
     }
 }

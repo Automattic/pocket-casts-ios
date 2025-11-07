@@ -28,14 +28,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    Analytics.track(.filterSelectAllAbove)
-                    self.tableView.selectAllAbove(indexPath: indexPath)
+                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [weak self] in
+                    self?.track(.filterSelectAllAbove)
+                    self?.tableView.selectAllAbove(indexPath: indexPath)
                 })
 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    Analytics.track(.filterSelectAllBelow)
-                    self.tableView.selectAllBelow(indexPath: indexPath)
+                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [weak self] in
+                    self?.track(.filterSelectAllBelow)
+                    self?.tableView.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
@@ -70,6 +70,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
             guard let self = self else { return }
 
+            self.track(selected ? .filterShowArchivedTapped : .filterHideArchivedTapped)
             self.viewModel.updateShowArchivedEpisodes(show: selected)
             self.viewModel.reloadEpisodeList(animated: true)
         }
@@ -108,7 +109,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                 title: L10n.episodeFilterNoEpisodesTitle,
                 message: archivedPlaceholder.message,
                 actions: [
-                    .init(title: L10n.podcastShowArchived, action: {
+                    .init(title: L10n.podcastShowArchived, action: { [weak self] in
+                        self?.track(.filterShowArchivedCtaEmptyTapped)
                         onToggleChange(true)
                     })
                 ]
@@ -219,6 +221,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
                 let episodeUuid = selectedEpisode.uuid
                 let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
                     guard let self else { return }
+                    self.track(.filterRemoveFromPlaylistTapped)
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
                 BottomSheetSwiftUIWrapper.present(
