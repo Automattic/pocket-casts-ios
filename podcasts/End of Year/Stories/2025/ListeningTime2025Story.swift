@@ -38,22 +38,9 @@ struct ListeningTime2025Story: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                if renderForSharing {
-                    Image("playback_2025_listening_time_back")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    LottieView(animation: .named("playback2025_listening_time"))
-                        .animationDidFinish({ completed in
-                        })
-                        .configure({ animationView in
-                            animationView.contentMode = .scaleAspectFill
-                        })
-                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-//                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
+                Color.red
+                    .ignoresSafeArea()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
                     let sizingFactor = 0.25
@@ -72,7 +59,6 @@ struct ListeningTime2025Story: ShareableStory {
                 }
                 .padding(.bottom, geometry.size.height * 0.17)
                 .padding(.horizontal, 30)
-                .background(Color.red.opacity(0.5))
                 .ignoresSafeArea()
                 .mask(alignment: .topLeading, {
                     LottieView(animation: .named("test_05_mask_02"))
@@ -89,9 +75,24 @@ struct ListeningTime2025Story: ShareableStory {
                 })
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .background(content: {
-//
-//            })
+            .background(content: {
+                if renderForSharing {
+                    Image("playback_2025_listening_time_back")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    LottieView(animation: .named("playback2025_listening_time"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                        })
+                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                }
+            })
         }
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
@@ -239,17 +240,17 @@ struct GrowingCenteredRect: Shape {
     }
 }
 
-#Preview("Numbers") {
-    NumbersView(size: CGSize(width: 640, height: 1080))
-}
-
-#Preview("Masked") {
-    TestView()
-}
-
-//#Preview("Days") {
-//    ListeningTime2025Story(listeningTime: 4.day + 5.hour + 20.minutes)
+//#Preview("Numbers") {
+//    NumbersView(size: CGSize(width: 640, height: 1080))
 //}
+//
+//#Preview("Masked") {
+//    TestView()
+//}
+
+#Preview("Days") {
+    ListeningTime2025Story(listeningTime: 4.day + 5.hour + 20.minutes)
+}
 //
 //#Preview("Days hour min") {
 //    ListeningTime2025Story(listeningTime: 1.day + 5.hour + 20.minutes)
