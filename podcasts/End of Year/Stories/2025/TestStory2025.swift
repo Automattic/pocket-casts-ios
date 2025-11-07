@@ -73,7 +73,7 @@ struct TestStory2025: ShareableStory {
     }
 
     var customView: LottieView<EmptyView> {
-        let view = LottieView(animation: .named("04_stats_i14"))
+        let view = LottieView(animation: .named("04_stats_i16"))
 //        let view = LottieView(animation: .named("test_animation_3"))
 //        let view = LottieView(animation: .named("test_animation"))
 //        return view.textProvider(MyLottieTextProvider2(text: currentText))
