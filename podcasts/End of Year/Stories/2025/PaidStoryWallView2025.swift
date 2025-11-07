@@ -4,16 +4,31 @@ import PocketCastsServer
 import PocketCastsUtils
 
 struct PaidStoryWallView2025: View {
+    let identifier = "plus_interstitial"
+
     @StateObject private var model = PlusPricingInfoModel()
 
     let subscriptionTier: SubscriptionTier
 
     private let foregroundColor = Color.black
-    private let backgroundColor = Color(hex: "#9CB6CF")// Using video background color instead of the one defined in Figma: Color(hex: "#96BCD1")
-    @State private var player = AVPlayer(url: Bundle.main.url(forResource: "playback_2025_plus", withExtension: "mp4")!)
-    @State private var isPlaying: Bool = false
 
-    let identifier = "plus_interstitial"
+    private let backgroundColor = Color(hex: "#9CB6CF")// Using video background color instead of the one defined in Figma: Color(hex: "#96BCD1")
+
+    private let player: AVQueuePlayer
+    private let looper: AVPlayerLooper?
+
+    private let videoAspectRatio = CGFloat(1.777)
+
+    init(subscriptionTier: SubscriptionTier) {
+        self.subscriptionTier = subscriptionTier
+        self.player = AVQueuePlayer()
+        if let videoURL = Bundle.main.url(forResource: "playback_2025_plus", withExtension: "mp4") {
+            let item = AVPlayerItem(url: videoURL)
+            self.looper = AVPlayerLooper(player: player, templateItem: item)
+        } else {
+            self.looper = nil
+        }
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +41,7 @@ struct PaidStoryWallView2025: View {
                             HStack {
                                 Spacer()
                                 VideoPlayer(player: player)
-                                    .frame(width: geometry.size.height / 1.777,
+                                    .frame(width: geometry.size.height / videoAspectRatio,
                                            height: geometry.size.height)
                                     .allowsHitTesting(false)
                                 Spacer()
