@@ -9,28 +9,6 @@ struct TestStory2025: ShareableStory {
     @State private var currentText: String = "0"
 
     @State private var animationProgress: AnimationProgressTime = .zero
-    
-    let listeningTime: Double
-    private let startTime: Double
-    private let endTime: Double
-    private static let speed: Double = 0.01
-    
-    @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
-    @State private var currentTime: Double
-
-    var formattedMinutes: String {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.groupingSeparator = ","
-            return formatter.string(for: Int(currentTime / 60.0)) ?? ""
-        }
-    
-    init(listeningTime: Double) {
-            self.listeningTime = listeningTime
-            startTime = listeningTime - (listeningTime * 0.1)
-            endTime = listeningTime
-            _currentTime = .init(initialValue: startTime)
-        }
 
     var body: some View {
         ZStack {
@@ -41,9 +19,6 @@ struct TestStory2025: ShareableStory {
             .foregroundStyle(foregroundColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .onChange(of: animationProgress) { position in
-//            
-//        }
         .background(content: {
                 customView
                 .animationDidFinish({ completed in
@@ -51,13 +26,13 @@ struct TestStory2025: ShareableStory {
                 .configure({ animationView in
 //                    animationViewRef = animationView
                     animationView.contentMode = .scaleToFill
-//                    animationView.logHierarchyKeypaths()
-                    animationView.textProvider = MyLottieTextProvider2(text: formattedMinutes)
+                    animationView.logHierarchyKeypaths()
+//                    animationView.textProvider = MyLottieTextProvider2(text: formattedMinutes)
 //                    let colorKeypath = AnimationKeypath(keypath: "main number.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 1, g: 1, b: 1, a: 1))
 //                    animationView.setValueProvider(colorProvider, keypath: colorKeypath)
 
-//                    animationView.textProvider = MyLottieTextProvider()
+                    animationView.textProvider = MyLottieTextProvider()
 //                    let colorKeypath = AnimationKeypath(keypath: "2025.Animator 1.Fill Color")
 //                    let colorKeypath2 = AnimationKeypath(keypath: "150 hours.Animator 1.Fill Color")
 //                    let colorProvider = ColorValueProvider(LottieColor(r: 0, g: 1, b: 1, a: 1))
@@ -67,21 +42,22 @@ struct TestStory2025: ShareableStory {
 
                     animationView.fontProvider = MyFontProvider()
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+//                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
 //                .getRealtimeAnimationFrame($animationProgress)
-//                .playbackMode(.playing(.marker("marker_9", loopMode: .playOnce)))
+                .playbackMode(.playing(.marker("marker_4", loopMode: .playOnce)))
+//                .playbackMode(.playing(.fromFrame(675, toFrame: (675+150), loopMode: .playOnce)))
 //                .playbackMode(.paused)
                 .scaledToFill()
-//                .scaleEffect(0.5)
+                .scaleEffect(0.5)
                 .ignoresSafeArea()
         }
         )
         .ignoresSafeArea()
         .background(backgroundColor)
 //        .enableProportionalValueScaling()
-        .onChange(of: stepCounter.counter) { value in
-                    stepNumberAnimation(value)
-                }
+//        .onChange(of: stepCounter.counter) { value in
+//                    stepNumberAnimation(value)
+//                }
 //        .onAppear {
 //            for i in 0..<100 {
 //                DispatchQueue.global().asyncAfter(deadline: .now() + Double(i) * 0.01) {
@@ -92,24 +68,14 @@ struct TestStory2025: ShareableStory {
 //        }
     }
     
-    func stepNumberAnimation(_ value: Int) {
-            if currentTime < endTime {
-                withAnimation(.easeIn(duration: Self.speed)) {
-                    currentTime = listeningTime * 0.01 * Double(value)
-                }
-            } else {
-                currentTime = endTime
-            }
-        }
-    
     @ViewBuilder var headerView: some View {
         StoryHeader2025(title: "Test Animation")
     }
 
     var customView: LottieView<EmptyView> {
-        let view = LottieView(animation: .named("test_animation_06"))
+        let view = LottieView(animation: .named("04_stats_i14"))
 //        let view = LottieView(animation: .named("test_animation_3"))
-//        let view = LottieView(animation: .named("test_animation_2"))
+//        let view = LottieView(animation: .named("test_animation"))
 //        return view.textProvider(MyLottieTextProvider2(text: currentText))
         return view
     }
@@ -120,8 +86,10 @@ final class MyLottieTextProvider: AnimationTextProvider, Equatable {
 
     init() {
         dict = [
-            "2024": "2000",
-            "150 hours": "300 ore",
+//            "2024": "2000",
+//            "150 hours": "300 ore",
+//            "2024": "2000",
+            "main number": "5",
         ]
     }
 
@@ -143,7 +111,7 @@ final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
     }
 
     func textFor(keypathName: String, sourceText: String) -> String {
-//        print("AAAA Text \(keypathName), \(sourceText)")
+        print("AAAA Text \(keypathName), \(sourceText)")
         if keypathName == "content.MAIN NUMBER.40,456" {
             return s
         }
@@ -157,10 +125,10 @@ final class MyLottieTextProvider2: AnimationTextProvider, Equatable {
 
 class MyFontProvider: AnimationFontProvider {
     func fontFor(family: String, size: CGFloat) -> CTFont? {
-//        print("AAAA font \(family)")
+        print("AAAA font \(family)")
         switch family {
-        case "Inter-Medium":
-            let font = UIFont(name: "Inter-Regular", size: 30)!
+        case "Inter-Medium", "Inter-Regular":
+            let font = UIFont(name: "Inter-Regular", size: 32)!
             return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
         default:
             let font = UIFont(name: "Humane-SemiBold", size: 300)!
