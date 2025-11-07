@@ -75,6 +75,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 
         let didChangeName = filterToEdit.playlistName != filterNameTextField.text
 
+        if Self.playlistRebrandingIsEnabled, didChangeName {
+            track(.filterNameUpdated)
+        }
+
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filterToEdit)

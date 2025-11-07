@@ -6,13 +6,14 @@ class PlaylistPlayAllHelper {
         case close
         case showSecondPicker
         case replaceAndPlay
+        case play
         case saveAndPlay
         case dismiss
     }
     class func playAll(confirmAction: @escaping (Action) -> Void) {
         if PlaybackManager.shared.queue.upNextCount() == 0 {
             // there's nothing to over-write, so nothing to confirm either
-            confirmAction(.replaceAndPlay)
+            confirmAction(.play)
             return
         }
 

@@ -68,6 +68,8 @@ extension PlaylistDetailViewController {
                         case .replaceAndPlay:
                             self.track(.filterPlayAllReplaceAndPlayConfirmTapped)
                             self.viewModel.playAllEpisodes()
+                        case .play:
+                            self.viewModel.playAllEpisodes()
                         case .dismiss, .close:
                             self.track(.filterPlayAllDismissed)
                             break
