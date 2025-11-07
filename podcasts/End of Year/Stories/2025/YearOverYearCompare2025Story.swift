@@ -24,7 +24,12 @@ struct YearOverYearCompare2025Story: ShareableStory {
         .background {
             LottieView(animation: .named(animationName))
                 .configure({ animationView in
+#if DEBUG
+                    animationView.logHierarchyKeypaths()
+#endif
                     animationView.contentMode = .scaleAspectFill
+                    animationView.textProvider = LottieTextProvider(prevYear: listeningTime.totalPlayedTimeLastYear, currentYear: listeningTime.totalPlayedTimeThisYear)
+                    animationView.fontProvider = MyFontProvider()
                 })
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                 .scaledToFill()
@@ -154,6 +159,43 @@ struct YearOverYearCompare2025Story: ShareableStory {
         case .same:
             return "2025_yoy_same"
         }
+    }
+}
+
+final private class LottieTextProvider: AnimationTextProvider, Equatable {
+    private let dict: [String: String]
+    private let prevYear: Int
+    private let currentYear: Int
+
+    init(
+        prevYear: Double,
+        currentYear: Double
+    ) {
+        self.prevYear = Int(prevYear)
+        self.currentYear = Int(currentYear)
+        dict = [
+            "0 hours": "\(self.prevYear) hours",
+            "150 hours": "\(self.prevYear) hours",
+            "180 hours": "\(self.prevYear) hours",
+            "155 hours": "\(self.currentYear) hours",
+            "160 hours": "\(self.currentYear) hours"
+        ]
+    }
+
+    func textFor(keypathName: String, sourceText: String) -> String {
+        print("AAAA text \(keypathName)")
+        return dict[keypathName] ?? sourceText
+    }
+
+    static func == (lhs: LottieTextProvider, rhs: LottieTextProvider) -> Bool {
+        lhs.dict == rhs.dict
+    }
+}
+
+class MyFontProvider: AnimationFontProvider {
+    func fontFor(family: String, size: CGFloat) -> CTFont? {
+        let font = UIFont(name: family, size: size)!
+        return CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
     }
 }
 

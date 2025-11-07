@@ -689,6 +689,7 @@
 		9A1A73E12E5623EF00E9248C /* PlaylistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1A73E02E5623E700E9248C /* PlaylistDetailViewController.swift */; };
 		9A1F6F482DB7D10600ADF727 /* PodcastListViewController+Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */; };
 		9A1F6F502DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */; };
+		9A24DA7E2EBE1E6600772CB1 /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A24DA7D2EBE1E6600772CB1 /* Inter.ttf */; };
 		9A263EBC2DA562F600E895B6 /* InformationalBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */; };
 		9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */; };
 		9A263EC52DA6744700E895B6 /* InformationalBannerViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */; };
@@ -3057,6 +3058,7 @@
 		9A1A73E02E5623E700E9248C /* PlaylistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailViewController.swift; sourceTree = "<group>"; };
 		9A1F6F472DB7D10200ADF727 /* PodcastListViewController+Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastListViewController+Tip.swift"; sourceTree = "<group>"; };
 		9A1F6F4F2DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionWinbackOfferView.swift; sourceTree = "<group>"; };
+		9A24DA7D2EBE1E6600772CB1 /* Inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inter.ttf; sourceTree = "<group>"; };
 		9A263EBB2DA562F600E895B6 /* InformationalBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewModelTests.swift; sourceTree = "<group>"; };
 		9A263EC02DA65CC600E895B6 /* InformationalProfileBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalProfileBannerCell.swift; sourceTree = "<group>"; };
 		9A263EC42DA6744100E895B6 /* InformationalBannerViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationalBannerViewCoordinator.swift; sourceTree = "<group>"; };
@@ -4944,6 +4946,7 @@
 				F51E3B512CC70A4A00AFAD05 /* Humane-Medium.otf */,
 				FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */,
 				8B15E7212AD050EE0077F45A /* DMSans.ttf */,
+				9A24DA7D2EBE1E6600772CB1 /* Inter.ttf */,
 				8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */,
 				C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */,
 				467DF6E826E1093A00AC290C /* Strings+Generated.swift */,
@@ -9879,6 +9882,7 @@
 				BD6B66A3245BC28800CF5245 /* AppIcon-Red-Velvet29x29@2x~ipad.png in Resources */,
 				4007B04D230E1FB4008DDCF5 /* WhatsNewViewController.xib in Resources */,
 				BDA002D11F7B318B00DCB4AE /* AppIcon-Dark76x76@2x~ipad.png in Resources */,
+				9A24DA7E2EBE1E6600772CB1 /* Inter.ttf in Resources */,
 				BDA002E41F7B318B00DCB4AE /* AppIcon-Round-Dark76x76~ipad.png in Resources */,
 				102864AB2CED1F990098B2A9 /* CancelSubscription.xcassets in Resources */,
 				BDE73A7E1B607AF5005BFE30 /* PlayerImages.xcassets in Resources */,

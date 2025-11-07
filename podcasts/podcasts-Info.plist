@@ -1047,6 +1047,7 @@
 		<string>Humane-Medium.otf</string>
 		<string>Humane-Bold.otf</string>
 		<string>Humane-SemiBold.otf</string>
+		<string>Inter.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
