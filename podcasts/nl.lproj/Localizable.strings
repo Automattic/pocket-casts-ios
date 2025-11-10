@@ -2716,6 +2716,14 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Recente zoekopdrachten</string>
     <key>search_results</key>
     <string>%1$@ van %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Stuur ons feedback</string>
+    <key>search_results_empty_message</key>
+    <string>Probeer een nieuwe zoekopdracht of door een URL van een podcast-feed toe te voegen</string>
+    <key>search_results_empty_title</key>
+    <string>Geen resultaten</string>
+    <key>search_results_view_all</key>
+    <string>Alle resultaten voor '%1$@' bekijken</string>
     <key>season</key>
     <string>Seizoen</string>
     <key>season_episode_shorthand_format</key>

@@ -2722,6 +2722,14 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Senaste sökningar</string>
     <key>search_results</key>
     <string>%1$@ av %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Ge oss feedback</string>
+    <key>search_results_empty_message</key>
+    <string>Prova en ny sökning eller att lägga till en podcastflödes-URL</string>
+    <key>search_results_empty_title</key>
+    <string>Inga resultat</string>
+    <key>search_results_view_all</key>
+    <string>Visa alla resultat för ”%1$@”</string>
     <key>season</key>
     <string>Säsong</string>
     <key>season_episode_shorthand_format</key>

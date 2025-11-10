@@ -300,6 +300,8 @@ enum AnalyticsEvent: String {
 
     case filterMultiSelectEntered
     case filterSelectAllButtonTapped
+    case filterSelectAll
+    case filterDeselectAll
     case filterSelectAllAbove
     case filterSelectAllBelow
     case filterMultiSelectExited
@@ -320,6 +322,39 @@ enum AnalyticsEvent: String {
     case filterAddEpisodesFolderTapped
     case filterAddEpisodesPodcastTapped
     case filterAddEpisodesEpisodeTapped
+
+    case filterEditRulesTapped
+    case filterAddEpisodesTapped
+
+    case filterPlayAllTapped
+    case filterPlayAllSaveUpNextTapped
+    case filterPlayAllReplaceAndPlayTapped
+    case filterPlayAllReplaceAndPlayConfirmTapped
+    case filterPlayAllDismissed
+
+    case filterOptionsTapped
+    case filterSelectEpisodesTapped
+    case filterSortByTapped
+    case filterDownloadAllTapped
+    case filterChromeCastTapped
+    case filterArchiveAllTapped
+    case filterUnarchiveAllTapped
+    case filterRearrangeEpisodesTapped
+
+    case filterShowArchivedTapped
+    case filterHideArchivedTapped
+
+    case filterRemoveFromPlaylistTapped
+
+    case filterNameUpdated
+
+    case filterEditRulesCtaEmptyTapped
+    case filterAddEpisodesCtaEmptyTapped
+    case filterBrowseShowsCtaEmptyTapped
+    case filterShowArchivedCtaEmptyTapped
+
+    case filterManualEpisodesRearranged
+    case filterManualEpisodeDeleted
 
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed

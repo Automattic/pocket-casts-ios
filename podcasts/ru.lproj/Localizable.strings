@@ -2722,6 +2722,14 @@ Pocket Casts на полную мощность.</string>
     <string>Последний поиск</string>
     <key>search_results</key>
     <string>%1$@ из %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Отправить отзыв</string>
+    <key>search_results_empty_message</key>
+    <string>Попробуйте уточнить поиск, введя URL-адрес ленты подкаста.</string>
+    <key>search_results_empty_title</key>
+    <string>Нет результатов</string>
+    <key>search_results_view_all</key>
+    <string>Просмотреть все результаты по запросу «%1$@»</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>

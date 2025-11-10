@@ -5,11 +5,13 @@ struct StoryHeader2025: View {
     let title: String?
     let description: String?
     let subscriptionTier: SubscriptionTier?
+    let topPadding: CGFloat?
 
-    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil) {
+    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil, topPadding: CGFloat? = nil) {
         self.title = title
         self.description = description
         self.subscriptionTier = subscriptionTier
+        self.topPadding = topPadding
     }
 
     var body: some View {
@@ -27,10 +29,11 @@ struct StoryHeader2025: View {
                 Text(description)
                     .font(.system(size: 16, weight: .medium))
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(.horizontal, 24)
-        .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
+        .padding(.top, topPadding ?? (UIScreen.isSmallScreen ? 80 : 110))
     }
 }
 
