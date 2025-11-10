@@ -2102,6 +2102,8 @@
 		FF2EC0AA2E74720F00069C94 /* LocalSearchEpisodeResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0A92E74720F00069C94 /* LocalSearchEpisodeResultsView.swift */; };
 		FF2EC0AC2E74732700069C94 /* LocalSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0AB2E74732700069C94 /* LocalSearchViewModel.swift */; };
 		FF2EC0AE2E7475D800069C94 /* LocalSearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC0AD2E7475D800069C94 /* LocalSearchCoordinator.swift */; };
+		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
+		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
 		FF3DF62F2CA42F26007CF697 /* UIView+Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47245A2BA4749F00EA916B /* MenuRow.swift */; };
@@ -2167,6 +2169,7 @@
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
+		FFEB45852EBE4A0A00DF5E12 /* PaidStoryWallView2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
 		FFEE59C42EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
@@ -4260,6 +4263,8 @@
 		FF2EC0A92E74720F00069C94 /* LocalSearchEpisodeResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchEpisodeResultsView.swift; sourceTree = "<group>"; };
 		FF2EC0AB2E74732700069C94 /* LocalSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchViewModel.swift; sourceTree = "<group>"; };
 		FF2EC0AD2E7475D800069C94 /* LocalSearchCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchCoordinator.swift; sourceTree = "<group>"; };
+		FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus.mp4; sourceTree = "<group>"; };
+		FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus_background.mp4; sourceTree = "<group>"; };
 		FF3DF62E2CA42F1B007CF697 /* UIView+Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nib.swift"; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -4324,6 +4329,7 @@
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClipAppDelegate.swift; sourceTree = "<group>"; };
 		FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCoordinator.swift; sourceTree = "<group>"; };
+		FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidStoryWallView2025.swift; sourceTree = "<group>"; };
 		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
 		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
 		FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSpotStory2025.swift; sourceTree = "<group>"; };
@@ -6844,6 +6850,8 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */,
+				FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */,
 				FFEE5A012EB514C100D4B145 /* playback_2025_top_spot_story.json */,
 				9AF415812EBA69B3003D3677 /* 2025_completion_rate_20.json */,
 				9AF415822EBA69B3003D3677 /* 2025_completion_rate_40.json */,
@@ -9011,6 +9019,7 @@
 		FFB74B0A2E99363F00F16857 /* 2025 */ = {
 			isa = PBXGroup;
 			children = (
+				FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */,
 				FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */,
 				9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */,
 				FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */,
@@ -9850,6 +9859,7 @@
 				BD12928922F7CCC9004608A6 /* AppIcon-Electric-Blue40x40@2x~ipad.png in Resources */,
 				BDA003031F7B318B00DCB4AE /* AppIcon-Default40x40@3x.png in Resources */,
 				BD6B6680245BC25C00CF5245 /* AppIcon-Indigo76x76~ipad.png in Resources */,
+				FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */,
 				BD6C3F03237916A200C01403 /* ShelfActionsViewController.xib in Resources */,
 				BDC377641C44E6BD001FD219 /* EmptyHeaderView.xib in Resources */,
 				BD01430621A299CE002FDDF4 /* OptionsPickerIcons.xcassets in Resources */,
@@ -9973,6 +9983,7 @@
 				BDBCE6CD244E7755004FFE13 /* AppIcon-Radioactive40x40~ipad.png in Resources */,
 				BD03DF891CACD9AB005A127E /* DownloadedFilesViewController.xib in Resources */,
 				400A3EFB22703D54007361C7 /* AccountUpdatedViewController.xib in Resources */,
+				FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */,
 				BD92323223629E1900C1E118 /* PlayerContainerViewController.xib in Resources */,
 				C7897B472A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */,
 				BDA002E31F7B318B00DCB4AE /* AppIcon-Round-Dark76x76@2x~ipad.png in Resources */,
@@ -10859,6 +10870,7 @@
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
 				BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */,
 				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
+				FFEB45852EBE4A0A00DF5E12 /* PaidStoryWallView2025.swift in Sources */,
 				9AF355862E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift in Sources */,
 				F5F884672CCA8F23002BED2C /* CompletionRate2024Story.swift in Sources */,
 				9AF6468F2E5B58C200627836 /* PlaylistHeaderViewCell.swift in Sources */,

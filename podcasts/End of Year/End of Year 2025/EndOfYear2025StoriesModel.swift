@@ -136,7 +136,7 @@ class EndOfYear2025StoriesModel: StoryModel {
     }
 
     func paywallView() -> AnyView {
-        AnyView(PaidStoryWallView2024(subscriptionTier: SubscriptionHelper.activeTier))
+        AnyView(PaidStoryWallView2025(subscriptionTier: SubscriptionHelper.activeTier))
     }
 
     func overlaidShareView() -> AnyView? {
