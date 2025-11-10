@@ -100,6 +100,10 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
 }
 
 
-#Preview {
+#Preview("Plus") {
     PaidStoryWallView2025(subscriptionTier: .plus)
+}
+
+#Preview("Patron") {
+    PaidStoryWallView2025(subscriptionTier: .patron)
 }
