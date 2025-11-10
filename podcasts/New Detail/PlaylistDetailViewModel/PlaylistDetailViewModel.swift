@@ -90,7 +90,7 @@ class PlaylistDetailViewModel: ObservableObject {
         self.onButtonTapped = onButtonTapped
     }
 
-    func update(data: DataSourceValue) {
+    func update(data: DataSourceValue, then block: (() -> Void)? = nil) {
         self.dataSource = data
 
         if isLoadingData { return }
@@ -112,11 +112,13 @@ class PlaylistDetailViewModel: ObservableObject {
                         self.images = images
                         self.playlistEpisodesCount = count
                         self.isLoadingData = false
+                        block?()
                     }
                 }
             } catch {
                 await MainActor.run {
                     self.isLoadingData = false
+                    block?()
                 }
             }
         }

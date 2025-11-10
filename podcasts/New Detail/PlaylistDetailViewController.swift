@@ -384,17 +384,29 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         if animated, contentChanged {
             tableView.reload(using: data, with: .fade) { [weak self] newData in
-                self?.viewModel.update(data: newData)
+                self?.viewModel.update(data: newData) {
+                    self?.reloadRefreshControlColor()
+                }
             }
         } else {
             if let data = data.last?.data {
-                viewModel.update(data: data)
+                viewModel.update(data: data) { [weak self] in
+                    self?.reloadRefreshControlColor()
+                }
             }
             tableView.reloadData()
         }
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+    }
+
+    private func reloadRefreshControlColor() {
+        if let snapshot = blurHeaderView.sj_snapshotImage() {
+            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+        } else {
+            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+        }
     }
 
     private func reloadNavTitle() {
