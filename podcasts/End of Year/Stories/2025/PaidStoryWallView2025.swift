@@ -3,6 +3,22 @@ import AVKit
 import PocketCastsServer
 import PocketCastsUtils
 
+struct CustomVideoPlayerView: UIViewControllerRepresentable {
+    let player: AVPlayer
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.player = player
+        controller.showsPlaybackControls = false
+        controller.videoGravity = .resizeAspectFill
+        return controller
+    }
+
+    func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
+        // Handle updates if needed
+    }
+}
+
 struct PaidStoryWallView2025: View {
     let identifier = "plus_interstitial"
 
@@ -12,7 +28,7 @@ struct PaidStoryWallView2025: View {
 
     private let foregroundColor = Color.black
 
-    private let backgroundColor = Color(hex: "#9CB6CF")// Using video background color instead of the one defined in Figma: Color(hex: "#96BCD1")
+    private let backgroundColor = Color(hex: "#96BCD1")
 
     private let player: AVQueuePlayer
     private let looper: AVPlayerLooper?
@@ -40,17 +56,9 @@ struct PaidStoryWallView2025: View {
                         GeometryReader { geometry in
                             HStack {
                                 Spacer()
-                                ZStack {
-                                    VideoPlayer(player: player)
-                                        .allowsHitTesting(false)
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: (geometry.size.height / videoAspectRatio).rounded(),
-                                               height: geometry.size.height)
-                                        .clipped()
-                                    EmptyView()
-                                        .frame(width: geometry.size.width, height: geometry.size.height)
-                                        .allowsHitTesting(true)
-                                }
+                                CustomVideoPlayerView(player: player)
+                                    .frame(width: (geometry.size.height / videoAspectRatio).rounded(),
+                                           height: geometry.size.height)
                                 Spacer()
                             }
                         }
