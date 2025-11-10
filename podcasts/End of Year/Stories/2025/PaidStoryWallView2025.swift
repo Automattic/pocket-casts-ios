@@ -25,6 +25,7 @@ struct PaidStoryWallView2025: View {
         if let videoURL = Bundle.main.url(forResource: "playback_2025_plus", withExtension: "mp4") {
             let item = AVPlayerItem(url: videoURL)
             self.looper = AVPlayerLooper(player: player, templateItem: item)
+            player.play()
         } else {
             self.looper = nil
         }
@@ -35,16 +36,21 @@ struct PaidStoryWallView2025: View {
             VStack(spacing: 0) {
                 Spacer()
                     .frame(width: geometry.size.width)
-                    .aspectRatio(contentMode: .fill)
                     .background() {
                         GeometryReader { geometry in
                             HStack {
                                 Spacer()
-                                VideoPlayer(player: player)
-                                    .frame(width: (geometry.size.height / videoAspectRatio).rounded(),
-                                           height: geometry.size.height)
-                                    .allowsHitTesting(false)
-                                    .clipped()
+                                ZStack {
+                                    VideoPlayer(player: player)
+                                        .allowsHitTesting(false)
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: (geometry.size.height / videoAspectRatio).rounded(),
+                                               height: geometry.size.height)
+                                        .clipped()
+                                    EmptyView()
+                                        .frame(width: geometry.size.width, height: geometry.size.height)
+                                        .allowsHitTesting(true)
+                                }
                                 Spacer()
                             }
                         }
@@ -57,7 +63,6 @@ struct PaidStoryWallView2025: View {
 
                     NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                 }
-                .allowsHitTesting(true)
                 .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
                 .padding(.horizontal, 24)
                 .padding(.vertical, 6)
@@ -70,7 +75,6 @@ struct PaidStoryWallView2025: View {
                 .allowsHitTesting(false)
         }
         .onAppear {
-            player.play()
             Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
             Analytics.track(.endOfYearStoryShown, story: identifier)
         }
