@@ -41,9 +41,10 @@ struct PaidStoryWallView2025: View {
                             HStack {
                                 Spacer()
                                 VideoPlayer(player: player)
-                                    .frame(width: geometry.size.height / videoAspectRatio,
+                                    .frame(width: (geometry.size.height / videoAspectRatio).rounded(),
                                            height: geometry.size.height)
                                     .allowsHitTesting(false)
+                                    .clipped()
                                 Spacer()
                             }
                         }
