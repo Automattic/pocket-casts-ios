@@ -18,8 +18,7 @@ struct LongestEpisode2025Story: ShareableStory {
     @State private var imageScale = CGFloat(1.1)
     @State private var isAnimating: Bool = true
 
-//    private let scaleAnimation: Animation = .timingCurve(0.40, 0.00, 0.00, 1.00, duration: 1)
-    private let scaleAnimation: Animation = .easeOut(duration: 1)
+    private let scaleAnimation: Animation = .timingCurve(0.18, 0.00, 0.08, 1.00, duration: 1.25)
 
     var body: some View {
         VStack(alignment: .center) {
