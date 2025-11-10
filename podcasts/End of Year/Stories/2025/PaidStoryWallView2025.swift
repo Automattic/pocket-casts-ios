@@ -49,7 +49,8 @@ struct PaidStoryWallView2025: View {
                 }
                 .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
                 .padding(.horizontal, 24)
-                .padding(.vertical, 6)
+                .padding(.top, 20)
+                .padding(.bottom, 4)
             }
         }
         .foregroundStyle(foregroundColor)
