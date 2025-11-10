@@ -1,5 +1,6 @@
-7.102
+8.0
 -----
+- Add support for Manual Playlists and rebrand Filters as Smart Playlists [#3670](https://github.com/Automattic/pocket-casts-ios/pull/3670)
 
 7.101
 -----
