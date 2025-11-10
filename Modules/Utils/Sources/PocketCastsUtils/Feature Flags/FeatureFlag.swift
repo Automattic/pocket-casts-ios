@@ -378,7 +378,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingVariant:
             true
         case .playlistsRebranding:
-            false
+            true
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
