@@ -85,7 +85,7 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .top5Podcasts:
                 return Top5Podcasts2025Story(top5Podcasts: data.topPodcasts)
             case .ratings:
-                return Ratings2024Story(ratings: data.ratings)
+                return Ratings2025Story(ratings: data.ratings)
             case .listeningTime:
                 return ListeningTime2024Story(listeningTime: data.listeningTime)
             case .longestEpisode:

@@ -1,0 +1,162 @@
+import SwiftUI
+
+struct Ratings2025Story: ShareableStory {
+
+    let ratingScale = 1...5
+    let ratings: [UInt32: Int]
+
+    let foregroundColor: Color = .white
+    let backgroundColor: Color = Color(hex: "#A22828")
+    private let ratingsBlogPostURL = URL(string: "https://blog.pocketcasts.com/2024/08/20/podcast-ratings/")!
+
+    @Environment(\.animated) var animated: Bool
+    @Environment(\.pauseState) var pauseState
+
+    let identifier: String = "ratings"
+
+    @State var scale: Double = 1
+    @State var openURL = false
+
+    var body: some View {
+        Group {
+            if ratings.count == 0 {
+                emptyView()
+            } else {
+                chartView()
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
+        .foregroundStyle(foregroundColor)
+        .background(
+            backgroundColor
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+        )
+        .onAppear {
+            if animated {
+                setInitialCoverOffsetForAnimation()
+            }
+        }
+    }
+
+    private func setInitialCoverOffsetForAnimation() {
+        scale = 0
+    }
+
+    @ViewBuilder func columnsView() -> some View {
+        VStack(spacing: 0) {
+            StoryHeader2025(
+                title: descriptionText(),
+                description: "Creators everywhere appreciate the love"
+            )
+            Spacer()
+        }
+        .padding(.horizontal, 24)
+    }
+
+    @ViewBuilder func emptyView() -> some View {
+        VStack(spacing: 0) {
+            StoryHeader2025(
+                title: "No ratings yet, but there's still time!",
+                description: "Help your favorite creators get discovered by sharing what you love"
+            )
+            Spacer()
+            Button(L10n.learnAboutRatings) {
+                pauseState.togglePause()
+                openURL = true
+                Analytics.track(.endOfYearLearnRatingsShown, properties: ["year": "2025"])
+            }
+            .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+            .allowsHitTesting(true)
+        }
+        .sheet(isPresented: $openURL, onDismiss: {
+            pauseState.togglePause()
+            openURL = false
+        }, content: {
+            SFSafariView(url: ratingsBlogPostURL)
+        })
+        .padding(.horizontal, 24)
+        .padding(.bottom, 40)
+    }
+
+//    @ViewBuilder func chartView() -> some View {
+//        GeometryReader { geometry in
+//            HStack(alignment: .bottom) {
+//                let maxRating = ratings.values.max() ?? 0
+//                ForEach(ratingScale, id: \.self) { ratingGroup in
+//                    let count = ratings[UInt32(ratingGroup)] ?? 0
+//                    VStack {
+//                        Text("\(ratingGroup)")
+//                            .font(.system(size: 22, weight: .semibold))
+//                            .opacity(scale)
+//                            .offset(x: 0, y: 10 * (1 - scale))
+//                        DashedRectangle()
+//                            .frame(height: max(geometry.size.height * (CGFloat(count) / CGFloat(maxRating)), 5))
+//                            .scaleEffect(x: 1, y: scale, anchor: .bottom)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    @ViewBuilder func chartView() -> some View {
+        VStack(spacing: 0) {
+            StoryHeader2025(
+                title: descriptionText(),
+                description: "Creators everywhere appreciate the love"
+            )
+            GeometryReader { geometry in
+                let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
+                HStack(alignment: .bottom, spacing: 0) {
+                    ForEach(ratingScale, id: \.self) { ratingGroup in
+                        Rectangle()
+                            .fill(Color(hue: Double(ratingGroup) / 5.0, saturation: 0.8, brightness: 0.9))
+                            .frame(width: columnWidth)
+                    }
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 50)
+            }
+        }
+    }
+
+    private func descriptionText() -> String {
+        switch mostCommonRating {
+        case 1...3:
+            return "Thanks for sharing your feedback.\nReviews help great shows get found"
+        case 4...5:
+            return "You dropped \(mostCommonRating)-star ratings like confetti"
+        default:
+            return ""
+        }
+    }
+
+    private var mostCommonRating: UInt32 {
+        ratings.max(by: { $0.value < $1.value })?.key ?? 0
+    }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func willShare() {
+        Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        let totalRatings = ratings.values.reduce(0, +)
+        return [
+            StoryShareableProvider.new(AnyView(self)),
+            StoryShareableText(L10n.eoyYearRatingsShareText(totalRatings, "2025", mostCommonRating), year: .y2025)
+        ]
+    }
+
+    func hideShareButton() -> Bool {
+        ratings.count == 0
+    }
+}
+
+#Preview {
+    Ratings2025Story(ratings: [1: 3, 2: 0, 3: 0, 4: 7, 5: 2])
+}
