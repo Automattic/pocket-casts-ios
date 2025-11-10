@@ -1168,6 +1168,9 @@
 /* Time format to display a set number of hours. '%1$@' is a placeholder for a number of hours, this value will be more than one. */
 "hours_plural_format" = "%1$@ hours";
 
+/* Time format to display 1 hour. */
+"hours_singular_format" = "1 hour";
+
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "First, open an app that has the audio files you'd like to save";
 
@@ -5707,6 +5710,30 @@
 
 /* Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count */
 "playback_2025_completion_rate_message" = "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is down compared to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_down_title" = "Your listening dipped %1$@ this year";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is down compared to the last year. */
+"playback_2025_year_over_year_comparison_down_message" = "But hey, quality over quantity";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is more than 500% compared to the last year. */
+"playback_2025_year_over_year_comparison_hero_title" = "From zero to hero!";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is more than 500% to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_hero_message" = "You listened %1$@ more this year — welcome to the club";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is up compared to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_up_title" = "Compared to 2024, your listening time skyrocketed %1$@";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year. */
+"playback_2025_year_over_year_comparison_up_message" = "Hope you stretched first!";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
+"playback_2025_year_over_year_comparison_same_title" = "Your 2025 listening held steady";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
+"playback_2025_year_over_year_comparison_same_message" = "Consistent, dependable, like your coffee shop order";
 
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";

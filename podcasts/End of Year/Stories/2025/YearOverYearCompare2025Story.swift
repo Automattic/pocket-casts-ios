@@ -59,6 +59,7 @@ struct YearOverYearCompare2025Story: ShareableStory {
 
     func sharingAssets() -> [Any] {
         [
+            // TODO: This part, images and text, need to be updated
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyYearOverShareText("2025", "2024"), year: .y2025)
         ]
@@ -127,20 +128,20 @@ struct YearOverYearCompare2025Story: ShareableStory {
         switch comparison {
         case .down(let difference):
             let formatted = min(difference, maximumDifference).formatted(formatStyle)
-            title = "Your listening dipped \(formatted) this year"
-            description = "But hey, quality over quantity"
+            title = L10n.playback2025YearOverYearComparisonDownTitle(formatted)
+            description = L10n.playback2025YearOverYearComparisonDownMessage
         case .up(let difference):
             let formatted = min(difference, maximumDifference).formatted(formatStyle)
             if difference > maximumDifference {
-                title = "From zero to hero!"
-                description = "You listened \(formatted) more this year — welcome to the club"
+                title = L10n.playback2025YearOverYearComparisonHeroTitle
+                description = L10n.playback2025YearOverYearComparisonHeroMessage(formatted)
             } else {
-                title = "Compared to 2024, your listening time skyrocketed \(formatted)"
-                description = "Hope you stretched first!"
+                title = L10n.playback2025YearOverYearComparisonUpTitle(formatted)
+                description = L10n.playback2025YearOverYearComparisonUpMessage
             }
         case .same:
-            title = "Your 2025 listening held steady"
-            description = "Consistent, dependable, like your coffee shop order"
+            title = L10n.playback2025YearOverYearComparisonSameTitle
+            description = L10n.playback2025YearOverYearComparisonSameMessage
         }
         return HeaderContent(title: title, description: description)
     }
@@ -167,6 +168,10 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
     private let prevYear: Int
     private let currentYear: Int
 
+    private static func formatted(hours: Int) -> String {
+        return hours == 1 ? L10n.hoursSingularFormat : L10n.hoursPluralFormat(hours)
+    }
+
     init(
         prevYear: Double,
         currentYear: Double
@@ -174,8 +179,8 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
         self.prevYear = Int(prevYear)
         self.currentYear = Int(currentYear)
         dict = [
-            "hours_2024": "\(self.prevYear) hours",
-            "hours_2025": "\(self.currentYear) hours",
+            "hours_2024": Self.formatted(hours: self.prevYear),
+            "hours_2025": Self.formatted(hours: self.currentYear)
         ]
     }
 
