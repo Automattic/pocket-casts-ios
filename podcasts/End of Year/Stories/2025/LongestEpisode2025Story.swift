@@ -56,7 +56,7 @@ struct LongestEpisode2025Story: ShareableStory {
         }
         .onDisappear {
             self.isAnimating = false
-            self.imageScale = 1.2
+            self.imageScale = 1.1
         }
     }
 
