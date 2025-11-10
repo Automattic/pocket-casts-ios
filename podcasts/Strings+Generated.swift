@@ -1575,6 +1575,8 @@ internal enum L10n {
   }
   /// Label shown for hours saved when it's plural, eg: 1 hours saved.
   internal static var hoursSaved: String { return L10n.tr("Localizable", "hours_saved", fallback: "Hours saved") }
+  /// Time format to display 1 hour.
+  internal static var hoursSingularFormat: String { return L10n.tr("Localizable", "hours_singular_format", fallback: "1 hour") }
   /// The initial informational text explaining how to upload a file
   internal static var howToUploadExplanation: String { return L10n.tr("Localizable", "how_to_upload_explanation", fallback: "First, open an app that has the audio files you'd like to save") }
   /// The text for copying a file to Pocket Casts
@@ -2268,6 +2270,28 @@ internal enum L10n {
   internal static var playback2025TopSpotTitle: String { return L10n.tr("Localizable", "playback_2025_top_spot_title", fallback: "Your top podcast of 2025") }
   /// View My Playback 2025
   internal static var playback2025ViewYear: String { return L10n.tr("Localizable", "playback_2025_view_year", fallback: "View My Playback 2025") }
+  /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is down compared to the last year.
+  internal static var playback2025YearOverYearComparisonDownMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_down_message", fallback: "But hey, quality over quantity") }
+  /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is down compared to the last year. %1$@ represent a placeholder for the formatted percentage.
+  internal static func playback2025YearOverYearComparisonDownTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_down_title", String(describing: p1), fallback: "Your listening dipped %1$@ this year")
+  }
+  /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is more than 500% to the last year. %1$@ represent a placeholder for the formatted percentage.
+  internal static func playback2025YearOverYearComparisonHeroMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_hero_message", String(describing: p1), fallback: "You listened %1$@ more this year — welcome to the club")
+  }
+  /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is more than 500% compared to the last year.
+  internal static var playback2025YearOverYearComparisonHeroTitle: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_hero_title", fallback: "From zero to hero!") }
+  /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is the same compared to the last year.
+  internal static var playback2025YearOverYearComparisonSameMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_same_message", fallback: "Consistent, dependable, like your coffee shop order") }
+  /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year.
+  internal static var playback2025YearOverYearComparisonSameTitle: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_same_title", fallback: "Your 2025 listening held steady") }
+  /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year.
+  internal static var playback2025YearOverYearComparisonUpMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_message", fallback: "Hope you stretched first!") }
+  /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is up compared to the last year. %1$@ represent a placeholder for the formatted percentage.
+  internal static func playback2025YearOverYearComparisonUpTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_title", String(describing: p1), fallback: "Compared to 2024, your listening time skyrocketed %1$@")
+  }
   /// Playback settings option in the Effects Player panel
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts", fallback: "All podcasts") }
   /// Playback settings option in the Effects Player panel
