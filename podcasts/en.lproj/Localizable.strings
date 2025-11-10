@@ -5719,3 +5719,13 @@
 
 /// Search results screen: action for doing full search on term. %1$@ argument is the term being searched. Ex: "View all results for "cautionary" "
 "search_results_view_all" = "View all results for \"%1$@\"";
+
+/* A title shown in the button on the upsell screen to get  Pocket Casts Plus */
+"playback_2025_plus_upsell_button_title" = "Get Pocket Casts Plus";
+
+/* A title shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2025_plus_upsell_title" = "Want the deep dive?";
+
+/* A description shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2025_plus_upsell_description" = "Subscribe to Pocket Casts Plus for extended stats, bookmarks, folders, chapter selection, and more ways to dig into your listening habits";
+

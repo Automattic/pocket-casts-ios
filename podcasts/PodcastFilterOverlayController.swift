@@ -227,7 +227,8 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     }
 
     @objc private func saveTapped(sender: Any) {
-        if selectedUuids.count == allPodcasts.count || selectedUuids.count == 0 {
+        let podcasts = currentPodcastsSource()
+        if selectedUuids.count == podcasts.count || selectedUuids.count == 0 {
             filterToEdit.podcastUuids = ""
             filterToEdit.filterAllPodcasts = true
         } else {
