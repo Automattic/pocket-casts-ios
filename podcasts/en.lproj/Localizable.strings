@@ -995,7 +995,7 @@
 "playlist_preview_title" = "Preview %@";
 
 /* Button title used to create a new smart playlist */
-"playlist_preview_create_smart_playlist" = "Create Smart Playlist";
+"playlist_preview_create_smart_playlist" = "Create smart playlist";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
