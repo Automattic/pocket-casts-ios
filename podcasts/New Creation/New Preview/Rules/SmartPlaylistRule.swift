@@ -31,25 +31,21 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
         case .podcast:
             value = L10n.podcastsPlural
         case .episode:
-            value = L10n.filterEpisodeStatus.lowercased().localizedCapitalized
+            value = L10n.filterEpisodeStatus
         case .downloadStatus:
-            value = L10n.filterDownloadStatus.lowercased().localizedCapitalized
+            value = L10n.filterDownloadStatus
         case .mediaType:
-            value = L10n.filterMediaType.lowercased().localizedCapitalized
+            value = L10n.filterMediaType
         case .releaseDate:
-            value = L10n.filterReleaseDate.lowercased().localizedCapitalized
+            value = L10n.filterReleaseDate
         case .duration:
-            value = L10n.filterChipsDuration.lowercased().localizedCapitalized
+            value = L10n.filterChipsDuration
         case .starred:
-            value = L10n.statusStarred.lowercased().localizedCapitalized
+            value = L10n.statusStarred
         }
 
         if FeatureFlag.playlistsRebranding.enabled {
-            var components = value.lowercased().components(separatedBy: " ")
-            if let first = components.first {
-                components[0] = first.localizedCapitalized
-            }
-            value = components.joined(separator: " ")
+            value = value.sentenceCased
         }
         return value
     }
