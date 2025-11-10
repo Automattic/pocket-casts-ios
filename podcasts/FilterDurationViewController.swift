@@ -150,9 +150,9 @@ class FilterDurationViewController: PCViewController {
             navigationItem.largeTitleDisplayMode = .always
         } else {
             let closeButton = createStandardCloseButton(imageName: "cancel")
-            closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-            let backButtonItem = UIBarButtonItem(customView: closeButton)
-            navigationItem.leftBarButtonItem = backButtonItem
+            closeButton.target = self
+            closeButton.action = #selector(closeTapped)
+            navigationItem.leftBarButtonItem = closeButton
         }
 
         // if this filter has database default shorter or longer than values, set more sensible defaults
