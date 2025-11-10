@@ -28,7 +28,7 @@ struct StoryHeader2025: View {
             if let description {
                 Text(description)
                     .font(.system(size: 16, weight: .medium))
-                    .multilineTextAlignment(.center)                    
+                    .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
