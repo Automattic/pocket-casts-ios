@@ -2,6 +2,7 @@ import UIKit
 import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
+import PocketCastsServer
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -354,10 +355,13 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func setupRefreshControl() {
+        if viewModel.isManualPlaylist { return }
+
         refreshControl = CustomRefreshControl()
         refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { [weak self] in
-            self?.viewModel.reloadPlaylistAndEpisodes()
+        refreshControl?.perform = { refreshControl in
+            refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
+            RefreshManager.shared.refreshPodcasts()
         }
         tableView.refreshControl = refreshControl
     }
@@ -368,8 +372,15 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        refreshControl?.endRefreshing()
         loadingIndicator.stopAnimating()
+        refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.refreshControl?.alpha = 0
+            }, completion: { _ in
+                self?.refreshControl?.endRefreshing()
+            })
+        }
 
         if animated, contentChanged {
             tableView.reload(using: data, with: .fade) { [weak self] newData in

@@ -29,7 +29,7 @@ struct PlaylistHeaderView: View {
                     Spacer()
                     PlaylistArtworkView(items: viewModel.images, cornerRadius: 8)
                         .frame(width: 192.0, height: 192.0)
-                        .padding(.top, 5.0)
+                        .padding(.top, 15.0)
                         .shadow(color: .black.opacity(0.2), radius: 30, x: 0, y: 2)
                     Spacer()
                 }
