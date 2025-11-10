@@ -196,7 +196,7 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
 fileprivate class MyFontProvider: AnimationFontProvider {
     func fontFor(family: String, size: CGFloat) -> CTFont? {
         let font = UIFont(name: family, size: size)!
-        return CTFontCreateWithName("Inter-Regular_Medium" as CFString, font.pointSize, nil)
+        return CTFontCreateWithName("Inter-Regular_Semibold" as CFString, font.pointSize, nil)
     }
 }
 
