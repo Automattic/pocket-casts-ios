@@ -91,7 +91,7 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .longestEpisode:
                 return LongestEpisode2025Story(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
             case .yearOverYearListeningTime:
-                return YearOverYearCompare2024Story(subscriptionTier: SubscriptionHelper.activeTier, listeningTime: data.yearOverYearListeningTime)
+                return YearOverYearCompare2025Story(subscriptionTier: SubscriptionHelper.activeTier, listeningTime: data.yearOverYearListeningTime)
             case .completionRate:
                 return CompletionRate2025Story(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
             case .epilogue:
@@ -136,7 +136,7 @@ class EndOfYear2025StoriesModel: StoryModel {
     }
 
     func paywallView() -> AnyView {
-        AnyView(PaidStoryWallView2024(subscriptionTier: SubscriptionHelper.activeTier))
+        AnyView(PaidStoryWallView2025(subscriptionTier: SubscriptionHelper.activeTier))
     }
 
     func overlaidShareView() -> AnyView? {
