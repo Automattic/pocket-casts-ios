@@ -15,13 +15,24 @@ struct LongestEpisode2025Story: ShareableStory {
     private let backgroundColor = Color(hex: "#17423B")
     private let foregroundColor = Color.white
 
+    @State private var imageScale = CGFloat(1.1)
+    @State private var isAnimating: Bool = true
+
+//    private let scaleAnimation: Animation = .timingCurve(0.40, 0.00, 0.00, 1.00, duration: 1)
+    private let scaleAnimation: Animation = .easeOut(duration: 1)
+
     var body: some View {
         VStack(alignment: .center) {
             headerView
             Spacer()
                 .frame(height: 80)
-            PodcastCover(podcastUuid: podcast.uuid)
+            PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                 .frame(width: 196, height: 196)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+                .scaleEffect(imageScale)
+                .if(isAnimating) {
+                    $0.animation(scaleAnimation, value: imageScale)
+                }
             VStack {
                 Spacer()
                 footerView
@@ -40,6 +51,14 @@ struct LongestEpisode2025Story: ShareableStory {
         .ignoresSafeArea()
         .background(backgroundColor)
         .foregroundStyle(foregroundColor)
+        .onAppear {
+            self.isAnimating = true
+            self.imageScale = 1.0
+        }
+        .onDisappear {
+            self.isAnimating = false
+            self.imageScale = 1.2
+        }
     }
 
     @ViewBuilder var headerView: some View {
