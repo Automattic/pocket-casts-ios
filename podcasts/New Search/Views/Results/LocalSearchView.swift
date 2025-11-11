@@ -172,7 +172,7 @@ private extension LocalSearchView {
         } label: {
             Image("close")
                 .renderingMode(.template)
-                .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+                .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
         }
         .accessibilityLabel(L10n.close)
     }
@@ -181,9 +181,9 @@ private extension LocalSearchView {
         Button {
             popNavigation()
         } label: {
-            Image("nav-back")
+            Image(systemName: "chevron.backward")
         }
-        .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+        .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
         .accessibilityLabel(L10n.back)
     }
 
