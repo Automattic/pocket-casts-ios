@@ -1,4 +1,5 @@
 import SwiftUI
+import Lottie
 
 struct Ratings2025Story: ShareableStory {
 
@@ -22,7 +23,24 @@ struct Ratings2025Story: ShareableStory {
             if ratings.count == 0 {
                 emptyView()
             } else {
-                chartView()
+                ZStack {
+                    chartView()
+                    VStack(spacing: 0) {
+                        Spacer()
+                        Rectangle()
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(stops: [
+                                        .init(color: backgroundColor.opacity(1.0), location: 0),
+                                        .init(color: backgroundColor.opacity(0.0), location: 1)
+                                    ]),
+                                    startPoint: .bottom,
+                                    endPoint: .top
+                                )
+                            )
+                            .frame(height: 120)
+                    }
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -107,11 +125,15 @@ struct Ratings2025Story: ShareableStory {
                 description: "Creators everywhere appreciate the love"
             )
             GeometryReader { geometry in
+                let maxRating = ratings.values.max() ?? 0
                 let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
                 HStack(alignment: .bottom, spacing: 0) {
                     ForEach(ratingScale, id: \.self) { ratingGroup in
-                        Rectangle()
-                            .fill(Color(hue: Double(ratingGroup) / 5.0, saturation: 0.8, brightness: 0.9))
+                        ChartColumn(
+                            value: ratings[UInt32(ratingGroup)] ?? 0,
+                            maxValue: maxRating,
+                            index: ratingGroup
+                        )
                             .frame(width: columnWidth)
                     }
                 }
@@ -154,6 +176,44 @@ struct Ratings2025Story: ShareableStory {
 
     func hideShareButton() -> Bool {
         ratings.count == 0
+    }
+}
+
+fileprivate struct ChartColumn: View {
+    let value: Int
+    let maxValue: Int
+    let index: Int
+
+    var body: some View {
+        LottieView(animation: .named("2025_rating"))
+            .configure({ animationView in
+                animationView.contentMode = .scaleToFill
+                animationView.logHierarchyKeypaths()
+
+//                animationView.textProvider = MyLottieTextProvider()
+//                animationView.fontProvider = MyFontProvider()
+            })
+            .playbackMode(
+                .playing(
+                    .marker(marker(for: value, maxValue: maxValue),
+                            loopMode: .playOnce
+                           )
+                )
+            )
+            .scaledToFill()
+            .ignoresSafeArea()
+    }
+
+    func marker(for value: Int, maxValue: Int, step: Int = 10) -> String {
+        guard maxValue > 0 else { return "marker_10" }
+
+        let percentage = Double(value) / Double(maxValue) * 100
+
+        // Compute reversed bucket from 10 (worst) to 1 (best)
+        let bucket = 10 - Int((percentage / 10).rounded(.down))
+        let clamped = min(max(bucket, 1), 10)
+
+        return "marker_\(clamped)"
     }
 }
 
