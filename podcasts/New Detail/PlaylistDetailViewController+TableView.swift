@@ -155,8 +155,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.isManualPlaylist, viewModel.archivedEpisodesCount == 0, indexPath.section == viewModel.index(for: .archive) {
-            return 1
+        if viewModel.isManualPlaylist, indexPath.section == viewModel.index(for: .archive) {
+            return viewModel.archivedEpisodesCount == 0 ? 1 : 49.0
         }
         return UITableView.automaticDimension
     }
