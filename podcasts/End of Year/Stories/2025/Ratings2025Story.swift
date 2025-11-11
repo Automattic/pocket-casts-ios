@@ -15,7 +15,6 @@ struct Ratings2025Story: ShareableStory {
 
     let identifier: String = "ratings"
 
-    @State var scale: Double = 1
     @State var openURL = false
 
     var body: some View {
@@ -23,43 +22,16 @@ struct Ratings2025Story: ShareableStory {
             if ratings.count == 0 {
                 emptyView()
             } else {
-                ZStack {
-                    chartView()
-                    VStack(spacing: 0) {
-                        Spacer()
-                        Rectangle()
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(stops: [
-                                        .init(color: backgroundColor.opacity(1.0), location: 0),
-                                        .init(color: backgroundColor.opacity(0.0), location: 1)
-                                    ]),
-                                    startPoint: .bottom,
-                                    endPoint: .top
-                                )
-                            )
-                            .frame(height: 120)
-                    }
-                }
+                columnsView()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
         .foregroundStyle(foregroundColor)
         .background(
-            backgroundColor
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
+            chartView()
         )
-        .onAppear {
-            if animated {
-                setInitialCoverOffsetForAnimation()
-            }
-        }
-    }
-
-    private func setInitialCoverOffsetForAnimation() {
-        scale = 0
+        .ignoresSafeArea()
+        .background(backgroundColor)
     }
 
     @ViewBuilder func columnsView() -> some View {
@@ -68,9 +40,21 @@ struct Ratings2025Story: ShareableStory {
                 title: descriptionText(),
                 description: "Creators everywhere appreciate the love"
             )
+            .padding(.horizontal, 24)
             Spacer()
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(stops: [
+                            .init(color: backgroundColor.opacity(1.0), location: 0),
+                            .init(color: backgroundColor.opacity(0.0), location: 1)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                )
+                .frame(height: 120)
         }
-        .padding(.horizontal, 24)
     }
 
     @ViewBuilder func emptyView() -> some View {
@@ -99,27 +83,21 @@ struct Ratings2025Story: ShareableStory {
     }
 
     @ViewBuilder func chartView() -> some View {
-        VStack(spacing: 0) {
-            StoryHeader2025(
-                title: descriptionText(),
-                description: "Creators everywhere appreciate the love"
-            )
-            GeometryReader { geometry in
-                let maxRating = ratings.values.max() ?? 0
-                let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
-                HStack(alignment: .bottom, spacing: 0) {
-                    ForEach(ratingScale, id: \.self) { ratingGroup in
-                        ChartColumn(
-                            value: ratings[UInt32(ratingGroup)] ?? 0,
-                            maxValue: maxRating,
-                            index: ratingGroup
-                        )
-                            .frame(width: columnWidth)
-                    }
+        GeometryReader { geometry in
+            let maxRating = ratings.values.max() ?? 0
+            let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
+
+            HStack(alignment: .bottom, spacing: 0) {
+                ForEach(ratingScale, id: \.self) { ratingGroup in
+                    ChartColumn(
+                        value: ratings[UInt32(ratingGroup)] ?? 0,
+                        maxValue: maxRating,
+                        index: ratingGroup
+                    )
+                    .frame(width: columnWidth, height: geometry.size.height)
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 50)
             }
+            .frame(width: geometry.size.width, alignment: .leading)
         }
     }
 
@@ -167,7 +145,7 @@ fileprivate struct ChartColumn: View {
     var body: some View {
         LottieView(animation: .named("2025_rating"))
             .configure({ animationView in
-                animationView.contentMode = .scaleAspectFill
+                animationView.contentMode = .scaleAspectFit
 #if DEBUG
                 animationView.logHierarchyKeypaths()
 #endif
@@ -181,8 +159,6 @@ fileprivate struct ChartColumn: View {
                            )
                 )
             )
-            .scaledToFill()
-            .ignoresSafeArea()
     }
 
     func marker(for value: Int, maxValue: Int, step: Int = 10) -> String {
