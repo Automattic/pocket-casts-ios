@@ -402,6 +402,40 @@ class PlaylistDataManager {
         return highestPosition + 1
     }
 
+    func firstSortPositionForPlaylist(dbQueue: PCDBQueue) -> Int {
+        var lowestPosition = 0
+        dbQueue.read { db in
+            do {
+                let query = "SELECT MIN(sortPosition) from \(DataManager.playlistsTableName)"
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    lowestPosition = resultSet.long(forColumnIndex: 0)
+                }
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.firstSortPositionForPlaylist error: \(error)")
+            }
+        }
+
+        return lowestPosition
+    }
+
+    func bumpSortPositionForAllPlaylists(dbQueue: PCDBQueue) {
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate("""
+                    UPDATE \(DataManager.playlistsTableName)
+                    SET sortPosition = sortPosition + 1,
+                        syncStatus = ?
+                    WHERE wasDeleted = 0
+                """, values: [SyncStatus.notSynced.rawValue])
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.bumpSortPositionForAllPlaylists error: \(error)")
+            }
+        }
+    }
+
     /// Returns a value indicating whether the episodes were added. If `false`, the playlist is full.
     func add(episodes: [Episode], to playlist: EpisodeFilter, dbQueue: PCDBQueue) -> Bool {
         // If the episodes are already larger than our max size, bail
