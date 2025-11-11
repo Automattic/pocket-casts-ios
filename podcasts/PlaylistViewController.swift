@@ -44,7 +44,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     @IBOutlet var noEpisodesTitle: ThemeableLabel! {
         didSet {
-            noEpisodesTitle.text = L10n.episodeFilterNoEpisodesTitle
+            noEpisodesTitle.text = FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle
         }
     }
 
