@@ -62,7 +62,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
-        let viewModel = InformationalBannerViewModel(bannerType: .filters, invertedColor: invertedColor)
+        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
+        let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
 
