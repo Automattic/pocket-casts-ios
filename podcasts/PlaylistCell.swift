@@ -91,7 +91,7 @@ class PlaylistCell: ThemeableCell {
 
         separatorView.isHidden = isLastRow
         separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
-        bringSubviewToFront(separatorView)
+        bringSubviewToFront(separatorView)        
     }
 
     func configureAddPlaylistCell() {

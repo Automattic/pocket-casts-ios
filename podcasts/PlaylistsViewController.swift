@@ -236,7 +236,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         if filtersTable.tableHeaderView != nil {
             return
         }
-        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 160)) {
+        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 135)) {
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.filtersTable.tableHeaderView = nil
             }
