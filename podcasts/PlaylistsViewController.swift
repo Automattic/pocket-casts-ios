@@ -70,7 +70,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidLoad()
 
         if FeatureFlag.playlistsRebranding.enabled {
-            customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
+            let barButton = UIBarButtonItem(image: UIImage(named: "playlist_add_icon"), style: .plain, target: self, action: #selector(addNewFilter))
+            barButton.tintColor = ThemeColor.primaryIcon01()
+            customRightBtn = barButton
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
