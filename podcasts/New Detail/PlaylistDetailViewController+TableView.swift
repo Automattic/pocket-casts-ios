@@ -171,6 +171,14 @@ extension PlaylistDetailViewController: UITableViewDelegate {
         return section == viewModel.index(for: searchSection) ? PCSearchBarController.defaultHeight : 0
     }
 
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
