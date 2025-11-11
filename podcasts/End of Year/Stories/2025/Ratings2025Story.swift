@@ -98,26 +98,6 @@ struct Ratings2025Story: ShareableStory {
         .padding(.bottom, 40)
     }
 
-//    @ViewBuilder func chartView() -> some View {
-//        GeometryReader { geometry in
-//            HStack(alignment: .bottom) {
-//                let maxRating = ratings.values.max() ?? 0
-//                ForEach(ratingScale, id: \.self) { ratingGroup in
-//                    let count = ratings[UInt32(ratingGroup)] ?? 0
-//                    VStack {
-//                        Text("\(ratingGroup)")
-//                            .font(.system(size: 22, weight: .semibold))
-//                            .opacity(scale)
-//                            .offset(x: 0, y: 10 * (1 - scale))
-//                        DashedRectangle()
-//                            .frame(height: max(geometry.size.height * (CGFloat(count) / CGFloat(maxRating)), 5))
-//                            .scaleEffect(x: 1, y: scale, anchor: .bottom)
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     @ViewBuilder func chartView() -> some View {
         VStack(spacing: 0) {
             StoryHeader2025(
@@ -187,11 +167,12 @@ fileprivate struct ChartColumn: View {
     var body: some View {
         LottieView(animation: .named("2025_rating"))
             .configure({ animationView in
-                animationView.contentMode = .scaleToFill
+                animationView.contentMode = .scaleAspectFill
+#if DEBUG
                 animationView.logHierarchyKeypaths()
-
-//                animationView.textProvider = MyLottieTextProvider()
-//                animationView.fontProvider = MyFontProvider()
+#endif
+                animationView.textProvider = LottieTextProvider(index: index)
+                animationView.fontProvider = LottieFontProvider()
             })
             .playbackMode(
                 .playing(
@@ -217,6 +198,35 @@ fileprivate struct ChartColumn: View {
     }
 }
 
+final private class LottieTextProvider: AnimationTextProvider, Equatable {
+    private let index: Int
+
+    private static func formatted(hours: Int) -> String {
+        return hours == 1 ? L10n.hoursSingularFormat : L10n.hoursPluralFormat(hours)
+    }
+
+    init(
+        index: Int
+    ) {
+        self.index = index
+    }
+
+    func textFor(keypathName: String, sourceText: String) -> String {
+        return "\(index)"
+    }
+
+    static func == (lhs: LottieTextProvider, rhs: LottieTextProvider) -> Bool {
+        lhs.index == rhs.index
+    }
+}
+
+fileprivate class LottieFontProvider: AnimationFontProvider {
+    func fontFor(family: String, size: CGFloat) -> CTFont? {
+        let font = UIFont(name: family, size: 38)!
+        return CTFontCreateWithName("Inter-Regular_Semibold" as CFString, font.pointSize, nil)
+    }
+}
+
 #Preview {
-    Ratings2025Story(ratings: [1: 3, 2: 0, 3: 0, 4: 7, 5: 2])
+    Ratings2025Story(ratings: [1: 3, 2: 1, 3: 1, 4: 7, 5: 2])
 }
