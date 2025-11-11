@@ -43,6 +43,9 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
         case .starred:
             value = L10n.statusStarred
         }
+        if FeatureFlag.playlistsRebranding.enabled {
+            value = value.sentenceCased
+        }
 
         return value
     }
