@@ -35,6 +35,8 @@ class StoriesModel: ObservableObject {
 
     private var currentStory: Story?
 
+    private var pendingPlaybackShareEvents: [[String: String]] = []
+
     var numberOfStories: Int {
         dataSource.numberOfStories
     }
@@ -236,6 +238,7 @@ class StoriesModel: ObservableObject {
 
     func stopAndDismiss() {
         pause()
+        trackPendingPlaybackSharesIfNeeded()
         NavigationManager.sharedManager.dismissPresentedViewController()
     }
 
@@ -273,6 +276,10 @@ class StoriesModel: ObservableObject {
 
     func shouldShowDismissButton() -> Bool {
         configuration.shouldShowDismissButton
+    }
+
+    func recordPlaybackShare(properties: [String: String]) {
+        pendingPlaybackShareEvents.append(properties)
     }
 }
 
@@ -322,5 +329,15 @@ private extension StoriesModel {
     /// Whether some Plus stories should be skipped or not
     func shouldSkipPlusStories() -> Bool {
         !isPaidUser() && !manuallyChanged && currentStoryIsPlus && nextStoryIsPlus()
+    }
+
+    func trackPendingPlaybackSharesIfNeeded() {
+        guard !pendingPlaybackShareEvents.isEmpty else { return }
+
+        pendingPlaybackShareEvents.forEach {
+            Analytics.track(.playbackShared, properties: $0)
+        }
+
+        pendingPlaybackShareEvents.removeAll()
     }
 }
