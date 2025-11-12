@@ -368,7 +368,8 @@ extension PlaylistDetailViewModel {
         let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
-            self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
+            // Avoid animation as long we use the current diffable framework
+            self?.onChange(changeSetTuple.1, false, changeSetTuple.0)
         }
     }
 }
