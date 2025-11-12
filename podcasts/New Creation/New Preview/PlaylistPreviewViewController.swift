@@ -193,6 +193,10 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     @objc private func saveTapped() {
+        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+
+        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        viewModel.newPlaylist.sortPosition = Int32(firstSortPosition)
         viewModel.newPlaylist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.newPlaylist.isNew = false
         viewModel.removeObserver()

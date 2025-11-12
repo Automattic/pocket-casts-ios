@@ -213,7 +213,7 @@ class ListeningHistoryViewController: PCViewController {
         if listeningHistoryTable.tableHeaderView != nil {
             return
         }
-        listeningHistoryTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: listeningHistoryTable.bounds.width, height: 150)) {
+        listeningHistoryTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: listeningHistoryTable.bounds.width, height: 138)) {
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.listeningHistoryTable.tableHeaderView = nil
             }

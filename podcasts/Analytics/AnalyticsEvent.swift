@@ -359,6 +359,9 @@ enum AnalyticsEvent: String {
     case episodeRecentlyPlayedSortOptionTooltipShown
     case episodeRecentlyPlayedSortOptionTooltipDismissed
 
+    case episodeAddedToList
+    case episodeRemovedFromList
+
     case addToPlaylistsShown
     case addToPlaylistsEpisodeAddTapped
     case addToPlaylistsRemoveTapped
@@ -478,6 +481,8 @@ enum AnalyticsEvent: String {
 
     case playerPreviousChapterTapped
     case playerNextChapterTapped
+    case playerEpisodeCompleted
+
 
     // MARK: - Player: Sleep Timer
 

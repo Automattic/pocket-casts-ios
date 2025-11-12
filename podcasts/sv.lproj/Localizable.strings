@@ -1951,9 +1951,6 @@ UPPDATERINGAR</string>
     <string>Se din lyssningsstatistik, dina favoritpodcasts och mycket mer.</string>
     <key>playback_2025_feature_title</key>
     <string>Uppspelning 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Välkommen till Uppspelning!
- Ett firande av ditt podcast-år.</string>
     <key>playback_2025_view_year</key>
     <string>Visa Min uppspelning 2025</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>%1$@ avsnitt tillagda i ”%2$@”</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ avsnitt</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Spellistan är full. Prova att skapa en ny</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ta bort alla.</string>
     <key>remove_download</key>
     <string>Ta bort nedladdning</string>
+    <key>remove_from_playlist</key>
+    <string>Ta bort från spellista</string>
     <key>remove_from_up_next</key>
     <string>Ta bort från Nästa</string>
     <key>remove_up_next</key>

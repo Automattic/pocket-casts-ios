@@ -612,7 +612,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.sourceView = referralsButton
             popoverPresentationController.sourceRect = referralsButton.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+            popoverPresentationController.passthroughViews = [NavigationManager.sharedManager.miniPlayer?.view, referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
         return vc
     }

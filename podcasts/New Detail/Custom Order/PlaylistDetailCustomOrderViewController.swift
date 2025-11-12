@@ -122,7 +122,9 @@ extension PlaylistDetailCustomOrderViewController: UITableViewDataSource, UITabl
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.endUpdates()
 
-            track(.filterManualEpisodeDeleted)
+            if let viewModel {
+                track(episode: episode.episode, added: false, to: viewModel.playlist, source: "playlist_rearrange")
+            }
         }
     }
 

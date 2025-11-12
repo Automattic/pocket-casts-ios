@@ -40,4 +40,87 @@ final class PlaylistDataManagerTests: XCTestCase {
         let smartPlaylistsWithDeleted = dataManager.allSmartPlaylists(includeDeleted: true)
         XCTAssertEqual(smartPlaylistsWithDeleted.map(\.uuid), ["smart-active", "smart-deleted"])
     }
+
+    func testFirstSortPosition() throws {
+        guard let dbPool = try DatabasePool.newTestDatabase() else {
+            throw SQLiteValidator.SQLiteError.failedNewTestDatabase
+        }
+        let queue = GRDBQueue(dbPool: dbPool)
+        DatabaseHelper.setup(queue: queue)
+        let dataManager = DataManager(dbQueue: queue)
+
+        let playlist1 = EpisodeFilter()
+        playlist1.uuid = UUID().uuidString
+        playlist1.playlistName = "Playlist 1"
+        playlist1.sortPosition = 7
+        dataManager.save(playlist: playlist1)
+
+        let playlist2 = EpisodeFilter()
+        playlist2.uuid = UUID().uuidString
+        playlist2.playlistName = "Playlist 2"
+        playlist2.sortPosition = 1
+        dataManager.save(playlist: playlist2)
+
+        let playlist3 = EpisodeFilter()
+        playlist3.uuid = UUID().uuidString
+        playlist3.playlistName = "Playlist 3"
+        playlist3.sortPosition = 349
+        dataManager.save(playlist: playlist3)
+
+        let firstSortPosition = dataManager.firstSortPositionForPlaylist()
+        XCTAssertEqual(firstSortPosition, 1)
+    }
+
+    func testBumpSortPosition() throws {
+        guard let dbPool = try DatabasePool.newTestDatabase() else {
+            throw SQLiteValidator.SQLiteError.failedNewTestDatabase
+        }
+        let queue = GRDBQueue(dbPool: dbPool)
+        DatabaseHelper.setup(queue: queue)
+        let dataManager = DataManager(dbQueue: queue)
+
+        let playlist1 = EpisodeFilter()
+        playlist1.uuid = UUID().uuidString
+        playlist1.playlistName = "Playlist 1"
+        playlist1.sortPosition = 1
+        dataManager.save(playlist: playlist1)
+
+        let playlist2 = EpisodeFilter()
+        playlist2.uuid = UUID().uuidString
+        playlist2.playlistName = "Playlist 2"
+        playlist2.sortPosition = 2
+        dataManager.save(playlist: playlist2)
+
+        let playlist3 = EpisodeFilter()
+        playlist3.uuid = UUID().uuidString
+        playlist3.playlistName = "Playlist 3"
+        playlist3.sortPosition = 3
+        dataManager.save(playlist: playlist3)
+
+        dataManager.bumpSortPositionForAllPlaylists()
+
+        let allPlaylists = dataManager.allPlaylists(includeDeleted: true)
+        XCTAssertEqual(allPlaylists.map(\.sortPosition), [2, 3, 4])
+
+        let firstSortPosition = max(0, dataManager.firstSortPositionForPlaylist())
+
+        XCTAssertEqual(firstSortPosition, 2)
+
+        dataManager.bumpSortPositionForAllPlaylists(adding: 2)
+
+        let playlist4 = EpisodeFilter()
+        playlist4.uuid = UUID().uuidString
+        playlist4.playlistName = "Playlist 4"
+        playlist4.sortPosition = Int32(firstSortPosition)
+        dataManager.save(playlist: playlist4)
+
+        let playlist5 = EpisodeFilter()
+        playlist5.uuid = UUID().uuidString
+        playlist5.playlistName = "Playlist 5"
+        playlist5.sortPosition = Int32(firstSortPosition + 1)
+        dataManager.save(playlist: playlist5)
+
+        let newAllPlaylists = dataManager.allPlaylists(includeDeleted: true)
+        XCTAssertEqual(newAllPlaylists.map(\.sortPosition), [2, 3, 4, 5, 6])
+    }
 }

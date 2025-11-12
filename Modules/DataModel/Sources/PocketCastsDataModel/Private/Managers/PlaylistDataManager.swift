@@ -402,10 +402,44 @@ class PlaylistDataManager {
         return highestPosition + 1
     }
 
+    func firstSortPositionForPlaylist(dbQueue: PCDBQueue) -> Int {
+        var lowestPosition = 0
+        dbQueue.read { db in
+            do {
+                let query = "SELECT MIN(sortPosition) from \(DataManager.playlistsTableName)"
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    lowestPosition = resultSet.long(forColumnIndex: 0)
+                }
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.firstSortPositionForPlaylist error: \(error)")
+            }
+        }
+
+        return lowestPosition
+    }
+
+    func bumpSortPositionForAllPlaylists(adding value: Int, dbQueue: PCDBQueue) {
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate("""
+                    UPDATE \(DataManager.playlistsTableName)
+                    SET sortPosition = sortPosition + \(value),
+                        syncStatus = ?
+                    WHERE wasDeleted = 0
+                """, values: [SyncStatus.notSynced.rawValue])
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.bumpSortPositionForAllPlaylists error: \(error)")
+            }
+        }
+    }
+
     /// Returns a value indicating whether the episodes were added. If `false`, the playlist is full.
     func add(episodes: [Episode], to playlist: EpisodeFilter, dbQueue: PCDBQueue) -> Bool {
-        // If the episodes are already larger than our max size, bail
-        guard episodes.count < EpisodeDataManager.Constants.Limits.maxPlaylistItems else {
+        // If the episodes are empty or already larger than our max size, bail
+        if episodes.isEmpty || episodes.count > EpisodeDataManager.Constants.Limits.maxPlaylistItems {
             return false
         }
 
@@ -419,7 +453,7 @@ class PlaylistDataManager {
         let playlistCount = playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: nil, shouldShowArchived: true, dbQueue: dbQueue)
         let isFull = playlistCount + episodes.count > EpisodeDataManager.Constants.Limits.maxPlaylistItems
 
-        guard episodes.count > 0 && !isFull else { return false }
+        if isFull { return false }
 
         dbQueue.write { db in
             do {

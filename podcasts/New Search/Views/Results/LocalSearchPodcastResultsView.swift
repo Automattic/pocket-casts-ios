@@ -57,7 +57,7 @@ struct LocalSearchPodcastResultsView: View {
     @ViewBuilder
     private var listHeader: some View {
         if listMode == .library {
-            Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts"))
+            Text(L10n.localizedFormat("user_episodes_search_podcasts_title", "Localizable", "Your Podcasts").sentenceCased)
                 .font(style: .headline, weight: .semibold)
                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                 .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 8, trailing: 16))

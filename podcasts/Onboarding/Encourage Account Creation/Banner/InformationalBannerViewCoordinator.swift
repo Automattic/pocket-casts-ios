@@ -23,10 +23,14 @@ class InformationalBannerViewCoordinator {
     }
 
     private var bannerViewEdgeInsets: EdgeInsets {
-        if case .listeningHistory = viewModel.bannerType {
-            return .init(top: 22.0, leading: 16.0, bottom: 0, trailing: 16.0)
+        switch viewModel.bannerType {
+        case .listeningHistory:
+            return .init(top: 16.0, leading: 16.0, bottom: 0, trailing: 16.0)
+        case .filters, .playlists:
+            return .init(top: 13.0, leading: 16.0, bottom: 16.0, trailing: 16.0)
+        case .profile:
+            return .init(top: 16.0, leading: 16.0, bottom: 16.0, trailing: 16.0)
         }
-        return .init(top: 16.0, leading: 16.0, bottom: 16.0, trailing: 16.0)
     }
 
     func shouldShowBanner() -> Bool {

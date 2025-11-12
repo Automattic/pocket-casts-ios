@@ -1003,6 +1003,14 @@ public class DataManager {
         playlistManager.nextSortPositionForPlaylist(dbQueue: dbQueue)
     }
 
+    public func firstSortPositionForPlaylist() -> Int {
+        playlistManager.firstSortPositionForPlaylist(dbQueue: dbQueue)
+    }
+
+    public func bumpSortPositionForAllPlaylists(adding value: Int = 1) {
+        playlistManager.bumpSortPositionForAllPlaylists(adding: value, dbQueue: dbQueue)
+    }
+
     public func updatePosition(playlist: EpisodeFilter, newPosition: Int32) {
         playlistManager.updatePosition(playlist: playlist, newPosition: newPosition, dbQueue: dbQueue)
     }

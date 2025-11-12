@@ -1064,6 +1064,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             autoplayIfNeeded()
 
             FileLog.shared.addMessage("Finished playing \(episode.displayableTitle())")
+            Analytics.track(.playerEpisodeCompleted, properties: [
+                "podcast_uuid": episode.parentIdentifier(),
+                "episode_uuid": episode.uuid
+            ])
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
