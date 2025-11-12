@@ -4,7 +4,11 @@ import SwiftUI
 
 @MainActor
 class StoriesModel: ObservableObject {
-    @Published var progress: Double
+    private(set) var progress: Double = 0 {
+        didSet {
+            progressModel.progress = progress
+        }
+    }
 
     @Published var currentStoryIndex: Int = 0
 
@@ -19,6 +23,7 @@ class StoriesModel: ObservableObject {
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
     private let configuration: StoriesConfiguration
+    private let progressModel: StoriesProgressModel
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -51,12 +56,22 @@ class StoriesModel: ObservableObject {
         configuration.indicatorSpacing
     }
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration, activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier) {
+    var progressPublisher: StoriesProgressModel {
+        progressModel
+    }
+
+    init(
+        dataSource: StoriesDataSource,
+        configuration: StoriesConfiguration,
+        progressModel: StoriesProgressModel = .shared,
+        activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier
+    ) {
         self.dataSource = dataSource
         self.configuration = configuration
-        self.progress = 0
+        self.progressModel = progressModel
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
         self.activeTier = activeTier
+        self.progressModel.progress = progress
 
         Task.init {
             await isReady = dataSource.isReady()
@@ -104,7 +119,6 @@ class StoriesModel: ObservableObject {
             }
 
             self.progress = newProgress
-            StoriesProgressModel.shared.progress = newProgress
         })
 
         currentStory?.onResume()
