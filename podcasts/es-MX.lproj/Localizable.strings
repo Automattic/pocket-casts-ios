@@ -1951,9 +1951,6 @@ ACTUALIZACIONES</string>
     <string>Consulta tus estadísticas de escuchas, los pódcasts principales y más.</string>
     <key>playback_2025_feature_title</key>
     <string>Reproducción 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>¡Te damos la bienvenida a Playback!
- Una celebración de tu año en podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Ver Mi reproducción 2025</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Se han añadido %1$@ episodios a "%2$@"</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodios</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>La playlist está llena. Prueba a crear una nueva</string>
     <key>playlist_manual_add_episodes</key>
     <string>Añadir episodios</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Eliminar todos</string>
     <key>remove_download</key>
     <string>Eliminar descarga</string>
+    <key>remove_from_playlist</key>
+    <string>Eliminar de la playlist</string>
     <key>remove_from_up_next</key>
     <string>Eliminar de la lista de A continuación</string>
     <key>remove_up_next</key>

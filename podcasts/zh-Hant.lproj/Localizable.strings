@@ -1951,9 +1951,6 @@ Pocket Casts Plus</string>
     <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
     <key>playback_2025_feature_title</key>
     <string>2025 年度播放回顧</string>
-    <key>playback_2025_intro_message</key>
-    <string>歡迎瀏覽年度播放回顧
-回顧這一年的 Podcast 聆聽點滴。</string>
     <key>playback_2025_view_year</key>
     <string>檢視我的 2025 年度播放回顧</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Pocket Casts Plus</string>
     <string>已新增 %1$@ 個單集至「%2$@」</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ 個單集</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>播放清單已滿。 嘗試建立新單集</string>
     <key>playlist_manual_add_episodes</key>
     <string>新增單集</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Pocket Casts Plus</string>
     <string>全部移除</string>
     <key>remove_download</key>
     <string>移除下載項目</string>
+    <key>remove_from_playlist</key>
+    <string>從播放清單移除</string>
     <key>remove_from_up_next</key>
     <string>從「接下來播放」中移除</string>
     <key>remove_up_next</key>

@@ -1951,9 +1951,6 @@ MISES À JOUR</string>
     <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
     <key>playback_2025_feature_title</key>
     <string>Rétrospective 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Bienvenue dans la rétrospective !
- Une célébration de votre année en podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Voir ma rétrospective 2025</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>%1$@ épisodes ajoutés à « %2$@ »</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ épisodes</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>La playlist est pleine. Essayer d’en créer une nouvelle</string>
     <key>playlist_manual_add_episodes</key>
     <string>Ajouter des épisodes</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Tout supprimer</string>
     <key>remove_download</key>
     <string>Supprimer le téléchargement</string>
+    <key>remove_from_playlist</key>
+    <string>Retirer de la playlist</string>
     <key>remove_from_up_next</key>
     <string>Supprimer de la file d'attente</string>
     <key>remove_up_next</key>

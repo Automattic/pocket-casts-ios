@@ -1945,9 +1945,6 @@ ACTUALITZACIONS</string>
     <string>Consulta les teves estadístiques d'escolta, els millors pòdcasts i molt més.</string>
     <key>playback_2025_feature_title</key>
     <string>El que has escoltat al 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Benvingut al repàs de l'any! 
-Una celebració del teu any en pòdcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Veure el meu historial de reproducció de 2025</string>
     <key>playback_effect_all_podcasts</key>
@@ -2052,8 +2049,6 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>%1$@ episodis afegits a "%2$@"</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodis</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>La llista de reproducció està plena. Prova a crear-ne una de nova.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afegir episodis</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2679,6 +2674,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Esborra-ho tot</string>
     <key>remove_download</key>
     <string>Esborrar la descàrrega</string>
+    <key>remove_from_playlist</key>
+    <string>Esborrar de la llista de reproducció</string>
     <key>remove_from_up_next</key>
     <string>Eliminar de la llista «Tot seguit»</string>
     <key>remove_up_next</key>

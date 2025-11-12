@@ -1951,9 +1951,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取統計、人気のポッドキャストなどをご覧ください。</string>
     <key>playback_2025_feature_title</key>
     <string>プレイバック2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>プレイバックへようこそ !
- ポッドキャストで1年を祝いましょう。</string>
     <key>playback_2025_view_year</key>
     <string>マイプレイバック2025を表示</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件のエピソードを「%2$@」に追加しました</string>
     <key>playlist_episodes_count</key>
     <string>%1$@件のエピソード</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>プレイリストがいっぱいです。 新しいプレイリストを作成してみてください</string>
     <key>playlist_manual_add_episodes</key>
     <string>すべてのエピソード</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>すべて削除</string>
     <key>remove_download</key>
     <string>ダウンロードファイルを削除</string>
+    <key>remove_from_playlist</key>
+    <string>プレイリストから削除</string>
     <key>remove_from_up_next</key>
     <string>次のエピソードから削除</string>
     <key>remove_up_next</key>
