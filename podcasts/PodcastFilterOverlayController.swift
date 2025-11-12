@@ -118,12 +118,13 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         if playlistsRebrandingEnabled {
             backgroundColor = AppTheme.viewBackgroundColor()
             changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+            title = L10n.filterChoosePodcasts.sentenceCased
         } else {
             backgroundColor = AppTheme.colorForStyle(.primaryUi01)
             setupCloseButton()
             changeNavTint(titleColor: nil, iconsColor: AppTheme.colorForStyle(.primaryIcon02))
+            title = L10n.filterChoosePodcasts
         }
-        title = L10n.filterChoosePodcasts
         navigationController?.navigationBar.prefersLargeTitles = true
         if playlistsRebrandingEnabled {
             navigationItem.largeTitleDisplayMode = .always

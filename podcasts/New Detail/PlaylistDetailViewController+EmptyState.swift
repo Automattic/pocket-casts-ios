@@ -1,11 +1,12 @@
 import SwiftUI
+import PocketCastsUtils
 
 extension PlaylistDetailViewController {
     private var emptyStateTitle: String {
         if viewModel.isManualPlaylist {
             return viewModel.hasSubscribedPodcasts ? L10n.playlistManualEmptyStateTitle : L10n.playlistManualEmptyStateTitleNoPodcasts
         }
-        return L10n.episodeFilterNoEpisodesTitle
+        return FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle
     }
 
     private var emptyStateDescription: String? {

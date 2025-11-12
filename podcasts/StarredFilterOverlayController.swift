@@ -67,7 +67,8 @@ class StarredFilterOverlayController: PCViewController {
 
         largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
 
-        title = L10n.statusStarred
+        title = SmartPlaylistRule.starred.title
+
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 

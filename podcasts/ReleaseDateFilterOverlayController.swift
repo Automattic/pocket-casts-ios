@@ -73,7 +73,8 @@ class ReleaseDateFilterOverlayController: FilterSettingsOverlayController, UITab
             saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
         }
 
-        title = L10n.filterReleaseDate
+        title = SmartPlaylistRule.releaseDate.title
+
         tableView.contentInsetAdjustmentBehavior = .never
 
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")

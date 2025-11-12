@@ -106,10 +106,10 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return configuredEmptyCell(
                 for: tableView,
                 at: indexPath,
-                title: L10n.episodeFilterNoEpisodesTitle,
+                title: FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle,
                 message: archivedPlaceholder.message,
                 actions: [
-                    .init(title: L10n.podcastShowArchived, action: { [weak self] in
+                    .init(title: FeatureFlag.playlistsRebranding.enabled ? L10n.podcastShowArchived.sentenceCased : L10n.podcastShowArchived, action: { [weak self] in
                         self?.track(.filterShowArchivedCtaEmptyTapped)
                         onToggleChange(true)
                     })

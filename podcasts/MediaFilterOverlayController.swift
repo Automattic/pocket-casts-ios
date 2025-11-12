@@ -36,8 +36,8 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
         tableView.separatorStyle = .none
         tableView.register(UINib(nibName: "RadioButtonCell", bundle: nil), forCellReuseIdentifier: MediaFilterOverlayController.mediaCellId)
 
+        title = SmartPlaylistRule.mediaType.title
         setupLargeTitle()
-        title = L10n.filterMediaType
         tableView.contentInsetAdjustmentBehavior = .never
         selectedIndex = Int(filterToEdit.filterAudioVideoType)
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
