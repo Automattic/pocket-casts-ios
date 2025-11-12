@@ -51,15 +51,17 @@ extension PlaylistDetailViewModel {
     }
 
     private func createPlaylists(from batches: [[Episode]]) async -> Bool {
+        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist())
+        DataManager.sharedManager.bumpSortPositionForAllPlaylists(adding: batches.count)
         for (index, batch) in batches.enumerated() {
-            let playlist = newManualPlaylist(index: index + 1)
+            let playlist = newManualPlaylist(index: index + 1, sortPosition: firstSortPosition + index)
             DataManager.sharedManager.save(playlist: playlist)
             DataManager.sharedManager.add(episodes: batch, to: playlist)
         }
         return true
     }
 
-    private func newManualPlaylist(index: Int) -> EpisodeFilter {
+    private func newManualPlaylist(index: Int, sortPosition: Int) -> EpisodeFilter {
         var playlistName = "\(L10n.upNext) - \(Date().monthDayString())"
         if index > 1 {
             playlistName += " (\(index))"
@@ -70,6 +72,7 @@ extension PlaylistDetailViewModel {
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         playlist.isNew = false
         playlist.sortType = PlaylistSort.dragAndDrop.rawValue
+        playlist.sortPosition = Int32(sortPosition)
         return playlist
     }
 }
