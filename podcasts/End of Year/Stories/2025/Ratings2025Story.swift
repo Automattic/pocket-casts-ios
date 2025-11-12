@@ -70,7 +70,7 @@ struct Ratings2025Story: ShareableStory {
                 openURL = true
                 Analytics.track(.endOfYearLearnRatingsShown, properties: ["year": "2025"])
             }
-            .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+            .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.white, borderColor: .white))
             .allowsHitTesting(true)
         }
         .sheet(isPresented: $openURL, onDismiss: {
