@@ -443,7 +443,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             return
         }
 
-        let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
+        let searchAnalyticsHelper = SearchAnalyticsHelper(source: .playlistEditor)
         let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
         let vc = PCHostingController(rootView: LocalSearchView(
             playlist: viewModel.playlist,
