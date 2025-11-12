@@ -101,5 +101,26 @@ final class PlaylistDataManagerTests: XCTestCase {
 
         let allPlaylists = dataManager.allPlaylists(includeDeleted: true)
         XCTAssertEqual(allPlaylists.map(\.sortPosition), [2, 3, 4])
+
+        let firstSortPosition = max(0, dataManager.firstSortPositionForPlaylist())
+
+        XCTAssertEqual(firstSortPosition, 2)
+
+        dataManager.bumpSortPositionForAllPlaylists(adding: 2)
+
+        let playlist4 = EpisodeFilter()
+        playlist4.uuid = UUID().uuidString
+        playlist4.playlistName = "Playlist 4"
+        playlist4.sortPosition = Int32(firstSortPosition)
+        dataManager.save(playlist: playlist4)
+
+        let playlist5 = EpisodeFilter()
+        playlist5.uuid = UUID().uuidString
+        playlist5.playlistName = "Playlist 5"
+        playlist5.sortPosition = Int32(firstSortPosition + 1)
+        dataManager.save(playlist: playlist5)
+
+        let newAllPlaylists = dataManager.allPlaylists(includeDeleted: true)
+        XCTAssertEqual(newAllPlaylists.map(\.sortPosition), [2, 3, 4, 5, 6])
     }
 }
