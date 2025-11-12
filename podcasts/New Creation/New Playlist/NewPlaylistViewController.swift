@@ -32,10 +32,11 @@ class NewPlaylistViewController: PCViewController {
         didSet {
             playlistNameTextField.translatesAutoresizingMaskIntoConstraints = false
             playlistNameTextField.placeholder = L10n.playlistsDefaultNewPlaylist
+            playlistNameTextField.text = L10n.playlistsDefaultNewPlaylist
             playlistNameTextField.placeholderStyle = .primaryText01
             playlistNameTextField.delegate = self
             playlistNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
-            playlistNameTextField.clearsOnBeginEditing = true
+            playlistNameTextField.clearsOnBeginEditing = false
             playlistNameTextField.clearButtonMode = .whileEditing
             playlistNameTextField.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
             playlistNameTextField.font = .systemFont(ofSize: 15, weight: .medium)
@@ -95,6 +96,9 @@ class NewPlaylistViewController: PCViewController {
         Analytics.track(.filterCreateShown)
 
         showSmartPlaylistTooltip()
+
+        playlistNameTextField.becomeFirstResponder()
+        playlistNameTextField.selectAll(nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
