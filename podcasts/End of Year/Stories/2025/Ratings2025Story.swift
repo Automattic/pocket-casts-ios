@@ -204,5 +204,5 @@ fileprivate class LottieFontProvider: AnimationFontProvider {
 }
 
 #Preview {
-    Ratings2025Story(ratings: [1: 3, 2: 1, 3: 1, 4: 7, 5: 2])
+    Ratings2025Story(ratings: [1: 3, 2: 0, 3: 1, 4: 7, 5: 2])
 }
