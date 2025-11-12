@@ -2047,7 +2047,7 @@
 "podcasts_episode_sort_shortest_to_longest" = "Shortest to Longest";
 
 /* Episodes will be displayed in custom order by drag and drop */
-"podcasts_episode_sort_drag_and_drop" = "Drag and Drop";
+"podcasts_episode_sort_drag_and_drop" = "Custom order";
 
 /* Presents the podcasts with large podcast artwork tiles. */
 "podcasts_large_grid" = "Large Grid";
