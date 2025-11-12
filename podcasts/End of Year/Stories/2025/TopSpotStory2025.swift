@@ -22,41 +22,30 @@ struct TopSpotStory2025: ShareableStory {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .center, spacing: 0) {
-                StoryHeader2025(title: L10n.playback2025TopSpotTitle, description: L10n.playback2025TopSpotSubtitle)
-                Spacer()
-                GeometryReader { proxy in
+            GeometryReader { proxy in
+                VStack(alignment: .center, spacing: 24) {
+                    StoryHeader2025(title: L10n.playback2025TopSpotTitle, description: L10n.playback2025TopSpotSubtitle)
                     ZStack {
-                        if renderForSharing {
-                            //TODO: Add correct background image for sharing
-                            Image("playback_2025_listening_time_back")
-                                .resizable()
-                                .scaledToFit()
-                        } else {
-                            LottieView(animation: .named("playback_2025_top_spot_story"))
-                                .animationDidFinish({ completed in
-                                })
-                                .configure({ animationView in
-                                    animationView.contentMode = .scaleToFill
-                                })
-                                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                                .scaledToFill()
-                                .ignoresSafeArea()
-                        }
+                        LottieView(animation: .named("playback_2025_top_spot_story"))
+                            .animationDidFinish({ completed in
+                            })
+                            .configure({ animationView in
+                                animationView.contentMode = .scaleToFill
+                            })
+                            .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                            .frame(width: proxy.size.width, height: proxy.size.width)
+                            .scaleEffect(1.2)
+                            .scaledToFill()
                         PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                             .frame(width: proxy.size.width * scaleFactor, height: proxy.size.width * scaleFactor)
                             .cornerRadius(8)
                             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    }                    
+                    VStack {
+                        let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
+                        let numberPlayed = topPodcast.numberOfPlayedEpisodes
+                        StoryFooter2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
                     }
-                    .frame(width: proxy.size.width * 1.25, height: proxy.size.width * 1.25)
-                    .offset(x: -proxy.size.width * 0.125, y: 0)
-                }
-                VStack {
-                    Spacer()
-                    let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
-                    let numberPlayed = topPodcast.numberOfPlayedEpisodes
-                    StoryFooter2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
-                    Spacer()
                 }
             }
         }
