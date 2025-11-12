@@ -28,9 +28,6 @@ struct Ratings2025Story: ShareableStory {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(foregroundColor)
-        .background(
-            chartView()
-        )
         .ignoresSafeArea()
         .background(backgroundColor)
     }
@@ -43,18 +40,21 @@ struct Ratings2025Story: ShareableStory {
             )
             .padding(.horizontal, 24)
             Spacer()
-            Rectangle()
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(stops: [
-                            .init(color: backgroundColor.opacity(1.0), location: 0),
-                            .init(color: backgroundColor.opacity(0.0), location: 1)
-                        ]),
-                        startPoint: .bottom,
-                        endPoint: .top
+            ZStack(alignment: .bottom) {
+                chartView()
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: backgroundColor.opacity(1.0), location: 0),
+                                .init(color: backgroundColor.opacity(0.0), location: 1)
+                            ]),
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
                     )
-                )
-                .frame(height: 120)
+                    .frame(height: 120)
+            }
         }
     }
 
@@ -152,6 +152,7 @@ fileprivate struct ChartColumn: View {
 #endif
                 animationView.textProvider = LottieTextProvider(index: index)
                 animationView.fontProvider = LottieFontProvider()
+                animationView.contentMode = .scaleAspectFit
             })
             .playbackMode(
                 .playing(
