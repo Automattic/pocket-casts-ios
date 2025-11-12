@@ -21,6 +21,7 @@ struct Ratings2025Story: ShareableStory {
         Group {
             if ratings.count == 0 {
                 emptyView()
+                // TODO: for empty rating values, we can just load the same chart view with 0 rating passed avoiding play it. It should automatically load the correct marker to keep it at the bottom
             } else {
                 columnsView()
             }
