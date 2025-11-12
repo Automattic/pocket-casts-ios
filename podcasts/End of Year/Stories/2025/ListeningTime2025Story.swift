@@ -35,70 +35,58 @@ struct ListeningTime2025Story: ShareableStory {
         return formatter.string(for: Int(currentTime / 60.0)) ?? ""
     }
 
+    @State var growFactor: CGFloat = 0
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.red
-                    .ignoresSafeArea()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
-                    let sizingFactor = 0.25
-                    let font = UIFont(name: "Humane-SemiBold", size: geometry.size.height * sizingFactor) ?? UIFont.systemFont(ofSize: geometry.size.height * sizingFactor)
-                    Text(formattedMinutes)
-                        .lineLimit(1)
-                        .font(Font(font as CTFont))
-                        .minimumScaleFactor(0.5)
-                    HStack {
-                        Text(L10n.playback2025ListeningTime)
-                            .font(.system(size: 18))
-                            .fontWeight(.semibold)
-                            .kerning(0.54)
-                        Spacer()
+                    VStack(alignment: .leading) {
+                        let sizingFactor = 0.25
+                        let font = UIFont(name: "Humane-SemiBold", size: geometry.size.height * sizingFactor) ?? UIFont.systemFont(ofSize: geometry.size.height * sizingFactor)
+                        Text(formattedMinutes)
+                            .lineLimit(1)
+                            .font(Font(font as CTFont))
+                            .minimumScaleFactor(0.5)
+                        HStack {
+                            Text(L10n.playback2025ListeningTime)
+                                .font(.system(size: 18))
+                                .fontWeight(.semibold)
+                                .kerning(0.52)
+                            Spacer()
+                        }
                     }
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 80)
+                    .border(.red)
+                    .clipShape(GrowingParallelShape(growFactor: growFactor))
                 }
-                .padding(.bottom, geometry.size.height * 0.17)
-                .padding(.horizontal, 30)
+                .padding(.bottom, geometry.size.height * 0.16)
                 .ignoresSafeArea()
-                .mask(alignment: .topLeading, {
-                    LottieView(animation: .named("test_05_mask_02"))
-                        .configure({ animationView in
-                            animationView.contentMode = .scaleAspectFill
-                        })
-                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-//                        .frame(width: geometry.size.width, height: geometry.size.height)
-//                        .scaledToFill()
-                        .ignoresSafeArea()
-//                        .scaleEffect(0.5)
-//                        .position(CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY))
-//                        .frame(width: geometry.frame(in: .global).width, height: geometry.frame(in: .global).height)
-                })
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(content: {
-                if renderForSharing {
-                    Image("playback_2025_listening_time_back")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    LottieView(animation: .named("playback2025_listening_time"))
-                        .animationDidFinish({ completed in
-                        })
-                        .configure({ animationView in
-                            animationView.contentMode = .scaleAspectFill
-                        })
-                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
+                LottieView(animation: .named("playback2025_listening_time"))
+                    .animationDidFinish({ completed in
+                    })
+                    .configure({ animationView in
+                        animationView.contentMode = .scaleAspectFill
+                    })
+                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                    .scaledToFill()
+                    .ignoresSafeArea()
             })
         }
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
-//        .enableProportionalValueScaling()
         .onChange(of: stepCounter.counter) { value in
             stepNumberAnimation(value)
+        }
+        .onAppear() {
+            withAnimation(.timingCurve(0.33, 0, 0, 1, duration: 1.5)) {
+                growFactor = 1
+            }
         }
     }
 
@@ -128,100 +116,6 @@ struct ListeningTime2025Story: ShareableStory {
     }
 }
 
-struct TestView: View {
-    @State private var animatedHeight: CGFloat = 0
-
-    var body: some View {
-        ZStack {
-            MaskedView()
-//                .mask(alignment: .center, {
-//                    LottieView(animation: .named("test_05_mask_02"))
-//                        .resizable()
-//                        .configure({ animationView in
-//                            animationView.contentMode = .topLeft
-//                        })
-//                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-//                        .ignoresSafeArea()
-//                        .opacity(0.5)
-//                })
-//                .clipShape(GrowingRectFixedHeight(currentHeight: animatedHeight))
-//                                .animation(.easeOut(duration: 1), value: animatedHeight)
-
-        }
-        .background(Color.red)
-        .onAppear {
-//            animatedHeight = 100
-        }
-    }
-}
-
-struct GrowingRectFixedHeight: Shape {
-    var currentHeight: CGFloat
-
-    var animatableData: CGFloat {
-        get { currentHeight }
-        set { currentHeight = newValue }
-    }
-
-    func path(in rect: CGRect) -> Path {
-        let height = min(currentHeight, rect.height)
-        let yOffset = rect.maxY - height
-        return Path(CGRect(x: rect.minX, y: yOffset, width: rect.width, height: height))
-    }
-}
-
-struct MaskedView: View {
-    var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                Spacer()
-                NumbersView(size: geometry.size)
-                    .padding(.bottom, geometry.size.height * 0.235)
-                    .padding(.horizontal, 30)
-            }
-            .background {
-                LottieView(animation: .named("playback2025_listening_time"))
-                    .animationDidFinish({ completed in
-                    })
-                    .configure({ animationView in
-                        animationView.contentMode = .scaleAspectFill
-                    })
-                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                    .ignoresSafeArea()
-            }
-        }
-    }
-}
-
-struct NumbersView: View {
-    let size: CGSize
-
-    @State private var clipHeight: CGFloat = 0
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            let sizingFactor = 0.25
-            let font = UIFont(name: "Humane-SemiBold", size: size.height * sizingFactor) ?? UIFont.systemFont(ofSize: size.height * sizingFactor)
-            Text("20,450")
-                .lineLimit(1)
-                .font(Font(font as CTFont))
-                .minimumScaleFactor(0.5)
-            HStack {
-                Text(L10n.playback2025ListeningTime)
-                    .font(.system(size: 18))
-                    .fontWeight(.semibold)
-                    .kerning(0.54)
-                Spacer()
-            }
-        }
-        .clipShape(GrowingCenteredRect(currentHeight: clipHeight))
-        .animation(.easeOut(duration: 4), value: clipHeight)
-        .onAppear {
-            clipHeight = 200
-        }
-    }
-}
-
 struct GrowingCenteredRect: Shape {
     var currentHeight: CGFloat
 
@@ -240,38 +134,53 @@ struct GrowingCenteredRect: Shape {
     }
 }
 
-//#Preview("Numbers") {
-//    NumbersView(size: CGSize(width: 640, height: 1080))
-//}
-//
-//#Preview("Masked") {
-//    TestView()
-//}
+struct GrowingParallelShape: Shape {
+    var growFactor: CGFloat
+
+    var animatableData: CGFloat {
+        get { growFactor }
+        set { growFactor = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        let centerY = rect.midY
+
+        var path = Path()
+
+        path.move(to: CGPoint(x: rect.minX, y: centerY + (rect.height / 2 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.maxX, y: centerY + (rect.height * 0.4 / 2 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.maxX, y: centerY - (rect.height * 0.4 / 2 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.minX, y: centerY - (rect.height / 2 * growFactor)))
+
+        path.closeSubpath()
+        return path
+    }
+}
 
 #Preview("Days") {
     ListeningTime2025Story(listeningTime: 4.day + 5.hour + 20.minutes)
 }
-//
-//#Preview("Days hour min") {
-//    ListeningTime2025Story(listeningTime: 1.day + 5.hour + 20.minutes)
-//}
-//
-//#Preview("Day and min") {
-//    ListeningTime2025Story(listeningTime: 1.day + 20.minutes)
-//}
-//
-//#Preview("Hours") {
-//    ListeningTime2025Story(listeningTime: 5.hours + 20.minutes)
-//}
-//
-//#Preview("Minutes") {
-//    ListeningTime2025Story(listeningTime: 60)
-//}
-//
-//#Preview("Seconds") {
-//    ListeningTime2025Story(listeningTime: 30)
-//}
-//
-//#Preview("Zero") {
-//    ListeningTime2025Story(listeningTime: 0)
-//}
+
+#Preview("Days hour min") {
+    ListeningTime2025Story(listeningTime: 1.day + 5.hour + 20.minutes)
+}
+
+#Preview("Day and min") {
+    ListeningTime2025Story(listeningTime: 1.day + 20.minutes)
+}
+
+#Preview("Hours") {
+    ListeningTime2025Story(listeningTime: 5.hours + 20.minutes)
+}
+
+#Preview("Minutes") {
+    ListeningTime2025Story(listeningTime: 60)
+}
+
+#Preview("Seconds") {
+    ListeningTime2025Story(listeningTime: 30)
+}
+
+#Preview("Zero") {
+    ListeningTime2025Story(listeningTime: 0)
+}
