@@ -24,8 +24,8 @@ struct PlaylistHeaderView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            VStack {
-                HStack {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
                     Spacer()
                     PlaylistArtworkView(items: viewModel.images, cornerRadius: 8)
                         .frame(width: 192.0, height: 192.0)
@@ -34,19 +34,20 @@ struct PlaylistHeaderView: View {
                     Spacer()
                 }
 
-                VStack(spacing: 10.0) {
+                VStack(spacing: 0.0) {
                     Text(viewModel.playlistName)
                         .font(style: .title2, weight: .bold)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText01)
                         .multilineTextAlignment(.center)
+                        .padding(.bottom, 10.0)
                     Text(description)
                         .font(style: .footnote, weight: .regular)
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.center)
                 }
-                .padding(.top, 20.0)
+                .padding(.top, 15.0)
                 .padding(.bottom, 16.0)
 
                 HStack(spacing: 8.0) {
@@ -70,6 +71,7 @@ struct PlaylistHeaderView: View {
                     }
                     Spacer()
                 }
+                .padding(.bottom, 10.0)
 
                 Spacer()
             }

@@ -162,10 +162,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
+                track(episode: episode, added: true, to: playlist)
                 dataManager.add(episodes: [episode], to: playlist)
                 changedPlaylists.insert(playlist)
             }
             if removed.contains(playlist.uuid) {
+                track(episode: episode, added: false, to: playlist)
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
             }
         }
@@ -311,5 +313,11 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
 fileprivate extension UITableView {
     func reload(section: TableSection, with animation: UITableView.RowAnimation) {
         reloadSections(IndexSet(integer: section.rawValue), with: animation)
+    }
+}
+
+extension ManualPlaylistsChooserViewController: PlaylistTypeTrackerProvider {
+    var analyticsSourceType: String {
+        analyticsSource
     }
 }
