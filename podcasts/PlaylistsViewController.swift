@@ -189,6 +189,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
         if FeatureFlag.playlistsRebranding.enabled {
             view.backgroundColor = ThemeColor.primaryUi04()
+            customRightBtn?.tintColor = ThemeColor.primaryIcon01()
         }
     }
 
