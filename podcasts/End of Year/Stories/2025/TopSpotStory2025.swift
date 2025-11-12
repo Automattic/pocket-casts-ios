@@ -40,7 +40,7 @@ struct TopSpotStory2025: ShareableStory {
                             .frame(width: proxy.size.width * scaleFactor, height: proxy.size.width * scaleFactor)
                             .cornerRadius(8)
                             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                    }                    
+                    }
                     VStack {
                         let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
                         let numberPlayed = topPodcast.numberOfPlayedEpisodes
