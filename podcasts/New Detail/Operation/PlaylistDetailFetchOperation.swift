@@ -32,10 +32,9 @@ class PlaylistDetailFetchOperation: Operation {
 
             let newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
 
-            let archivedEpisodesCount = dataManager.playlistEpisodeCount(
+            let archivedEpisodesCount = dataManager.playlistArchivedEpisodeCount(
                 for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
-                shouldShowArchived: true
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
             )
 
             DispatchQueue.main.sync { [weak self] in
