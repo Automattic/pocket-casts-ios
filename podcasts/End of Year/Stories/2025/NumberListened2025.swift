@@ -105,7 +105,7 @@ struct NumberListened2025: ShareableStory {
                     .id(pos)
             }
         }
-        .frame(width: 340, height: 340)
+        .frame(width: Constants.coverSize + (2 * Constants.yOffset), height: Constants.coverSize + (2 * Constants.yOffset))
         .onAppear {
             if animated {
                 animationViewModel.play()
