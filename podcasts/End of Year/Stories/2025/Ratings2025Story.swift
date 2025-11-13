@@ -8,6 +8,8 @@ struct Ratings2025Story: ShareableStory {
 
     let foregroundColor: Color = .white
     let backgroundColor: Color = Color(hex: "#A22828")
+    let barColor: Color = Color(hex: "#FF4562")
+
     private let ratingsBlogPostURL = URL(string: "https://blog.pocketcasts.com/2024/08/20/podcast-ratings/")!
 
     @Environment(\.animated) var animated: Bool
@@ -41,7 +43,7 @@ struct Ratings2025Story: ShareableStory {
             .padding(.horizontal, 24)
             Spacer()
             ZStack(alignment: .bottom) {
-                chartView()
+                chartView(ratings: self.ratings)
                 Rectangle()
                     .fill(
                         LinearGradient(
@@ -59,12 +61,13 @@ struct Ratings2025Story: ShareableStory {
     }
 
     @ViewBuilder func emptyView() -> some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 35) {
             StoryHeader2025(
                 title: L10n.playback2025RatingsEmptyTitle,
                 description: L10n.playback2025RatingsEmptyDescription
             )
             Spacer()
+            emptyChart
             Button(L10n.learnAboutRatings) {
                 pauseState.togglePause()
                 openURL = true
@@ -83,7 +86,28 @@ struct Ratings2025Story: ShareableStory {
         .padding(.bottom, 40)
     }
 
-    @ViewBuilder func chartView() -> some View {
+    @ViewBuilder var emptyChart: some View {
+        GeometryReader { geometry in
+            let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
+
+            HStack(alignment: .bottom, spacing: 0) {
+                ForEach(ratingScale, id: \.self) { ratingGroup in
+                    VStack {
+                        Spacer()
+                        Text("\(ratingGroup)")
+                            .font(.custom("Inter-Regular_Semibold", fixedSize: 16))
+                        Rectangle()
+                            .frame(width: columnWidth - 2, height: 14)
+                            .foregroundStyle(barColor)
+                    }
+                    .frame(width: columnWidth)
+                }
+            }
+            .frame(width: geometry.size.width, alignment: .leading)
+        }
+    }
+
+    @ViewBuilder func chartView(ratings: [UInt32: Int]) -> some View {
         GeometryReader { geometry in
             let maxRating = ratings.values.max() ?? 0
             let columnWidth = geometry.size.width / CGFloat(ratingScale.count)
@@ -96,7 +120,6 @@ struct Ratings2025Story: ShareableStory {
                             maxValue: maxRating,
                             index: ratingGroup
                         )
-                        Text(ChartColumn.marker(for: ratings[UInt32(ratingGroup)] ?? 0, maxValue: maxRating))
                     }
                     .frame(width: columnWidth, height: geometry.size.height)
                 }
@@ -231,7 +254,7 @@ fileprivate class LottieFontProvider: AnimationFontProvider {
 }
 
 #Preview("Ratings 1-3") {
-    Ratings2025Story(ratings: [1: 100, 2: 50, 3: 30, 4: 15, 5: 0])
+    Ratings2025Story(ratings: [1: 90, 2: 10, 3: 0, 4: 0, 5: 0])
 }
 
 #Preview("Ratings 4-5") {
