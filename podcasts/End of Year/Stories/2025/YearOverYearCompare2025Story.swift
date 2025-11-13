@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import Lottie
 
 struct YearOverYearCompare2025Story: ShareableStory {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
     let subscriptionTier: SubscriptionTier
@@ -31,7 +32,7 @@ struct YearOverYearCompare2025Story: ShareableStory {
                     animationView.textProvider = LottieTextProvider(prevYear: listeningTime.totalPlayedTimeLastYear, currentYear: listeningTime.totalPlayedTimeThisYear)
                     animationView.fontProvider = MyFontProvider()
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                 .scaledToFill()
                 .ignoresSafeArea()
         }
