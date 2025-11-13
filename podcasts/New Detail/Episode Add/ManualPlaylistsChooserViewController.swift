@@ -177,7 +177,29 @@ class ManualPlaylistsChooserViewController: PCViewController {
             dataManager.save(playlist: playlist)
         }
 
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            if added.isEmpty {
+                return
+            }
+
+            var actions: [Toast.Action]? = nil
+            var title = L10n.playlistEpisodesAddedToMultiplePlaylists
+            if changedPlaylists.count == 1 {
+                guard let playlist = (changedPlaylists.first { added.first == $0.uuid }) else { return }
+                title = L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName)
+                actions = [
+                    .init(title: L10n.bookmarkAddedButtonTitle) {
+                        NavigationManager.sharedManager.navigateTo(
+                            NavigationManager.filterPageKey,
+                            data: [
+                                NavigationManager.filterUuidKey: playlist.uuid
+                            ]
+                        )
+                    }
+                ]
+            }
+            Toast.show(title, actions: actions)
+        }
     }
 }
 
