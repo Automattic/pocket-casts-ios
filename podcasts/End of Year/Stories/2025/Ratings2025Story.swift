@@ -119,7 +119,7 @@ struct Ratings2025Story: ShareableStory {
                             value: ratings[UInt32(ratingGroup)] ?? 0,
                             maxValue: maxRating,
                             index: ratingGroup,
-                            animated: !renderForSharing 
+                            animated: !renderForSharing
                         )
                     }
                     .frame(width: columnWidth, height: geometry.size.height)
