@@ -28,6 +28,8 @@ struct SearchField: View {
     /// The search text binding
     @Binding var text: String
 
+    var iconImageName = "custom_search"
+
     var showsCancelButton: Bool = true
 
     /// The placeholder text to display when the field is empty
@@ -49,7 +51,7 @@ struct SearchField: View {
         // We use 2 stacks here to have the cancel button appear outside the background
         HStack {
             HStack(spacing: SearchFieldConstants.horizontalPadding) {
-                Image("custom_search")
+                Image(iconImageName)
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
