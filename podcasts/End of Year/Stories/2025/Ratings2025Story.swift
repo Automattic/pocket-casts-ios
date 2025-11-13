@@ -35,8 +35,8 @@ struct Ratings2025Story: ShareableStory {
     @ViewBuilder func columnsView() -> some View {
         VStack(spacing: 0) {
             StoryHeader2025(
-                title: descriptionText(),
-                description: "Creators everywhere appreciate the love"
+                title: titleText,
+                description: descriptionText
             )
             .padding(.horizontal, 24)
             Spacer()
@@ -61,8 +61,8 @@ struct Ratings2025Story: ShareableStory {
     @ViewBuilder func emptyView() -> some View {
         VStack(spacing: 0) {
             StoryHeader2025(
-                title: "No ratings yet, but there's still time!",
-                description: "Help your favorite creators get discovered by sharing what you love"
+                title: L10n.playback2025RatingsEmptyTitle,
+                description: L10n.playback2025RatingsEmptyDescription
             )
             Spacer()
             Button(L10n.learnAboutRatings) {
@@ -90,11 +90,14 @@ struct Ratings2025Story: ShareableStory {
 
             HStack(alignment: .bottom, spacing: 0) {
                 ForEach(ratingScale, id: \.self) { ratingGroup in
-                    ChartColumn(
-                        value: ratings[UInt32(ratingGroup)] ?? 0,
-                        maxValue: maxRating,
-                        index: ratingGroup
-                    )
+                    ZStack {
+                        ChartColumn(
+                            value: ratings[UInt32(ratingGroup)] ?? 0,
+                            maxValue: maxRating,
+                            index: ratingGroup
+                        )
+                        Text(ChartColumn.marker(for: ratings[UInt32(ratingGroup)] ?? 0, maxValue: maxRating))
+                    }
                     .frame(width: columnWidth, height: geometry.size.height)
                 }
             }
@@ -102,14 +105,25 @@ struct Ratings2025Story: ShareableStory {
         }
     }
 
-    private func descriptionText() -> String {
+    private var titleText: String {
         switch mostCommonRating {
         case 1...3:
-            return "Thanks for sharing your feedback.\nReviews help great shows get found"
+            return L10n.playback2025RatingsTitle1To3
         case 4...5:
-            return "You dropped \(mostCommonRating)-star ratings like confetti"
+            return L10n.playback2025RatingsTitle4To5("\(mostCommonRating)")
         default:
             return ""
+        }
+    }
+
+    private var descriptionText: String {
+        switch mostCommonRating {
+            case 1...3:
+                return L10n.playback2025RatingsDescription1To3
+            case 4...5:
+                return L10n.playback2025RatingsDescription4To5
+            default:
+                return ""
         }
     }
 
@@ -216,8 +230,12 @@ fileprivate class LottieFontProvider: AnimationFontProvider {
     }
 }
 
-#Preview("Ratings") {
-    Ratings2025Story(ratings: [1: 0, 2: 0, 3: 0, 4: 0, 5: 0])
+#Preview("Ratings 1-3") {
+    Ratings2025Story(ratings: [1: 100, 2: 50, 3: 30, 4: 15, 5: 5])
+}
+
+#Preview("Ratings 4-5") {
+    Ratings2025Story(ratings: [1: 5, 2: 20, 3: 30, 4: 40, 5: 80])
 }
 
 #Preview("No Ratings") {

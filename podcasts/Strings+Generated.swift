@@ -2255,6 +2255,20 @@ internal enum L10n {
   internal static var playback2025PlusUpsellDescription: String { return L10n.tr("Localizable", "playback_2025_plus_upsell_description", fallback: "Subscribe to Pocket Casts Plus for extended stats, bookmarks, folders, chapter selection, and more ways to dig into your listening habits") }
   /// A title shown in the upsell screen for Pocket Casts Plus subscription
   internal static var playback2025PlusUpsellTitle: String { return L10n.tr("Localizable", "playback_2025_plus_upsell_title", fallback: "Want the deep dive?") }
+  /// Reviews help great shows get found
+  internal static var playback2025RatingsDescription1To3: String { return L10n.tr("Localizable", "playback_2025_ratings_description_1_to_3", fallback: "Reviews help great shows get found") }
+  /// A title shown on the Ratings Playback 2025 screen showing a bar chart of your ratings
+  internal static var playback2025RatingsDescription4To5: String { return L10n.tr("Localizable", "playback_2025_ratings_description_4_to_5", fallback: "Creators everywhere appreciate the love") }
+  /// A description shown in Playback 2025 to describe the new Podcast Ratings feature
+  internal static var playback2025RatingsEmptyDescription: String { return L10n.tr("Localizable", "playback_2025_ratings_empty_description", fallback: "Help your favorite creators get discovered by sharing what you love") }
+  /// A title shown in Playback 2025 when the user has not made any ratings.
+  internal static var playback2025RatingsEmptyTitle: String { return L10n.tr("Localizable", "playback_2025_ratings_empty_title", fallback: "No ratings yet, but there's still time!") }
+  /// A description shown in Playback 2025 when the user has only made ratings of 1-3/5 for Podcasts
+  internal static var playback2025RatingsTitle1To3: String { return L10n.tr("Localizable", "playback_2025_ratings_title_1_to_3", fallback: "Thanks for sharing your feedback.") }
+  /// A description shown in Playback 2025 when the user has made ratings of 4-5/5 for Podcasts
+  internal static func playback2025RatingsTitle4To5(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_ratings_title_4_to_5", String(describing: p1), fallback: "You dropped %1$@-star ratings like confetti")
+  }
   /// Playback 2025: Description for the top 5 podcasts story
   internal static var playback2025Top5PodcastsMessage: String { return L10n.tr("Localizable", "playback_2025_top_5_podcasts_message", fallback: "More favorites, more play, more you") }
   /// Playback 2025: Title for the top 5 podcasts story
