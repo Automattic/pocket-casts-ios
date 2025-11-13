@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
+import Sentry
 
 class PlaylistDetailViewModel: ObservableObject {
     typealias DataSourceValue = [ArraySection<Section, ListItem>]
@@ -248,7 +249,7 @@ class PlaylistDetailViewModel: ObservableObject {
                     NoSearchResultsPlaceholder()
                 ])
             )
-        } else if newData.isEmpty, !shouldShowArchived {
+        } else if newData.isEmpty, !shouldShowArchived, isManualPlaylist {
             finalData.append(ArraySection(
                 model: .episodes,
                 elements: [
@@ -369,5 +370,15 @@ extension PlaylistDetailViewModel {
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
         }
+    }
+}
+
+extension PlaylistDetailViewModel {
+    func addSentryBreadcrumb(spot: String) {
+        let crumb = Breadcrumb()
+        crumb.level = SentryLevel.info
+        crumb.category = "playlist"
+        crumb.message = "reload spot \(spot)"
+        SentrySDK.addBreadcrumb(crumb)
     }
 }
